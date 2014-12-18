@@ -11,4 +11,22 @@
     <p>The OER Data Hub is a platform which collects and publishes openly into the web data by, about and for the OER community. The OER World Map is the first out of many applications build on top of the OER Data Hub, which visualises the data in the form of a geographical map and serves as a symbol of the project.</p>
   </blockquote>
 
+  <script type="text/javascript">
+
+    var visions = $('blockquote.vision').hide(),
+        i = 0;
+
+    (function cycle() {
+      visions.eq(i).fadeIn(800).delay(5000).fadeOut(800, cycle);
+      i = ++i % visions.length;
+    })();
+
+    var map = $('<div style="width: 600px; height: 300px"></div>');
+    visions.first().before(map);
+    map.vectorMap({
+      backgroundColor: '#428bca'
+    });
+
+  </script>
+
 }
