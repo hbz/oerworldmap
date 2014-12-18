@@ -1,0 +1,2 @@
+GET   /user/                controllers.UserIndex.get()
+POST  /user/                controllers.UserIndex.post()

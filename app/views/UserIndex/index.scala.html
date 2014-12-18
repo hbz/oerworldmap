@@ -1,0 +1,10 @@
+@import helper.twitterBootstrap._
+
+@(registrationForm: Form[User])
+@main(title = "Registration") {
+  <h1>Registration</h1>
+  @helper.form(routes.UserIndex.post()) {
+    @helper.inputText(registrationForm("email"), 'placeholder -> "Email address")
+    <input type="submit" />
+  }
+}
