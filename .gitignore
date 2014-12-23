@@ -1,5 +1,14 @@
-.settings/
+dist
+logs
 project/project
 project/target
 target
-logs
+tmp
+.DS_Store
+.history
+.settings/
+*~
+*.tar.bz2
+*.tar.gz
+*.out.*
+/data/elasticsearch/nodes/*
