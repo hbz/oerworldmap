@@ -23,7 +23,10 @@
         champions = {};
 
     @for(countryChampion <- countryChampions) {
-      champions["@countryChampion.get("country")"] = 1;
+      if ("@countryChampion.get("color")") {
+        champions["@countryChampion.get("country")"] =
+            "@countryChampion.get("color")";
+      }
     }
 
     visions.first().before(map);
@@ -31,9 +34,7 @@
       backgroundColor: '#428bca',
       series: {
         regions: [{
-          values: champions,
-          scale: ['#C8EEFF', '#0071A4'],
-          normalizeFunction: 'polynomial'
+          values: champions
         }]
       },
     });

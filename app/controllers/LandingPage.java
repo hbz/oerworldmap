@@ -45,7 +45,6 @@ public class LandingPage extends Controller {
       for (Map.Entry<String,LinkedHashMap> entry : row.entrySet()) {
         String key = entry.getKey();
         if (key.contains("$")) {
-          System.out.println(entry.getValue().get("$t").getClass());
           e.put(key.split("\\$")[1], entry.getValue().get("$t").toString());
         }
       }
