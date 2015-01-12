@@ -11,3 +11,11 @@ For inital background information about this project please refer to the
 Download [sbt](http://www.scala-sbt.org/download.html), then
 
     $ sbt run
+
+## Contribute
+
+### Coding conventions
+
+Indent blocks by *two spaces* and wrap lines at *100 characters*. For more
+details, refer to the [Google Java Style
+Guide](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
