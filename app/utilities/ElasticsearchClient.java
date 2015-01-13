@@ -28,22 +28,21 @@ public class ElasticsearchClient {
       ES_SERVER, ES_PORT);
 
   private static final Builder CLIENT_SETTINGS = ImmutableSettings.settingsBuilder()
-      .put("index.name", ES_INDEX)
-      .put("index.type", ES_TYPE)
-      .put("cluster.name", ES_CLUSTER);
+      .put("index.name", ES_INDEX).put("index.type", ES_TYPE).put("cluster.name", ES_CLUSTER);
 
   private static Client mClient;
 
   public ElasticsearchClient() {
-    TransportClient tc = new TransportClient(CLIENT_SETTINGS
-        .put("client.transport.ping_timeout",20, TimeUnit.SECONDS)
-        .build());
+    @SuppressWarnings("resource")
+    // try-with-resources and/or tc.close(); are each resulting in a
+    // NoNodeAvailableException.
+    TransportClient tc = new TransportClient(CLIENT_SETTINGS.put("client.transport.ping_timeout",
+        20, TimeUnit.SECONDS).build());
     mClient = tc.addTransportAddress(ES_NODE);
     mClient.admin().indices().prepareUpdateSettings(ES_INDEX)
-        .setSettings(ImmutableMap.of("index.refresh_interval", "1"))
-        .execute().actionGet();
+        .setSettings(ImmutableMap.of("index.refresh_interval", "1")).execute().actionGet();
   }
-  
+
   public Client getClient() {
     return mClient;
   }
