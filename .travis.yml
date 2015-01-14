@@ -1,11 +1,2 @@
 language: java
 jdk: oraclejdk8
-env:
-  - ACTIVATOR_VERSION=1.2.10
-before_install:
-  - wget http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
-  - unzip typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
-script:
-  - mvn test
-  - cd web
-  - ../activator-${ACTIVATOR_VERSION}-minimal/activator "test-only ApplicationTest"
