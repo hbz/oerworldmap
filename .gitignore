@@ -5,3 +5,4 @@ target
 logs
 .classpath
 .project
+conf/application.conf
