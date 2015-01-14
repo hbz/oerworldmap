@@ -2,7 +2,7 @@
   countryChampions: ArrayList[HashMap[String,String]])
 
 @main(title = "Home") {
-  <h1>Welcome to the OER World Map</h1>
+  <h1><abbr title="Open Educational Resources">OER</abbr> World Map</h1>
   @for(visionStatement <- visionStatements) {
     <blockquote class="vision">
       <p>@visionStatement.get("statement")</p>
@@ -19,7 +19,7 @@
       i = ++i % visions.length;
     })();
 
-    var map = $('<div style="width: 600px; height: 300px"></div>'),
+    var map = $('<div id="worldmap" style="width: 900px; height: 600px"></div>'),
         champions = {};
 
     @for(countryChampion <- countryChampions) {
@@ -31,7 +31,8 @@
 
     visions.first().before(map);
     map.vectorMap({
-      backgroundColor: '#428bca',
+      backgroundColor: '#028AC9',
+      zoomButtons: false,
       series: {
         regions: [{
           values: champions
