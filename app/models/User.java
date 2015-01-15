@@ -1,8 +1,8 @@
 package models;
 
-import play.data.validation.Constraints;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import javax.xml.bind.annotation.*;
+import play.data.validation.Constraints;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
