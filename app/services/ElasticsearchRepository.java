@@ -18,15 +18,11 @@ public class ElasticsearchRepository implements ResourceRepository {
   public ElasticsearchRepository() {
     elasticsearch = new ElasticsearchClient();
   }
-<<<<<<< HEAD
   
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
   }
   
-=======
-
->>>>>>> 65044ccae1c4d3e60c8240030812ef15a1508237
   @Override
   public void addResource(Resource aResource) {
     elasticsearch.addJson(aResource.toString());

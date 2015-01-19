@@ -1,4 +1,4 @@
-package oerworldmap;
+package services;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
@@ -40,15 +40,13 @@ public class ElasticsearchRepositoryTest {
 
   @BeforeClass
   public static void setup() throws IOException {
-    mResource1 = new Resource();
-    mResource1.addProperty("name", "oeruser1");
-    mResource1.addProperty("worksFor", "oerknowledgecloud.org");
-    mResource1.addProperty("type", ES_TYPE);
+    mResource1 = new Resource(ES_TYPE);
+    mResource1.set("name", "oeruser1");
+    mResource1.set("worksFor", "oerknowledgecloud.org");
 
-    mResource2 = new Resource();
-    mResource2.addProperty("name", "oeruser2");
-    mResource2.addProperty("worksFor", "unesco.org");
-    mResource2.addProperty("type", ES_TYPE);
+    mResource2 = new Resource(ES_TYPE);
+    mResource2.set("name", "oeruser2");
+    mResource2.set("worksFor", "unesco.org");
 
     mElClient = new ElasticsearchClient(nodeBuilder().settings(CLIENT_SETTINGS).local(true).node()
         .client());
