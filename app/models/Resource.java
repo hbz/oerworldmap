@@ -15,11 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Resource {
 
   /**
-   * These properties cannot be set after construction.
-   */
-  private String[] mReadOnlyPropertyList = {JsonLdConstants.TYPE, JsonLdConstants.ID};
-
-  /**
    * Holds the properties of the resource.
    */
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
@@ -53,9 +48,6 @@ public class Resource {
    * @param   value     The value of the property.
    */
   public void set(String property, Object value) throws UnsupportedOperationException {
-    if (Arrays.asList(mReadOnlyPropertyList).contains(property)) {
-      throw new UnsupportedOperationException();
-    }
     mProperties.put(property, value);
   }
 
