@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
@@ -24,17 +25,17 @@ public class ElasticsearchRepository implements ResourceRepository {
   }
   
   @Override
-  public void addResource(Resource aResource) {
+  public void addResource(Resource aResource) throws IOException {
     elasticsearch.addJson(aResource.toString());
   }
 
   @Override
-  public Resource getResource(String aId) {
+  public Resource getResource(String aId) throws IOException {
     return fromMap(elasticsearch.getDocument("_all", aId));
   }
 
   @Override
-  public List<Resource> query(String aType) {
+  public List<Resource> query(String aType) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
     for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)){
       resources.add(fromMap(doc));
