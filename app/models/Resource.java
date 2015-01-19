@@ -42,6 +42,24 @@ public class Resource {
   }
 
   /**
+   * Convert a Map of String/Object to a Resource, assuming that all
+   * Object values of the map are properly represented by the toString()
+   * method of their class.
+   * @param aProperties
+   * @return a Resource containing all given properties
+   */
+  public static Resource fromMap(Map<String, Object> aProperties) {
+    Resource resource = new Resource((String)aProperties.get(JsonLdConstants.ID));
+    Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
+    while (it.hasNext()) {
+        Map.Entry<String, Object> pair = (Map.Entry<String, Object>)it.next();
+        resource.set(pair.getKey(), pair.getValue().toString());
+        it.remove();
+    }
+    return resource;
+  }
+
+  /**
    * Set the value of a property of the resource.
    *
    * @param   property  The property to set.
@@ -74,7 +92,7 @@ public class Resource {
       return "";
     }
   }
-  
+
   @Override
   public boolean equals(final Object aOther){
     if (! (aOther instanceof Resource)){
@@ -94,6 +112,6 @@ public class Resource {
     }
     return true;
   }
-  
+
 }
 

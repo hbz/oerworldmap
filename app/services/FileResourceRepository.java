@@ -82,7 +82,7 @@ public class FileResourceRepository implements ResourceRepository {
         }
       );
       for (Path resourceFile: resourceFiles) {
-        return fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class));
+        return Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class));
       }
     }
 
@@ -101,27 +101,9 @@ public class FileResourceRepository implements ResourceRepository {
     DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir);
     ObjectMapper objectMapper = new ObjectMapper();
     for (Path resourceFile: resourceFiles) {
-      results.add(fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class)));
+      results.add(Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class)));
     }
     return results;
-  }
-
-  /**
-   * Convert a Map of String/Object to a Resource, assuming that all
-   * Object values of the map are properly represented by the toString()
-   * method of their class.
-   * @param aProperties
-   * @return a Resource containing all given properties
-   */
-  private Resource fromMap(Map<String, Object> aProperties) {
-    Resource resource = new Resource((String)aProperties.get(JsonLdConstants.ID));
-    Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
-    while (it.hasNext()) {
-        Map.Entry<String, Object> pair = (Map.Entry<String, Object>)it.next();
-        resource.set(pair.getKey(), pair.getValue().toString());
-        it.remove();
-    }
-    return resource;
   }
 
 }

@@ -19,11 +19,11 @@ public class ElasticsearchRepository implements ResourceRepository {
   public ElasticsearchRepository() {
     elasticsearch = new ElasticsearchClient();
   }
-  
+
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
   }
-  
+
   @Override
   public void addResource(Resource aResource) throws IOException {
     elasticsearch.addJson(aResource.toString());
@@ -31,34 +31,16 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   @Override
   public Resource getResource(String aId) throws IOException {
-    return fromMap(elasticsearch.getDocument("_all", aId));
+    return Resource.fromMap(elasticsearch.getDocument("_all", aId));
   }
 
   @Override
   public List<Resource> query(String aType) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
     for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)){
-      resources.add(fromMap(doc));
+      resources.add(Resource.fromMap(doc));
     }
     return resources;
-  }
-
-  /**
-   * Convert a Map of String/Object to a Resource, assuming that all
-   * Object values of the map are properly represented by the toString()
-   * method of their class.
-   * @param aProperties
-   * @return a Resource containing all given properties
-   */
-  private Resource fromMap(Map<String, Object> aProperties) {
-    Resource resource = new Resource((String)aProperties.get(JsonLdConstants.ID));
-    Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
-    while (it.hasNext()) {
-        Map.Entry<String, Object> pair = (Map.Entry<String, Object>)it.next();
-        resource.set(pair.getKey(), pair.getValue().toString());
-        it.remove();
-    }
-    return resource;
   }
 
 }
