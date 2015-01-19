@@ -25,17 +25,17 @@ public class ElasticsearchRepository implements ResourceRepository {
   }
 
   @Override
-  public List<Resource> queryAll(String aType) {
+  public Resource getResource(String aId) {
+    return fromMap(elasticsearch.getDocument("_all", aId));
+  }
+
+  @Override
+  public List<Resource> query(String aType) {
     List<Resource> resources = new ArrayList<Resource>();
     for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)){
       resources.add(fromMap(doc));
     }
     return resources;
-  }
-
-  @Override
-  public Resource query(String aType, String aId) {
-    return fromMap(elasticsearch.getDocument(aType, aId));
   }
 
   /**
