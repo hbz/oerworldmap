@@ -1,101 +1,100 @@
 package models;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import helpers.JsonLdConstants;
+
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Resource {
-  
-  private static final String JSON_LD_ID_KEY = "@id";
-  
-  private Map<String, String> mProperties = new HashMap<String, String>();
-  public static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"))
-      .resolve();
+
   /**
-   * Add a new key value property pair.
-   * @param aKey
-   * @param aValue
-   * @return an old value associated with the given key
-   *         or null if there has not been such old value
+   * These properties cannot be set after construction.
    */
-  public String addProperty(String aKey, String aValue){
-    return mProperties.putIfAbsent(aKey, aValue);
+  private String[] mReadOnlyPropertyList = {JsonLdConstants.TYPE, JsonLdConstants.ID};
+
+  /**
+   * Holds the properties of the resource.
+   */
+  private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
+
+  /**
+   * Constructor.
+   *
+   * @param   type  The type of the resource.
+   */
+  public Resource(String type) {
+    mProperties.put(JsonLdConstants.TYPE, type);
+    String uuid = UUID.randomUUID().toString();
+    mProperties.put(JsonLdConstants.ID, uuid);
   }
-  
+
   /**
-   * Add a map with key value pairs of properties.
-   * If some if the keys have existed in the properties
-   * before, their associated values will be overwritten.
-   * @param aPairs
+   * Constructor.
+   *
+   * @param   type  The type of the resource.
+   * @param   id    The id of the resource.
    */
-  public void addProperties(Map<String, String> aPairs){
-    mProperties.putAll(aPairs);
+  public Resource(String type, String id) {
+    mProperties.put(JsonLdConstants.TYPE, type);
+    mProperties.put(JsonLdConstants.ID, id);
   }
-  
+
   /**
-   * Generate a UUID and add it to the properties map.
+   * Set the value of a property of the resource.
+   *
+   * @param   property  The property to set.
+   * @param   value     The value of the property.
    */
-  public void generateUuid(){
-    mProperties.put(JSON_LD_ID_KEY, UUID.randomUUID().toString());
-  }
-  
-  /**
-   * Get the UUID.
-   * @return the UUID or null if no such UUID exists.
-   */
-  public String getUuid(){
-    return mProperties.get(JSON_LD_ID_KEY);
-  }
-  
-  /**
-   * Delete all properties containing a null or empty String value.
-   * @return all keys with null or empty values as an ArrayList
-   *         or null if there have been no such null or empty values.
-   */
-  public List<String> deleteNullProperties(){
-    
-    List<String> keysWithNullValues = new ArrayList<String>();
-    
-    Iterator<Entry<String, String>> it = mProperties.entrySet().iterator();
-    while (it.hasNext()) {
-        Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
-        if (StringUtils.isEmpty(pair.getValue())){
-          keysWithNullValues.add(pair.getKey());
-        }
-        mProperties.remove(pair.getKey());
-        it.remove();
+  public void set(String property, Object value) throws UnsupportedOperationException {
+    if (Arrays.asList(mReadOnlyPropertyList).contains(property)) {
+      throw new UnsupportedOperationException();
     }
-    return keysWithNullValues.isEmpty() ? null : keysWithNullValues;
+    mProperties.put(property, value);
   }
-  
+
+  /**
+   * Get the value of a property of the resource.
+   *
+   * @param   property  The property to get.
+   * @return  The value of the property.
+   */
+  public Object get(String property) {
+    return mProperties.get(property);
+  }
+
+  /**
+   * Get a JSON string representation of the resource.
+   *
+   * @return JSON string
+   */
   @Override
   public String toString() {
-    return new JSONObject(mProperties).toString(); 
+    try {
+      return new ObjectMapper().writeValueAsString(mProperties);
+    } catch (IOException e) {
+      return "";
+    }
   }
   
   @Override
-  public boolean equals(Object aOther){
+  public boolean equals(final Object aOther){
     if (! (aOther instanceof Resource)){
       return false;
     }
-    Resource other = (Resource) aOther;  
+    final Resource other = (Resource) aOther;  
     if (other.mProperties.size() != mProperties.size()){
       return false;
     }
-    Iterator<Entry<String, String>> thisIt = mProperties.entrySet().iterator();
+    final Iterator<Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
     while (thisIt.hasNext()) {
-        Map.Entry<String, String> pair = (Map.Entry<String, String>)thisIt.next();
+        final Map.Entry<String, Object> pair = thisIt.next();
         if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
           return false;
         }
@@ -103,4 +102,6 @@ public class Resource {
     }
     return true;
   }
+  
 }
+
