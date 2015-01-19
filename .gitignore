@@ -6,3 +6,4 @@ logs
 .classpath
 .project
 conf/application.conf
+data

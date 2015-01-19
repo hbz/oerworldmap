@@ -1,16 +1,16 @@
 package models;
 
-import java.util.LinkedHashMap;
-import java.util.Arrays;
-import java.util.UUID;
-import java.net.URI;
-import java.net.URL;
+import helpers.JsonLdConstants;
+
 import java.io.IOException;
-import java.lang.UnsupportedOperationException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import helpers.JsonLdConstants;
 
 public class Resource {
 
@@ -82,6 +82,26 @@ public class Resource {
       return "";
     }
   }
-
+  
+  @Override
+  public boolean equals(final Object aOther){
+    if (! (aOther instanceof Resource)){
+      return false;
+    }
+    final Resource other = (Resource) aOther;  
+    if (other.mProperties.size() != mProperties.size()){
+      return false;
+    }
+    final Iterator<Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
+    while (thisIt.hasNext()) {
+        final Map.Entry<String, Object> pair = thisIt.next();
+        if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
+          return false;
+        }
+        thisIt.remove();
+    }
+    return true;
+  }
+  
 }
 

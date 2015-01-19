@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.annotation.Nonnull;
 
 import models.Resource;
 import helpers.JsonLdConstants;
@@ -18,7 +18,11 @@ public class ElasticsearchRepository implements ResourceRepository {
   public ElasticsearchRepository() {
     elasticsearch = new ElasticsearchClient();
   }
-
+  
+  public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
+    elasticsearch = aElasticsearchClient;
+  }
+  
   @Override
   public void addResource(Resource aResource) {
     elasticsearch.addJson(aResource.toString());
