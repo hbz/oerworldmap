@@ -83,4 +83,24 @@ public class Resource {
   public String toString() {
     return new JSONObject(mProperties).toString(); 
   }
+  
+  @Override
+  public boolean equals(Object aOther){
+    if (! (aOther instanceof Resource)){
+      return false;
+    }
+    Resource other = (Resource) aOther;  
+    if (other.mProperties.size() != mProperties.size()){
+      return false;
+    }
+    Iterator<Entry<String, String>> thisIt = mProperties.entrySet().iterator();
+    while (thisIt.hasNext()) {
+        Map.Entry<String, String> pair = (Map.Entry<String, String>)thisIt.next();
+        if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
+          return false;
+        }
+        thisIt.remove();
+    }
+    return true;
+  }
 }
