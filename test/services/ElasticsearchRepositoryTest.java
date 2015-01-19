@@ -56,7 +56,10 @@ public class ElasticsearchRepositoryTest {
 
   // create a new clean ElasticsearchIndex for this Test class
   private static void cleanIndex() {
-    mElClient.getClient().admin().indices().delete(new DeleteIndexRequest(ES_INDEX)).actionGet();
+    if (mElClient.getClient().admin().indices().prepareExists(ES_INDEX).execute().actionGet()
+        .isExists()) {
+      mElClient.getClient().admin().indices().delete(new DeleteIndexRequest(ES_INDEX)).actionGet();
+    }
     mElClient.getClient().admin().indices().create(new CreateIndexRequest(ES_INDEX)).actionGet();
   }
 
