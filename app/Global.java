@@ -2,6 +2,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.collect.ImmutableMap;
@@ -9,12 +10,12 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
+
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 public class Global extends GlobalSettings {
 
@@ -38,6 +39,7 @@ public class Global extends GlobalSettings {
   @Override
   public void onStart(Application app) {
     Logger.info("oerworldmap has started");
+    Logger.info("Elasticsearch config: " + CONFIG);
     setupElClient();
     setupElIndex();
   }
@@ -47,6 +49,7 @@ public class Global extends GlobalSettings {
     Logger.info("oerworldmap shutdown...");
   }
 
+  @SuppressWarnings("resource")
   public void setupElClient() {
     final TransportClient tc = new TransportClient(CLIENT_SETTINGS.build());
     mClient = tc.addTransportAddress(ES_NODE);
@@ -54,12 +57,20 @@ public class Global extends GlobalSettings {
         .setSettings(ImmutableMap.of("index.refresh_interval", "1")).execute().actionGet();
   }
 
-  public void setupElIndex() {
+  private void setupElIndex() {
     if (mClient == null) {
       throw new java.lang.IllegalStateException(
           "Trying to set Elasticsearch index with no existing client.");
     }
-    mClient.admin().indices().create(new CreateIndexRequest(ES_INDEX)).actionGet();
+    if (!indexExists(mClient, ES_INDEX)) {
+      mClient.admin().indices().create(new CreateIndexRequest(ES_INDEX)).actionGet();
+    }
+    mClient.admin().indices().refresh(new RefreshRequest(ES_INDEX)).actionGet();
+  }
+  
+  // return true if the specified Index already exists on the specified Client. 
+  public boolean indexExists(Client aClient, String aIndex){
+    return aClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
 }
