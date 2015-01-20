@@ -1,2 +1,4 @@
 language: scala
 jdk: oraclejdk8
+before_script:
+ - echo -e "\nes.host.server=\"localhost\"\nes.host.port=\"9300\"\nes.index.name=\"oerworldmap\"\nes.index.type=\"worldmap\"\nes.cluster.name=\"oerworldmaps\"\n" > conf/application.conf
