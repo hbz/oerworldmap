@@ -3,7 +3,6 @@ package models;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,24 +14,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Resource {
 
   /**
-   * These properties cannot be set after construction.
-   */
-  private String[] mReadOnlyPropertyList = {JsonLdConstants.TYPE, JsonLdConstants.ID};
-
-  /**
    * Holds the properties of the resource.
    */
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
 
   /**
-   * Constructor.
+   * Constructor which sets up a random UUID.
    *
    * @param   type  The type of the resource.
    */
   public Resource(String type) {
-    mProperties.put(JsonLdConstants.TYPE, type);
-    String uuid = UUID.randomUUID().toString();
-    mProperties.put(JsonLdConstants.ID, uuid);
+    this(type, UUID.randomUUID().toString());
   }
 
   /**
@@ -53,9 +45,6 @@ public class Resource {
    * @param   value     The value of the property.
    */
   public void set(String property, Object value) throws UnsupportedOperationException {
-    if (!isSetable(property)) {
-      throw new UnsupportedOperationException();
-    }
     mProperties.put(property, value);
   }
 
@@ -101,10 +90,6 @@ public class Resource {
         thisIt.remove();
     }
     return true;
-  }
-
-  public boolean isSetable(String aKey) {
-    return !Arrays.asList(mReadOnlyPropertyList).contains(aKey);
   }
   
 }

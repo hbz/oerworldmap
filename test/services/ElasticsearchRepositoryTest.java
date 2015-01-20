@@ -65,12 +65,12 @@ public class ElasticsearchRepositoryTest {
   }
 
   @Test
-  public void testAddAndQueryResources() {
+  public void testAddAndQueryResources() throws IOException {
     mRepo.addResource(mResource1);
     mRepo.addResource(mResource2);
     mElClient.getClient().admin().indices().refresh(new RefreshRequest(ES_INDEX)).actionGet();
 
-    List<Resource> resourcesGotBack = mRepo.queryAll(ES_TYPE);
+    List<Resource> resourcesGotBack = mRepo.query(ES_TYPE);
 
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
