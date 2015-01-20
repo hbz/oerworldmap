@@ -1,4 +1,4 @@
-package assets;
+package services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,8 +17,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import assets.FileResourceRepository;
-import assets.ResourceRepository;
+import services.FileResourceRepository;
+import services.ResourceRepository;
 
 public class FileResourceRepositoryTest {
 
