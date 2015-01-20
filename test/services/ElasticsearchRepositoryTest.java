@@ -5,6 +5,7 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import models.Resource;
 
@@ -40,11 +41,11 @@ public class ElasticsearchRepositoryTest {
 
   @BeforeClass
   public static void setup() throws IOException {
-    mResource1 = new Resource(ES_TYPE);
+    mResource1 = new Resource(ES_TYPE, UUID.randomUUID().toString());
     mResource1.set("name", "oeruser1");
     mResource1.set("worksFor", "oerknowledgecloud.org");
 
-    mResource2 = new Resource(ES_TYPE);
+    mResource2 = new Resource(ES_TYPE, UUID.randomUUID().toString());
     mResource2.set("name", "oeruser2");
     mResource2.set("worksFor", "unesco.org");
 

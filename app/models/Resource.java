@@ -53,7 +53,7 @@ public class Resource {
    * @param   value     The value of the property.
    */
   public void set(String property, Object value) throws UnsupportedOperationException {
-    if (Arrays.asList(mReadOnlyPropertyList).contains(property)) {
+    if (!isSetable(property)) {
       throw new UnsupportedOperationException();
     }
     mProperties.put(property, value);
@@ -101,6 +101,10 @@ public class Resource {
         thisIt.remove();
     }
     return true;
+  }
+
+  public boolean isSetable(String aKey) {
+    return !Arrays.asList(mReadOnlyPropertyList).contains(aKey);
   }
   
 }
