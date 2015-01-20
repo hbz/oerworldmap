@@ -87,7 +87,6 @@ public class Resource {
         if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
           return false;
         }
-        thisIt.remove();
     }
     return true;
   }
