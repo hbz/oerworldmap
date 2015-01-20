@@ -1,4 +1,4 @@
-package services;
+package assets;
 
 import java.util.List;
 import java.util.ArrayList;

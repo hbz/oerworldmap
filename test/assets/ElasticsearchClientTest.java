@@ -1,4 +1,4 @@
-package services;
+package assets;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
@@ -16,7 +16,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import services.ElasticsearchClient;
+import assets.ElasticsearchClient;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;

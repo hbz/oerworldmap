@@ -2,7 +2,7 @@ package controllers;
 
 import play.mvc.*;
 import play.data.*;
-import services.ElasticsearchClient;
+import assets.ElasticsearchClient;
 import models.User;
 
 public class UserIndex extends Controller {

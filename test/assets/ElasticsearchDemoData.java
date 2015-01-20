@@ -1,4 +1,4 @@
-package services;
+package assets;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
