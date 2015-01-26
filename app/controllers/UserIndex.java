@@ -1,13 +1,12 @@
 package controllers;
 
-import play.mvc.*;
-import play.data.*;
-import services.ElasticsearchClient;
 import models.User;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.ElasticsearchClient;
 
 public class UserIndex extends Controller {
-
-  private static ElasticsearchClient mClient = new ElasticsearchClient();
 
   public static Result get() {
     return ok(views.html.UserIndex.index.render(Form.form(User.class)));
@@ -19,8 +18,8 @@ public class UserIndex extends Controller {
       return badRequest(views.html.UserIndex.index.render(requestData));
     } else {
       User user = requestData.get();
-      System.err.println(mClient.getClient().settings().getAsMap());
-      mClient.getClient()
+      System.err.println(ElasticsearchClient.getClient().settings().getAsMap());
+      ElasticsearchClient.getClient()
           .prepareIndex(ElasticsearchClient.getIndex(), ElasticsearchClient.getType())
           .setSource(user.toString())
           .execute().actionGet();

@@ -18,24 +18,16 @@ import org.elasticsearch.search.SearchHit;
 public class ElasticsearchClient {
 
   private static ElasticsearchConfig esConfig = new ElasticsearchConfig();
-  
   private static Client mClient;
-
-  public ElasticsearchClient() {
-    @SuppressWarnings("resource")
-    // try-with-resources and/or tc.close(); are each resulting in a
-    // NoNodeAvailableException.
-    final TransportClient tc = new TransportClient(esConfig.getClientSettings().build());
-    mClient = tc.addTransportAddress(esConfig.getNode());
-    mClient.admin().indices().prepareUpdateSettings(esConfig.getIndex())
-        .setSettings(ImmutableMap.of("index.refresh_interval", "1")).execute().actionGet();
-  }
 
   public ElasticsearchClient(@Nonnull final Client aClient) {
     mClient = aClient;
   }
 
-  public Client getClient() {
+  public static Client getClient() {
+    if (mClient == null){
+      mClient = ElasticsearchProvider.getClient(ElasticsearchProvider.createServerNode(true));
+    }
     return mClient;
   }
 
@@ -140,6 +132,16 @@ public class ElasticsearchClient {
    */
   public Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final UUID aUuid) {
     return getDocument(aType, aUuid.toString());
+  }
+  
+  
+  public boolean hasIndex(String aIndex){
+    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet()
+        .isExists();
+  }
+  
+  public void deleteIndex(String aIndex){
+    
   }
 
 }

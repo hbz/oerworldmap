@@ -7,3 +7,4 @@ logs
 .project
 conf/application.conf
 data
+repo-deb-build*.*

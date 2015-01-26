@@ -13,37 +13,36 @@ import com.typesafe.config.ConfigFactory;
 public class ElasticsearchConfig {
 
   private static final String DEFAULT_CONFIG_FILE = "conf/application.conf";
-  
-  //CONFIG FILE
+
+  // CONFIG FILE
   private Config mConfig;
-  
+
   // HOST
   private String mServer;
   private String mPort;
   private InetSocketTransportAddress mNode;
-  
+
   // CLIENT
   private String mIndex;
   private String mType;
   private String mCluster;
   private Builder mClientSettings;
 
-  
-
   public ElasticsearchConfig() {
     File configFile = new File(DEFAULT_CONFIG_FILE);
     init(configFile);
   }
-  
-  public ElasticsearchConfig(String aFilename){
-    File file = new File (aFilename);
+
+  public ElasticsearchConfig(String aFilename) {
+    File file = new File(aFilename);
     init(file);
   }
 
   private void checkFileExists(File file) {
-    if (!file.exists()){
+    if (!file.exists()) {
       try {
-        throw new java.io.FileNotFoundException("Elasticsearch config file \"" + file.getAbsolutePath() + "\" not found.");
+        throw new java.io.FileNotFoundException("Elasticsearch config file \""
+            + file.getAbsolutePath() + "\" not found.");
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       }
@@ -59,14 +58,13 @@ public class ElasticsearchConfig {
     // HOST
     mServer = mConfig.getString("es.host.server");
     mPort = mConfig.getString("es.host.port");
-    mNode = new InetSocketTransportAddress(
-        mServer, Integer.valueOf(mPort));
-    
+    mNode = new InetSocketTransportAddress(mServer, Integer.valueOf(mPort));
+
     // CLIENT
     mIndex = mConfig.getString("es.index.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
-    
+
     mClientSettings = ImmutableSettings.settingsBuilder().put("index.name", mIndex)
         .put("index.type", mType).put("cluster.name", mCluster);
   }
@@ -94,12 +92,12 @@ public class ElasticsearchConfig {
   public String getPort() {
     return mPort;
   }
-  
+
   public InetSocketTransportAddress getNode() {
     return mNode;
   }
-  
-  public String toString(){
+
+  public String toString() {
     return mConfig.toString();
   }
 }

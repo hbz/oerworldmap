@@ -22,10 +22,6 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   final private ElasticsearchClient elasticsearch;
 
-  public ElasticsearchRepository() {
-    elasticsearch = new ElasticsearchClient();
-  }
-
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
   }
