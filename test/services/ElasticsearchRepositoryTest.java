@@ -51,16 +51,16 @@ public class ElasticsearchRepositoryTest {
   // create a new clean ElasticsearchIndex for this Test class
   private static void cleanIndex() {
     if (mElClient.hasIndex(esConfig.getIndex())){
-      mElClient.getClient().admin().indices().delete(new DeleteIndexRequest(esConfig.getIndex())).actionGet();
+      mElClient.deleteIndex(esConfig.getIndex());
     }
-    mElClient.getClient().admin().indices().create(new CreateIndexRequest(esConfig.getIndex())).actionGet();
+    mElClient.createIndex(esConfig.getIndex());
   }
 
   @Test
   public void testAddAndQueryResources() throws IOException {
     mRepo.addResource(mResource1);
     mRepo.addResource(mResource2);
-    mElClient.getClient().admin().indices().refresh(new RefreshRequest(esConfig.getIndex())).actionGet();
+    mElClient.refreshIndex(esConfig.getIndex());
 
     List<Resource> resourcesGotBack = mRepo.query(esConfig.getType());
 

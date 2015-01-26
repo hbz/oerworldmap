@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,25 +8,56 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 
+import play.Logger;
+
+/**
+ * This class serves as an interface to Elasticsearch providing access to
+ * necessary functions in easy mode. It also serves to set up an Elasticsearch
+ * instance appropriate to the settings specified in the configuration file
+ * (most probably conf/application.conf).
+ * 
+ * @author pvb
+ *
+ */
 public class ElasticsearchClient {
 
-  private static ElasticsearchConfig esConfig = new ElasticsearchConfig();
+  private static ElasticsearchConfig esConfig;
   private static Client mClient;
 
-  public ElasticsearchClient(@Nonnull final Client aClient) {
-    mClient = aClient;
+  /**
+   * Initialize an instance with a specified non null Elasticsearch client.
+   * 
+   * @param aClient
+   */
+  public ElasticsearchClient(@Nonnull final String aConfigurationFile) {
+    esConfig = new ElasticsearchConfig(aConfigurationFile);
   }
 
+  /**
+   * Initialize an instance with a specified non null Elasticsearch client.
+   * 
+   * @param aClient
+   */
+  public ElasticsearchClient(@Nonnull final Client aClient) {
+    mClient = aClient;
+    esConfig = new ElasticsearchConfig();
+  }
+  
   public static Client getClient() {
-    if (mClient == null){
+    if (mClient == null) {
       mClient = ElasticsearchProvider.getClient(ElasticsearchProvider.createServerNode(true));
     }
     return mClient;
@@ -54,18 +86,18 @@ public class ElasticsearchClient {
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final UUID aUuid) {
-    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid.toString()).setSource(aJsonString).execute()
-        .actionGet();
+    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid.toString())
+        .setSource(aJsonString).execute().actionGet();
   }
-  
+
   /**
    * Add a document consisting of a JSON String specified by a given UUID.
    * 
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid) {
-    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid).setSource(aJsonString).execute()
-        .actionGet();
+    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid).setSource(aJsonString)
+        .execute().actionGet();
   }
 
   /**
@@ -83,7 +115,8 @@ public class ElasticsearchClient {
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
-    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid.toString()).setSource(aMap).execute().actionGet();
+    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid.toString()).setSource(aMap)
+        .execute().actionGet();
   }
 
   /**
@@ -118,8 +151,8 @@ public class ElasticsearchClient {
    */
   public Map<String, Object> getDocument(@Nonnull final String aType,
       @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(esConfig.getIndex(), aType, aIdentifier).execute()
-        .actionGet();
+    final GetResponse response = mClient.prepareGet(esConfig.getIndex(), aType, aIdentifier)
+        .execute().actionGet();
     return response.getSource();
   }
 
@@ -133,15 +166,59 @@ public class ElasticsearchClient {
   public Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final UUID aUuid) {
     return getDocument(aType, aUuid.toString());
   }
-  
-  
-  public boolean hasIndex(String aIndex){
-    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet()
-        .isExists();
+
+  /**
+   * Verify if the specified index exists on the internal Elasticsearch client.
+   * @param aIndex
+   * @return true if the specified index exists.
+   */
+  public boolean hasIndex(String aIndex) {
+    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
-  
-  public void deleteIndex(String aIndex){
-    
+
+  /**
+   * Deletes the specified index. If the specified index does not exist, the
+   * resulting IndexMissingException is caught.
+   * 
+   * @param aIndex
+   */
+  public void deleteIndex(String aIndex) {
+    try {
+      mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
+    } catch (IndexMissingException e) {
+      Logger.error("Trying to delete index \"" + aIndex + "\" from Elasticsearch.");
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates the specified index. If the specified index does already exist, the
+   * resulting ElasticsearchException is caught.
+   * 
+   * @param aIndex
+   */
+  public void createIndex(String aIndex) {
+    try {
+      mClient.admin().indices().create(new CreateIndexRequest(aIndex)).actionGet();
+    } catch (ElasticsearchException indexAlreadyExists) {
+      Logger.error("Trying to create index \"" + aIndex
+          + "\" in Elasticsearch. Index already exists.");
+    }
+  }
+
+  /**
+   * Refreshes the specified index. If the specified index does not exist, the
+   * resulting IndexMissingException is caught.
+   * 
+   * @param aIndex
+   */
+  public void refreshIndex(String aIndex) {
+    try {
+      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+    } catch (IndexMissingException e) {
+      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
+      e.printStackTrace();
+    }
   }
 
 }
