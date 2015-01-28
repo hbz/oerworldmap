@@ -1,4 +1,4 @@
-package test.services;
+package services;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
