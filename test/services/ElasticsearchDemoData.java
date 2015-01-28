@@ -1,3 +1,5 @@
+package test.services;
+
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
