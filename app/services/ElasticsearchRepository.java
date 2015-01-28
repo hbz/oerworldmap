@@ -5,9 +5,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import java.util.UUID;
+
 import java.io.IOException;
 
+
 import javax.annotation.Nonnull;
+
+import org.apache.commons.lang3.StringUtils;
 
 import models.Resource;
 import helpers.JsonLdConstants;
@@ -16,17 +22,17 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   final private ElasticsearchClient elasticsearch;
 
-  public ElasticsearchRepository() {
-    elasticsearch = new ElasticsearchClient();
-  }
-
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
   }
 
   @Override
-  public void addResource(Resource aResource) throws IOException {
-    elasticsearch.addJson(aResource.toString());
+  public void addResource(Resource aResource) throws IOException{
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    if (StringUtils.isEmpty(id)){
+      id = UUID.randomUUID().toString();
+    }
+    elasticsearch.addJson(aResource.toString(), id);
   }
 
   @Override

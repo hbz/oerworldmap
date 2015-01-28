@@ -1,21 +1,24 @@
-import static org.junit.Assert.*;
+package services;
 
-import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
-import org.junit.Test;
+import models.Resource;
+
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.AfterClass;
+import org.junit.Test;
 
-import services.ResourceRepository;
 import services.FileResourceRepository;
-import models.Resource;
-import helpers.JsonLdConstants;
+import services.ResourceRepository;
 
 public class FileResourceRepositoryTest {
 

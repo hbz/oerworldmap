@@ -3,7 +3,6 @@ package models;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 
 public class Resource {
 
@@ -20,14 +20,12 @@ public class Resource {
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
 
   /**
-   * Constructor.
+   * Constructor which sets up a random UUID.
    *
    * @param   type  The type of the resource.
    */
   public Resource(String type) {
-    mProperties.put(JsonLdConstants.TYPE, type);
-    String uuid = UUID.randomUUID().toString();
-    mProperties.put(JsonLdConstants.ID, uuid);
+    this(type, UUID.randomUUID().toString());
   }
 
   /**
@@ -45,16 +43,24 @@ public class Resource {
    * Convert a Map of String/Object to a Resource, assuming that all
    * Object values of the map are properly represented by the toString()
    * method of their class.
+   *
    * @param aProperties
    * @return a Resource containing all given properties
    */
   public static Resource fromMap(Map<String, Object> aProperties) {
-    Resource resource = new Resource((String)aProperties.get(JsonLdConstants.ID));
+    checkTypeExistence(aProperties);
+    Resource resource;
+    if (hasId(aProperties)) {
+      resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
+                              (String) aProperties.get(JsonLdConstants.ID));
+    } else {
+      resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE));
+    }
     Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
     while (it.hasNext()) {
-        Map.Entry<String, Object> pair = (Map.Entry<String, Object>)it.next();
+      Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
         resource.set(pair.getKey(), pair.getValue().toString());
-        it.remove();
+      it.remove();
     }
     return resource;
   }
@@ -108,9 +114,25 @@ public class Resource {
         if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
           return false;
         }
-        thisIt.remove();
     }
     return true;
+  }
+
+  private static boolean hasId(Map<String, Object> aProperties) {
+    return !StringUtils.isEmpty(aProperties.get(JsonLdConstants.ID).toString());
+  }
+
+  private static void checkTypeExistence(Map<String, Object> aProperties) {
+    Object type = aProperties.get(JsonLdConstants.TYPE);
+    if (!(type instanceof String) || StringUtils.isEmpty((String) type)) {
+      String message = "Unspecified " + JsonLdConstants.TYPE + " : " + aProperties.hashCode();
+      System.err.println(message);
+      try {
+        throw new java.lang.TypeNotPresentException(message, new Exception());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
 }

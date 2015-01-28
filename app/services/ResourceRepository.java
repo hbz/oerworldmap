@@ -13,7 +13,7 @@ public interface ResourceRepository {
    * Add a new resource to the repository.
    * @param aResource
    */
-  public void addResource(Resource aResource) throws IOException;
+  public void addResource(@Nonnull Resource aResource) throws IOException;
 
   /**
    * Get a Resource specified by the given identifier.
