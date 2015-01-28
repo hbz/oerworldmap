@@ -1,5 +1,3 @@
-package services;
-
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import java.io.File;
