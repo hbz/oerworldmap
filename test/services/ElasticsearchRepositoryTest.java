@@ -18,9 +18,7 @@ import org.junit.Test;
 
 import services.ElasticsearchClient;
 import services.ElasticsearchRepository;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import services.ElasticsearchConfig;
 
 public class ElasticsearchRepositoryTest {
 

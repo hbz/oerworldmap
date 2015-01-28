@@ -15,9 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import services.ElasticsearchClient;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import services.ElasticsearchConfig;
 
 public class ElasticsearchClientTest {
   protected static Client mClient;
