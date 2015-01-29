@@ -33,12 +33,12 @@ public class ElasticsearchRepositoryTest {
   @BeforeClass
   public static void setup() throws IOException {
     mResource1 = new Resource(esConfig.getType(), UUID.randomUUID().toString());
-    mResource1.set("name", "oeruser1");
-    mResource1.set("worksFor", "oerknowledgecloud.org");
+    mResource1.put("name", "oeruser1");
+    mResource1.put("worksFor", "oerknowledgecloud.org");
 
     mResource2 = new Resource(esConfig.getType(), UUID.randomUUID().toString());
-    mResource2.set("name", "oeruser2");
-    mResource2.set("worksFor", "unesco.org");
+    mResource2.put("name", "oeruser2");
+    mResource2.put("worksFor", "unesco.org");
 
     mElClient = new ElasticsearchClient(nodeBuilder().settings(esConfig.getClientSettings()).local(true).node()
         .client());

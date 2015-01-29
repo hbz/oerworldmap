@@ -28,7 +28,7 @@ public class ResourceTest {
     Resource resource = new Resource("Type", "id");
     String property = "property";
     String value = "value";
-    resource.set(property, value);
+    resource.put(property, value);
     assertEquals(resource.get(property), value);
   }
 
@@ -37,7 +37,7 @@ public class ResourceTest {
     Resource resource = new Resource("Type", "id");
     String property = "property";
     String value = "value";
-    resource.set(property, value);
+    resource.put(property, value);
     String expected = "{\"@type\":\"Type\",\"@id\":\"id\",\"property\":\"value\"}";
     assertEquals(expected, resource.toString());
   }

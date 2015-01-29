@@ -1,23 +1,21 @@
 package models;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 
-public class Resource {
+public class Resource implements Map {
 
   /**
    * Holds the properties of the resource.
    */
-  private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
+  private LinkedHashMap<Object, Object> mProperties = new LinkedHashMap<Object, Object>();
 
   /**
    * Constructor which sets up a random UUID.
@@ -44,8 +42,8 @@ public class Resource {
    * Object values of the map are properly represented by the toString()
    * method of their class.
    *
-   * @param aProperties
-   * @return a Resource containing all given properties
+   * @param   aProperties  The map to create the resource from
+   * @return  a Resource containing all given properties
    */
   public static Resource fromMap(Map<String, Object> aProperties) {
     checkTypeExistence(aProperties);
@@ -59,32 +57,12 @@ public class Resource {
     Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
-        resource.set(pair.getKey(), pair.getValue().toString());
+        resource.put(pair.getKey(), pair.getValue().toString());
       it.remove();
     }
     return resource;
   }
-
-  /**
-   * Set the value of a property of the resource.
-   *
-   * @param   property  The property to set.
-   * @param   value     The value of the property.
-   */
-  public void set(String property, Object value) throws UnsupportedOperationException {
-    mProperties.put(property, value);
-  }
-
-  /**
-   * Get the value of a property of the resource.
-   *
-   * @param   property  The property to get.
-   * @return  The value of the property.
-   */
-  public Object get(String property) {
-    return mProperties.get(property);
-  }
-
+  
   /**
    * Get a JSON string representation of the resource.
    *
@@ -92,11 +70,67 @@ public class Resource {
    */
   @Override
   public String toString() {
-    try {
-      return new ObjectMapper().writeValueAsString(mProperties);
-    } catch (IOException e) {
-      return "";
-    }
+    return new ObjectMapper().convertValue(mProperties, JsonNode.class).toString();
+  }
+
+  @Override
+  public int size() {
+    return mProperties.size();
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return mProperties.isEmpty();
+  }
+
+  @Override
+  public boolean containsKey(Object key) {
+    return mProperties.containsKey(key);
+  }
+
+  @Override
+  public boolean containsValue(Object value) {
+    return mProperties.containsValue(value);
+  }
+
+  @Override
+  public Object get(Object key) {
+    return mProperties.get(key);
+  }
+
+  @Override
+  public Object put(Object key, Object value) {
+    return mProperties.put(key, value);
+  }
+
+  @Override
+  public Object remove(Object key) {
+    return mProperties.remove(key);
+  }
+
+  @Override
+  public void putAll(Map m) {
+    mProperties.putAll(m);
+  }
+
+  @Override
+  public void clear() {
+    mProperties.clear();
+  }
+
+  @Override
+  public Set keySet() {
+    return mProperties.keySet();
+  }
+
+  @Override
+  public Collection values() {
+    return mProperties.values();
+  }
+
+  @Override
+  public Set<Entry> entrySet() {
+    return (Set) mProperties.entrySet();
   }
 
   @Override
@@ -108,9 +142,9 @@ public class Resource {
     if (other.mProperties.size() != mProperties.size()){
       return false;
     }
-    final Iterator<Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
+    final Iterator<Entry<Object, Object>> thisIt = mProperties.entrySet().iterator();
     while (thisIt.hasNext()) {
-        final Map.Entry<String, Object> pair = thisIt.next();
+        final Map.Entry<Object, Object> pair = thisIt.next();
         if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
           return false;
         }

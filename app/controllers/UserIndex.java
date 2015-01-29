@@ -30,7 +30,7 @@ public class UserIndex extends Controller {
       return badRequest(views.html.UserIndex.index.render(Form.form(User.class)));
     } else {
       Resource user = new Resource("person");
-      user.set("email", requestData.get("email"));
+      user.put("email", requestData.get("email"));
       ElasticsearchConfig esConfig = new ElasticsearchConfig();
       Node mNode = nodeBuilder().settings(esConfig.getClientSettings()).node();
       Client mClient = mNode.client();

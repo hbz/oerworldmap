@@ -45,7 +45,7 @@ public class FileResourceRepositoryTest {
   public void testAddGetResource() throws IOException {
     ResourceRepository resourceRepository = new FileResourceRepository(tmpPath);
     Resource resource = new Resource("person", "1");
-    resource.set("name", "John Doe");
+    resource.put("name", "John Doe");
     resourceRepository.addResource(resource);
     Resource fromStore = resourceRepository.getResource("1");
     assertTrue(resource.equals(fromStore));
@@ -55,7 +55,7 @@ public class FileResourceRepositoryTest {
   public void testQuery() throws IOException {
     ResourceRepository resourceRepository = new FileResourceRepository(tmpPath);
     Resource resource = new Resource("person", "1");
-    resource.set("name", "John Doe");
+    resource.put("name", "John Doe");
     resourceRepository.addResource(resource);
     List<Resource> results = resourceRepository.query("person");
     assertEquals(results.size(), 1);
