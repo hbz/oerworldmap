@@ -1,4 +1,2 @@
-GET   /user                 controllers.UserIndex.get()
 GET   /user/                controllers.UserIndex.get()
-POST  /user                 controllers.UserIndex.post()
 POST  /user/                controllers.UserIndex.post()

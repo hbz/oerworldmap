@@ -21,16 +21,22 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 public class UserIndex extends Controller {
 
   public static Result get() {
-    return ok(views.html.UserIndex.index.render(Form.form(User.class)));
+    return ok(views.html.UserIndex.index.render());
   }
 
   public static Result post() throws IOException {
     DynamicForm requestData = Form.form().bindFromRequest();
     if (requestData.hasErrors()) {
-      return badRequest(views.html.UserIndex.index.render(Form.form(User.class)));
+      return badRequest(views.html.UserIndex.index.render());
     } else {
-      Resource user = new Resource("person");
+      Resource user = new Resource("Person");
       user.put("email", requestData.get("email"));
+      String countryCode = requestData.get("address.addressCountry");
+      if (! "".equals(countryCode)) {
+        Resource address = new Resource("PostalAddress");
+        address.put("countryName", requestData.get("address.addressCountry"));
+        user.put("address", address);
+      }
       ElasticsearchConfig esConfig = new ElasticsearchConfig();
       Node mNode = nodeBuilder().settings(esConfig.getClientSettings()).node();
       Client mClient = mNode.client();
