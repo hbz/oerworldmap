@@ -1,17 +1,23 @@
+@text-color: #525252;
+@text-color-70: rgba(82, 82, 82, 0.7);
+@background-color: #90cfed;
+@hightlight-color: #CD533B;
+
+
 body {
-  background-color: #90cfed;
+  background-color: @background-color;
   font-family: 'Source Sans Pro', sans-serif;
-  color: #525252;
+  color: @text-color;
 }
 
 a {
   text-decoration: underline;
-  color: #525252;
+  color: @text-color;
 }
 
 a:hover {
   text-decoration: none;
-  color: #CD533B;
+  color: @hightlight-color;
 }
 
 
@@ -22,7 +28,7 @@ h1 {
 }
 
 hr {
-  border-color: #525252;
+  border-color: @text-color;
   margin: 50px 0;
 }
 
@@ -49,48 +55,45 @@ blockquote {
 .register input,
 .register button {
 	background: transparent;
-	border-color: #525252;
-	color: #525252;
+	border-color: @text-color;
+	color: @text-color;
 }
 
 .register input {
-	background: rgba(13, 6, 41, 0.3);
-	background: rgba(0,0,0, 0.1);
-	/* color: rgba(13, 6, 41, 0.59); */
+	background: rgba(0,0,0,0.1);
 }
 
 .form-control:focus {
-  border-color: #525252;
+  border-color: @text-color;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82, 82, 82, 0.7);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82, 82, 82, 0.7);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
 }
 
 .register button {	
-	background: rgba(82, 82, 82, 1);
-	color: #90cfed;
+	background: @text-color;
+	color: @background-color;
 }
 
 .register button:hover {
-	background: rgba(204, 84, 60, 1);
-	/* background: rgba(255,255,255, 0.82); */
-	color: rgba(13, 6, 41, 1);
+	background: @hightlight-color;
+	color: @text-color;
 }
 
 /* http://stackoverflow.com/a/2610741/1060128 */
 .register ::-webkit-input-placeholder { /* WebKit browsers */
-	color: #525252;
+	color: @text-color;
 }
 .register :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-	color: #525252;
+	color: @text-color;
 	opacity: 1;
 }
 .register ::-moz-placeholder { /* Mozilla Firefox 19+ */
-	color: #525252;
+	color: @text-color;
 	opacity: 1;
 }
 .register :-ms-input-placeholder { /* Internet Explorer 10+ */
-	color: #525252;
+	color: @text-color;
 }
 
 
