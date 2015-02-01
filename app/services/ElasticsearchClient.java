@@ -101,6 +101,16 @@ public class ElasticsearchClient {
   }
 
   /**
+   * Add a document consisting of a JSON String specified by a given UUID and a given type.
+   *
+   * @param aJsonString
+   */
+  public void addJson(final String aJsonString, final String aUuid, final String aType) {
+    mClient.prepareIndex(esConfig.getIndex(), aType, aUuid).setSource(aJsonString)
+            .execute().actionGet();
+  }
+
+  /**
    * Add a document consisting of a Map.
    * 
    * @param aMap

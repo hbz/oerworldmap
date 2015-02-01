@@ -22,17 +22,24 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   final private ElasticsearchClient elasticsearch;
 
+  final public static String DEFAULT_TYPE = "resource";
+  final public static String AGGREGATION_TYPE = "aggregation";
+
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
   }
 
   @Override
-  public void addResource(Resource aResource) throws IOException{
+  public void addResource(Resource aResource) throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
+    String type = (String) aResource.get(JsonLdConstants.TYPE);
     if (StringUtils.isEmpty(id)){
       id = UUID.randomUUID().toString();
     }
-    elasticsearch.addJson(aResource.toString(), id);
+    if (StringUtils.isEmpty(type)){
+      type = DEFAULT_TYPE;
+    }
+    elasticsearch.addJson(aResource.toString(), id, type);
   }
 
   @Override
