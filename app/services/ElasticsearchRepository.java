@@ -17,6 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import models.Resource;
 import helpers.JsonLdConstants;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import play.api.libs.json.Json;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
@@ -53,6 +56,14 @@ public class ElasticsearchRepository implements ResourceRepository {
     for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)){
       resources.add(Resource.fromMap(doc));
     }
+    return resources;
+  }
+
+  public List<Resource> query(AggregationBuilder aAggregationBuilder) throws IOException {
+    List<Resource> resources = new ArrayList<Resource>();
+    Map<String, Object>  doc = elasticsearch.getAggregation(aAggregationBuilder);
+    doc.put(JsonLdConstants.TYPE, AGGREGATION_TYPE);
+    resources.add(Resource.fromMap(doc));
     return resources;
   }
 

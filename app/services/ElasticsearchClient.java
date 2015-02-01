@@ -1,10 +1,7 @@
 package services;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
@@ -21,6 +18,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import play.Logger;
 
 /**
@@ -150,6 +150,27 @@ public class ElasticsearchClient {
       count++;
     }
     return docs;
+  }
+
+  /**
+   * Get an aggregation of documents
+   *
+   * @param aType
+   * @return a List of docs, each represented by a Map of String/Object.
+   */
+  public Map<String, Object> getAggregation(final AggregationBuilder aAggregationBuilder) {
+    final Map<String, Object> doc = new HashMap<String, Object>();
+
+    SearchResponse response = mClient.prepareSearch(esConfig.getIndex())
+      .addAggregation(aAggregationBuilder)
+      .setSize(0).execute().actionGet();
+    Aggregation aggregation = response.getAggregations().asList().get(0);
+    for (Terms.Bucket entry : ((Terms)aggregation).getBuckets()) {
+      String key = entry.getKey();
+      long docCount = entry.getDocCount();
+      doc.put(key, docCount);
+    }
+    return doc;
   }
 
   /**

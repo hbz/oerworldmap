@@ -1,4 +1,13 @@
+@(countryAggregation: Resource)
 @main(title = "Registration") {
+  <script type="application/ld+json">
+  @Html(countryAggregation.toString())
+  </script>
+  <table>
+    @for((key, value) <- countryAggregation) {
+      <tr><td>@key</td><td>@value</td></tr>
+    }
+  </table>
   <h1>Registration</h1>
   @helper.form(routes.UserIndex.post()) {
     <input name="email" type="email" placeholder="Email address" />

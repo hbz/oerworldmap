@@ -2,32 +2,49 @@ package controllers;
 
 import models.Resource;
 import models.User;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.ElasticsearchClient;
-import services.ElasticsearchConfig;
-import services.ElasticsearchRepository;
-import services.ResourceRepository;
+import services.*;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 public class UserIndex extends Controller {
 
-  public static Result get() {
-    return ok(views.html.UserIndex.index.render());
+  private static Client mClient = new TransportClient()
+          .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(), 9300));
+  private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
+  private static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+
+
+  public static Result get() throws IOException {
+    AggregationBuilder aggregationBuilder =
+      AggregationBuilders.terms("by_country").field("address.countryName");
+    Resource countryAggregation = resourceRepository.query(aggregationBuilder).get(0);
+
+    return ok(views.html.UserIndex.index.render(countryAggregation));
   }
 
   public static Result post() throws IOException {
     DynamicForm requestData = Form.form().bindFromRequest();
     if (requestData.hasErrors()) {
-      return badRequest(views.html.UserIndex.index.render());
+      AggregationBuilder aggregationBuilder =
+              AggregationBuilders.terms("by_country").field("address.countryName");
+      Resource countryAggregation = resourceRepository.query(aggregationBuilder).get(0);
+      return badRequest(views.html.UserIndex.index.render(countryAggregation));
     } else {
       Resource user = new Resource("Person");
       user.put("email", requestData.get("email"));
@@ -37,11 +54,6 @@ public class UserIndex extends Controller {
         address.put("countryName", requestData.get("address.addressCountry"));
         user.put("address", address);
       }
-      ElasticsearchConfig esConfig = new ElasticsearchConfig();
-      Node mNode = nodeBuilder().settings(esConfig.getClientSettings()).node();
-      Client mClient = mNode.client();
-      ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-      ResourceRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
       resourceRepository.addResource(user);
       return ok(views.html.UserIndex.registered.render((String) user.get("email")));
     }
