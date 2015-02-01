@@ -153,7 +153,8 @@ public class Resource implements Map {
   }
 
   private static boolean hasId(Map<String, Object> aProperties) {
-    return !StringUtils.isEmpty(aProperties.get(JsonLdConstants.ID).toString());
+    String id = (String) aProperties.get(JsonLdConstants.ID);
+    return id != null && !StringUtils.isEmpty(id.toString());
   }
 
   private static void checkTypeExistence(Map<String, Object> aProperties) {
