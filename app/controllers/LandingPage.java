@@ -1,9 +1,20 @@
 package controllers;
 
 import java.io.IOException;
+
+import models.Resource;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import play.*;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.*;
+import services.ElasticsearchClient;
+import services.ElasticsearchConfig;
+import services.ElasticsearchRepository;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;
@@ -12,8 +23,17 @@ import java.net.URL;
 
 public class LandingPage extends Controller {
 
-  public static Result get() {
+  private static Client mClient = new TransportClient()
+          .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(), 9300));
+  private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
+  private static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
 
+  public static Result get() throws IOException {
+    
+    AggregationBuilder aggregationBuilder =
+            AggregationBuilders.terms("by_country").field("address.countryName");
+    Resource countryAggregation = resourceRepository.query(aggregationBuilder).get(0);
+    
     ArrayList countryChampions;
     ArrayList visionStatements;
     try {
@@ -25,7 +45,7 @@ public class LandingPage extends Controller {
       visionStatements = new ArrayList();
     }
 
-    return ok(views.html.LandingPage.index.render(visionStatements, countryChampions));
+    return ok(views.html.LandingPage.index.render(visionStatements, countryChampions, countryAggregation));
 
   }
 

@@ -31,20 +31,13 @@ public class UserIndex extends Controller {
 
 
   public static Result get() throws IOException {
-    AggregationBuilder aggregationBuilder =
-      AggregationBuilders.terms("by_country").field("address.countryName");
-    Resource countryAggregation = resourceRepository.query(aggregationBuilder).get(0);
-
-    return ok(views.html.UserIndex.index.render(countryAggregation));
+    return ok(views.html.UserIndex.index.render());
   }
 
   public static Result post() throws IOException {
     DynamicForm requestData = Form.form().bindFromRequest();
     if (requestData.hasErrors()) {
-      AggregationBuilder aggregationBuilder =
-              AggregationBuilders.terms("by_country").field("address.countryName");
-      Resource countryAggregation = resourceRepository.query(aggregationBuilder).get(0);
-      return badRequest(views.html.UserIndex.index.render(countryAggregation));
+      return badRequest(views.html.UserIndex.index.render());
     } else {
       Resource user = new Resource("Person");
       user.put("email", requestData.get("email"));

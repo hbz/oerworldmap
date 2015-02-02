@@ -1,5 +1,8 @@
+
 @(visionStatements: ArrayList[HashMap[String,String]],
-  countryChampions: ArrayList[HashMap[String,String]])
+  countryChampions: ArrayList[HashMap[String,String]],
+  countryAggregation: Resource
+)
 
 @main(title = "Home") {
 	
@@ -10,22 +13,28 @@
     <h2>
   	  This year we are going to map the world of <a href="http://en.wikipedia.org/wiki/Open_educational_resources">OER</a>
     </h2>
-    <div id="worldmap" style="width: 800px; height: 500px"></div>
+    <div class="section">
+        <div class="row">
+            <div id="worldmap" style="width: 800px; height: 500px"></div>
+            <table class="table" id="users_by_country">
+              <script type="application/ld+json">
+                @Html(countryAggregation.toString())
+              </script>
+              @for((key, value) <- countryAggregation) {
+                <tr><td>@key</td><td>@value</td></tr>
+              }
+            </table>
+        </div>
+    </div>
 
-    <div class="section">    
-    
+    <div class="section">
       <p class="lead">
         Leave your address to be kept up to date or even get an active role in the process:
       </p>
-    
+
   		<div class="row register">
   			<div class="col-md-4 col-md-offset-4">
-  				<div class="input-group input-group-lg register">
-  					<input type="text" class="form-control" placeholder="Your Email Address ...">
-  					<span class="input-group-btn">
-  						<button class="btn btn-defaul" type="button">Register</button>
-  					</span>
-  				</div>
+                <a href="@routes.UserIndex.get()" class="hijax transclude">Register</a>
   			</div>
   		</div>
     </div>

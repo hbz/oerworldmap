@@ -21,35 +21,64 @@ $(document).ready(function(){
   
   
   // --- map ---
-  
-  var map = $('#worldmap');
-  
-  var nUsersByCountry = {};
-  
-  $.getJSON(pathCountryDataJson, function(data){
-    for(key in data) {
-      if(Math.random() > 0.5) {
-        nUsersByCountry[ data[key]["alpha-2"] ] = getRandomInt(0, 10);
-      } else {
-        nUsersByCountry[ data[key]["alpha-2"] ] = 0;
-      }
+  var table = $('table#users_by_country'),
+      map = $('#worldmap'),
+      json = JSON.parse(table.find('script').html()),
+      data = {};
+
+  for (property in json) {
+    if ("@" == property.charAt(0)) {
+      continue;
     }
-    
-    map.vectorMap({
-      backgroundColor: $('body').css('background-color'),
-      zoomButtons: false,
-      zoomOnScroll: false,
-      series: {
-        regions: [{
-          values: nUsersByCountry,
-          scale: ['#FFFFFF', '#CD533B'], // #CD533B
-          normalizeFunction: 'linear'
-        }]
-      },
-      onRegionTipShow: function(e, el, code){
-        el.html('<strong>' + nUsersByCountry[code] + '</strong> users registered in ' + el.html());
-      }
-    });
-  });	
+    data[property.toUpperCase()] = json[property];
+  }
+  map.vectorMap({
+    backgroundColor: $('body').css('background-color'),
+    zoomButtons: false,
+    zoomOnScroll: false,
+    series: {
+      regions: [{
+        values: data,
+        scale: ['#cfdfba', '#a1cd3f'],
+        normalizeFunction: 'linear'
+      }]
+    },
+    onRegionTipShow: function(e, el, code){
+      el.html('<strong>' + data[code] + '</strong> users registered in ' + el.html());
+    }
+  });
+  table.hide()
+  
+  // --- hijax behavior ---
+  hijax($('body'));
 	
 });
+
+function hijax(element) {
+
+  $('a.hijax.transclude', element).each(function() {
+    var a = $(this);
+    $.get(a.attr('href')).done(function(data) {
+      a.replaceWith(hijax(body(data)));
+    });
+  });
+
+  $('form', element).submit(function() {
+    var form = $(this);
+    var action = form.attr('action');
+    var method = form.attr('method');
+    $.ajax({type: method, url: action, data: form.serialize()})
+      .done(function(data) {
+        form.replaceWith(hijax(body(data)));
+      });
+    return false;
+  });
+
+  return element;
+
+}
+
+function body(data) {
+  return $(data.match(/<\s*body.*>[\s\S]*<\s*\/body\s*>/ig).join(""))
+}
+

@@ -1,7 +1,7 @@
-@text-color: #525252;
+@text-color: #ffffff;
 @text-color-70: rgba(82, 82, 82, 0.7);
-@background-color: #90cfed;
-@hightlight-color: #CD533B;
+@background-color: #0c75bf;
+@hightlight-color: #cf7f07;
 
 
 body {
@@ -52,8 +52,7 @@ blockquote {
 
 /* --- register --- */
 
-.register input,
-.register button {
+.register input {
 	background: transparent;
 	border-color: @text-color;
 	color: @text-color;
@@ -70,12 +69,12 @@ blockquote {
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
 }
 
-.register button {	
+.register input[type=submit] {
 	background: @text-color;
 	color: @background-color;
 }
 
-.register button:hover {
+.register input[type=submit]:hover {
 	background: @hightlight-color;
 	color: @text-color;
 }
