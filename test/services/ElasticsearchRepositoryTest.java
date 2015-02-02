@@ -40,7 +40,7 @@ public class ElasticsearchRepositoryTest {
     mResource2.put("name", "oeruser2");
     mResource2.put("worksFor", "unesco.org");
 
-    mElClient = new ElasticsearchClient(nodeBuilder().settings(esConfig.getClientSettings()).local(true).node()
+    mElClient = new ElasticsearchClient(nodeBuilder().settings(esConfig.getClientSettingsBuilder()).local(true).node()
         .client());
     cleanIndex();
     mRepo = new ElasticsearchRepository(mElClient);
