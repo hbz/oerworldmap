@@ -1,2 +1,4 @@
 GET   /                     controllers.LandingPage.get()
 GET   /assets/*file         controllers.Assets.at(path="/public", file)
+GET   /user/                controllers.UserIndex.get()
+POST  /user/                controllers.UserIndex.post()

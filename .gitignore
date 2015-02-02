@@ -3,3 +3,8 @@ project/project
 project/target
 target
 logs
+.classpath
+.project
+conf/application.conf
+data
+repo-deb-build*.*
