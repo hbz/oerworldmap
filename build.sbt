@@ -8,5 +8,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "org.elasticsearch" % "elasticsearch" % "1.3.6",
-  "commons-validator" % "commons-validator" % "1.4.0"
+  "commons-validator" % "commons-validator" % "1.4.0",
+  "org.apache.commons" % "commons-email" % "1.3.3"
 )
