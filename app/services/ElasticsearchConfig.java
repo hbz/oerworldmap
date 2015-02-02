@@ -2,6 +2,8 @@ package services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
@@ -26,7 +28,8 @@ public class ElasticsearchConfig {
   private String mIndex;
   private String mType;
   private String mCluster;
-  private Builder mClientSettings;
+  private Map<String, String> mClientSettings;
+  private Builder mClientSettingsBuilder;
 
   public ElasticsearchConfig() {
     File configFile = new File(DEFAULT_CONFIG_FILE);
@@ -65,8 +68,12 @@ public class ElasticsearchConfig {
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    mClientSettings = ImmutableSettings.settingsBuilder().put("index.name", mIndex)
-        .put("index.type", mType).put("cluster.name", mCluster);
+    mClientSettings = new HashMap<String, String>();
+    mClientSettings.put("index.name", mIndex);
+    mClientSettings.put("index.type", mType);
+    mClientSettings.put("cluster.name", mCluster);
+    
+    mClientSettingsBuilder = ImmutableSettings.settingsBuilder().put(mClientSettings);
   }
 
   public String getIndex() {
@@ -81,8 +88,12 @@ public class ElasticsearchConfig {
     return mCluster;
   }
 
-  public Builder getClientSettings() {
+  public Map<String, String> getClientSettings() {
     return mClientSettings;
+  }
+
+  public Builder getClientSettingsBuilder() {
+    return mClientSettingsBuilder;
   }
 
   public String getServer() {
