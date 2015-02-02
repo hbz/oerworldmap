@@ -28,7 +28,7 @@ public class ElasticsearchClientTest {
   
   @BeforeClass
   public static void setup() throws IOException {
-    mNode = nodeBuilder().settings(esConfig.getClientSettings()).local(true).node();
+    mNode = nodeBuilder().settings(esConfig.getClientSettingsBuilder()).local(true).node();
     mClient = mNode.client();
     mElasticsearchClient = new ElasticsearchClient(mClient);
   }
