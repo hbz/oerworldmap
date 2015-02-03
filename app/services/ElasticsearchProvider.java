@@ -62,7 +62,7 @@ public class ElasticsearchProvider {
       Logger.warn("Index " + aIndex + " already exists while trying to create it.");
     }
     else{
-      aClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
+      aClient.admin().indices().prepareCreate(aIndex).execute().actionGet();  
     }
   }
 

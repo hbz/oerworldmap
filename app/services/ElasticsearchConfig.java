@@ -1,7 +1,11 @@
 package services;
 
+import helpers.UniversalFunctions;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +19,7 @@ import com.typesafe.config.ConfigFactory;
 public class ElasticsearchConfig {
 
   private static final String DEFAULT_CONFIG_FILE = "conf/application.conf";
+  private static final String INDEX_CONFIG_FILE = "conf/index-config.json";
 
   // CONFIG FILE
   private Config mConfig;
@@ -30,7 +35,7 @@ public class ElasticsearchConfig {
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Builder mClientSettingsBuilder;
-
+  
   public ElasticsearchConfig() {
     File configFile = new File(DEFAULT_CONFIG_FILE);
     init(configFile);
@@ -75,6 +80,8 @@ public class ElasticsearchConfig {
     
     mClientSettingsBuilder = ImmutableSettings.settingsBuilder().put(mClientSettings);
   }
+  
+  
 
   public String getIndex() {
     return mIndex;
@@ -110,5 +117,9 @@ public class ElasticsearchConfig {
 
   public String toString() {
     return mConfig.toString();
+  }
+  
+  public String getIndexConfigString() throws IOException{
+    return UniversalFunctions.readFile(INDEX_CONFIG_FILE, StandardCharsets.UTF_8);
   }
 }
