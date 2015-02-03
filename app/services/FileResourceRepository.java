@@ -60,35 +60,19 @@ public class FileResourceRepository implements ResourceRepository {
   @Override
   public Resource getResource(@Nonnull String aId) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
-
-    DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
-      new DirectoryStream.Filter<Path>() {
-        @Override
-        public boolean accept(Path entry) throws IOException 
-        {
-          return Files.isDirectory(entry);
-        }
-      }
-    );
-
-    for (Path typeDir: typeDirs) {
-      DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir,
-        new DirectoryStream.Filter<Path>() {
-          @Override
-          public boolean accept(Path entry) throws IOException 
-          {
-            return (entry.getFileName().toString().equals(aId));
-          }
-        }
-      );
-      for (Path resourceFile: resourceFiles) {
-        Map rData = objectMapper.readValue(resourceFile.toFile(), Map.class);
-        Resource rResource = Resource.fromMap(rData);
-        return rResource;
-      }
-    }
-
-    throw new IOException(aId + " not found.");
+    Path resourceFile = getResourcePath(aId);
+    return Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class));
+  }
+  
+  /**
+   * Delete a Resource specified by the given identifier.
+   * @param aId
+   * @return The resource that has been deleted.
+   */
+  public Resource deleteResource(@Nonnull String aId) throws IOException {
+    Resource resource = this.getResource(aId);
+    Files.delete(getResourcePath(aId));
+    return resource;
   }
 
   /**
@@ -106,6 +90,37 @@ public class FileResourceRepository implements ResourceRepository {
       results.add(Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class)));
     }
     return results;
+  }
+  
+  private Path getResourcePath(@Nonnull String aId) throws IOException {
+    
+    DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
+            new DirectoryStream.Filter<Path>() {
+              @Override
+              public boolean accept(Path entry) throws IOException
+              {
+                return Files.isDirectory(entry);
+              }
+            }
+    );
+
+    for (Path typeDir: typeDirs) {
+      DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir,
+              new DirectoryStream.Filter<Path>() {
+                @Override
+                public boolean accept(Path entry) throws IOException
+                {
+                  return (entry.getFileName().toString().equals(aId));
+                }
+              }
+      );
+      for (Path resourceFile: resourceFiles) {
+        return resourceFile;
+      }
+    }
+
+    throw new IOException(aId + " not found.");
+    
   }
 
 }

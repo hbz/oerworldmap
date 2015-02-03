@@ -41,7 +41,7 @@ public class UserIndex extends Controller {
   private static ResourceRepository mUserRepository = new ElasticsearchRepository(
       mElasticsearchClient);
   
-  private static ResourceRepository mUnconfirmedUserRepository;
+  private static FileResourceRepository mUnconfirmedUserRepository;
   static {
     try{
       mUnconfirmedUserRepository = new FileResourceRepository(Paths.get(mConf.getString("filerepo.dir")));
@@ -103,7 +103,7 @@ public class UserIndex extends Controller {
     Resource user;
     
     try {
-      user = mUnconfirmedUserRepository.getResource(id);
+      user = mUnconfirmedUserRepository.deleteResource(id);
     } catch (IOException e) {
       e.printStackTrace();
       return ok("An error occurred for " + id);
