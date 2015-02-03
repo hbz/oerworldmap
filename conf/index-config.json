@@ -1,0 +1,24 @@
+{
+	"mappings": {
+		"Person": {
+			"properties": {
+				"email": {
+					"index": "not_analyzed",
+					"type": "string"
+				},
+				"countryName": {
+					"index": "not_analyzed",
+					"type": "string"
+				},
+				"@id": {
+					"index": "not_analyzed",
+					"type": "string"
+				},
+				"@type": {
+					"index": "not_analyzed",
+					"type": "string"
+				}
+			}
+		}
+	}
+}

@@ -1,26 +1,29 @@
 package services;
 
-import java.io.File;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
-
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+
 import play.Logger;
 
 /**
@@ -55,7 +58,7 @@ public class ElasticsearchClient {
     mClient = aClient;
     esConfig = new ElasticsearchConfig();
   }
-  
+
   public static Client getClient() {
     if (mClient == null) {
       mClient = ElasticsearchProvider.getClient(ElasticsearchProvider.createServerNode(true));
@@ -101,13 +104,14 @@ public class ElasticsearchClient {
   }
 
   /**
-   * Add a document consisting of a JSON String specified by a given UUID and a given type.
+   * Add a document consisting of a JSON String specified by a given UUID and a
+   * given type.
    *
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(esConfig.getIndex(), aType, aUuid).setSource(aJsonString)
-            .execute().actionGet();
+    mClient.prepareIndex(esConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+        .actionGet();
   }
 
   /**
@@ -162,10 +166,9 @@ public class ElasticsearchClient {
     final Map<String, Object> doc = new HashMap<String, Object>();
 
     SearchResponse response = mClient.prepareSearch(esConfig.getIndex())
-      .addAggregation(aAggregationBuilder)
-      .setSize(0).execute().actionGet();
+        .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
     Aggregation aggregation = response.getAggregations().asList().get(0);
-    for (Terms.Bucket entry : ((Terms)aggregation).getBuckets()) {
+    for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
       String key = entry.getKey();
       long docCount = entry.getDocCount();
       doc.put(key, docCount);
@@ -199,7 +202,35 @@ public class ElasticsearchClient {
   }
 
   /**
+   * Get a document of a specified type specified by a content in a specified
+   * field.
+   * 
+   * @param aType
+   * @param aFieldName
+   * @param aContent
+   * @return
+   */
+  public List<Map<String, Object>> getExactMatches(@Nonnull final String aType,
+      @Nonnull final String aFieldName, @Nonnull final String aContent) {
+
+    if (!hasIndex(esConfig.getIndex())) {
+      createIndex(esConfig.getIndex());
+    }
+    List<Map<String, Object>> matches = new LinkedList<Map<String, Object>>();
+
+    final SearchResponse response = mClient.prepareSearch(esConfig.getIndex()).setTypes(aType)
+        .setQuery(QueryBuilders.matchQuery(aFieldName, aContent)).execute().actionGet();
+
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    while (searchHits.hasNext()) {
+      matches.add(searchHits.next().sourceAsMap());
+    }
+    return matches;
+  }
+
+  /**
    * Verify if the specified index exists on the internal Elasticsearch client.
+   * 
    * @param aIndex
    * @return true if the specified index exists.
    */
@@ -230,10 +261,16 @@ public class ElasticsearchClient {
    */
   public void createIndex(String aIndex) {
     try {
-      mClient.admin().indices().create(new CreateIndexRequest(aIndex)).actionGet();
+      mClient.admin().indices().prepareCreate(aIndex).setSource(esConfig.getIndexConfigString())
+          .execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
       Logger.error("Trying to create index \"" + aIndex
           + "\" in Elasticsearch. Index already exists.");
+      indexAlreadyExists.printStackTrace();
+    } catch (IOException ioException) {
+      Logger.error("Trying to create index \"" + aIndex
+          + "\" in Elasticsearch. Couldn't read index config file.");
+      ioException.printStackTrace();
     }
   }
 
