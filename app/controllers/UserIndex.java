@@ -80,13 +80,17 @@ public class UserIndex extends Controller {
       Email confirmationMail = new SimpleEmail();
       
       try {
-        confirmationMail.setHostName(mConf.getString("smtp.host"));
-        confirmationMail.setSmtpPort(mConf.getInt("smtp.port"));
-        confirmationMail.setAuthenticator(new DefaultAuthenticator(mConf.getString("smtp.user"), mConf.getString("smtp.password")));
+        confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
+        confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
+        confirmationMail.setAuthenticator(
+          new DefaultAuthenticator(mConf.getString("mail.smtp.user"), mConf.getString("mail.smtp.password"))
+        );
         confirmationMail.setSSLOnConnect(true);
         confirmationMail.setFrom("oerworldmap@gmail.com");
         confirmationMail.setSubject("Please confirm");
-        confirmationMail.setMsg(views.txt.UserIndex.confirmation.render((String) user.get(JsonLdConstants.ID)).body());
+        confirmationMail.setMsg(
+          views.txt.UserIndex.confirmation.render((String) user.get(JsonLdConstants.ID)).body()
+        );
         confirmationMail.addTo((String)user.get("email"));
         confirmationMail.send();
       } catch (EmailException e) {
