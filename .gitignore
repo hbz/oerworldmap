@@ -8,3 +8,4 @@ logs
 conf/application.conf
 data
 repo-deb-build*.*
+.idea/

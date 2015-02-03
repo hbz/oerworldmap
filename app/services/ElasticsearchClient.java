@@ -106,6 +106,7 @@ public class ElasticsearchClient {
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
+    System.out.println("Storing " + aJsonString + " to " + esConfig.getIndex() + " as " + aType + " with id " + aUuid);
     mClient.prepareIndex(esConfig.getIndex(), aType, aUuid).setSource(aJsonString)
             .execute().actionGet();
   }

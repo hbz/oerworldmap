@@ -1,7 +1,9 @@
 package controllers;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
+import helpers.JsonLdConstants;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
@@ -24,11 +26,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import models.Resource;
-import services.ElasticsearchClient;
-import services.ElasticsearchConfig;
-import services.ElasticsearchRepository;
+import services.*;
 
 public class UserIndex extends Controller {
+  
+  private static Configuration mConf = Play.application().configuration();
 
   private static Settings clientSettings = ImmutableSettings.settingsBuilder()
       .put(new ElasticsearchConfig().getClientSettings()).build();
@@ -36,8 +38,18 @@ public class UserIndex extends Controller {
       .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
           9300));
   private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  private static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(
+  private static ResourceRepository mUserRepository = new ElasticsearchRepository(
       mElasticsearchClient);
+  
+  private static ResourceRepository mUnconfirmedUserRepository;
+  static {
+    try{
+      mUnconfirmedUserRepository = new FileResourceRepository(Paths.get(mConf.getString("filerepo.dir")));
+    }catch(final Exception ex){
+      throw new RuntimeException("Failed to create FileResourceRespository", ex);
+    }
+  }
+          
 
   public static Result get() throws IOException {
     return ok(views.html.UserIndex.index.render());
@@ -62,19 +74,19 @@ public class UserIndex extends Controller {
         address.put("countryName", requestData.get("address.addressCountry"));
         user.put("address", address);
       }
-      resourceRepository.addResource(user);
+      mUnconfirmedUserRepository.addResource(user);
 
       // Send confirmation mail
       Email confirmationMail = new SimpleEmail();
-      Configuration conf = Play.application().configuration();
+      
       try {
-        confirmationMail.setHostName(conf.getString("smtp.host"));
-        confirmationMail.setSmtpPort(conf.getInt("smtp.port"));
-        confirmationMail.setAuthenticator(new DefaultAuthenticator(conf.getString("smtp.user"), conf.getString("smtp.password")));
+        confirmationMail.setHostName(mConf.getString("smtp.host"));
+        confirmationMail.setSmtpPort(mConf.getInt("smtp.port"));
+        confirmationMail.setAuthenticator(new DefaultAuthenticator(mConf.getString("smtp.user"), mConf.getString("smtp.password")));
         confirmationMail.setSSLOnConnect(true);
         confirmationMail.setFrom("oerworldmap@gmail.com");
         confirmationMail.setSubject("Please confirm");
-        confirmationMail.setMsg("Please confirm...");
+        confirmationMail.setMsg(views.txt.UserIndex.confirmation.render((String) user.get(JsonLdConstants.ID)).body());
         confirmationMail.addTo((String)user.get("email"));
         confirmationMail.send();
       } catch (EmailException e) {
@@ -84,6 +96,22 @@ public class UserIndex extends Controller {
       return ok(views.html.UserIndex.registered.render((String) user.get("email")));
       
     }
+  }
+  
+  public static Result confirm(String id) throws IOException {
+    
+    Resource user;
+    
+    try {
+      user = mUnconfirmedUserRepository.getResource(id);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return ok("An error occurred for " + id);
+    }
+
+    mUserRepository.addResource(user);
+    return ok("User confirmed: " + id);
+    
   }
 
 }

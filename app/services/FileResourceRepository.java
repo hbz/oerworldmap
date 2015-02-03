@@ -82,7 +82,9 @@ public class FileResourceRepository implements ResourceRepository {
         }
       );
       for (Path resourceFile: resourceFiles) {
-        return Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class));
+        Map rData = objectMapper.readValue(resourceFile.toFile(), Map.class);
+        Resource rResource = Resource.fromMap(rData);
+        return rResource;
       }
     }
 

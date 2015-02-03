@@ -57,7 +57,12 @@ public class Resource implements Map {
     Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
+      if (pair.getValue() instanceof Map) {
+        System.out.println(pair.getValue());
+        //resource.put(pair.getKey(), Resource.fromMap(pair.getValue());
+      } else {
         resource.put(pair.getKey(), pair.getValue().toString());
+      }
       it.remove();
     }
     return resource;
