@@ -6,6 +6,7 @@ logs
 .classpath
 .project
 conf/application.conf
-data
+data/*/
+!data/resources/
 repo-deb-build*.*
 .idea/
