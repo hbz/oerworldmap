@@ -58,9 +58,13 @@ function hijax(element) {
 
   $('a.hijax.transclude', element).each(function() {
     var a = $(this);
-    $.get(a.attr('href')).done(function(data) {
-      a.replaceWith(hijax(body(data)));
-    });
+    $.get(a.attr('href'))
+      .done(function(data) {
+        a.replaceWith(hijax(body(data)));
+      })
+      .fail(function(data) {
+        a.replaceWith("<pre>" + data.responseText + "</pre>");
+      });
   });
 
   $('form', element).submit(function() {
@@ -70,7 +74,10 @@ function hijax(element) {
     $.ajax({type: method, url: action, data: form.serialize()})
       .done(function(data) {
         form.replaceWith(hijax(body(data)));
-      });
+      })
+      .fail(function(data) {
+        form.replaceWith("<pre>" + data.responseText + "</pre>");
+       });
     return false;
   });
 
