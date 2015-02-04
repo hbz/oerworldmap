@@ -91,9 +91,7 @@ public class UserIndex extends Controller {
       validationErrors.addAll(checkCountryCode(countryCode));
       
       if (!validationErrors.isEmpty()) {
-        return badRequest(views.html.feedback.render("warning", "Registration",
-                "Data entry error: " + UniversalFunctions.collectionToString(validationErrors)
-        ));
+        return badRequest(views.html.feedback.render("warning", "Registration", errorsToHtml(validationErrors)));
       } else {
         user.put("email", email);
         
@@ -169,7 +167,16 @@ public class UserIndex extends Controller {
     }
     return countryCodes;
   }
-  
+
+  private static String errorsToHtml(List<ValidationError> aErrorList) {
+    String html = "<ul>";
+    for (ValidationError error : aErrorList) {
+      html = html.concat("<li>".concat(error.message()).concat("</li>"));
+    }
+    return html.concat("</ul>");
+  }
+
+
   public static Result confirm(String id) throws IOException {
     
     Resource user;
