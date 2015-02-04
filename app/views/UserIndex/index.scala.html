@@ -2,11 +2,13 @@
   @helper.form(routes.UserIndex.post()) {
     <div class="input-group input-group-lg register">
       <input type="email" name="email" class="form-control" placeholder="Your Email Address ...">
-      <select class="form-control" name="address.addressCountry">
-        <option value="">Select Country</option>
-        <option value="de">Germany</option>
-        <option value="us">USA</option>
-      </select>
+      <div class="input-group-field">
+        <select class="form-control input-lg" name="address.addressCountry">
+          <option value="">Select Country</option>
+          <option value="de">Germany</option>
+          <option value="us">USA</option>
+        </select>
+      </div>
       <span class="input-group-btn">
         <input type="submit" class="btn btn-defaul" type="button">Register</button>
       </span>

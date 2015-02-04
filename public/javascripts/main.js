@@ -11,16 +11,14 @@ $(document).ready(function(){
 	
   // --- visions ---
   
-  var visions = $('blockquote.vision').hide(),
-      i = 0;
-  
-  (function cycle() {
-    visions.eq(i).fadeIn(800).delay(5000).fadeOut(800, cycle);
-    i = ++i % visions.length;
-  })();
+  $('.vision-statements').slick({
+    infinite: true,
+    dots: true
+  });
   
   
   // --- map ---
+  
   var table = $('table#users_by_country'),
       map = $('#worldmap'),
       json = JSON.parse(table.find('script').html()),
