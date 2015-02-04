@@ -3,33 +3,42 @@
 ![Travis CI](https://travis-ci.org/hbz/oerworldmap.svg)
 
 For inital background information about this project please refer to the
-[Request for
-  Proposals](http://www.hewlett.org/sites/default/files/OER%20mapping%20RFP_Phase%202%20Final%20June%2023%202014.pdf).
+[Request for Proposals](http://www.hewlett.org/sites/default/files/OER%20mapping%20RFP_Phase%202%20Final%20June%2023%202014.pdf).
 
 ## Setup project
 
 ### Setup Elasticsearch
 
-Install Elasticsearch and its head plugin:
+#### [Download and install elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/)
+
+    $ cd third-party
+    $ wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.6.zip
+    $ unzip elasticsearch-1.3.6.zip
+    $ cd elasticsearch-1.3.6
+    $ bin/elasticsearch
+
+Check with `curl -X GET http://localhost:9200/` if all is well.
     
-	wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.6.deb
-	sudo dpkg -i elasticsearch-1.3.6.deb 
-	sudo update-rc.d elasticsearch defaults 95 10
-	cd /usr/share/elasticsearch/
-	sudo bin/plugin -install mobz/elasticsearch-head
+#### Configure elasticsearch
 
-In our project, the elasticsearch settings are defined in application.conf. Accordingly, two values need to be specified in Elasticsearch's overall setup explicitly:
+If you are in an environment where your instance of elasticsearch won't be the only one on the network, you might want
+to configure your cluster name to be different from the default `elasticsearch`. To do so, shut down elasticsearch and
+edit `cluster.name` in `third-party/elasticsearch-1.3.6/conf/elasticsearch.yml` and `es.cluster.name`
+in `conf/application.conf` before restarting.
 
-First, in elasticsearch.yml (usually around line 32), set:
+#### Create and configure oerworldmap index (as specified in `es.index.name` in `conf/application.conf`)
 
-	cluster.name: oerworldmaps
-	 
-(You will find elasticsearch.yml at /etc/elasticsearch/elasticsearch.yml on Ubuntu.)
-Start Elasticsearch by
+    $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 
-	sudo service elasticsearch start
+#### If you're caught with some kind of buggy index during development, simply delete the index and re-create:
 
-Second, browse the elasticsearch head plugin by http://localhost:9200/_plugin/head/ --> tab "Indices" --> create a "New Index": "oerworldmap".
+    $ curl -X DELETE http://localhost:9200/oerworldmap/
+    $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
+
+#### Optionally, you may want to [install the head plugin](https://github.com/mobz/elasticsearch-head)
+
+    $ cd third-party/elasticsearch-1.3.6
+    $ bin/plugin -install mobz/elasticsearch-head
 
 ### Setup Play! Application
 

@@ -5,7 +5,6 @@ target
 logs
 .classpath
 .project
-conf/application.conf
 data/*/
 !data/resources/
 repo-deb-build*.*
