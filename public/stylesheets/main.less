@@ -1,5 +1,5 @@
 @text-color: #ffffff;
-@text-color-70: rgba(82, 82, 82, 0.7);
+@text-color-70: rgba(255, 255, 255, 0.7);
 @background-color: #0c75bf;
 @hightlight-color: #cf7f07;
 
@@ -8,6 +8,7 @@ body {
   background-color: @background-color;
   font-family: 'Source Sans Pro', sans-serif;
   color: @text-color;
+  padding-bottom: 100px;
 }
 
 a {
@@ -52,14 +53,16 @@ blockquote {
 
 /* --- register --- */
 
-.register input {
+.register .form-group {
+  margin-right: 10px;
+}
+
+.register input,
+.register select {
 	background: transparent;
 	border-color: @text-color;
 	color: @text-color;
-}
-
-.register input {
-	background: rgba(0,0,0,0.1);
+	// background: rgba(0,0,0,0.1);
 }
 
 .form-control:focus {
@@ -69,12 +72,12 @@ blockquote {
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
 }
 
-.register input[type=submit] {
+.register button[type=submit] {
 	background: @text-color;
 	color: @background-color;
 }
 
-.register input[type=submit]:hover {
+.register button[type=submit]:hover {
 	background: @hightlight-color;
 	color: @text-color;
 }
@@ -95,6 +98,43 @@ blockquote {
 	color: @text-color;
 }
 
+
+/* --- mission statements --- */
+
+.mission-statements blockquote {
+  margin-bottom: 0px;
+}
+
+.slick-dots li button:before {
+  color: white !important;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1 !important;
+}
+
+
+/*
+.input-group-field {
+    display: table-cell;
+    vertical-align: middle;
+    border-radius:4px;
+}
+.input-group-field .form-control, .input-group-field .form-control {
+    border-radius: inherit !important;
+}
+.input-group-field:not(:first-child):not(:last-child) {
+    border-radius:0;
+}
+.input-group-field:not(:first-child):not(:last-child) .form-control {
+    border-left-width: 0;
+    border-right-width: 0;
+}
+.input-group-field:last-child {
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+}
+*/
 
 /*
 h1, blockquote, #worldmap {
