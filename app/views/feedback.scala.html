@@ -1,0 +1,6 @@
+@(status: String, title: String, message: String)
+@main(title = title) {
+<div class="alert alert-@status" role="alert">
+  @Html(message)
+</div>
+}

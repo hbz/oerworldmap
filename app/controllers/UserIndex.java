@@ -91,8 +91,9 @@ public class UserIndex extends Controller {
       validationErrors.addAll(checkCountryCode(countryCode));
       
       if (!validationErrors.isEmpty()) {
-        return badRequest("Data entry error: ".concat(UniversalFunctions
-            .collectionToString(validationErrors)));
+        return badRequest(views.html.feedback.render("warning", "Registration",
+                "Data entry error: " + UniversalFunctions.collectionToString(validationErrors)
+        ));
       } else {
         user.put("email", email);
         
@@ -124,7 +125,10 @@ public class UserIndex extends Controller {
           e.printStackTrace();
         }
 
-        return ok(views.html.UserIndex.registered.render((String) user.get("email")));
+        return ok(views.html.feedback.render("success", "Registration",
+                "Thank you for your interest in the OER World Map. Your email address <em>"
+                        + user.get("email") + "</em> has been registered."
+        ));
       }
     }
   }
@@ -174,11 +178,14 @@ public class UserIndex extends Controller {
       user = mUnconfirmedUserRepository.deleteResource(id);
     } catch (IOException e) {
       e.printStackTrace();
-      return ok("An error occurred for " + id);
+      return ok(views.html.feedback.render("warning", "Registration", "Error confirming email address"));
     }
 
     mUserRepository.addResource(user);
-    return ok("User confirmed: " + id);
+    return ok(views.html.feedback.render("success", "Registration",
+            "Thank you for your interest in the OER World Map. Your email address <em>"
+                    + user.get("email") + "</em> has been confirmed."
+    ));
     
   }
 

@@ -73,8 +73,8 @@ function hijax(element) {
       .done(function(data) {
         a.replaceWith(hijax(body(data)));
       })
-      .fail(function(data) {
-        a.replaceWith("<pre>" + data.responseText + "</pre>");
+      .fail(function(jqXHR) {
+        a.replaceWith(hijax(body(jqXHR.responseText)));
       });
   });
 
@@ -86,8 +86,8 @@ function hijax(element) {
       .done(function(data) {
         form.replaceWith(hijax(body(data)));
       })
-      .fail(function(data) {
-        form.replaceWith("<pre>" + data.responseText + "</pre>");
+      .fail(function(jqXHR) {
+        form.replaceWith(hijax(body(jqXHR.responseText)));
        });
     return false;
   });
