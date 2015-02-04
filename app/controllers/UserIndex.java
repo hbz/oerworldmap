@@ -69,7 +69,7 @@ public class UserIndex extends Controller {
           
 
   public static Result get() throws IOException {
-    return ok(views.html.UserIndex.index.render());
+    return ok(views.html.UserIndex.index.render(countryCodesDummyList()));
   }
 
   public static Result post() throws IOException {
@@ -78,7 +78,7 @@ public class UserIndex extends Controller {
     
     if (requestData.hasErrors()) {
       
-      return badRequest(views.html.UserIndex.index.render());
+      return badRequest(views.html.UserIndex.index.render(countryCodesDummyList()));
       
     } else {
       

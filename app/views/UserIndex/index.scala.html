@@ -1,3 +1,4 @@
+@(countries: List[String])
 @main(title = "Registration") {
   <section>
   @helper.form(routes.UserIndex.post()) {
@@ -12,10 +13,9 @@
         <label class="sr-only" for="register-country">Country</label>
         <select class="form-control input-lg" name="address.addressCountry" id="register-country">
           <option value="">Select Country</option>
-          <option value="de">Germany</option>
-          <option value="us">USA</option>
-          <option value="foo">Fooland</option>
-          <option value="bn">Brunei Darussalam</option>
+          @for(country <- countries) {
+            <option value="@country">@country</option>
+          }
         </select>
       </div>
       
