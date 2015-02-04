@@ -3,14 +3,20 @@ package controllers;
 import java.io.IOException;
 
 import models.Resource;
+
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+
 import play.*;
 import play.mvc.*;
+
 import com.fasterxml.jackson.databind.*;
+
 import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchRepository;
@@ -23,8 +29,11 @@ import java.net.URL;
 
 public class LandingPage extends Controller {
 
-  private static Client mClient = new TransportClient()
-          .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(), 9300));
+  private static Settings clientSettings = ImmutableSettings.settingsBuilder()
+      .put(new ElasticsearchConfig().getClientSettings()).build();
+  private static Client mClient = new TransportClient(clientSettings)
+      .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
+          9300));
   private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
   private static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
 
