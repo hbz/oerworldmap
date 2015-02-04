@@ -1,17 +1,26 @@
 @main(title = "Registration") {
+  <section>
   @helper.form(routes.UserIndex.post()) {
-    <div class="input-group input-group-lg register">
-      <input type="email" name="email" class="form-control" placeholder="Your Email Address ...">
-      <select class="form-control" name="address.addressCountry">
-        <option value="">Select Country</option>
-        <option value="de">Germany</option>
-        <option value="us">USA</option>
-        <option value="foo">Fooland</option>
-        <option value="bn">Brunei Darussalam</option>
-      </select>
-      <span class="input-group-btn">
-        <input type="submit" class="btn btn-defaul" type="button">Register</button>
-      </span>
+    <div class="form-inline register">
+      
+      <div class="form-group">
+        <label class="sr-only" for="register-email">Email address</label>
+        <input type="email" name="email" id="register-email" class="form-control input-lg" placeholder="Your Email Address ...">
+      </div>
+      
+      <div class="form-group">
+        <label class="sr-only" for="register-country">Country</label>
+        <select class="form-control input-lg" name="address.addressCountry" id="register-country">
+          <option value="">Select Country</option>
+          <option value="de">Germany</option>
+          <option value="us">USA</option>
+          <option value="foo">Fooland</option>
+          <option value="bn">Brunei Darussalam</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-lg btn-defaul" type="button">Register</button>
     </div>
   }
+  </section>
 }

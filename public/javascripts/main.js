@@ -11,16 +11,17 @@ $(document).ready(function(){
 	
   // --- visions ---
   
-  var visions = $('blockquote.vision').hide(),
-      i = 0;
-  
-  (function cycle() {
-    visions.eq(i).fadeIn(800).delay(5000).fadeOut(800, cycle);
-    i = ++i % visions.length;
-  })();
+  $('.vision-statements').slick({
+    infinite: true,
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 8000,
+    arrows: false
+  });
   
   
   // --- map ---
+  
   var table = $('table#users_by_country'),
       map = $('#worldmap'),
       json = JSON.parse(table.find('script').html()),
@@ -33,7 +34,7 @@ $(document).ready(function(){
     data[property.toUpperCase()] = json[property];
   }
   map.vectorMap({
-    backgroundColor: $('body').css('background-color'),
+    backgroundColor: '#0c75bf',
     zoomButtons: false,
     zoomOnScroll: false,
     series: {
@@ -44,7 +45,17 @@ $(document).ready(function(){
       }]
     },
     onRegionTipShow: function(e, el, code){
-      el.html('<strong>' + data[code] + '</strong> users registered in ' + el.html());
+      if(typeof data[code] != 'undefined') {
+        el.html(
+          '<strong>' + data[code] + '</strong> users registered in ' + el.html() + '<br>' +
+          'Click to register ...'
+        );
+      } else {
+        el.html(
+          'No users registered in ' + el.html() + '<br>' +
+          'Click to register ...'
+        );
+      }
     }
   });
   table.hide()
