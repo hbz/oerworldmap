@@ -1,9 +1,11 @@
 package controllers;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 
 import helpers.JsonLdConstants;
+import io.michaelallen.mustache.MustacheFactory;
+import io.michaelallen.mustache.api.Mustache;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
@@ -29,6 +31,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import models.Resource;
+import play.twirl.api.Html;
 import services.*;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.client.Client;
@@ -36,12 +39,11 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 import helpers.UniversalFunctions;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
@@ -69,7 +71,12 @@ public class UserIndex extends Controller {
           
 
   public static Result get() throws IOException {
-    return ok(views.html.UserIndex.index.render(countryCodesDummyList()));
+    Map data = new HashMap<>();
+    data.put("countries", countryCodesDummyList());
+    Mustache template = MustacheFactory.compile("UserIndex/index.mustache");
+    Writer writer = new StringWriter();
+    template.execute(writer, data);
+    return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
   }
 
   public static Result post() throws IOException {
@@ -78,7 +85,12 @@ public class UserIndex extends Controller {
     
     if (requestData.hasErrors()) {
       
-      return badRequest(views.html.UserIndex.index.render(countryCodesDummyList()));
+      Map data = new HashMap<>();
+      data.put("countries", countryCodesDummyList());
+      Mustache template = MustacheFactory.compile("UserIndex/index.mustache");
+      Writer writer = new StringWriter();
+      template.execute(writer, data);
+      return badRequest(views.html.main.render("Registration", Html.apply(writer.toString())));
       
     } else {
       
@@ -91,7 +103,13 @@ public class UserIndex extends Controller {
       validationErrors.addAll(checkCountryCode(countryCode));
       
       if (!validationErrors.isEmpty()) {
-        return badRequest(views.html.feedback.render("warning", "Registration", errorsToHtml(validationErrors)));
+        Map data = new HashMap<>();
+        data.put("status", "warning");
+        data.put("message", errorsToHtml(validationErrors));
+        Mustache template = MustacheFactory.compile("feedback.mustache");
+        Writer writer = new StringWriter();
+        template.execute(writer, data);
+        return badRequest(views.html.main.render("Registration", Html.apply(writer.toString())));
       } else {
         user.put("email", email);
         
@@ -106,6 +124,13 @@ public class UserIndex extends Controller {
         Email confirmationMail = new SimpleEmail();
 
         try {
+          Map data = new HashMap<>();
+          data.put("link", routes.UserIndex.post().absoluteURL(request()) + user.get("@id"));
+          Mustache template = MustacheFactory.compile("UserIndex/confirmation.mustache");
+          Writer writer = new StringWriter();
+          template.execute(writer, data);
+          System.out.println(writer.toString());
+          confirmationMail.setMsg(writer.toString());
           confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
           confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
           confirmationMail.setAuthenticator(
@@ -114,19 +139,21 @@ public class UserIndex extends Controller {
           confirmationMail.setSSLOnConnect(true);
           confirmationMail.setFrom("oerworldmap@gmail.com");
           confirmationMail.setSubject("Please confirm");
-          confirmationMail.setMsg(
-                  views.txt.UserIndex.confirmation.render((String) user.get(JsonLdConstants.ID)).body()
-          );
           confirmationMail.addTo((String)user.get("email"));
           confirmationMail.send();
         } catch (EmailException e) {
           e.printStackTrace();
         }
-
-        return ok(views.html.feedback.render("success", "Registration",
-                "Thank you for your interest in the OER World Map. Your email address <em>"
-                        + user.get("email") + "</em> has been registered."
-        ));
+        
+        Map data = new HashMap<>();
+        data.put("status", "success");
+        data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
+                + user.get("email") + "</em> has been registered."
+        );
+        Mustache template = MustacheFactory.compile("feedback.mustache");
+        Writer writer = new StringWriter();
+        template.execute(writer, data);
+        return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
       }
     }
   }
@@ -180,19 +207,27 @@ public class UserIndex extends Controller {
   public static Result confirm(String id) throws IOException {
     
     Resource user;
+    Map data = new HashMap<>();
+    Mustache template = MustacheFactory.compile("feedback.mustache");
+    Writer writer = new StringWriter();
     
     try {
       user = mUnconfirmedUserRepository.deleteResource(id);
     } catch (IOException e) {
       e.printStackTrace();
-      return ok(views.html.feedback.render("warning", "Registration", "Error confirming email address"));
+      data.put("status", "warning");
+      data.put("message", "Error confirming email address");
+      template.execute(writer, data);
+      return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
     }
 
     mUserRepository.addResource(user);
-    return ok(views.html.feedback.render("success", "Registration",
-            "Thank you for your interest in the OER World Map. Your email address <em>"
-                    + user.get("email") + "</em> has been confirmed."
-    ));
+    data.put("status", "success");
+    data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
+            + user.get("email") + "</em> has been confirmed."
+    );
+    template.execute(writer, data);
+    return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
     
   }
 
