@@ -1,9 +1,7 @@
 package controllers;
 
 import java.io.*;
-import java.nio.file.Paths;
 
-import helpers.JsonLdConstants;
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -12,32 +10,14 @@ import org.apache.commons.mail.SimpleEmail;
 import org.apache.commons.mail.EmailException;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.client.Client;
 
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-
-import play.Configuration;
-import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 
 import play.data.validation.ValidationError;
-import play.mvc.Controller;
 import play.mvc.Result;
 
 import models.Resource;
-import play.twirl.api.Html;
-import services.*;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-
-import helpers.UniversalFunctions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,31 +25,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
 public class UserIndex extends OERWorldMap {
 
   public static Result get() throws IOException {
-    Map data = new HashMap<>();
+    
+    Map<String, Object> data = new HashMap<>();
     data.put("countries", countryCodesDummyList());
-    Mustache template = MustacheFactory.compile("UserIndex/index.mustache");
-    Writer writer = new StringWriter();
-    template.execute(writer, data);
-    return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
+    return ok(render("Registration", data, "UserIndex/index.mustache"));
+    
   }
 
   public static Result post() throws IOException {
-    
+
+    Map<String, Object> data = new HashMap<>();
     DynamicForm requestData = Form.form().bindFromRequest();
     
     if (requestData.hasErrors()) {
       
-      Map data = new HashMap<>();
       data.put("countries", countryCodesDummyList());
-      Mustache template = MustacheFactory.compile("UserIndex/index.mustache");
-      Writer writer = new StringWriter();
-      template.execute(writer, data);
-      return badRequest(views.html.main.render("Registration", Html.apply(writer.toString())));
+      return badRequest(render("Registration", data, "UserIndex/index.mustache"));
       
     } else {
       
@@ -82,13 +56,9 @@ public class UserIndex extends OERWorldMap {
       validationErrors.addAll(checkCountryCode(countryCode));
       
       if (!validationErrors.isEmpty()) {
-        Map data = new HashMap<>();
         data.put("status", "warning");
         data.put("message", errorsToHtml(validationErrors));
-        Mustache template = MustacheFactory.compile("feedback.mustache");
-        Writer writer = new StringWriter();
-        template.execute(writer, data);
-        return badRequest(views.html.main.render("Registration", Html.apply(writer.toString())));
+        return badRequest(render("Registration", data, "feedback.mustache"));
       } else {
         user.put("email", email);
         
@@ -103,12 +73,10 @@ public class UserIndex extends OERWorldMap {
         Email confirmationMail = new SimpleEmail();
 
         try {
-          Map data = new HashMap<>();
           data.put("link", routes.UserIndex.post().absoluteURL(request()) + user.get("@id"));
           Mustache template = MustacheFactory.compile("UserIndex/confirmation.mustache");
           Writer writer = new StringWriter();
           template.execute(writer, data);
-          System.out.println(writer.toString());
           confirmationMail.setMsg(writer.toString());
           confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
           confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
@@ -124,17 +92,14 @@ public class UserIndex extends OERWorldMap {
           e.printStackTrace();
         }
         
-        Map data = new HashMap<>();
         data.put("status", "success");
         data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
                 + user.get("email") + "</em> has been registered."
         );
-        Mustache template = MustacheFactory.compile("feedback.mustache");
-        Writer writer = new StringWriter();
-        template.execute(writer, data);
-        return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
+        return ok(render("Registration", data, "feedback.mustache"));
       }
     }
+    
   }
 
   private static List<ValidationError> checkEmailAddress(String aEmail) {
@@ -186,9 +151,7 @@ public class UserIndex extends OERWorldMap {
   public static Result confirm(String id) throws IOException {
     
     Resource user;
-    Map data = new HashMap<>();
-    Mustache template = MustacheFactory.compile("feedback.mustache");
-    Writer writer = new StringWriter();
+    Map<String,Object> data = new HashMap<>();
     
     try {
       user = mUnconfirmedUserRepository.deleteResource(id);
@@ -196,8 +159,7 @@ public class UserIndex extends OERWorldMap {
       e.printStackTrace();
       data.put("status", "warning");
       data.put("message", "Error confirming email address");
-      template.execute(writer, data);
-      return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
+      return ok(render("Registration", data, "feedback.mustache"));
     }
 
     resourceRepository.addResource(user);
@@ -205,8 +167,7 @@ public class UserIndex extends OERWorldMap {
     data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
             + user.get("email") + "</em> has been confirmed."
     );
-    template.execute(writer, data);
-    return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
+    return ok(render("Registration", data, "feedback.mustache"));
     
   }
 
