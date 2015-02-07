@@ -1,0 +1,50 @@
+<div class="container">
+    <h1>
+        OER World Map
+    </h1>
+    <h2>
+        This year we are going to map the world of <a href="http://en.wikipedia.org/wiki/Open_educational_resources">OER</a>
+    </h2>
+    <div class="section">
+        <div class="row">
+            <div id="worldmap" style="width: 800px; height: 500px"></div>
+            <table class="table" id="users_by_country">
+                <script type="application/ld+json">
+                    {{{countryAggregation}}}
+                </script>
+                {{#countryAggregation.entries}}
+                <tr><td>{{key}}</td><td>{{value}}</td></tr>
+                {{/countryAggregation.entries}}
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <p class="lead">
+            Leave your address to be kept up to date or even get an active role in the process:
+        </p>
+
+        <div class="row register">
+            <div class="col-md-10 col-md-offset-1">
+                <a href="/user/" class="hijax transclude">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="section mission-statements" style="height: 200px;">
+        <h2>
+            Mission Statements
+        </h2>
+        <div class="vision-statements">
+            {{#visionStatements}}
+            <blockquote class="vision">
+                <p>{{statement}}</p>
+            </blockquote>
+            {{/visionStatements}}
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.4.0/slick.min.js"></script>
+<script type="text/javascript" src="/assets/javascripts/main.js"></script>
