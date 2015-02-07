@@ -2,6 +2,9 @@ package controllers;
 
 import java.io.*;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -20,6 +23,8 @@ import play.mvc.Result;
 import models.Resource;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +35,7 @@ public class UserIndex extends OERWorldMap {
   public static Result get() throws IOException {
     
     Map<String, Object> data = new HashMap<>();
-    data.put("countries", countryCodesDummyList());
+    data.put("countries", countryCodes());
     return ok(render("Registration", data, "UserIndex/index.mustache"));
     
   }
@@ -42,7 +47,7 @@ public class UserIndex extends OERWorldMap {
     
     if (requestData.hasErrors()) {
       
-      data.put("countries", countryCodesDummyList());
+      data.put("countries", countryCodes());
       return badRequest(render("Registration", data, "UserIndex/index.mustache"));
       
     } else {
@@ -117,26 +122,32 @@ public class UserIndex extends OERWorldMap {
   private static List<ValidationError> checkCountryCode(String aCountryCode) {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
+    List<String> validCodes = new ArrayList<>();
+    for (HashMap country : countryCodes()) {
+      validCodes.add(country.get("alpha-2").toString());
+    }
 
-    if (!countryCodesDummyList().contains(aCountryCode.toUpperCase())) {
+    if (!validCodes.contains(aCountryCode.toUpperCase())) {
       errors.add(new ValidationError("countryName", "This country is not valid."));
     }
     return errors;
+
   }
 
-  private static List<String> countryCodesDummyList() {
-    List<String> countryCodes = new ArrayList<String>();
-    String country;
+  private static List<HashMap<String,String>> countryCodes() {
+
+    List<HashMap<String,String>> countryCodes = new ArrayList<>();
+    ObjectMapper mapper = new ObjectMapper();
+    Path jsonPath = Paths.get("public/javascripts/all.json");
+
     try {
-      BufferedReader in = new BufferedReader(new FileReader("conf/countryCodes.dummyList"));
-      while ((country = in.readLine()) != null) {
-        countryCodes.add(country);
-      }
-      in.close();
+      countryCodes = mapper.readValue(jsonPath.toFile(), new TypeReference<ArrayList<HashMap>>() {});
     } catch (IOException e) {
       e.printStackTrace();
     }
+
     return countryCodes;
+
   }
 
   private static String errorsToHtml(List<ValidationError> aErrorList) {

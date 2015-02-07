@@ -8,11 +8,12 @@
             </div>
 
             <div class="form-group">
+
                 <label class="sr-only" for="register-country">Country</label>
                 <select class="form-control input-lg" name="address.addressCountry" id="register-country">
                     <option value="">Select Country</option>
                     {{#countries}}
-                    <option value="{{.}}">{{.}}</option>
+                    <option value="{{alpha-2}}">{{name}}</option>
                     {{/countries}}
                 </select>
             </div>
