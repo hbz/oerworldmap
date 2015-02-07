@@ -47,28 +47,7 @@ import java.util.Map;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
-public class UserIndex extends Controller {
-  
-  private static Configuration mConf = Play.application().configuration();
-
-  private static Settings clientSettings = ImmutableSettings.settingsBuilder()
-      .put(new ElasticsearchConfig().getClientSettings()).build();
-  private static Client mClient = new TransportClient(clientSettings)
-      .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
-          9300));
-  private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  private static ElasticsearchRepository mUserRepository = new ElasticsearchRepository(
-      mElasticsearchClient);
-  
-  private static FileResourceRepository mUnconfirmedUserRepository;
-  static {
-    try{
-      mUnconfirmedUserRepository = new FileResourceRepository(Paths.get(mConf.getString("filerepo.dir")));
-    }catch(final Exception ex){
-      throw new RuntimeException("Failed to create FileResourceRespository", ex);
-    }
-  }
-          
+public class UserIndex extends OERWorldMap {
 
   public static Result get() throws IOException {
     Map data = new HashMap<>();
@@ -162,7 +141,7 @@ public class UserIndex extends Controller {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
 
-    if (!mUserRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
+    if (!resourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
       errors.add(new ValidationError("email", "This e-mail is already registered."));
     } else if (!EmailValidator.getInstance().isValid(aEmail)) {
       errors.add(new ValidationError("email", "This is not a valid e-mail adress."));
@@ -221,7 +200,7 @@ public class UserIndex extends Controller {
       return ok(views.html.main.render("Registration", Html.apply(writer.toString())));
     }
 
-    mUserRepository.addResource(user);
+    resourceRepository.addResource(user);
     data.put("status", "success");
     data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
             + user.get("email") + "</em> has been confirmed."

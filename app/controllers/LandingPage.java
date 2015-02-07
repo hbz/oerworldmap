@@ -31,15 +31,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.net.URL;
 
-public class LandingPage extends Controller {
-
-  private static Settings clientSettings = ImmutableSettings.settingsBuilder()
-      .put(new ElasticsearchConfig().getClientSettings()).build();
-  private static Client mClient = new TransportClient(clientSettings)
-      .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
-          9300));
-  private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  private static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+public class LandingPage extends OERWorldMap {
 
   public static Result get() throws IOException {
     
