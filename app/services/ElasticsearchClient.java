@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -162,18 +163,19 @@ public class ElasticsearchClient {
    * @param aAggregationBuilder
    * @return a List of docs, each represented by a Map of String/Object.
    */
-  public Map<String, Object> getAggregation(final AggregationBuilder aAggregationBuilder) {
-    final Map<String, Object> doc = new HashMap<String, Object>();
+  public ArrayList<Object> getAggregation(final AggregationBuilder aAggregationBuilder) {
+    final ArrayList<Object> entries = new ArrayList<Object>();
 
     SearchResponse response = mClient.prepareSearch(esConfig.getIndex())
         .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
     Aggregation aggregation = response.getAggregations().asList().get(0);
     for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
-      String key = entry.getKey();
-      long docCount = entry.getDocCount();
-      doc.put(key, docCount);
+      Map<String,Object> e = new HashMap<>();
+      e.put("key", entry.getKey());
+      e.put("value", entry.getDocCount());
+      entries.add(e);
     }
-    return doc;
+    return entries;
   }
 
   /**
