@@ -2,9 +2,6 @@ package controllers;
 
 import java.io.*;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -23,19 +20,18 @@ import play.mvc.Result;
 import models.Resource;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
 public class UserIndex extends OERWorldMap {
 
   public static Result get() throws IOException {
     
     Map<String, Object> data = new HashMap<>();
-    data.put("countries", countryCodes());
+    data.put("countries", countryList());
     return ok(render("Registration", data, "UserIndex/index.mustache"));
     
   }
@@ -47,7 +43,7 @@ public class UserIndex extends OERWorldMap {
     
     if (requestData.hasErrors()) {
       
-      data.put("countries", countryCodes());
+      data.put("countries", countryList());
       return badRequest(render("Registration", data, "UserIndex/index.mustache"));
       
     } else {
@@ -123,7 +119,7 @@ public class UserIndex extends OERWorldMap {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
     List<String> validCodes = new ArrayList<>();
-    for (HashMap country : countryCodes()) {
+    for (Map country : countryList()) {
       validCodes.add(country.get("alpha-2").toString());
     }
 
@@ -134,19 +130,27 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  private static List<HashMap<String,String>> countryCodes() {
+  private static List<Map<String,String>> countryList() {
 
-    List<HashMap<String,String>> countryCodes = new ArrayList<>();
-    ObjectMapper mapper = new ObjectMapper();
-    Path jsonPath = Paths.get("public/javascripts/all.json");
-
+    List<Map<String,String>> countryList = new ArrayList<>();
+    
+    // Internationalization
+    Locale currentLocale;
     try {
-      countryCodes = mapper.readValue(jsonPath.toFile(), new TypeReference<ArrayList<HashMap>>() {});
-    } catch (IOException e) {
-      e.printStackTrace();
+      currentLocale = request().acceptLanguages().get(0).toLocale();
+    } catch (IndexOutOfBoundsException e) {
+      currentLocale = Locale.getDefault();
     }
 
-    return countryCodes;
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale country = new Locale("en", countryCode);
+      Map<String, String> entry = new HashMap<>();
+      entry.put("name", country.getDisplayCountry(currentLocale));
+      entry.put("alpha-2", country.getCountry());
+      countryList.add(entry);
+    }
+    
+    return countryList;
 
   }
 
