@@ -26,14 +26,11 @@ $(document).ready(function(){
       map = $('#worldmap'),
       json = JSON.parse(table.find('script').html()),
       data = {};
-      
-   console.log("Created Map");
 
   for (i in json.entries) {
     data[json.entries[i].key.toUpperCase()] = json.entries[i].value;
   }
-  console.log(data);
-  
+
   map.vectorMap({
     backgroundColor: '#0c75bf',
     zoomButtons: false,

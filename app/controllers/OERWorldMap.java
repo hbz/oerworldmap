@@ -19,7 +19,12 @@ import services.FileResourceRepository;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 
 /**
  * @author fo
@@ -45,13 +50,28 @@ public class OERWorldMap extends Controller {
     }
   }
   
-  protected static Html render(String pageTitle, Map data, String templatePath) {
+  protected static Html render(String pageTitle, Map<String, Object> data, String templatePath) {
 
+    // Internationalization
+    Locale currentLocale;
+    try {
+      currentLocale = request().acceptLanguages().get(0).toLocale();
+    } catch (IndexOutOfBoundsException e) {
+      currentLocale = Locale.getDefault();
+    }
+    System.out.println(currentLocale);
+    ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+    Map<String, String> i18n = new HashMap<>();
+    for (String key : Collections.list(messages.getKeys())) {
+      i18n.put(key, messages.getString(key));
+    }
+    data.put("i18n", i18n);
+    
     Mustache template = MustacheFactory.compile(templatePath);
     Writer writer = new StringWriter();
     template.execute(writer, data);
     return views.html.main.render(pageTitle, Html.apply(writer.toString()));
-    
+
   }
   
 }

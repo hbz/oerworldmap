@@ -29,11 +29,9 @@ import java.util.Locale;
 public class UserIndex extends OERWorldMap {
 
   public static Result get() throws IOException {
-    
     Map<String, Object> data = new HashMap<>();
     data.put("countries", countryList());
     return ok(render("Registration", data, "UserIndex/index.mustache"));
-    
   }
 
   public static Result post() throws IOException {
