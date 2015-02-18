@@ -22,7 +22,7 @@ $(document).ready(function(){
   
   // --- map ---
   
-  var table = $('table#users_by_country'),
+  var table = $('table[about="#users-by-country"]'),
       map = $('#worldmap'),
       json = JSON.parse(table.find('script').html()),
       data = {};

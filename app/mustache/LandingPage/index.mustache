@@ -8,7 +8,7 @@
     <div class="section">
         <div class="row">
             <div id="worldmap" style="width: 800px; height: 500px"></div>
-            <table class="table" id="users_by_country">
+            <table class="table" about="#users-by-country">
                 <script type="application/ld+json">
                     {{{countryAggregation}}}
                 </script>
@@ -46,27 +46,24 @@
         </div>
     </div>
     
-    <hr>
+    <hr />
     
     <div class="section">
-    	<h2>
+        <h2>
             Country Champions
         </h2>
         <p>
-        	We are looking for <strong>country champions</strong> who will help to map the OER world by country – to gather data and spread the word.<br>
-        	We currently have <strong>six</strong> country champions for the following countries:
+            We are looking for <strong>country champions</strong> who will help to map the OER world by country – to gather data and spread the word.<br>
+            We currently have <strong>six</strong> country champions for the following countries:
         </p>
-        <ul class="horizontal-list p">
-        	<li class="label label-default">Brazil</li>
-        	<li class="label label-default">Canada</li>
-        	<li class="label label-default">Germany</li>
-        	<li class="label label-default">Netherlands</li>
-        	<li class="label label-default">Spain</li>
-        	<li class="label label-default">United States</li>
+        <ul class="horizontal-list p" about="#country-champions">
+            {{#countriesWithChampions}}
+                <li class="label label-default" data-country-code="{{countryCode}}">{{countryName}}</li>
+            {{/countriesWithChampions}}
         </ul>
         <p style="clear: both;">
-        	Your's is not in the List? You are an OER pioneer? Let's talk!<br>
-			Jan Neumann ist coordinating the country champions, best you drop him an email: <a href="mailto:neumann@hbz-nrw.de">neumann@hbz-nrw.de</a>
+            Your's is not in the List? You are an OER pioneer? Let's talk!<br>
+            Jan Neumann ist coordinating the country champions, best you drop him an email: <a href="mailto:neumann@hbz-nrw.de">neumann@hbz-nrw.de</a>
         </p>
     </div>
     
