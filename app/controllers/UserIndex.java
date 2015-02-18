@@ -4,19 +4,18 @@ import java.io.*;
 
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.commons.mail.EmailException;
-
 import org.apache.commons.validator.routines.EmailValidator;
 
 import play.data.DynamicForm;
 import play.data.Form;
-
 import play.data.validation.ValidationError;
 import play.mvc.Result;
-
 import models.Resource;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ import java.util.Map;
 import helpers.Countries;
 
 public class UserIndex extends OERWorldMap {
-
+  
   public static Result get() throws IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("countries", Countries.list(currentLocale));
@@ -105,8 +104,10 @@ public class UserIndex extends OERWorldMap {
   private static List<ValidationError> checkEmailAddress(String aEmail) {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
-
-    if (!resourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
+    if (StringUtils.isEmpty(aEmail)){
+      errors.add(new ValidationError("email", "Please specify an email address."));
+    }
+    else if (!resourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
       errors.add(new ValidationError("email", "This e-mail is already registered."));
     } else if (!EmailValidator.getInstance().isValid(aEmail)) {
       errors.add(new ValidationError("email", "This is not a valid e-mail adress."));
@@ -117,16 +118,19 @@ public class UserIndex extends OERWorldMap {
   private static List<ValidationError> checkCountryCode(String aCountryCode) {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
+    
     List<String> validCodes = new ArrayList<>();
     for (Map country : Countries.list(currentLocale)) {
       validCodes.add(country.get("alpha-2").toString());
     }
 
-    if (!validCodes.contains(aCountryCode.toUpperCase())) {
+    if (StringUtils.isEmpty(aCountryCode)){
+      errors.add(new ValidationError("countryName", "Please specify a country code."));
+    }
+    else if (!validCodes.contains(aCountryCode.toUpperCase())) {
       errors.add(new ValidationError("countryName", "This country is not valid."));
     }
     return errors;
-
   }
 
   private static String errorsToHtml(List<ValidationError> aErrorList) {

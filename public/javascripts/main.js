@@ -30,6 +30,32 @@ $(document).ready(function(){
   for (i in json.entries) {
     data[json.entries[i].key.toUpperCase()] = json.entries[i].value;
   }
+  
+  if(false) {
+    data = {
+      "DE" : 15,
+      "CH" : 4,
+      "AT" : 6,
+      "GB" : 12,
+      "FR" : 9,
+      "ES" : 5,
+      "US" : 9,
+      "PL" : 2,
+      "BF" : 1,
+      "NO" : 5,
+      "CN" : 6,
+      "ID" : 4,
+      "GH" : 4,
+      "IR" : 5,
+      "BR" : 7,
+      "CD" : 5,
+      "KZ" : 9,
+      "RU" : 2,
+      "RO" : 4,
+      "DZ" : 3,
+      "CA" : 2
+    }; 
+  }
 
   map.vectorMap({
     backgroundColor: '#0c75bf',
@@ -38,7 +64,7 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#cfdfba', '#a1cd3f'],
+        scale: ['#ffffff', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
@@ -73,6 +99,19 @@ $(document).ready(function(){
           ''
         )
       );
+    },
+    onRegionClick: function(e, code) {
+      console.log(code);
+      $('select[name="address.addressCountry"]').val(code);
+      $('html, body').animate({
+  			scrollTop: $('#user-register').offset().top - 100
+  		}, 500, function() {
+  			if(history.pushState) {
+  				history.pushState(null, null, '#user-register');
+  			} else {
+  				// window.location.hash = link_hash_divided[1];
+  			}
+  		});
     }
   });
   table.hide()

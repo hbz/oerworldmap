@@ -17,6 +17,7 @@ import services.ElasticsearchRepository;
 import services.FileResourceRepository;
 
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -73,7 +74,11 @@ public class OERWorldMap extends Controller {
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
     Map<String, String> i18n = new HashMap<>();
     for (String key : Collections.list(messages.getKeys())) {
-      i18n.put(key, messages.getString(key));
+      try {
+        i18n.put(key, new String(messages.getString(key).getBytes("ISO-8859-1"), "UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        i18n.put(key, messages.getString(key));
+      }
     }
     data.put("i18n", i18n);
     
