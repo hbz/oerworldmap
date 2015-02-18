@@ -1,84 +1,48 @@
 package controllers;
 
-import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.*;
 
-import helpers.JsonLdConstants;
+import io.michaelallen.mustache.MustacheFactory;
+import io.michaelallen.mustache.api.Mustache;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.commons.mail.EmailException;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.client.Client;
 
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-
-import play.Configuration;
-import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 
 import play.data.validation.ValidationError;
-import play.mvc.Controller;
 import play.mvc.Result;
 
 import models.Resource;
-import services.*;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 
-import helpers.UniversalFunctions;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Locale;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
-public class UserIndex extends Controller {
-  
-  private static Configuration mConf = Play.application().configuration();
-
-  private static Settings clientSettings = ImmutableSettings.settingsBuilder()
-      .put(new ElasticsearchConfig().getClientSettings()).build();
-  private static Client mClient = new TransportClient(clientSettings)
-      .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
-          9300));
-  private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  private static ElasticsearchRepository mUserRepository = new ElasticsearchRepository(
-      mElasticsearchClient);
-  
-  private static FileResourceRepository mUnconfirmedUserRepository;
-  static {
-    try{
-      mUnconfirmedUserRepository = new FileResourceRepository(Paths.get(mConf.getString("filerepo.dir")));
-    }catch(final Exception ex){
-      throw new RuntimeException("Failed to create FileResourceRespository", ex);
-    }
-  }
-          
+public class UserIndex extends OERWorldMap {
 
   public static Result get() throws IOException {
-    return ok(views.html.UserIndex.index.render(countryCodesDummyList()));
+    Map<String, Object> data = new HashMap<>();
+    data.put("countries", countryList());
+    return ok(render("Registration", data, "UserIndex/index.mustache"));
   }
 
   public static Result post() throws IOException {
-    
+
+    Map<String, Object> data = new HashMap<>();
     DynamicForm requestData = Form.form().bindFromRequest();
     
     if (requestData.hasErrors()) {
       
-      return badRequest(views.html.UserIndex.index.render(countryCodesDummyList()));
+      data.put("countries", countryList());
+      return badRequest(render("Registration", data, "UserIndex/index.mustache"));
       
     } else {
       
@@ -91,7 +55,9 @@ public class UserIndex extends Controller {
       validationErrors.addAll(checkCountryCode(countryCode));
       
       if (!validationErrors.isEmpty()) {
-        return badRequest(views.html.feedback.render("warning", "Registration", errorsToHtml(validationErrors)));
+        data.put("status", "warning");
+        data.put("message", errorsToHtml(validationErrors));
+        return badRequest(render("Registration", data, "feedback.mustache"));
       } else {
         user.put("email", email);
         
@@ -106,6 +72,11 @@ public class UserIndex extends Controller {
         Email confirmationMail = new SimpleEmail();
 
         try {
+          data.put("link", routes.UserIndex.post().absoluteURL(request()) + user.get("@id"));
+          Mustache template = MustacheFactory.compile("UserIndex/confirmation.mustache");
+          Writer writer = new StringWriter();
+          template.execute(writer, data);
+          confirmationMail.setMsg(writer.toString());
           confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
           confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
           confirmationMail.setAuthenticator(
@@ -114,28 +85,27 @@ public class UserIndex extends Controller {
           confirmationMail.setSSLOnConnect(true);
           confirmationMail.setFrom("oerworldmap@gmail.com");
           confirmationMail.setSubject("Please confirm");
-          confirmationMail.setMsg(
-                  views.txt.UserIndex.confirmation.render((String) user.get(JsonLdConstants.ID)).body()
-          );
           confirmationMail.addTo((String)user.get("email"));
           confirmationMail.send();
         } catch (EmailException e) {
           e.printStackTrace();
         }
-
-        return ok(views.html.feedback.render("success", "Registration",
-                "Thank you for your interest in the OER World Map. Your email address <em>"
-                        + user.get("email") + "</em> has been registered."
-        ));
+        
+        data.put("status", "success");
+        data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
+                + user.get("email") + "</em> has been registered."
+        );
+        return ok(render("Registration", data, "feedback.mustache"));
       }
     }
+    
   }
 
   private static List<ValidationError> checkEmailAddress(String aEmail) {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
 
-    if (!mUserRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
+    if (!resourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
       errors.add(new ValidationError("email", "This e-mail is already registered."));
     } else if (!EmailValidator.getInstance().isValid(aEmail)) {
       errors.add(new ValidationError("email", "This is not a valid e-mail adress."));
@@ -146,26 +116,40 @@ public class UserIndex extends Controller {
   private static List<ValidationError> checkCountryCode(String aCountryCode) {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
+    List<String> validCodes = new ArrayList<>();
+    for (Map country : countryList()) {
+      validCodes.add(country.get("alpha-2").toString());
+    }
 
-    if (!countryCodesDummyList().contains(aCountryCode.toUpperCase())) {
+    if (!validCodes.contains(aCountryCode.toUpperCase())) {
       errors.add(new ValidationError("countryName", "This country is not valid."));
     }
     return errors;
+
   }
 
-  private static List<String> countryCodesDummyList() {
-    List<String> countryCodes = new ArrayList<String>();
-    String country;
+  private static List<Map<String,String>> countryList() {
+
+    List<Map<String,String>> countryList = new ArrayList<>();
+    
+    // Internationalization
+    Locale currentLocale;
     try {
-      BufferedReader in = new BufferedReader(new FileReader("conf/countryCodes.dummyList"));
-      while ((country = in.readLine()) != null) {
-        countryCodes.add(country);
-      }
-      in.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+      currentLocale = request().acceptLanguages().get(0).toLocale();
+    } catch (IndexOutOfBoundsException e) {
+      currentLocale = Locale.getDefault();
     }
-    return countryCodes;
+
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale country = new Locale("en", countryCode);
+      Map<String, String> entry = new HashMap<>();
+      entry.put("name", country.getDisplayCountry(currentLocale));
+      entry.put("alpha-2", country.getCountry());
+      countryList.add(entry);
+    }
+    
+    return countryList;
+
   }
 
   private static String errorsToHtml(List<ValidationError> aErrorList) {
@@ -180,19 +164,23 @@ public class UserIndex extends Controller {
   public static Result confirm(String id) throws IOException {
     
     Resource user;
+    Map<String,Object> data = new HashMap<>();
     
     try {
       user = mUnconfirmedUserRepository.deleteResource(id);
     } catch (IOException e) {
       e.printStackTrace();
-      return ok(views.html.feedback.render("warning", "Registration", "Error confirming email address"));
+      data.put("status", "warning");
+      data.put("message", "Error confirming email address");
+      return ok(render("Registration", data, "feedback.mustache"));
     }
 
-    mUserRepository.addResource(user);
-    return ok(views.html.feedback.render("success", "Registration",
-            "Thank you for your interest in the OER World Map. Your email address <em>"
-                    + user.get("email") + "</em> has been confirmed."
-    ));
+    resourceRepository.addResource(user);
+    data.put("status", "success");
+    data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
+            + user.get("email") + "</em> has been confirmed."
+    );
+    return ok(render("Registration", data, "feedback.mustache"));
     
   }
 

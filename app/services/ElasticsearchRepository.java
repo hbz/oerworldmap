@@ -79,12 +79,11 @@ public class ElasticsearchRepository implements ResourceRepository {
     return resources;
   }
 
-  public List<Resource> query(AggregationBuilder aAggregationBuilder) throws IOException {
+  public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
-    Map<String, Object> doc = elasticsearch.getAggregation(aAggregationBuilder);
-    doc.put(JsonLdConstants.TYPE, AGGREGATION_TYPE);
-    resources.add(Resource.fromMap(doc));
-    return resources;
+    Resource aggregation = new Resource("Aggregation", "country-list");
+    aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
+    return aggregation;
   }
 
 }

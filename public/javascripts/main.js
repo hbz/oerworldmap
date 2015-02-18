@@ -27,11 +27,8 @@ $(document).ready(function(){
       json = JSON.parse(table.find('script').html()),
       data = {};
 
-  for (property in json) {
-    if ("@" == property.charAt(0)) {
-      continue;
-    }
-    data[property.toUpperCase()] = json[property];
+  for (i in json.entries) {
+    data[json.entries[i].key.toUpperCase()] = json.entries[i].value;
   }
   
   if(false) {
@@ -59,7 +56,7 @@ $(document).ready(function(){
       "CA" : 2
     }; 
   }
-  
+
   map.vectorMap({
     backgroundColor: '#0c75bf',
     zoomButtons: false,
