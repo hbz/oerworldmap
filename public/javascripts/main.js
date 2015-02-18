@@ -22,7 +22,7 @@ $(document).ready(function(){
   
   // --- map ---
   
-  var table = $('table#users_by_country'),
+  var table = $('table[about="#users-by-country"]'),
       map = $('#worldmap'),
       json = JSON.parse(table.find('script').html()),
       data = {};
@@ -69,17 +69,36 @@ $(document).ready(function(){
       }]
     },
     onRegionTipShow: function(e, el, code){
-      if(typeof data[code] != 'undefined') {
-        el.html(
-          '<strong>' + data[code] + '</strong> users registered in ' + el.html() + '<br>' +
-          'Click to register ...'
-        );
-      } else {
-        el.html(
-          'No users registered in ' + el.html() + '<br>' +
-          'Click to register ...'
-        );
+      var country_champion = false;
+      var users_registered = false;
+      
+      if(
+        $('ul[about="#country-champions"] li[data-country-code="' + code + '"]').length
+      ) {
+        country_champion = true;
       }
+      
+      if(
+        typeof data[code] != 'undefined'
+      ) {
+        users_registered = true;
+      }
+      
+      el.html(
+        (
+          users_registered
+          ?
+          '<strong>' + data[code] + '</strong> users registered in ' + el.html() + ' (Click to register ...)<br>'
+          :
+          'No users registered in ' + el.html() + ' (Click to register ...)<br>'
+        ) + (
+          country_champion
+          ?
+          'And we have a country champion!<br>'
+          :
+          ''
+        )
+      );
     },
     onRegionClick: function(e, code) {
       console.log(code);
