@@ -34,29 +34,31 @@ $(document).ready(function(){
     data[property.toUpperCase()] = json[property];
   }
   
-  data = {
-    "DE" : 15,
-    "CH" : 4,
-    "AT" : 6,
-    "GB" : 12,
-    "FR" : 9,
-    "ES" : 5,
-    "US" : 9,
-    "PL" : 2,
-    "BF" : 1,
-    "NO" : 5,
-    "CN" : 6,
-    "ID" : 4,
-    "GH" : 4,
-    "IR" : 5,
-    "BR" : 7,
-    "CD" : 5,
-    "KZ" : 9,
-    "RU" : 2,
-    "RO" : 4,
-    "DZ" : 3,
-    "CA" : 2
-  };
+  if(false) {
+    data = {
+      "DE" : 15,
+      "CH" : 4,
+      "AT" : 6,
+      "GB" : 12,
+      "FR" : 9,
+      "ES" : 5,
+      "US" : 9,
+      "PL" : 2,
+      "BF" : 1,
+      "NO" : 5,
+      "CN" : 6,
+      "ID" : 4,
+      "GH" : 4,
+      "IR" : 5,
+      "BR" : 7,
+      "CD" : 5,
+      "KZ" : 9,
+      "RU" : 2,
+      "RO" : 4,
+      "DZ" : 3,
+      "CA" : 2
+    }; 
+  }
   
   map.vectorMap({
     backgroundColor: '#0c75bf',
@@ -94,7 +96,6 @@ $(document).ready(function(){
   				// window.location.hash = link_hash_divided[1];
   			}
   		});
-
     }
   });
   table.hide()
