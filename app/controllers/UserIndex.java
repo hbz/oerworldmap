@@ -24,13 +24,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
+
+import helpers.Countries;
 
 public class UserIndex extends OERWorldMap {
 
   public static Result get() throws IOException {
     Map<String, Object> data = new HashMap<>();
-    data.put("countries", countryList());
+    data.put("countries", Countries.list(currentLocale));
     return ok(render("Registration", data, "UserIndex/index.mustache"));
   }
 
@@ -41,7 +42,7 @@ public class UserIndex extends OERWorldMap {
     
     if (requestData.hasErrors()) {
       
-      data.put("countries", countryList());
+      data.put("countries", Countries.list(currentLocale));
       return badRequest(render("Registration", data, "UserIndex/index.mustache"));
       
     } else {
@@ -117,7 +118,7 @@ public class UserIndex extends OERWorldMap {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
     List<String> validCodes = new ArrayList<>();
-    for (Map country : countryList()) {
+    for (Map country : Countries.list(currentLocale)) {
       validCodes.add(country.get("alpha-2").toString());
     }
 
@@ -125,30 +126,6 @@ public class UserIndex extends OERWorldMap {
       errors.add(new ValidationError("countryName", "This country is not valid."));
     }
     return errors;
-
-  }
-
-  private static List<Map<String,String>> countryList() {
-
-    List<Map<String,String>> countryList = new ArrayList<>();
-    
-    // Internationalization
-    Locale currentLocale;
-    try {
-      currentLocale = request().acceptLanguages().get(0).toLocale();
-    } catch (IndexOutOfBoundsException e) {
-      currentLocale = Locale.getDefault();
-    }
-
-    for (String countryCode : Locale.getISOCountries()) {
-      Locale country = new Locale("en", countryCode);
-      Map<String, String> entry = new HashMap<>();
-      entry.put("name", country.getDisplayCountry(currentLocale));
-      entry.put("alpha-2", country.getCountry());
-      countryList.add(entry);
-    }
-    
-    return countryList;
 
   }
 

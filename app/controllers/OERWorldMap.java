@@ -49,6 +49,16 @@ public class OERWorldMap extends Controller {
       throw new RuntimeException("Failed to create FileResourceRespository", ex);
     }
   }
+
+  // Internationalization
+  protected static Locale currentLocale;
+  static {
+    try {
+      currentLocale = request().acceptLanguages().get(0).toLocale();
+    } catch (IndexOutOfBoundsException e) {
+      currentLocale = Locale.getDefault();
+    }
+  }
   
   protected static Html render(String pageTitle, Map<String, Object> data, String templatePath) {
 
@@ -59,7 +69,7 @@ public class OERWorldMap extends Controller {
     } catch (IndexOutOfBoundsException e) {
       currentLocale = Locale.getDefault();
     }
-    System.out.println(currentLocale);
+
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
     Map<String, String> i18n = new HashMap<>();
     for (String key : Collections.list(messages.getKeys())) {
