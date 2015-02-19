@@ -1,22 +1,21 @@
 package services;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Iterator;
+import helpers.JsonLdConstants;
+
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.file.DirectoryStream;
-import java.nio.file.DirectoryStream.Filter;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import helpers.JsonLdConstants;
 import models.Resource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileResourceRepository implements ResourceRepository {
 

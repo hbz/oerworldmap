@@ -80,7 +80,6 @@ public class ElasticsearchRepository implements ResourceRepository {
   }
 
   public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
-    List<Resource> resources = new ArrayList<Resource>();
     Resource aggregation = new Resource("Aggregation", "country-list");
     aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
     return aggregation;

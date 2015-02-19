@@ -4,9 +4,7 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import javax.annotation.Nonnull;
 
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.node.Node;
 
 import play.Logger;
