@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 
+import helpers.Countries;
 import models.Resource;
 
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ResourceBundle;
 import java.net.URL;
 
 public class LandingPage extends OERWorldMap {
@@ -27,7 +30,14 @@ public class LandingPage extends OERWorldMap {
         "address.countryName");
     Resource countryAggregation = resourceRepository.query(aggregationBuilder);
 
-    Map<String, Object> data = new HashMap<>();
+    ResourceBundle countryChampionsProperties = ResourceBundle.getBundle("CountryChampionsBundle");
+    List<Map<String,String>> countryChampions = new ArrayList<>();
+    for (String key : Collections.list(countryChampionsProperties.getKeys())) {
+      Map<String,String> countryChampion = new HashMap<>();
+      countryChampion.put("countryCode", key);
+      countryChampion.put("countryName", Countries.getNameFor(key, currentLocale));
+      countryChampions.add(countryChampion);
+    }
 
     List<HashMap<String, String>> visionStatements;
     try {
@@ -37,6 +47,8 @@ public class LandingPage extends OERWorldMap {
       visionStatements = new ArrayList<>();
     }
 
+    Map<String, Object> data = new HashMap<>();
+    data.put("countriesWithChampions", countryChampions);
     data.put("visionStatements", visionStatements);
     data.put("countryAggregation", countryAggregation);
     return ok(render("Home", data, "LandingPage/index.mustache"));

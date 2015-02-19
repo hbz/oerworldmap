@@ -1,14 +1,10 @@
 <div class="container">
-    <h1>
-        OER World Map
-    </h1>
-    <h2>
-        This year we are going to map the world of <a href="http://en.wikipedia.org/wiki/Open_educational_resources">OER</a>
-    </h2>
+    <h1>{{i18n.landingpage_title}}</h1>
+    <h2>{{{i18n.landingpage_intro}}}</h2>
     <div class="section">
         <div class="row">
             <div id="worldmap" style="width: 800px; height: 500px"></div>
-            <table class="table" id="users_by_country">
+            <table class="table" about="#users-by-country">
                 <script type="application/ld+json">
                     {{{countryAggregation}}}
                 </script>
@@ -19,14 +15,11 @@
         </div>
     </div>
 
-    <div class="section">
-        <p class="lead">
-            Leave your address to be kept up to date or even get an active role in the process:
-        </p>
-
+    <div class="section" id="user-register">
+        <p class="lead">{{i18n.landingpage_call_to_register}}</p>
         <div class="row register">
             <div class="col-md-10 col-md-offset-1">
-                <a href="/user/" class="hijax transclude">Register</a>
+                <a href="/user/" class="hijax transclude">{{i18n.register}}</a>
             </div>
         </div>
     </div>
@@ -34,9 +27,7 @@
     <hr />
 
     <div class="section mission-statements" style="height: 200px;">
-        <h2>
-            Mission Statements
-        </h2>
+        <h2>{{i18n.landingpage_vision_statements_title}}</h2>
         <div class="vision-statements">
             {{#visionStatements}}
             <blockquote class="vision">
@@ -45,6 +36,26 @@
             {{/visionStatements}}
         </div>
     </div>
+    
+    <hr />
+    
+    <div class="section">
+        <h2>
+            {{i18n.landingpage_country_champions_title}}
+        </h2>
+        <p>
+            {{{i18n.landingpage_country_champions_intro}}}
+        </p>
+        <ul class="horizontal-list p" about="#country-champions">
+            {{#countriesWithChampions}}
+                <li class="label label-default" data-country-code="{{countryCode}}">{{countryName}}</li>
+            {{/countriesWithChampions}}
+        </ul>
+        <p style="clear: both;">
+            {{{i18n.landingpage_country_champions_footer}}}
+        </p>
+    </div>
+    
 </div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.4.0/slick.min.js"></script>
 <script type="text/javascript" src="/assets/javascripts/main.js"></script>
