@@ -29,19 +29,19 @@ import java.util.ResourceBundle;
 /**
  * @author fo
  */
-public class OERWorldMap extends Controller {
+public abstract class OERWorldMap extends Controller {
     
-  protected static Configuration mConf = Play.application().configuration();
+  final protected static Configuration mConf = Play.application().configuration();
     
-  private static Settings clientSettings = ImmutableSettings.settingsBuilder()
+  final private static Settings clientSettings = ImmutableSettings.settingsBuilder()
         .put(new ElasticsearchConfig().getClientSettings()).build();
-  private static Client mClient = new TransportClient(clientSettings)
+  final private static Client mClient = new TransportClient(clientSettings)
         .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
             9300));
-  private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  protected static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+  final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
+  final protected static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
 
-  protected static FileResourceRepository mUnconfirmedUserRepository;
+  final protected static FileResourceRepository mUnconfirmedUserRepository;
   static {
     try {
       mUnconfirmedUserRepository = new FileResourceRepository(Paths.get(mConf.getString("filerepo.dir")));

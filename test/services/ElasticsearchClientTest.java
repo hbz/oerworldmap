@@ -2,22 +2,16 @@ package services;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.node.Node;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import services.ElasticsearchClient;
-import services.ElasticsearchConfig;
 
 public class ElasticsearchClientTest {
   protected static Client mClient;

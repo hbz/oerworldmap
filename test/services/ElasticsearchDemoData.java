@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.Resource;
-import services.ElasticsearchConfig;
-
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
 /**

@@ -1,30 +1,29 @@
 package controllers;
 
-import java.io.*;
-
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import models.Resource;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
-import org.apache.commons.mail.SimpleEmail;
 import org.apache.commons.mail.EmailException;
-
+import org.apache.commons.mail.SimpleEmail;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import play.data.DynamicForm;
 import play.data.Form;
-
 import play.data.validation.ValidationError;
 import play.mvc.Result;
-
-import models.Resource;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Locale;
 
 public class UserIndex extends OERWorldMap {
 
@@ -117,7 +116,7 @@ public class UserIndex extends OERWorldMap {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
     List<String> validCodes = new ArrayList<>();
-    for (Map country : countryList()) {
+    for (Map<String, String> country : countryList()) {
       validCodes.add(country.get("alpha-2").toString());
     }
 

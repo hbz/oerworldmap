@@ -2,25 +2,15 @@ package services;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import models.Resource;
 
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import services.ElasticsearchClient;
-import services.ElasticsearchRepository;
-import services.ElasticsearchConfig;
 
 public class ElasticsearchRepositoryTest {
 

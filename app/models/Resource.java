@@ -1,21 +1,25 @@
 package models;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import helpers.JsonLdConstants;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 
-public class Resource implements Map {
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class Resource implements Map<String, Object> {
 
   /**
    * Holds the properties of the resource.
    */
-  private LinkedHashMap<Object, Object> mProperties = new LinkedHashMap<Object, Object>();
+  private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
 
   /**
    * Constructor which sets up a random UUID.
@@ -59,8 +63,8 @@ public class Resource implements Map {
       Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
       String key = pair.getKey();
       Object value = pair.getValue();
-      if (value instanceof Map) {
-        resource.put(key, Resource.fromMap((Map) value));
+      if (value instanceof Map<?, ?>) {
+        resource.put(key, Resource.fromMap((Map<String, Object>) value));
       } else {
         resource.put(key, value);
       }
@@ -104,7 +108,7 @@ public class Resource implements Map {
   }
 
   @Override
-  public Object put(Object key, Object value) {
+  public Object put(String key, Object value) {
     return mProperties.put(key, value);
   }
 
@@ -112,9 +116,9 @@ public class Resource implements Map {
   public Object remove(Object key) {
     return mProperties.remove(key);
   }
-
+  
   @Override
-  public void putAll(Map m) {
+  public void putAll(Map<? extends String, ? extends Object> m) {
     mProperties.putAll(m);
   }
 
@@ -124,18 +128,18 @@ public class Resource implements Map {
   }
 
   @Override
-  public Set keySet() {
+  public Set<String> keySet() {
     return mProperties.keySet();
   }
 
   @Override
-  public Collection values() {
+  public Collection<Object> values() {
     return mProperties.values();
   }
 
   @Override
-  public Set<Entry> entrySet() {
-    return (Set) mProperties.entrySet();
+  public Set<Entry<String, Object>> entrySet() {
+    return (Set<Entry<String, Object>>) mProperties.entrySet();
   }
 
   @Override
@@ -147,9 +151,9 @@ public class Resource implements Map {
     if (other.mProperties.size() != mProperties.size()){
       return false;
     }
-    final Iterator<Entry<Object, Object>> thisIt = mProperties.entrySet().iterator();
+    final Iterator<Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
     while (thisIt.hasNext()) {
-        final Map.Entry<Object, Object> pair = thisIt.next();
+        final Map.Entry<String, Object> pair = thisIt.next();
         if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
           return false;
         }
