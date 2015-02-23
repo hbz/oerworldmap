@@ -28,7 +28,7 @@ import play.mvc.Result;
 import helpers.Countries;
 
 public class UserIndex extends OERWorldMap {
-  
+
   public static Result get() throws IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("countries", Countries.list(currentLocale));
@@ -39,29 +39,29 @@ public class UserIndex extends OERWorldMap {
 
     Map<String, Object> data = new HashMap<>();
     DynamicForm requestData = Form.form().bindFromRequest();
-    
+
     if (requestData.hasErrors()) {
-      
+
       data.put("countries", Countries.list(currentLocale));
       return badRequest(render("Registration", data, "UserIndex/index.mustache"));
-      
+
     } else {
-      
+
       // Store user data
       Resource user = new Resource("Person");
       String email = requestData.get("email");
       String countryCode = requestData.get("address.addressCountry");
-      
+
       List<ValidationError> validationErrors = checkEmailAddress(email);
       validationErrors.addAll(checkCountryCode(countryCode));
-      
+
       if (!validationErrors.isEmpty()) {
         data.put("status", "warning");
         data.put("message", errorsToHtml(validationErrors));
         return badRequest(render("Registration", data, "feedback.mustache"));
       } else {
         user.put("email", email);
-        
+
         if (!"".equals(countryCode)) {
           Resource address = new Resource("PostalAddress");
           address.put("countryName", countryCode);
@@ -91,7 +91,7 @@ public class UserIndex extends OERWorldMap {
         } catch (EmailException e) {
           e.printStackTrace();
         }
-        
+
         data.put("status", "success");
         data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
                 + user.get("email") + "</em> has been registered."
@@ -99,7 +99,7 @@ public class UserIndex extends OERWorldMap {
         return ok(render("Registration", data, "feedback.mustache"));
       }
     }
-    
+
   }
 
   private static List<ValidationError> checkEmailAddress(String aEmail) {
@@ -115,15 +115,15 @@ public class UserIndex extends OERWorldMap {
     }
     return errors;
   }
-  
+
   private static List<ValidationError> checkCountryCode(String aCountryCode) {
 
     List<ValidationError> errors = new ArrayList<ValidationError>();
-    
+
     List<String> validCodes = new ArrayList<>();
 
     for (Map<String, String> country : Countries.list(currentLocale)) {
-      validCodes.add(country.get("alpha-2").toString());
+      validCodes.add(country.get("alpha-2"));
     }
 
     if (StringUtils.isEmpty(aCountryCode)){
@@ -145,10 +145,10 @@ public class UserIndex extends OERWorldMap {
 
 
   public static Result confirm(String id) throws IOException {
-    
+
     Resource user;
     Map<String,Object> data = new HashMap<>();
-    
+
     try {
       user = mUnconfirmedUserRepository.deleteResource(id);
     } catch (IOException e) {
@@ -164,7 +164,7 @@ public class UserIndex extends OERWorldMap {
             + user.get("email") + "</em> has been confirmed."
     );
     return ok(render("Registration", data, "feedback.mustache"));
-    
+
   }
 
 }
