@@ -39,48 +39,19 @@ public class LandingPage extends OERWorldMap {
       countryChampions.add(countryChampion);
     }
 
-    List<HashMap<String, String>> visionStatements;
-    try {
-      String spreadsheet = "18Q0Q4i50xTBAEZ4LNDEXLIvrB8oZ6dG0WHBhe9DxMDg";
-      visionStatements = getGoogleData(spreadsheet, "2");
-    } catch (IOException e) {
-      visionStatements = new ArrayList<>();
+    ResourceBundle productVisionsProperties = ResourceBundle.getBundle("ProductVisionsBundle");
+    List<Map<String,String>> productVisions = new ArrayList<>();
+    for (String key : Collections.list(productVisionsProperties.getKeys())) {
+      Map<String,String> productVision = new HashMap<>();
+      productVision.put("statement", productVisionsProperties.getString(key));
+      productVisions.add(productVision);
     }
 
     Map<String, Object> data = new HashMap<>();
     data.put("countriesWithChampions", countryChampions);
-    data.put("visionStatements", visionStatements);
+    data.put("productVisions", productVisions);
     data.put("countryAggregation", countryAggregation);
     return ok(render("Home", data, "LandingPage/index.mustache"));
-
-  }
-
-  private static List<HashMap<String, String>> getGoogleData(String spreadsheet, String worksheet)
-      throws IOException {
-
-    List<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
-    URL url = new URL("https://spreadsheets.google.com/feeds/list/" + spreadsheet + "/" + worksheet
-        + "/public/values?alt=json");
-    ObjectMapper mapper = new ObjectMapper();
-    LinkedHashMap<String, LinkedHashMap<String, ArrayList<LinkedHashMap<String, LinkedHashMap<String, String>>>>> json //
-    = mapper.readValue(url, LinkedHashMap.class);
-    LinkedHashMap<String, ArrayList<LinkedHashMap<String, LinkedHashMap<String, String>>>> feed = json
-        .get("feed");
-    ArrayList<LinkedHashMap<String, LinkedHashMap<String, String>>> rows = feed.get("entry");
-
-    for (LinkedHashMap<String, LinkedHashMap<String, String>> row : rows) {
-      HashMap<String, String> e = new HashMap<String, String>();
-      for (Map.Entry<String, LinkedHashMap<String, String>> entry : row.entrySet()) {
-        String key = entry.getKey();
-        if (key.contains("$")) {
-          e.put(key.split("\\$")[1], entry.getValue().get("$t").toString());
-          Logger.error(entry.getValue().getClass().getName());
-        }
-      }
-      result.add(e);
-    }
-
-    return result;
 
   }
 
