@@ -31,9 +31,9 @@ import java.util.ResourceBundle;
  * @author fo
  */
 public abstract class OERWorldMap extends Controller {
-    
+
   final protected static Configuration mConf = Play.application().configuration();
-    
+
   final private static Settings clientSettings = ImmutableSettings.settingsBuilder()
         .put(new ElasticsearchConfig().getClientSettings()).build();
   final private static Client mClient = new TransportClient(clientSettings)
@@ -54,22 +54,18 @@ public abstract class OERWorldMap extends Controller {
   // Internationalization
   protected static Locale currentLocale;
   static {
-    try {
-      currentLocale = request().acceptLanguages().get(0).toLocale();
-    } catch (IndexOutOfBoundsException e) {
-      currentLocale = Locale.getDefault();
+    if (mConf.getBoolean("i18n.enabled")) {
+      try {
+        currentLocale = request().acceptLanguages().get(0).toLocale();
+      } catch (IndexOutOfBoundsException e) {
+        currentLocale = Locale.getDefault();
+      }
+    } else {
+      currentLocale = new Locale("en");
     }
   }
-  
-  protected static Html render(String pageTitle, Map<String, Object> data, String templatePath) {
 
-    // Internationalization
-    Locale currentLocale;
-    try {
-      currentLocale = request().acceptLanguages().get(0).toLocale();
-    } catch (IndexOutOfBoundsException e) {
-      currentLocale = Locale.getDefault();
-    }
+  protected static Html render(String pageTitle, Map<String, Object> data, String templatePath) {
 
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
     Map<String, String> i18n = new HashMap<>();
@@ -81,12 +77,12 @@ public abstract class OERWorldMap extends Controller {
       }
     }
     data.put("i18n", i18n);
-    
+
     Mustache template = MustacheFactory.compile(templatePath);
     Writer writer = new StringWriter();
     template.execute(writer, data);
     return views.html.main.render(pageTitle, Html.apply(writer.toString()));
 
   }
-  
+
 }
