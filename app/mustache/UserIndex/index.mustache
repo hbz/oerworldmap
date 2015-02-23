@@ -10,7 +10,7 @@
             <div class="form-group">
 
                 <label class="sr-only" for="register-country">{{i18n.country}}</label>
-                <select class="form-control input-lg" name="address.addressCountry" id="register-country">
+                <select class="form-control input-lg" name="address[addressCountry]" id="register-country">
                     <option value="">{{i18n.select_country}}</option>
                     {{#countries}}
                     <option value="{{alpha-2}}">{{name}}</option>
