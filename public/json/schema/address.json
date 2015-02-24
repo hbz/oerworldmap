@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://www.oerworldmap.com/json/schema/address.json#",
+    "description": "An universal address description",
+    "type": "object",
+    "properties": {
+        "street-address": { "type": "string" },
+        "postal-code": { "type": "string" },
+        "locality":{ "type": "string" },
+        "region": { "type": "string" },
+        "country": { "type": "string"}
+    },
+    "required": ["locality", "country-name"]
+}

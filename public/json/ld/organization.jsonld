@@ -1,0 +1,20 @@
+{
+	"@context": "http://schema.org",
+	"@type": "Organization",
+        "@id": "1234567",
+        "foo" : "bar",
+        "location" : {
+	        "address": {
+			"@type": "address",
+			"locality": "Cologne",
+			"country-name": "Germany",
+			"postal-code": "D-50931",
+			"street-address": "Jülicher Straße 6"
+		},
+		"geo" : {
+			 "latitude": 50.934053, 
+       	     "longitude": 6.935523
+		}
+	},
+	"name": "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+}

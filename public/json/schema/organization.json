@@ -1,0 +1,75 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"id": "http://www.oerworldmap.com/json/schema/organization.json#",
+	"title": "Organization",
+	"description": "An institution serving or working with Open Educational Resources.",
+	"type": "object",
+	"properties": 
+	{
+		"@id": 
+		{
+			"description": "The organization's unique identifier",
+			"type": "string"
+		},
+
+		"location": 
+		{
+			"description": "The organization's address and geo data",
+			"properties": 
+			{
+				"geo": 
+				{
+					"properties": 
+					{
+						"latitude": 
+						{
+							"type": "number"
+						},
+
+						"longitude": 
+						{
+							"type": "number"
+						}
+					}
+				},
+
+				"address": 
+				{
+					"properties": 
+					{
+						"street-address": 
+						{
+							"type": "string"
+						},
+
+						"postal-code": 
+						{
+							"type": "string"
+						},
+
+						"locality": 
+						{
+							"type": "string"
+						},
+
+						"region": 
+						{
+							"type": "string"
+						},
+
+						"country": 
+						{
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+
+		"name": 
+		{
+			"description": "The organization's primary name, e.g. a legally recognized name",
+			"type": "string"
+		}
+	}
+}

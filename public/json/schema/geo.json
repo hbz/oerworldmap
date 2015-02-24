@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://www.oerworldmap.com/json/schema/geo.json#",
+    "description": "A geographical coordinate",
+    "type": "object",
+    "properties": {
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" }
+    },
+    "required": ["latitude", "longitude"]
+}
