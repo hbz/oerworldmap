@@ -26,7 +26,7 @@ public class OrganizationTest {
       IOException {
 
     organizationSchema = JsonSchemaFactory.byDefault().getJsonSchema(
-        new ObjectMapper().readTree(Paths.get("public/json/schema/organization.json").toFile()));
+        new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()));
     organizationInstance = new ObjectMapper().readTree(Files.readAllBytes(Paths
         .get("public/json/ld/organization.jsonld")));
   }

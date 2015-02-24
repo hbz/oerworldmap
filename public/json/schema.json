@@ -1,24 +1,22 @@
 {
 	"id": "#root", 
-	"properties": {
-		"organization": {
-			"$schema": "http://json-schema.org/draft-04/schema#", 
-			"title": "Organization", 
-			"description": "An institution serving or working with Open Educational Resources.", 
-			"type": "object", 
-			"properties": {
-				"@id": {
-					"description": "The organization's unique identifier", 
-					"type": "string"
-				}, 
-				"location": {
-					"description": "The organization's address and geo data", 
-					"$ref": "#/location"
-				}, 
-				"name": {
-					"description": "The organization's primary name, e.g. a legally recognized name", 
-					"type": "string"
-				}
+	"organization": {
+		"$schema": "http://json-schema.org/draft-04/schema#", 
+		"title": "Organization", 
+		"description": "An institution serving or working with Open Educational Resources.", 
+		"type": "object", 
+		"properties": {
+			"@id": {
+				"description": "The organization's unique identifier", 
+				"type": "string"
+			}, 
+			"location": {
+				"description": "The organization's address and geo data", 
+				"$ref": "#/location"
+			}, 
+			"name": {
+				"description": "The organization's primary name, e.g. a legally recognized name", 
+				"type": "string"
 			}
 		}
 	}, 
