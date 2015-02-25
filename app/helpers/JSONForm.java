@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class JSONForm {
 
-  public static String parseFormData(Map<String,String[]> formData) {
+  public static JsonNode parseFormData(Map<String,String[]> formData) {
     List<JsonNode> result = new ArrayList<>();
     for (Map.Entry<String,String[]> entry : formData.entrySet()) {
       JsonNode context = new ObjectNode(JsonNodeFactory.instance);
@@ -72,7 +72,7 @@ public class JSONForm {
       }
       result.add(context);
     }
-    return merge(result).toString();
+    return merge(result);
   }
 
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
