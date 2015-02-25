@@ -1,22 +1,29 @@
 {
   "id": "#root",
-  "person": {
+
+  "Person": {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Person Schema for the OER World Map",
+    "title": "Person",
+    "description": "A person serving or working with Open Educational Resources.",
     "type": "object",
     "properties": {
+      "@id": {
+        "description": "The person's unique identifier",
+        "type": "string"
+      },
       "email": {
         "type": "string",
         "format": "email"
       },
-      "location": {
-        "$ref": "#/location"
+      "workLocation": {
+        "$ref": "#/Place"
       }
     },
-    "required": ["email", "location"],
+    "required": ["email", "workLocation"],
     "additionalProperties": false
   },
-  "organization": {
+
+  "Organization": {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Organization",
     "description": "An institution serving or working with Open Educational Resources.",
@@ -28,33 +35,40 @@
       },
       "location": {
         "description": "The organization's address and geo data",
-        "$ref": "#/location"
+        "$ref": "#/Place"
       },
-      "name": {
+      "legalName": {
         "description": "The organization's primary name, e.g. a legally recognized name",
         "type": "string"
       }
-    }
+    },
+    "required": ["legalName", "location"],
+    "additionalProperties": false
   },
-  "location": {
+
+  "Place": {
     "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Place",
     "description": "An location description consisting of an address and/or geo data",
     "type": "object",
     "properties": {
       "geo": {
-        "$ref": "#/geo"
+        "$ref": "#/GeoCoordinates"
       },
       "address": {
-        "$ref": "#/address"
+        "$ref": "#/PostalAddress"
       }
     },
     "required": [
       "geo",
       "address"
-    ]
+    ],
+    "additionalProperties": false
   },
-  "geo": {
+
+  "GeoCoordinates": {
     "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "GeoCoordinates",
     "description": "A geographical coordinate",
     "type": "object",
     "properties": {
@@ -68,32 +82,44 @@
     "required": [
       "latitude",
       "longitude"
-    ]
+    ],
+    "additionalProperties": false
   },
-  "address": {
+
+  "PostalAddress": {
     "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "PostalAddress",
     "description": "An universal address description",
     "type": "object",
     "properties": {
-      "street-address": {
+      "streetAddress": {
         "type": "string"
       },
-      "postal-code": {
+      "postalCode": {
         "type": "string"
       },
-      "locality": {
+      "addressLocality": {
         "type": "string"
       },
-      "region": {
+      "addressRegion": {
         "type": "string"
       },
-      "country": {
-        "type": "string"
+      "addressCountry": {
+        "$ref": "#/Country"
       }
     },
     "required": [
-      "locality",
-      "country-name"
-    ]
+      "addressCountry"
+    ],
+    "additionalProperties": false
+  },
+
+  "Country": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Country",
+    "description": "A country, represented by its ISO country code",
+    "type": "string",
+    "enum":["AD","AE","AF","AG","AI","AL","AM","AN","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"]
   }
+
 }
