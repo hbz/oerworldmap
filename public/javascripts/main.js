@@ -1,3 +1,38 @@
+// --- feed ---
+
+google.load("feeds", "1");
+
+function initialize() {
+  var feed = new google.feeds.Feed("https://oerworldmap.wordpress.com/feed/");
+  feed.load(function(result) {
+    if (!result.error) {
+      console.log(result.feed.entries[0]);
+      $('#blog-link').prepend(
+        '<div class="blog-post-preview blank-line" id="blog-latest-post-preview">' +
+          '<p>' + 
+            '<strong><a href="' + result.feed.entries[0].link + '">Latest Post: ' + result.feed.entries[0].title + '</a></strong><br/>' +
+            result.feed.entries[0].contentSnippet +
+          '</p>' +
+        '</div>'
+      );
+      
+/*
+      var container = document.getElementById("blog");
+      for (var i = 0; i < result.feed.entries.length; i++) {
+        var entry = result.feed.entries[i];
+        var div = document.createElement("div");
+        div.appendChild(document.createTextNode(entry.title));
+        container.appendChild(div);
+      }
+*/
+
+    }
+  });
+}
+google.setOnLoadCallback(initialize);
+
+
+
 // --- helpers ---
 
 // Returns a random integer between min (included) and max (excluded)
@@ -118,6 +153,7 @@ $(document).ready(function(){
   
   // --- hijax behavior ---
   hijax($('body'));
+
 	
 });
 
