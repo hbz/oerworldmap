@@ -88,13 +88,13 @@ $(document).ready(function(){
         (
           users_registered
           ?
-          '<strong>' + data[code] + '</strong> users registered in ' + el.html() + ' (Click to register ...)<br>'
+          '<i class="fa fa-fw fa-user"></i> <strong>' + data[code] + '</strong> users registered in ' + el.html() + ' (Click to register ...)<br>'
           :
-          'No users registered in ' + el.html() + ' (Click to register ...)<br>'
+          '<i class="fa fa-fw fa-user"></i> No users registered in ' + el.html() + ' (Click to register ...)<br>'
         ) + (
           country_champion
           ?
-          'And we have a country champion!<br>'
+          '<i class="fa fa-fw fa-trophy"></i> And we have a country champion!<br>'
           :
           ''
         )
