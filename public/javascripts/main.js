@@ -7,6 +7,14 @@ function initialize() {
   feed.load(function(result) {
     if (!result.error) {
       console.log(result.feed.entries[0]);
+      
+      
+      $.get('/assets/mustache/LandingPage/blog-post-preview.mustache', function(template) {
+        var rendered = Mustache.render(template, {post: result.feed.entries[0]});
+        $('#blog-link').prepend(rendered);
+      });
+      
+/*
       $('#blog-link').prepend(
         '<div class="blog-post-preview blank-line" id="blog-latest-post-preview">' +
           '<p>' + 
@@ -15,6 +23,7 @@ function initialize() {
           '</p>' +
         '</div>'
       );
+*/
       
 /*
       var container = document.getElementById("blog");
