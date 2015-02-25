@@ -1,7 +1,9 @@
 @text-color: #ffffff;
 @text-color-70: rgba(255, 255, 255, 0.7);
 @background-color: #0c75bf;
-@hightlight-color: #cf7f07;
+//@hightlight-color: #cf7f07;
+@hightlight-color: #f09711;
+
 
 @paragraph-distance: 10px;
 
@@ -57,6 +59,10 @@ blockquote {
 
 .blank-line {
   margin-bottom: 1.42857em;
+}
+
+.blank-line-above {
+  margin-top: 1.42857em;
 }
 
 
@@ -168,6 +174,28 @@ a.btn {
 	background: rgba(255, 255, 255, 0.25);
 }
 
+
+/* --- panel --- */
+
+.panel {
+  background: rgba(255,255,255,0.2);
+  text-align: left;
+  border: none;
+}
+
+.panel-default > .panel-heading {
+  background: rgba(255,255,255,0.3);
+  border: none;
+  color: @text-color;
+}
+
+.panel p:last-child {
+  margin-bottom: 0px;
+}
+
+h3 + .panel {
+  margin-top: 30px;
+}
 
 /* --- jvectormap tip --- */
 

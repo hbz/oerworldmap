@@ -1,6 +1,13 @@
-<div class="blog-post-preview blank-line" id="blog-latest-post-preview">
-  <p>
-    <strong><a href="{{post.link}}">Latest Post: {{post.title}}</a></strong><br />
-    {{post.contentSnippet300}}
-  </p>
+<div class="panel panel-default blog-post-preview blank-line" id="blog-latest-post-preview">
+  <div class="panel-heading">
+    <a href="{{post.link}}">{{post.title}}</a>
+    <div class="pull-right">
+      (Latest Post, {{post.publishedDateFormated}})
+    </div>
+  </div>
+  <div class="panel-body">
+    <p>
+      {{post.contentSnippet300}}
+    </p>
+  </div>
 </div>

@@ -1,3 +1,11 @@
+// --- helpers ---
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 String.prototype.cutOff = function(x) {
   //trim the string to the maximum length
   var trimmedString = this.substr(0, x);
@@ -8,35 +16,42 @@ String.prototype.cutOff = function(x) {
   return trimmedString + " ...";
 };
 
-// --- feed ---
 
-google.load("feeds", "1");
+// --- hijax helper ---
 
-function initialize() {
-  var feed = new google.feeds.Feed("https://oerworldmap.wordpress.com/feed/");
-  feed.load(function(result) {
-    if (!result.error) {
-      result.feed.entries[0].contentSnippet300 = $( result.feed.entries[0].content ).text().cutOff(300);        
-      console.log(result.feed.entries[0]);
-      
-      $.get('/assets/mustache/LandingPage/blog-post-preview.mustache', function(template) {
-        var rendered = Mustache.render(template, {post: result.feed.entries[0]});
-        $('#blog-link').prepend(rendered);
+function hijax(element) {
+
+  $('a.hijax.transclude', element).each(function() {
+    var a = $(this);
+    $.get(a.attr('href'))
+      .done(function(data) {
+        a.replaceWith(hijax(body(data)));
+      })
+      .fail(function(jqXHR) {
+        a.replaceWith(hijax(body(jqXHR.responseText)));
       });
-
-    }
   });
+
+  $('form', element).submit(function() {
+    var form = $(this);
+    var action = form.attr('action');
+    var method = form.attr('method');
+    $.ajax({type: method, url: action, data: form.serialize()})
+      .done(function(data) {
+        form.replaceWith(hijax(body(data)));
+      })
+      .fail(function(jqXHR) {
+        form.replaceWith(hijax(body(jqXHR.responseText)));
+       });
+    return false;
+  });
+
+  return element;
+
 }
-google.setOnLoadCallback(initialize);
 
-
-
-// --- helpers ---
-
-// Returns a random integer between min (included) and max (excluded)
-// Using Math.round() will give you a non-uniform distribution!
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+function body(data) {
+  return $(data.match(/<\s*body.*>[\s\S]*<\s*\/body\s*>/ig).join(""))
 }
 
 
@@ -151,42 +166,33 @@ $(document).ready(function(){
   
   // --- hijax behavior ---
   hijax($('body'));
-
 	
 });
 
-function hijax(element) {
 
-  $('a.hijax.transclude', element).each(function() {
-    var a = $(this);
-    $.get(a.attr('href'))
-      .done(function(data) {
-        a.replaceWith(hijax(body(data)));
-      })
-      .fail(function(jqXHR) {
-        a.replaceWith(hijax(body(jqXHR.responseText)));
+// --- blog ---
+
+google.load("feeds", "1");
+
+function initialize() {
+  var feed = new google.feeds.Feed("https://oerworldmap.wordpress.com/feed/");
+  feed.load(function(result) {
+    if (!result.error) {
+      var latest_post = result.feed.entries[0];
+      
+      // add 300 character snippet
+      latest_post.contentSnippet300 = $( result.feed.entries[0].content ).text().cutOff(300);
+      
+      // add formated date
+      var published_date = new Date( latest_post.publishedDate );
+      latest_post.publishedDateFormated = published_date.toLocaleDateString();
+      
+      // render template
+      $.get('/assets/mustache/LandingPage/blog-post-preview.mustache', function(template) {
+        var rendered = Mustache.render(template, {post: latest_post});
+        $('#blog-link').prepend(rendered);
       });
+    }
   });
-
-  $('form', element).submit(function() {
-    var form = $(this);
-    var action = form.attr('action');
-    var method = form.attr('method');
-    $.ajax({type: method, url: action, data: form.serialize()})
-      .done(function(data) {
-        form.replaceWith(hijax(body(data)));
-      })
-      .fail(function(jqXHR) {
-        form.replaceWith(hijax(body(jqXHR.responseText)));
-       });
-    return false;
-  });
-
-  return element;
-
 }
-
-function body(data) {
-  return $(data.match(/<\s*body.*>[\s\S]*<\s*\/body\s*>/ig).join(""))
-}
-
+google.setOnLoadCallback(initialize);
