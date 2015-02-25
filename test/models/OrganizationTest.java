@@ -5,16 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.junit.Assert;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ProcessingReport;
 
 public class OrganizationTest {
 
@@ -22,8 +21,7 @@ public class OrganizationTest {
   private static JsonNode organizationInstance;
 
   @BeforeClass
-  public static void testConstructorWithoutId() throws JsonProcessingException, ProcessingException,
-      IOException {
+  public static void testConstructorWithoutId() throws IOException, ProcessingException {
 
     organizationSchema = JsonSchemaFactory.byDefault().getJsonSchema(
         new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()));
