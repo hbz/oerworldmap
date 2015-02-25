@@ -1,83 +1,99 @@
 {
-	"id": "#root", 
-	"organization": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"title": "Organization", 
-		"description": "An institution serving or working with Open Educational Resources.", 
-		"type": "object", 
-		"properties": {
-			"@id": {
-				"description": "The organization's unique identifier", 
-				"type": "string"
-			}, 
-			"location": {
-				"description": "The organization's address and geo data", 
-				"$ref": "#/location"
-			}, 
-			"name": {
-				"description": "The organization's primary name, e.g. a legally recognized name", 
-				"type": "string"
-			}
-		}
-	}, 
-	"location": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"description": "An location description consisting of an address and/or geo data", 
-		"type": "object", 
-		"properties": {
-			"geo": {
-				"$ref": "#/geo"
-			}, 
-			"address": {
-				"$ref": "#/address"
-			}
-		}, 
-		"required": [
-			"geo", 
-			"address"
-		]
-	}, 
-	"geo": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"description": "A geographical coordinate", 
-		"type": "object", 
-		"properties": {
-			"latitude": {
-				"type": "number"
-			}, 
-			"longitude": {
-				"type": "number"
-			}
-		}, 
-		"required": [
-			"latitude", 
-			"longitude"
-		]
-	}, 
-	"address": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"description": "An universal address description", 
-		"type": "object", 
-		"properties": {
-			"street-address": {
-				"type": "string"
-			}, 
-			"postal-code": {
-				"type": "string"
-			}, 
-			"locality": {
-				"type": "string"
-			}, 
-			"region": {
-				"type": "string"
-			}, 
-			"country": {
-				"type": "string"
-			}
-		}, 
-		"required": [
-			"locality", 
-			"country-name"
-		]
-	}
+  "id": "#root",
+  "person": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Person Schema for the OER World Map",
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "location": {
+        "$ref": "#/location"
+      }
+    },
+    "required": ["email", "location"],
+    "additionalProperties": false
+  },
+  "organization": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Organization",
+    "description": "An institution serving or working with Open Educational Resources.",
+    "type": "object",
+    "properties": {
+      "@id": {
+        "description": "The organization's unique identifier",
+        "type": "string"
+      },
+      "location": {
+        "description": "The organization's address and geo data",
+        "$ref": "#/location"
+      },
+      "name": {
+        "description": "The organization's primary name, e.g. a legally recognized name",
+        "type": "string"
+      }
+    }
+  },
+  "location": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "An location description consisting of an address and/or geo data",
+    "type": "object",
+    "properties": {
+      "geo": {
+        "$ref": "#/geo"
+      },
+      "address": {
+        "$ref": "#/address"
+      }
+    },
+    "required": [
+      "geo",
+      "address"
+    ]
+  },
+  "geo": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "A geographical coordinate",
+    "type": "object",
+    "properties": {
+      "latitude": {
+        "type": "number"
+      },
+      "longitude": {
+        "type": "number"
+      }
+    },
+    "required": [
+      "latitude",
+      "longitude"
+    ]
+  },
+  "address": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "An universal address description",
+    "type": "object",
+    "properties": {
+      "street-address": {
+        "type": "string"
+      },
+      "postal-code": {
+        "type": "string"
+      },
+      "locality": {
+        "type": "string"
+      },
+      "region": {
+        "type": "string"
+      },
+      "country": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "locality",
+      "country-name"
+    ]
+  }
 }
