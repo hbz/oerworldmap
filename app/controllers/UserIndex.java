@@ -25,7 +25,8 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.mvc.Result;
-
+import services.ElasticsearchRepository;
+import services.ResourceRepository;
 import helpers.Countries;
 
 public class UserIndex extends OERWorldMap {
@@ -65,7 +66,7 @@ public class UserIndex extends OERWorldMap {
       } else {
         user.put("email", email);
 
-        if (!"".equals(countryCode)) {
+        if (!StringUtils.isEmpty(countryCode)) {
           Resource address = new Resource("PostalAddress");
           address.put("countryName", countryCode);
           user.put("address", address);
@@ -111,7 +112,7 @@ public class UserIndex extends OERWorldMap {
     if (StringUtils.isEmpty(aEmail)){
       errors.add(new ValidationError("email", "Please specify an email address."));
     }
-    else if (!resourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
+    else if (!mResourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
       errors.add(new ValidationError("email", "This e-mail is already registered."));
     } else if (!EmailValidator.getInstance().isValid(aEmail)) {
       errors.add(new ValidationError("email", "This is not a valid e-mail adress."));
@@ -161,11 +162,12 @@ public class UserIndex extends OERWorldMap {
       return ok(render("Registration", data, "feedback.mustache"));
     }
 
-    resourceRepository.addResource(user);
+    mResourceRepository.addResource(user);
     data.put("status", "success");
     data.put("message", "Thank you for your interest in the OER World Map. Your email address <em>"
             + user.get("email") + "</em> has been confirmed."
     );
+    
     return ok(render("Registration", data, "feedback.mustache"));
 
   }

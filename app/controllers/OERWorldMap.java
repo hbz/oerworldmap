@@ -33,14 +33,13 @@ import java.util.ResourceBundle;
 public abstract class OERWorldMap extends Controller {
     
   final protected static Configuration mConf = Play.application().configuration();
-    
-  final private static Settings clientSettings = ImmutableSettings.settingsBuilder()
+  final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
         .put(new ElasticsearchConfig().getClientSettings()).build();
-  final private static Client mClient = new TransportClient(clientSettings)
+  final private static Client mClient = new TransportClient(mClientSettings)
         .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
             9300));
   final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  final protected static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(mElasticsearchClient);
 
   final protected static FileResourceRepository mUnconfirmedUserRepository;
   static {

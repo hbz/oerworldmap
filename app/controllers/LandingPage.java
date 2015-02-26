@@ -28,7 +28,7 @@ public class LandingPage extends OERWorldMap {
 
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
         "address.countryName");
-    Resource countryAggregation = resourceRepository.query(aggregationBuilder);
+    Resource countryAggregation = mResourceRepository.query(aggregationBuilder);
 
     ResourceBundle countryChampionsProperties = ResourceBundle.getBundle("CountryChampionsBundle");
     List<Map<String,String>> countryChampions = new ArrayList<>();
