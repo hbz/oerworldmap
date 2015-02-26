@@ -1,83 +1,125 @@
 {
-	"id": "#root", 
-	"organization": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"title": "Organization", 
-		"description": "An institution serving or working with Open Educational Resources.", 
-		"type": "object", 
-		"properties": {
-			"@id": {
-				"description": "The organization's unique identifier", 
-				"type": "string"
-			}, 
-			"location": {
-				"description": "The organization's address and geo data", 
-				"$ref": "#/location"
-			}, 
-			"name": {
-				"description": "The organization's primary name, e.g. a legally recognized name", 
-				"type": "string"
-			}
-		}
-	}, 
-	"location": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"description": "An location description consisting of an address and/or geo data", 
-		"type": "object", 
-		"properties": {
-			"geo": {
-				"$ref": "#/geo"
-			}, 
-			"address": {
-				"$ref": "#/address"
-			}
-		}, 
-		"required": [
-			"geo", 
-			"address"
-		]
-	}, 
-	"geo": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"description": "A geographical coordinate", 
-		"type": "object", 
-		"properties": {
-			"latitude": {
-				"type": "number"
-			}, 
-			"longitude": {
-				"type": "number"
-			}
-		}, 
-		"required": [
-			"latitude", 
-			"longitude"
-		]
-	}, 
-	"address": {
-		"$schema": "http://json-schema.org/draft-04/schema#", 
-		"description": "An universal address description", 
-		"type": "object", 
-		"properties": {
-			"street-address": {
-				"type": "string"
-			}, 
-			"postal-code": {
-				"type": "string"
-			}, 
-			"locality": {
-				"type": "string"
-			}, 
-			"region": {
-				"type": "string"
-			}, 
-			"country": {
-				"type": "string"
-			}
-		}, 
-		"required": [
-			"locality", 
-			"country-name"
-		]
-	}
+  "id": "#root",
+
+  "Person": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Person",
+    "description": "A person serving or working with Open Educational Resources.",
+    "type": "object",
+    "properties": {
+      "@id": {
+        "description": "The person's unique identifier",
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "workLocation": {
+        "$ref": "#/Place"
+      }
+    },
+    "required": ["email", "workLocation"],
+    "additionalProperties": false
+  },
+
+  "Organization": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Organization",
+    "description": "An institution serving or working with Open Educational Resources.",
+    "type": "object",
+    "properties": {
+      "@id": {
+        "description": "The organization's unique identifier",
+        "type": "string"
+      },
+      "location": {
+        "description": "The organization's address and geo data",
+        "$ref": "#/Place"
+      },
+      "legalName": {
+        "description": "The organization's primary name, e.g. a legally recognized name",
+        "type": "string"
+      }
+    },
+    "required": ["legalName", "location"],
+    "additionalProperties": false
+  },
+
+  "Place": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Place",
+    "description": "An location description consisting of an address and/or geo data",
+    "type": "object",
+    "properties": {
+      "geo": {
+        "$ref": "#/GeoCoordinates"
+      },
+      "address": {
+        "$ref": "#/PostalAddress"
+      }
+    },
+    "required": [
+      "geo",
+      "address"
+    ],
+    "additionalProperties": false
+  },
+
+  "GeoCoordinates": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "GeoCoordinates",
+    "description": "A geographical coordinate",
+    "type": "object",
+    "properties": {
+      "latitude": {
+        "type": "number"
+      },
+      "longitude": {
+        "type": "number"
+      }
+    },
+    "required": [
+      "latitude",
+      "longitude"
+    ],
+    "additionalProperties": false
+  },
+
+  "PostalAddress": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "PostalAddress",
+    "description": "An universal address description",
+    "type": "object",
+    "properties": {
+      "streetAddress": {
+        "type": "string"
+      },
+      "postalCode": {
+        "type": "string"
+      },
+      "addressLocality": {
+        "type": "string"
+      },
+      "addressRegion": {
+        "type": "string"
+      },
+      "addressCountry": {
+        "$ref": "#/Country"
+      }
+    },
+    "required": [
+      "addressCountry"
+    ],
+    "additionalProperties": false
+  },
+
+  "Country": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Country",
+    "description": "A country, represented by its ISO country code",
+    "type": "string",
+    "enum":["AD","AE","AF","AG","AI","AL","AM","AN","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"]
+  }
+
 }

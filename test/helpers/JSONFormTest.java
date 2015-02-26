@@ -29,7 +29,7 @@ public class JSONFormTest {
     formData.put("foo", new String[]{"bar"});
     formData.put("baz", new String[]{"bam"});
     String expected = "{\"foo\":\"bar\",\"baz\":\"bam\"}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -41,7 +41,7 @@ public class JSONFormTest {
     formData.put("foo[corge][grault]", new String[]{"fred"});
     formData.put("foo[garply]", new String[]{"waldo"});
     String expected = "{\"foo\":{\"bar\":{\"qux\":\"quux\",\"baz\":\"bam\"},\"corge\":{\"grault\":\"fred\"},\"garply\":\"waldo\"}}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -52,7 +52,7 @@ public class JSONFormTest {
     formData.put("foo[1]", new String[]{"baz"});
     formData.put("foo[2]", new String[]{"bam"});
     String expected = "{\"foo\":[\"bar\",\"baz\",\"bam\"]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -61,7 +61,7 @@ public class JSONFormTest {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo", new String[]{"bar", "baz", "bam"});
     String expected = "{\"foo\":[\"bar\",\"baz\",\"bam\"]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -70,7 +70,7 @@ public class JSONFormTest {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[]", new String[]{"bar", "baz", "bam"});
     String expected = "{\"foo\":[\"bar\",\"baz\",\"bam\"]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -79,7 +79,7 @@ public class JSONFormTest {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[]", new String[]{"bar"});
     String expected = "{\"foo\":[\"bar\"]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -90,7 +90,7 @@ public class JSONFormTest {
     formData.put("foo[0][1]", new String[]{"baz"});
     formData.put("foo[0][2]", new String[]{"bam"});
     String expected = "{\"foo\":[[\"bar\",\"baz\",\"bam\"]]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -100,7 +100,7 @@ public class JSONFormTest {
     formData.put("foo[0]", new String[]{"bar"});
     formData.put("foo[2]", new String[]{"bam"});
     String expected = "{\"foo\":[\"bar\",null,\"bam\"]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -109,7 +109,7 @@ public class JSONFormTest {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[0]", new String[]{"bar", "baz", "bam"});
     String expected = "{\"foo\":[[\"bar\",\"baz\",\"bam\"]]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -118,7 +118,7 @@ public class JSONFormTest {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[0][]", new String[]{"bar", "baz", "bam"});
     String expected = "{\"foo\":[[\"bar\",\"baz\",\"bam\"]]}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
@@ -130,7 +130,7 @@ public class JSONFormTest {
     formData.put("foo[0", new String[]{"bar"});
     formData.put("foo[", new String[]{"bar"});
     String expected = "{\"foo[bar][baz\":\"bar\",\"foo[\":\"bar\",\"foo[][bar]\":[\"bar\",\"baz\",\"bam\"],\"foo[0\":\"bar\"}";
-    String result = JSONForm.parseFormData(formData);
+    String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }
 
