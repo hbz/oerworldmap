@@ -6,6 +6,54 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+String.prototype.cutOff = function(x) {
+  //trim the string to the maximum length
+  var trimmedString = this.substr(0, x);
+  
+  //re-trim if we are in the middle of a word
+  trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+  
+  return trimmedString + " ...";
+};
+
+
+// --- hijax helper ---
+
+function hijax(element) {
+
+  $('a.hijax.transclude', element).each(function() {
+    var a = $(this);
+    $.get(a.attr('href'))
+      .done(function(data) {
+        a.replaceWith(hijax(body(data)));
+      })
+      .fail(function(jqXHR) {
+        a.replaceWith(hijax(body(jqXHR.responseText)));
+      });
+  });
+
+  $('form', element).submit(function() {
+    var form = $(this);
+    var action = form.attr('action');
+    var method = form.attr('method');
+    $.ajax({type: method, url: action, data: form.serialize()})
+      .done(function(data) {
+        form.replaceWith(hijax(body(data)));
+      })
+      .fail(function(jqXHR) {
+        form.replaceWith(hijax(body(jqXHR.responseText)));
+       });
+    return false;
+  });
+
+  return element;
+
+}
+
+function body(data) {
+  return $(data.match(/<\s*body.*>[\s\S]*<\s*\/body\s*>/ig).join(""))
+}
+
 
 $(document).ready(function(){
 	
@@ -88,13 +136,13 @@ $(document).ready(function(){
         (
           users_registered
           ?
-          '<strong>' + data[code] + '</strong> users registered in ' + el.html() + ' (Click to register ...)<br>'
+          '<i class="fa fa-fw fa-user"></i> <strong>' + data[code] + '</strong> users registered in ' + el.html() + ' (Click to register ...)<br>'
           :
-          'No users registered in ' + el.html() + ' (Click to register ...)<br>'
+          '<i class="fa fa-fw fa-user"></i> No users registered in ' + el.html() + ' (Click to register ...)<br>'
         ) + (
           country_champion
           ?
-          'And we have a country champion!<br>'
+          '<i class="fa fa-fw fa-trophy"></i> And we have a country champion!<br>'
           :
           ''
         )
@@ -121,38 +169,30 @@ $(document).ready(function(){
 	
 });
 
-function hijax(element) {
 
-  $('a.hijax.transclude', element).each(function() {
-    var a = $(this);
-    $.get(a.attr('href'))
-      .done(function(data) {
-        a.replaceWith(hijax(body(data)));
-      })
-      .fail(function(jqXHR) {
-        a.replaceWith(hijax(body(jqXHR.responseText)));
+// --- blog ---
+
+google.load("feeds", "1");
+
+function initialize() {
+  var feed = new google.feeds.Feed("https://oerworldmap.wordpress.com/feed/");
+  feed.load(function(result) {
+    if (!result.error) {
+      var latest_post = result.feed.entries[0];
+      
+      // add 300 character snippet
+      latest_post.contentSnippet300 = $( result.feed.entries[0].content ).text().cutOff(300);
+      
+      // add formated date
+      var published_date = new Date( latest_post.publishedDate );
+      latest_post.publishedDateFormated = published_date.toLocaleDateString();
+      
+      // render template
+      $.get('/assets/mustache/LandingPage/blog-post-preview.mustache', function(template) {
+        var rendered = Mustache.render(template, {post: latest_post});
+        $('#blog-link').prepend(rendered);
       });
+    }
   });
-
-  $('form', element).submit(function() {
-    var form = $(this);
-    var action = form.attr('action');
-    var method = form.attr('method');
-    $.ajax({type: method, url: action, data: form.serialize()})
-      .done(function(data) {
-        form.replaceWith(hijax(body(data)));
-      })
-      .fail(function(jqXHR) {
-        form.replaceWith(hijax(body(jqXHR.responseText)));
-       });
-    return false;
-  });
-
-  return element;
-
 }
-
-function body(data) {
-  return $(data.match(/<\s*body.*>[\s\S]*<\s*\/body\s*>/ig).join(""))
-}
-
+google.setOnLoadCallback(initialize);
