@@ -24,7 +24,7 @@ public class OrganizationTest {
   public static void testConstructorWithoutId() throws IOException, ProcessingException {
 
     organizationSchema = JsonSchemaFactory.byDefault().getJsonSchema(
-        new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()), "/organization");
+        new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()));
     organizationInstance = new ObjectMapper().readTree(Files.readAllBytes(Paths
         .get("public/json/ld/organization.jsonld")));
   }

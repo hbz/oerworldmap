@@ -40,7 +40,7 @@ public class ElasticsearchClientTest {
 
   @Test
   public void testEsSearch() throws ParseException {
-    final String aQueryString = "_search?@*:*";
+    final String aQueryString = "_search?*:*";
     try {
       // TODO : this test currently presumes that there is some data existent in your elasticsearch
       // instance. Otherwise it will fail. This restriction can be overturned when a parallel method
