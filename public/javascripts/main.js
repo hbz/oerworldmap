@@ -64,7 +64,7 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#ffffff', '#a1cd3f'],
+        scale: ['#cfdfba', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
@@ -102,7 +102,7 @@ $(document).ready(function(){
     },
     onRegionClick: function(e, code) {
       console.log(code);
-      $('select[name="address[addressCountry]"]').val(code);
+      $('select[name="workLocation[address][addressCountry]"]').val(code);
       $('html, body').animate({
   			scrollTop: $('#user-register').offset().top - 100
   		}, 500, function() {

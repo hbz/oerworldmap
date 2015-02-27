@@ -27,7 +27,7 @@ public class LandingPage extends OERWorldMap {
   public static Result get() throws IOException {
 
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
-        "address.countryName");
+        "workLocation.address.addressCountry");
     Resource countryAggregation = mResourceRepository.query(aggregationBuilder);
 
     ResourceBundle countryChampionsProperties = ResourceBundle.getBundle("CountryChampionsBundle");

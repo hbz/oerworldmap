@@ -11,6 +11,10 @@
         "description": "The person's unique identifier",
         "type": "string"
       },
+      "@type": {
+        "type": "string",
+        "enum": ["Person"]
+      },
       "email": {
         "type": "string",
         "format": "email"
@@ -33,6 +37,10 @@
         "description": "The organization's unique identifier",
         "type": "string"
       },
+      "@type": {
+        "type": "string",
+        "enum": ["Organization"]
+      },
       "location": {
         "description": "The organization's address and geo data",
         "$ref": "#/Place"
@@ -52,6 +60,14 @@
     "description": "An location description consisting of an address and/or geo data",
     "type": "object",
     "properties": {
+      "@id": {
+        "description": "The place's unique identifier",
+        "type": "string"
+      },
+      "@type": {
+        "type": "string",
+        "enum": ["Place"]
+      },
       "geo": {
         "$ref": "#/GeoCoordinates"
       },
@@ -60,7 +76,6 @@
       }
     },
     "required": [
-      "geo",
       "address"
     ],
     "additionalProperties": false
@@ -72,6 +87,14 @@
     "description": "A geographical coordinate",
     "type": "object",
     "properties": {
+      "@id": {
+        "description": "The geo coordinates's unique identifier",
+        "type": "string"
+      },
+      "@type": {
+        "type": "string",
+        "enum": ["GeoCoordinates"]
+      },
       "latitude": {
         "type": "number"
       },
@@ -92,6 +115,14 @@
     "description": "An universal address description",
     "type": "object",
     "properties": {
+      "@id": {
+        "description": "The geo addresses' unique identifier",
+        "type": "string"
+      },
+      "@type": {
+        "type": "string",
+        "enum": ["PostalAddress"]
+      },
       "streetAddress": {
         "type": "string"
       },
