@@ -47,11 +47,10 @@ public class LandingPage extends OERWorldMap {
       visionStatements = new ArrayList<>();
     }
 
-    Map<String, Object> data = new HashMap<>();
-    data.put("countriesWithChampions", countryChampions);
-    data.put("visionStatements", visionStatements);
-    data.put("countryAggregation", countryAggregation);
-    return ok(render("Home", data, "LandingPage/index.mustache"));
+    mResponseData.put("countriesWithChampions", countryChampions);
+    mResponseData.put("visionStatements", visionStatements);
+    mResponseData.put("countryAggregation", countryAggregation);
+    return ok(render("Home", "LandingPage/index.mustache"));
 
   }
 
