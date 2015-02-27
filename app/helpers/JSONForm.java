@@ -2,6 +2,9 @@ package helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import models.Resource;
 import scala.util.parsing.json.JSONObject;
 
 import java.util.*;
@@ -17,7 +20,7 @@ import java.util.regex.Pattern;
 public class JSONForm {
 
   public static JsonNode parseFormData(Map<String,String[]> formData) {
-    List<JsonNode> result = new ArrayList<>();
+    List<JsonNode> results = new ArrayList<>();
     for (Map.Entry<String,String[]> entry : formData.entrySet()) {
       JsonNode context = new ObjectNode(JsonNodeFactory.instance);
       String path = entry.getKey();
@@ -70,9 +73,38 @@ public class JSONForm {
           }
         }
       }
-      result.add(context);
+      results.add(context);
     }
-    return merge(result);
+    return merge(results);
+  }
+
+  public static List<Resource> generateErrorReport(ProcessingReport report) {
+    List<Resource> errorReport = new ArrayList<>();
+    for (ProcessingMessage message : report) {
+      ObjectNode jsonMessage = (ObjectNode)message.asJson();
+      ObjectNode instanceInfo = (ObjectNode)jsonMessage.get("instance");
+      String path = pointerToPath(instanceInfo.get("pointer").textValue());
+      instanceInfo.put("path", path);
+      errorReport.add(Resource.fromJson(jsonMessage));
+    }
+    return errorReport;
+  }
+
+  private static String pointerToPath(String pointer) {
+
+    if (pointer.substring(0, 1).equals("/")) {
+      pointer = pointer.substring(1);
+    }
+
+    String[] parts = pointer.split("/");
+
+    String path = parts[0];
+    for (int i = 1; i < parts.length; i++) {
+      path = path.concat("[".concat(parts[i]).concat("]"));
+    }
+
+    return path;
+
   }
 
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
