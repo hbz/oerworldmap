@@ -56,9 +56,9 @@ function body(data) {
 
 
 $(document).ready(function(){
-	
+
   // --- visions ---
-  
+
   $('.vision-statements').slick({
     infinite: true,
     dots: true,
@@ -66,10 +66,10 @@ $(document).ready(function(){
     autoplaySpeed: 8000,
     arrows: false
   });
-  
-  
+
+
   // --- map ---
-  
+
   var table = $('table[about="#users-by-country"]'),
       map = $('#worldmap'),
       json = JSON.parse(table.find('script').html()),
@@ -78,7 +78,7 @@ $(document).ready(function(){
   for (i in json.entries) {
     data[json.entries[i].key.toUpperCase()] = json.entries[i].value;
   }
-  
+
   if(false) {
     data = {
       "DE" : 15,
@@ -102,7 +102,7 @@ $(document).ready(function(){
       "RO" : 4,
       "DZ" : 3,
       "CA" : 2
-    }; 
+    };
   }
 
   map.vectorMap({
@@ -112,26 +112,26 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#ffffff', '#a1cd3f'],
+        scale: ['#cfdfba', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
     onRegionTipShow: function(e, el, code){
       var country_champion = false;
       var users_registered = false;
-      
+
       if(
         $('ul[about="#country-champions"] li[data-country-code="' + code + '"]').length
       ) {
         country_champion = true;
       }
-      
+
       if(
         typeof data[code] != 'undefined'
       ) {
         users_registered = true;
       }
-      
+
       el.html(
         (
           users_registered
@@ -150,7 +150,7 @@ $(document).ready(function(){
     },
     onRegionClick: function(e, code) {
       console.log(code);
-      $('select[name="address.addressCountry"]').val(code);
+      $('select[name="workLocation[address][addressCountry]"]').val(code);
       $('html, body').animate({
   			scrollTop: $('#user-register').offset().top - 100
   		}, 500, function() {
@@ -163,10 +163,10 @@ $(document).ready(function(){
     }
   });
   table.hide()
-  
+
   // --- hijax behavior ---
   hijax($('body'));
-	
+
 });
 
 

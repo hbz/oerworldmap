@@ -4,10 +4,12 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import models.Resource;
 
+import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,5 +56,21 @@ public class ElasticsearchRepositoryTest {
 
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
+  }
+  
+  @Test
+  public void testAddAndEsQueryResources() throws IOException {
+    final String aQueryString = "_search?@*:*";
+    try {
+      // TODO : this test currently presumes that there is some data existent in your elasticsearch
+      // instance. Otherwise it will fail. This restriction can be overturned when a parallel method
+      // for the use of POST is introduced in ElasticsearchRepository.
+      List<Resource> result = mRepo.esQuery(aQueryString);
+      Assert.assertTrue(!result.isEmpty());
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
   }
 }

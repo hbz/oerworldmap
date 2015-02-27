@@ -15,6 +15,7 @@ import models.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.json.simple.parser.ParseException;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
@@ -83,6 +84,25 @@ public class ElasticsearchRepository implements ResourceRepository {
     Resource aggregation = new Resource("Aggregation", "country-list");
     aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
     return aggregation;
+  }
+
+  /**
+   * This search method is designed to be able to make use of the complete
+   * Elasticsearch query syntax, as described in
+   * http://www.elasticsearch.org/guide
+   * /en/elasticsearch/reference/current/search-uri-request.html .
+   * 
+   * @param aEsQuery a String representing the 
+   * @return an ArrayList of Resources representing the search result
+   * @throws IOException
+   * @throws ParseException
+   */
+  public List<Resource> esQuery(String aEsQuery) throws IOException, ParseException {
+    List<Resource> resources = new ArrayList<Resource>();
+    for (Map<String, Object> doc : elasticsearch.esQuery(aEsQuery)) {
+      resources.add(Resource.fromMap(doc));
+    }
+    return resources;
   }
 
 }

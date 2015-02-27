@@ -1,16 +1,26 @@
 <section>
     <form action="/user/" method="post">
+        {{#errors.size}}
+        <ul id="messages">
+        {{#errors}}
+            <li class="message {{level}}" about="{{instance.path}}">
+                <div class="alert alert-danger" role="alert">{{message}}</div>
+            </li>
+        {{/errors}}
+        </ul>
+        {{/errors.size}}
         <div class="form-inline register">
-
+            <input type="hidden" name="@type" value="Person" />
             <div class="form-group">
                 <label class="sr-only" for="register-email">{{i18n.email_address}}</label>
-                <input type="email" name="email" id="register-email" class="form-control input-lg" placeholder="{{i18n.placeholder_email}}" />
+                <input type="email" name="email" id="register-email" class="form-control input-lg" value="{{person.email}}" placeholder="{{i18n.placeholder_email}}" />
             </div>
 
             <div class="form-group">
-
                 <label class="sr-only" for="register-country">{{i18n.country}}</label>
-                <select class="form-control input-lg" name="address.addressCountry" id="register-country">
+                <input type="hidden" name="workLocation[@type]" value="Place" />
+                <input type="hidden" name="workLocation[address][@type]" value="PostalAddress" />
+                <select class="form-control input-lg" name="workLocation[address][addressCountry]" id="register-country">
                     <option value="">{{i18n.select_country}}</option>
                     {{#countries}}
                     <option value="{{alpha-2}}">{{name}}</option>
@@ -18,7 +28,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-lg btn-default" type="button">{{i18n.register}}</button>
+            <button class="btn btn-lg btn-defaul" type="submit">{{i18n.register}}</button>
         </div>
     </form>
 </section>

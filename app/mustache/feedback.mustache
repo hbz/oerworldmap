@@ -1,3 +1,6 @@
 <div class="alert alert-{{status}}" role="alert">
     {{{message}}}
+    {{#continue}}
+        <a href="{{continue}}">{{i18n.feedback_link_continue}}</a>
+    {{/continue}}
 </div>

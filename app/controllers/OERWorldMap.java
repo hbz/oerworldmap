@@ -33,14 +33,13 @@ import java.util.ResourceBundle;
 public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();
-
-  final private static Settings clientSettings = ImmutableSettings.settingsBuilder()
+  final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
         .put(new ElasticsearchConfig().getClientSettings()).build();
-  final private static Client mClient = new TransportClient(clientSettings)
+  final private static Client mClient = new TransportClient(mClientSettings)
         .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
             9300));
   final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  final protected static ElasticsearchRepository resourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(mElasticsearchClient);
 
   final protected static FileResourceRepository mUnconfirmedUserRepository;
   static {
@@ -65,10 +64,9 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  protected static Html render(String pageTitle, Map<String, Object> data, String templatePath) {
-
+  protected static Map<String, String> i18n = new HashMap<>();
+  static {
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-    Map<String, String> i18n = new HashMap<>();
     for (String key : Collections.list(messages.getKeys())) {
       try {
         i18n.put(key, new String(messages.getString(key).getBytes("ISO-8859-1"), "UTF-8"));
@@ -76,11 +74,18 @@ public abstract class OERWorldMap extends Controller {
         i18n.put(key, messages.getString(key));
       }
     }
-    data.put("i18n", i18n);
+  }
 
+  // Data for mustaches
+  protected static Map<String, Object> mResponseData = new HashMap<>();
+
+  protected static Html render(String pageTitle, String templatePath) {
+
+    mResponseData.put("i18n", i18n);
     Mustache template = MustacheFactory.compile(templatePath);
     Writer writer = new StringWriter();
-    template.execute(writer, data);
+    template.execute(writer, mResponseData);
+    mResponseData.clear();
     return views.html.main.render(pageTitle, Html.apply(writer.toString()));
 
   }

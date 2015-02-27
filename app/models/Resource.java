@@ -1,13 +1,16 @@
 package models;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import helpers.JsonLdConstants;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -50,6 +53,7 @@ public class Resource implements Map<String, Object> {
    * @return  a Resource containing all given properties
    */
   public static Resource fromMap(Map<String, Object> aProperties) {
+
     checkTypeExistence(aProperties);
     Resource resource;
     if (hasId(aProperties)) {
@@ -71,7 +75,33 @@ public class Resource implements Map<String, Object> {
     }
     return resource;
   }
-  
+
+  public static Resource fromJson(JsonNode aJson) {
+    Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
+        new TypeReference<HashMap<String, Object>>(){});
+    return fromMap(resourceMap);
+  }
+
+  public ProcessingReport validate() {
+    JsonSchema schema;
+    ProcessingReport report;
+    try {
+      schema = JsonSchemaFactory.byDefault().getJsonSchema(
+          new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()),
+              "/".concat(mProperties.get(JsonLdConstants.TYPE).toString())
+      );
+      report = schema.validate(toJson());
+    } catch (ProcessingException | IOException e) {
+      report = new ListProcessingReport();
+      e.printStackTrace();
+    }
+    return report;
+  }
+
+  public JsonNode toJson() {
+    return new ObjectMapper().convertValue(mProperties, JsonNode.class);
+  }
+
   /**
    * Get a JSON string representation of the resource.
    *
@@ -79,7 +109,7 @@ public class Resource implements Map<String, Object> {
    */
   @Override
   public String toString() {
-    return new ObjectMapper().convertValue(mProperties, JsonNode.class).toString();
+    return toJson().toString();
   }
 
   @Override
@@ -116,7 +146,7 @@ public class Resource implements Map<String, Object> {
   public Object remove(Object key) {
     return mProperties.remove(key);
   }
-  
+
   @Override
   public void putAll(Map<? extends String, ? extends Object> m) {
     mProperties.putAll(m);
@@ -147,7 +177,7 @@ public class Resource implements Map<String, Object> {
     if (! (aOther instanceof Resource)){
       return false;
     }
-    final Resource other = (Resource) aOther;  
+    final Resource other = (Resource) aOther;
     if (other.mProperties.size() != mProperties.size()){
       return false;
     }
