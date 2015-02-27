@@ -53,12 +53,17 @@ public abstract class OERWorldMap extends Controller {
   // Internationalization
   protected static Locale currentLocale;
   static {
-    try {
-      currentLocale = request().acceptLanguages().get(0).toLocale();
-    } catch (IndexOutOfBoundsException e) {
-      currentLocale = Locale.getDefault();
+    if (mConf.getBoolean("i18n.enabled")) {
+      try {
+        currentLocale = request().acceptLanguages().get(0).toLocale();
+      } catch (IndexOutOfBoundsException e) {
+        currentLocale = Locale.getDefault();
+      }
+    } else {
+      currentLocale = new Locale("en");
     }
   }
+
   protected static Map<String, String> i18n = new HashMap<>();
   static {
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);

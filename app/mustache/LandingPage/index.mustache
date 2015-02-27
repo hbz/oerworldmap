@@ -29,11 +29,11 @@
     <div class="section mission-statements" style="height: 200px;">
         <h2>{{i18n.landingpage_vision_statements_title}}</h2>
         <div class="vision-statements">
-            {{#visionStatements}}
+            {{#productVisions}}
             <blockquote class="vision">
                 <p>{{statement}}</p>
             </blockquote>
-            {{/visionStatements}}
+            {{/productVisions}}
         </div>
     </div>
 
@@ -54,6 +54,20 @@
         <p style="clear: both;">
             {{{i18n.landingpage_country_champions_footer}}}
         </p>
+    </div>
+
+    <hr />
+
+    <div class="section" id="blog">
+      <h2>
+          {{i18n.landingpage_blog_title}}
+      </h2>
+      <div class="blank-line-above" id="blog-link">
+        <a href="https://oerworldmap.wordpress.com" class="btn btn-lg btn-transparent" target="_blank">
+          <i class="fa fa-lg fa-fw fa-wordpress"></i>
+          {{i18n.landingpage_blog_visit_link}}
+        </a>
+      </div>
     </div>
 
 </div>

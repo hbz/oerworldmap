@@ -53,6 +53,7 @@ public class UserIndex extends OERWorldMap {
   public static Result confirm(String id) throws IOException {
 
     Resource user;
+
     try {
       user = mUnconfirmedUserRepository.deleteResource(id);
     } catch (IOException e) {
@@ -94,6 +95,7 @@ public class UserIndex extends OERWorldMap {
     } catch (EmailException e) {
       e.printStackTrace();
     }
+
   }
 
 }
