@@ -48,7 +48,7 @@ public class LandingPage extends OERWorldMap {
     }
 
     mResponseData.put("countriesWithChampions", countryChampions);
-    mResponseData.put("visionStatements", productVisions);
+    mResponseData.put("productVisions", productVisions);
     mResponseData.put("countryAggregation", countryAggregation);
     return ok(render("Home", "LandingPage/index.mustache"));
 
