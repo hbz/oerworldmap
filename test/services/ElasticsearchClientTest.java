@@ -1,14 +1,15 @@
 package services;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.elasticsearch.client.Client;
-import org.elasticsearch.node.Node;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.json.simple.parser.ParseException;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -17,15 +18,18 @@ import org.junit.Test;
 
 public class ElasticsearchClientTest {
   protected static Client mClient;
-  protected static Node mNode;
   protected static ElasticsearchClient mElasticsearchClient;
 
   private static final ElasticsearchConfig esConfig = new ElasticsearchConfig();
 
+  @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
-    mNode = nodeBuilder().settings(esConfig.getClientSettingsBuilder()).local(true).node();
-    mClient = mNode.client();
+    final Settings mClientSettings = ImmutableSettings.settingsBuilder()
+          .put(new ElasticsearchConfig().getClientSettings()).build();
+    mClient = new TransportClient(mClientSettings)
+          .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
+              9300));
     mElasticsearchClient = new ElasticsearchClient(mClient);
   }
 
@@ -59,6 +63,5 @@ public class ElasticsearchClientTest {
   @AfterClass
   public static void closeElasticsearch() {
     mClient.close();
-    mNode.close();
   }
 }
