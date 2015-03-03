@@ -37,8 +37,9 @@ public class UserIndex extends OERWorldMap {
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
 
     ProcessingReport report = user.validate();
-    ensureEmailUnique(user.get("email").toString(), report);
-
+    if (mConf.getBoolean("user.email.unique")) {
+      ensureEmailUnique(user.get("email").toString(), report);
+    }
     if (!report.isSuccess()) {
       mResponseData.put("countries", Countries.list(currentLocale));
       mResponseData.put("errors", JSONForm.generateErrorReport(report));
