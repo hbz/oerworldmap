@@ -1,24 +1,32 @@
 {
-	"mappings": {
-		"Person": {
-			"properties": {
-				"email": {
-					"index": "not_analyzed",
-					"type": "string"
-				},
-				"countryName": {
-					"index": "not_analyzed",
-					"type": "string"
-				},
-				"@id": {
-					"index": "not_analyzed",
-					"type": "string"
-				},
-				"@type": {
-					"index": "not_analyzed",
-					"type": "string"
-				}
-			}
-		}
-	}
+  "mappings": {
+    "Person": {
+      "properties": {
+        "email": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "workLocation": {
+          "properties": {
+            "address": {
+              "properties": {
+                "addressCountry": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "@id": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "@type": {
+          "index": "not_analyzed",
+          "type": "string"
+        }
+      }
+    }
+  }
 }
