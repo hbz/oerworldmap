@@ -49,7 +49,7 @@ public class ElasticsearchRepository implements ResourceRepository {
   /**
    * Get a (Linked) List of Resources that are of the specified type and have
    * the specified content in that specified field.
-   * 
+   *
    * @param aType
    * @param aField
    * @param aContent
@@ -57,7 +57,7 @@ public class ElasticsearchRepository implements ResourceRepository {
    *         given field / content combination.
    */
   public List<Resource> getResourcesByContent(String aType, String aField, String aContent) {
-    if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField) || StringUtils.isEmpty(aContent)) {
+    if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField)) {
       throw new IllegalArgumentException("Non-complete arguments.");
     } else {
       List<Resource> resources = new LinkedList<Resource>();
@@ -91,8 +91,8 @@ public class ElasticsearchRepository implements ResourceRepository {
    * Elasticsearch query syntax, as described in
    * http://www.elasticsearch.org/guide
    * /en/elasticsearch/reference/current/search-uri-request.html .
-   * 
-   * @param aEsQuery a String representing the 
+   *
+   * @param aEsQuery a String representing the
    * @return an ArrayList of Resources representing the search result
    * @throws IOException
    * @throws ParseException

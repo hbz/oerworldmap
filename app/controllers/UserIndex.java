@@ -1,6 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import io.michaelallen.mustache.MustacheFactory;
@@ -33,8 +36,8 @@ public class UserIndex extends OERWorldMap {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
 
-    // TODO: how to ensure uniqueness of email address?
     ProcessingReport report = user.validate();
+    ensureEmailUnique(user.get("email").toString(), report);
     if (!report.isSuccess()) {
       mResponseData.put("countries", Countries.list(currentLocale));
       mResponseData.put("errors", JSONForm.generateErrorReport(report));
@@ -48,6 +51,21 @@ public class UserIndex extends OERWorldMap {
     mResponseData.put("message", i18n.get("user_registration_feedback") + " " + user.get("email"));
     return ok(render("Registration", "feedback.mustache"));
 
+  }
+
+  private static void ensureEmailUnique(String aEmail, ProcessingReport aReport) {
+    if (!mResourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
+      ProcessingMessage message = new ProcessingMessage();
+      message.setMessage("This e-mail address is already registered");
+      ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);
+      instance.put("pointer", "/email");
+      message.put("instance", instance);
+      try {
+        aReport.error(message);
+      } catch (ProcessingException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   public static Result confirm(String id) throws IOException {
