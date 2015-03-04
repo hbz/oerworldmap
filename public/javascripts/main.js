@@ -112,7 +112,7 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#cfdfba', '#a1cd3f'],
+        scale: ['#ffffff', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
