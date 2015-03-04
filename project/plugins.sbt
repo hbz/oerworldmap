@@ -14,3 +14,6 @@ resolvers += "bintray-maven-michaelallen" at "https://dl.bintray.com/michaelalle
 
 // Use the Mustache sbt plugin
 addSbtPlugin("io.michaelallen.mustache" %% "sbt-mustache" % "0.2")
+
+// Compile less
+addSbtPlugin("com.typesafe.sbt" % "sbt-less" % "1.0.0")
