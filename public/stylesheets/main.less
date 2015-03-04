@@ -1,7 +1,9 @@
 @text-color: #ffffff;
 @text-color-70: rgba(255, 255, 255, 0.7);
 @background-color: #0c75bf;
-@hightlight-color: #cf7f07;
+//@hightlight-color: #cf7f07;
+@hightlight-color: #f09711;
+
 
 @paragraph-distance: 10px;
 
@@ -52,6 +54,48 @@ blockquote {
   font-style: italic;
 }
 
+
+/* --- typo --- */
+
+.blank-line {
+  margin-bottom: 1.42857em;
+}
+
+.blank-line-above {
+  margin-top: 1.42857em;
+}
+
+
+/* --- form --- */
+
+a.btn {
+  text-decoration: none;
+}
+
+.btn-default {
+  border-color: @text-color;
+	background: @text-color;
+	color: @background-color;
+}
+
+.btn-default:hover {
+  border-color: @text-color;
+	background: @hightlight-color;
+	color: @text-color;
+}
+
+.btn-transparent {
+  border-color: @text-color !important;
+	background: transparent;
+	color: @text-color;
+}
+
+.btn-transparent:hover {
+  border-color: @text-color;
+	background: @hightlight-color;
+	color: @text-color;
+}
+
 /* --- register --- */
 
 .register .form-group {
@@ -75,16 +119,6 @@ blockquote {
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
-}
-
-.register button[type=submit] {
-	background: @text-color;
-	color: @background-color;
-}
-
-.register button[type=submit]:hover {
-	background: @hightlight-color;
-	color: @text-color;
 }
 
 /* http://stackoverflow.com/a/2610741/1060128 */
@@ -141,6 +175,28 @@ blockquote {
 }
 
 
+/* --- panel --- */
+
+.panel {
+  background: rgba(255,255,255,0.2);
+  text-align: left;
+  border: none;
+}
+
+.panel-default > .panel-heading {
+  background: rgba(255,255,255,0.3);
+  border: none;
+  color: @text-color;
+}
+
+.panel p:last-child {
+  margin-bottom: 0px;
+}
+
+h3 + .panel {
+  margin-top: 30px;
+}
+
 /* --- jvectormap tip --- */
 
 .jvectormap-tip {
@@ -154,6 +210,12 @@ blockquote {
   // box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
 }
 
+/* --- message list --- */
+ul#messages {
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}
 
 /*
 .input-group-field {

@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -26,7 +27,8 @@ public class ElasticsearchConfig {
 
   // HOST
   private String mServer;
-  private String mPort;
+  private String mJavaPort;
+  private String mHttpPort;
   private InetSocketTransportAddress mNode;
 
   // CLIENT
@@ -35,15 +37,19 @@ public class ElasticsearchConfig {
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Builder mClientSettingsBuilder;
-  
-  public ElasticsearchConfig() {
-    File configFile = new File(DEFAULT_CONFIG_FILE);
-    init(configFile);
-  }
 
+  public ElasticsearchConfig(){
+    this(null);
+  }
+  
   public ElasticsearchConfig(String aFilename) {
-    File file = new File(aFilename);
-    init(file);
+    File configFile;
+    if (!StringUtils.isEmpty(aFilename)) {
+      configFile = new File(aFilename);
+    } else {
+      configFile = new File(DEFAULT_CONFIG_FILE);
+    }
+    init(configFile);
   }
 
   private void checkFileExists(File file) {
@@ -65,8 +71,9 @@ public class ElasticsearchConfig {
 
     // HOST
     mServer = mConfig.getString("es.host.server");
-    mPort = mConfig.getString("es.host.port");
-    mNode = new InetSocketTransportAddress(mServer, Integer.valueOf(mPort));
+    mJavaPort = mConfig.getString("es.host.port.java");
+    mHttpPort = mConfig.getString("es.host.port.http");
+    mNode = new InetSocketTransportAddress(mServer, Integer.valueOf(mJavaPort));
 
     // CLIENT
     mIndex = mConfig.getString("es.index.name");
@@ -77,11 +84,9 @@ public class ElasticsearchConfig {
     mClientSettings.put("index.name", mIndex);
     mClientSettings.put("index.type", mType);
     mClientSettings.put("cluster.name", mCluster);
-    
+
     mClientSettingsBuilder = ImmutableSettings.settingsBuilder().put(mClientSettings);
   }
-  
-  
 
   public String getIndex() {
     return mIndex;
@@ -107,8 +112,12 @@ public class ElasticsearchConfig {
     return mServer;
   }
 
-  public String getPort() {
-    return mPort;
+  public String getJavaPort() {
+    return mJavaPort;
+  }
+
+  public String getHttpPort() {
+    return mHttpPort;
   }
 
   public InetSocketTransportAddress getNode() {
@@ -118,8 +127,8 @@ public class ElasticsearchConfig {
   public String toString() {
     return mConfig.toString();
   }
-  
-  public String getIndexConfigString() throws IOException{
+
+  public String getIndexConfigString() throws IOException {
     return UniversalFunctions.readFile(INDEX_CONFIG_FILE, StandardCharsets.UTF_8);
   }
 }

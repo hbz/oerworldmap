@@ -1,5 +1,6 @@
 package services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
@@ -7,15 +8,14 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
 import models.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 
 public class FileResourceRepository implements ResourceRepository {
 
@@ -23,6 +23,8 @@ public class FileResourceRepository implements ResourceRepository {
    * The file system path where resources are stored
    */
   private Path mPath;
+
+  private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>(){};
 
   /**
    * Construct FileResourceRepository.
@@ -40,7 +42,7 @@ public class FileResourceRepository implements ResourceRepository {
    * @param aResource
    */
   @Override
-  public void addResource(Resource aResource) throws IOException {
+  public void addResource(@Nonnull Resource aResource) throws IOException {
     String id = (String)aResource.get(JsonLdConstants.ID);
     String type = (String)aResource.get(JsonLdConstants.TYPE);
     Path dir = Paths.get(mPath.toString(), type);
@@ -60,9 +62,10 @@ public class FileResourceRepository implements ResourceRepository {
   public Resource getResource(@Nonnull String aId) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     Path resourceFile = getResourcePath(aId);
-    return Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class));
+    Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+    return Resource.fromMap(resourceMap);
   }
-  
+
   /**
    * Delete a Resource specified by the given identifier.
    * @param aId
@@ -81,18 +84,50 @@ public class FileResourceRepository implements ResourceRepository {
    */
   @Override
   public List<Resource> query(@Nonnull String aType) throws IOException {
-    ArrayList<Resource> results = new ArrayList<Resource>();
+    ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(mPath.toString(), aType);
     DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir);
     ObjectMapper objectMapper = new ObjectMapper();
     for (Path resourceFile: resourceFiles) {
-      results.add(Resource.fromMap(objectMapper.readValue(resourceFile.toFile(), Map.class)));
+      Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      results.add(Resource.fromMap(resourceMap));
     }
     return results;
   }
-  
+
+  /**
+   * Get a (Linked) List of Resources that are of the specified type and have
+   * the specified content in that specified field.
+   *
+   * @param aType
+   * @param aField
+   * @param aContent
+   * @return all matching Resources or an empty list if no resources match the
+   *         given field / content combination.
+   */
+  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField, String aContent) {
+    if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField)) {
+      throw new IllegalArgumentException("Non-complete arguments.");
+    } else {
+      List<Resource> result = new LinkedList<>();
+      List<Resource> resources;
+      try {
+        resources = query(aType);
+      } catch (IOException e) {
+        resources = new ArrayList<>();
+        e.printStackTrace();
+      }
+      for (Resource resource : resources) {
+        if (resource.get(aField).toString().equals(aContent)) {
+          result.add(resource);
+        }
+      }
+      return result;
+    }
+  }
+
   private Path getResourcePath(@Nonnull String aId) throws IOException {
-    
+
     DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
             new DirectoryStream.Filter<Path>() {
               @Override
@@ -119,7 +154,7 @@ public class FileResourceRepository implements ResourceRepository {
     }
 
     throw new IOException(aId + " not found.");
-    
+
   }
 
 }

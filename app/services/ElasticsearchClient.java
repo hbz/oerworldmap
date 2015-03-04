@@ -1,16 +1,22 @@
 package services;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -26,6 +32,15 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 
 import play.Logger;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 /**
  * This class serves as an interface to Elasticsearch providing access to
  * necessary functions in easy mode. It also serves to set up an Elasticsearch
@@ -39,24 +54,29 @@ public class ElasticsearchClient {
 
   private static ElasticsearchConfig esConfig;
   private static Client mClient;
+  private static String mSearchStub;
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
    * 
    * @param aClient
    */
-  public ElasticsearchClient(@Nonnull final String aConfigurationFile) {
-    esConfig = new ElasticsearchConfig(aConfigurationFile);
+  public ElasticsearchClient(@Nullable final Client aClient) {
+    this(null, aClient);
   }
 
   /**
-   * Initialize an instance with a specified non null Elasticsearch client.
+   * Initialize an instance with a specified non null Elasticsearch client and a
+   * specified Elasticsearch configuration file.
    * 
    * @param aClient
+   * @param aConfigurationFile
    */
-  public ElasticsearchClient(@Nonnull final Client aClient) {
+  public ElasticsearchClient(@Nullable final String aConfigurationFile,
+      @Nullable final Client aClient) {
     mClient = aClient;
-    esConfig = new ElasticsearchConfig();
+    esConfig = new ElasticsearchConfig(aConfigurationFile);
+    mSearchStub = "http://" + esConfig.getServer() + ":" + esConfig.getHttpPort() + "/";
   }
 
   public static Client getClient() {
@@ -169,7 +189,7 @@ public class ElasticsearchClient {
         .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
     Aggregation aggregation = response.getAggregations().asList().get(0);
     for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
-      Map<String,Object> e = new HashMap<>();
+      Map<String, Object> e = new HashMap<>();
       e.put("key", entry.getKey());
       e.put("value", entry.getDocCount());
       entries.add(e);
@@ -290,4 +310,42 @@ public class ElasticsearchClient {
     }
   }
 
+  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery) throws IOException,
+      ParseException {
+    return esQuery(aEsQuery, null);
+  }
+
+  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex)
+      throws IOException, ParseException {
+    return esQuery(aEsQuery, aIndex, null);
+  }
+
+  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
+      @Nullable String aType) throws IOException, ParseException {
+    URL url = new URL(mSearchStub + (StringUtils.isEmpty(aIndex) ? "_all" : (aIndex)) + "/"
+        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + aEsQuery);
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    connection.setDoOutput(true);
+    connection.connect();
+    return searchResultToMaps(IOUtils.toString(connection.getInputStream(), "UTF-8"));
+  }
+
+  @SuppressWarnings("unchecked")
+  private static List<Map<String, Object>> searchResultToMaps(String aEsSearchResultJson)
+      throws JsonParseException, JsonMappingException, IOException, ParseException {
+
+    List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(aEsSearchResultJson);
+    JSONObject hitsWrapper = (JSONObject) jsonObject.get("hits");
+    JSONArray hits = (JSONArray) hitsWrapper.get("hits");
+
+    ListIterator<JSONObject> iterator = hits.listIterator();
+    while (iterator.hasNext()) {
+      result.add((JSONObject) iterator.next().get("_source"));
+    }
+
+    return result;
+  }
 }
