@@ -57,7 +57,11 @@ public class UserIndex extends OERWorldMap {
   }
 
   private static void ensureEmailUnique(String aEmail, ProcessingReport aReport) {
-    if (!mResourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty()) {
+    // Actually, only checking the FileResourceRepository should suffice as resources remain there
+    // after confirmation. I'll leave this is though, until File- and Elasticsearch sinks are wrapped
+    // in a unifying OERWorldMapRepository.
+    if ((!mUnconfirmedUserRepository.getResourcesByContent("Person", "email", aEmail).isEmpty())
+        || (!mResourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty())) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
       ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);

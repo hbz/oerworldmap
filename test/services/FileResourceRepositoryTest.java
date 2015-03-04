@@ -43,7 +43,6 @@ public class FileResourceRepositoryTest {
 
   @Test
   public void testAddGetResource() throws IOException {
-    ResourceRepository resourceRepository = new FileResourceRepository(tmpPath);
     Resource resource = new Resource("person", "1");
     resource.put("name", "John Doe");
     resourceRepository.addResource(resource);
@@ -53,12 +52,21 @@ public class FileResourceRepositoryTest {
 
   @Test
   public void testQuery() throws IOException {
-    ResourceRepository resourceRepository = new FileResourceRepository(tmpPath);
     Resource resource = new Resource("person", "1");
     resource.put("name", "John Doe");
     resourceRepository.addResource(resource);
     List<Resource> results = resourceRepository.query("person");
     assertEquals(results.size(), 1);
+  }
+
+  @Test
+  public void testGetResourcesByContent() throws IOException {
+    Resource resource = new Resource("person", "1");
+    resource.put("name", "John Doe");
+    resourceRepository.addResource(resource);
+    List<Resource> results = resourceRepository.getResourcesByContent("person", "name", "John Doe");
+    assertEquals(results.size(), 1);
+    assertTrue(results.get(0).equals(resource));
   }
 
   private static boolean deleteDirectory(File path) {

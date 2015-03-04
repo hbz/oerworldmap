@@ -57,7 +57,7 @@ public class ElasticsearchRepository implements ResourceRepository {
    * @return all matching Resources or an empty list if no resources match the
    *         given field / content combination.
    */
-  public List<Resource> getResourcesByContent(String aType, String aField, String aContent) {
+  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField, String aContent) {
     if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField)) {
       throw new IllegalArgumentException("Non-complete arguments.");
     } else {
