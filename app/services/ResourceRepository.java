@@ -29,4 +29,6 @@ public interface ResourceRepository {
    */
   public List<Resource> query(@Nonnull String aType) throws IOException;
 
-}
+  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField, String aContent);
+
+  }

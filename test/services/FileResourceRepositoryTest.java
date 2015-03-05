@@ -32,8 +32,7 @@ public class FileResourceRepositoryTest {
   }
 
   @Test
-  public void testAddGetResource() throws IOException {
-    
+  public void testGetResource() throws IOException {
     Resource fromStore = resourceRepository.getResource("1");
     assertTrue(resource.equals(fromStore));
   }
@@ -42,6 +41,13 @@ public class FileResourceRepositoryTest {
   public void testQuery() throws IOException {
     List<Resource> results = resourceRepository.query("person");
     assertEquals(results.size(), 1);
+  }
+
+  @Test
+  public void testGetResourcesByContent() throws IOException {
+    List<Resource> results = resourceRepository.getResourcesByContent("person", "name", "John Doe");
+    assertEquals(results.size(), 1);
+    assertTrue(results.get(0).equals(resource));
   }
 
   @AfterClass
