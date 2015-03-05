@@ -1,21 +1,27 @@
 package models;
 
+import helpers.JsonLdConstants;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import helpers.JsonLdConstants;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Resource implements Map<String, Object> {
 
@@ -62,7 +68,7 @@ public class Resource implements Map<String, Object> {
     } else {
       resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE));
     }
-    Iterator<Entry<String, Object>> it = aProperties.entrySet().iterator();
+    Iterator<Map.Entry<String, Object>> it = aProperties.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
       String key = pair.getKey();
@@ -168,8 +174,8 @@ public class Resource implements Map<String, Object> {
   }
 
   @Override
-  public Set<Entry<String, Object>> entrySet() {
-    return (Set<Entry<String, Object>>) mProperties.entrySet();
+  public Set<Map.Entry<String, Object>> entrySet() {
+    return (Set<Map.Entry<String, Object>>) mProperties.entrySet();
   }
 
   @Override
@@ -181,7 +187,7 @@ public class Resource implements Map<String, Object> {
     if (other.mProperties.size() != mProperties.size()){
       return false;
     }
-    final Iterator<Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
+    final Iterator<Map.Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
     while (thisIt.hasNext()) {
         final Map.Entry<String, Object> pair = thisIt.next();
         if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
