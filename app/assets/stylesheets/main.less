@@ -1,11 +1,21 @@
+/* --- colors --- */
+
 @text-color: #ffffff;
 @text-color-70: rgba(255, 255, 255, 0.7);
 @background-color: #0c75bf;
 //@hightlight-color: #cf7f07;
 @hightlight-color: #f09711;
 
+@green: #a1cd3f;
+@red: #e15636;
+
+
+/* --- distances --- */
 
 @paragraph-distance: 10px;
+
+
+/* --- general --- */
 
 body {
   background-color: @background-color;
@@ -211,11 +221,34 @@ h3 + .panel {
 }
 
 /* --- message list --- */
+
 ul#messages {
     list-style-type: none;
     padding:0;
     margin:0;
 }
+
+/* --- alerts --- */
+
+.alert-success {
+  background-color: @green;
+  color: white;
+  border: none !important;
+}
+
+.alert-warning,
+.alert-danger {
+  background: @red;
+  color: white;
+  border: none !important;
+}
+
+.alert-success a:hover,
+.alert-warning a:hover,
+.alert-danger a:hover {
+  color: white;
+}
+
 
 /*
 .input-group-field {
