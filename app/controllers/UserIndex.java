@@ -115,11 +115,13 @@ public class UserIndex extends OERWorldMap {
       confirmationMail.setMsg(writer.toString());
       confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
       confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
-      confirmationMail.setAuthenticator(
-          new DefaultAuthenticator(mConf.getString("mail.smtp.user"), mConf.getString("mail.smtp.password"))
-      );
-      confirmationMail.setSSLOnConnect(true);
-      confirmationMail.setFrom("oerworldmap@gmail.com");
+      String smtpUser = mConf.getString("mail.smtp.user");
+      String smtpPass = mConf.getString("mail.smtp.password");
+      if (! smtpUser.isEmpty()) {
+        confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
+      }
+      confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
+      confirmationMail.setFrom(mConf.getString("mail.smtp.from"), mConf.getString("mail.smtp.sender"));
       confirmationMail.setSubject(i18n.get("user_registration_confirmation_mail_subject"));
       confirmationMail.addTo((String)user.get("email"));
       confirmationMail.send();
