@@ -9,10 +9,10 @@ function getRandomInt(min, max) {
 String.prototype.cutOff = function(x) {
   //trim the string to the maximum length
   var trimmedString = this.substr(0, x);
-  
+
   //re-trim if we are in the middle of a word
   trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-  
+
   return trimmedString + " ...";
 };
 
@@ -112,7 +112,7 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#ffffff', '#a1cd3f'],
+        scale: ['#cfdfba', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
@@ -179,14 +179,14 @@ function initialize() {
   feed.load(function(result) {
     if (!result.error) {
       var latest_post = result.feed.entries[0];
-      
+
       // add 300 character snippet
       latest_post.contentSnippet300 = $( result.feed.entries[0].content ).text().cutOff(300);
-      
+
       // add formated date
       var published_date = new Date( latest_post.publishedDate );
       latest_post.publishedDateFormated = published_date.toLocaleDateString();
-      
+
       // render template
       $.get('/assets/mustache/LandingPage/blog-post-preview.mustache', function(template) {
         var rendered = Mustache.render(template, {post: latest_post});
