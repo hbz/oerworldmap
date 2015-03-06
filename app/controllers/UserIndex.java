@@ -121,7 +121,7 @@ public class UserIndex extends OERWorldMap {
         confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
       }
       confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
-      confirmationMail.setFrom(mConf.getString("mail.smtp.from"));
+      confirmationMail.setFrom(mConf.getString("mail.smtp.from"), mConf.getString("mail.smtp.sender"));
       confirmationMail.setSubject(i18n.get("user_registration_confirmation_mail_subject"));
       confirmationMail.addTo((String)user.get("email"));
       confirmationMail.send();
