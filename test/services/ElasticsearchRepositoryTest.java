@@ -42,7 +42,10 @@ public class ElasticsearchRepositoryTest {
     mElClient = new ElasticsearchClient(mClient);
     cleanIndex();
     mRepo = new ElasticsearchRepository(mElClient);
+    setupResources();
+  }
 
+  private static void setupResources() throws IOException {
     mResource1 = new Resource(esConfig.getType(), UUID.randomUUID().toString());
     mResource1.put("name", "oeruser1");
     mResource1.put("worksFor", "oerknowledgecloud.org");
