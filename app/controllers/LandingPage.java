@@ -29,29 +29,8 @@ public class LandingPage extends OERWorldMap {
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
         "workLocation.address.addressCountry");
     Resource countryAggregation = mResourceRepository.query(aggregationBuilder);
-
-    ResourceBundle countryChampionsProperties = ResourceBundle.getBundle("CountryChampionsBundle");
-    List<Map<String,String>> countryChampions = new ArrayList<>();
-    for (String key : Collections.list(countryChampionsProperties.getKeys())) {
-      Map<String,String> countryChampion = new HashMap<>();
-      countryChampion.put("countryCode", key);
-      countryChampion.put("countryName", Countries.getNameFor(key, currentLocale));
-      countryChampions.add(countryChampion);
-    }
-
-    ResourceBundle productVisionsProperties = ResourceBundle.getBundle("ProductVisionsBundle");
-    List<Map<String,String>> productVisions = new ArrayList<>();
-    for (String key : Collections.list(productVisionsProperties.getKeys())) {
-      Map<String,String> productVision = new HashMap<>();
-      productVision.put("statement", productVisionsProperties.getString(key));
-      productVisions.add(productVision);
-    }
-
-    mResponseData.put("countriesWithChampions", countryChampions);
-    mResponseData.put("productVisions", productVisions);
     mResponseData.put("countryAggregation", countryAggregation);
     return ok(render("Home", "LandingPage/index.mustache"));
-
 
   }
 
