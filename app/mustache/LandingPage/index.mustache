@@ -1,22 +1,27 @@
 <div class="container">
-    <h1>{{i18n.landingpage_title}}</h1>
+
+    <h1>
+    	{{i18n.landingpage_title}}
+    	<nav class="social">
+	    	<a href="https://www.facebook.com/oerworldmap" target="_blank"><i class="fa fa-facebook-official"></i></a>
+        <a href="https://twitter.com/oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a>
+		</nav>
+    </h1>
+
     <h2>{{{i18n.landingpage_intro}}}</h2>
     <div class="section">
-        <div class="row">
-            <div id="worldmap" style="width: 800px; height: 500px"></div>
-            <table class="table" about="#users-by-country">
-                <script type="application/ld+json">
-                    {{{countryAggregation}}}
-                </script>
-                {{#countryAggregation.entries}}
-                <tr><td>{{key}}</td><td>{{value}}</td></tr>
-                {{/countryAggregation.entries}}
-            </table>
-        </div>
+        <div id="worldmap" style="width: 800px; height: 500px"></div>
+        <table class="table" about="#users-by-country">
+            <script type="application/ld+json">
+                {{{countryAggregation}}}
+            </script>
+            {{#countryAggregation.entries}}
+            <tr><td>{{key}}</td><td>{{value}}</td></tr>
+            {{/countryAggregation.entries}}
+        </table>
     </div>
 
     <div class="section" id="user-register">
-        <p class="lead">{{i18n.landingpage_call_to_register}}</p>
         <div class="register">
             <a href="/user/" class="hijax transclude">{{i18n.register}}</a>
         </div>
@@ -24,14 +29,16 @@
 
     <hr />
 
-    <div class="section mission-statements" style="height: 200px;">
-        <h2>{{i18n.landingpage_vision_statements_title}}</h2>
-        <div class="vision-statements">
-            {{#productVisions}}
-            <blockquote class="vision">
-                <p>{{statement}}</p>
-            </blockquote>
-            {{/productVisions}}
+    <div class="section" id="about">
+        <h2>{{i18n.landingpage_about_title}}</h2>
+        <p>{{{i18n.landingpage_about_text}}}</p>
+        <div class="row">
+            <div class="col-md-6">
+                {{{i18n.landingpage_about_description_text}}}
+            </div>
+            <div class="col-md-6">
+                {{{i18n.landingpage_about_benefits_text}}}
+            </div>
         </div>
     </div>
 
@@ -43,14 +50,6 @@
         </h2>
         <p>
             {{{i18n.landingpage_country_champions_intro}}}
-        </p>
-        <ul class="horizontal-list p" about="#country-champions">
-            {{#countriesWithChampions}}
-                <li class="label label-default" data-country-code="{{countryCode}}">{{countryName}}</li>
-            {{/countriesWithChampions}}
-        </ul>
-        <p style="clear: both;">
-            {{{i18n.landingpage_country_champions_footer}}}
         </p>
     </div>
 
@@ -68,6 +67,24 @@
       </div>
     </div>
 
+    <hr />
+
+    <div class="section" id="privacy">
+        <h2>
+            {{i18n.landingpage_privacy_title}}
+        </h2>
+        {{{i18n.landingpage_privacy_website}}}
+        {{{i18n.landingpage_privacy_html}}}
+    </div>
+
+    <hr />
+
+    <div class="section" id="imprint">
+        <h2>
+            {{i18n.landingpage_imprint_title}}
+        </h2>
+        {{{i18n.landingpage_imprint_text}}}
+    </div>
+
 </div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.4.0/slick.min.js"></script>
 <script type="text/javascript" src="/assets/javascripts/main.js"></script>

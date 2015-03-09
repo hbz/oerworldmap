@@ -57,17 +57,6 @@ function body(data) {
 
 $(document).ready(function(){
 
-  // --- visions ---
-
-  $('.vision-statements').slick({
-    infinite: true,
-    dots: true,
-    autoplay: true,
-    autoplaySpeed: 8000,
-    arrows: false
-  });
-
-
   // --- map ---
 
   var table = $('table[about="#users-by-country"]'),
@@ -136,9 +125,21 @@ $(document).ready(function(){
         (
           users_registered
           ?
-          '<i class="fa fa-fw fa-user"></i> <strong>' + data[code] + '</strong> users registered in ' + el.html() + ' (Click to register ...)<br>'
+          '<i class="fa fa-fw fa-user"></i> <strong>' + data[code] + '</strong> users counted for ' + el.html() + (
+            $('div.register form').length
+            ?
+            ' (Click to be the next ...)<br>'
+            :
+            ''
+          )
           :
-          '<i class="fa fa-fw fa-user"></i> No users registered in ' + el.html() + ' (Click to register ...)<br>'
+          '<i class="fa fa-fw fa-user"></i> No users counted for ' + el.html() + (
+            $('div.register form').length
+            ?
+            ' (Click to be the first ...)<br>'
+            :
+            ''
+          )
         ) + (
           country_champion
           ?
@@ -149,7 +150,7 @@ $(document).ready(function(){
       );
     },
     onRegionClick: function(e, code) {
-      console.log(code);
+      if (!$('div.register form').length) return false;
       $('select[name="workLocation[address][addressCountry]"]').val(code);
       $('html, body').animate({
   			scrollTop: $('#user-register').offset().top - 100
@@ -163,6 +164,17 @@ $(document).ready(function(){
     }
   });
   table.hide()
+
+  // --- about ---
+  $('div#about ul>li').hide();
+  $('div#about ul').first().find('li').each(function(i) {
+    $(this).delay(1000*i).fadeIn(300);
+  });
+  setTimeout(function(){
+    $('div#about ul').last().find('li').each(function(k) {
+      $(this).delay(1000*k).fadeIn(300);
+    });
+  }, 1000*$('div#about ul').first().find('li').length);
 
   // --- hijax behavior ---
   hijax($('body'));

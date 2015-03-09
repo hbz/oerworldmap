@@ -2,6 +2,7 @@ package controllers;
 
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -69,7 +70,9 @@ public abstract class OERWorldMap extends Controller {
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
     for (String key : Collections.list(messages.getKeys())) {
       try {
-        i18n.put(key, new String(messages.getString(key).getBytes("ISO-8859-1"), "UTF-8"));
+        String message = StringEscapeUtils.unescapeJava(
+            new String(messages.getString(key).getBytes("ISO-8859-1"), "UTF-8"));
+        i18n.put(key, message);
       } catch (UnsupportedEncodingException e) {
         i18n.put(key, messages.getString(key));
       }
