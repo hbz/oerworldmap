@@ -34,15 +34,21 @@ function hijax(element) {
 
   $('form', element).submit(function() {
     var form = $(this);
+    var loading_indicator = $(this).find('button[type="submit"] .loading-indicator');
     var action = form.attr('action');
     var method = form.attr('method');
-    $.ajax({type: method, url: action, data: form.serialize()})
-      .done(function(data) {
-        form.replaceWith(hijax(body(data)));
-      })
-      .fail(function(jqXHR) {
-        form.replaceWith(hijax(body(jqXHR.responseText)));
-       });
+    loading_indicator.show();
+    $.ajax({
+      type: method,
+      url: action,
+      data: form.serialize()
+    }).done(function(data) {
+      form.replaceWith(hijax(body(data)));
+      loading_indicator.hide();
+    }).fail(function(jqXHR) {
+      form.replaceWith(hijax(body(jqXHR.responseText)));
+      loading_indicator.hide();
+    });
     return false;
   });
 
