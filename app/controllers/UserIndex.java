@@ -6,22 +6,24 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
-import io.michaelallen.mustache.MustacheFactory;
-import io.michaelallen.mustache.api.Mustache;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.Resource;
 
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.codec.digest.DigestUtils;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import play.mvc.Result;
 import helpers.Countries;
 
@@ -38,7 +40,7 @@ public class UserIndex extends OERWorldMap {
 
     ProcessingReport report = user.validate();
     if (mConf.getBoolean("user.email.unique")) {
-      ensureEmailUnique(user.get("email").toString(), report);
+      ensureEmailUnique(user, report);
     }
     if (!report.isSuccess()) {
       mResponseData.put("countries", Countries.list(currentLocale));
@@ -47,16 +49,19 @@ public class UserIndex extends OERWorldMap {
       return badRequest(render("Registration", "UserIndex/index.mustache"));
     }
 
-    user.put("confirmed", false);
+    newsletterSignup(user);
+    user.put("email", getEncryptedEmailAddress(user));
     mUnconfirmedUserRepository.addResource(user);
-    sendConfirmationMail(user);
+    mResourceRepository.addResource(user);
+
     mResponseData.put("status", "success");
-    mResponseData.put("message", i18n.get("user_registration_feedback") + " " + user.get("email"));
+    mResponseData.put("message", i18n.get("user_registration_feedback"));
     return ok(render("Registration", "feedback.mustache"));
 
   }
 
-  private static void ensureEmailUnique(String aEmail, ProcessingReport aReport) {
+  private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
+    String aEmail = getEncryptedEmailAddress(user);
     // Actually, only checking the FileResourceRepository should suffice as resources remain there
     // after confirmation. I'll leave this is though, until File- and Elasticsearch sinks are wrapped
     // in a unifying OERWorldMapRepository.
@@ -75,61 +80,30 @@ public class UserIndex extends OERWorldMap {
     }
   }
 
-  public static Result confirm(String id) throws IOException {
-
-    Resource user;
-
-    try {
-      // Ensure we don't needlessly reconfirm users
-      if (!mResourceRepository.getResourcesByContent("Person", "@id", id).isEmpty()) {
-        throw new IOException("User already confirmed");
-      }
-      user = mUnconfirmedUserRepository.getResource(id);
-      user.remove("confirmed");
-    } catch (IOException e) {
-      e.printStackTrace();
-      mResponseData.put("status", "warning");
-      mResponseData.put("message", i18n.get("user_registration_confirmation_error"));
-      mResponseData.put("continue", routes.LandingPage.get().absoluteURL(request()));
-      return ok(render("Registration", "feedback.mustache"));
-    }
-
-    mUnconfirmedUserRepository.addResource(user);
-    mResourceRepository.addResource(user);
-    mResponseData.put("status", "success");
-    mResponseData.put("message", i18n.get("user_registration_confirmation_success"));
-    mResponseData.put("continue", routes.LandingPage.get().absoluteURL(request()));
-    return ok(render("Registration",  "feedback.mustache"));
-
+  private static String getEncryptedEmailAddress(Resource user) {
+    return DigestUtils.sha256Hex(user.get("email").toString());
   }
 
-  private static void sendConfirmationMail(Resource user) {
-    Email confirmationMail = new SimpleEmail();
-    Map<String, Object> data = new HashMap<>();
+  private static void newsletterSignup(Resource user) {
+    HttpClient client = new DefaultHttpClient();
+    HttpPost request = new HttpPost("https://" + mConf.getString("mailman.host") + "/mailman/subscribe/"
+        + mConf.getString("mailman.list"));
     try {
-      data.put("link", routes.UserIndex.post().absoluteURL(request()) + user.get("@id"));
-      data.put("i18n", i18n);
-      Mustache template = MustacheFactory.compile("UserIndex/confirmation.mustache");
-      Writer writer = new StringWriter();
-      template.execute(writer, data);
-      confirmationMail.setMsg(writer.toString());
-      confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
-      confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
-      String smtpUser = mConf.getString("mail.smtp.user");
-      String smtpPass = mConf.getString("mail.smtp.password");
-      if (! smtpUser.isEmpty()) {
-        confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
+      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+      nameValuePairs.add(new BasicNameValuePair("email", user.get("email").toString()));
+      request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+      HttpResponse response = client.execute(request);
+      System.out.println(response.getStatusLine().getStatusCode());
+      BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+      String line = "";
+      while ((line = rd.readLine()) != null) {
+        System.out.println(line);
       }
-      confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
-      confirmationMail.setFrom(mConf.getString("mail.smtp.from"), mConf.getString("mail.smtp.sender"));
-      confirmationMail.setSubject(i18n.get("user_registration_confirmation_mail_subject"));
-      confirmationMail.addTo((String) user.get("email"));
-      confirmationMail.addBcc(mConf.getString("user.email.confirm.bcc"));
-      confirmationMail.send();
-    } catch (EmailException e) {
+
+    } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 
 }
