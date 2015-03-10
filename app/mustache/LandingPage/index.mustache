@@ -67,24 +67,75 @@
       </div>
     </div>
 
-    <hr />
-
-    <div class="section" id="privacy">
-        <h2>
-            {{i18n.landingpage_privacy_title}}
-        </h2>
-        {{{i18n.landingpage_privacy_website}}}
-        {{{i18n.landingpage_privacy_html}}}
-    </div>
-
-    <hr />
-
-    <div class="section" id="imprint">
-        <h2>
-            {{i18n.landingpage_imprint_title}}
-        </h2>
-        {{{i18n.landingpage_imprint_text}}}
-    </div>
-
 </div>
+
+<footer>
+  <div class="container">
+    
+    <ul class="inline clearfix">
+      <li><h3>Contact / Collaborate</h3></li>
+      <li><a href="mailto:info@oerworldmap.org">info@oerworldmap.org</a></li>
+      <li><a href="https://www.facebook.com/oerworldmap" target="_blank">Facebook</a></li>
+      <li><a href="https://twitter.com/oerworldmap" target="_blank">Twitter</a></li>
+      <li><a href="https://github.com/hbz/oerworldmap" target="_blank">GitHub</a></li>
+      <li><a href="https://huboard.com/hbz/oerworldmap" target="_blank">HuBoard</a></li>
+    </ul>
+    
+    <ul class="inline clearfix">
+      <li><h3>Partners</h3></li>
+      <li><a href="https://www.hbz-nrw.de" target="_blank">hbz</a></li>
+      <li><a href="http://www.hewlett.org" target="_blank">Hewlett Foundation</a></li>
+      <li><a href="http://www.graphthinking.com" target="_blank">graphthinking</a></li>
+    </ul>
+    
+    <hr />
+  
+    <div role="tabpanel">
+
+      <ul class="nav" role="tablist">
+        <li role="presentation">
+          <a href="#privacy" data-toggle="pill" role="tab">
+            <i class="fa fa-fw fa-chevron-right"></i>
+            <i class="fa fa-fw fa-chevron-down"></i>
+            Privacy Policy
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#imprint" data-toggle="pill" role="tab">
+            <i class="fa fa-fw fa-chevron-right"></i>
+            <i class="fa fa-fw fa-chevron-down"></i>
+            Imprint
+          </a>
+        </li>
+      </ul>
+      
+      <div class="tab-content">      
+        <div class="tab-pane fade" id="privacy" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              {{{i18n.landingpage_privacy_website}}}
+            </div>
+            <div class="col-md-6">
+              {{{i18n.landingpage_privacy_html}}}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="imprint" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              {{{i18n.landingpage_imprint_text_first_col}}}
+            </div>
+            <div class="col-md-6">
+              {{{i18n.landingpage_imprint_text_second_col}}}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+        
+  </div>
+</footer>
+
+
 <script type="text/javascript" src="/assets/javascripts/main.js"></script>
