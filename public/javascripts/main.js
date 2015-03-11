@@ -26,6 +26,7 @@ function hijax(element) {
     $.get(a.attr('href'))
       .done(function(data) {
         a.replaceWith(hijax(body(data)));
+        $('input, textarea').placeholder();
       })
       .fail(function(jqXHR) {
         a.replaceWith(hijax(body(jqXHR.responseText)));
@@ -62,6 +63,10 @@ function body(data) {
 
 
 $(document).ready(function(){
+  
+  // --- placeholder polyfill ---
+  
+  $('input, textarea').placeholder();
 
   // --- map ---
 
