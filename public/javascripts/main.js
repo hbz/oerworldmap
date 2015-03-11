@@ -1,3 +1,5 @@
+document.documentElement.className = 'js';
+
 // --- helpers ---
 
 // Returns a random integer between min (included) and max (excluded)
@@ -26,6 +28,7 @@ function hijax(element) {
     $.get(a.attr('href'))
       .done(function(data) {
         a.replaceWith(hijax(body(data)));
+        $('input, textarea').placeholder();
       })
       .fail(function(jqXHR) {
         a.replaceWith(hijax(body(jqXHR.responseText)));
@@ -62,6 +65,10 @@ function body(data) {
 
 
 $(document).ready(function(){
+  
+  // --- placeholder polyfill ---
+  
+  $('input, textarea').placeholder();
 
   // --- map ---
 
@@ -172,17 +179,24 @@ $(document).ready(function(){
   table.hide()
 
   // --- about ---
-  $('div#about ul>li').hide();
-  $('div#about ul').first().find('li').each(function(i) {
-    $(this).delay(1000*i).fadeIn(300);
+  
+  $('div#about ul>li').addClass("invisible");
+  $('div#about').viewportChecker({
+    offset : 80,
+    callbackFunction : function(){
+      
+      $('div#about li').each(function(i){
+        var li = this;
+        setTimeout(function(){
+          $(li).addClass("visible").addClass("animated").addClass("fadeInUp");
+        }, i * 1000);
+      });
+      
+    }
   });
-  setTimeout(function(){
-    $('div#about ul').last().find('li').each(function(k) {
-      $(this).delay(1000*k).fadeIn(300);
-    });
-  }, 1000*$('div#about ul').first().find('li').length);
 
   // --- hijax behavior ---
+  
   hijax($('body'));
 
 });
