@@ -1,3 +1,5 @@
+document.documentElement.className = 'js';
+
 // --- helpers ---
 
 // Returns a random integer between min (included) and max (excluded)
