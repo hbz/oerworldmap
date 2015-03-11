@@ -1,5 +1,6 @@
 package helpers;
 
+import java.text.Collator;
 import java.util.*;
 
 /**
@@ -18,6 +19,14 @@ public class Countries {
       entry.put("alpha-2", country.getCountry());
       countryList.add(entry);
     }
+
+    Collator collator = Collator.getInstance(aLocale);
+    Collections.sort(countryList, new Comparator<Map<String, String>>() {
+      @Override
+      public int compare(Map<String, String> o1, Map<String, String> o2) {
+        return collator.compare(o1.get("name"), o2.get("name"));
+      }
+    });
 
     return countryList;
 
