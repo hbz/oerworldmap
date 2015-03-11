@@ -2,7 +2,7 @@
 
 @text-color: #ffffff;
 @text-color-70: rgba(255, 255, 255, 0.7);
-@background-color: #0c75bf;
+@background-color: hsl(205, 88%, 40%);
 //@hightlight-color: #cf7f07;
 @hightlight-color: #f09711;
 
@@ -22,7 +22,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 17.5px;
   color: @text-color;
-  padding-bottom: 100px;
+  //padding-bottom: 100px;
 }
 
 a {
@@ -71,6 +71,32 @@ blockquote {
 
 .lead small {
   font-size: 14px;
+}
+
+.small {
+  font-size: 15px;
+}
+
+.small h3 {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+ul.inline {
+  margin: 0 0 10px 0;
+  padding: 0;
+  list-style: none;
+  clear: both;
+}
+
+ul.inline li {
+  float: left;
+  margin-right: 20px;
+}
+
+ul.inline li * {
+  margin: 0;
+  line-height: 1.42857em;
 }
 
 
@@ -170,6 +196,11 @@ a.btn {
 }
 .register :-ms-input-placeholder { /* Internet Explorer 10+ */
 	color: @text-color;
+}
+
+.loading-indicator {
+  display: none;
+  margin-right: 7px;
 }
 
 
@@ -274,6 +305,79 @@ ul#messages {
   color: white;
 }
 
+
+/* --- footer --- */
+
+footer {
+  background: lighten(@background-color, 55%);
+  margin-top: 60px;
+  padding: 20px 0 20px 0;
+}
+
+footer * {
+  color: @background-color;
+  text-align: left;
+  font-size: 15px;
+}
+
+footer hr {
+  border-color: @background-color;
+  margin: 20px 0;
+}
+
+footer h3 {
+  font-weight: bold;
+}
+
+footer h3:first-child {
+  margin-top: 0px
+}
+
+footer .nav li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+footer .nav a {
+  text-decoration: none;
+  //border-bottom: 1px solid lighten(@background-color, 0%);
+  padding: 0;
+}
+
+footer .nav a:hover,
+footer .nav a:focus,
+footer .nav li.active a,
+footer .nav a:hover *,
+footer .nav a:focus *,
+footer .nav li.active a * {
+  background: transparent;
+  color: @hightlight-color;
+  outline: none;
+}
+
+footer .nav li:last-child a {
+  border-bottom: none;
+}
+
+footer .nav a .fa-chevron-down {
+  display: none;
+}
+
+footer .nav a:hover .fa-chevron-down,
+footer .nav li.active .fa-chevron-down {
+  display: inline-block;
+}
+
+footer .nav a:hover .fa-chevron-right,
+footer .nav li.active .fa-chevron-right {
+  display: none;
+}
+
+footer .tab-pane {
+  margin: 20px 0 50px 0;
+  background: #fff;
+  padding: 20px 25px;
+}
 
 /*
 .input-group-field {
