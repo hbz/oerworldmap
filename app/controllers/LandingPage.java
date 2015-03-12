@@ -14,7 +14,7 @@ public class LandingPage extends OERWorldMap {
   public static Result get() throws IOException {
 
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
-        "workLocation.address.addressCountry");
+        "workLocation.address.addressCountry").size(0);
     Resource countryAggregation = mResourceRepository.query(aggregationBuilder);
     mResponseData.put("countryAggregation", countryAggregation);
     return ok(render("Home", "LandingPage/index.mustache"));
