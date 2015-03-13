@@ -23,7 +23,7 @@
         "$ref": "#/Place"
       }
     },
-    "required": ["email", "workLocation"],
+    "required": ["email"],
     "additionalProperties": false
   },
 

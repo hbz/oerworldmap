@@ -92,6 +92,10 @@ public class JSONForm {
 
   private static String pointerToPath(String pointer) {
 
+    if (pointer.equals("")) {
+      return pointer;
+    }
+
     if (pointer.substring(0, 1).equals("/")) {
       pointer = pointer.substring(1);
     }

@@ -10,13 +10,14 @@ import helpers.JSONForm;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import models.Resource;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -26,8 +27,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import play.mvc.Result;
 import helpers.Countries;
+import play.mvc.Security;
+import services.Account;
 
 public class UserIndex extends OERWorldMap {
+
+  private static final String REALM = "Basic realm=\"OER World Map\"";
+
+  private static List<String> loggedOutUsers = new ArrayList<>();
 
   public static Result get() throws IOException {
     mResponseData.put("countries", Countries.list(currentLocale));
@@ -49,8 +56,8 @@ public class UserIndex extends OERWorldMap {
       return badRequest(render("Registration", "UserIndex/index.mustache"));
     }
 
-    newsletterSignup(user);
-    user.put("email", getEncryptedEmailAddress(user));
+    //newsletterSignup(user);
+    user.put("email", Account.getEncryptedEmailAddress(user));
     mUnconfirmedUserRepository.addResource(user);
     mResourceRepository.addResource(user);
 
@@ -60,8 +67,42 @@ public class UserIndex extends OERWorldMap {
 
   }
 
+  @Security.Authenticated(Secured.class)
+  public static Result auth() {
+    String form = "<form action=\"/user/.logout\" method=\"post\"><input type=\"submit\" value=\"logout\" /></form>";
+    return ok("Welcome to protected, " + request().username() + form).as("text/html");
+  }
+
+  public static Result requestToken() {
+    return ok(render("Request Token", "UserIndex/token.mustache"));
+  }
+
+  public static Result sendToken() {
+    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    ProcessingReport report = user.validate();
+    if (!report.isSuccess()) {
+      mResponseData.put("errors", JSONForm.generateErrorReport(report));
+      return badRequest(render("Request Token", "UserIndex/token.mustache"));
+    }
+    String token = Account.createTokenFor(user);
+    sendTokenMail(user, token);
+    mResponseData.put("status", "success");
+    mResponseData.put("message", i18n.get("user_token_request_feedback"));
+    return ok(render("Request Token", "feedback.mustache"));
+  }
+
+  @Security.Authenticated(Secured.class)
+  public static Result deleteToken() {
+    Resource user = new Resource("Person");
+    user.put("email", request().username());
+    Account.removeTokenFor(user);
+    mResponseData.put("status", "success");
+    mResponseData.put("message", i18n.get("user_token_delete_feedback"));
+    return ok(render("Delete Token", "feedback.mustache"));
+  }
+
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
-    String aEmail = getEncryptedEmailAddress(user);
+    String aEmail = Account.getEncryptedEmailAddress(user);
     // Actually, only checking the FileResourceRepository should suffice as resources remain there
     // after confirmation. I'll leave this is though, until File- and Elasticsearch sinks are wrapped
     // in a unifying OERWorldMapRepository.
@@ -80,14 +121,16 @@ public class UserIndex extends OERWorldMap {
     }
   }
 
-  private static String getEncryptedEmailAddress(Resource user) {
-    return DigestUtils.sha256Hex(user.get("email").toString());
-  }
-
   private static void newsletterSignup(Resource user) {
+
+    String mailmanHost = mConf.getString("mailman.host");
+    String mailmanList = mConf.getString("mailman.list");
+    if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
+      return;
+    }
+
     HttpClient client = new DefaultHttpClient();
-    HttpPost request = new HttpPost("https://" + mConf.getString("mailman.host") + "/mailman/subscribe/"
-        + mConf.getString("mailman.list"));
+    HttpPost request = new HttpPost("https://" + mailmanHost + "/mailman/subscribe/" + mailmanList);
     try {
       List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
       nameValuePairs.add(new BasicNameValuePair("email", user.get("email").toString()));
@@ -103,6 +146,29 @@ public class UserIndex extends OERWorldMap {
 
     } catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  private static void sendTokenMail(Resource aUser, String aToken) {
+    Email confirmationMail = new SimpleEmail();
+    try {
+      confirmationMail.setMsg("Your new token is " + aToken);
+      confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
+      confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
+      String smtpUser = mConf.getString("mail.smtp.user");
+      String smtpPass = mConf.getString("mail.smtp.password");
+      if (!smtpUser.isEmpty()) {
+        confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
+      }
+      confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
+      confirmationMail.setFrom(mConf.getString("mail.smtp.from"), mConf.getString("mail.smtp.sender"));
+      confirmationMail.setSubject(i18n.get("user_token_request_subject"));
+      confirmationMail.addTo((String) aUser.get("email"));
+      confirmationMail.send();
+      System.out.println(confirmationMail.toString());
+    } catch (EmailException e) {
+      e.printStackTrace();
+      System.out.println("Failed to send " + aToken + " to " + aUser.get("email"));
     }
   }
 
