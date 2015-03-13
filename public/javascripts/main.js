@@ -81,7 +81,7 @@ $(document).ready(function(){
     data[json.entries[i].key.toUpperCase()] = json.entries[i].value;
   }
 
-  if(false) {
+  if(true) {
     data = {
       "DE" : 15,
       "CH" : 4,
@@ -114,7 +114,7 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#cfdfba', '#a1cd3f'],
+        scale: ['#f7ffed', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
@@ -213,7 +213,7 @@ function initialize() {
       var latest_post = result.feed.entries[0];
 
       // add 300 character snippet
-      latest_post.contentSnippet300 = $( result.feed.entries[0].content ).text().cutOff(300);
+      latest_post.contentSnippet300 = result.feed.entries[0].content.replace(/<(?:.|\n)*?>/gm, '').cutOff(300);
 
       // add formated date
       var published_date = new Date( latest_post.publishedDate );
