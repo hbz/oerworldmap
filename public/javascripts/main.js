@@ -81,7 +81,7 @@ $(document).ready(function(){
     data[json.entries[i].key.toUpperCase()] = json.entries[i].value;
   }
 
-  if(true) {
+  if(false) {
     data = {
       "DE" : 15,
       "CH" : 4,
@@ -114,7 +114,7 @@ $(document).ready(function(){
     series: {
       regions: [{
         values: data,
-        scale: ['#f7ffed', '#a1cd3f'],
+        scale: ['#cfdfba', '#a1cd3f'],
         normalizeFunction: 'linear'
       }]
     },
