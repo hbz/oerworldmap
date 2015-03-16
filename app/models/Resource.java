@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
@@ -104,6 +105,11 @@ public class Resource implements Map<String, Object> {
     return report;
   }
 
+  /**
+   * Get a JsonNode representation of the resource.
+   *
+   * @return JSON JsonNode
+   */
   public JsonNode toJson() {
     return new ObjectMapper().convertValue(mProperties, JsonNode.class);
   }
@@ -115,7 +121,15 @@ public class Resource implements Map<String, Object> {
    */
   @Override
   public String toString() {
-    return toJson().toString();
+    ObjectMapper mapper = new ObjectMapper();
+    String output;
+    try {
+      output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
+    } catch (JsonProcessingException e) {
+      output = toJson().toString();
+      e.printStackTrace();
+    }
+    return output;
   }
 
   @Override
