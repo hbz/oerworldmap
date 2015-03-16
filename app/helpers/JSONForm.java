@@ -7,6 +7,8 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import models.Resource;
 import scala.util.parsing.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +36,17 @@ public class JSONForm {
         if (step.last) {
           ArrayNode vals = new ArrayNode(JsonNodeFactory.instance);
           for (String value : values) {
-            vals.add(value);
+            if (!value.isEmpty()) {
+              try {
+                vals.add(Integer.parseInt(value));
+              } catch(NumberFormatException notInt) {
+                try {
+                  vals.add(Double.parseDouble(value));
+                } catch(NumberFormatException notDouble) {
+                  vals.add(value);
+                }
+              }
+            }
           }
           if (step.type == Step.Type.Array) {
             int index = Integer.parseInt(step.key);
@@ -44,7 +56,7 @@ public class JSONForm {
             }
             if ((!step.append) && (vals.size() == 1)) {
               object.insert(index, vals.get(0));
-            } else {
+            } else if (vals.size() > 0) {
               object.insert(index, vals);
             }
             context = object;
@@ -52,7 +64,7 @@ public class JSONForm {
             ObjectNode object = new ObjectNode(JsonNodeFactory.instance);
             if ((!step.append) && (vals.size() == 1)) {
               object.set(step.key, vals.get(0));
-            } else {
+            } else if (vals.size() > 0) {
               object.set(step.key, vals);
             }
             context = object;
