@@ -26,7 +26,7 @@ to configure your cluster name to be different from the default `elasticsearch`.
 edit `cluster.name` in `third-party/elasticsearch-1.3.6/conf/elasticsearch.yml` and `es.cluster.name`
 in `conf/application.conf` before restarting.
 
-#### Create and configure oerworldmap index (as specified in `es.index.name` in `conf/application.conf`)
+#### Create and configure oerworldmap index (as specified in `es.index.app.name` in `conf/application.conf`)
 
     $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 

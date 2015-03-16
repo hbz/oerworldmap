@@ -1,5 +1,6 @@
 package services;
 
+import helpers.ElasticsearchHelpers;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.json.simple.parser.ParseException;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,52 +31,43 @@ public class ElasticsearchRepositoryTest {
   private static Client mClient;
   private static ElasticsearchClient mElClient;
   private static ElasticsearchRepository mRepo;
-  private static final ElasticsearchConfig esConfig = new ElasticsearchConfig();
+  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
 
   @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
-    ElasticsearchConfig conf = new ElasticsearchConfig();
-    mClientSettings = ImmutableSettings.settingsBuilder().put(conf.getClientSettings()).build();
+    mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings()).build();
     mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(conf.getServer(), Integer.valueOf(conf
+        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer.valueOf(mEsConfig
             .getJavaPort())));
-    mElClient = new ElasticsearchClient(mClient);
-    cleanIndex();
+    mElClient = new ElasticsearchClient(mClient, mEsConfig);
+    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
     mRepo = new ElasticsearchRepository(mElClient);
     setupResources();
   }
 
   private static void setupResources() throws IOException {
-    mResource1 = new Resource(esConfig.getType(), UUID.randomUUID().toString());
+    mResource1 = new Resource(mEsConfig.getType(), UUID.randomUUID().toString());
     mResource1.put("name", "oeruser1");
     mResource1.put("worksFor", "oerknowledgecloud.org");
 
-    mResource2 = new Resource(esConfig.getType(), UUID.randomUUID().toString());
+    mResource2 = new Resource(mEsConfig.getType(), UUID.randomUUID().toString());
     mResource2.put("name", "oeruser2");
     mResource2.put("worksFor", "unesco.org");
 
-    mResource3 = new Resource(esConfig.getType(), UUID.randomUUID().toString());
+    mResource3 = new Resource(mEsConfig.getType(), UUID.randomUUID().toString());
     mResource3.put("name", "oeruser3");
     mResource3.put("worksFor", "unesco.org");
 
     mRepo.addResource(mResource1);
     mRepo.addResource(mResource2);
     mRepo.addResource(mResource3);
-    mElClient.refreshIndex(esConfig.getIndex());
-  }
-
-  // create a new clean ElasticsearchIndex for this Test class
-  private static void cleanIndex() {
-    if (mElClient.hasIndex(esConfig.getIndex())) {
-      mElClient.deleteIndex(esConfig.getIndex());
-    }
-    mElClient.createIndex(esConfig.getIndex());
+    mElClient.refreshIndex(mEsConfig.getIndex());
   }
 
   @Test
   public void testAddAndQueryResources() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query(esConfig.getType());
+    List<Resource> resourcesGotBack = mRepo.query(mEsConfig.getType());
 
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
@@ -103,7 +96,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testUniqueFields() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query(esConfig.getType());
+    List<Resource> resourcesGotBack = mRepo.query(mEsConfig.getType());
 
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
@@ -120,5 +113,10 @@ public class ElasticsearchRepositoryTest {
     Assert.assertTrue(resourcesGotBack.size() == ids.size() && ids.size() == names.size());
     // non-unique fields : some "persons" work for the same employer:
     Assert.assertTrue(resourcesGotBack.size() > employers.size());
+  }
+  
+  @AfterClass
+  public static void clean() throws IOException {
+    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
   }
 }

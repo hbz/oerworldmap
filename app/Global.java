@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class Global extends GlobalSettings {
 
-  private static ElasticsearchConfig esConfig = new ElasticsearchConfig();
+  private static ElasticsearchConfig esConfig = new ElasticsearchConfig(false);
 
   @Override
   public void onStart(Application app) {

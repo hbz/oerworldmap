@@ -1,27 +1,18 @@
 package helpers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 
 /**
  * @author fo
  */
 public class JSONFormTest {
-
-  private static void pp(String jsons) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    Object json = objectMapper.readValue(jsons, Object.class);
-    String indented = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-    System.out.println(indented);
-  }
 
   @Test
   public void testFlatObject() {
