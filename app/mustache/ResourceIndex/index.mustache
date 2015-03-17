@@ -1,0 +1,30 @@
+<section>
+    <form action="/resource/" method="post">
+        {{#errors.size}}
+            <ul id="messages">
+              {{#errors}}
+                  <li class="message {{level}}" about="{{instance.path}}">
+                      <div class="alert alert-danger" role="alert">{{message}}</div>
+                  </li>
+              {{/errors}}
+            </ul>
+        {{/errors.size}}
+        <input type="hidden" name="@type" value="Organization" />
+        <input type="text" name="legalName" required="required" class="form-control input-lg" placeholder="{{i18n.name}}" />
+        <fieldset>
+            <input type="hidden" name="location[@type]" value="Place" />
+            <fieldset>
+                <input type="hidden" name="location[address][@type]" value="PostalAddress" />
+                <input type="text" name="location[address][addressCountry]" required="required" class="form-control input-lg" placeholder="{{i18n.addressCountry}}" />
+                <input type="text" name="location[address][addressLocality]" required="required" class="form-control input-lg" placeholder="{{i18n.addressLocality}}" />
+                <input type="text" name="location[address][streetAddress]" required="required" class="form-control input-lg" placeholder="{{i18n.streetAddress}}" />
+            </fieldset>
+            <fieldset>
+                <input type="hidden" name="location[geo][@type]" value="GeoCoordinates" />
+                <input type="number" step="any" name="location[geo][latitude]" class="form-control input-lg" placeholder="{{i18n.latitude}}" />
+                <input type="number" step="any" name="location[geo][longitude]" class="form-control input-lg" placeholder="{{i18n.longitude}}" />
+            </fieldset>
+        </fieldset>
+        <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.create}}</button>
+    </form>
+</section>
