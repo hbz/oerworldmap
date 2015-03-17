@@ -9,6 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
@@ -32,24 +34,25 @@ public class ElasticsearchConfig {
   private InetSocketTransportAddress mNode;
 
   // CLIENT
-  private String mIndex;
+  private String mAppIndex;
+  private String mTestIndex;
   private String mType;
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Builder mClientSettingsBuilder;
 
-  public ElasticsearchConfig(){
-    this(null);
+  public ElasticsearchConfig(boolean isTest) {
+    this(null, isTest);
   }
-  
-  public ElasticsearchConfig(String aFilename) {
+
+  public ElasticsearchConfig(String aFilename, boolean isTest) {
     File configFile;
     if (!StringUtils.isEmpty(aFilename)) {
       configFile = new File(aFilename);
     } else {
       configFile = new File(DEFAULT_CONFIG_FILE);
     }
-    init(configFile);
+    init(configFile, isTest);
   }
 
   private void checkFileExists(File file) {
@@ -63,7 +66,7 @@ public class ElasticsearchConfig {
     }
   }
 
-  private void init(File aConfigFile) {
+  private void init(File aConfigFile, boolean isTest) {
     checkFileExists(aConfigFile);
 
     // CONFIG FILE
@@ -76,12 +79,17 @@ public class ElasticsearchConfig {
     mNode = new InetSocketTransportAddress(mServer, Integer.valueOf(mJavaPort));
 
     // CLIENT
-    mIndex = mConfig.getString("es.index.name");
+    mAppIndex = mConfig.getString("es.index.app.name");
+    mTestIndex = mConfig.getString("es.index.test.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
     mClientSettings = new HashMap<String, String>();
-    mClientSettings.put("index.name", mIndex);
+    if (isTest) {
+      mClientSettings.put("index.name", mTestIndex);
+    } else {
+      mClientSettings.put("index.name", mAppIndex);
+    }
     mClientSettings.put("index.type", mType);
     mClientSettings.put("cluster.name", mCluster);
 
@@ -89,7 +97,7 @@ public class ElasticsearchConfig {
   }
 
   public String getIndex() {
-    return mIndex;
+    return mClientSettings.get("index.name");
   }
 
   public String getType() {

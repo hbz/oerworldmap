@@ -14,6 +14,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
+import play.Logger;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +35,8 @@ public class Resource implements Map<String, Object> {
   /**
    * Constructor which sets up a random UUID.
    *
-   * @param   type  The type of the resource.
+   * @param type
+   *          The type of the resource.
    */
   public Resource(String type) {
     this(type, UUID.randomUUID().toString());
@@ -42,8 +45,10 @@ public class Resource implements Map<String, Object> {
   /**
    * Constructor.
    *
-   * @param   type  The type of the resource.
-   * @param   id    The id of the resource.
+   * @param type
+   *          The type of the resource.
+   * @param id
+   *          The id of the resource.
    */
   public Resource(String type, String id) {
     mProperties.put(JsonLdConstants.TYPE, type);
@@ -51,12 +56,13 @@ public class Resource implements Map<String, Object> {
   }
 
   /**
-   * Convert a Map of String/Object to a Resource, assuming that all
-   * Object values of the map are properly represented by the toString()
-   * method of their class.
+   * Convert a Map of String/Object to a Resource, assuming that all Object
+   * values of the map are properly represented by the toString() method of
+   * their class.
    *
-   * @param   aProperties  The map to create the resource from
-   * @return  a Resource containing all given properties
+   * @param aProperties
+   *          The map to create the resource from
+   * @return a Resource containing all given properties
    */
   public static Resource fromMap(Map<String, Object> aProperties) {
 
@@ -64,7 +70,7 @@ public class Resource implements Map<String, Object> {
     Resource resource;
     if (hasId(aProperties)) {
       resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
-                              (String) aProperties.get(JsonLdConstants.ID));
+          (String) aProperties.get(JsonLdConstants.ID));
     } else {
       resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE));
     }
@@ -84,7 +90,8 @@ public class Resource implements Map<String, Object> {
 
   public static Resource fromJson(JsonNode aJson) {
     Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
-        new TypeReference<HashMap<String, Object>>(){});
+        new TypeReference<HashMap<String, Object>>() {
+        });
     return fromMap(resourceMap);
   }
 
@@ -94,8 +101,7 @@ public class Resource implements Map<String, Object> {
     try {
       schema = JsonSchemaFactory.byDefault().getJsonSchema(
           new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()),
-              "/".concat(mProperties.get(JsonLdConstants.TYPE).toString())
-      );
+          "/".concat(mProperties.get(JsonLdConstants.TYPE).toString()));
       report = schema.validate(toJson());
     } catch (ProcessingException | IOException e) {
       report = new ListProcessingReport();
@@ -179,20 +185,20 @@ public class Resource implements Map<String, Object> {
   }
 
   @Override
-  public boolean equals(final Object aOther){
-    if (! (aOther instanceof Resource)){
+  public boolean equals(final Object aOther) {
+    if (!(aOther instanceof Resource)) {
       return false;
     }
     final Resource other = (Resource) aOther;
-    if (other.mProperties.size() != mProperties.size()){
+    if (other.mProperties.size() != mProperties.size()) {
       return false;
     }
     final Iterator<Map.Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
     while (thisIt.hasNext()) {
-        final Map.Entry<String, Object> pair = thisIt.next();
-        if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
-          return false;
-        }
+      final Map.Entry<String, Object> pair = thisIt.next();
+      if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))) {
+        return false;
+      }
     }
     return true;
   }
@@ -204,9 +210,11 @@ public class Resource implements Map<String, Object> {
 
   private static void checkTypeExistence(Map<String, Object> aProperties) {
     Object type = aProperties.get(JsonLdConstants.TYPE);
-    if (!(type instanceof String) || StringUtils.isEmpty((String) type)) {
+    if (type == null) {
+      Logger.warn(JsonLdConstants.TYPE + " is null for " + aProperties.toString());
+    } else if (!(type instanceof String) || StringUtils.isEmpty(type.toString())) {
       String message = "Unspecified " + JsonLdConstants.TYPE + " : " + aProperties.hashCode();
-      System.err.println(message);
+      Logger.error(message);
       try {
         throw new java.lang.TypeNotPresentException(message, new Exception());
       } catch (Exception e) {
@@ -216,4 +224,3 @@ public class Resource implements Map<String, Object> {
   }
 
 }
-

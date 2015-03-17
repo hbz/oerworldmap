@@ -52,7 +52,7 @@ import org.json.simple.parser.ParseException;
  */
 public class ElasticsearchClient {
 
-  private static ElasticsearchConfig esConfig;
+  private static ElasticsearchConfig mEsConfig;
   private static Client mClient;
   private static String mSearchStub;
 
@@ -60,23 +60,12 @@ public class ElasticsearchClient {
    * Initialize an instance with a specified non null Elasticsearch client.
    * 
    * @param aClient
+   * @param aEsConfig 
    */
-  public ElasticsearchClient(@Nullable final Client aClient) {
-    this(null, aClient);
-  }
-
-  /**
-   * Initialize an instance with a specified non null Elasticsearch client and a
-   * specified Elasticsearch configuration file.
-   * 
-   * @param aClient
-   * @param aConfigurationFile
-   */
-  public ElasticsearchClient(@Nullable final String aConfigurationFile,
-      @Nullable final Client aClient) {
+  public ElasticsearchClient(@Nullable final Client aClient, ElasticsearchConfig aEsConfig) {
     mClient = aClient;
-    esConfig = new ElasticsearchConfig(aConfigurationFile);
-    mSearchStub = "http://" + esConfig.getServer() + ":" + esConfig.getHttpPort() + "/";
+    mEsConfig = aEsConfig;
+    mSearchStub = "http://" + mEsConfig.getServer() + ":" + mEsConfig.getHttpPort() + "/";
   }
 
   public static Client getClient() {
@@ -87,11 +76,11 @@ public class ElasticsearchClient {
   }
 
   public static String getIndex() {
-    return esConfig.getIndex();
+    return mEsConfig.getIndex();
   }
 
   public static String getType() {
-    return esConfig.getType();
+    return mEsConfig.getType();
   }
 
   /**
@@ -109,7 +98,7 @@ public class ElasticsearchClient {
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final UUID aUuid) {
-    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid.toString())
+    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
         .setSource(aJsonString).execute().actionGet();
   }
 
@@ -119,7 +108,7 @@ public class ElasticsearchClient {
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid) {
-    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid).setSource(aJsonString)
+    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid).setSource(aJsonString)
         .execute().actionGet();
   }
 
@@ -130,7 +119,7 @@ public class ElasticsearchClient {
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(esConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+    mClient.prepareIndex(mEsConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
         .actionGet();
   }
 
@@ -149,7 +138,7 @@ public class ElasticsearchClient {
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
-    mClient.prepareIndex(esConfig.getIndex(), esConfig.getType(), aUuid.toString()).setSource(aMap)
+    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString()).setSource(aMap)
         .execute().actionGet();
   }
 
@@ -165,7 +154,7 @@ public class ElasticsearchClient {
     SearchResponse response = null;
     final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
     while (response == null || response.getHits().hits().length != 0) {
-      response = mClient.prepareSearch(esConfig.getIndex()).setTypes(aType)
+      response = mClient.prepareSearch(mEsConfig.getIndex()).setTypes(aType)
           .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage)
           .setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
@@ -185,7 +174,7 @@ public class ElasticsearchClient {
   public ArrayList<Object> getAggregation(final AggregationBuilder aAggregationBuilder) {
     final ArrayList<Object> entries = new ArrayList<Object>();
 
-    SearchResponse response = mClient.prepareSearch(esConfig.getIndex())
+    SearchResponse response = mClient.prepareSearch(mEsConfig.getIndex())
         .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
     Aggregation aggregation = response.getAggregations().asList().get(0);
     for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
@@ -206,7 +195,7 @@ public class ElasticsearchClient {
    */
   public Map<String, Object> getDocument(@Nonnull final String aType,
       @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(esConfig.getIndex(), aType, aIdentifier)
+    final GetResponse response = mClient.prepareGet(mEsConfig.getIndex(), aType, aIdentifier)
         .execute().actionGet();
     return response.getSource();
   }
@@ -234,12 +223,12 @@ public class ElasticsearchClient {
   public List<Map<String, Object>> getExactMatches(@Nonnull final String aType,
       @Nonnull final String aFieldName, @Nonnull final String aContent) {
 
-    if (!hasIndex(esConfig.getIndex())) {
-      createIndex(esConfig.getIndex());
+    if (!hasIndex(mEsConfig.getIndex())) {
+      createIndex(mEsConfig.getIndex());
     }
     List<Map<String, Object>> matches = new LinkedList<Map<String, Object>>();
 
-    final SearchResponse response = mClient.prepareSearch(esConfig.getIndex()).setTypes(aType)
+    final SearchResponse response = mClient.prepareSearch(mEsConfig.getIndex()).setTypes(aType)
         .setQuery(QueryBuilders.matchQuery(aFieldName, aContent)).execute().actionGet();
 
     Iterator<SearchHit> searchHits = response.getHits().iterator();
@@ -282,7 +271,7 @@ public class ElasticsearchClient {
    */
   public void createIndex(String aIndex) {
     try {
-      mClient.admin().indices().prepareCreate(aIndex).setSource(esConfig.getIndexConfigString())
+      mClient.admin().indices().prepareCreate(aIndex).setSource(mEsConfig.getIndexConfigString())
           .execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
       Logger.error("Trying to create index \"" + aIndex
