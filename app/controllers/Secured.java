@@ -19,6 +19,10 @@ public class Secured extends Security.Authenticator {
 
   @Override
   public String getUsername(Http.Context ctx) {
+      return getHttpBasicAuthUser(ctx);
+  }
+
+  public static String getHttpBasicAuthUser(Http.Context ctx) {
 
     String authHeader = ctx.request().getHeader(AUTHORIZATION);
 

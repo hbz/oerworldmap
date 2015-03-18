@@ -45,8 +45,13 @@ function hijax(element) {
       type: method,
       url: action,
       data: form.serialize()
-    }).done(function(data) {
-      form.replaceWith(hijax(body(data)));
+    }).done(function(data, textStatus, xhr) {
+      var ct = xhr.getResponseHeader("content-type") || "";
+      if (ct.indexOf('html') > -1) {
+        form.replaceWith(hijax(body(data)));
+       } else {
+        form.replaceWith("<pre>" + data + "</pre>");
+       }
       loading_indicator.hide();
     }).fail(function(jqXHR) {
       form.replaceWith(hijax(body(jqXHR.responseText)));

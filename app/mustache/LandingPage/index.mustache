@@ -21,11 +21,21 @@
         </table>
     </div>
 
+    {{^user}}
     <div class="section" id="user-register">
         <div class="register">
             <a href="/user/" class="hijax transclude">{{i18n.register}}</a>
         </div>
     </div>
+    {{/user}}
+
+    {{#user}}
+    <div class="section" id="resource-list">
+        <div class="resource">
+            <a href="/resource/" class="hijax transclude">{{i18n.resource_list}}</a>
+        </div>
+    </div>
+    {{/user}}
 
     <hr />
 

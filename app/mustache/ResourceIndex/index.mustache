@@ -1,5 +1,6 @@
 <section>
-    <form action="/resource/" method="post">
+    <form action="/resource/" method="post" id="add-organization">
+        <h2>{{i18n.add}} {{i18n.organization}}</h2>
         {{#messages.size}}
             <ul id="messages">
               {{#messages}}
@@ -12,7 +13,7 @@
         <fieldset class="Organization">
             <input type="hidden" name="@type" value="Organization" />
             <div class="form-group">
-                <label for="legalName">{{i18n.name}}</label>
+                <label class="sr-only" for="legalName">{{i18n.name}}</label>
                 <input type="text" name="legalName" id="legalName" required="required" class="form-control" placeholder="{{i18n.name}}" />
             </div>
             <fieldset>
@@ -20,26 +21,31 @@
                 <fieldset>
                     <input type="hidden" name="location[address][@type]" value="PostalAddress" />
                     <div class="form-group">
-                        <label for="location-address-addressCountry">{{i18n.addressCountry}}</label>
-                        <input type="text" name="location[address][addressCountry]" for="location-address-addressCountry" required="required" class="form-control" placeholder="{{i18n.addressCountry}}" />
+                        <label class="sr-only" for="register-country">{{i18n.country}}</label>
+                        <select class="form-control input-lg" name="location[address][addressCountry]" id="location-address-addressCountry">
+                            <option value="">{{i18n.select_country}}</option>
+                            {{#scope.countries}}
+                                <option value="{{alpha-2}}">{{name}}</option>
+                            {{/scope.countries}}
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="location-address-addressLocality">{{i18n.addressLocality}}</label>
+                        <label class="sr-only" for="location-address-addressLocality">{{i18n.addressLocality}}</label>
                         <input type="text" name="location[address][addressLocality]" required="required" class="form-control" placeholder="{{i18n.addressLocality}}" />
                     </div>
                     <div class="form-group">
-                        <label for="location-address-streetAddress">{{i18n.streetAddress}}</label>
+                        <label class="sr-only" for="location-address-streetAddress">{{i18n.streetAddress}}</label>
                         <input type="text" name="location[address][streetAddress]" required="required" class="form-control" placeholder="{{i18n.streetAddress}}" />
                     </div>
                 </fieldset>
                 <fieldset>
                     <input type="hidden" name="location[geo][@type]" value="GeoCoordinates" />
                     <div class="form-group">
-                        <label for="location-geo-latitude">{{i18n.latitude}}</label>
+                        <label class="sr-only" for="location-geo-latitude">{{i18n.latitude}}</label>
                         <input type="number" step="any" name="location[geo][latitude]" class="form-control" placeholder="{{i18n.latitude}}" />
                     </div>
                     <div class="form-group">
-                        <label for="location-geo-latitude">{{i18n.longitude}}</label>
+                        <label class="sr-only" for="location-geo-latitude">{{i18n.longitude}}</label>
                         <input type="number" step="any" name="location[geo][longitude]" class="form-control" placeholder="{{i18n.longitude}}" />
                     </div>
                 </fieldset>
