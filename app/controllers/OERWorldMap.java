@@ -27,8 +27,9 @@ import java.io.Writer;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -82,18 +83,24 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  // Data for mustaches
-  protected static Map<String, Object> mResponseData = new HashMap<>();
-
-  protected static Html render(String pageTitle, String templatePath) {
-
-    mResponseData.put("i18n", i18n);
+  protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
+                               List<Map<String, Object>> messages) {
+    Map<String, Object> mustacheData = new HashMap<>();
+    mustacheData.put("scope", scope);
+    mustacheData.put("messages", messages);
+    mustacheData.put("i18n", i18n);
     Mustache template = MustacheFactory.compile(templatePath);
     Writer writer = new StringWriter();
-    template.execute(writer, mResponseData);
-    mResponseData.clear();
+    template.execute(writer, mustacheData);
     return views.html.main.render(pageTitle, Html.apply(writer.toString()));
+  }
 
+  protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope) {
+    return render(pageTitle, templatePath, scope, null);
+  }
+
+  protected static Html render(String pageTitle, String templatePath) {
+    return render(pageTitle, templatePath, null, null);
   }
 
 }

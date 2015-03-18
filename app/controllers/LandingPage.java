@@ -18,8 +18,7 @@ public class LandingPage extends OERWorldMap {
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
         "workLocation.address.addressCountry").size(0);
     Resource countryAggregation = mBaseRepository.query(aggregationBuilder);
-    mResponseData.put("countryAggregation", countryAggregation);
-    return ok(render("Home", "LandingPage/index.mustache"));
+    return ok(render("Home", "LandingPage/index.mustache", countryAggregation));
 
   }
 

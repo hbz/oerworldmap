@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchema;
 import models.Resource;
 import scala.util.parsing.json.JSONObject;
 
@@ -90,37 +91,21 @@ public class JSONForm {
     return merge(results);
   }
 
-  public static List<Resource> generateErrorReport(ProcessingReport report) {
-    List<Resource> errorReport = new ArrayList<>();
+  public static List<Map<String,Object>> generateErrorReport(ProcessingReport report) {
+    List<Map<String,Object>> errorReport = new ArrayList<>();
     for (ProcessingMessage message : report) {
-      ObjectNode jsonMessage = (ObjectNode)message.asJson();
-      ObjectNode instanceInfo = (ObjectNode)jsonMessage.get("instance");
-      String path = pointerToPath(instanceInfo.get("pointer").textValue());
-      instanceInfo.put("path", path);
-      errorReport.add(Resource.fromJson(jsonMessage));
+      ObjectNode messageNode = (ObjectNode)message.asJson();
+      String messageText = messageNode.get("instance").get("pointer").asText()
+          + ": " + messageNode.get("message").asText();
+      messageNode.put("message", messageText);
+      switch (messageNode.get("level").asText()) {
+        case "error":
+          messageNode.put("level", "danger");
+          break;
+      }
+      errorReport.add(Resource.fromJson(messageNode));
     }
     return errorReport;
-  }
-
-  private static String pointerToPath(String pointer) {
-
-    if (pointer.equals("")) {
-      return pointer;
-    }
-
-    if (pointer.substring(0, 1).equals("/")) {
-      pointer = pointer.substring(1);
-    }
-
-    String[] parts = pointer.split("/");
-
-    String path = parts[0];
-    for (int i = 1; i < parts.length; i++) {
-      path = path.concat("[".concat(parts[i]).concat("]"));
-    }
-
-    return path;
-
   }
 
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
@@ -196,9 +181,9 @@ public class JSONForm {
     return merged;
   }
 
-  public static class Step {
+  private static class Step {
 
-    public static enum Type {
+    private static enum Type {
       Object, Array
     }
 
@@ -214,7 +199,7 @@ public class JSONForm {
 
   }
 
-  public static List<Step> parsePath(String path) {
+  private static List<Step> parsePath(String path) {
 
     String original = path;
     List<Step> steps = new ArrayList<>();

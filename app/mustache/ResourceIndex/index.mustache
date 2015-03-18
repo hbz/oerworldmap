@@ -1,28 +1,48 @@
 <section>
     <form action="/resource/" method="post">
-        {{#errors.size}}
+        {{#messages.size}}
             <ul id="messages">
-              {{#errors}}
-                  <li class="message {{level}}" about="{{instance.path}}">
-                      <div class="alert alert-danger" role="alert">{{message}}</div>
+              {{#messages}}
+                  <li class="message {{level}}">
+                      <div class="alert alert-{{level}}" role="alert">{{message}}</div>
                   </li>
-              {{/errors}}
+              {{/messages}}
             </ul>
-        {{/errors.size}}
-        <input type="hidden" name="@type" value="Organization" />
-        <input type="text" name="legalName" required="required" class="form-control input-lg" placeholder="{{i18n.name}}" />
-        <fieldset>
-            <input type="hidden" name="location[@type]" value="Place" />
+        {{/messages.size}}
+        <fieldset class="Organization">
+            <input type="hidden" name="@type" value="Organization" />
+            <div class="form-group">
+                <label for="legalName">{{i18n.name}}</label>
+                <input type="text" name="legalName" id="legalName" required="required" class="form-control" placeholder="{{i18n.name}}" />
+            </div>
             <fieldset>
-                <input type="hidden" name="location[address][@type]" value="PostalAddress" />
-                <input type="text" name="location[address][addressCountry]" required="required" class="form-control input-lg" placeholder="{{i18n.addressCountry}}" />
-                <input type="text" name="location[address][addressLocality]" required="required" class="form-control input-lg" placeholder="{{i18n.addressLocality}}" />
-                <input type="text" name="location[address][streetAddress]" required="required" class="form-control input-lg" placeholder="{{i18n.streetAddress}}" />
-            </fieldset>
-            <fieldset>
-                <input type="hidden" name="location[geo][@type]" value="GeoCoordinates" />
-                <input type="number" step="any" name="location[geo][latitude]" class="form-control input-lg" placeholder="{{i18n.latitude}}" />
-                <input type="number" step="any" name="location[geo][longitude]" class="form-control input-lg" placeholder="{{i18n.longitude}}" />
+                <input type="hidden" name="location[@type]" value="Place" />
+                <fieldset>
+                    <input type="hidden" name="location[address][@type]" value="PostalAddress" />
+                    <div class="form-group">
+                        <label for="location-address-addressCountry">{{i18n.addressCountry}}</label>
+                        <input type="text" name="location[address][addressCountry]" for="location-address-addressCountry" required="required" class="form-control" placeholder="{{i18n.addressCountry}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location-address-addressLocality">{{i18n.addressLocality}}</label>
+                        <input type="text" name="location[address][addressLocality]" required="required" class="form-control" placeholder="{{i18n.addressLocality}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location-address-streetAddress">{{i18n.streetAddress}}</label>
+                        <input type="text" name="location[address][streetAddress]" required="required" class="form-control" placeholder="{{i18n.streetAddress}}" />
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <input type="hidden" name="location[geo][@type]" value="GeoCoordinates" />
+                    <div class="form-group">
+                        <label for="location-geo-latitude">{{i18n.latitude}}</label>
+                        <input type="number" step="any" name="location[geo][latitude]" class="form-control" placeholder="{{i18n.latitude}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location-geo-latitude">{{i18n.longitude}}</label>
+                        <input type="number" step="any" name="location[geo][longitude]" class="form-control" placeholder="{{i18n.longitude}}" />
+                    </div>
+                </fieldset>
             </fieldset>
         </fieldset>
         <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.create}}</button>

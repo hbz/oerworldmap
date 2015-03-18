@@ -37,32 +37,37 @@ public class UserIndex extends OERWorldMap {
   private static List<String> loggedOutUsers = new ArrayList<>();
 
   public static Result get() throws IOException {
-    mResponseData.put("countries", Countries.list(currentLocale));
-    return ok(render("Registration", "UserIndex/index.mustache"));
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("countries", Countries.list(currentLocale));
+    return ok(render("Registration", "UserIndex/index.mustache", scope));
   }
 
   public static Result post() throws IOException {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Map<String, Object> scope = new HashMap<>();
 
     ProcessingReport report = user.validate();
     if (mConf.getBoolean("user.email.unique")) {
       ensureEmailUnique(user, report);
     }
     if (!report.isSuccess()) {
-      mResponseData.put("countries", Countries.list(currentLocale));
-      mResponseData.put("errors", JSONForm.generateErrorReport(report));
-      mResponseData.put("person", user);
-      return badRequest(render("Registration", "UserIndex/index.mustache"));
+      scope.put("countries", Countries.list(currentLocale));
+      scope.put("user", user);
+      return badRequest(render("Registration", "UserIndex/index.mustache", scope,
+          JSONForm.generateErrorReport(report)));
     }
 
     // newsletterSignup(user);
     user.put("email", Account.getEncryptedEmailAddress(user));
     mBaseRepository.addResource(user);
 
-    mResponseData.put("status", "success");
-    mResponseData.put("message", i18n.get("user_registration_feedback"));
-    return ok(render("Registration", "feedback.mustache"));
+    List<Map<String, Object>> messages = new ArrayList<>();
+    HashMap<String,Object> message = new HashMap<>();
+    message.put("level", "success");
+    message.put("message", i18n.get("user_registration_feedback"));
+    messages.add(message);
+    return ok(render("Registration", "feedback.mustache", scope, messages));
 
   }
 
@@ -73,21 +78,25 @@ public class UserIndex extends OERWorldMap {
   }
 
   public static Result requestToken() {
-    return ok(render("Request Token", "UserIndex/token.mustache"));
+    return ok(render("Request Token", "Secured/token.mustache"));
   }
 
   public static Result sendToken() {
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     ProcessingReport report = user.validate();
     if (!report.isSuccess()) {
-      mResponseData.put("errors", JSONForm.generateErrorReport(report));
-      return badRequest(render("Request Token", "UserIndex/token.mustache"));
+      return badRequest(render("Request Token", "UserIndex/token.mustache", user,
+          JSONForm.generateErrorReport(report)));
     }
     String token = Account.createTokenFor(user);
     sendTokenMail(user, token);
-    mResponseData.put("status", "success");
-    mResponseData.put("message", i18n.get("user_token_request_feedback"));
-    return ok(render("Request Token", "feedback.mustache"));
+
+    List<Map<String, Object>> messages = new ArrayList<>();
+    HashMap<String,Object> message = new HashMap<>();
+    message.put("level", "success");
+    message.put("message", i18n.get("user_token_request_feedback"));
+    messages.add(message);
+    return ok(render("Request Token", "feedback.mustache", user, messages));
   }
 
   @Security.Authenticated(Secured.class)
@@ -95,9 +104,12 @@ public class UserIndex extends OERWorldMap {
     Resource user = new Resource("Person");
     user.put("email", request().username());
     Account.removeTokenFor(user);
-    mResponseData.put("status", "success");
-    mResponseData.put("message", i18n.get("user_token_delete_feedback"));
-    return ok(render("Delete Token", "feedback.mustache"));
+    List<Map<String, Object>> messages = new ArrayList<>();
+    HashMap<String,Object> message = new HashMap<>();
+    message.put("level", "success");
+    message.put("message", i18n.get("user_token_delete_feedback"));
+    messages.add(message);
+    return ok(render("Delete Token", "feedback.mustache", user, messages));
   }
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {

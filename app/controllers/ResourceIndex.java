@@ -20,11 +20,8 @@ public class ResourceIndex extends OERWorldMap {
     Resource resource = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     ProcessingReport report = resource.validate();
     if (!report.isSuccess()) {
-      mResponseData.put("errors", JSONForm.generateErrorReport(report));
-      mResponseData.put("data", resource);
-      System.out.println(resource.toString());
-      System.out.println(Integer.parseInt("5"));
-      return badRequest(render("Resources", "ResourceIndex/index.mustache"));
+      return badRequest(render("Resources", "ResourceIndex/index.mustache", resource,
+          JSONForm.generateErrorReport(report)));
     }
     return created("created resource " + resource.toString());
   }
