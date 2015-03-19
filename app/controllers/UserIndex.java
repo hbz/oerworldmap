@@ -56,10 +56,9 @@ public class UserIndex extends OERWorldMap {
       return badRequest(render("Registration", "UserIndex/index.mustache"));
     }
 
-    //newsletterSignup(user);
+    // newsletterSignup(user);
     user.put("email", Account.getEncryptedEmailAddress(user));
-    mUnconfirmedUserRepository.addResource(user);
-    mResourceRepository.addResource(user);
+    mBaseRepository.addResource(user);
 
     mResponseData.put("status", "success");
     mResponseData.put("message", i18n.get("user_registration_feedback"));
@@ -103,11 +102,12 @@ public class UserIndex extends OERWorldMap {
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
     String aEmail = Account.getEncryptedEmailAddress(user);
-    // Actually, only checking the FileResourceRepository should suffice as resources remain there
-    // after confirmation. I'll leave this is though, until File- and Elasticsearch sinks are wrapped
+    // Actually, only checking the FileResourceRepository should suffice as
+    // resources remain there
+    // after confirmation. I'll leave this is though, until File- and
+    // Elasticsearch sinks are wrapped
     // in a unifying OERWorldMapRepository.
-    if ((!mUnconfirmedUserRepository.getResourcesByContent("Person", "email", aEmail).isEmpty())
-        || (!mResourceRepository.getResourcesByContent("Person", "email", aEmail).isEmpty())) {
+    if ((!mBaseRepository.getResourcesByContent("Person", "email", aEmail, true).isEmpty())) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
       ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);
@@ -138,7 +138,8 @@ public class UserIndex extends OERWorldMap {
 
       HttpResponse response = client.execute(request);
       System.out.println(response.getStatusLine().getStatusCode());
-      BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+      BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity()
+          .getContent()));
       String line = "";
       while ((line = rd.readLine()) != null) {
         System.out.println(line);
@@ -161,7 +162,8 @@ public class UserIndex extends OERWorldMap {
         confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
       }
       confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
-      confirmationMail.setFrom(mConf.getString("mail.smtp.from"), mConf.getString("mail.smtp.sender"));
+      confirmationMail.setFrom(mConf.getString("mail.smtp.from"),
+          mConf.getString("mail.smtp.sender"));
       confirmationMail.setSubject(i18n.get("user_token_request_subject"));
       confirmationMail.addTo((String) aUser.get("email"));
       confirmationMail.send();

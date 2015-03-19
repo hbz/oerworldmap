@@ -33,7 +33,6 @@ public class Resource implements Map<String, Object> {
    * Holds the properties of the resource.
    */
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
-  private static File mFilesConfig = new File("conf/files.conf");
 
   /**
    * Constructor which sets up a random UUID.
@@ -101,13 +100,9 @@ public class Resource implements Map<String, Object> {
     JsonSchema schema;
     ProcessingReport report;
     try {
-      if (!mFilesConfig.exists()) {
-        throw new FileNotFoundException("Schema file not found while trying to validate "
-            + toString());
-      }
       schema = JsonSchemaFactory.byDefault().getJsonSchema(
           new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
-          File.pathSeparator.concat(mProperties.get(JsonLdConstants.TYPE).toString()));
+          "/".concat(mProperties.get(JsonLdConstants.TYPE).toString()));
       report = schema.validate(toJson());
     } catch (ProcessingException | IOException e) {
       report = new ListProcessingReport();

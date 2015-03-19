@@ -1,8 +1,10 @@
 package services;
 
+import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +30,7 @@ public class ElasticsearchRepositoryTest {
   private static Settings mClientSettings;
   private static Client mClient;
   private static ElasticsearchClient mElClient;
-  private static ElasticsearchRepository mRepo;
+  private static BaseRepository mRepo;
   private static final ElasticsearchConfig esConfig = new ElasticsearchConfig();
 
   @SuppressWarnings("resource")
@@ -41,7 +43,7 @@ public class ElasticsearchRepositoryTest {
             .getJavaPort())));
     mElClient = new ElasticsearchClient(mClient);
     cleanIndex();
-    mRepo = new ElasticsearchRepository(mElClient);
+    mRepo = new BaseRepository(mElClient, Paths.get(FilesConfig.getRepo()));
     setupResources();
   }
 
@@ -74,7 +76,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testAddAndQueryResources() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query(esConfig.getType());
+    List<Resource> resourcesGotBack = mRepo.query(esConfig.getType(), false);
 
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
@@ -103,7 +105,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testUniqueFields() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query(esConfig.getType());
+    List<Resource> resourcesGotBack = mRepo.query(esConfig.getType(), false);
 
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
