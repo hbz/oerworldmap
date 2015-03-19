@@ -1,5 +1,6 @@
 <section>
-    <form action="/user/token" method="post">
+    {{^user}}
+    <form action="/.auth" method="post">
         <p class="lead">{{i18n.user_token_request_title}}<br /><small>{{{i18n.user_token_request_description}}}</small></p>
         {{#errors.size}}
             <ul id="messages">
@@ -19,4 +20,10 @@
             <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.user_token_request}}</button>
         </div>
     </form>
+    {{/user}}
+    {{#user}}
+        <form action="/.logout" method="post">
+            <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.logout}}</button>
+        </form>
+    {{/user}}
 </section>

@@ -25,6 +25,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import play.mvc.Http;
 import play.mvc.Result;
 import helpers.Countries;
 import play.mvc.Security;
@@ -72,20 +73,16 @@ public class UserIndex extends OERWorldMap {
   }
 
   @Security.Authenticated(Secured.class)
-  public static Result auth() {
-    String form = "<form action=\"/user/.logout\" method=\"post\"><input type=\"submit\" value=\"logout\" /></form>";
-    return ok("Welcome to protected, " + request().username() + form).as("text/html");
-  }
-
-  public static Result requestToken() {
-    return ok(render("Request Token", "Secured/token.mustache"));
+  public static Result authControl() {
+    System.out.println("Auth control:" + Secured.getHttpBasicAuthUser(Http.Context.current()));
+    return ok(render("Log out", "Secured/token.mustache"));
   }
 
   public static Result sendToken() {
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     ProcessingReport report = user.validate();
     if (!report.isSuccess()) {
-      return badRequest(render("Request Token", "UserIndex/token.mustache", user,
+      return badRequest(render("Request Token", "Secured/token.mustache", user,
           JSONForm.generateErrorReport(report)));
     }
     String token = Account.createTokenFor(user);
