@@ -1,8 +1,10 @@
 package models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -15,6 +17,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,11 +33,13 @@ public class Resource implements Map<String, Object> {
    * Holds the properties of the resource.
    */
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
+  private static File mFilesConfig = new File("conf/files.conf");
 
   /**
    * Constructor which sets up a random UUID.
    *
-   * @param   type  The type of the resource.
+   * @param type The type of the resource.
+   * @throws FileNotFoundException
    */
   public Resource(String type) {
     this(type, UUID.randomUUID().toString());
@@ -43,8 +48,9 @@ public class Resource implements Map<String, Object> {
   /**
    * Constructor.
    *
-   * @param   type  The type of the resource.
-   * @param   id    The id of the resource.
+   * @param type The type of the resource.
+   * @param id The id of the resource.
+   * @throws FileNotFoundException
    */
   public Resource(String type, String id) {
     mProperties.put(JsonLdConstants.TYPE, type);
@@ -52,20 +58,21 @@ public class Resource implements Map<String, Object> {
   }
 
   /**
-   * Convert a Map of String/Object to a Resource, assuming that all
-   * Object values of the map are properly represented by the toString()
-   * method of their class.
+   * Convert a Map of String/Object to a Resource, assuming that all Object
+   * values of the map are properly represented by the toString() method of
+   * their class.
    *
-   * @param   aProperties  The map to create the resource from
-   * @return  a Resource containing all given properties
+   * @param aProperties The map to create the resource from
+   * @return a Resource containing all given properties
    */
+  @SuppressWarnings("unchecked")
   public static Resource fromMap(Map<String, Object> aProperties) {
 
     checkTypeExistence(aProperties);
     Resource resource;
     if (hasId(aProperties)) {
       resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
-                              (String) aProperties.get(JsonLdConstants.ID));
+          (String) aProperties.get(JsonLdConstants.ID));
     } else {
       resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE));
     }
@@ -85,7 +92,8 @@ public class Resource implements Map<String, Object> {
 
   public static Resource fromJson(JsonNode aJson) {
     Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
-        new TypeReference<HashMap<String, Object>>(){});
+        new TypeReference<HashMap<String, Object>>() {
+        });
     return fromMap(resourceMap);
   }
 
@@ -93,10 +101,13 @@ public class Resource implements Map<String, Object> {
     JsonSchema schema;
     ProcessingReport report;
     try {
+      if (!mFilesConfig.exists()) {
+        throw new FileNotFoundException("Schema file not found while trying to validate "
+            + toString());
+      }
       schema = JsonSchemaFactory.byDefault().getJsonSchema(
-          new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()),
-              "/".concat(mProperties.get(JsonLdConstants.TYPE).toString())
-      );
+          new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
+          File.pathSeparator.concat(mProperties.get(JsonLdConstants.TYPE).toString()));
       report = schema.validate(toJson());
     } catch (ProcessingException | IOException e) {
       report = new ListProcessingReport();
@@ -193,20 +204,20 @@ public class Resource implements Map<String, Object> {
   }
 
   @Override
-  public boolean equals(final Object aOther){
-    if (! (aOther instanceof Resource)){
+  public boolean equals(final Object aOther) {
+    if (!(aOther instanceof Resource)) {
       return false;
     }
     final Resource other = (Resource) aOther;
-    if (other.mProperties.size() != mProperties.size()){
+    if (other.mProperties.size() != mProperties.size()) {
       return false;
     }
     final Iterator<Map.Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
     while (thisIt.hasNext()) {
-        final Map.Entry<String, Object> pair = thisIt.next();
-        if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))){
-          return false;
-        }
+      final Map.Entry<String, Object> pair = thisIt.next();
+      if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))) {
+        return false;
+      }
     }
     return true;
   }
@@ -230,4 +241,3 @@ public class Resource implements Map<String, Object> {
   }
 
 }
-
