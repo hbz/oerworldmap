@@ -31,7 +31,7 @@ public class FileResourceRepository implements ResourceRepository {
    * @param aPath The file system path where resources are stored
    */
   public FileResourceRepository(Path aPath) throws IOException {
-    if (!Files.exists(aPath)) {
+    if (aPath == null || !Files.exists(aPath)) {
       throw new IOException(aPath + " not existing.");
     }
     if (!Files.isWritable(aPath)) {

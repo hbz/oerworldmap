@@ -43,7 +43,7 @@ public class ResourceTest {
     String value = "value";
     resource.put(property, value);
     String expected = "{\"@type\":\"Type\",\"@id\":\"id\",\"property\":\"value\"}";
-    assertEquals(expected, resource.toString());
+    assertEquals(expected, resource.toString().replaceAll("[\n \t]", ""));
   }
   
   @Test

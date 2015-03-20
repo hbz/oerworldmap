@@ -1,17 +1,21 @@
 package controllers;
 
+import helpers.FilesConfig;
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+
 import play.Configuration;
 import play.Play;
 import play.mvc.Controller;
 import play.twirl.api.Html;
+import services.BaseRepository;
 import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchRepository;
@@ -40,14 +44,13 @@ public abstract class OERWorldMap extends Controller {
         .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
             9300));
   final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
-  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(mElasticsearchClient);
-
-  final protected static FileResourceRepository mUnconfirmedUserRepository;
+  protected static BaseRepository mBaseRepository = null;
+  
   static {
     try {
-      mUnconfirmedUserRepository = new FileResourceRepository(Paths.get(mConf.getString("filerepo.dir")));
+      mBaseRepository = new BaseRepository(mElasticsearchClient, Paths.get(FilesConfig.getRepo()));
     } catch(final Exception ex) {
-      throw new RuntimeException("Failed to create FileResourceRespository", ex);
+      throw new RuntimeException("Failed to create Respository", ex);
     }
   }
 
