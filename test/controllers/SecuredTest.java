@@ -20,7 +20,7 @@ public class SecuredTest {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest("GET", routes.UserIndex.auth().url()));
+        Result result = route(fakeRequest("GET", routes.UserIndex.authControl().url()));
         assertEquals(401, status(result));
       }
     });
@@ -37,7 +37,7 @@ public class SecuredTest {
         String token = Account.createTokenFor(user);
         String authString = email + ":" + token;
         String auth = Base64.getEncoder().encodeToString(authString.getBytes());
-        Result result = route(fakeRequest("GET", routes.UserIndex.auth().url())
+        Result result = route(fakeRequest("GET", routes.UserIndex.authControl().url())
             .withHeader("Authorization", "Basic " + auth));
         assertEquals(200, status(result));
         Account.removeTokenFor(user);
