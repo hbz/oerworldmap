@@ -3,6 +3,90 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
 
   "definitions": {
+    "Action": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Action",
+      "description": "An action that is being carried through in the realm of OER.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "description": "The action's unique identifier",
+          "type": "string"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Action"]
+        },
+        "agent": {
+          "description": "The direct performer or driver of the action (i.e. also primary contact)",
+          "type": "object",
+          "oneOf": [
+            {"$ref": "#/definitions/Person"},
+            {"$ref": "#/definitions/Organization"}
+          ]
+        },
+        "participant": {
+          "description": "Other co-agents that participated in the action",
+          "type": "object",
+          "oneOf": [
+            {"$ref": "#/definitions/Person"},
+            {"$ref": "#/definitions/Organization"}
+          ]
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "description": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "location": {
+          "$ref": "#/definitions/Place"
+        },
+        "instrument": {
+          "$ref": "#/definitions/Service"
+        }
+      },
+      "required": ["name", "description", "agent"],
+      "additionalProperties": false
+    },
+    "Service": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Service",
+      "description": "A service used in an Action.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "description": "The services's unique identifier",
+          "type": "string"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Service"]
+        },
+        "serviceChannel": {
+          "type": "object",
+          "properties": {
+            "serviceUrl": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+        },
+      "additionalProperties": false
+    },
     "Person": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Person",
@@ -48,7 +132,7 @@
         },
         "legalName": {
           "description": "The organization's primary name, e.g. a legally recognized name",
-          "type": "string"
+          "$ref": "#/definitions/LocalizedString"
         }
       },
       "required": [
@@ -144,6 +228,20 @@
         "addressCountry"
       ],
       "additionalProperties": false
+    },
+    "LocalizedString": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Localized string",
+      "description": "A language-tagged string",
+      "type": "object",
+      "properties": {
+        "@language": {
+          "type": "string"
+        },
+        "@value": {
+          "type": "string"
+        }
+      }
     },
     "Country": {
       "$schema": "http://json-schema.org/draft-04/schema#",
