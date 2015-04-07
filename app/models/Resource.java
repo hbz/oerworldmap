@@ -3,8 +3,6 @@ package models;
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -16,6 +14,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+
+import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,9 +36,7 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor which sets up a random UUID.
-   *
    * @param type The type of the resource.
-   * @throws FileNotFoundException
    */
   public Resource(String type) {
     this(type, UUID.randomUUID().toString());
@@ -46,10 +44,8 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor.
-   *
    * @param type The type of the resource.
    * @param id The id of the resource.
-   * @throws FileNotFoundException
    */
   public Resource(String type, String id) {
     mProperties.put(JsonLdConstants.TYPE, type);
@@ -224,9 +220,11 @@ public class Resource implements Map<String, Object> {
 
   private static void checkTypeExistence(Map<String, Object> aProperties) {
     Object type = aProperties.get(JsonLdConstants.TYPE);
-    if (!(type instanceof String) || StringUtils.isEmpty((String) type)) {
+    if (type == null) {
+      Logger.warn(JsonLdConstants.TYPE + " is null for " + aProperties.toString());
+    } else if (!(type instanceof String) || StringUtils.isEmpty(type.toString())) {
       String message = "Unspecified " + JsonLdConstants.TYPE + " : " + aProperties.hashCode();
-      System.err.println(message);
+      Logger.error(message);
       try {
         throw new java.lang.TypeNotPresentException(message, new Exception());
       } catch (Exception e) {

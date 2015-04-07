@@ -20,24 +20,24 @@ public class ElasticsearchClientTest {
   protected static Client mClient;
   protected static ElasticsearchClient mElasticsearchClient;
 
-  private static final ElasticsearchConfig esConfig = new ElasticsearchConfig();
+  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
 
   @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
     final Settings mClientSettings = ImmutableSettings.settingsBuilder()
-          .put(new ElasticsearchConfig().getClientSettings()).build();
+          .put(mEsConfig.getClientSettings()).build();
     mClient = new TransportClient(mClientSettings)
-          .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
+          .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
               9300));
-    mElasticsearchClient = new ElasticsearchClient(mClient);
+    mElasticsearchClient = new ElasticsearchClient(mClient, mEsConfig);
   }
 
   @Test
   public void testOnMap() {
     final UUID uuid = UUID.randomUUID();
     mElasticsearchClient.addMap(ElasticsearchDemoData.JSON_MAP, uuid);
-    final Map<String, Object> mapGotBack = mElasticsearchClient.getDocument(esConfig.getType(),
+    final Map<String, Object> mapGotBack = mElasticsearchClient.getDocument(mEsConfig.getType(),
         uuid);
     Assert.assertEquals(ElasticsearchDemoData.JSON_MAP, mapGotBack);
   }
