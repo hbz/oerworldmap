@@ -40,14 +40,18 @@ import java.util.ResourceBundle;
 public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();
+  final private static ElasticsearchConfig mEsConfig = new ElasticsearchConfig(false);
   final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
-        .put(new ElasticsearchConfig().getClientSettings()).build();
+        .put(mEsConfig.getClientSettings()).build();
   final private static Client mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
+        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
             9300));
-  final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
+  // TODO final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
   protected static BaseRepository mBaseRepository = null;
-  
+  final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient, mEsConfig);
+  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+
+  // TODO final protected static FileResourceRepository mUnconfirmedUserRepository;
   static {
     try {
       mBaseRepository = new BaseRepository(mElasticsearchClient, Paths.get(FilesConfig.getRepo()));

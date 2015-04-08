@@ -27,14 +27,15 @@ public class ApplicationTest {
   @Test  
   public void runningLandingPage() {
     
+    final ElasticsearchConfig config = new ElasticsearchConfig(true);
     final Settings mClientSettings = ImmutableSettings.settingsBuilder()
-          .put(new ElasticsearchConfig().getClientSettings()).build();
+          .put(config.getClientSettings()).build();
     @SuppressWarnings("resource")
     final Client mClient = new TransportClient(mClientSettings)
-          .addTransportAddress(new InetSocketTransportAddress(new ElasticsearchConfig().getServer(),
+          .addTransportAddress(new InetSocketTransportAddress(config.getServer(),
               9300));
 
-    ElasticsearchProvider.createIndex(mClient, new ElasticsearchConfig().getIndex());
+    ElasticsearchProvider.createIndex(mClient, config.getIndex());
     
     running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT,
         new Callback<TestBrowser>() {

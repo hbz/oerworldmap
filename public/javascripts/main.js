@@ -218,7 +218,7 @@ function initialize() {
       var latest_post = result.feed.entries[0];
 
       // add 300 character snippet
-      latest_post.contentSnippet300 = $( result.feed.entries[0].content ).text().cutOff(300);
+      latest_post.contentSnippet300 = result.feed.entries[0].content.replace(/<(?:.|\n)*?>/gm, '').cutOff(300);
 
       // add formated date
       var published_date = new Date( latest_post.publishedDate );
