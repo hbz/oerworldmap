@@ -181,16 +181,16 @@
           "type": "string",
           "enum": ["GeoCoordinates"]
         },
-        "latitude": {
+        "lat": {
           "type": "number"
         },
-        "longitude": {
+        "lon": {
           "type": "number"
         }
       },
       "required": [
-        "latitude",
-        "longitude"
+        "lat",
+        "lon"
       ],
       "additionalProperties": false
     },
