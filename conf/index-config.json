@@ -133,6 +133,10 @@
           }
         }
       },
+      "image": {
+        "index": "not_analyzed",
+        "type": "string"
+      },
       "url": {
         "index": "not_analyzed",
         "type": "string"

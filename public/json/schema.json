@@ -39,6 +39,10 @@
         "description": {
           "$ref": "#/definitions/LocalizedString"
         },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
         "url": {
           "type": "string",
           "format": "uri"
