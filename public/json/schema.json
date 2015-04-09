@@ -245,7 +245,10 @@
         "@value": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "@value"
+      ]
     },
     "Country": {
       "$schema": "http://json-schema.org/draft-04/schema#",

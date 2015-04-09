@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.Countries;
 import helpers.JSONForm;
@@ -22,12 +23,16 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public static Result create() throws IOException {
-    Map<String,Object> scope = new HashMap<>();
-    Resource resource = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
-    scope.put("resource", resource);
-    scope.put("countries", Countries.list(currentLocale));
+    JsonNode json = request().body().asJson();
+    if (null == json) {
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+    }
+    Resource resource = Resource.fromJson(json);
     ProcessingReport report = resource.validate();
     if (!report.isSuccess()) {
+      Map<String,Object> scope = new HashMap<>();
+      scope.put("resource", resource);
+      scope.put("countries", Countries.list(currentLocale));
       return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
           JSONForm.generateErrorReport(report)));
     }
