@@ -1,4 +1,5 @@
 <section>
+
     <form action="/resource/" method="post" id="add-organization">
         <h2>{{i18n.add}} {{i18n.organization}}</h2>
         {{#messages.size}}
@@ -14,7 +15,8 @@
             <input type="hidden" name="@type" value="Organization" />
             <div class="form-group">
                 <label class="sr-only" for="legalName">{{i18n.name}}</label>
-                <input type="text" name="legalName" id="legalName" required="required" class="form-control" placeholder="{{i18n.name}}" />
+                <input type="text" name="legalName[@value]" id="legalName" required="required" class="form-control" placeholder="{{i18n.name}}" />
+                <input type="hidden" name="legalName[@language]" value="de" />
             </div>
             <fieldset>
                 <input type="hidden" name="location[@type]" value="Place" />
@@ -42,15 +44,16 @@
                     <input type="hidden" name="location[geo][@type]" value="GeoCoordinates" />
                     <div class="form-group">
                         <label class="sr-only" for="location-geo-latitude">{{i18n.latitude}}</label>
-                        <input type="number" step="any" name="location[geo][latitude]" class="form-control" placeholder="{{i18n.latitude}}" />
+                        <input type="number" step="any" name="location[geo][lat]" class="form-control" placeholder="{{i18n.latitude}}" />
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="location-geo-latitude">{{i18n.longitude}}</label>
-                        <input type="number" step="any" name="location[geo][longitude]" class="form-control" placeholder="{{i18n.longitude}}" />
+                        <input type="number" step="any" name="location[geo][lon]" class="form-control" placeholder="{{i18n.longitude}}" />
                     </div>
                 </fieldset>
             </fieldset>
         </fieldset>
         <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.create}}</button>
     </form>
+
 </section>
