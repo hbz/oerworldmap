@@ -22,10 +22,12 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 17.5px;
   color: @text-color;
+/*
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   max-height: 999999px;
+*/
 }
 
 a {
@@ -49,29 +51,6 @@ hr {
   margin: 50px 0;
 }
 
-.section {
-
-}
-
-.container {
-  position: relative;
-  text-align: center;
-  max-width: 1024px;
-}
-
-.container ul {
-  text-align: left;
-}
-
-#worldmap {
-  margin: 0 auto;
-}
-
-blockquote {
-  border: 0px;
-  font-style: italic;
-}
-
 .lead small {
   font-size: 14px;
 }
@@ -85,21 +64,14 @@ blockquote {
   font-weight: bold;
 }
 
-ul.inline {
-  margin: 0 0 10px 0;
+nav ul {
+  margin: 0;
   padding: 0;
   list-style: none;
-  clear: both;
 }
 
-ul.inline li {
+nav ul li {
   float: left;
-  margin-right: 20px;
-}
-
-ul.inline li * {
-  margin: 0;
-  line-height: 1.42857em;
 }
 
 .visible {
@@ -108,37 +80,6 @@ ul.inline li * {
 
 .placeholder {
   color: #fff;
-}
-
-pre {
-  text-align: left;
-}
-
-
-/* --- social --- */
-
-.social {
-  display: inline-block;
-  font-size: 24px;
-  vertical-align: 100%;
-  width: 0px;
-  white-space: nowrap;
-}
-
-.social a {
-  display: inline-block;
-  margin-right: 6px;
-}
-
-
-/* --- typo --- */
-
-.blank-line {
-  margin-bottom: 1.42857em;
-}
-
-.blank-line-above {
-  margin-top: 1.42857em;
 }
 
 
@@ -150,26 +91,26 @@ a.btn {
 
 .btn-default {
   border-color: @text-color;
-	background: @text-color;
-	color: @background-color;
+  background: @text-color;
+  color: @background-color;
 }
 
 .btn-default:hover {
   border-color: @text-color;
-	background: @hightlight-color;
-	color: @text-color;
+  background: @hightlight-color;
+  color: @text-color;
 }
 
 .btn-transparent {
   border-color: @text-color !important;
-	background: transparent;
-	color: @text-color;
+  background: transparent;
+  color: @text-color;
 }
 
 .btn-transparent:hover {
   border-color: @text-color;
-	background: @hightlight-color;
-	color: @text-color;
+  background: @hightlight-color;
+  color: @text-color;
 }
 
 /* --- register --- */
@@ -180,10 +121,9 @@ a.btn {
 
 .register input,
 .register select {
-	background: @background-color;
-	border-color: @text-color;
-	color: @text-color;
-	// background: rgba(0,0,0,0.1);
+  background: @background-color;
+  border-color: @text-color;
+  color: @text-color;
 }
 
 .register select option {
@@ -199,18 +139,18 @@ a.btn {
 
 /* http://stackoverflow.com/a/2610741/1060128 */
 .register ::-webkit-input-placeholder { /* WebKit browsers */
-	color: @text-color;
+  color: @text-color;
 }
 .register :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-	color: @text-color;
-	opacity: 1;
+  color: @text-color;
+  opacity: 1;
 }
 .register ::-moz-placeholder { /* Mozilla Firefox 19+ */
-	color: @text-color;
-	opacity: 1;
+  color: @text-color;
+  opacity: 1;
 }
 .register :-ms-input-placeholder { /* Internet Explorer 10+ */
-	color: @text-color;
+  color: @text-color;
 }
 
 .loading-indicator {
@@ -221,36 +161,6 @@ a.btn {
 /* --- resource --- */
 form#add-organization {
   text-align: left;
-}
-
-
-/* --- mission statements --- */
-
-.mission-statements blockquote {
-  margin-bottom: 0px;
-  padding: 0;
-}
-
-.slick-dots li button:before {
-  color: white !important;
-}
-
-.slick-dots li.slick-active button:before {
-  opacity: 1 !important;
-}
-
-
-/* --- horizontal list --- */
-
-.horizontal-list {
-	list-style: none;
-	margin: 0 0 @paragraph-distance 0;
-	padding: 0;
-}
-
-.horizontal-list li {
-	display: inline-block;
-	margin: 0px 10px;
 }
 
 
@@ -283,6 +193,7 @@ h3 + .panel {
   margin-top: 30px;
 }
 
+
 /* --- jvectormap tip --- */
 
 .jvectormap-tip {
@@ -296,6 +207,7 @@ h3 + .panel {
   // box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
 }
 
+
 /* --- message list --- */
 
 ul#messages {
@@ -303,6 +215,7 @@ ul#messages {
     padding:0;
     margin:0;
 }
+
 
 /* --- alerts --- */
 
@@ -326,128 +239,68 @@ ul#messages {
 }
 
 
-/* --- footer --- */
 
-footer {
-  background: lighten(@background-color, 55%);
-  margin-top: 60px;
-  padding: 20px 0 20px 0;
+
+
+/* ------------------------- */
+
+
+
+
+header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 40px;
+  background: black;
 }
 
-footer * {
-  color: @background-color;
-  text-align: left;
-  font-size: 15px;
+header nav ul li {
+  border-right: 1px solid grey;
 }
 
-footer hr {
-  border-color: @background-color;
-  margin: 20px 0;
-}
-
-footer h3 {
-  font-weight: bold;
-}
-
-footer h3:first-child {
-  margin-top: 0px
-}
-
-footer .nav li {
-  display: inline-block;
-  margin-right: 20px;
-}
-
-footer .nav a {
+header a {
+  line-height: 40px !important;
+  padding: 0 15px;
   text-decoration: none;
-  //border-bottom: 1px solid lighten(@background-color, 0%);
-  padding: 0;
 }
 
-footer .nav a:hover,
-footer .nav a:focus,
-footer .nav li.active a,
-footer .nav a:hover *,
-footer .nav a:focus *,
-footer .nav li.active a * {
-  background: transparent;
-  color: @hightlight-color;
-  outline: none;
+aside {
+  position: fixed;
+  top: 40px;
+  right: 0px;
+  width: 30%;
+  bottom: 0px;
+  background: white;
+  color: @background-color;
+  padding: 20px;
+  overflow: scroll;
 }
 
-footer .nav li:last-child a {
-  border-bottom: none;
+main {
+  box-sizing: border-box;
+  position: fixed;
+  top: 40px;
+  left: 0%;
+  width: 70%;
+  bottom: 0px;
+  overflow: scroll;
+  padding: 20px;
 }
 
-footer .nav a .fa-chevron-down {
-  display: none;
+h1:first-child {
+  margin-top: 0px;
 }
 
-footer .nav a:hover .fa-chevron-down,
-footer .nav li.active .fa-chevron-down {
-  display: inline-block;
-}
+@media (max-width: 768px) {
+  
+  header,
+  aside,
+  main {
+    position: relative;
+    width: auto;
+    height: auto;
+  }
 
-footer .nav a:hover .fa-chevron-right,
-footer .nav li.active .fa-chevron-right {
-  display: none;
 }
-
-footer .tab-pane {
-  margin: 20px 0 50px 0;
-  background: #fff;
-  padding: 20px 25px;
-}
-
-html.no-js footer .tab-pane {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-/*
-.input-group-field {
-    display: table-cell;
-    vertical-align: middle;
-    border-radius:4px;
-}
-.input-group-field .form-control, .input-group-field .form-control {
-    border-radius: inherit !important;
-}
-.input-group-field:not(:first-child):not(:last-child) {
-    border-radius:0;
-}
-.input-group-field:not(:first-child):not(:last-child) .form-control {
-    border-left-width: 0;
-    border-right-width: 0;
-}
-.input-group-field:last-child {
-    border-top-left-radius:0;
-    border-bottom-left-radius:0;
-}
-*/
-
-/*
-h1, blockquote, #worldmap {
-  margin: 0 auto;
-  width: 900px;
-  text-align: center;
-}
-
-h1 {
-  font-size: 3em;
-}
-
-blockquote.vision {
-  font-size: 1.5em;
-  quotes: "\201C" "\201D" "\2018" "\2019";
-}
-
-blockquote.vision p:after {
-  content: close-quote;
-}
-
-blockquote.vision p:before {
-  content: open-quote;
-}
-*/
