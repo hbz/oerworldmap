@@ -1,15 +1,35 @@
-<div class="container">
+<header>
+    <div class="container">
+    
+        <nav class="main">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contribute">Contribute</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="https://oerworldmap.wordpress.com/" target="_blank">Blog</a></li>
+                <li><a href="/imprint">Imprint</a></li>
+            </ul>
+        </nav>
+    
+        <nav class="social">
+            <ul>
+                <li><a href="https://www.facebook.com/oerworldmap" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
+                <li><a href="https://twitter.com/oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            </ul>
+        </nav>
+        
+    </div>
+</header>
 
-    <h1>
-    	{{i18n.landingpage_title}}
-    	<nav class="social">
-	    	<a href="https://www.facebook.com/oerworldmap" target="_blank"><i class="fa fa-facebook-official"></i></a>
-        <a href="https://twitter.com/oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a>
-		</nav>
-    </h1>
+<main>
 
-    <h2>{{{i18n.landingpage_intro}}}</h2>
-    <div class="section">
+    <h1>{{i18n.landingpage_title}}</h1>
+    <h2>Mapping the world of OER since 2015, oh yeah!</h2>
+
+    <div class="call-for-action">Share your story</div>
+    <div class="call-for-action">Register for our Newsletter</div>
+
+    <section>
         <div id="worldmap" style="width: 800px; height: 500px"></div>
         <table class="table" about="#users-by-country">
             <script type="application/ld+json">
@@ -19,132 +39,19 @@
             <tr><td>{{key}}</td><td>{{value}}</td></tr>
             {{/scope.entries}}
         </table>
-    </div>
-
-    {{^user}}
-    <div class="section" id="user-register">
-        <div class="register">
-            <a href="/user/" class="hijax transclude">{{i18n.register}}</a>
-        </div>
-    </div>
-    {{/user}}
-
-    <hr />
-
-    <div class="section" id="stories">
-        <h2>{{{i18n.landingpage_call_for_stories_title}}}</h2>
-        {{{i18n.landingpage_call_for_stories_text}}}
-    </div>
-
-    <hr />
-
-    <div class="section" id="about">
-        <h2>{{i18n.landingpage_about_title}}</h2>
-        <p>{{{i18n.landingpage_about_text}}}</p>
-        <div class="row">
-            <div class="col-md-6">
-                {{{i18n.landingpage_about_description_text}}}
-            </div>
-            <div class="col-md-6">
-                {{{i18n.landingpage_about_benefits_text}}}
-            </div>
-        </div>
-    </div>
-
-    <hr />
-
-    <div class="section">
-        <h2>
-            {{i18n.landingpage_country_champions_title}}
-        </h2>
-        <p>
-            {{{i18n.landingpage_country_champions_intro}}}
-        </p>
-    </div>
-
-    <hr />
-
-    <div class="section" id="blog">
-      <h2>
-          {{i18n.landingpage_blog_title}}
-      </h2>
-      <div class="blank-line-above" id="blog-link">
-        <a href="https://oerworldmap.wordpress.com" class="btn btn-lg btn-transparent" target="_blank">
-          <i class="fa fa-lg fa-fw fa-wordpress"></i>
-          {{i18n.landingpage_blog_visit_link}}
-        </a>
-      </div>
-    </div>
-
-</div>
-
-<footer id="footer">
-  <div class="container">
+    </section>
     
-    <ul class="inline clearfix">
-      <li><h3>Contact / Collaborate</h3></li>
-      <li><a href='mailto&#58;%69n%66o&#64;oerwo&#114;l%6&#52;&#109;ap&#46;%6Fr%&#54;&#55;'>i&#110;fo&#64;o&#101;r&#119;&#111;rl&#100;map&#46;org</a></li>
-      <li><a href="https://www.facebook.com/oerworldmap" target="_blank">Facebook</a></li>
-      <li><a href="https://twitter.com/oerworldmap" target="_blank">Twitter</a></li>
-      <li><a href="https://github.com/hbz/oerworldmap" target="_blank">GitHub</a></li>
-      <li><a href="https://huboard.com/hbz/oerworldmap" target="_blank">HuBoard</a></li>
-    </ul>
+    <section id="user-register">
+        <a href="/user/" class="hijax transclude">{{i18n.register}}</a>
+    </section>
     
-    <ul class="inline clearfix">
-      <li><h3>Partners</h3></li>
-      <li><a href="https://www.hbz-nrw.de" target="_blank">hbz</a></li>
-      <li><a href="http://www.hewlett.org" target="_blank">Hewlett Foundation</a></li>
-      <li><a href="http://www.graphthinking.com" target="_blank">graphthinking</a></li>
-    </ul>
-    
-    <hr />
-  
-    <div role="tabpanel">
+</main>
 
-      <ul class="nav" role="tablist">
-        <li role="presentation">
-          <a href="#privacy" data-toggle="pill" role="tab">
-            <i class="fa fa-fw fa-chevron-right"></i>
-            <i class="fa fa-fw fa-chevron-down"></i>
-            Privacy Policy
-          </a>
-        </li>
-        <li role="presentation">
-          <a href="#imprint" data-toggle="pill" role="tab">
-            <i class="fa fa-fw fa-chevron-right"></i>
-            <i class="fa fa-fw fa-chevron-down"></i>
-            Imprint
-          </a>
-        </li>
-      </ul>
-      
-      <div class="tab-content">      
-        <div class="tab-pane fade" id="privacy" role="tabpanel">
-          <div class="row">
-            <div class="col-md-6">
-              {{{i18n.landingpage_privacy_website}}}
-            </div>
-            <div class="col-md-6">
-              {{{i18n.landingpage_privacy_html}}}
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="imprint" role="tabpanel">
-          <div class="row">
-            <div class="col-md-6">
-              {{{i18n.landingpage_imprint_text_first_col}}}
-            </div>
-            <div class="col-md-6">
-              {{{i18n.landingpage_imprint_text_second_col}}}
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-        
-  </div>
+<aside>
+    <article class="ressource ressource-story"></article>
+</aside>
+
+<footer>
 </footer>
-
 
 <script type="text/javascript" src="/assets/javascripts/main.js"></script>
