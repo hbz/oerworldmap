@@ -86,6 +86,10 @@ map = {
     
     var table = $('table[about="#users-by-country"]');
     var map = $('#worldmap');
+    var width = $(document).width() * 0.5;
+    var height = width / 1.5;
+    map.css("width", width);
+    map.css("height", height);
     var json = JSON.parse(table.find('script').html());
     var heat_data = {};
     
@@ -172,6 +176,17 @@ map = {
             // window.location.hash = link_hash_divided[1];
           }
         });
+      },
+      markers: [
+        {latLng: [-20.2, 57.5], name: 'Lorem ipsum'},
+        {latLng: [43.73, 7.41], name: 'Lorem ipsum'}
+      ],
+      markerStyle: {
+        initial: {
+          fill: '#f09711',
+          stroke: '#0c75bf',
+          r: 8
+        }
       }
     });
   }
