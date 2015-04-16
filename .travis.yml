@@ -3,7 +3,7 @@ jdk: oraclejdk8
 services:
   - elasticsearch
 before_script:
-  - echo -e "\nes.host.server=\"localhost\"\nes.host.port.java=\"9300\"\nes.host.port.http=\"9200\"\nes.index.app.name=\"oerworldmap\"\nes.index.test.name=\"testindex\"\nes.index.type=\"worldmap\"\nes.cluster.name=\"elasticsearch\"\n" > conf/application.conf
+  - echo -e "\nes.host.server=\"localhost\"\nes.host.port.java=\"9300\"\nes.host.port.http=\"9200\"\nes.index.app.name=\"oerworldmap\"\nes.index.test.name=\"testindex\"\nes.index.type=\"worldmap\"\nes.cluster.name=\"elasticsearch\"\ni18n.enabled=false\n" > conf/application.conf
 branches:
   only:
     - master
