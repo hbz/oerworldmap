@@ -9,9 +9,14 @@
       "description": "An action that is being carried through in the realm of OER.",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The action's unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
@@ -19,25 +24,37 @@
         },
         "agent": {
           "description": "The direct performer or driver of the action (i.e. also primary contact)",
-          "type": "object",
-          "oneOf": [
-            {"$ref": "#/definitions/Person"},
-            {"$ref": "#/definitions/Organization"}
-          ]
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
         },
         "participant": {
           "description": "Other co-agents that participated in the action",
-          "type": "object",
-          "oneOf": [
-            {"$ref": "#/definitions/Person"},
-            {"$ref": "#/definitions/Organization"}
-          ]
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
         },
         "name": {
-          "$ref": "#/definitions/LocalizedString"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
         },
         "image": {
           "type": "string",
@@ -56,10 +73,16 @@
           "format": "date-time"
         },
         "location": {
-          "$ref": "#/definitions/Place"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
         },
         "instrument": {
-          "$ref": "#/definitions/Service"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
         }
       },
       "required": ["name", "description", "agent"],
@@ -71,9 +94,14 @@
       "description": "A service used in an Action.",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The services's unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
@@ -97,13 +125,21 @@
       "description": "A person serving or working with Open Educational Resources.",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The person's unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
           "enum": ["Person"]
+        },
+        "name": {
+          "type": "string"
         },
         "email": {
           "type": "string",
@@ -122,9 +158,14 @@
       "description": "An institution serving or working with Open Educational Resources.",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The organization's unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
@@ -151,9 +192,14 @@
       "description": "An location description consisting of an address and/or geo data",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The place's unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
@@ -177,9 +223,14 @@
       "description": "A geographical coordinate",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The geo coordinates's unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
@@ -204,9 +255,14 @@
       "description": "An universal address description",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
         "@id": {
           "description": "The geo addresses' unique identifier",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "@type": {
           "type": "string",
