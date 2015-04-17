@@ -217,6 +217,14 @@ other = {
         });
       }
     });
+
+    // collapse stories in aside
+    $('aside article>header').siblings().hide();
+    $('aside article:eq(0)>header').siblings().show();
+    $('aside article>header').click(function() {
+        $('aside article>header').siblings().slideUp(300);
+        $(this).closest('article>header').siblings().slideToggle(300);
+    });
     
   }
   

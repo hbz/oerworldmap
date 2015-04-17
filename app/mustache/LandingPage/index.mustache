@@ -7,11 +7,11 @@
         <div id="worldmap" style="width: 800px; height: 500px"></div>
         <table class="table" about="#users-by-country">
             <script type="application/ld+json">
-                {{{scope}}}
+                {{{scope.countryAggregation}}}
             </script>
-            {{#scope.entries}}
+            {{#scope.countryAggregation.entries}}
             <tr><td>{{key}}</td><td>{{value}}</td></tr>
-            {{/scope.entries}}
+            {{/scope.countryAggregation.entries}}
         </table>
     </section>
 
@@ -22,20 +22,25 @@
 </main>
 
 <aside>
-    <article class="ressource ressource-story">
-      <h1>Lorem ipsum</h1>
-      <h2>Consectetur adipisicing elit</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-    </article>
-    <article class="ressource ressource-story">
-      <h1>Lorem ipsum</h1>
-      <h2>Consectetur adipisicing elit</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-    </article>
+    <ul class="resource-list">
+        <script type="application/ld+json">
+            {{{scope.stories}}}
+        </script>
+        {{#scope.stories}}
+        <li>
+            <article class="resource-story">
+                <header>
+                    <h1><a href="#resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h1>
+                    {{#agent}}
+                        <address>Contributed by <a href="mailto:{{email}}">{{name}}</a></address>
+                    {{/agent}}
+                </header>
+                {{#image}}<img src="{{image}}" />{{/image}}
+                {{#description}}{{{@value}}}{{/description}}
+            </article>
+        </li>
+        {{/scope.stories}}
+    </ul>
 </aside>
 
 <footer>

@@ -30,7 +30,7 @@ body {
 */
 }
 
-a {
+main a, body>header a {
   text-decoration: underline;
   color: @text-color;
 }
@@ -64,7 +64,7 @@ hr {
   font-weight: bold;
 }
 
-nav ul {
+nav ul, ul.resource-list {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -247,7 +247,7 @@ ul#messages {
 
 
 
-header {
+body>header {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -260,7 +260,7 @@ header nav ul li {
   border-right: 1px solid grey;
 }
 
-header a {
+body>header a {
   line-height: 40px !important;
   padding: 0 15px;
   text-decoration: none;
@@ -295,6 +295,20 @@ main {
 
 #worldmap {
   display: inline-block;
+}
+
+article header {
+  background-color: #bdcad2;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+article img {
+  float: left;
+  width: 35%;
+  padding: 5px;
 }
 
 h1:first-child {
