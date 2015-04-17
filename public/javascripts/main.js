@@ -34,7 +34,7 @@ hijax = {
   
     $('a.hijax.transclude', element).each(function() {
       var a = $(this);
-      
+
       $.get(a.attr('href'))
         .done(function(data) {
           a.replaceWith(hijax.hijax(hijax.extractBody(data)));
@@ -73,7 +73,7 @@ hijax = {
   },
   
   extractBody : function(html) {
-    return $(html.match(/<\s*body.*>[\s\S]*<\s*\/body\s*>/ig).join(""));
+    return $(html).filter('main').children();
   }
 }
 
