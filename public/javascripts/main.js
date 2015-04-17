@@ -83,22 +83,23 @@ hijax = {
 map = {
   
   init : function(){
-    
-    var table = $('table[about="#users-by-country"]');
+
     var map = $('#worldmap');
     var width = $(document).width() * 0.5;
     var height = width / 1.5;
     map.css("width", width);
     map.css("height", height);
-    var json = JSON.parse(table.find('script').html());
+
+    var heat_table = $('table[about="#users-by-country"]');
+    var heat_json = JSON.parse(heat_table.find('script').html());
     var heat_data = {};
     
     // hide table	
-    table.hide()
+    heat_table.hide()
     
     // convert heat map data
-    for (i in json.entries) {
-      heat_data[ json.entries[i].key.toUpperCase() ] = json.entries[i].value;
+    for (i in heat_json.entries) {
+      heat_data[ heat_json.entries[i].key.toUpperCase() ] = heat_json.entries[i].value;
     }
     
     // example heat map data
@@ -107,6 +108,21 @@ map = {
         "DE" : 15, "CH" : 4, "AT" : 6, "GB" : 12, "FR" : 9, "ES" : 5, "US" : 9, "PL" : 2, "BF" : 1, "NO" : 5, "CN" : 6, "ID" : 4, "GH" : 4, "IR" : 5, "BR" : 7, "CD" : 5, "KZ" : 9, "RU" : 2, "RO" : 4, "DZ" : 3, "CA" : 2
       };
     }
+
+    var story_list = $('ul.resource-list');
+    var story_json = JSON.parse(story_list.find('script').html());
+    var story_data = {};
+
+    for (i in story_json) {
+      for (j in story_json[i].location) {
+        var country = story_json[i].location[j].address.addressCountry;
+        if (story_data[country]) {
+          story_data[country]++;
+        } else {
+          story_data[country] = 1;
+        }
+      }
+    }
     
     // init vector map
     map.vectorMap({
@@ -114,15 +130,23 @@ map = {
       zoomButtons: false,
       zoomOnScroll: false,
       series: {
-        regions: [{
-          values: heat_data,
-          scale: ['#cfdfba', '#a1cd3f'],
-          normalizeFunction: 'linear'
-        }]
+        regions: [
+          {
+            values: heat_data,
+            scale: ['#cfdfba', '#a1cd3f'],
+            normalizeFunction: 'linear'
+          },
+          {
+            values: story_data,
+            scale: ['#d0c3b4', '#ad7f5f'],
+            normalizeFunction: 'linear'
+          }
+        ]
       },
       onRegionTipShow: function(e, el, code){
         var country_champion = false;
         var users_registered = false;
+        var initiatives_registered = false;
   
         if(
           $('ul[about="#country-champions"] li[data-country-code="' + code + '"]').length
@@ -135,13 +159,19 @@ map = {
         ) {
           users_registered = true;
         }
+
+        if(
+          typeof story_data[code] != 'undefined'
+        ) {
+          initiatives_registered = true;
+        }
   
         el.html(
           (
             users_registered
             ?
             '<i class="fa fa-fw fa-user"></i> <strong>' + heat_data[code] + '</strong> users counted for ' + el.html() + (
-              $('div.register form').length
+              $('section#user-register form').length
               ?
               ' (Click to be the next ...)<br>'
               :
@@ -149,12 +179,18 @@ map = {
             )
             :
             '<i class="fa fa-fw fa-user"></i> No users counted for ' + el.html() + (
-              $('div.register form').length
+              $('section#user-register form').length
               ?
               ' (Click to be the first ...)<br>'
               :
               ''
             )
+          ) + (
+            initiatives_registered
+            ?
+            '<i class="fa fa-fw fa-users"></i> <strong>' + story_data[code] + '</strong> initiatives counted for ' + el.html() + '<br>'
+            :
+            ''
           ) + (
             country_champion
             ?
@@ -177,10 +213,12 @@ map = {
           }
         });
       },
+      /*
       markers: [
         {latLng: [-20.2, 57.5], name: 'Lorem ipsum'},
         {latLng: [43.73, 7.41], name: 'Lorem ipsum'}
       ],
+      */
       markerStyle: {
         initial: {
           fill: '#f09711',
@@ -189,6 +227,7 @@ map = {
         }
       }
     });
+
   }
   
 };
