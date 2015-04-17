@@ -23,9 +23,11 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public static Result create() throws IOException {
+    boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
       json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
     ProcessingReport report = resource.validate();
@@ -33,9 +35,14 @@ public class ResourceIndex extends OERWorldMap {
       Map<String,Object> scope = new HashMap<>();
       scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
-      return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-          JSONForm.generateErrorReport(report)));
+      if (isJsonRequest) {
+        return badRequest(report.toString());
+      } else {
+        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
+            JSONForm.generateErrorReport(report)));
+      }
     }
+    mBaseRepository.addResource(resource);
     return created("created resource " + resource.toString());
   }
 
