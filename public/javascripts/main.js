@@ -302,6 +302,8 @@ google.setOnLoadCallback(function() {
 
 $(document).ready(function(){
   
+  $('body').addClass("layout-fixed");
+  
   hijax.init();
   map.init();
   other.init();

@@ -247,14 +247,22 @@ ul#messages {
 /* ------------------------- */
 
 
+/* --- container --- */
 
+.container {
+  margin: 0;
+  max-width: 768px;
+}
+
+// can .container be reconfigured via less vars?
+// .container probably not the right for setting the narrow max-width, maybe should be something like a .text-col
+
+
+/* --- header --- */
+
+@header-height: 40px;
 
 body > header {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 40px;
   background: black;
 }
 
@@ -262,34 +270,59 @@ header nav ul li {
   border-right: 1px solid grey;
 }
 
-body>header a {
+body > header a {
   line-height: 40px !important;
   padding: 0 15px;
   text-decoration: none;
 }
 
-aside {
+
+/* --- layouts --- */
+
+body.layout-fixed > header,
+body.layout-fixed > main,
+body.layout-fixed > aside {
   position: fixed;
-  top: 40px;
+}
+
+body.layout-fixed > header {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
+body.layout-fixed > main {
+  top: @header-height;
+  bottom: 0px;
+  left: 0%;
+  width: 70%;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+body.layout-fixed > aside {
+  top: @header-height;
   right: 0px;
   width: 30%;
   bottom: 0px;
-  background: white;
-  color: @background-color;
   padding: 20px;
   overflow-y: auto;
 }
 
-main {
-  box-sizing: border-box;
-  position: fixed;
-  top: 40px;
-  left: 0%;
-  width: 70%;
-  bottom: 0px;
-  overflow-y: auto;
-  padding: 20px;
+
+/* --- color schemes --- */
+
+.color-scheme-map {
+  background: @background-color;
+  color: white;
 }
+
+.color-scheme-text {
+  background: white;
+  color: @background-color;
+}  
+
+
 
 .center {
   text-align: center;
