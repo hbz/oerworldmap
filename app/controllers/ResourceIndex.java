@@ -5,10 +5,13 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.Countries;
 import helpers.JSONForm;
 import models.Resource;
+import org.json.simple.parser.ParseException;
 import play.mvc.Result;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,10 +19,13 @@ import java.util.Map;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list() {
-    Map<String,Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(currentLocale));
-    return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+  public static Result list()  throws IOException, ParseException {
+    List<Resource> resources = mBaseRepository.esQuery("_search?*:*");
+    if (request().accepts("text/html")) {
+      return ok(resources.toString()).as("text/html");
+    } else {
+      return ok(resources.toString()).as("application/json");
+    }
   }
 
   public static Result create() throws IOException {
