@@ -109,17 +109,36 @@ map = {
       };
     }
 
+    // process story locations
     var story_list = $('ul.resource-list');
     var story_json = JSON.parse(story_list.find('script').html());
     var story_data = {};
+    var story_markers = [];
 
     for (i in story_json) {
+      var locations = [];
       for (j in story_json[i].location) {
-        var country = story_json[i].location[j].address.addressCountry;
-        if (story_data[country]) {
-          story_data[country]++;
-        } else {
-          story_data[country] = 1;
+        locations.push(story_json[i].location[j]);
+      }
+      for (k in story_json[i].agent) {
+        if (story_json[i].agent[k].location) {
+          locations.push(story_json[i].agent[k].location);
+        }
+      }
+      for (l in locations) {
+        console.log(locations[l]);
+        if (country = locations[l].address.addressCountry) {
+          if (story_data[country]) {
+            story_data[country]++;
+          } else {
+            story_data[country] = 1;
+          }
+        }
+        if (geo = locations[l].geo) {
+          story_markers.push({
+            latLng: [geo['lon'], geo['lat']],
+            name: story_json[i]['name'][0]['@value']
+          })
         }
       }
     }
@@ -213,12 +232,7 @@ map = {
           }
         });
       },
-      /*
-      markers: [
-        {latLng: [-20.2, 57.5], name: 'Lorem ipsum'},
-        {latLng: [43.73, 7.41], name: 'Lorem ipsum'}
-      ],
-      */
+      markers: story_markers,
       markerStyle: {
         initial: {
           fill: '#f09711',
