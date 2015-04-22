@@ -1,4 +1,5 @@
 @import "bootstrap.less";
+@import "responsive.less";
 
 /* --- colors --- */
 
@@ -20,7 +21,6 @@
 /* --- general --- */
 
 body {
-  background-color: @background-color;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 17.5px;
   color: @text-color;
@@ -242,87 +242,7 @@ ul#messages {
 
 
 
-
-
 /* ------------------------- */
-
-
-/* --- container --- */
-
-.container {
-  margin: 0;
-  max-width: 768px;
-}
-
-// can .container be reconfigured via less vars?
-// .container probably not the right for setting the narrow max-width, maybe should be something like a .text-col
-
-
-/* --- header --- */
-
-@header-height: 40px;
-
-body > header {
-  background: black;
-}
-
-header nav ul li {
-  border-right: 1px solid grey;
-}
-
-body > header a {
-  line-height: 40px !important;
-  padding: 0 15px;
-  text-decoration: none;
-}
-
-
-/* --- layouts --- */
-
-body.layout-fixed > header,
-body.layout-fixed > main,
-body.layout-fixed > aside {
-  position: fixed;
-}
-
-body.layout-fixed > header {
-  top: 0px;
-  left: 0px;
-  width: 100%;
-}
-
-body.layout-fixed > main {
-  top: @header-height;
-  bottom: 0px;
-  left: 0%;
-  width: 70%;
-  overflow-y: auto;
-  padding: 20px;
-}
-
-body.layout-fixed > aside {
-  top: @header-height;
-  right: 0px;
-  width: 30%;
-  bottom: 0px;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-
-/* --- color schemes --- */
-
-.color-scheme-map {
-  background: @background-color;
-  color: white;
-}
-
-.color-scheme-text {
-  background: white;
-  color: @background-color;
-}  
-
-
 
 .center {
   text-align: center;
@@ -350,14 +270,121 @@ h1:first-child {
   margin-top: 0px;
 }
 
-@media (max-width: 768px) {
-  
-  header,
-  aside,
-  main {
-    position: relative;
-    width: auto;
-    height: auto;
-  }
+/* ------------------------- */
 
+
+/* - - - color schemes - - - */
+
+@blue: #0c75c0;
+@white: #fff;
+@orange: #f09711;
+
+@hightlight-color: @orange;
+
+@color-scheme-text-background: @white;
+@color-scheme-text-color: @blue;
+
+@color-scheme-map-background: @blue;
+@color-scheme-map-color: @white;
+
+// text
+
+.color-scheme-text {
+  background: @color-scheme-text-background;
+  color: @color-scheme-text-color;
+}
+
+.color-scheme-text a {
+  color: @color-scheme-text-color;
+}
+
+.color-scheme-text a:hover {
+  color: @hightlight-color;
+}
+
+// map
+
+.color-scheme-map {
+  background: @color-scheme-map-background;
+  color: @color-scheme-map-color;
+}
+
+.color-scheme-map a {
+  color: @color-scheme-map-color;
+}
+
+.color-scheme-map a:hover {
+  color: @hightlight-color;
+}
+
+
+/* --- container --- */
+
+.container {
+  margin: 0;
+  max-width: 768px;
+}
+
+// can .container be reconfigured via less vars?
+// .container probably not the right for setting the narrow max-width, maybe should be something like a .text-col
+
+
+/* --- header --- */
+
+@header-height: 40px;
+
+body > header {
+  background: black;
+}
+
+body > header nav ul li {
+  border-right: 1px solid grey;
+}
+
+body > header a {
+  display: inline-block;
+  line-height: @header-height !important;
+  padding: 0 15px;
+  text-decoration: none;
+  color: white;
+}
+
+body > header a:hover {
+  background: #333;
+}
+
+body > header a:focus {
+  outline: none;
+}
+
+
+/* --- layouts --- */
+
+body.layout-fixed > header,
+body.layout-fixed > main,
+body.layout-fixed > aside {
+  position: fixed;
+}
+
+body.layout-fixed > header {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
+body.layout-fixed > main {
+  top: @header-height;
+  bottom: 0px;
+  left: 0%;
+  width: 70%;
+  overflow-y: auto;
+}
+
+body.layout-fixed > aside {
+  top: @header-height;
+  right: 0px;
+  width: 30%;
+  bottom: 0px;
+  padding: 20px;
+  overflow-y: auto;
 }
