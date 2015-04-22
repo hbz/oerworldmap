@@ -175,14 +175,17 @@
           "description": "The organization's address and geo data",
           "$ref": "#/definitions/Place"
         },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
         "legalName": {
           "description": "The organization's primary name, e.g. a legally recognized name",
           "$ref": "#/definitions/LocalizedString"
         }
       },
       "required": [
-        "legalName",
-        "location"
+        "legalName"
       ],
       "additionalProperties": false
     },
