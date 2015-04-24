@@ -1,0 +1,16 @@
+<main>
+    {{#scope}}
+    <article class="resource-story">
+        <header>
+            <h1><a href="#{{@id}}">{{#name}}{{@value}}{{/name}}</a></h1>
+          {{#agent}}
+              <address>
+                  Contributed by <a href="mailto:{{email}}">{{#legalName}}{{@value}}{{/legalName}}{{#name}}{{name}}{{/name}}</a>
+              </address>
+          {{/agent}}
+        </header>
+      {{#image}}<img src="{{image}}" />{{/image}}
+      {{#description}}{{{@value}}}{{/description}}
+    </article>
+    {{/scope}}
+</main>
