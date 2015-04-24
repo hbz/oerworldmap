@@ -126,6 +126,8 @@ public class UserIndex extends OERWorldMap {
     String mailmanHost = mConf.getString("mailman.host");
     String mailmanList = mConf.getString("mailman.list");
     if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
+      System.out.println("No mailman configured, user ".concat(user.get("email").toString())
+          .concat(" not signed up for newsletter"));
       return;
     }
 

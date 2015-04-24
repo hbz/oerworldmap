@@ -1,59 +1,26 @@
-<section>
+<main>
+    <section>
+        <ul class="resource-list">
+            <script type="application/ld+json">
+                {{{scope.stories}}}
+            </script>
+            {{#scope.stories}}
+                <li>
+                    <article class="resource-story">
+                        <header>
+                            <h1><a href="#{{@id}}">{{#name}}{{@value}}{{/name}}</a></h1>
+                            {{#agent}}
+                                <address>
+                                    Contributed by <a href="mailto:{{email}}">{{#legalName}}{{@value}}{{/legalName}}{{#name}}{{name}}{{/name}}</a>
+                                </address>
+                            {{/agent}}
+                        </header>
+                        {{#image}}<img src="{{image}}" />{{/image}}
+                        {{#description}}{{{@value}}}{{/description}}
+                    </article>
+                </li>
+            {{/scope.stories}}
+        </ul>
+    </section>
 
-    <form action="/resource/" method="post" id="add-organization">
-        <h2>{{i18n.add}} {{i18n.organization}}</h2>
-        {{#messages.size}}
-            <ul id="messages">
-              {{#messages}}
-                  <li class="message {{level}}">
-                      <div class="alert alert-{{level}}" role="alert">{{message}}</div>
-                  </li>
-              {{/messages}}
-            </ul>
-        {{/messages.size}}
-        <fieldset class="Organization">
-            <input type="hidden" name="@type" value="Organization" />
-            <div class="form-group">
-                <label class="sr-only" for="legalName">{{i18n.name}}</label>
-                <input type="text" name="legalName[@value]" id="legalName" required="required" class="form-control" placeholder="{{i18n.name}}" />
-                <input type="hidden" name="legalName[@language]" value="de" />
-            </div>
-            <fieldset>
-                <input type="hidden" name="location[@type]" value="Place" />
-                <fieldset>
-                    <input type="hidden" name="location[address][@type]" value="PostalAddress" />
-                    <div class="form-group">
-                        <label class="sr-only" for="register-country">{{i18n.country}}</label>
-                        <select class="form-control input-lg" name="location[address][addressCountry]" id="location-address-addressCountry">
-                            <option value="">{{i18n.select_country}}</option>
-                            {{#scope.countries}}
-                                <option value="{{alpha-2}}">{{name}}</option>
-                            {{/scope.countries}}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="location-address-addressLocality">{{i18n.addressLocality}}</label>
-                        <input type="text" name="location[address][addressLocality]" required="required" class="form-control" placeholder="{{i18n.addressLocality}}" />
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="location-address-streetAddress">{{i18n.streetAddress}}</label>
-                        <input type="text" name="location[address][streetAddress]" required="required" class="form-control" placeholder="{{i18n.streetAddress}}" />
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <input type="hidden" name="location[geo][@type]" value="GeoCoordinates" />
-                    <div class="form-group">
-                        <label class="sr-only" for="location-geo-latitude">{{i18n.latitude}}</label>
-                        <input type="number" step="any" name="location[geo][lat]" class="form-control" placeholder="{{i18n.latitude}}" />
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="location-geo-latitude">{{i18n.longitude}}</label>
-                        <input type="number" step="any" name="location[geo][lon]" class="form-control" placeholder="{{i18n.longitude}}" />
-                    </div>
-                </fieldset>
-            </fieldset>
-        </fieldset>
-        <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.create}}</button>
-    </form>
-
-</section>
+</main>

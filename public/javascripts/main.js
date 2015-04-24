@@ -6,6 +6,6 @@ document.documentElement.className = 'js';
 
 $(document).ready(function() {
 
-  Hijax.initialize();
+  Hijax.attachBehaviours(document);
 
 });
