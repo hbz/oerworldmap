@@ -3,21 +3,28 @@ Hijax.behaviours.hfactor = {
 
   attach: function(context) {
 
-    $('a.hijax.transclude[target]', context).each(function() {
+    $('a.hijax[target]', context).each(function() {
 
       var a = $(this);
 
-      $.get(a.attr('href'))
-        .done(function(data) {
-          Hijax.behaviours.hfactor.append(data, a, context);
-        })
-        .fail(function(jqXHR) {
-          Hijax.behaviours.hfactor.append(jqXHR.responseText, a, context);
-        });
+      a.bind('click', function() {
+        $.get(a.attr('href'))
+          .done(function(data) {
+            Hijax.behaviours.hfactor.append(data, a);
+          })
+          .fail(function(jqXHR) {
+            Hijax.behaviours.hfactor.append(jqXHR.responseText, a);
+          });
+        return false;
+      });
+
+      if (a.hasClass('transclude')) {
+        a.trigger('click');
+      }
 
     });
 
-    $('form[target]', context).submit(function() {
+    $('form.hijax[target]', context).submit(function() {
 
       var form = $(this);
       var loading_indicator = $(this).find('button[type="submit"] .loading-indicator');
@@ -29,9 +36,9 @@ Hijax.behaviours.hfactor = {
         url: action,
         data: form.serialize()
       }).done(function(data) {
-        Hijax.behaviours.hfactor.append(data, form, context);
+        Hijax.behaviours.hfactor.append(data, form);
       }).fail(function(jqXHR) {
-        Hijax.behaviours.hfactor.append(jqXHR.responseText, form, context);
+        Hijax.behaviours.hfactor.append(jqXHR.responseText, form);
       });
 
       return false;
@@ -41,20 +48,35 @@ Hijax.behaviours.hfactor = {
   },
 
   extractBody: function(html) {
-    return $(html).filter('main').children();
+    return $(html).filter('div[role="main"]').children();
   },
 
-  append: function(data, element, context) {
+  append: function(data, element) {
+
+    var role = element.attr('role') || 'complementary';
+    var parent = element.closest('div[role="main"], div[role="complementary"]');
+    var html = Hijax.attachBehaviours(Hijax.behaviours.hfactor.extractBody(data));
+
+    if ('main' == role) {
+      element.closest('body').children('div[role="main"]').attr("role", "complementary");
+    }
+
     switch (element.attr("target")) {
-      case "_parent":
-        $('main', context).after($('<aside />')
-            .append(Hijax.attachBehaviours(Hijax.behaviours.hfactor.extractBody(data))));
-        element.remove();
-        break;
       case "_self":
-        element.replaceWith(Hijax.attachBehaviours(Hijax.behaviours.hfactor.extractBody(data)));
+        element.replaceWith(html);
+        break;
+      case "_blank":
+        var container = role == "main" ? $('<div role="main" />') : $('<div role="complementary" />');
+        container.html(html);
+        parent.after(container);
+        break;
+      case "_parent":
+      default:
+        parent.attr("role", role);
+        parent.html(html);
         break;
     }
+
   }
 
 };

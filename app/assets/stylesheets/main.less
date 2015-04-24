@@ -30,7 +30,7 @@ body {
 */
 }
 
-main a, body>header a {
+div[role="main"] a, body>header a {
   text-decoration: underline;
   color: @text-color;
 }
@@ -266,7 +266,7 @@ body>header a {
   text-decoration: none;
 }
 
-aside {
+div[role="complementary"] {
   position: fixed;
   top: 40px;
   right: 0px;
@@ -278,7 +278,7 @@ aside {
   overflow-y: auto;
 }
 
-main {
+div[role="main"] {
   box-sizing: border-box;
   position: fixed;
   top: 40px;
@@ -318,8 +318,8 @@ h1:first-child {
 @media (max-width: 768px) {
   
   header,
-  aside,
-  main {
+  div[role="complementary"],
+  div[role="main"] {
     position: relative;
     width: auto;
     height: auto;
