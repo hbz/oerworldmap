@@ -2,11 +2,13 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import helpers.JsonLdConstants;
 import org.junit.Test;
 import play.mvc.Result;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.fakeApplication;
@@ -26,9 +28,9 @@ public class ResourceIndexTest {
       @Override
       public void run() {
         Map<String,String> data = new HashMap<>();
-        data.put("@type", "GeoCoordinates");
-        data.put("lat", "1");
-        data.put("lon", "1");
+        data.put(JsonLdConstants.TYPE, "Person");
+        data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
+        data.put("email", "foo@bar.com");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url()).withFormUrlEncodedBody(data));
         assertEquals(201, status(result));
       }
@@ -41,9 +43,9 @@ public class ResourceIndexTest {
       @Override
       public void run() {
         ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
-        data.put("@type", "GeoCoordinates");
-        data.put("lat", 1);
-        data.put("lon", 1);
+        data.put(JsonLdConstants.TYPE, "Person");
+        data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
+        data.put("email", "foo@bar.com");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url()).withJsonBody(data));
         assertEquals(201, status(result));
       }
