@@ -76,7 +76,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testAddAndEsQueryResources() throws IOException {
-    final String aQueryString = "_search?@*:*";
+    final String aQueryString = "*";
     List<Resource> result = null;
     try {
       // TODO : this test currently presumes that there is some data existent in
