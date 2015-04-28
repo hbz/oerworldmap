@@ -5,10 +5,12 @@ import helpers.JsonLdConstants;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -34,12 +36,16 @@ public class Resource implements Map<String, Object> {
    */
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
 
+  public Resource() {
+    this(null, null);
+  }
+
   /**
    * Constructor which sets up a random UUID.
    * @param type The type of the resource.
    */
   public Resource(String type) {
-    this(type, UUID.randomUUID().toString());
+    this(type, null);
   }
 
   /**
@@ -48,8 +54,12 @@ public class Resource implements Map<String, Object> {
    * @param id The id of the resource.
    */
   public Resource(String type, String id) {
-    mProperties.put(JsonLdConstants.TYPE, type);
-    mProperties.put(JsonLdConstants.ID, id);
+    if (null != type) {
+      mProperties.put(JsonLdConstants.TYPE, type);
+    }
+    if (null != id) {
+      mProperties.put(JsonLdConstants.ID, id);
+    }
   }
 
   /**
@@ -64,25 +74,32 @@ public class Resource implements Map<String, Object> {
   public static Resource fromMap(Map<String, Object> aProperties) {
 
     checkTypeExistence(aProperties);
-    Resource resource;
-    if (hasId(aProperties)) {
-      resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
-          (String) aProperties.get(JsonLdConstants.ID));
-    } else {
-      resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE));
-    }
-    Iterator<Map.Entry<String, Object>> it = aProperties.entrySet().iterator();
-    while (it.hasNext()) {
-      Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
-      String key = pair.getKey();
-      Object value = pair.getValue();
-      if (value instanceof Map<?, ?>) {
+
+    Resource resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
+        (String) aProperties.get(JsonLdConstants.ID));
+
+    for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
+      String key = entry.getKey();
+      Object value = entry.getValue();
+      if (value instanceof Map) {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
+      } else if (value instanceof List) {
+        List<Object> vals = new ArrayList<>();
+        for (Object v : (List) value ) {
+          if (v instanceof Map) {
+            vals.add(Resource.fromMap((Map<String, Object>) v));
+          } else {
+            vals.add(v);
+          }
+        }
+        resource.put(key, vals);
       } else {
         resource.put(key, value);
       }
     }
+
     return resource;
+
   }
 
   public static Resource fromJson(JsonNode aJson) {

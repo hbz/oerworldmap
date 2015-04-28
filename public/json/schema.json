@@ -235,10 +235,6 @@
           "type": "string",
           "format": "uri"
         },
-        "@type": {
-          "type": "string",
-          "enum": ["GeoCoordinates"]
-        },
         "lat": {
           "type": "number"
         },
