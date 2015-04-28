@@ -176,24 +176,7 @@ $(document).ready(function(){
   		});
     }
   });
-  table.hide()
-
-  // --- about ---
-  
-  $('div#about ul>li').addClass("invisible");
-  $('div#about').viewportChecker({
-    offset : 80,
-    callbackFunction : function(){
-      
-      $('div#about li').each(function(i){
-        var li = this;
-        setTimeout(function(){
-          $(li).addClass("visible").addClass("animated").addClass("fadeInUp");
-        }, i * 1000);
-      });
-      
-    }
-  });
+  table.hide();
 
   // --- hijax behavior ---
   
