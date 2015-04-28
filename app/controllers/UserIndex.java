@@ -33,10 +33,6 @@ import services.Account;
 
 public class UserIndex extends OERWorldMap {
 
-  private static final String REALM = "Basic realm=\"OER World Map\"";
-
-  private static List<String> loggedOutUsers = new ArrayList<>();
-
   public static Result get() throws IOException {
     Map<String, Object> scope = new HashMap<>();
     scope.put("countries", Countries.list(currentLocale));
@@ -59,7 +55,7 @@ public class UserIndex extends OERWorldMap {
           JSONForm.generateErrorReport(report)));
     }
 
-    // newsletterSignup(user);
+    newsletterSignup(user);
     user.put("email", Account.getEncryptedEmailAddress(user));
     mBaseRepository.addResource(user);
 
@@ -111,11 +107,6 @@ public class UserIndex extends OERWorldMap {
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
     String aEmail = Account.getEncryptedEmailAddress(user);
-    // Actually, only checking the FileResourceRepository should suffice as
-    // resources remain there
-    // after confirmation. I'll leave this is though, until File- and
-    // Elasticsearch sinks are wrapped
-    // in a unifying OERWorldMapRepository.
     if ((!mBaseRepository.getResourcesByContent("Person", "email", aEmail, true).isEmpty())) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
@@ -135,6 +126,8 @@ public class UserIndex extends OERWorldMap {
     String mailmanHost = mConf.getString("mailman.host");
     String mailmanList = mConf.getString("mailman.list");
     if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
+      System.out.println("No mailman configured, user ".concat(user.get("email").toString())
+          .concat(" not signed up for newsletter"));
       return;
     }
 

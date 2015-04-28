@@ -1,49 +1,44 @@
-<main class="center color-scheme-map">
+<div role="main" class="color-scheme-map" data-view="map">
 
     <h1>{{i18n.landingpage_title}}</h1>
     <h2>Join us in mapping the world of OER!</h2>
-
+    
+    <a class="call-for-action">Send stories</a>
+    <a class="call-for-action">Register</a>
+    
+    <div class="call">
+      <header>
+        Register
+      </header>
+      <main>
+        
+      </main>
+    </div>
+    
     <section>
-        <div id="worldmap" style="width: 800px; height: 500px"></div>
         <table class="table" about="#users-by-country">
             <script type="application/ld+json">
                 {{{scope.countryAggregation}}}
             </script>
-            {{#scope.countryAggregation.entries}}
-            <tr><td>{{key}}</td><td>{{value}}</td></tr>
-            {{/scope.countryAggregation.entries}}
+          {{#scope.countryAggregation.entries}}
+              <tr><td>{{key}}</td><td>{{value}}</td></tr>
+          {{/scope.countryAggregation.entries}}
         </table>
     </section>
 
     <section id="user-register">
-        <a href="/user/" class="hijax transclude">{{i18n.register}}</a>
+        <a href="/user/" class="hijax transclude" target="_self">{{i18n.register}}</a>
     </section>
 
-</main>
+    <a href="/resource/" class="hijax transclude" target="_blank">{{i18n.resource_list}}</a>
 
-<aside>
-    <ul class="resource-list">
-        <script type="application/ld+json">
-            {{{scope.stories}}}
-        </script>
-        {{#scope.stories}}
-        <li>
-            <article class="resource-story">
-                <header>
-                    <h1><a href="#resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h1>
-                    {{#agent}}
-                        <address>Contributed by <a href="mailto:{{email}}">{{name}}</a></address>
-                    {{/agent}}
-                </header>
-                {{#image}}<img src="{{image}}" />{{/image}}
-                {{#description}}{{{@value}}}{{/description}}
-            </article>
-        </li>
-        {{/scope.stories}}
-    </ul>
-</aside>
+</div>
 
 <footer>
 </footer>
+
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//d3js.org/d3.geo.projection.v0.min.js"></script>
+<script type="text/javascript" src="//cdn.rawgit.com/mbostock/topojson/master/topojson.js"></script>
 
 <script type="text/javascript" src="/assets/javascripts/main.js"></script>

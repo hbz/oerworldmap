@@ -1,14 +1,16 @@
-<section>
-    {{#messages.size}}
-        <ul id="messages">
-          {{#messages}}
-              <li class="message {{level}}">
-                  <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
-              </li>
-          {{/messages}}
-        </ul>
-    {{/messages.size}}
-    {{#continue}}
-        <a href="{{continue}}">{{i18n.feedback_link_continue}}</a>
-    {{/continue}}
-</section>
+<div role="main">
+    <section>
+        {{#messages.size}}
+            <ul id="messages">
+              {{#messages}}
+                  <li class="message {{level}}">
+                      <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
+                  </li>
+              {{/messages}}
+            </ul>
+        {{/messages.size}}
+        {{#continue}}
+            <a href="{{continue}}">{{i18n.feedback_link_continue}}</a>
+        {{/continue}}
+    </section>
+</div>

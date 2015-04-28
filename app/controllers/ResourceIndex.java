@@ -5,10 +5,13 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.Countries;
 import helpers.JSONForm;
 import models.Resource;
+import org.json.simple.parser.ParseException;
 import play.mvc.Result;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,10 +19,16 @@ import java.util.Map;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list() {
+  public static Result list()  throws IOException, ParseException {
+    List<Resource> stories = mBaseRepository.query("Action", false);
     Map<String,Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(currentLocale));
-    return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+    scope.put("stories", stories);
+
+    if (request().accepts("text/html")) {
+      return ok(render("Home", "ResourceIndex/index.mustache", scope));
+    } else {
+      return ok(stories.toString()).as("application/json");
+    }
   }
 
   public static Result create() throws IOException {
@@ -44,6 +53,16 @@ public class ResourceIndex extends OERWorldMap {
     }
     mBaseRepository.addResource(resource);
     return created("created resource " + resource.toString());
+  }
+
+  public static Result read(String id) {
+    Resource resource;
+    try {
+      resource = mBaseRepository.getResource(id);
+    } catch (IOException ex) {
+      return notFound("Not found");
+    }
+    return ok(render("Home", "ResourceIndex/read.mustache", resource));
   }
 
 }

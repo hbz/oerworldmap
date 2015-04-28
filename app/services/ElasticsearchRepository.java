@@ -43,8 +43,12 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   @Override
   public Resource getResource(String aId) throws IOException {
-    // FIXME: results in NullPointerException if aId is unknown
-    return Resource.fromMap(elasticsearch.getDocument("_all", aId));
+    Map<String,Object> resource = elasticsearch.getDocument("_all", aId);
+    if (null == resource) {
+      throw new IOException("Resource not found");
+    } else {
+      return Resource.fromMap(resource);
+    }
   }
 
   /**
