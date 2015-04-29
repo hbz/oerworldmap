@@ -1,4 +1,3 @@
-@import "bootstrap.less";
 @import "responsive.less";
 
 /* --- colors --- */
@@ -424,29 +423,41 @@ body.layout-fixed > div[role="complementary"] {
 }
 
 .map-view .call-for-actions {
-  left: 0px;
-  bottom: 0px;
+  left: 10px;
+  bottom: 10px;
+  display:table;
+  border-collapse:separate;
+  border-spacing:10px;
 }
 
+.map-view .call-for-actions-row {
+  display: table-row;
+}
+  
 
 /* --- call for action --- */
   
 .call-for-action {
-  display:table-cell;
-  vertical-align:middle;
-  width: 80px;
-  height: 80px;
+  display: table-cell;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
   background: white;
   border-radius: 1000px;
   color: @color-scheme-map-background !important;
   text-align: center;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 15px;
+  line-height: 18px;
   font-weight: bold;
+  text-decoration: none !important;
+  padding: 10px;
+  margin: 0 10px 0 0 !important;
+  border-spacing: 100px;
 }
 
 .call-for-action:hover {
   background: @hightlight-color;
+  color: white;
 }
 
 
