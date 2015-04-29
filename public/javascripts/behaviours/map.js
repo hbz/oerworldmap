@@ -18,6 +18,8 @@ Hijax.behaviours.map = {
   svg : false,
   g : false,
   
+  placemarks : [],
+  
   attach : function(context) {
     var that = this;
     
@@ -131,6 +133,10 @@ Hijax.behaviours.map = {
     d3.json("/assets/json/ne_50m_admin_0_countries_topo.json", function(error, world) {
       that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
       that.draw( that.topo );
+      
+      for(i in that.placemarks) {
+        that.addPlacemark( that.placemarks[i]["latLng"][0], that.placemarks[i]["latLng"][1] );
+      }
     });
   },
   
@@ -198,28 +204,33 @@ Hijax.behaviours.map = {
   },
   
   addPlacemark : function(lat, lon) {
+    console.log("addPlacemark",lat, lon);
     var that = this;
   
     var gpoint = that.g.append("g").attr("class", "gpoint");
     var x = that.projection([lat,lon])[0];
     var y = that.projection([lat,lon])[1];
   
+/*
     gpoint.append("svg:circle")
       .attr("cx", x)
       .attr("cy", y)
       .attr("class","point")
-      .attr("r", 1.5);
-
-/*
-    gpoint.append('text')
-      .attr('font-family', 'FontAwesome')
-      .attr('font-size', function(d) { return d.size+'em'} )
-      .text(function(d) { return '\uf118' })
-      .attr("cx", x)
-      .attr("cy", y)
-      .attr("class","point")
-      .attr("r", 1.5);
+      .attr("r", 5);
 */
+
+    gpoint.append('text')
+      .attr("x", x)
+      .attr("y", y)
+      .attr('text-anchor', 'middle')
+      .attr("class", "placemark")
+      .text('\uf041');
+  },
+  
+  addPlacemarks : function( placemarks ) {
+    var that = this; console.log("placemarks", placemarks);
+    
+    that.placemarks = that.placemarks.concat( placemarks );
   },
   
   addPoint : function(lat, lon, text) {
