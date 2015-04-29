@@ -48,29 +48,9 @@ public class ElasticsearchRepository implements ResourceRepository {
     elasticsearch.addJson(aResource.toString(), id, aType);
   }
 
-  /**
-   * Add data mentioned within other items.
-   * 
-   * @param aType The type of mentioned data sub item.
-   * @param aContent The data content of mentioned data sub item.
-   */
-  public void addMentionedData(@Nonnull final String aType, @Nonnull final JsonNode aJsonNode) {
-    String jsonString = aJsonNode.asText();
-    List<Resource> matches = getResourcesByContent(aType, "_all", jsonString);
-    if (matches == null || matches.isEmpty()) {
-      // this mentioned data was not included in our data set yet -->
-      // include it now
-      String id = null;
-      if (Resource.isIdentifiedType(aType)) {
-        id = aType;
-      }
-      elasticsearch.addJson(jsonString, id);
-    }
-  }
-
+  
   @Override
   public Resource getResource(String aId) throws IOException {
-    // FIXME: results in NullPointerException if aId is unknown
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
   }
 

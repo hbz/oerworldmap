@@ -88,6 +88,9 @@ public class Resource implements Map<String, Object> {
   @SuppressWarnings("unchecked")
   public static Resource fromMap(Map<String, Object> aProperties) {
 
+    if (aProperties == null){
+      return null;
+    }
     checkTypeExistence(aProperties);
 
     Resource resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
@@ -245,9 +248,8 @@ public class Resource implements Map<String, Object> {
     return true;
   }
 
-  private static boolean hasId(Map<String, Object> aProperties) {
-    String id = (String) aProperties.get(JsonLdConstants.ID);
-    return id != null && !StringUtils.isEmpty(id.toString());
+  public boolean hasId() {
+    return containsKey(JsonLdConstants.ID);
   }
 
   private static void checkTypeExistence(Map<String, Object> aProperties) {

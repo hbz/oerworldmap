@@ -150,5 +150,4 @@ public class ResourceTest {
     assertEquals(resource.get(property), value);
 
   }
-  
 }
