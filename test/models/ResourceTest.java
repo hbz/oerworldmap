@@ -23,12 +23,33 @@ public class ResourceTest {
   }
 
   @Test
-  public void testConstructorWithId() {
-    Resource resource = new Resource("Type", "id");
-    assertEquals(resource.get(JsonLdConstants.TYPE), "Type");
-    assertEquals(resource.get(JsonLdConstants.ID), "id");
+  public void testConstructIdentifiedResourceWithId() {
+    Resource resource = new Resource("Person", "id");
+    assertEquals("Person", resource.get(JsonLdConstants.TYPE));
+    assertEquals("id", resource.get(JsonLdConstants.ID));
   }
 
+  @Test
+  public void testConstructIdentifiedResourceWithoutId() {
+    Resource resource = new Resource("Person");
+    assertEquals("Person", resource.get(JsonLdConstants.TYPE));
+    assertNotNull(resource.get(JsonLdConstants.ID));
+  }
+    
+  @Test
+  public void testConstructUnidentifiedResourceWithId() {
+    Resource resource = new Resource("Foo", "id");
+    assertEquals("Foo", resource.get(JsonLdConstants.TYPE));
+    assertNull(resource.get(JsonLdConstants.ID));
+  }
+
+  @Test
+  public void testConstructUnidentifiedResourceWithoutId() {
+    Resource resource = new Resource("Foo");
+    assertEquals("Foo", resource.get(JsonLdConstants.TYPE));
+    assertNull(resource.get(JsonLdConstants.ID));
+  }
+  
   @Test
   public void testSetGetProperty() {
     Resource resource = new Resource("Type", "id");
@@ -40,11 +61,11 @@ public class ResourceTest {
 
   @Test
   public void testToString() {
-    Resource resource = new Resource("Type", "id");
+    Resource resource = new Resource("Type");
     String property = "property";
     String value = "value";
     resource.put(property, value);
-    String expected = "{\"@type\":\"Type\",\"@id\":\"id\",\"property\":\"value\"}";
+    String expected = "{\"@type\":\"Type\",\"property\":\"value\"}";
     assertEquals(expected, resource.toString().replaceAll("[\n \t]", ""));
   }
   

@@ -6,6 +6,7 @@ import helpers.JsonLdConstants;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +32,10 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
 public class Resource implements Map<String, Object> {
 
+  // identified ("primary") data types that get an ID
+  private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
+      "Organization", "Event", "Person", "Action"));
+
   /**
    * Holds the properties of the resource.
    */
@@ -42,24 +47,34 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor which sets up a random UUID.
+   * 
    * @param type The type of the resource.
    */
-  public Resource(String type) {
+  public Resource(final String type) {
     this(type, null);
   }
 
   /**
    * Constructor.
-   * @param type The type of the resource.
+   * 
+   * @param aType The type of the resource.
    * @param id The id of the resource.
    */
-  public Resource(String type, String id) {
-    if (null != type) {
-      mProperties.put(JsonLdConstants.TYPE, type);
+  public Resource(final String aType, final String aId) {
+    if (null != aType) {
+      mProperties.put(JsonLdConstants.TYPE, aType);
     }
-    if (null != id) {
-      mProperties.put(JsonLdConstants.ID, id);
+    if (mIdentifiedTypes.contains(aType)) {
+      if (null != aId) {
+        mProperties.put(JsonLdConstants.ID, aId);
+      } else {
+        mProperties.put(JsonLdConstants.ID, generateId());
+      }
     }
+  }
+
+  private static String generateId() {
+    return "urn:uuid:" + UUID.randomUUID().toString();
   }
 
   /**
@@ -85,7 +100,7 @@ public class Resource implements Map<String, Object> {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
       } else if (value instanceof List) {
         List<Object> vals = new ArrayList<>();
-        for (Object v : (List) value ) {
+        for (Object v : (List) value) {
           if (v instanceof Map) {
             vals.add(Resource.fromMap((Map<String, Object>) v));
           } else {
@@ -250,4 +265,7 @@ public class Resource implements Map<String, Object> {
     }
   }
 
+  public static boolean isIdentifiedType(String aType) {
+    return mIdentifiedTypes.contains(aType);
+  }
 }

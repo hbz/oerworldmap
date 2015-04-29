@@ -32,7 +32,7 @@ public class ElasticsearchRepositoryTest {
   private static Settings mClientSettings;
   private static Client mClient;
   private static ElasticsearchClient mElClient;
-  private static BaseRepository mRepo;
+  private static ElasticsearchRepository mRepo;
   private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
 
   @SuppressWarnings("resource")
@@ -43,21 +43,21 @@ public class ElasticsearchRepositoryTest {
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer.valueOf(mEsConfig
             .getJavaPort())));
     mElClient = new ElasticsearchClient(mClient, mEsConfig);
-    mRepo = new BaseRepository(mElClient, Paths.get(FilesConfig.getRepo()));
+    mRepo = new ElasticsearchRepository(mElClient);
     ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
     setupResources();
   }
 
   private static void setupResources() throws IOException {
-    mResource1 = new Resource(mEsConfig.getType(), UUID.randomUUID().toString());
+    mResource1 = new Resource("Person");
     mResource1.put("name", "oeruser1");
     mResource1.put("worksFor", "oerknowledgecloud.org");
 
-    mResource2 = new Resource(mEsConfig.getType(), UUID.randomUUID().toString());
+    mResource2 = new Resource("Person", UUID.randomUUID().toString());
     mResource2.put("name", "oeruser2");
     mResource2.put("worksFor", "unesco.org");
 
-    mResource3 = new Resource(mEsConfig.getType(), UUID.randomUUID().toString());
+    mResource3 = new Resource("Person", UUID.randomUUID().toString());
     mResource3.put("name", "oeruser3");
     mResource3.put("worksFor", "unesco.org");
 
@@ -69,7 +69,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testAddAndQueryResources() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query(mEsConfig.getType(), false);
+    List<Resource> resourcesGotBack = mRepo.query("Person");
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
   }
@@ -97,7 +97,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testUniqueFields() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query(mEsConfig.getType(), false);
+    List<Resource> resourcesGotBack = mRepo.query("Person");
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
     Set<String> employers = new HashSet<String>();
