@@ -45,8 +45,6 @@ Hijax.behaviours.map = {
     var heats = $.map(that.heat_data, function(value, index){
       return [value];
     });
-    //heats = $.makeArray(map.heat_data);
-    console.log(heats);
     
     that.color = d3.scale.log()
       .range(["#a1cd3f", "#eaf0e2"])
@@ -58,8 +56,6 @@ Hijax.behaviours.map = {
       .on("zoom", that.move);
     that.setup();
     that.loadMapData();
-    
-    //console.log( that.zoom );
     
 /*
     $.get(
@@ -94,7 +90,7 @@ Hijax.behaviours.map = {
   },
   
   move : function() {
-    var that = Hijax.behaviours.map; //console.log(Hijax.behaviours.map.zoom);
+    var that = Hijax.behaviours.map;
     
     var t = d3.event.translate;
     var s = d3.event.scale;
@@ -149,7 +145,7 @@ Hijax.behaviours.map = {
     that.projection = d3.geo.miller()
       .translate([
         (that.width / 2),
-        (that.height / 2)
+        (that.height / 1.55)
       ]).scale( that.width / 2 / Math.PI );
     
     that.path = d3.geo.path().projection(that.projection);
@@ -199,6 +195,31 @@ Hijax.behaviours.map = {
   
   getHeatColor(val) {
     return "hsl()"
+  },
+  
+  addPlacemark : function(lat, lon) {
+    var that = this;
+  
+    var gpoint = that.g.append("g").attr("class", "gpoint");
+    var x = that.projection([lat,lon])[0];
+    var y = that.projection([lat,lon])[1];
+  
+    gpoint.append("svg:circle")
+      .attr("cx", x)
+      .attr("cy", y)
+      .attr("class","point")
+      .attr("r", 1.5);
+
+/*
+    gpoint.append('text')
+      .attr('font-family', 'FontAwesome')
+      .attr('font-size', function(d) { return d.size+'em'} )
+      .text(function(d) { return '\uf118' })
+      .attr("cx", x)
+      .attr("cy", y)
+      .attr("class","point")
+      .attr("r", 1.5);
+*/
   },
   
   addPoint : function(lat, lon, text) {

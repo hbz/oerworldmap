@@ -13,7 +13,15 @@ Hijax.behaviours.other = {
       $('article>header', context).siblings().slideUp(300);
       $(this).closest('article>header', context).siblings().slideToggle(300);
     });
-
+    
+    
+    // call for actions
+    $('a[href="#user-register"]', context).click(function(e){
+      e.preventDefault();
+      console.log($('#user-register'));
+      $('#user-register').slideDown();
+    });
+    
   }
 
 }

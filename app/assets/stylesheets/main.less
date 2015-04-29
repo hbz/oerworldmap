@@ -41,6 +41,10 @@ a:hover {
   color: @hightlight-color;
 }
 
+a:focus {
+  outline: none;
+}
+
 h1 {
   font-size: 55px;
   font-weight: bold;
@@ -411,7 +415,7 @@ body.layout-fixed > div[role="complementary"] {
 .map-view h2 {
   left: 10px;
   margin: 0;
-  text-shadow: 0px 0px 7px black;
+  text-shadow: 0px 0px 4px rgba(0,0,0,0.4);
 }
 
 .map-view h1 {
@@ -423,25 +427,36 @@ body.layout-fixed > div[role="complementary"] {
 }
 
 .map-view .call-for-actions {
-  left: 10px;
-  bottom: 10px;
-  display:table;
-  border-collapse:separate;
-  border-spacing:10px;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+}
+
+.map-view #user-register {
+  background: @color-scheme-map-background;
+  border-top: 1px solid white;
+  padding: 10px;
+  clear: both;
+}
+  
+
+/* --- call for action --- */
+
+.map-view .call-for-actions-table {
+  display: table;
+  margin: 10px 0px 10px 10px;
+  float: left;
 }
 
 .map-view .call-for-actions-row {
   display: table-row;
 }
   
-
-/* --- call for action --- */
-  
 .call-for-action {
   display: table-cell;
   vertical-align: middle;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   background: white;
   border-radius: 1000px;
   color: @color-scheme-map-background !important;
@@ -451,8 +466,7 @@ body.layout-fixed > div[role="complementary"] {
   font-weight: bold;
   text-decoration: none !important;
   padding: 10px;
-  margin: 0 10px 0 0 !important;
-  border-spacing: 100px;
+  box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
 }
 
 .call-for-action:hover {
