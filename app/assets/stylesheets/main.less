@@ -487,6 +487,11 @@ body.layout-fixed > div[role="complementary"] {
   overflow: hidden;
 }
 
+#map svg {
+  position: absolute;
+  z-index: 1;
+}
+
 .country {
   stroke: hsl(205, 88%, 40%);
   stroke-width: 0.5px;
@@ -505,6 +510,10 @@ body.layout-fixed > div[role="complementary"] {
   cursor: pointer;
 }
 
+svg a {
+  text-decoration: none !important;
+}
+
 svg .placemark {
   font-family: FontAwesome;
   font-size: 28px;
@@ -516,4 +525,18 @@ svg .placemark {
 
 svg .placemark:hover {
   fill: white;
+}
+
+.map-tooltip {
+  position: absolute;
+  z-index: 4;
+  display: none;
+  background: @text-color;
+  color: @background-color;
+  font-size: 14px;
+  border: 2px solid @background-color;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0px 0 0 0px;
+  // box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
 }

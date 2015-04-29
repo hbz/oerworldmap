@@ -12,6 +12,8 @@ Hijax.behaviours.populateMap = {
   populate : function(list) {
     var json = JSON.parse( $(list).find('script').html() );
     
+    console.log(json);
+    
     var data = {};
     var markers = [];
 
@@ -36,7 +38,8 @@ Hijax.behaviours.populateMap = {
         if (geo = locations[l].geo) {
           markers.push({
             latLng: [geo['lat'], geo['lon']],
-            name: json[i]['name'][0]['@value']
+            name: json[i]['name'][0]['@value'],
+            url: "/ressource/" + json[i]['@id']
           })
         }
       }

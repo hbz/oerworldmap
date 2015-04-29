@@ -19,6 +19,7 @@ Hijax.behaviours.map = {
   g : false,
   
   placemarks : [],
+  tooltip : false,
   
   attach : function(context) {
     var that = this;
@@ -42,6 +43,10 @@ Hijax.behaviours.map = {
     // set mapview
     $( that.container ).closest('div[role="main"], div[role="complementary"]').addClass("map-view");
     
+    // create tooltip
+    that.tooltip = $('<div class="map-tooltip"></div>')[0];
+    $(that.container).append(that.tooltip);
+        
     that.getHeatData();
     
     var heats = $.map(that.heat_data, function(value, index){
@@ -135,7 +140,12 @@ Hijax.behaviours.map = {
       that.draw( that.topo );
       
       for(i in that.placemarks) {
-        that.addPlacemark( that.placemarks[i]["latLng"][0], that.placemarks[i]["latLng"][1] );
+        that.addPlacemark(
+          that.placemarks[i]["latLng"][0],
+          that.placemarks[i]["latLng"][1],
+          that.placemarks[i]["url"],
+          that.placemarks[i]["name"]
+        );
       }
     });
   },
@@ -186,8 +196,27 @@ Hijax.behaviours.map = {
       
     country.on("click", function(){ console.log("country clicked");
       d3.select(this).style("fill", "#aaa");
-    })
-  
+    });
+    
+    country.on("mouseover", function(){ console.log("country hover"); console.log(this);
+      $(that.tooltip).show();
+      $(that.tooltip).html(
+        that.getTooltipHtml(this.id),
+        this.title
+      );
+    });
+
+    country.on("mousemove", function(){
+      $(that.tooltip).css({
+          "top": (d3.event.pageY) + "px",
+          "left": (d3.event.pageX) + "px"
+      });
+    });
+    
+    country.on("mouseout", function(){
+      $(that.tooltip).hide();
+    });
+
     // add some capitals from external CSV file
 /*
     d3.csv("/assets/playground/map1/country-capitals.csv", function(err, capitals) {
@@ -199,11 +228,24 @@ Hijax.behaviours.map = {
   
   },
   
-  getHeatColor(val) {
-    return "hsl()"
+  getTooltipHtml : function(id, name) {
+    var that = this;
+    
+    html =
+      (
+        that.heat_data[ id ] ?
+        '<i class="fa fa-fw fa-user"></i> <strong>' + that.heat_data[ id ] + '</strong> users counted for ' + name :
+        '<i class="fa fa-fw fa-user"></i> No users counted for ' + name
+      ) + (
+        true ?
+        '<br><i class="fa fa-fw fa-trophy"></i> And we have a country champion!<br>' :
+        ''
+      );
+    
+    return html;
   },
   
-  addPlacemark : function(lat, lon) {
+  addPlacemark : function(lat, lon, url, name) {
     console.log("addPlacemark",lat, lon);
     var that = this;
   
@@ -217,14 +259,20 @@ Hijax.behaviours.map = {
       .attr("cy", y)
       .attr("class","point")
       .attr("r", 5);
-*/
+*/  
+    // <a xlink:href="/svg/index.html">
 
-    gpoint.append('text')
+    gpoint
+      .append('a')
+      .attr("xlink:href", url)
+      .attr("xlink:title", name)
+      .append('text')
       .attr("x", x)
       .attr("y", y)
       .attr('text-anchor', 'middle')
       .attr("class", "placemark")
       .text('\uf041');
+      
   },
   
   addPlacemarks : function( placemarks ) {
