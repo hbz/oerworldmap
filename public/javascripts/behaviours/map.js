@@ -24,12 +24,15 @@ Hijax.behaviours.map = {
     that.context = context;
     
     // return if no map in context
-    if(! $("#map", that.context).length) {
+    if(! $('div[data-view="map"]', that.context).length) {
       return;
     }
     
-    // get container
-    that.container = $("#map", that.context)[0];
+    // create map container
+    that.container = $('<div id="map"></div>')[0];
+    
+    // append to view
+    $('div[data-view="map"]').prepend(that.container);
     
     // hide table
     $( that.container ).siblings("table").hide();
@@ -140,6 +143,8 @@ Hijax.behaviours.map = {
     
     that.width = that.container.offsetWidth;
     that.height = that.container.offsetHeight;
+    
+    console.log(that.width, that.height);
     
     that.projection = d3.geo.miller()
       .translate([

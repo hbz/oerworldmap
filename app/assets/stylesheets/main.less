@@ -404,6 +404,52 @@ body.layout-fixed > div[role="complementary"] {
   z-index: 1;
 }
 
+.map-view .map-view-hidden {
+  display: none;
+}
+
+.map-view h1,
+.map-view h2 {
+  left: 10px;
+  margin: 0;
+  text-shadow: 0px 0px 7px black;
+}
+
+.map-view h1 {
+  top: 10px;
+}
+
+.map-view h2 {
+  top: 80px;
+}
+
+.map-view .call-for-actions {
+  left: 0px;
+  bottom: 0px;
+}
+
+
+/* --- call for action --- */
+  
+.call-for-action {
+  display:table-cell;
+  vertical-align:middle;
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 1000px;
+  color: @color-scheme-map-background !important;
+  text-align: center;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: bold;
+}
+
+.call-for-action:hover {
+  background: @hightlight-color;
+}
+
+
 /* --- map --- */
 
 #map {
