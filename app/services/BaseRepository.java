@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import models.Record;
 import models.Resource;
 
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -31,8 +32,9 @@ public class BaseRepository {
   }
 
   public void addResource(Resource aResource) throws IOException {
-    mElasticsearchRepo.addResource(aResource);
-    mFileRepo.addResource(aResource);
+    Record record = new Record(aResource);
+    mElasticsearchRepo.addResource(record);
+    mFileRepo.addResource(record);
     addMentionedData(aResource);
   }
 
@@ -71,19 +73,32 @@ public class BaseRepository {
   }
 
   public Resource getResource(String aId) throws IOException {
-    Resource resource = mElasticsearchRepo.getResource(aId);
+    Resource resource = mElasticsearchRepo.getResource(aId + ".about");
     if (resource == null || resource.isEmpty()) {
-      resource = mFileRepo.getResource(aId);
+      resource = mFileRepo.getResource(aId + ".about");
+    }
+    if (resource != null){
+      resource = (Resource) resource.get("about");
     }
     return resource;
   }
 
+  private List<Resource> getResources(List<Resource> aRecords) {
+    List<Resource> resources = new ArrayList<Resource>();
+    for (Resource rec : aRecords) {
+      resources.add((Resource) rec.get("about"));
+    }
+    return resources;
+  }
+
   public List<Resource> getResourcesByContent(String aType, String aField, String aContent,
       boolean aSearchAllRepos) {
+    String field = "about." + aField;
     List<Resource> resources = new ArrayList<Resource>();
-    resources.addAll(mElasticsearchRepo.getResourcesByContent(aType, aField, aContent));
+    resources
+        .addAll(getResources(mElasticsearchRepo.getResourcesByContent(aType, field, aContent)));
     if (aSearchAllRepos || resources == null || resources.isEmpty()) {
-      resources.addAll(mFileRepo.getResourcesByContent(aType, aField, aContent));
+      resources.addAll(mFileRepo.getResourcesByContent(aType, field, aContent));
     }
     return resources;
   }
@@ -95,7 +110,7 @@ public class BaseRepository {
 
   public List<Resource> query(String aType, boolean aSearchAllRepos) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
-    resources.addAll(mElasticsearchRepo.query(aType));
+    resources.addAll(getResources(mElasticsearchRepo.query(aType)));
     if (aSearchAllRepos || resources == null || resources.isEmpty()) {
       resources.addAll(mFileRepo.query(aType));
     }
