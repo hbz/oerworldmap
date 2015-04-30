@@ -1,4 +1,5 @@
 <div role="main">
+
     <section>
         <ul class="resource-list">
             <script type="application/ld+json">
@@ -6,18 +7,20 @@
             </script>
             {{#scope.stories}}
                 <li>
-                    <article class="resource-story">
-                        <header>
-                            <h1><a class="hijax" target="_parent" role="main" href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h1>
-                            {{#agent}}
-                                <address>
-                                    Contributed by <a href="mailto:{{email}}">{{#legalName}}{{@value}}{{/legalName}}{{#name}}{{name}}{{/name}}</a>
-                                </address>
-                            {{/agent}}
-                        </header>
-                        {{#image}}<img src="{{image}}" />{{/image}}
-                        {{#description}}{{{@value}}}{{/description}}
-                    </article>
+                    <article>
+                      <img src="#" class="placeholder" />
+                      <h1>
+                        <a class="hijax" target="_parent" role="main" href="/resource/{{@id}}">
+                          {{#name}}{{@value}}{{/name}}
+                        </a>
+                      </h1>
+                      <p>
+                        <strong>Contributed by</strong> Virtual Universities for Small States of the Commonwealth
+                      </p>
+                      <p>
+                        COL’s Virtual Universities for Small States of the Commonwealth (VUSSC) and the University of the West Indies (UWI) School of Business and Applied Studies, ROYTEC, have teamed up to retool the VUSSC Bachelor in Business and Entrepreneurship (BBE) programme. 
+                      </p>
+                    </a>
                 </li>
             {{/scope.stories}}
         </ul>

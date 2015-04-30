@@ -194,15 +194,16 @@ Hijax.behaviours.map = {
         }
       });
       
+/*
     country.on("click", function(){ console.log("country clicked");
       d3.select(this).style("fill", "#aaa");
     });
+*/
     
-    country.on("mouseover", function(){ console.log("country hover"); console.log(this);
+    country.on("mouseover", function(){
       $(that.tooltip).show();
       $(that.tooltip).html(
-        that.getTooltipHtml(this.id),
-        this.title
+        that.getTooltipHtml(this.id, $(this).attr("title"))
       );
     });
 
@@ -245,8 +246,7 @@ Hijax.behaviours.map = {
     return html;
   },
   
-  addPlacemark : function(lat, lon, url, name) {
-    console.log("addPlacemark",lat, lon);
+  addPlacemark : function(lat, lon, url, name) { console.log("addPlacemark",lat, lon);
     var that = this;
   
     var gpoint = that.g.append("g").attr("class", "gpoint");
@@ -275,8 +275,8 @@ Hijax.behaviours.map = {
       
   },
   
-  addPlacemarks : function( placemarks ) {
-    var that = this; console.log("placemarks", placemarks);
+  addPlacemarks : function( placemarks ) { console.log("placemarks", placemarks);
+    var that = this;
     
     that.placemarks = that.placemarks.concat( placemarks );
   },

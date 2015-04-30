@@ -39,7 +39,7 @@ Hijax.behaviours.populateMap = {
           markers.push({
             latLng: [geo['lat'], geo['lon']],
             name: json[i]['name'][0]['@value'],
-            url: "/ressource/" + json[i]['@id']
+            url: "/resource/" + json[i]['@id']
           })
         }
       }
