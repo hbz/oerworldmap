@@ -20,7 +20,7 @@ import java.util.Map;
 public class ResourceIndex extends OERWorldMap {
 
   public static Result list()  throws IOException, ParseException {
-    List<Resource> stories = mBaseRepository.query("Action", false);
+    List<Resource> stories = mBaseRepository.query("Article", false);
     Map<String,Object> scope = new HashMap<>();
     scope.put("stories", stories);
 

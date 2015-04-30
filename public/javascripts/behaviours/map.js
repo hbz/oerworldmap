@@ -250,8 +250,8 @@ Hijax.behaviours.map = {
     var that = this;
   
     var gpoint = that.g.append("g").attr("class", "gpoint");
-    var x = that.projection([lat,lon])[0];
-    var y = that.projection([lat,lon])[1];
+    var x = that.projection([lon,lat])[0];
+    var y = that.projection([lon,lat])[1];
   
 /*
     gpoint.append("svg:circle")

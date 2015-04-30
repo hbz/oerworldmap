@@ -22,9 +22,9 @@ Hijax.behaviours.populateMap = {
       for (j in json[i].location) {
         locations.push(json[i].location[j]);
       }
-      for (k in json[i].agent) {
-        if (json[i].agent[k].location) {
-          locations.push(json[i].agent[k].location);
+      for (k in json[i].mentions) {
+        if (json[i].mentions[k].location) {
+          locations.push(json[i].mentions[k].location);
         }
       }
       for (l in locations) {
@@ -44,6 +44,8 @@ Hijax.behaviours.populateMap = {
         }
       }
     }
+    
+    console.log("markers",markers);
     
     Hijax.behaviours.map.addPlacemarks( markers );
   }
