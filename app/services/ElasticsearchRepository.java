@@ -39,7 +39,7 @@ public class ElasticsearchRepository implements ResourceRepository {
     addResource(aResource, type);
   }
 
-  private void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
       throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
     if (StringUtils.isEmpty(id)) {
@@ -47,7 +47,6 @@ public class ElasticsearchRepository implements ResourceRepository {
     }
     elasticsearch.addJson(aResource.toString(), id, aType);
   }
-
   
   @Override
   public Resource getResource(String aId) throws IOException {

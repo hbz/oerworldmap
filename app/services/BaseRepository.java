@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 
@@ -33,7 +34,7 @@ public class BaseRepository {
 
   public void addResource(Resource aResource) throws IOException {
     Record record = new Record(aResource);
-    mElasticsearchRepo.addResource(record);
+    mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
     mFileRepo.addResource(record);
     addMentionedData(aResource);
   }
