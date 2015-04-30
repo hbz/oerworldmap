@@ -4,6 +4,17 @@ import helpers.FilesConfig;
 import io.michaelallen.mustache.MustacheFactory;
 import io.michaelallen.mustache.api.Mustache;
 
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -20,19 +31,6 @@ import services.BaseRepository;
 import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchRepository;
-import services.FileResourceRepository;
-
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 
 /**
  * @author fo
@@ -40,22 +38,25 @@ import java.util.ResourceBundle;
 public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();
-  final private static ElasticsearchConfig mEsConfig = new ElasticsearchConfig(false);
+  final private static ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
   final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
-        .put(mEsConfig.getClientSettings()).build();
+      .put(mEsConfig.getClientSettings()).build();
   final private static Client mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
-            9300));
-  // TODO final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient);
+      .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), 9300));
+  // TODO final private static ElasticsearchClient mElasticsearchClient = new
+  // ElasticsearchClient(mClient);
   protected static BaseRepository mBaseRepository = null;
-  final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient, mEsConfig);
-  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(mElasticsearchClient);
+  final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient,
+      mEsConfig);
+  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(
+      mElasticsearchClient);
 
-  // TODO final protected static FileResourceRepository mUnconfirmedUserRepository;
+  // TODO final protected static FileResourceRepository
+  // mUnconfirmedUserRepository;
   static {
     try {
       mBaseRepository = new BaseRepository(mElasticsearchClient, Paths.get(FilesConfig.getRepo()));
-    } catch(final Exception ex) {
+    } catch (final Exception ex) {
       throw new RuntimeException("Failed to create Respository", ex);
     }
   }
@@ -79,8 +80,8 @@ public abstract class OERWorldMap extends Controller {
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
     for (String key : Collections.list(messages.getKeys())) {
       try {
-        String message = StringEscapeUtils.unescapeJava(
-            new String(messages.getString(key).getBytes("ISO-8859-1"), "UTF-8"));
+        String message = StringEscapeUtils.unescapeJava(new String(messages.getString(key)
+            .getBytes("ISO-8859-1"), "UTF-8"));
         i18n.put(key, message);
       } catch (UnsupportedEncodingException e) {
         i18n.put(key, messages.getString(key));
@@ -89,7 +90,7 @@ public abstract class OERWorldMap extends Controller {
   }
 
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
-                               List<Map<String, Object>> messages) {
+      List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);

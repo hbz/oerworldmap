@@ -33,7 +33,7 @@ public class ElasticsearchRepositoryTest {
   private static Client mClient;
   private static ElasticsearchClient mElClient;
   private static ElasticsearchRepository mRepo;
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
+  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass

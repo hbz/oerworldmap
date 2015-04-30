@@ -20,7 +20,7 @@ public class ElasticsearchClientTest {
   protected static Client mClient;
   protected static ElasticsearchClient mElasticsearchClient;
 
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
+  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass

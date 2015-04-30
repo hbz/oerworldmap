@@ -19,7 +19,7 @@ public class BaseRepositoryTest {
   private static Settings mClientSettings;
   private static TransportClient mClient;
   private static ElasticsearchClient mElClient;
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
+  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass
