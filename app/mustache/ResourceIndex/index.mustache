@@ -1,14 +1,17 @@
-<div role="main">
-
+<div role="main" class="color-scheme-text list-view">
+    
     <section>
-        <ul class="resource-list">
+        <h1>
+          We got told some stories ...
+        </h1>
+        <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.stories}}}
             </script>
             {{#scope.stories}}
                 <li>
                     <article>
-                      <img src="#" class="placeholder" />
+                      <div class="placeholder" style="width: 100px; height: 100px;"></div>
                       <h1>
                         <a class="hijax" target="_parent" role="main" href="/resource/{{@id}}">
                           {{#name}}{{@value}}{{/name}}

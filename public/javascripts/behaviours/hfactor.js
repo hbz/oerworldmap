@@ -48,7 +48,7 @@ Hijax.behaviours.hfactor = {
   },
 
   extractBody: function(html) {
-    return $(html).filter('div[role="main"]').children();
+    return $(html).filter('div[role="main"]');
   },
 
   append: function(data, element) {
@@ -63,17 +63,17 @@ Hijax.behaviours.hfactor = {
 
     switch (element.attr("target")) {
       case "_self":
+        html.removeAttr("role");
         element.replaceWith(html);
         break;
       case "_blank":
-        var container = role == "main" ? $('<div role="main" />') : $('<div role="complementary" />');
-        container.html(html);
-        parent.after(container);
+        html.attr("role", role);
+        parent.after(html);
         break;
       case "_parent":
       default:
-        parent.attr("role", role);
-        parent.html(html);
+        html.attr("role", role);
+        parent.replaceWith(html);
         break;
     }
 

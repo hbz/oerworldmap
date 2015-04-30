@@ -265,6 +265,7 @@ Hijax.behaviours.map = {
     gpoint
       .append('a')
       .attr("xlink:href", url)
+      .attr("id", url.split("/")[2])
       .attr("xlink:title", name)
       .append('text')
       .attr("x", x)

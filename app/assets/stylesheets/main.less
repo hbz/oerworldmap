@@ -45,6 +45,10 @@ a:focus {
   outline: none;
 }
 
+p:last-child {
+  margin-bottom: 0px; 
+}
+
 h1 {
   font-size: 55px;
   font-weight: bold;
@@ -391,7 +395,6 @@ body.layout-fixed > div[role="complementary"] {
   right: 0px;
   width: 30%;
   bottom: 0px;
-  padding: 20px;
   overflow-y: auto;
 }
 
@@ -526,10 +529,16 @@ svg .placemark {
   filter: drop-shadow( 0px 0px 2px #000 );
 */
   cursor: pointer;
+  transition: 0.1s;
 }
 
-svg .placemark:hover {
+svg .placemark:hover,
+svg .placemark.active {
   fill: white;
+}
+
+svg .placemark.active {
+  font-size: 40px;
 }
 
 .map-tooltip {
@@ -544,4 +553,56 @@ svg .placemark:hover {
   padding: 8px 12px;
   margin: 0px 0 0 0px;
   // box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+
+
+/* --- complementary --- */
+
+div[role="complementary"] {
+  font-size: 14px;
+}
+
+div[role="complementary"] h1 {
+  font-size: 2em;
+}
+
+
+/* --- resource list --- */
+
+.list-view {
+  padding: 20px;
+}
+
+/* --- resource list --- */
+
+.resource-list li {
+  border-top: 1px solid @color-scheme-text-color;
+  margin: 0 -20px;
+  padding: 20px;
+}
+
+.resource-list li:last-child {
+  border-bottom: 1px solid @color-scheme-text-color;
+}
+
+.resource-list li h1 {
+  font-size: 1.2em;
+  margin: 0 0 10px 0;
+}
+
+
+ul[data-behaviour="linkedListEntries"] li {
+  cursor: pointer;
+}
+
+ul[data-behaviour="linkedListEntries"] li:hover {
+  background: #eee;
+}
+
+/* --- placeholder --- */
+
+.placeholder {
+  background: #ccc;
+  float: left;
+  margin: 0 10px 10px 0;
 }
