@@ -11,7 +11,7 @@ import play.Logger;
 
 public class ElasticsearchProvider {
 
-  private static ElasticsearchConfig mConfig = new ElasticsearchConfig(false);
+  private static ElasticsearchConfig mConfig = new ElasticsearchConfig();
   
   private static Node mNode;
   private static boolean mIsLocal;

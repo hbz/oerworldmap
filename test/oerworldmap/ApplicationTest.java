@@ -27,7 +27,7 @@ public class ApplicationTest {
   @Test  
   public void runningLandingPage() {
     
-    final ElasticsearchConfig config = new ElasticsearchConfig(true);
+    final ElasticsearchConfig config = new ElasticsearchConfig();
     final Settings mClientSettings = ImmutableSettings.settingsBuilder()
           .put(config.getClientSettings()).build();
     @SuppressWarnings("resource")

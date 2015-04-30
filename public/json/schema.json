@@ -3,6 +3,61 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
 
   "definitions": {
+    "Article": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Article",
+      "description": "An article about activity that is being carried through in the realm of OER.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The article's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Article"]
+        },
+        "creator": {
+          "description": "The author of the article",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "articleBody": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "mentions": {
+          "description": "Something mentioned in the article",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
+        }
+      }
+    },
     "Action": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Action",
@@ -234,10 +289,6 @@
           "description": "The geo coordinates's unique identifier",
           "type": "string",
           "format": "uri"
-        },
-        "@type": {
-          "type": "string",
-          "enum": ["GeoCoordinates"]
         },
         "lat": {
           "type": "number"

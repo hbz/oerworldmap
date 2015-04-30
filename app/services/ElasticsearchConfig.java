@@ -34,25 +34,24 @@ public class ElasticsearchConfig {
   private InetSocketTransportAddress mNode;
 
   // CLIENT
-  private String mAppIndex;
-  private String mTestIndex;
+  private String mIndex;
   private String mType;
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Builder mClientSettingsBuilder;
 
-  public ElasticsearchConfig(boolean isTest) {
-    this(null, isTest);
+  public ElasticsearchConfig() {
+    this(null);
   }
 
-  public ElasticsearchConfig(String aFilename, boolean isTest) {
+  public ElasticsearchConfig(String aFilename) {
     File configFile;
     if (!StringUtils.isEmpty(aFilename)) {
       configFile = new File(aFilename);
     } else {
       configFile = new File(DEFAULT_CONFIG_FILE);
     }
-    init(configFile, isTest);
+    init(configFile);
   }
 
   private void checkFileExists(File file) {
@@ -66,7 +65,7 @@ public class ElasticsearchConfig {
     }
   }
 
-  private void init(File aConfigFile, boolean isTest) {
+  private void init(File aConfigFile) {
     checkFileExists(aConfigFile);
 
     // CONFIG FILE
@@ -79,17 +78,12 @@ public class ElasticsearchConfig {
     mNode = new InetSocketTransportAddress(mServer, Integer.valueOf(mJavaPort));
 
     // CLIENT
-    mAppIndex = mConfig.getString("es.index.app.name");
-    mTestIndex = mConfig.getString("es.index.test.name");
+    mIndex = mConfig.getString("es.index.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
     mClientSettings = new HashMap<String, String>();
-    if (isTest) {
-      mClientSettings.put("index.name", mTestIndex);
-    } else {
-      mClientSettings.put("index.name", mAppIndex);
-    }
+    mClientSettings.put("index.name", mIndex);
     mClientSettings.put("index.type", mType);
     mClientSettings.put("cluster.name", mCluster);
 

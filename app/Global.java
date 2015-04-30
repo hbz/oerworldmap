@@ -7,10 +7,16 @@ import java.util.Locale;
 
 public class Global extends GlobalSettings {
 
-  private static ElasticsearchConfig esConfig = new ElasticsearchConfig(false);
+  private static ElasticsearchConfig esConfig;
 
   @Override
   public void onStart(Application app) {
+    if (app.isTest()){
+      esConfig = new ElasticsearchConfig("conf/test.conf");
+    }
+    else{
+      esConfig = new ElasticsearchConfig("conf/application.conf");
+    }
     Logger.info("oerworldmap has started");
     Logger.info("Elasticsearch config: " + esConfig.toString());
     Locale.setDefault(new Locale("en", "US"));

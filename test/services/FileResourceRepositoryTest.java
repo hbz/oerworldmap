@@ -27,7 +27,7 @@ public class FileResourceRepositoryTest {
   public static void setUpDir() throws IOException {
     Files.createDirectory(tmpPath);
     resourceRepository = new FileResourceRepository(tmpPath);
-    resource = new Resource("person", "1");
+    resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
     resourceRepository.addResource(resource);
   }
@@ -40,13 +40,13 @@ public class FileResourceRepositoryTest {
 
   @Test
   public void testQuery() throws IOException {
-    List<Resource> results = resourceRepository.query("person");
+    List<Resource> results = resourceRepository.query("Person");
     assertEquals(results.size(), 1);
   }
 
   @Test
   public void testGetResourcesByContent() throws IOException {
-    List<Resource> results = resourceRepository.getResourcesByContent("person", "name", "John Doe");
+    List<Resource> results = resourceRepository.getResourcesByContent("Person", "name", "John Doe");
     assertEquals(results.size(), 1);
     assertTrue(results.get(0).equals(resource));
   }

@@ -60,7 +60,7 @@ public class ElasticsearchClient {
    * Initialize an instance with a specified non null Elasticsearch client.
    * 
    * @param aClient
-   * @param aEsConfig 
+   * @param aEsConfig
    */
   public ElasticsearchClient(@Nullable final Client aClient, ElasticsearchConfig aEsConfig) {
     mClient = aClient;
@@ -97,9 +97,14 @@ public class ElasticsearchClient {
    * 
    * @param aJsonString
    */
-  public void addJson(final String aJsonString, final UUID aUuid) {
-    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
-        .setSource(aJsonString).execute().actionGet();
+  public void addJson(@Nonnull final String aJsonString, @Nullable final UUID aUuid) {
+    if (aUuid == null) {
+      mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), null).setSource(aJsonString)
+          .execute().actionGet();
+    } else {
+      mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
+          .setSource(aJsonString).execute().actionGet();
+    }
   }
 
   /**
@@ -107,7 +112,7 @@ public class ElasticsearchClient {
    * 
    * @param aJsonString
    */
-  public void addJson(final String aJsonString, final String aUuid) {
+  public void addJson(@Nonnull final String aJsonString, @Nullable final String aUuid) {
     mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid).setSource(aJsonString)
         .execute().actionGet();
   }
@@ -138,8 +143,8 @@ public class ElasticsearchClient {
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
-    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString()).setSource(aMap)
-        .execute().actionGet();
+    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
+        .setSource(aMap).execute().actionGet();
   }
 
   /**
@@ -312,7 +317,7 @@ public class ElasticsearchClient {
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String aType) throws IOException, ParseException {
     URL url = new URL(mSearchStub + (StringUtils.isEmpty(aIndex) ? "_all" : (aIndex)) + "/"
-        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + aEsQuery);
+        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + "_search?q=" + aEsQuery);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setDoOutput(true);
     connection.connect();

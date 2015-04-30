@@ -5,10 +5,13 @@ import helpers.JsonLdConstants;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -29,27 +32,49 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
 public class Resource implements Map<String, Object> {
 
+  // identified ("primary") data types that get an ID
+  private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
+      "Organization", "Event", "Person", "Action", "WebPage", "Article"));
+
   /**
    * Holds the properties of the resource.
    */
   private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
 
+  public Resource() {
+    this(null, null);
+  }
+
   /**
    * Constructor which sets up a random UUID.
+   * 
    * @param type The type of the resource.
    */
-  public Resource(String type) {
-    this(type, UUID.randomUUID().toString());
+  public Resource(final String type) {
+    this(type, null);
   }
 
   /**
    * Constructor.
-   * @param type The type of the resource.
+   * 
+   * @param aType The type of the resource.
    * @param id The id of the resource.
    */
-  public Resource(String type, String id) {
-    mProperties.put(JsonLdConstants.TYPE, type);
-    mProperties.put(JsonLdConstants.ID, id);
+  public Resource(final String aType, final String aId) {
+    if (null != aType) {
+      mProperties.put(JsonLdConstants.TYPE, aType);
+    }
+    if (mIdentifiedTypes.contains(aType)) {
+      if (null != aId) {
+        mProperties.put(JsonLdConstants.ID, aId);
+      } else {
+        mProperties.put(JsonLdConstants.ID, generateId());
+      }
+    }
+  }
+
+  private static String generateId() {
+    return "urn:uuid:" + UUID.randomUUID().toString();
   }
 
   /**
@@ -63,26 +88,36 @@ public class Resource implements Map<String, Object> {
   @SuppressWarnings("unchecked")
   public static Resource fromMap(Map<String, Object> aProperties) {
 
-    checkTypeExistence(aProperties);
-    Resource resource;
-    if (hasId(aProperties)) {
-      resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
-          (String) aProperties.get(JsonLdConstants.ID));
-    } else {
-      resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE));
+    if (aProperties == null){
+      return null;
     }
-    Iterator<Map.Entry<String, Object>> it = aProperties.entrySet().iterator();
-    while (it.hasNext()) {
-      Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
-      String key = pair.getKey();
-      Object value = pair.getValue();
-      if (value instanceof Map<?, ?>) {
+    checkTypeExistence(aProperties);
+
+    Resource resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
+        (String) aProperties.get(JsonLdConstants.ID));
+
+    for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
+      String key = entry.getKey();
+      Object value = entry.getValue();
+      if (value instanceof Map) {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
+      } else if (value instanceof List) {
+        List<Object> vals = new ArrayList<>();
+        for (Object v : (List) value) {
+          if (v instanceof Map) {
+            vals.add(Resource.fromMap((Map<String, Object>) v));
+          } else {
+            vals.add(v);
+          }
+        }
+        resource.put(key, vals);
       } else {
         resource.put(key, value);
       }
     }
+
     return resource;
+
   }
 
   public static Resource fromJson(JsonNode aJson) {
@@ -213,9 +248,8 @@ public class Resource implements Map<String, Object> {
     return true;
   }
 
-  private static boolean hasId(Map<String, Object> aProperties) {
-    String id = (String) aProperties.get(JsonLdConstants.ID);
-    return id != null && !StringUtils.isEmpty(id.toString());
+  public boolean hasId() {
+    return containsKey(JsonLdConstants.ID);
   }
 
   private static void checkTypeExistence(Map<String, Object> aProperties) {
@@ -233,4 +267,7 @@ public class Resource implements Map<String, Object> {
     }
   }
 
+  public static boolean isIdentifiedType(String aType) {
+    return mIdentifiedTypes.contains(aType);
+  }
 }
