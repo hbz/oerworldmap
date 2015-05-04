@@ -1,8 +1,11 @@
 package controllers;
 
 import helpers.FilesConfig;
-import io.michaelallen.mustache.MustacheFactory;
-import io.michaelallen.mustache.api.Mustache;
+
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
+
 
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -91,12 +94,15 @@ public abstract class OERWorldMap extends Controller {
 
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
+
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
     mustacheData.put("i18n", i18n);
     mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
-    Mustache template = MustacheFactory.compile(templatePath);
+
+    MustacheFactory mf = new DefaultMustacheFactory();
+    Mustache template = mf.compile(play.Play.application().path().getAbsolutePath() + "/app/mustache/" + templatePath);
     Writer writer = new StringWriter();
     template.execute(writer, mustacheData);
     return views.html.main.render(pageTitle, Html.apply(writer.toString()));
