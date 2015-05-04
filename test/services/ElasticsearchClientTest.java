@@ -16,11 +16,13 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controllers.Global;
+
 public class ElasticsearchClientTest {
   protected static Client mClient;
   protected static ElasticsearchClient mElasticsearchClient;
 
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
+  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass

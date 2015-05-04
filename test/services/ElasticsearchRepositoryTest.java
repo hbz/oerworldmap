@@ -24,6 +24,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controllers.Global;
+
 public class ElasticsearchRepositoryTest {
 
   private static Resource mResource1;
@@ -33,7 +35,7 @@ public class ElasticsearchRepositoryTest {
   private static Client mClient;
   private static ElasticsearchClient mElClient;
   private static ElasticsearchRepository mRepo;
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
+  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass

@@ -1,3 +1,5 @@
+package controllers;
+
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -25,6 +27,19 @@ public class Global extends GlobalSettings {
   @Override
   public void onStop(Application app) {
     Logger.info("oerworldmap shutdown...");
+  }
+  
+  public static ElasticsearchConfig getElasticsearchConfig(){
+    return esConfig;
+  }
+  
+  public static ElasticsearchConfig createElasticsearchConfig(boolean isTest){
+    if (isTest){
+      return new ElasticsearchConfig("conf/test.conf");
+    }
+    else{
+      return new ElasticsearchConfig("conf/application.conf");
+    }
   }
 
 }

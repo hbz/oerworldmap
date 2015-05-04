@@ -13,13 +13,15 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controllers.Global;
+
 public class BaseRepositoryTest {
 
   private static BaseRepository mRepo;
   private static Settings mClientSettings;
   private static TransportClient mClient;
   private static ElasticsearchClient mElClient;
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
+  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass

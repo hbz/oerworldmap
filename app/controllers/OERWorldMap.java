@@ -38,7 +38,8 @@ import services.ElasticsearchRepository;
 public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();
-  final private static ElasticsearchConfig mEsConfig = new ElasticsearchConfig();
+  final private static ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
+  
   final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
       .put(mEsConfig.getClientSettings()).build();
   final private static Client mClient = new TransportClient(mClientSettings)
@@ -51,6 +52,8 @@ public abstract class OERWorldMap extends Controller {
   final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(
       mElasticsearchClient);
 
+  
+  
   // TODO final protected static FileResourceRepository
   // mUnconfirmedUserRepository;
   static {
