@@ -102,13 +102,25 @@ public class FileResourceRepository implements ResourceRepository {
    * @return all resources of a given type as a List.
    */
   @Override
-  public List<Resource> query(@Nonnull String aType) throws IOException {
+  public List<Resource> query(@Nonnull String aType) {
     ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(mPath.toString(), aType);
-    DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir);
+    DirectoryStream<Path> resourceFiles;
+    try {
+      resourceFiles = Files.newDirectoryStream(typeDir);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      return results;
+    }
     ObjectMapper objectMapper = new ObjectMapper();
     for (Path resourceFile : resourceFiles) {
-      Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      Map<String, Object> resourceMap;
+      try {
+        resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        continue;
+      }
       results.add(Resource.fromMap(resourceMap));
     }
     return results;
@@ -130,13 +142,7 @@ public class FileResourceRepository implements ResourceRepository {
       throw new IllegalArgumentException("Non-complete arguments.");
     } else {
       List<Resource> result = new LinkedList<>();
-      List<Resource> resources;
-      try {
-        resources = query(aType);
-      } catch (IOException e) {
-        resources = new ArrayList<>();
-        e.printStackTrace();
-      }
+      List<Resource> resources = query(aType);
       for (Resource resource : resources) {
         if (resource.get(aField).toString().equals(aContent)) {
           result.add(resource);
