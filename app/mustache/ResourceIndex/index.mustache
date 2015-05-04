@@ -1,8 +1,8 @@
 <div role="main" class="color-scheme-text list-view">
-    
+
     <section>
         <h1>
-          We got told some stories ...
+          Recently on the OER World Map
         </h1>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
@@ -13,15 +13,18 @@
                     <article>
                       <div class="placeholder" style="width: 100px; height: 100px;"></div>
                       <h1>
-                        <a class="hijax" target="_parent" role="main" href="/resource/{{@id}}">
+                        <a href="/resource/{{@id}}">
                           {{#name}}{{@value}}{{/name}}
                         </a>
                       </h1>
-                      <p>
-                        <strong>Contributed by</strong> {{#creator}}{{name}}{{/creator}}
-                      </p>
+                      <strong>Contributed by</strong>
+                      <ul class="csl">
+                        {{#creator}}
+                          <li>{{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}}</li>
+                        {{/creator}}
+                      </ul>
                       {{#articleBody}}{{{@value}}}{{/articleBody}}
-                    </a>
+                    </article>
                 </li>
             {{/scope.stories}}
         </ul>
