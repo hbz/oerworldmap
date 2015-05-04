@@ -5,7 +5,7 @@
             <script type="application/ld+json">
                 {{{.}}}
             </script>
-            <div class="placeholder" style="width: 100px; height: 100px;"></div>
+            <div class="placeholder" style="width: 250px; height: 250px;"></div>
             <h1>{{#name}}{{@value}}{{/name}}</h1>
             <strong>Contributed by</strong>
             <ul class="csl">
@@ -15,6 +15,19 @@
             </ul>
           {{#articleBody}}{{{@value}}}{{/articleBody}}
         </article>
+        <aside>
+            {{#mentions}}
+              <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
+                  <h3>{{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}} ({{@type}})</h3>
+                  {{#location.address}}
+                    {{streetAddress}} <br />
+                    {{addressLocality}} <br />
+                    {{postalCode}} <br />
+                    {{addressCountry}}
+                  {{/location.address}}
+              </div>
+            {{/mentions}}
+        </aside>
     {{/scope}}
 </div>
 
