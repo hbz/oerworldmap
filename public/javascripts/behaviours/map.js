@@ -276,7 +276,8 @@ Hijax.behaviours.map = {
       
   },
   
-  addPlacemarks : function( placemarks ) { console.log("placemarks", placemarks);
+  addPlacemarks : function( placemarks ) {
+    console.log("placemarks", placemarks);
     var that = this;
     
     that.placemarks = that.placemarks.concat( placemarks );
@@ -302,6 +303,41 @@ Hijax.behaviours.map = {
         .attr("class", "text")
         .text(text);
     }
+
+  },
+
+  setBoundingBox : function() {
+    var that = this;
+    var minLat, maxLat, minLon, maxLon;
+
+    for (i in that.placemarks) {
+      var lat = that.placemarks[i].latLng[0];
+      var lon = that.placemarks[i].latLng[1];
+      if (!minLat || lat < minLat) {
+        minLat = lat;
+      }
+      if (!minLon || lon < minLon) {
+        minLon = lon;
+      }
+      if (!maxLat || lat > maxLat) {
+        maxLat = lat;
+      }
+      if (!maxLon || lon > maxLon) {
+        maxLon = lon;
+      }
+    }
+
+    var bounds = [that.projection([minLon, minLat]), that.projection([maxLon, maxLat])],
+        dx = bounds[1][0] - bounds[0][0],
+        dy = bounds[1][1] - bounds[0][1],
+        x = (bounds[0][0] + bounds[1][0]) / 2,
+        y = (bounds[0][1] + bounds[1][1]) / 2,
+        scale = .9 / Math.max(dx / that.width, dy / that.height),
+        translate = [that.width / 2 - scale * x, that.height / 2 - scale * y];
+    that.g.transition()
+      .duration(750)
+      .style("stroke-width", 1.5 / scale + "px")
+      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
   }
 

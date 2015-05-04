@@ -2,6 +2,9 @@
 <div role="main" class="color-scheme-text container">
     {{#scope}}
         <article class="resource-story">
+            <script type="application/ld+json">
+                {{{.}}}
+            </script>
             <div class="placeholder" style="width: 100px; height: 100px;"></div>
             <h1>{{#name}}{{@value}}{{/name}}</h1>
             <strong>Contributed by</strong>
