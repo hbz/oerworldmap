@@ -1,4 +1,4 @@
-var heat_data_dump = {"@type":"Aggregation","@id":"country-list","entries":[{"value":37,"key":"US"},{"value":34,"key":"DE"},{"value":21,"key":"GB"},{"value":16,"key":"CA"},{"value":15,"key":"ES"},{"value":13,"key":"RU"},{"value":11,"key":"AU"},{"value":8,"key":"ZA"},{"value":7,"key":"BR"},{"value":6,"key":"IN"},{"value":6,"key":"IT"},{"value":4,"key":"BE"},{"value":4,"key":"MX"},{"value":4,"key":"PL"},{"value":4,"key":"UA"},{"value":3,"key":"CH"},{"value":3,"key":"EC"},{"value":3,"key":"FR"},{"value":3,"key":"GR"},{"value":3,"key":"IE"},{"value":3,"key":"JP"},{"value":3,"key":"NL"},{"value":3,"key":"NZ"},{"value":3,"key":"PT"},{"value":3,"key":"RO"},{"value":2,"key":"AL"},{"value":2,"key":"HR"},{"value":2,"key":"SE"},{"value":1,"key":"AM"},{"value":1,"key":"AT"},{"value":1,"key":"AW"},{"value":1,"key":"BH"},{"value":1,"key":"CL"},{"value":1,"key":"CN"},{"value":1,"key":"CO"},{"value":1,"key":"CZ"},{"value":1,"key":"DM"},{"value":1,"key":"EE"},{"value":1,"key":"FI"},{"value":1,"key":"FJ"},{"value":1,"key":"GE"},{"value":1,"key":"HU"},{"value":1,"key":"ID"},{"value":1,"key":"IR"},{"value":1,"key":"IS"},{"value":1,"key":"KE"},{"value":1,"key":"KR"},{"value":1,"key":"LB"},{"value":1,"key":"LT"},{"value":1,"key":"MY"},{"value":1,"key":"NA"},{"value":1,"key":"OM"},{"value":1,"key":"PA"},{"value":1,"key":"RS"},{"value":1,"key":"SI"},{"value":1,"key":"SN"},{"value":1,"key":"TG"},{"value":1,"key":"TH"},{"value":1,"key":"TN"},{"value":1,"key":"TR"},{"value":1,"key":"TT"},{"value":1,"key":"UY"},{"value":1,"key":"VE"}]};
+var test_heat_data_dump = {"@type":"Aggregation","@id":"country-list","entries":[{"value":37,"key":"US"},{"value":34,"key":"DE"},{"value":21,"key":"GB"},{"value":16,"key":"CA"},{"value":15,"key":"ES"},{"value":13,"key":"RU"},{"value":11,"key":"AU"},{"value":8,"key":"ZA"},{"value":7,"key":"BR"},{"value":6,"key":"IN"},{"value":6,"key":"IT"},{"value":4,"key":"BE"},{"value":4,"key":"MX"},{"value":4,"key":"PL"},{"value":4,"key":"UA"},{"value":3,"key":"CH"},{"value":3,"key":"EC"},{"value":3,"key":"FR"},{"value":3,"key":"GR"},{"value":3,"key":"IE"},{"value":3,"key":"JP"},{"value":3,"key":"NL"},{"value":3,"key":"NZ"},{"value":3,"key":"PT"},{"value":3,"key":"RO"},{"value":2,"key":"AL"},{"value":2,"key":"HR"},{"value":2,"key":"SE"},{"value":1,"key":"AM"},{"value":1,"key":"AT"},{"value":1,"key":"AW"},{"value":1,"key":"BH"},{"value":1,"key":"CL"},{"value":1,"key":"CN"},{"value":1,"key":"CO"},{"value":1,"key":"CZ"},{"value":1,"key":"DM"},{"value":1,"key":"EE"},{"value":1,"key":"FI"},{"value":1,"key":"FJ"},{"value":1,"key":"GE"},{"value":1,"key":"HU"},{"value":1,"key":"ID"},{"value":1,"key":"IR"},{"value":1,"key":"IS"},{"value":1,"key":"KE"},{"value":1,"key":"KR"},{"value":1,"key":"LB"},{"value":1,"key":"LT"},{"value":1,"key":"MY"},{"value":1,"key":"NA"},{"value":1,"key":"OM"},{"value":1,"key":"PA"},{"value":1,"key":"RS"},{"value":1,"key":"SI"},{"value":1,"key":"SN"},{"value":1,"key":"TG"},{"value":1,"key":"TH"},{"value":1,"key":"TN"},{"value":1,"key":"TR"},{"value":1,"key":"TT"},{"value":1,"key":"UY"},{"value":1,"key":"VE"}]};
 
 Hijax.behaviours.map = {
   
@@ -76,13 +76,19 @@ Hijax.behaviours.map = {
 */
   },
   
-  getHeatData : function() { //console.log("getHeatData");
+  getHeatData : function() {
     var that = this;
     
     that.heat_data = {};
-    for(var i = 0; i < heat_data_dump["entries"].length; i++) {
-      //console.log(heat_data_dump["entries"][i]);
-      that.heat_data[ heat_data_dump["entries"][i].key ] = heat_data_dump["entries"][i].value;
+    
+    var heat_data = JSON.parse( $('[about="#users-by-country"] script').html() );
+    
+    if(heat_data.entries.length == 0) {
+      heat_data = test_heat_data_dump;
+    }
+    
+    for(var i = 0; i < heat_data["entries"].length; i++) {
+      that.heat_data[ heat_data["entries"][i].key.toUpperCase() ] = heat_data["entries"][i].value;
     }
   },
   

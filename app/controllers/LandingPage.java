@@ -19,7 +19,7 @@ public class LandingPage extends OERWorldMap {
 
     @SuppressWarnings("rawtypes")
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
-        "workLocation.address.addressCountry").size(0);
+        "about.workLocation.address.addressCountry").size(0);
     Resource countryAggregation = mBaseRepository.query(aggregationBuilder);
     Map<String,Object> scope = new HashMap<>();
     scope.put("countryAggregation", countryAggregation);
