@@ -244,7 +244,7 @@ Hijax.behaviours.map = {
         '<i class="fa fa-fw fa-user"></i> <strong>' + that.heat_data[ id ] + '</strong> users counted for ' + name :
         '<i class="fa fa-fw fa-user"></i> No users counted for ' + name
       ) + (
-        true ?
+        false ?
         '<br><i class="fa fa-fw fa-trophy"></i> And we have a country champion!<br>' :
         ''
       );

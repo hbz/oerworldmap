@@ -13,7 +13,7 @@ Hijax.behaviours.other = {
       $('#user-register').slideDown();
     });
     
-    $('[data-action="close"]', context).click(function(){
+    $('[data-action="close"]', context).click(function(e){
       e.preventDefault();
       $(this).parent().slideUp();
       $('a[href="#user-register"]', context).fadeIn();
