@@ -9,8 +9,14 @@ Hijax.behaviours.other = {
     // call for actions
     $('a[href="#user-register"]', context).click(function(e){
       e.preventDefault();
-      console.log($('#user-register'));
+      $(this).fadeOut();
       $('#user-register').slideDown();
+    });
+    
+    $('[data-action="close"]', context).click(function(){
+      e.preventDefault();
+      $(this).parent().slideUp();
+      $('a[href="#user-register"]', context).fadeIn();
     });
 
     // layout
