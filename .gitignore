@@ -7,5 +7,6 @@ logs
 .project
 data/*/
 !data/resources/
+!data/tokens/
 repo-deb-build*.*
 .idea/
