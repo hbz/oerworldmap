@@ -56,7 +56,7 @@ public class BaseRepositoryTest {
 
   @Test
   public void testResourceWithUnidentifiedSubObject() {
-    Resource resource = new Resource("Person", "id001");
+    Resource resource = new Resource("Person", "id002");
     String property = "attended";
     Resource value = new Resource("Foo", "Foo15");
     resource.put(property, value);
@@ -66,7 +66,7 @@ public class BaseRepositoryTest {
       e.printStackTrace();
     }
     try {
-      Assert.assertEquals(resource, mRepo.getResource("id001"));
+      Assert.assertEquals(resource, mRepo.getResource("id002"));
       Assert.assertNull(mRepo.getResource("Foo15"));
     } catch (IOException e) {
       e.printStackTrace();
