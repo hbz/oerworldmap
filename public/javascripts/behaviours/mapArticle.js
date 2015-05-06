@@ -3,16 +3,16 @@ Hijax.behaviours.mapArticle = {
   attach : function(context) {
     var that = this;
 
-    $('article.resource-story', context).each(function(){
+    $('article.resource-story', context).each(function() {
       that.populate( this );
       Hijax.behaviours.map.setBoundingBox();
     });
 
   },
 
-  populate : function(list) {
+  populate : function(article) {
 
-    var json = JSON.parse( $(list).find('script').html() );
+    var json = JSON.parse( $(article).find('script').html() );
 
     var data = {};
     var markers = [];

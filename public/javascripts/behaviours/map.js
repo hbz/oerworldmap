@@ -80,7 +80,11 @@ Hijax.behaviours.map = {
     var that = this;
     
     that.heat_data = {};
-    
+
+    if (! $('[about="#users-by-country"] script').length) {
+      return;
+    }
+
     var heat_data = JSON.parse( $('[about="#users-by-country"] script').html() );
     
     if(heat_data.entries.length == 0) {
