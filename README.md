@@ -59,3 +59,7 @@ Download [sbt](http://www.scala-sbt.org/download.html), then
 Indent blocks by *two spaces* and wrap lines at *100 characters*. For more
 details, refer to the [Google Java Style
 Guide](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
+
+### Bug reports
+
+Please file bugs as an issue labeled "Bug" [here](https://github.com/hbz/oerworldmap/issues/new). Include browser information and screenshot(s) when applicable.
