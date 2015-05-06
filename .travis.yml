@@ -3,7 +3,7 @@ jdk: oraclejdk8
 services:
   - elasticsearch
 before_script:
-  - cp conf/travis.conf conf/application.conf
+  - cp conf/travis.conf conf/test.conf
 branches:
   only:
     - master
