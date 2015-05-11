@@ -11,42 +11,14 @@ Hijax.behaviours.populateMap = {
   
   populate : function(list) {
     var json = JSON.parse( $(list).find('script').html() );
-    
-    console.log(json);
-    
-    var data = {};
     var markers = [];
 
     for (i in json) {
-      var locations = [];
-      for (j in json[i].location) {
-        locations.push(json[i].location[j]);
-      }
-      for (k in json[i].mentions) {
-        if (json[i].mentions[k].location) {
-          locations.push(json[i].mentions[k].location);
-        }
-      }
-      for (l in locations) {
-        if (country = locations[l].address.addressCountry) {
-          if (data[country]) {
-            data[country]++;
-          } else {
-            data[country] = 1;
-          }
-        }
-        if (geo = locations[l].geo) {
-          markers.push({
-            latLng: [geo['lat'], geo['lon']],
-            name: json[i]['name'][0]['@value'],
-            url: "/resource/" + json[i]['@id']
-          })
-        }
-      }
+      var markers = markers.concat(Hijax.behaviours.map.getMarkers(json[i], function(resource) {
+        return resource['name'][0]['@value'];
+      }));
     }
-    
-    console.log("markers",markers);
-    
+
     Hijax.behaviours.map.addPlacemarks( markers );
   }
   

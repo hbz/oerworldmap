@@ -165,9 +165,7 @@ Hijax.behaviours.map = {
     
     that.width = that.container.offsetWidth;
     that.height = that.container.offsetHeight;
-    
-    console.log(that.width, that.height);
-    
+
     that.projection = d3.geo.miller()
       .translate([
         (that.width / 2),
@@ -287,7 +285,6 @@ Hijax.behaviours.map = {
   },
   
   addPlacemarks : function( placemarks ) {
-    console.log("placemarks", placemarks);
     var that = this;
     
     that.placemarks = that.placemarks.concat( placemarks );
@@ -348,6 +345,44 @@ Hijax.behaviours.map = {
       .duration(750)
       .style("stroke-width", 1.5 / scale + "px")
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+  },
+
+  getMarkers : function(resource, labelCallback, origin) {
+    origin = origin || resource;
+    var that = this;
+    var locations = [];
+    var markers = [];
+
+    if (resource.location && resource.location instanceof Array) {
+      locations = locations.concat(resource.location);
+    } else if (resource.location) {
+      locations.push(resource.location);
+    }
+
+    for (l in locations) {
+      if (geo = locations[l].geo) {
+        markers.push({
+          latLng: [geo['lat'], geo['lon']],
+          name: labelCallback ? labelCallback(origin) : resource['@id'],
+          url: "/resource/" + origin['@id']
+        })
+      }
+    }
+
+    if (!markers.length) for (key in resource) {
+      if (resource[key] instanceof Array) {
+        for (i in resource[key]) {
+          if (typeof resource[key][i] == 'object') {
+            markers = markers.concat(that.getMarkers(resource[key][i], labelCallback, origin));
+          }
+        }
+      } else if (typeof resource[key] == 'object') {
+        markers = markers.concat(that.getMarkers(resource[key], labelCallback, origin));
+      }
+    }
+
+    return markers;
 
   }
 
