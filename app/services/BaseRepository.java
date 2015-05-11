@@ -42,8 +42,7 @@ public class BaseRepository {
   /**
    * Add data mentioned within other items.
    * 
-   * @param aType The type of mentioned data sub item.
-   * @param aContent The data content of mentioned data sub item.
+   * @param aResource The type of mentioned data sub item.
    * @throws IOException
    */
   @SuppressWarnings("unchecked")
@@ -74,12 +73,12 @@ public class BaseRepository {
   }
 
   public Resource getResource(String aId) throws IOException {
-    Resource resource = mElasticsearchRepo.getResource(aId + ".about");
+    Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
-      resource = mFileRepo.getResource(aId + ".about");
+      resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
     if (resource != null){
-      resource = (Resource) resource.get("about");
+      resource = (Resource) resource.get(Record.RESOURCEKEY);
     }
     return resource;
   }
@@ -87,18 +86,18 @@ public class BaseRepository {
   private List<Resource> getResources(List<Resource> aRecords) {
     List<Resource> resources = new ArrayList<Resource>();
     for (Resource rec : aRecords) {
-      resources.add((Resource) rec.get("about"));
+      resources.add((Resource) rec.get(Record.RESOURCEKEY));
     }
     return resources;
   }
 
   public List<Resource> getResourcesByContent(String aType, String aField, String aContent,
       boolean aSearchAllRepos) {
-    String field = "about." + aField;
+    String field = Record.RESOURCEKEY + "." + aField;
     List<Resource> resources = new ArrayList<Resource>();
     resources
         .addAll(getResources(mElasticsearchRepo.getResourcesByContent(aType, field, aContent)));
-    if (aSearchAllRepos || resources == null || resources.isEmpty()) {
+    if (aSearchAllRepos || resources.isEmpty()) {
       resources.addAll(mFileRepo.getResourcesByContent(aType, field, aContent));
     }
     return resources;
@@ -112,7 +111,7 @@ public class BaseRepository {
   public List<Resource> query(String aType, boolean aSearchAllRepos) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
     resources.addAll(getResources(mElasticsearchRepo.query(aType)));
-    if (aSearchAllRepos || resources == null || resources.isEmpty()) {
+    if (aSearchAllRepos || resources.isEmpty()) {
       resources.addAll(mFileRepo.query(aType));
     }
     return resources;

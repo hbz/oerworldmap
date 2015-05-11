@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.Record;
 import models.Resource;
 
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -19,7 +20,7 @@ public class LandingPage extends OERWorldMap {
 
     @SuppressWarnings("rawtypes")
     AggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_country").field(
-        "about.workLocation.address.addressCountry").size(0);
+        Record.RESOURCEKEY + ".workLocation.address.addressCountry").size(0);
     Resource countryAggregation = mBaseRepository.query(aggregationBuilder);
     Map<String,Object> scope = new HashMap<>();
     scope.put("countryAggregation", countryAggregation);
