@@ -58,7 +58,7 @@ public class Resource implements Map<String, Object> {
    * Constructor.
    * 
    * @param aType The type of the resource.
-   * @param id The id of the resource.
+   * @param aId The id of the resource.
    */
   public Resource(final String aType, final String aId) {
     if (null != aType) {
@@ -93,12 +93,16 @@ public class Resource implements Map<String, Object> {
     }
     checkTypeExistence(aProperties);
 
-    Resource resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
-        (String) aProperties.get(JsonLdConstants.ID));
+    String type = (String) aProperties.get(JsonLdConstants.TYPE);
+    String id = (String) aProperties.get(JsonLdConstants.ID);
+    Resource resource = new Resource(type, id);
 
     for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
       String key = entry.getKey();
       Object value = entry.getValue();
+      if (key.equals(JsonLdConstants.ID) && ! mIdentifiedTypes.contains(id)) {
+        continue;
+      }
       if (value instanceof Map) {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
       } else if (value instanceof List) {
