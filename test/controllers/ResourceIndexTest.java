@@ -6,24 +6,19 @@ import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
+
 import helpers.JsonLdConstants;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import play.Configuration;
 import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 /**
  * @author fo
@@ -44,7 +39,7 @@ public class ResourceIndexTest {
   }*/
 
   @Test
-  public void postApplicationFormUrlEncoded() {
+  public void createResourceFromFormUrlEncoded() {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
@@ -60,7 +55,7 @@ public class ResourceIndexTest {
   }
 
   @Test
-  public void postApplicationJson() {
+  public void createResourceFromJson() {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
@@ -71,6 +66,43 @@ public class ResourceIndexTest {
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withJsonBody(data));
         assertEquals(201, status(result));
+      }
+    });
+  }
+
+  @Test
+  public void updateResourceFromJson() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        String id = UUID.randomUUID().toString();
+        ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
+        data.put(JsonLdConstants.TYPE, "Person");
+        data.put(JsonLdConstants.ID, id);
+        data.put("email", "foo2@bar.com");
+        Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+            .withJsonBody(data));
+        assertEquals(201, status(createResult));
+        Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
+            .withJsonBody(data));
+        assertEquals(201, status(updateResult));
+      }
+    });
+  }
+
+  @Test
+  public void updateNonexistentResourceFromJson() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        String id = UUID.randomUUID().toString();
+        ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
+        data.put(JsonLdConstants.TYPE, "Person");
+        data.put(JsonLdConstants.ID, id);
+        data.put("email", "foo2@bar.com");
+        Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
+            .withJsonBody(data));
+        assertEquals(400, status(updateResult));
       }
     });
   }

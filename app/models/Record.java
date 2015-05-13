@@ -1,6 +1,7 @@
 package models;
 
 import helpers.JsonLdConstants;
+import helpers.UniversalFunctions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,18 +16,12 @@ public class Record extends Resource {
   public Record(Resource aResource) {
     super("WebPage", aResource.get(JsonLdConstants.ID) + "." + RESOURCEKEY);
     put(RESOURCEKEY, aResource);
-    put("dateModified", getCurrentTime());
+    put("dateCreated", UniversalFunctions.getCurrentTime());
   }
 
   public Resource getResource() {
     return (Resource) get(RESOURCEKEY);
   }
 
-  private String getCurrentTime() {
-    TimeZone tz = TimeZone.getTimeZone("UTC");
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-    df.setTimeZone(tz);
-    return df.format(new Date());
-  }
 
 }

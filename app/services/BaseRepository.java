@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import helpers.JsonLdConstants;
+import helpers.UniversalFunctions;
 import models.Record;
 import models.Resource;
 
@@ -33,7 +34,19 @@ public class BaseRepository {
   }
 
   public void addResource(Resource aResource) throws IOException {
-    Record record = new Record(aResource);
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    Resource record;
+    if (null != id) {
+      record = getRecord(id);
+      if (null == record) {
+        record = new Record(aResource);
+      } else {
+        record.put("dateModified", UniversalFunctions.getCurrentTime());
+        record.put(Record.RESOURCEKEY, aResource);
+      }
+    } else {
+      record = new Record(aResource);
+    }
     mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
     mFileRepo.addResource(record);
     addMentionedData(aResource);
@@ -81,6 +94,14 @@ public class BaseRepository {
       resource = (Resource) resource.get(Record.RESOURCEKEY);
     }
     return resource;
+  }
+
+  private Resource getRecord(String aId) {
+    Resource record = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    if (record == null || record.isEmpty()) {
+      record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    }
+    return record;
   }
 
   private List<Resource> getResources(List<Resource> aRecords) {

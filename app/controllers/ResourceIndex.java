@@ -11,11 +11,8 @@ import org.json.simple.parser.ParseException;
 import play.mvc.Result;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-
 
 /**
  * @author fo
@@ -76,24 +73,36 @@ public class ResourceIndex extends OERWorldMap {
    * This method is designed to add information to existing resources. If the
    * resource doesn't exist yet, a bad request response is returned
    * 
-   * @param id
-   * @param json
-   * @return
+   * @param id The ID of the resource to update
    * @throws IOException
    */
-  public static Result put(String id, String json) throws IOException {
-    Resource resource = mBaseRepository.getResource(id);
-    if (resource == null) {
+  public static Result update(String id) throws IOException {
+    Resource originalResource = mBaseRepository.getResource(id);
+    if (originalResource == null) {
       return badRequest("missing resource " + id);
     }
-    JsonNode jsonNode = JsonNodeFactory.instance.textNode(json);
-    Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields();
-    while (it.hasNext()) {
-      Map.Entry<String, JsonNode> entry = (Map.Entry<String, JsonNode>) it.next();
-      resource.put(entry.getKey(), entry.getValue());
+
+    boolean isJsonRequest = true;
+    JsonNode json = request().body().asJson();
+    if (null == json) {
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      isJsonRequest = false;
+    }
+    Resource resource = Resource.fromJson(json);
+    ProcessingReport report = resource.validate();
+    if (!report.isSuccess()) {
+      Map<String, Object> scope = new HashMap<>();
+      scope.put("resource", resource);
+      scope.put("countries", Countries.list(currentLocale));
+      if (isJsonRequest) {
+        return badRequest(report.toString());
+      } else {
+        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
+            JSONForm.generateErrorReport(report)));
+      }
     }
     mBaseRepository.addResource(resource);
-    return created("created resource " + resource.toString());
+    return created("updated resource " + resource.toString());
   }
 
 }
