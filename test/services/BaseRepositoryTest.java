@@ -46,12 +46,8 @@ public class BaseRepositoryTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    try {
-      Assert.assertEquals(resource, mRepo.getResource("id001"));
-      Assert.assertEquals(value, mRepo.getResource("OER15"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    Assert.assertEquals(resource, mRepo.getResource("id001"));
+    Assert.assertEquals(value, mRepo.getResource("OER15"));
   }
 
   @Test
@@ -65,11 +61,7 @@ public class BaseRepositoryTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    try {
-      Assert.assertEquals(resource, mRepo.getResource("id002"));
-      Assert.assertNull(mRepo.getResource("Foo15"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    Assert.assertEquals(resource, mRepo.getResource("id002"));
+    Assert.assertNull(mRepo.getResource("Foo15"));
   }
 }
