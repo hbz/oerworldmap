@@ -1,12 +1,17 @@
+<div role="complementary" data-view="map" class="color-scheme-map"></div>
 <div role="main" class="color-scheme-text container">
     {{#scope}}
-        <div class="resource">
+        <div class="resource-organization">
             <script type="application/ld+json">
                 {{{.}}}
             </script>
-            <pre>
-{{{.}}}
-            </pre>
+            <h1>{{#legalName}}{{@value}}{{/legalName}} ({{@type}})</h1>
+            {{#location.address}}
+              {{streetAddress}} <br />
+              {{addressLocality}} <br />
+              {{postalCode}} <br />
+              {{addressCountry}}
+            {{/location.address}}
         </div>
     {{/scope}}
 </div>

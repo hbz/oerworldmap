@@ -1,0 +1,42 @@
+<div role="complementary" data-view="map" class="color-scheme-map"></div>
+<div role="main" class="color-scheme-text container">
+    {{#scope}}
+        <article class="resource-story">
+            <script type="application/ld+json">
+                {{{.}}}
+            </script>
+            <div class="placeholder" style="width: 250px; height: 250px;"></div>
+            <h1>{{#name}}{{@value}}{{/name}}</h1>
+            <strong>Contributed by</strong>
+            <ul class="csl">
+              {{#creator}}
+                  <li>{{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}}</li>
+              {{/creator}}
+            </ul>
+          {{#articleBody}}{{{@value}}}{{/articleBody}}
+        </article>
+        <aside>
+            {{#mentions}}
+              <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
+                  <h3>
+                      <a href="/resource/{{@id}}">
+                        {{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}} ({{@type}})
+                      </a>
+                  </h3>
+                  {{#location.address}}
+                    {{streetAddress}} <br />
+                    {{addressLocality}} <br />
+                    {{postalCode}} <br />
+                    {{addressCountry}}
+                  {{/location.address}}
+              </div>
+            {{/mentions}}
+        </aside>
+    {{/scope}}
+</div>
+
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//d3js.org/d3.geo.projection.v0.min.js"></script>
+<script type="text/javascript" src="//cdn.rawgit.com/mbostock/topojson/master/topojson.js"></script>
+
+<script type="text/javascript" src="/assets/javascripts/main.js"></script>

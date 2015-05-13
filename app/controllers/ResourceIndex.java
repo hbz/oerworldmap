@@ -2,8 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.mustachejava.MustacheNotFoundException;
 import helpers.Countries;
 import helpers.JSONForm;
+import helpers.JsonLdConstants;
 import models.Resource;
 import org.json.simple.parser.ParseException;
 import play.mvc.Result;
@@ -61,7 +63,12 @@ public class ResourceIndex extends OERWorldMap {
     if (null == resource) {
       return notFound("Not found");
     }
-    return ok(render("Home", "ResourceIndex/read.mustache", resource));
+    String type = resource.get(JsonLdConstants.TYPE).toString();
+    try {
+      return ok(render("Home", "ResourceIndex/" + type + "/read.mustache", resource));
+    } catch (MustacheNotFoundException ex) {
+      return ok(render("Home", "ResourceIndex/read.mustache", resource));
+    }
   }
 
 }
