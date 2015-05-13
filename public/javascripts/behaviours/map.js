@@ -334,13 +334,24 @@ Hijax.behaviours.map = {
       }
     }
 
+    if (minLon == maxLon) {
+      minLon -= 7;
+      maxLon += 7;
+    }
+
+    if (minLat == maxLat) {
+      minLat -= 7;
+      maxLat += 7;
+    }
+
     var bounds = [that.projection([minLon, minLat]), that.projection([maxLon, maxLat])],
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .9 / Math.max(dx / that.width, dy / that.height),
+        scale = .5 / Math.max(dx / that.width, dy / that.height),
         translate = [that.width / 2 - scale * x, that.height / 2 - scale * y];
+
     that.g.transition()
       .duration(750)
       .style("stroke-width", 1.5 / scale + "px")
