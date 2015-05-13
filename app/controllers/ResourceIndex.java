@@ -57,9 +57,8 @@ public class ResourceIndex extends OERWorldMap {
 
   public static Result read(String id) {
     Resource resource;
-    try {
-      resource = mBaseRepository.getResource(id);
-    } catch (IOException ex) {
+    resource = mBaseRepository.getResource(id);
+    if (null == resource) {
       return notFound("Not found");
     }
     return ok(render("Home", "ResourceIndex/read.mustache", resource));

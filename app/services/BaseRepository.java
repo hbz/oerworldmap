@@ -72,7 +72,7 @@ public class BaseRepository {
     // TODO eventually add FileResourceRepository.esQuery(String aEsQuery)
   }
 
-  public Resource getResource(String aId) throws IOException {
+  public Resource getResource(String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
       resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);

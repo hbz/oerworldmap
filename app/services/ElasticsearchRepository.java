@@ -49,7 +49,7 @@ public class ElasticsearchRepository implements ResourceRepository {
   }
   
   @Override
-  public Resource getResource(String aId) throws IOException {
+  public Resource getResource(String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
   }
 
