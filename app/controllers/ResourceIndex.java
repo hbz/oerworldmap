@@ -9,21 +9,22 @@ import helpers.JsonLdConstants;
 import models.Resource;
 import org.json.simple.parser.ParseException;
 import play.mvc.Result;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list()  throws IOException, ParseException {
-    List<Resource> stories = mBaseRepository.query("Article", false);
-    Map<String,Object> scope = new HashMap<>();
+  public static Result list() throws IOException, ParseException {
+    List<Resource> stories = mBaseRepository.query("Action", false);
+    Map<String, Object> scope = new HashMap<>();
     scope.put("stories", stories);
 
     if (request().accepts("text/html")) {
@@ -43,7 +44,7 @@ public class ResourceIndex extends OERWorldMap {
     Resource resource = Resource.fromJson(json);
     ProcessingReport report = resource.validate();
     if (!report.isSuccess()) {
-      Map<String,Object> scope = new HashMap<>();
+      Map<String, Object> scope = new HashMap<>();
       scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
@@ -69,6 +70,30 @@ public class ResourceIndex extends OERWorldMap {
     } catch (MustacheNotFoundException ex) {
       return ok(render("Home", "ResourceIndex/read.mustache", resource));
     }
+  }
+
+  /**
+   * This method is designed to add information to existing resources. If the
+   * resource doesn't exist yet, a bad request response is returned
+   * 
+   * @param id
+   * @param json
+   * @return
+   * @throws IOException
+   */
+  public static Result put(String id, String json) throws IOException {
+    Resource resource = mBaseRepository.getResource(id);
+    if (resource == null) {
+      return badRequest("missing resource " + id);
+    }
+    JsonNode jsonNode = JsonNodeFactory.instance.textNode(json);
+    Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields();
+    while (it.hasNext()) {
+      Map.Entry<String, JsonNode> entry = (Map.Entry<String, JsonNode>) it.next();
+      resource.put(entry.getKey(), entry.getValue());
+    }
+    mBaseRepository.addResource(resource);
+    return created("created resource " + resource.toString());
   }
 
 }
