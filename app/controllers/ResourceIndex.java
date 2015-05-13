@@ -62,10 +62,14 @@ public class ResourceIndex extends OERWorldMap {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
-    try {
-      return ok(render("Home", "ResourceIndex/" + type + "/read.mustache", resource));
-    } catch (MustacheNotFoundException ex) {
-      return ok(render("Home", "ResourceIndex/read.mustache", resource));
+    if (request().accepts("text/html")) {
+      try {
+        return ok(render("Home", "ResourceIndex/" + type + "/read.mustache", resource));
+      } catch (MustacheNotFoundException ex) {
+        return ok(render("Home", "ResourceIndex/read.mustache", resource));
+      }
+    } else {
+      return ok(resource.toString()).as("application/json");
     }
   }
 
