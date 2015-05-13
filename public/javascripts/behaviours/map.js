@@ -20,6 +20,8 @@ Hijax.behaviours.map = {
   
   placemarks : [],
   tooltip : false,
+
+  initialized : false,
   
   attach : function(context) {
     var that = this;
@@ -63,7 +65,6 @@ Hijax.behaviours.map = {
       .on("zoom", that.move);
     that.setup();
     that.loadMapData();
-    
 /*
     $.get(
       'https://oerworldmap.org',
@@ -148,7 +149,7 @@ Hijax.behaviours.map = {
     d3.json("/assets/json/ne_50m_admin_0_countries_topo.json", function(error, world) {
       that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
       that.draw( that.topo );
-      
+
       for(i in that.placemarks) {
         that.addPlacemark(
           that.placemarks[i]["latLng"][0],
@@ -157,6 +158,8 @@ Hijax.behaviours.map = {
           that.placemarks[i]["name"]
         );
       }
+
+      that.initialized = true;
     });
   },
   
@@ -254,7 +257,7 @@ Hijax.behaviours.map = {
     return html;
   },
   
-  addPlacemark : function(lat, lon, url, name) { console.log("addPlacemark",lat, lon);
+  addPlacemark : function(lat, lon, url, name) {
     var that = this;
   
     var gpoint = that.g.append("g").attr("class", "gpoint");
@@ -286,8 +289,18 @@ Hijax.behaviours.map = {
   
   addPlacemarks : function( placemarks ) {
     var that = this;
-    
-    that.placemarks = that.placemarks.concat( placemarks );
+    if (that.initialized) {
+      for(i in placemarks) {
+        that.addPlacemark(
+          placemarks[i]["latLng"][0],
+          placemarks[i]["latLng"][1],
+          placemarks[i]["url"],
+          placemarks[i]["name"]
+        );
+      }
+    } else {
+      that.placemarks = that.placemarks.concat( placemarks );
+    }
   },
   
   addPoint : function(lat, lon, text) {

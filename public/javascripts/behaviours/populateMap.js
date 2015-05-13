@@ -15,11 +15,19 @@ Hijax.behaviours.populateMap = {
 
     for (i in json) {
       var markers = markers.concat(Hijax.behaviours.map.getMarkers(json[i], function(resource) {
-        return resource['name'][0]['@value'];
+        switch (resource['@type']) {
+          case 'Person':
+            return resource['name'][0]['@value'];
+          case 'Organization':
+            return resource['legalName']['@value'];
+          default:
+            return resource['@id'];
+        }
       }));
     }
 
     Hijax.behaviours.map.addPlacemarks( markers );
+
   }
   
 };
