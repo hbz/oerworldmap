@@ -381,15 +381,22 @@ Hijax.behaviours.map = {
       }
     }
 
-    if (!markers.length) for (key in resource) {
-      if (resource[key] instanceof Array) {
-        for (i in resource[key]) {
-          if (typeof resource[key][i] == 'object') {
-            markers = markers.concat(that.getMarkers(resource[key][i], labelCallback, origin));
+    if (!markers.length) {
+      for (key in resource) {
+        var value = resource[key];
+        if (value instanceof Array) {
+          for (i = 0; i < value.length; i++) {
+            if (typeof value[i] == 'object') {
+              markers = markers.concat(
+                that.getMarkers(value[i], labelCallback, origin)
+              );
+            }
           }
+        } else if (typeof value == 'object') {
+          markers = markers.concat(
+            that.getMarkers(value, labelCallback, origin)
+          );
         }
-      } else if (typeof resource[key] == 'object') {
-        markers = markers.concat(that.getMarkers(resource[key], labelCallback, origin));
       }
     }
 
