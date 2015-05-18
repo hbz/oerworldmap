@@ -81,7 +81,9 @@ public class BaseRepository {
   }
 
   public List<Resource> esQuery(String aEsQuery) throws IOException, ParseException {
-    return mElasticsearchRepo.esQuery(aEsQuery);
+    List<Resource> resources = new ArrayList<Resource>();
+    resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
+    return resources;
     // TODO eventually add FileResourceRepository.esQuery(String aEsQuery)
   }
 
