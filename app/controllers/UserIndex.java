@@ -44,6 +44,7 @@ public class UserIndex extends OERWorldMap {
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     Map<String, Object> scope = new HashMap<>();
 
+    user.put("mbox_sha1sum", Account.getEncryptedEmailAddress(user));
     ProcessingReport report = user.validate();
     if (mConf.getBoolean("user.email.unique")) {
       ensureEmailUnique(user, report);
@@ -56,7 +57,7 @@ public class UserIndex extends OERWorldMap {
     }
 
     newsletterSignup(user);
-    user.put("email", Account.getEncryptedEmailAddress(user));
+    user.remove("email");
     mBaseRepository.addResource(user);
 
     List<Map<String, Object>> messages = new ArrayList<>();
@@ -106,12 +107,12 @@ public class UserIndex extends OERWorldMap {
   }
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
-    String aEmail = Account.getEncryptedEmailAddress(user);
-    if ((!mBaseRepository.getResourcesByContent("Person", "email", aEmail, true).isEmpty())) {
+    String aEmail = user.get("mbox_sha1sum").toString();
+    if ((!mBaseRepository.getResourcesByContent("Person", "mbox_sha1sum", aEmail, true).isEmpty())) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
       ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);
-      instance.put("pointer", "/email");
+      instance.put("pointer", "/mbox_sha1sum");
       message.put("instance", instance);
       try {
         aReport.error(message);

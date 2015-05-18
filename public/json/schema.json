@@ -178,34 +178,55 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Person",
       "description": "A person serving or working with Open Educational Resources.",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "type": "string",
-          "format": "uri"
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "string",
+              "format": "uri"
+            },
+            "@id": {
+              "description": "The person's unique identifier",
+              "type": "string",
+              "format": "uri"
+            },
+            "@type": {
+              "type": "string",
+              "enum": ["Person"]
+            },
+            "name": {
+              "type": "string"
+            },
+            "workLocation": {
+              "$ref": "#/definitions/Place"
+            }
+          }
         },
-        "@id": {
-          "description": "The person's unique identifier",
-          "type": "string",
-          "format": "uri"
-        },
-        "@type": {
-          "type": "string",
-          "enum": ["Person"]
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string",
-          "format": "email"
-        },
-        "workLocation": {
-          "$ref": "#/definitions/Place"
+        {
+          "oneOf":[
+            {
+              "type": "object",
+              "properties": {
+                "mbox_sha1sum": {
+                  "type": "string"
+                }
+              },
+              "required": ["mbox_sha1sum"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": ["email"]
+            }
+          ]
         }
-      },
-      "required": ["email"],
-      "additionalProperties": false
+      ]
     },
     "Organization": {
       "$schema": "http://json-schema.org/draft-04/schema#",
