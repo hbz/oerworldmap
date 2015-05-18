@@ -14,16 +14,7 @@ Hijax.behaviours.populateMap = {
     var markers = [];
 
     for (i in json) {
-      var markers = markers.concat(Hijax.behaviours.map.getMarkers(json[i], function(resource) {
-        switch (resource['@type']) {
-          case 'Person':
-            return resource['name'][0]['@value'];
-          case 'Organization':
-            return resource['legalName']['@value'];
-          default:
-            return resource['@id'];
-        }
-      }));
+      var markers = markers.concat(Hijax.behaviours.map.getMarkers(json[i], Hijax.behaviours.map.getResourceLabel));
     }
 
     Hijax.behaviours.map.addPlacemarks( markers );

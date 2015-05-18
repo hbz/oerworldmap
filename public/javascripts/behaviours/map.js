@@ -415,6 +415,19 @@ Hijax.behaviours.map = {
 
     return markers;
 
+  },
+
+  getResourceLabel : function(resource) {
+    switch (resource['@type']) {
+      case 'Person':
+        return resource['name'][0]['@value'];
+      case 'Organization':
+        return resource['legalName']['@value'];
+      case 'Article':
+        return resource['name'][0]['@value'];
+      default:
+        return resource['@id'];
+    }
   }
 
 };

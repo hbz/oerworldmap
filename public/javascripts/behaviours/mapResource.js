@@ -16,16 +16,7 @@ Hijax.behaviours.mapResource = {
 
     var json = JSON.parse( $(article).find('script').html() );
 
-    var markers = Hijax.behaviours.map.getMarkers(json, function(resource) {
-      switch (resource['@type']) {
-        case 'Person':
-          return resource['name'][0]['@value'];
-        case 'Organization':
-          return resource['legalName']['@value'];
-        default:
-          return resource['@id'];
-      }
-    });
+    var markers = Hijax.behaviours.map.getMarkers(json, Hijax.behaviours.map.getResourceLabel);
 
     Hijax.behaviours.map.addPlacemarks( markers );
 
