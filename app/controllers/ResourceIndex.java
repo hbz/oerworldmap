@@ -20,14 +20,14 @@ import java.util.Map;
 public class ResourceIndex extends OERWorldMap {
 
   public static Result list(String q) throws IOException, ParseException {
-    List<Resource> stories = mBaseRepository.esQuery(q);
+    List<Resource> resources = mBaseRepository.esQuery(q);
     Map<String, Object> scope = new HashMap<>();
-    scope.put("stories", stories);
+    scope.put("resources", resources);
 
     if (request().accepts("text/html")) {
       return ok(render("Home", "ResourceIndex/index.mustache", scope));
     } else {
-      return ok(stories.toString()).as("application/json");
+      return ok(resources.toString()).as("application/json");
     }
   }
 

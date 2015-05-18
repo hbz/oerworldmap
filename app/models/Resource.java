@@ -185,6 +185,10 @@ public class Resource implements Map<String, Object> {
 
   @Override
   public boolean containsKey(Object key) {
+    String keyString = key.toString();
+    if (keyString.startsWith("?")) {
+      return keyString.substring(1).equals(mProperties.get(JsonLdConstants.TYPE));
+    }
     return mProperties.containsKey(key);
   }
 
@@ -195,6 +199,10 @@ public class Resource implements Map<String, Object> {
 
   @Override
   public Object get(Object key) {
+    String keyString = key.toString();
+    if (keyString.startsWith("?")) {
+      return keyString.substring(1).equals(mProperties.get(JsonLdConstants.TYPE));
+    }
     return mProperties.get(key);
   }
 

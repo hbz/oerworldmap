@@ -6,10 +6,11 @@
         </h1>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
-                {{{scope.stories}}}
+                {{{scope.resources}}}
             </script>
-            {{#scope.stories}}
+            {{#scope.resources}}
                 <li>
+                    {{#?Article}}
                     <article>
                       <div class="placeholder" style="width: 100px; height: 100px;"></div>
                       <h1>
@@ -20,13 +21,32 @@
                       <strong>Contributed by</strong>
                       <ul class="csl">
                         {{#creator}}
-                          <li>{{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}}</li>
+                          <li>{{#isOrganization}}{{#legalName}}{{@value}}{{/legalName}}{{/isOrganization}}{{#isPerson}}{{name}}{{/isPerson}}</li>
                         {{/creator}}
                       </ul>
                       {{#articleBody}}{{{@value}}}{{/articleBody}}
                     </article>
+                    {{/?Article}}
+                    {{#?Organization}}
+                    <div>
+                        <h1>
+                            <a href="/resource/{{@id}}">
+                              {{#legalName}}{{@value}}{{/legalName}}
+                            </a>
+                        </h1>
+                    </div>
+                    {{/?Organization}}
+                    {{#?Person}}
+                        <div>
+                            <h1>
+                                <a href="/resource/{{@id}}">
+                                  {{mbox_sha1sum}}
+                                </a>
+                            </h1>
+                        </div>
+                    {{/?Person}}
                 </li>
-            {{/scope.stories}}
+            {{/scope.resources}}
         </ul>
     </section>
 
