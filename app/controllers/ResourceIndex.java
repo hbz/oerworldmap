@@ -20,6 +20,12 @@ import java.util.Map;
 public class ResourceIndex extends OERWorldMap {
 
   public static Result list(String q) throws IOException, ParseException {
+    // Empty query string matches everything
+    if (q.equals("")) {
+      q = "*";
+    }
+    // Only expose Articles for now
+    q = "(" + q + ") AND (about.@type:Article)";
     List<Resource> resources = mBaseRepository.esQuery(q);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resources);

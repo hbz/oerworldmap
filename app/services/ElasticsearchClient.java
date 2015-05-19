@@ -318,7 +318,7 @@ public class ElasticsearchClient {
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String aType) throws IOException, ParseException {
     URL url = new URL(mSearchStub + (StringUtils.isEmpty(aIndex) ? "_all" : (aIndex)) + "/"
-        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + "_search?q=" + URLEncoder.encode(aEsQuery, "UTF-8"));
+        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + "_search?size=99999&q=" + URLEncoder.encode(aEsQuery, "UTF-8"));
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setDoOutput(true);
     connection.connect();
