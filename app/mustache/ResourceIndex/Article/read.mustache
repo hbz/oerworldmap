@@ -1,4 +1,4 @@
-<div role="complementary" data-view="map" class="color-scheme-map"></div>
+<div role="complementary" data-view="map" data-behaviour="zoom" class="color-scheme-map"></div>
 <div role="main" class="color-scheme-text container">
     {{#scope}}
         <article class="resource-story">
@@ -10,7 +10,11 @@
             <strong>Contributed by</strong>
             <ul class="csl">
               {{#creator}}
-                  <li>{{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}}</li>
+                  <li>
+                      <a href="/resource/{{@id}}">
+                        {{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}}
+                      </a>
+                  </li>
               {{/creator}}
             </ul>
           {{#articleBody}}{{{@value}}}{{/articleBody}}

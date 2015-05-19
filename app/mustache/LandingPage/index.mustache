@@ -26,7 +26,7 @@
                 {{{scope.countryAggregation}}}
             </script>
           {{#scope.countryAggregation.entries}}
-              <tr><td>{{key}}</td><td>{{value}}</td></tr>
+              <tr><td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td><td>{{value}}</td></tr>
           {{/scope.countryAggregation.entries}}
         </table>
     </section>

@@ -159,6 +159,9 @@ Hijax.behaviours.map = {
         );
       }
 
+      if($('div[data-behaviour="zoom"]', that.context).length) {
+        that.setBoundingBox();
+      }
       that.initialized = true;
     });
   },
@@ -204,13 +207,11 @@ Hijax.behaviours.map = {
           return "#ffffff";
         }
       });
-      
-/*
-    country.on("click", function(){ console.log("country clicked");
-      d3.select(this).style("fill", "#aaa");
+
+    country.on("click", function() {
+      window.location = "/resource/?q=about.\\*.addressCountry:" + this.id;
     });
-*/
-    
+
     country.on("mouseover", function(){
       $(that.tooltip).show();
       $(that.tooltip).html(
@@ -242,17 +243,21 @@ Hijax.behaviours.map = {
   
   getTooltipHtml : function(id, name) {
     var that = this;
-    
-    html =
-      (
-        that.heat_data[ id ] ?
-        '<i class="fa fa-fw fa-user"></i> <strong>' + that.heat_data[ id ] + '</strong> users counted for ' + name :
-        '<i class="fa fa-fw fa-user"></i> No users counted for ' + name
-      ) + (
-        false ?
-        '<br><i class="fa fa-fw fa-trophy"></i> And we have a country champion!<br>' :
-        ''
-      );
+
+    if (!$.isEmptyObject(that.heat_data)) {
+      html =
+        (
+          that.heat_data[ id ] ?
+          '<i class="fa fa-fw fa-user"></i> <strong>' + that.heat_data[ id ] + '</strong> users counted for ' + name :
+          '<i class="fa fa-fw fa-user"></i> No users counted for ' + name
+        ) + (
+          false ?
+          '<br><i class="fa fa-fw fa-trophy"></i> And we have a country champion!<br>' :
+          ''
+        );
+    } else {
+      html = '<i>' + name + '</i>';
+    }
     
     return html;
   },
@@ -327,38 +332,61 @@ Hijax.behaviours.map = {
   },
 
   setBoundingBox : function() {
+
     var that = this;
-    var minLat, maxLat, minLon, maxLon;
+    var bounds = false;
+    var q = Hijax.functions.getQueryVariable("q");
 
-    for (i in that.placemarks) {
-      var lat = that.placemarks[i].latLng[0];
-      var lon = that.placemarks[i].latLng[1];
-      if (!minLat || lat < minLat) {
-        minLat = lat;
-      }
-      if (!minLon || lon < minLon) {
-        minLon = lon;
-      }
-      if (!maxLat || lat > maxLat) {
-        maxLat = lat;
-      }
-      if (!maxLon || lon > maxLon) {
-        maxLon = lon;
+    if (q) {
+      var countryParams = q.match(/(addressCountry:..)/g);
+      if (countryParams) {
+        var countries = countryParams.map(function(country) {
+          return country.split(':')[1];
+        });
+        var features = that.topo.filter(function(feature) {
+          if (countries.indexOf(feature.id) != -1) {
+            return feature;
+          }
+        });
+        bounds = that.path.bounds(features[0]);
+        console.log(bounds);
       }
     }
 
-    if (minLon == maxLon) {
-      minLon -= 7;
-      maxLon += 7;
+    if (!bounds) {
+      var minLat, maxLat, minLon, maxLon;
+
+      for (i in that.placemarks) {
+        var lat = that.placemarks[i].latLng[0];
+        var lon = that.placemarks[i].latLng[1];
+        if (!minLat || lat < minLat) {
+          minLat = lat;
+        }
+        if (!minLon || lon < minLon) {
+          minLon = lon;
+        }
+        if (!maxLat || lat > maxLat) {
+          maxLat = lat;
+        }
+        if (!maxLon || lon > maxLon) {
+          maxLon = lon;
+        }
+      }
+
+      if (minLon == maxLon) {
+        minLon -= 7;
+        maxLon += 7;
+      }
+
+      if (minLat == maxLat) {
+        minLat -= 7;
+        maxLat += 7;
+      }
+
+      bounds = [that.projection([minLon, minLat]), that.projection([maxLon, maxLat])];
     }
 
-    if (minLat == maxLat) {
-      minLat -= 7;
-      maxLat += 7;
-    }
-
-    var bounds = [that.projection([minLon, minLat]), that.projection([maxLon, maxLat])],
-        dx = bounds[1][0] - bounds[0][0],
+    var dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,

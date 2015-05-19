@@ -1,9 +1,10 @@
+<div role="complementary" data-view="map" data-behaviour="zoom" class="color-scheme-map"></div>
 <div role="main" class="color-scheme-text list-view">
 
     <section>
-        <h1>
-          Recently on the OER World Map
-        </h1>
+        <form method="get" action="/resource/">
+            <h1><input name="q" placeholder="Search"/> <input type="submit" /></h1>
+        </form>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}
@@ -40,7 +41,7 @@
                         <div>
                             <h1>
                                 <a href="/resource/{{@id}}">
-                                  {{mbox_sha1sum}}
+                                  {{@id}}
                                 </a>
                             </h1>
                         </div>
@@ -51,3 +52,9 @@
     </section>
 
 </div>
+
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//d3js.org/d3.geo.projection.v0.min.js"></script>
+<script type="text/javascript" src="//cdn.rawgit.com/mbostock/topojson/master/topojson.js"></script>
+
+<script type="text/javascript" src="/assets/javascripts/main.js"></script>

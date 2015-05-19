@@ -2,7 +2,7 @@ Hijax.behaviours.populateMap = {
   
   attach : function(context) {
     var that = this;
-    
+
     $('.resource-list', context).each(function(){
       that.populate( this );
     });

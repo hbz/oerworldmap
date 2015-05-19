@@ -7,7 +7,6 @@ Hijax.behaviours.mapResource = {
       .add($('div.resource-organization', context))
       .each(function() {
         that.populate( this );
-        Hijax.behaviours.map.setBoundingBox();
       });
 
   },
