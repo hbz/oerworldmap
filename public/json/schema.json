@@ -255,6 +255,10 @@
           "type": "string",
           "format": "uri"
         },
+        "description": {
+          "description": "The description of the organization",
+          "$ref": "#/definitions/LocalizedString"
+        },
         "legalName": {
           "description": "The organization's primary name, e.g. a legally recognized name",
           "$ref": "#/definitions/LocalizedString"

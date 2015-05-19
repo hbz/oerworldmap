@@ -22,7 +22,7 @@
                       <strong>Contributed by</strong>
                       <ul class="csl">
                         {{#creator}}
-                          <li>{{#isOrganization}}{{#legalName}}{{@value}}{{/legalName}}{{/isOrganization}}{{#isPerson}}{{name}}{{/isPerson}}</li>
+                          <li>{{#?Organization}}{{#legalName}}{{@value}}{{/legalName}}{{/?Organization}}{{#?Person}}{{name}}{{/?Person}}</li>
                         {{/creator}}
                       </ul>
                       {{#articleBody}}{{{@value}}}{{/articleBody}}
