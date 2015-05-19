@@ -25,7 +25,7 @@ public class ResourceIndex extends OERWorldMap {
       q = "*";
     }
     // Only expose Articles for now
-    q = "(" + q + ") AND (about.@type:Article)";
+    q = "(" + q + ") AND (about.@type:Article OR about.@type:Organization)";
     List<Resource> resources = mBaseRepository.esQuery(q);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resources);
