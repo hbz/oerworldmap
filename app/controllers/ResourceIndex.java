@@ -6,7 +6,10 @@ import com.github.mustachejava.MustacheNotFoundException;
 import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
+import models.Record;
 import models.Resource;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.json.simple.parser.ParseException;
 import play.mvc.Result;
 import java.io.IOException;
@@ -20,6 +23,11 @@ import java.util.Map;
 public class ResourceIndex extends OERWorldMap {
 
   public static Result list(String q) throws IOException, ParseException {
+
+    Map<String,Object> scope = new HashMap<>();
+
+    scope.put("q", q);
+
     // Empty query string matches everything
     if (q.equals("")) {
       q = "*";
@@ -27,7 +35,6 @@ public class ResourceIndex extends OERWorldMap {
     // Only expose Articles for now
     q = "(" + q + ") AND (about.@type:Article OR about.@type:Organization)";
     List<Resource> resources = mBaseRepository.esQuery(q);
-    Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resources);
 
     if (request().accepts("text/html")) {

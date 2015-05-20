@@ -1,0 +1,17 @@
+<div role="main" class="color-scheme-text">
+    <section class="map-view-hidden">
+        <table class="table" about="#users-by-country">
+            <script type="application/ld+json">
+                {{{scope.countryAggregation}}}
+            </script>
+          <thead>
+              <tr><th>Country</th><th>Users</th></tr>
+          </thead>
+          <tbody>
+          {{#scope.countryAggregation.entries}}
+              <tr><td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td><td>{{value}}</td></tr>
+          {{/scope.countryAggregation.entries}}
+          </tbody>
+        </table>
+    </section>
+</div>

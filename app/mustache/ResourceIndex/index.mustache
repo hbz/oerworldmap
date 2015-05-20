@@ -1,9 +1,8 @@
-<div role="complementary" data-view="map" data-behaviour="zoom" class="color-scheme-map"></div>
 <div role="main" class="color-scheme-text list-view">
 
     <section>
         <form method="get" action="/resource/">
-            <h1><input name="q" placeholder="Search"/> <input type="submit" /></h1>
+            <h1><input name="q" placeholder="Search" value="{{scope.q}}"/> <input type="submit" /></h1>
         </form>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
