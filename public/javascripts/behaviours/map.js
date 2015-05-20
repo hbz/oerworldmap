@@ -130,6 +130,8 @@ Hijax.behaviours.map = {
     //adjust the country stroke width based on zoom level
     that.doThrottled(function(){
       d3.selectAll(".country").style("stroke-width", 0.5 / s);
+      d3.selectAll(".placemark").style("font-size", 28 / s + "px");
+      d3.selectAll(".placemark").style("stroke-width", 0.5 / s);
     });
   },
 
