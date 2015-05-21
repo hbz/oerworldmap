@@ -1,27 +1,11 @@
 package services;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -30,17 +14,19 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-
+import org.json.simple.parser.ParseException;
 import play.Logger;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * This class serves as an interface to Elasticsearch providing access to
@@ -317,30 +303,21 @@ public class ElasticsearchClient {
 
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String aType) throws IOException, ParseException {
-    URL url = new URL(mSearchStub + (StringUtils.isEmpty(aIndex) ? "_all" : (aIndex)) + "/"
-        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + "_search?size=99999&q=" + URLEncoder.encode(aEsQuery, "UTF-8"));
-    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    connection.setDoOutput(true);
-    connection.connect();
-    return searchResultToMaps(IOUtils.toString(connection.getInputStream(), "UTF-8"));
-  }
-
-  @SuppressWarnings("unchecked")
-  private static List<Map<String, Object>> searchResultToMaps(String aEsSearchResultJson)
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
-
-    List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-
-    JSONParser jsonParser = new JSONParser();
-    JSONObject jsonObject = (JSONObject) jsonParser.parse(aEsSearchResultJson);
-    JSONObject hitsWrapper = (JSONObject) jsonObject.get("hits");
-    JSONArray hits = (JSONArray) hitsWrapper.get("hits");
-
-    ListIterator<JSONObject> iterator = hits.listIterator();
-    while (iterator.hasNext()) {
-      result.add((JSONObject) iterator.next().get("_source"));
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(
+        StringUtils.isEmpty(aIndex) ? mEsConfig.getIndex() : aIndex);
+    if (!StringUtils.isEmpty(aType)) {
+      searchRequestBuilder.setTypes(aType);
     }
-
-    return result;
+    SearchResponse response = searchRequestBuilder
+        .setQuery(QueryBuilders.queryString(aEsQuery))
+        .setFrom(0).setSize(99999)
+        .execute().actionGet();
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    List<Map<String, Object>> matches = new ArrayList<>();
+    while (searchHits.hasNext()) {
+      matches.add(searchHits.next().sourceAsMap());
+    }
+    return matches;
   }
+
 }
