@@ -27,7 +27,6 @@ Hijax.behaviours.hfactor = {
     $('form.hijax[target]', context).submit(function() {
 
       var form = $(this);
-      var loading_indicator = $(this).find('button[type="submit"] .loading-indicator');
       var action = form.attr('action');
       var method = form.attr('method');
 
