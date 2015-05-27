@@ -85,7 +85,7 @@ Hijax.behaviours.map = {
     $(that.container).append(that.tooltip);
      
     that.zoom = d3.behavior.zoom()
-      .scaleExtent([1, 20])
+      .scaleExtent([1, 100])
       .on("zoom", that.move);
     that.setup();
     that.draw();
@@ -230,7 +230,9 @@ Hijax.behaviours.map = {
       });
 
     country.on("click", function() {
-      window.location = "/resource/?q=about.\\*.addressCountry:" + this.id;
+      if (! d3.event.defaultPrevented) {
+        window.location = "/resource/?q=about.\\*.addressCountry:" + this.id;
+      }
     });
 
     country.on("mouseover", function(){
