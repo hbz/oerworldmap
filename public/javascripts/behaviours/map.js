@@ -1,3 +1,38 @@
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function(fun/*, thisArg*/) {
+    'use strict';
+
+    if (this === void 0 || this === null) {
+      throw new TypeError();
+    }
+
+    var t = Object(this);
+    var len = t.length >>> 0;
+    if (typeof fun !== 'function') {
+      throw new TypeError();
+    }
+
+    var res = [];
+    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+    for (var i = 0; i < len; i++) {
+      if (i in t) {
+        var val = t[i];
+
+        // NOTE: Technically this should Object.defineProperty at
+        //       the next index, as push can be affected by
+        //       properties on Object.prototype and Array.prototype.
+        //       But that method's new, and collisions should be
+        //       rare, so use the more-compatible alternative.
+        if (fun.call(thisArg, val, i, t)) {
+          res.push(val);
+        }
+      }
+    }
+
+    return res;
+  };
+}
+
 var test_heat_data_dump = {"@type":"Aggregation","@id":"country-list","entries":[{"value":37,"key":"US"},{"value":34,"key":"DE"},{"value":21,"key":"GB"},{"value":16,"key":"CA"},{"value":15,"key":"ES"},{"value":13,"key":"RU"},{"value":11,"key":"AU"},{"value":8,"key":"ZA"},{"value":7,"key":"BR"},{"value":6,"key":"IN"},{"value":6,"key":"IT"},{"value":4,"key":"BE"},{"value":4,"key":"MX"},{"value":4,"key":"PL"},{"value":4,"key":"UA"},{"value":3,"key":"CH"},{"value":3,"key":"EC"},{"value":3,"key":"FR"},{"value":3,"key":"GR"},{"value":3,"key":"IE"},{"value":3,"key":"JP"},{"value":3,"key":"NL"},{"value":3,"key":"NZ"},{"value":3,"key":"PT"},{"value":3,"key":"RO"},{"value":2,"key":"AL"},{"value":2,"key":"HR"},{"value":2,"key":"SE"},{"value":1,"key":"AM"},{"value":1,"key":"AT"},{"value":1,"key":"AW"},{"value":1,"key":"BH"},{"value":1,"key":"CL"},{"value":1,"key":"CN"},{"value":1,"key":"CO"},{"value":1,"key":"CZ"},{"value":1,"key":"DM"},{"value":1,"key":"EE"},{"value":1,"key":"FI"},{"value":1,"key":"FJ"},{"value":1,"key":"GE"},{"value":1,"key":"HU"},{"value":1,"key":"ID"},{"value":1,"key":"IR"},{"value":1,"key":"IS"},{"value":1,"key":"KE"},{"value":1,"key":"KR"},{"value":1,"key":"LB"},{"value":1,"key":"LT"},{"value":1,"key":"MY"},{"value":1,"key":"NA"},{"value":1,"key":"OM"},{"value":1,"key":"PA"},{"value":1,"key":"RS"},{"value":1,"key":"SI"},{"value":1,"key":"SN"},{"value":1,"key":"TG"},{"value":1,"key":"TH"},{"value":1,"key":"TN"},{"value":1,"key":"TR"},{"value":1,"key":"TT"},{"value":1,"key":"UY"},{"value":1,"key":"VE"}]};
 
 Hijax.behaviours.map = {
@@ -53,7 +88,7 @@ Hijax.behaviours.map = {
       .scaleExtent([1, 20])
       .on("zoom", that.move);
     that.setup();
-    that.loadMapData();
+    that.draw();
     
     $(window).resize(function(){
       that.onResize();
@@ -71,7 +106,7 @@ Hijax.behaviours.map = {
     
     d3.select('svg').remove();
     that.setup();
-    that.draw(that.topo);
+    that.draw();
   },
   
   onResize : function() {
@@ -91,6 +126,12 @@ Hijax.behaviours.map = {
     var s = d3.event.scale;
     var h = that.height / 4;
     
+    that.setView(t, s, h);
+  },
+  
+  setView : function(t, s, h) {
+    var that = this;
+    
     t[0] = Math.min(
       (that.width / that.height) * (s - 1), 
       Math.max(that.width * (1 - s), t[0])
@@ -102,7 +143,8 @@ Hijax.behaviours.map = {
     );
 
     that.zoom.translate(t);
-    that.g.attr("transform", "translate(" + t + ")scale(" + s + ")");
+    that.g
+      .attr("transform", "translate(" + t + ")scale(" + s + ")");
   
     //adjust the country stroke width based on zoom level
     that.doThrottled(function(){
@@ -119,18 +161,6 @@ Hijax.behaviours.map = {
     that.throttledTimer = window.setTimeout(function(){
       callback();
     }, 200);
-  },
-  
-  loadMapData : function() {
-    var that = this;
-    
-    //d3.json("/assets/playground/map1/world-topo-min.json", function(error, world) {
-    d3.json("/assets/json/ne_50m_admin_0_countries_topo.json", function(error, world) {
-      that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
-      that.draw( that.topo );
-      
-      that.initialized = true;
-    });
   },
   
   setup : function() {
@@ -158,6 +188,21 @@ Hijax.behaviours.map = {
   },
   
   draw : function() {
+    var that = this;
+    
+    if(that.topo) {
+      that.drawx();
+    } else {
+      d3.json("/assets/json/ne_50m_admin_0_countries_topo.json", function(error, world) {
+        that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
+        that.drawx();
+        
+        that.initialized = true;
+      });
+    }
+  },
+
+  drawx : function() {
     var that = this;
     
     var heats = $.map(that.heat_data, function(value, index){
@@ -323,8 +368,18 @@ Hijax.behaviours.map = {
             return feature;
           }
         });
-        bounds = that.path.bounds(features[0]);
-        console.log(bounds);
+        
+        var feature = features[0];
+        
+        if( feature.id == "RU" ) {
+          bounds = [that.projection([32.459718, 73.276382]), that.projection([175.545652, 41.637556])];
+        } else if ( feature.id == "US" ) { 
+          bounds = [that.projection([-133.457967, 51.442811]), that.projection([-65.079064, 24.590736])];
+        } else if ( feature.id == "FR" ) {
+          bounds = [that.projection([-5.269492, 51.195627]), that.projection([10.462930, 41.528031])];
+        } else {
+          bounds = that.path.bounds(feature);
+        }
       }
     } else if (id) {
       var minLat, maxLat, minLon, maxLon;
@@ -364,13 +419,14 @@ Hijax.behaviours.map = {
           dy = bounds[1][1] - bounds[0][1],
           x = (bounds[0][0] + bounds[1][0]) / 2,
           y = (bounds[0][1] + bounds[1][1]) / 2,
-          scale = .5 / Math.max(dx / that.width, dy / that.height),
+          scale = /* .5 /  */ 0.9 / Math.max(dx / that.width, dy / that.height),
           translate = [that.width / 2 - scale * x, that.height / 2 - scale * y];
-  
-      that.g.transition()
+      
+      that.svg
+        .transition()
         .duration(750)
-        .style("stroke-width", 1.5 / scale + "px")
-        .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+        .call(that.zoom.translate(translate).scale(scale).event);
+      //that.setView(translate, scale, that.height / 4);
     }
   },
 
