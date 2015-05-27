@@ -12,6 +12,21 @@ Hijax = {
         }
       }
       return(false);
+    },
+    
+    getResourceId : function() {
+      var path = window.location.pathname;
+      console.log(path.split('/'));
+      
+      if(
+        path.split('/').length == 3 &&
+        path.split('/')[1] == "resource" &&
+        path.split('/')[2]
+      ) {
+        return path.split('/')[2];
+      } else {
+        return false;
+      }
     }
   },
 

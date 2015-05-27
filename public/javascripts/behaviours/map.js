@@ -129,9 +129,6 @@ Hijax.behaviours.map = {
       that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
       that.draw( that.topo );
       
-      if($('div[data-behaviour="zoom"]', that.context).length) {
-        that.setBoundingBox();
-      }
       that.initialized = true;
     });
   },
@@ -210,6 +207,8 @@ Hijax.behaviours.map = {
     });
 
     that.drawPlacemarks();
+    
+    that.setBoundingBox();
   },
   
   drawPlacemarks : function() {
@@ -311,7 +310,8 @@ Hijax.behaviours.map = {
     var that = this;
     var bounds = false;
     var q = Hijax.functions.getQueryVariable("q");
-
+    var id = Hijax.functions.getResourceId();
+    
     if (q) {
       var countryParams = q.match(/(addressCountry:..)/g);
       if (countryParams) {
@@ -326,9 +326,7 @@ Hijax.behaviours.map = {
         bounds = that.path.bounds(features[0]);
         console.log(bounds);
       }
-    }
-
-    if (!bounds) {
+    } else if (id) {
       var minLat, maxLat, minLon, maxLon;
 
       for (i in that.placemarks) {
@@ -360,19 +358,20 @@ Hijax.behaviours.map = {
 
       bounds = [that.projection([minLon, minLat]), that.projection([maxLon, maxLat])];
     }
-
-    var dx = bounds[1][0] - bounds[0][0],
-        dy = bounds[1][1] - bounds[0][1],
-        x = (bounds[0][0] + bounds[1][0]) / 2,
-        y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .5 / Math.max(dx / that.width, dy / that.height),
-        translate = [that.width / 2 - scale * x, that.height / 2 - scale * y];
-
-    that.g.transition()
-      .duration(750)
-      .style("stroke-width", 1.5 / scale + "px")
-      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-
+    
+    if(bounds) {
+      var dx = bounds[1][0] - bounds[0][0],
+          dy = bounds[1][1] - bounds[0][1],
+          x = (bounds[0][0] + bounds[1][0]) / 2,
+          y = (bounds[0][1] + bounds[1][1]) / 2,
+          scale = .5 / Math.max(dx / that.width, dy / that.height),
+          translate = [that.width / 2 - scale * x, that.height / 2 - scale * y];
+  
+      that.g.transition()
+        .duration(750)
+        .style("stroke-width", 1.5 / scale + "px")
+        .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+    }
   },
 
   getMarkers : function(resource, labelCallback, origin) {
