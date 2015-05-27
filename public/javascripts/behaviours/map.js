@@ -48,53 +48,30 @@ Hijax.behaviours.map = {
     // create tooltip
     that.tooltip = $('<div class="map-tooltip"></div>')[0];
     $(that.container).append(that.tooltip);
-        
-    that.getHeatData();
-    
-    var heats = $.map(that.heat_data, function(value, index){
-      return [value];
-    });
-    
-    that.color = d3.scale.log()
-      .range(["#a1cd3f", "#eaf0e2"])
-      .interpolate(d3.interpolateHcl)
-      .domain([d3.quantile(heats, .01), d3.quantile(heats, .99)]);
-      
+     
     that.zoom = d3.behavior.zoom()
       .scaleExtent([1, 20])
       .on("zoom", that.move);
     that.setup();
     that.loadMapData();
-/*
-    $.get(
-      'https://oerworldmap.org',
-      function(data){
-        console.log(
-          $('#users-by-country script', data).html()
-        );
-      }
-    )
-*/
+    
+    $(window).resize(function(){
+      that.onResize();
+    });
   },
   
-  getHeatData : function() {
+  setHeatmapData : function(heat_data) {
     var that = this;
     
     that.heat_data = {};
 
-    if (! $('[about="#users-by-country"] script').length) {
-      return;
-    }
-
-    var heat_data = JSON.parse( $('[about="#users-by-country"] script').html() );
-    
-    if(heat_data.entries.length == 0) {
-      heat_data = test_heat_data_dump;
-    }
-    
     for(var i = 0; i < heat_data["entries"].length; i++) {
       that.heat_data[ heat_data["entries"][i].key.toUpperCase() ] = heat_data["entries"][i].value;
     }
+    
+    d3.select('svg').remove();
+    that.setup();
+    that.draw(that.topo);
   },
   
   onResize : function() {
@@ -103,7 +80,7 @@ Hijax.behaviours.map = {
     that.doThrottled(function(){
       d3.select('svg').remove();
       that.setup();
-      that.draw(that.topo);
+      that.draw();
     });
   },
   
@@ -151,16 +128,7 @@ Hijax.behaviours.map = {
     d3.json("/assets/json/ne_50m_admin_0_countries_topo.json", function(error, world) {
       that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
       that.draw( that.topo );
-
-      for(i in that.placemarks) {
-        that.addPlacemark(
-          that.placemarks[i]["latLng"][0],
-          that.placemarks[i]["latLng"][1],
-          that.placemarks[i]["url"],
-          that.placemarks[i]["name"]
-        );
-      }
-
+      
       if($('div[data-behaviour="zoom"]', that.context).length) {
         that.setBoundingBox();
       }
@@ -194,7 +162,16 @@ Hijax.behaviours.map = {
   
   draw : function() {
     var that = this;
-  
+    
+    var heats = $.map(that.heat_data, function(value, index){
+      return [value];
+    });
+    
+    that.color = d3.scale.log()
+      .range(["#a1cd3f", "#eaf0e2"])
+      .interpolate(d3.interpolateHcl)
+      .domain([d3.quantile(heats, .01), d3.quantile(heats, .99)]);
+      
     var country = that.g.selectAll(".country").data( that.topo );
   
     country.enter().insert("path")
@@ -204,7 +181,7 @@ Hijax.behaviours.map = {
       .attr("title", function(d,i) { return d.properties.name; })
       .style("fill", function(d,i) {
         if(that.heat_data[ d.id ]) {
-          return that.color( that.heat_data[ d.id ] || 1 );
+          return that.color( that.heat_data[ d.id ] );
         } else {
           return "#ffffff";
         }
@@ -232,15 +209,20 @@ Hijax.behaviours.map = {
       $(that.tooltip).hide();
     });
 
-    // add some capitals from external CSV file
-/*
-    d3.csv("/assets/playground/map1/country-capitals.csv", function(err, capitals) {
-      capitals.forEach(function(i){
-        that.addPoint(i.CapitalLongitude, i.CapitalLatitude, i.CapitalName );
-      });
-    });
-*/
+    that.drawPlacemarks();
+  },
   
+  drawPlacemarks : function() {
+    var that = this;
+    
+    for(i in that.placemarks) {
+      that.drawPlacemark(
+        that.placemarks[i]["latLng"][0],
+        that.placemarks[i]["latLng"][1],
+        that.placemarks[i]["url"],
+        that.placemarks[i]["name"]
+      );
+    }
   },
   
   getTooltipHtml : function(id, name) {
@@ -264,21 +246,12 @@ Hijax.behaviours.map = {
     return html;
   },
   
-  addPlacemark : function(lat, lon, url, name) {
+  drawPlacemark : function(lat, lon, url, name) {
     var that = this;
   
     var gpoint = that.g.append("g").attr("class", "gpoint");
     var x = that.projection([lon,lat])[0];
     var y = that.projection([lon,lat])[1];
-  
-/*
-    gpoint.append("svg:circle")
-      .attr("cx", x)
-      .attr("cy", y)
-      .attr("class","point")
-      .attr("r", 5);
-*/  
-    // <a xlink:href="/svg/index.html">
 
     gpoint
       .append('a')
@@ -291,22 +264,22 @@ Hijax.behaviours.map = {
       .attr('text-anchor', 'middle')
       .attr("class", "placemark")
       .text('\uf041');
-      
   },
   
   addPlacemarks : function( placemarks ) {
     var that = this;
+    
+    that.placemarks = that.placemarks.concat( placemarks );
+    
     if (that.initialized) {
       for(i in placemarks) {
-        that.addPlacemark(
+        that.drawPlacemark(
           placemarks[i]["latLng"][0],
           placemarks[i]["latLng"][1],
           placemarks[i]["url"],
           placemarks[i]["name"]
         );
       }
-    } else {
-      that.placemarks = that.placemarks.concat( placemarks );
     }
   },
   
