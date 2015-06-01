@@ -32,7 +32,7 @@ public class ResourceIndex extends OERWorldMap {
     if (q.equals("")) {
       q = "*";
     }
-    // Only expose Articles for now
+    // Only expose Articles and Organizations for now
     q = "(" + q + ") AND (about.@type:Article OR about.@type:Organization)";
     List<Resource> resources = mBaseRepository.esQuery(q);
     scope.put("resources", resources);

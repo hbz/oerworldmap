@@ -433,6 +433,7 @@ Hijax.behaviours.map = {
   },
 
   getMarkers : function(resource, labelCallback, origin) {
+
     origin = origin || resource;
     var that = this;
     var locations = [];
@@ -444,7 +445,7 @@ Hijax.behaviours.map = {
       locations.push(resource.location);
     }
 
-    for (l in locations) {
+    for (var l in locations) {
       if (geo = locations[l].geo) {
         markers.push({
           latLng: [geo['lat'], geo['lon']],
@@ -455,10 +456,10 @@ Hijax.behaviours.map = {
     }
 
     if (!markers.length) {
-      for (key in resource) {
+      for (var key in resource) {
         var value = resource[key];
         if (value instanceof Array) {
-          for (i = 0; i < value.length; i++) {
+          for (var i = 0; i < value.length; i++) {
             if (typeof value[i] == 'object') {
               markers = markers.concat(
                 that.getMarkers(value[i], labelCallback, origin)

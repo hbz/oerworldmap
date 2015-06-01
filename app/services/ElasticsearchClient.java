@@ -9,6 +9,7 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -309,7 +310,7 @@ public class ElasticsearchClient {
       searchRequestBuilder.setTypes(aType);
     }
     SearchResponse response = searchRequestBuilder
-        .setQuery(QueryBuilders.queryString(aEsQuery))
+        .setQuery(QueryBuilders.queryString(aEsQuery).defaultOperator(QueryStringQueryBuilder.Operator.AND))
         .setFrom(0).setSize(99999)
         .execute().actionGet();
     Iterator<SearchHit> searchHits = response.getHits().iterator();

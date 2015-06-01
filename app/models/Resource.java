@@ -34,7 +34,7 @@ public class Resource implements Map<String, Object> {
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article"));
+      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
 
   /**
    * Holds the properties of the resource.
