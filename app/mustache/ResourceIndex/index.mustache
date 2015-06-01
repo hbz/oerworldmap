@@ -6,6 +6,7 @@
     <section>
         <form method="get" action="/resource/" id="search">
             <h1><input name="q" placeholder="Search" value="{{scope.q}}"/> <input type="submit" /></h1>
+            <span>{{scope.resources.size}} hits</span>
         </form>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
