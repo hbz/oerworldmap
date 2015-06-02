@@ -57,6 +57,8 @@ Hijax.behaviours.map = {
   tooltip : false,
 
   initialized : false,
+
+  world : false,
   
   attach : function(context) {
     var that = this;
@@ -83,6 +85,11 @@ Hijax.behaviours.map = {
     // create tooltip
     that.tooltip = $('<div class="map-tooltip"></div>')[0];
     $(that.container).append(that.tooltip);
+
+    // load map data from session storage
+    if (window.sessionStorage && window.sessionStorage.getItem('ne_50m_admin_0_countries_topo')) {
+      that.world = JSON.parse(window.sessionStorage.getItem('ne_50m_admin_0_countries_topo'));
+    }
      
     that.zoom = d3.behavior.zoom()
       .scaleExtent([1, 100])
@@ -192,11 +199,15 @@ Hijax.behaviours.map = {
     
     if(that.topo) {
       that.drawx();
+    } else if (that.world) {
+      that.topo = topojson.feature(that.world, that.world.objects.ne_50m_admin_0_countries).features;
+      that.initialized = true;
+      that.drawx();
     } else {
       d3.json("/assets/json/ne_50m_admin_0_countries_topo.json", function(error, world) {
+        sessionStorage.setItem('ne_50m_admin_0_countries_topo', JSON.stringify(world));
         that.topo = topojson.feature(world, world.objects.ne_50m_admin_0_countries).features;
         that.drawx();
-        
         that.initialized = true;
       });
     }
