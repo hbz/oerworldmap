@@ -71,7 +71,6 @@ public class UserIndex extends OERWorldMap {
 
   @Security.Authenticated(Secured.class)
   public static Result authControl() {
-    System.out.println("Auth control:" + Secured.getHttpBasicAuthUser(Http.Context.current()));
     return ok(render("Log out", "Secured/token.mustache"));
   }
 

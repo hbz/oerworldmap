@@ -1,4 +1,4 @@
-<section>
+<div role="main" class="color-scheme-text container">
     {{^user}}
     <form action="/.auth" method="post">
         <p class="lead">{{i18n.user_token_request_title}}<br /><small>{{{i18n.user_token_request_description}}}</small></p>
@@ -26,4 +26,4 @@
             <button class="btn btn-lg btn-default" type="submit"><span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>{{i18n.logout}}</button>
         </form>
     {{/user}}
-</section>
+</div>

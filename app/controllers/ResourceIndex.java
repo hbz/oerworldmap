@@ -12,6 +12,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.json.simple.parser.ParseException;
 import play.mvc.Result;
+import play.mvc.Security;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +46,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
+  @Security.Authenticated(Secured.class)
   public static Result create() throws IOException {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
@@ -93,6 +96,7 @@ public class ResourceIndex extends OERWorldMap {
    * @param id The ID of the resource to update
    * @throws IOException
    */
+  @Security.Authenticated(Secured.class)
   public static Result update(String id) throws IOException {
     Resource originalResource = mBaseRepository.getResource(id);
     if (originalResource == null) {
