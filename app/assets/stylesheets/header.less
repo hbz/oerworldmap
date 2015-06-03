@@ -1,0 +1,47 @@
+@header-height: 40px;
+@header-padding: 15px;
+@header-fontsize: 20px;
+
+#page-header {
+  background: @blue-darker;
+  .economica();
+  font-size: @header-fontsize;
+}
+
+#page-header nav ul li {
+  border-right: 1px solid @blue-dark;
+}
+
+#page-header a {
+  display: inline-block;
+  line-height: @header-height !important;
+  padding: 0 @header-padding;
+  text-decoration: none;
+  color: @blue-ligthest;
+}
+
+#page-header a:hover {
+  background: @blue-dark;
+  color: @blue-ligthest;
+}
+
+#page-header a:focus {
+  outline: none;
+}
+
+#page-header h1 {
+  display: inline;
+  font-size: @header-fontsize;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+#page-header h2 {
+  margin: 0 @header-padding 0 0;
+  font-size: @header-fontsize;
+  line-height: @header-height !important;
+  font-style: italic;
+  letter-spacing: 2px;
+  color: @blue-ligthest;
+  float: right;
+}
