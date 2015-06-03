@@ -255,8 +255,8 @@ Hijax.behaviours.map = {
 
     country.on("mousemove", function(){
       $(that.tooltip).css({
-          "top": (d3.event.pageY) + "px",
-          "left": (d3.event.pageX) + "px"
+          "top": (d3.event.pageY + 10) + "px",
+          "left": (d3.event.pageX + 10) + "px"
       });
     });
     
