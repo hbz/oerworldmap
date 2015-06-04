@@ -119,14 +119,6 @@ Hijax.behaviours.map = {
 
     var features = [];
 
-    var iconStyle = new ol.style.Style({
-      text: new ol.style.Text({
-        text: '\uf041',
-        font: 'normal 1.5em FontAwesome',
-        textBaseline: 'Bottom'
-      })
-    });
-
     for (var i = 0; i < placemarks.length; i++) {
       var lat = placemarks[i].latLng[0];
       var lon = placemarks[i].latLng[1];
@@ -143,11 +135,15 @@ Hijax.behaviours.map = {
         default:
           color = 'black';
       }
-      iconStyle.getText().setFill(
-        new ol.style.Fill({
-          color: color,
+
+      var iconStyle = new ol.style.Style({
+        text: new ol.style.Text({
+          text: '\uf041',
+          font: 'normal 1.5em FontAwesome',
+          textBaseline: 'Bottom',
+          fill: new ol.style.Fill({color: color})
         })
-      );
+      });
 
       var feature = new ol.Feature({
         geometry: point,

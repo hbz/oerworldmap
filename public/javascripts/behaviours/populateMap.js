@@ -13,7 +13,7 @@ Hijax.behaviours.populateMap = {
     });
   },
 
-  populatePlacemarks : function(list) {
+  populatePlacemarks : function(list, context) {
     var json = JSON.parse( $(list).find('script[type="application/ld+json"]').html() );
     var markers = [];
 
