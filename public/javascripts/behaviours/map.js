@@ -63,6 +63,9 @@ Hijax.behaviours.map = {
         }
       });
 
+      // FIXME: Naive workaround for asychronous loading, should be ol.source.Vector.loader
+      setTimeout(function(){ map.setBoundingBox(); }, 1000);
+
     });
 
   },
@@ -111,6 +114,7 @@ Hijax.behaviours.map = {
         })
       })];
     });
+
   },
 
   addPlacemarks : function(placemarks) {
@@ -205,6 +209,40 @@ Hijax.behaviours.map = {
 
     map.world.addLayer(vectorLayer);
     //map.world.addLayer(clusterLayer);
+
+  },
+
+  setBoundingBox : function() {
+    var map = this;
+    var q = Hijax.functions.getQueryVariable("q");
+    var id;
+
+    if (q) {
+      var countryParams = q.match(/(addressCountry:..)/g);
+      if (countryParams) {
+        id = countryParams[0].split(':')[1];
+      }
+    } else {
+      id = Hijax.functions.getResourceId();
+    }
+
+    if (id) {
+      map.world.getLayers().forEach(function(layer) {
+        var feature = layer.getSource().getFeatureById(id);
+        if (feature) {
+          var extent = feature.getGeometry().getExtent();
+          if (extent[0] == extent[2]) {
+            extent[0] -= 1000000;
+            extent[2] += 1000000;
+          }
+          if (extent[1] == extent[3]) {
+            extent[1] -= 1000000;
+            extent[3] += 1000000;
+          }
+          map.world.getView().fitExtent(extent, map.world.getSize());
+        }
+      });
+    }
 
   },
 
