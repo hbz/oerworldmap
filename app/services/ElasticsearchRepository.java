@@ -47,7 +47,7 @@ public class ElasticsearchRepository implements ResourceRepository {
     }
     elasticsearch.addJson(aResource.toString(), id, aType);
   }
-  
+
   @Override
   public Resource getResource(String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
@@ -88,10 +88,8 @@ public class ElasticsearchRepository implements ResourceRepository {
     return resources;
   }
 
-  public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
-    Resource aggregation = new Resource("Aggregation", "country-list");
-    aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
-    return aggregation;
+  public ArrayList query(AggregationBuilder aAggregationBuilder) throws IOException {
+    return elasticsearch.getAggregation(aAggregationBuilder);
   }
 
   /**
