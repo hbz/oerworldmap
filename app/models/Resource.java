@@ -47,7 +47,7 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor which sets up a random UUID.
-   * 
+   *
    * @param type The type of the resource.
    */
   public Resource(final String type) {
@@ -56,7 +56,7 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor.
-   * 
+   *
    * @param aType The type of the resource.
    * @param aId The id of the resource.
    */
@@ -91,7 +91,6 @@ public class Resource implements Map<String, Object> {
     if (aProperties == null){
       return null;
     }
-    checkTypeExistence(aProperties);
 
     String type = (String) aProperties.get(JsonLdConstants.TYPE);
     String id = (String) aProperties.get(JsonLdConstants.ID);
@@ -262,21 +261,6 @@ public class Resource implements Map<String, Object> {
 
   public boolean hasId() {
     return containsKey(JsonLdConstants.ID);
-  }
-
-  private static void checkTypeExistence(Map<String, Object> aProperties) {
-    Object type = aProperties.get(JsonLdConstants.TYPE);
-    if (type == null) {
-      Logger.warn(JsonLdConstants.TYPE + " is null for " + aProperties.toString());
-    } else if (!(type instanceof String) || StringUtils.isEmpty(type.toString())) {
-      String message = "Unspecified " + JsonLdConstants.TYPE + " : " + aProperties.hashCode();
-      Logger.error(message);
-      try {
-        throw new java.lang.TypeNotPresentException(message, new Exception());
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
   }
 
   public static boolean isIdentifiedType(String aType) {
