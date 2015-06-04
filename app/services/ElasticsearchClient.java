@@ -180,8 +180,70 @@ public class ElasticsearchClient {
   }
 
   /**
+   * Get an aggregation of documents
+   *
+   * @param aAggregationBuilders
+   * @return a List of docs, each represented by a Map of String/Object.
+   */
+  public Map<String, Object> getAggregations(final List<AggregationBuilder> aAggregationBuilders) {
+
+    final Map<String, Object> result = new HashMap<>();
+    final ArrayList<String> dimensions = new ArrayList<>();
+    final ArrayList<Map> entries = new ArrayList<>();
+
+
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mEsConfig.getIndex());
+    for (AggregationBuilder aggregationBuilder : aAggregationBuilders) {
+      searchRequestBuilder.addAggregation(aggregationBuilder);
+    }
+
+    SearchResponse response = searchRequestBuilder.setSize(0).execute().actionGet();
+
+    List<Aggregation> aggregations = response.getAggregations().asList();
+
+    final Map<String, ArrayList<Map>> observations = new HashMap<>();
+
+    for (Aggregation aggregation : aggregations) {
+      dimensions.add(aggregation.getName());
+      for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
+        String key = entry.getKey();
+        long value = entry.getDocCount();
+        if (null == observations.get(key)) {
+          observations.put(key, new ArrayList<>());
+        }
+        Map<String, Object> observation = new HashMap<>();
+        observation.put("dimension", aggregation.getName());
+        observation.put("value", value);
+        observations.get(key).add(observation);
+      }
+    }
+
+    for (Map.Entry<String, ArrayList<Map>> observation : observations.entrySet()) {
+      Map<String, Object> entry = new HashMap<>();
+      entry.put("key", observation.getKey());
+
+      List<Map> obs = observation.getValue();
+      for (int i = 0; i < obs.size(); i++) {
+        if (!dimensions.get(i).equals(obs.get(i).get("dimension"))) {
+          Map<String, Object> ob = new HashMap<>();
+          ob.put("dimension", dimensions.get(i));
+          ob.put("value", 0);
+          obs.add(i, ob);
+        }
+      }
+      entry.put("observations", obs);
+      entries.add(entry);
+    }
+
+    result.put("dimensions", dimensions);
+    result.put("entries", entries);
+
+    return result;
+  }
+
+  /**
    * Get a document of a specified type specified by an identifier.
-   * 
+   *
    * @param aType
    * @param aIdentifier
    * @return the document as Map of String/Object

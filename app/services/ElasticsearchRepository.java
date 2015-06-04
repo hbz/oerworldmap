@@ -3,11 +3,7 @@ package services;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
@@ -18,6 +14,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
@@ -90,6 +87,10 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   public ArrayList query(AggregationBuilder aAggregationBuilder) throws IOException {
     return elasticsearch.getAggregation(aAggregationBuilder);
+  }
+
+  public Map<String, Object> query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
+    return elasticsearch.getAggregations(aAggregationBuilders);
   }
 
   /**

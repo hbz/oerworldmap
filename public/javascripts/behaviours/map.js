@@ -3,7 +3,6 @@ Hijax.behaviours.map = {
   container : null,
   world : null,
   vector : null,
-  info : null,
 
   attach : function(context) {
     var map = this;
@@ -13,10 +12,6 @@ Hijax.behaviours.map = {
       // Map container
       map.container = $('<div id="map"></div>')[0];
       $(this).prepend(map.container);
-
-      // Info container
-      map.info = $('<div id="info"></div>')[0];
-      $(this).append(map.info);
 
       // Vector layer
       map.vector = new ol.layer.Vector({
@@ -79,19 +74,25 @@ Hijax.behaviours.map = {
 
     var info = $('[about="#users-by-country"]', context);
     info.find('tr').hide();
+    info.find('thead>tr').hide();
     if (feature) {
+      info.find('thead>tr').show();
       info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
     }
 
   },
 
-  setHeatmapData : function(aggregation) {
+  setHeatmapData : function(aggregations) {
     var map = this;
 
     var heat_data = {};
 
-    for(var i = 0; i < aggregation["entries"].length; i++) {
-      heat_data[ aggregation["entries"][i].key.toUpperCase() ] = aggregation["entries"][i].value;
+    for(var j = 0; j < aggregations["entries"].length; j++) {
+      var aggregation = aggregations["entries"][j];
+      heat_data[ aggregation.key.toUpperCase() ] = 0;
+      for(var i = 0; i < aggregation["observations"].length; i ++) {
+        heat_data[ aggregation.key.toUpperCase() ] += aggregation["observations"][i].value;
+      }
     }
 
     var heats = $.map(heat_data, function(value, index) {
