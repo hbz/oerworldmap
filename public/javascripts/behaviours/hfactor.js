@@ -62,8 +62,7 @@ Hijax.behaviours.hfactor = {
 
     switch (element.attr("target")) {
       case "_self":
-        html.removeAttr("role");
-        element.replaceWith(html);
+        element.replaceWith(html.children());
         break;
       case "_blank":
         html.attr("role", role);
