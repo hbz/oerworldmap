@@ -102,14 +102,8 @@ Hijax.behaviours.map = {
     info.find('tr').hide();
     info.find('thead>tr').hide();
     if (feature) {
-      var properties = feature.getProperties();
-      if (properties.references) {
-        info.find('thead>tr').show();
-        info.find('tr[about="#' + properties.references.toLowerCase() + '"]').show();
-      } else if (feature.getId()) {
-        info.find('thead>tr').show();
-        info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
-      }
+      info.find('thead>tr').show();
+      info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
     }
 
   },
@@ -186,9 +180,9 @@ Hijax.behaviours.map = {
         geometry: point,
         name: placemarks[i].name,
         url: placemarks[i].url,
-        type: placemarks[i].type,
-        references: placemarks[i].references
+        type: placemarks[i].type
       });
+      feature.setId(placemarks[i].id);
       feature.setStyle(iconStyle);
       features.push(feature);
     }
@@ -296,7 +290,7 @@ Hijax.behaviours.map = {
       if (geo = locations[l].geo) {
         markers.push({
           latLng: [geo['lat'], geo['lon']],
-          references: origin['@id'] || null,
+          id: origin['@id'],
           type: origin['@type'],
           name: labelCallback ? labelCallback(origin) : origin['@id'],
           url: "/resource/" + origin['@id']
