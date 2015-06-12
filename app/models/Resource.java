@@ -30,16 +30,11 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
-public class Resource implements Map<String, Object> {
+public class Resource extends HashMap<String, Object> {
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
-
-  /**
-   * Holds the properties of the resource.
-   */
-  private LinkedHashMap<String, Object> mProperties = new LinkedHashMap<String, Object>();
 
   public Resource() {
     this(null, null);
@@ -47,7 +42,7 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor which sets up a random UUID.
-   * 
+   *
    * @param type The type of the resource.
    */
   public Resource(final String type) {
@@ -56,19 +51,19 @@ public class Resource implements Map<String, Object> {
 
   /**
    * Constructor.
-   * 
+   *
    * @param aType The type of the resource.
    * @param aId The id of the resource.
    */
   public Resource(final String aType, final String aId) {
     if (null != aType) {
-      mProperties.put(JsonLdConstants.TYPE, aType);
+      this.put(JsonLdConstants.TYPE, aType);
     }
     if (mIdentifiedTypes.contains(aType)) {
       if (null != aId) {
-        mProperties.put(JsonLdConstants.ID, aId);
+        this.put(JsonLdConstants.ID, aId);
       } else {
-        mProperties.put(JsonLdConstants.ID, generateId());
+        this.put(JsonLdConstants.ID, generateId());
       }
     }
   }
@@ -91,7 +86,6 @@ public class Resource implements Map<String, Object> {
     if (aProperties == null){
       return null;
     }
-    checkTypeExistence(aProperties);
 
     String type = (String) aProperties.get(JsonLdConstants.TYPE);
     String id = (String) aProperties.get(JsonLdConstants.ID);
@@ -100,7 +94,7 @@ public class Resource implements Map<String, Object> {
     for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
       String key = entry.getKey();
       Object value = entry.getValue();
-      if (key.equals(JsonLdConstants.ID) && ! mIdentifiedTypes.contains(id)) {
+      if (key.equals(JsonLdConstants.ID) && ! mIdentifiedTypes.contains(type)) {
         continue;
       }
       if (value instanceof Map) {
@@ -137,7 +131,7 @@ public class Resource implements Map<String, Object> {
     try {
       schema = JsonSchemaFactory.byDefault().getJsonSchema(
           new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
-          "/definitions/".concat(mProperties.get(JsonLdConstants.TYPE).toString()));
+          "/definitions/".concat(this.get(JsonLdConstants.TYPE).toString()));
       report = schema.validate(toJson());
     } catch (ProcessingException | IOException e) {
       report = new ListProcessingReport();
@@ -152,7 +146,7 @@ public class Resource implements Map<String, Object> {
    * @return JSON JsonNode
    */
   public JsonNode toJson() {
-    return new ObjectMapper().convertValue(mProperties, JsonNode.class);
+    return new ObjectMapper().convertValue(this, JsonNode.class);
   }
 
   /**
@@ -174,71 +168,21 @@ public class Resource implements Map<String, Object> {
   }
 
   @Override
-  public int size() {
-    return mProperties.size();
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return mProperties.isEmpty();
-  }
-
-  @Override
   public boolean containsKey(Object key) {
     String keyString = key.toString();
     if (keyString.startsWith("?")) {
-      return keyString.substring(1).equals(mProperties.get(JsonLdConstants.TYPE));
+      return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
     }
-    return mProperties.containsKey(key);
-  }
-
-  @Override
-  public boolean containsValue(Object value) {
-    return mProperties.containsValue(value);
+    return super.containsKey(key);
   }
 
   @Override
   public Object get(Object key) {
     String keyString = key.toString();
     if (keyString.startsWith("?")) {
-      return keyString.substring(1).equals(mProperties.get(JsonLdConstants.TYPE));
+      return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
     }
-    return mProperties.get(key);
-  }
-
-  @Override
-  public Object put(String key, Object value) {
-    return mProperties.put(key, value);
-  }
-
-  @Override
-  public Object remove(Object key) {
-    return mProperties.remove(key);
-  }
-
-  @Override
-  public void putAll(Map<? extends String, ? extends Object> m) {
-    mProperties.putAll(m);
-  }
-
-  @Override
-  public void clear() {
-    mProperties.clear();
-  }
-
-  @Override
-  public Set<String> keySet() {
-    return mProperties.keySet();
-  }
-
-  @Override
-  public Collection<Object> values() {
-    return mProperties.values();
-  }
-
-  @Override
-  public Set<Map.Entry<String, Object>> entrySet() {
-    return (Set<Map.Entry<String, Object>>) mProperties.entrySet();
+    return super.get(key);
   }
 
   @Override
@@ -247,13 +191,13 @@ public class Resource implements Map<String, Object> {
       return false;
     }
     final Resource other = (Resource) aOther;
-    if (other.mProperties.size() != mProperties.size()) {
+    if (other.size() != this.size()) {
       return false;
     }
-    final Iterator<Map.Entry<String, Object>> thisIt = mProperties.entrySet().iterator();
+    final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (!pair.getValue().equals(other.mProperties.get(pair.getKey()))) {
+      if (!pair.getValue().equals(other.get(pair.getKey()))) {
         return false;
       }
     }
@@ -264,22 +208,4 @@ public class Resource implements Map<String, Object> {
     return containsKey(JsonLdConstants.ID);
   }
 
-  private static void checkTypeExistence(Map<String, Object> aProperties) {
-    Object type = aProperties.get(JsonLdConstants.TYPE);
-    if (type == null) {
-      Logger.warn(JsonLdConstants.TYPE + " is null for " + aProperties.toString());
-    } else if (!(type instanceof String) || StringUtils.isEmpty(type.toString())) {
-      String message = "Unspecified " + JsonLdConstants.TYPE + " : " + aProperties.hashCode();
-      Logger.error(message);
-      try {
-        throw new java.lang.TypeNotPresentException(message, new Exception());
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-  public static boolean isIdentifiedType(String aType) {
-    return mIdentifiedTypes.contains(aType);
-  }
 }

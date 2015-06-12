@@ -54,7 +54,7 @@ public class BaseRepository {
 
   /**
    * Add data mentioned within other items.
-   * 
+   *
    * @param aResource The type of mentioned data sub item.
    * @throws IOException
    */
@@ -128,7 +128,18 @@ public class BaseRepository {
 
   public Resource query(@SuppressWarnings("rawtypes") AggregationBuilder aAggregationBuilder)
       throws IOException {
-    return mElasticsearchRepo.query(aAggregationBuilder);
+    Resource aggregation = new Resource("Aggregation", "country-list");
+    aggregation.put("entries", mElasticsearchRepo.query(aAggregationBuilder));
+    return aggregation;
+  }
+
+  public Resource query(@SuppressWarnings("rawtypes") List<AggregationBuilder> aAggregationBuilders)
+      throws IOException {
+    Resource aggregation = new Resource("Aggregation", "country-list");
+    Map<String, Object> result = mElasticsearchRepo.query(aAggregationBuilders);
+    aggregation.put("entries", result.get("entries"));
+    aggregation.put("dimensions", result.get("dimensions"));
+    return aggregation;
   }
 
   public List<Resource> query(String aType, boolean aSearchAllRepos) throws IOException {

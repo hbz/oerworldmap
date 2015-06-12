@@ -3,11 +3,7 @@ package services;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
@@ -18,6 +14,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
@@ -47,7 +44,7 @@ public class ElasticsearchRepository implements ResourceRepository {
     }
     elasticsearch.addJson(aResource.toString(), id, aType);
   }
-  
+
   @Override
   public Resource getResource(String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
@@ -88,10 +85,12 @@ public class ElasticsearchRepository implements ResourceRepository {
     return resources;
   }
 
-  public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
-    Resource aggregation = new Resource("Aggregation", "country-list");
-    aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
-    return aggregation;
+  public ArrayList query(AggregationBuilder aAggregationBuilder) throws IOException {
+    return elasticsearch.getAggregation(aAggregationBuilder);
+  }
+
+  public Map<String, Object> query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
+    return elasticsearch.getAggregations(aAggregationBuilders);
   }
 
   /**

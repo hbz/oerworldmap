@@ -1,5 +1,5 @@
 Hijax.behaviours.populateMap = {
-  
+
   attach : function(context) {
     var that = this;
 
@@ -9,10 +9,11 @@ Hijax.behaviours.populateMap = {
 
     $('[about="#users-by-country"]', context).each(function(){
       that.populateHeatdata( this );
+      $(this).find('tr').hide();
     });
   },
-  
-  populatePlacemarks : function(list) {
+
+  populatePlacemarks : function(list, context) {
     var json = JSON.parse( $(list).find('script[type="application/ld+json"]').html() );
     var markers = [];
 
@@ -23,10 +24,10 @@ Hijax.behaviours.populateMap = {
     Hijax.behaviours.map.addPlacemarks( markers );
 
   },
-  
+
   populateHeatdata : function(list) {
     var json = JSON.parse( $(list).find('script[type="application/ld+json"]').html() );
     Hijax.behaviours.map.setHeatmapData( json );
   }
-  
+
 };

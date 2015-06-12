@@ -1,18 +1,25 @@
 <div role="complementary" class="color-scheme-map column large" data-view="map"></div>
-<div role="main" class="color-scheme-text column small">
-    <section class="map-view-hidden">
-        <table class="table" about="#users-by-country">
-            <script type="application/ld+json">
-                {{{scope.countryAggregation}}}
-            </script>
-          <thead>
-              <tr><th>Country</th><th>Users</th></tr>
-          </thead>
-          <tbody>
-          {{#scope.countryAggregation.entries}}
-              <tr><td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td><td>{{value}}</td></tr>
-          {{/scope.countryAggregation.entries}}
-          </tbody>
-        </table>
-    </section>
+<div role="main" class="column small">
+    <table class="table" about="#users-by-country">
+        <script type="application/ld+json">
+            {{{scope.countryAggregation}}}
+        </script>
+      <thead>
+          <tr>
+              <th>id</th>
+              {{#scope.countryAggregation.dimensions}}
+                  <th>{{.}}</th>
+              {{/scope.countryAggregation.dimensions}}
+          </tr>
+      </thead>
+      <tbody>
+      {{#scope.countryAggregation.entries}}
+          <tr about="#{{key}}"><td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td>
+              {{#observations}}
+                  <td>{{value}}</td>
+              {{/observations}}
+          </tr>
+      {{/scope.countryAggregation.entries}}
+      </tbody>
+    </table>
 </div>
