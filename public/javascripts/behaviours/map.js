@@ -86,6 +86,8 @@ Hijax.behaviours.map = {
 
       // FIXME: Naive workaround for asychronous loading, should be ol.source.Vector.loader
       setTimeout(function(){ map.setBoundingBox(); }, 1000);
+      
+      $(this).addClass("map-view");
 
     });
 

@@ -1,8 +1,9 @@
 @blue-darker: #244267;
 @blue-dark: #3d5f8a;
-@blue-ligth: #268ccd;
-@blue-ligther: #58a6d8;
-@blue-ligthest: #e6f0f5;
+@blue-light: #268ccd;
+@blue-light-gradient-end: #5faada;
+@blue-lighter: #58a6d8;
+@blue-lightest: #e6f0f5;
 
 @orange: #fe8a00;
 @green: #a1cd3f;
@@ -18,10 +19,14 @@
 @hightlight-color: @orange;
 
 @color-scheme-text-background: @white;
-@color-scheme-text-color: @blue;
+@color-scheme-text-color: @blue-darker;
 
-@color-scheme-map-background: @blue;
+@color-scheme-map-background: @blue-light;
 @color-scheme-map-color: @white;
+
+@color-scheme-map-gradient-start: lighten(@blue-light, 25%);
+@color-scheme-map-gradient-end: @blue-light;
+
 
 // text
 
@@ -38,6 +43,8 @@
   color: @hightlight-color;
 }
 
+
+
 // map
 
 .color-scheme-map {
@@ -51,4 +58,25 @@
 
 .color-scheme-map a:hover {
   color: @hightlight-color;
+}
+
+.color-scheme-map {
+  background: rgba(95,171,218,1);
+  background: -moz-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, @color-scheme-map-gradient-start), color-stop(100%, @color-scheme-map-gradient-end));
+  background: -webkit-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: -o-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: -ms-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: radial-gradient(ellipse at center, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5fabda', endColorstr='#268dcd', GradientType=1 );
+}
+
+.color-scheme-map .call-for-action {
+  background: @blue-darker;
+  color: white;
+}
+
+.color-scheme-map .call-for-action:hover {
+  background: @orange;
+  color: white;
 }
