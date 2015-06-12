@@ -254,27 +254,54 @@ Hijax.behaviours.map = {
       var countryParams = q.match(/(addressCountry:..)/g);
       if (countryParams) {
         id = countryParams[0].split(':')[1];
+        map.world.getLayers().forEach(function(layer) {
+          var feature = layer.getSource().getFeatureById(id);
+          if (feature) {
+            var extent = feature.getGeometry().getExtent();
+            if (extent[0] == extent[2]) {
+              extent[0] -= 1000000;
+              extent[2] += 1000000;
+            }
+            if (extent[1] == extent[3]) {
+              extent[1] -= 1000000;
+              extent[3] += 1000000;
+            }
+            map.world.getView().fitExtent(extent, map.world.getSize());
+          }
+        });
       }
     } else {
       id = Hijax.functions.getResourceId();
-    }
-
-    if (id) {
-      map.world.getLayers().forEach(function(layer) {
-        var feature = layer.getSource().getFeatureById(id);
-        if (feature) {
-          var extent = feature.getGeometry().getExtent();
-          if (extent[0] == extent[2]) {
-            extent[0] -= 1000000;
-            extent[2] += 1000000;
+      if (id) {
+        map.world.getLayers().forEach(function(layer) {
+          var features = map.getFeaturesByReferencedId(layer, id);
+          var targetExtent = [0, 0, 0, 0];
+          for (var i = 0; i < features.length; i++) {
+            var extent = features[i].getGeometry().getExtent();
+            if (targetExtent[0] > extent[0]) {
+              targetExtent[0] = extent[0];
+            }
+            if (targetExtent[1] > extent[1]) {
+              targetExtent[1] = extent[1];
+            }
+            if (targetExtent[2] < extent[2]) {
+              targetExtent[2] = extent[2];
+            }
+            if (targetExtent[3] < extent[3]) {
+              targetExtent[3] = extent[3];
+            }
           }
-          if (extent[1] == extent[3]) {
-            extent[1] -= 1000000;
-            extent[3] += 1000000;
+          if (targetExtent[0] == targetExtent[2]) {
+            targetExtent[0] -= 1000000;
+            targetExtent[2] += 1000000;
           }
-          map.world.getView().fitExtent(extent, map.world.getSize());
-        }
-      });
+          if (targetExtent[1] == targetExtent[3]) {
+            targetExtent[1] -= 1000000;
+            targetExtent[3] += 1000000;
+          }
+          map.world.getView().fitExtent(targetExtent, map.world.getSize());
+        });
+      }
     }
 
   },
@@ -325,6 +352,18 @@ Hijax.behaviours.map = {
 
     return markers;
 
+  },
+
+  getFeaturesByReferencedId : function(layer, referencedId) {
+    var features = layer.getSource().getFeatures();
+    var result = [];
+    for (var i = 0; i < features.length; i++) {
+      var properties = features[i].getProperties();
+      if (properties.references == referencedId) {
+        result.push(features[i]);
+      }
+    }
+    return result;
   }
 
 }
