@@ -16,11 +16,11 @@ Hijax.behaviours.linkedListEntries = {
           return;
         }
         Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
-          var marker = layer.getSource().getFeatureById(id);
-          if (marker) {
-            var style = marker.getStyle();
+          var markers = Hijax.behaviours.map.getFeaturesByReferencedId(layer, id);
+          for (var i = 0; i < markers.length; i++) {
+            var style = markers[i].getStyle();
             style.getText().setFont('normal 3em FontAwesome');
-            marker.setStyle(style);
+            markers[i].setStyle(style);
           }
         });
       });
@@ -30,11 +30,11 @@ Hijax.behaviours.linkedListEntries = {
           return;
         }
         Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
-          var marker = layer.getSource().getFeatureById(id);
-          if (marker) {
-            var style = marker.getStyle();
+          var markers = Hijax.behaviours.map.getFeaturesByReferencedId(layer, id);
+          for (var i = 0; i < markers.length; i++) {
+            var style = markers[i].getStyle();
             style.getText().setFont('normal 1.5em FontAwesome');
-            marker.setStyle(style);
+            markers[i].setStyle(style);
           }
         });
       });
