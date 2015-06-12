@@ -22,8 +22,8 @@ Hijax.behaviours.map = {
         worldExtent: [-179, -90, 179, 90]
       });
 
-      map.projection = sphereMollweideProjection;
-      //map.projection = ol.proj.get('EPSG:3857');
+      //map.projection = sphereMollweideProjection;
+      map.projection = ol.proj.get('EPSG:3857');
       //map.projection = ol.proj.get('WGS84');
 
       // Map container
@@ -102,8 +102,15 @@ Hijax.behaviours.map = {
     info.find('tr').hide();
     info.find('thead>tr').hide();
     if (feature) {
-      info.find('thead>tr').show();
-      info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
+      var properties = feature.getProperties();
+      if (properties.type) {
+        // Feature is an icon to which the resource is attached
+        console.log(properties.refBy);
+      } else {
+        // Feature is a country
+        info.find('thead>tr').show();
+        info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
+      }
     }
 
   },
@@ -148,52 +155,13 @@ Hijax.behaviours.map = {
 
     var map = this;
 
-    var features = [];
-
-    for (var i = 0; i < placemarks.length; i++) {
-      var lat = placemarks[i].latLng[0];
-      var lon = placemarks[i].latLng[1];
-      var point = new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', map.projection.getCode()));
-
-      var color;
-      switch (placemarks[i].type) {
-        case 'Article':
-          color = 'red';
-          break;
-        case 'Organization':
-          color = 'blue';
-          break;
-        default:
-          color = 'black';
-      }
-
-      var iconStyle = new ol.style.Style({
-        text: new ol.style.Text({
-          text: '\uf041',
-          font: 'normal 1.5em FontAwesome',
-          textBaseline: 'Bottom',
-          fill: new ol.style.Fill({color: color})
-        })
-      });
-
-      var feature = new ol.Feature({
-        geometry: point,
-        name: placemarks[i].name,
-        url: placemarks[i].url,
-        type: placemarks[i].type
-      });
-      feature.setId(placemarks[i].id);
-      feature.setStyle(iconStyle);
-      features.push(feature);
-    }
-
     var vectorSource = new ol.source.Vector({
-      features: features,
+      features: placemarks,
       noWrap: true,
       wrapX: false
     });
 
-    var clusterSource = new ol.source.Cluster({
+    /*var clusterSource = new ol.source.Cluster({
       distance: 40,
       source: vectorSource,
       noWrap: true,
@@ -229,13 +197,13 @@ Hijax.behaviours.map = {
         return style;
       }
     });
+    map.world.addLayer(clusterLayer);*/
 
     var vectorLayer = new ol.layer.Vector({
       source: vectorSource
     });
 
     map.world.addLayer(vectorLayer);
-    //map.world.addLayer(clusterLayer);
 
   },
 
@@ -273,10 +241,23 @@ Hijax.behaviours.map = {
 
   },
 
+  markers : {},
   getMarkers : function(resource, labelCallback, origin) {
 
     origin = origin || resource;
     var that = this;
+
+    if (that.markers[resource['@id']]) {
+      for (var i = 0; i < that.markers[resource['@id']].length; i++) {
+        var properties = that.markers[resource['@id']][i].getProperties();
+        if (!properties.refBy[origin['@id']]) {
+          properties.refBy[origin['@id']] = origin;
+        }
+        that.markers[resource['@id']][i].setProperties(properties);
+      }
+      return that.markers[resource['@id']];
+    }
+
     var locations = [];
     var markers = [];
 
@@ -288,15 +269,45 @@ Hijax.behaviours.map = {
 
     for (var l in locations) {
       if (geo = locations[l].geo) {
-        markers.push({
-          latLng: [geo['lat'], geo['lon']],
-          id: origin['@id'],
-          type: origin['@type'],
-          name: labelCallback ? labelCallback(origin) : origin['@id'],
-          url: "/resource/" + origin['@id']
-        })
+        var point = new ol.geom.Point(ol.proj.transform([geo['lon'], geo['lat']], 'EPSG:4326', that.projection.getCode()));
+
+        var color;
+        switch (resource['@type']) {
+          case 'Article':
+            color = 'red';
+            break;
+          case 'Organization':
+            color = 'blue';
+            break;
+          default:
+            color = 'black';
+        }
+
+        var iconStyle = new ol.style.Style({
+          text: new ol.style.Text({
+            text: '\uf041',
+            font: 'normal 1.5em FontAwesome',
+            textBaseline: 'Bottom',
+            fill: new ol.style.Fill({color: color})
+          })
+        });
+
+        var featureProperties = {
+          resource: resource,
+          refBy: {},
+          geometry: point,
+          url: "/resource/" + resource['@id'],
+          type: resource['@type'],
+        };
+        featureProperties.refBy[origin['@id']] = origin;
+
+        var feature = new ol.Feature(featureProperties);
+        feature.setId(resource['@id']);
+        feature.setStyle(iconStyle);
+        markers.push(feature);
       }
     }
+
 
     if (!markers.length) {
       for (var key in resource) {
@@ -317,6 +328,7 @@ Hijax.behaviours.map = {
       }
     }
 
+    that.markers[resource['@id']] = markers;
     return markers;
 
   }
