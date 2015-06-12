@@ -33,7 +33,7 @@ Hijax.behaviours.map = {
       // Vector layer
       map.vector = new ol.layer.Vector({
         source: new ol.source.Vector({
-          url: '/assets/json/world.topo.json',
+          url: '/assets/json/ne_50m_admin_0_countries_topo.json',
           format: new ol.format.TopoJSON(),
           noWrap: true,
           wrapX: false
