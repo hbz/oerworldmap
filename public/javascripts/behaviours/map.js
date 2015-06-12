@@ -3,11 +3,28 @@ Hijax.behaviours.map = {
   container : null,
   world : null,
   vector : null,
+  projection: null,
 
   attach : function(context) {
     var map = this;
 
     $('div[data-view="map"]', context).each(function() {
+
+      proj4.defs('ESRI:53009', '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +a=6371000 ' +
+          '+b=6371000 +units=m +no_defs');
+
+      // Configure the Sphere Mollweide projection object with an extent,
+      // and a world extent. These are required for the Graticule.
+      var sphereMollweideProjection = new ol.proj.Projection({
+        code: 'ESRI:53009',
+        extent: [-9009954.605703328, -9009954.605703328,
+          9009954.605703328, 9009954.605703328],
+        worldExtent: [-179, -90, 179, 90]
+      });
+
+      map.projection = sphereMollweideProjection;
+      //map.projection = ol.proj.get('EPSG:3857');
+      //map.projection = ol.proj.get('WGS84');
 
       // Map container
       map.container = $('<div id="map"></div>')[0];
@@ -16,8 +33,7 @@ Hijax.behaviours.map = {
       // Vector layer
       map.vector = new ol.layer.Vector({
         source: new ol.source.Vector({
-          projection : 'EPSG:3857',
-          url: '/assets/json/ne_50m_admin_0_countries_topo.json',
+          url: '/assets/json/world.topo.json',
           format: new ol.format.TopoJSON(),
           noWrap: true,
           wrapX: false
@@ -30,7 +46,17 @@ Hijax.behaviours.map = {
         target: map.container,
         view: new ol.View({
           center: [0, 0],
-          zoom: 2
+          projection: map.projection,
+          zoom: 1
+        })
+      });
+
+      var graticule = new ol.Graticule({
+        map: map.world,
+        strokeStyle: new ol.style.Stroke({
+          color: 'rgba(255,120,0,0.9)',
+          width: 1.5,
+          lineDash: [0.5, 4]
         })
       });
 
@@ -127,7 +153,7 @@ Hijax.behaviours.map = {
     for (var i = 0; i < placemarks.length; i++) {
       var lat = placemarks[i].latLng[0];
       var lon = placemarks[i].latLng[1];
-      var point = new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'));
+      var point = new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', map.projection.getCode()));
 
       var color;
       switch (placemarks[i].type) {

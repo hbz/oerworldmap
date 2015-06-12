@@ -12,6 +12,9 @@ Hijax.behaviours.linkedListEntries = {
     $('[data-behaviour="linkedListEntries"]', context).each(function(){
       $( this ).on("mouseenter", "li", function() {
         var id = this.getAttribute("about");
+        if (!id) {
+          return;
+        }
         Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
           var marker = layer.getSource().getFeatureById(id);
           if (marker) {
@@ -23,6 +26,9 @@ Hijax.behaviours.linkedListEntries = {
       });
       $( this ).on("mouseleave", "li", function(){
         var id = this.getAttribute("about");
+        if (!id) {
+          return;
+        }
         Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
           var marker = layer.getSource().getFeatureById(id);
           if (marker) {
