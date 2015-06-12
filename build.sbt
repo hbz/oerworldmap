@@ -18,4 +18,4 @@ libraryDependencies ++= Seq(
   "com.github.spullara.mustache.java" % "compiler" % "0.9.0"
 )
 
-includeFilter in (Assets, LessKeys.less) := "main.less" | "bootstrap.less"
+includeFilter in (Assets, LessKeys.less) := "main.less"
