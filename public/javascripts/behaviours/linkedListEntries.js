@@ -16,11 +16,11 @@ Hijax.behaviours.linkedListEntries = {
           return;
         }
         Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
-          var marker = layer.getSource().getFeatureById(id);
-          if (marker) {
-            var style = marker.getStyle();
+          var markers = that.getFeaturesByReferencedId(layer, id);
+          for (var i = 0; i < markers.length; i++) {
+            var style = markers[i].getStyle();
             style.getText().setFont('normal 3em FontAwesome');
-            marker.setStyle(style);
+            markers[i].setStyle(style);
           }
         });
       });
@@ -30,15 +30,29 @@ Hijax.behaviours.linkedListEntries = {
           return;
         }
         Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
-          var marker = layer.getSource().getFeatureById(id);
-          if (marker) {
-            var style = marker.getStyle();
+          var markers = that.getFeaturesByReferencedId(layer, id);
+          for (var i = 0; i < markers.length; i++) {
+            var style = markers[i].getStyle();
             style.getText().setFont('normal 1.5em FontAwesome');
-            marker.setStyle(style);
+            markers[i].setStyle(style);
           }
         });
       });
     });
+  },
+
+  getFeaturesByReferencedId : function(layer, referencedId) {
+    console.log(referencedId);
+    var features = layer.getSource().getFeatures();
+    var result = [];
+    for (var i = 0; i < features.length; i++) {
+      var properties = features[i].getProperties();
+      if (properties.references) console.log("References", properties.references);
+      if (properties.references == referencedId) {
+        result.push(features[i]);
+      }
+    }
+    return result;
   }
 
 };
