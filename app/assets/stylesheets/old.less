@@ -291,49 +291,7 @@ h1:first-child {
 /* ------------------------- */
 
 
-/* - - - color schemes - - - */
 
-@blue: #0c75c0;
-@white: #fff;
-@orange: #f09711;
-
-@hightlight-color: @orange;
-
-@color-scheme-text-background: @white;
-@color-scheme-text-color: @blue;
-
-@color-scheme-map-background: @blue;
-@color-scheme-map-color: @white;
-
-// text
-
-.color-scheme-text {
-  background: @color-scheme-text-background;
-  color: @color-scheme-text-color;
-}
-
-.color-scheme-text a {
-  color: @color-scheme-text-color;
-}
-
-.color-scheme-text a:hover {
-  color: @hightlight-color;
-}
-
-// map
-
-.color-scheme-map {
-  background: @color-scheme-map-background;
-  color: @color-scheme-map-color;
-}
-
-.color-scheme-map a {
-  color: @color-scheme-map-color;
-}
-
-.color-scheme-map a:hover {
-  color: @hightlight-color;
-}
 
 
 /* --- container ---
@@ -348,55 +306,7 @@ h1:first-child {
 
 
 
-/* --- layouts --- */
 
-body.layout-fixed > header,
-body.layout-fixed > div[role="main"],
-body.layout-fixed > div[role="complementary"] {
-  position: fixed;
-}
-
-body.layout-fixed > header {
-  top: 0px;
-  left: 0px;
-  width: 100%;
-}
-
-body.layout-fixed > div[role="main"] {
-  top: @header-height;
-  bottom: 0px;
-  left: 0%;
-  width: 70%;
-  overflow-y: auto;
-}
-
-body.layout-fixed > div[role="complementary"] {
-  top: @header-height;
-  right: 0px;
-  width: 30%;
-  bottom: 0px;
-  overflow-y: auto;
-}
-
-body.layout-fixed > div.column.small {
-  width: 30%;
-}
-
-div.column.small {
-  font-size: 14px;
-}
-
-div.column.small h1 {
-  font-size: 2em;
-}
-
-body.layout-fixed > div.column.medium {
-  width: 50%;
-}
-
-body.layout-fixed > div.column.large {
-  width: 70%;
-}
 
 /* --- map view --- */
 

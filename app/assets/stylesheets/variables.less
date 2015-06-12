@@ -7,3 +7,48 @@
 @orange: #fe8a00;
 @green: #a1cd3f;
 @red: #e15636;
+
+
+/* - - - color schemes - - - */
+
+@blue: #0c75c0;
+@white: #fff;
+@orange: #f09711;
+
+@hightlight-color: @orange;
+
+@color-scheme-text-background: @white;
+@color-scheme-text-color: @blue;
+
+@color-scheme-map-background: @blue;
+@color-scheme-map-color: @white;
+
+// text
+
+.color-scheme-text {
+  background: @color-scheme-text-background;
+  color: @color-scheme-text-color;
+}
+
+.color-scheme-text a {
+  color: @color-scheme-text-color;
+}
+
+.color-scheme-text a:hover {
+  color: @hightlight-color;
+}
+
+// map
+
+.color-scheme-map {
+  background: @color-scheme-map-background;
+  color: @color-scheme-map-color;
+}
+
+.color-scheme-map a {
+  color: @color-scheme-map-color;
+}
+
+.color-scheme-map a:hover {
+  color: @hightlight-color;
+}

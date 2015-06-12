@@ -5,9 +5,12 @@
 
     <section>
         <form method="get" action="/resource/" id="search">
-            <h1><input name="q" placeholder="Search" value="{{scope.q}}"/> <input type="submit" /></h1>
-            <span>{{scope.resources.size}} hits</span>
+            <input name="q" placeholder="Search ..." value="{{scope.q}}"/>
+            <button type="submit"><i class="fa fa-search"></i></button>
+            <div class="hits">{{scope.resources.size}} hits</div>
         </form>
+    </section>
+    <section>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}
