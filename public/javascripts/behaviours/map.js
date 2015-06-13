@@ -100,6 +100,12 @@ Hijax.behaviours.map = {
       });
       
       map.world.addOverlay(map.popup);
+      
+      map.templates = {};
+      
+      $.get('/assets/mustache/popover.mustache', function(data){
+        map.templates.popover = data;
+      });
 
     });
 
@@ -126,10 +132,14 @@ Hijax.behaviours.map = {
         var coord = geometry.getCoordinates();
         map.popup.setPosition(coord);
         
+        properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
+        
         $(map.popupElement).popover({
           'placement': 'top',
           'html': true,
-          'content': 'test', //feature.get('name')
+          'container': '#map',
+          'title': '<i class="fa fa-users"></i> Organisation',
+          'content': Mustache.to_html(map.templates.popover, properties), //properties.resource.legalName['@value'], //feature.get('name')
           'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
         });
         $(map.popupElement).popover('show');
