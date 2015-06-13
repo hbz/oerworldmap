@@ -104,7 +104,8 @@ Hijax.behaviours.map = {
     if (feature) {
       var properties = feature.getProperties();
       if (properties.type) {
-        // Feature is an icon to which the resource is attached
+        // Feature is an icon to which the resource and references are attached
+        console.log(properties.resource);
         console.log(properties.refBy);
       } else {
         // Feature is a country
