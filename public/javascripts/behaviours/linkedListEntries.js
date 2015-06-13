@@ -12,31 +12,29 @@ Hijax.behaviours.linkedListEntries = {
     $('[data-behaviour="linkedListEntries"]', context).each(function(){
       $( this ).on("mouseenter", "li", function() {
         var id = this.getAttribute("about");
-        if (!id) {
-          return;
+        var json = JSON.parse( $(this).closest("ul").children('script[type="application/ld+json"]').html() );
+        var resource = json.filter(function(resource) {
+          return resource['@id'] == id;
+        })[0];
+        var markers = Hijax.behaviours.map.getMarkers(resource);
+        for (var i = 0; i < markers.length; i++) {
+          var style = markers[i].getStyle();
+          style.getText().setFont('normal 3em FontAwesome');
+          markers[i].setStyle(style);
         }
-        Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
-          var markers = Hijax.behaviours.map.getFeaturesByReferencedId(layer, id);
-          for (var i = 0; i < markers.length; i++) {
-            var style = markers[i].getStyle();
-            style.getText().setFont('normal 3em FontAwesome');
-            markers[i].setStyle(style);
-          }
-        });
       });
-      $( this ).on("mouseleave", "li", function(){
+      $( this ).on("mouseleave", "li", function() {
         var id = this.getAttribute("about");
-        if (!id) {
-          return;
+        var json = JSON.parse( $(this).closest("ul").children('script[type="application/ld+json"]').html() );
+        var resource = json.filter(function(resource) {
+          return resource['@id'] == id;
+        })[0];
+        var markers = Hijax.behaviours.map.getMarkers(resource);
+        for (var i = 0; i < markers.length; i++) {
+          var style = markers[i].getStyle();
+          style.getText().setFont('normal 1.5em FontAwesome');
+          markers[i].setStyle(style);
         }
-        Hijax.behaviours.map.world.getLayers().forEach(function(layer) {
-          var markers = Hijax.behaviours.map.getFeaturesByReferencedId(layer, id);
-          for (var i = 0; i < markers.length; i++) {
-            var style = markers[i].getStyle();
-            style.getText().setFont('normal 1.5em FontAwesome');
-            markers[i].setStyle(style);
-          }
-        });
       });
     });
   }
