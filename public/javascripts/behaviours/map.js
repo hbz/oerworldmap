@@ -107,8 +107,9 @@ Hijax.behaviours.map = {
         // Feature is an icon to which the resource and references are attached
         console.log(properties.resource);
         console.log(properties.refBy);
-      } else {
+      } else if (properties.country) {
         // Feature is a country
+        console.log(properties.country);
         info.find('thead>tr').show();
         info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
       }
@@ -117,6 +118,7 @@ Hijax.behaviours.map = {
   },
 
   setHeatmapData : function(aggregations) {
+
     var map = this;
 
     var heat_data = {};
@@ -139,9 +141,15 @@ Hijax.behaviours.map = {
       .domain([d3.quantile(heats, .01), d3.quantile(heats, .99)]);
 
     map.vector.setStyle(function(feature) {
+      var properties = feature.getProperties();
+      var country = aggregations.entries.filter(function(entry) {
+        return entry.key == feature.getId().toLowerCase();
+      })[0];
+      properties.country = country || {key: feature.getId().toLowerCase()};
+      feature.setProperties(properties);
       return [new ol.style.Style({
         fill: new ol.style.Fill({
-          color: heat_data[ feature["$"] ] ? color( heat_data[ feature["$"] ] ) : "#ffffff"
+          color: heat_data[ feature.getId() ] ? color( heat_data[ feature.getId() ] ) : "#ffffff"
         }),
         stroke: new ol.style.Stroke({
           color: '#0c75bf',
@@ -251,7 +259,7 @@ Hijax.behaviours.map = {
     if (that.markers[resource['@id']]) {
       for (var i = 0; i < that.markers[resource['@id']].length; i++) {
         var properties = that.markers[resource['@id']][i].getProperties();
-        if (!properties.refBy[origin['@id']]) {
+        if (!properties.refBy[origin['@id']] && origin['@id'] != resource['@id']) {
           properties.refBy[origin['@id']] = origin;
         }
         that.markers[resource['@id']][i].setProperties(properties);
