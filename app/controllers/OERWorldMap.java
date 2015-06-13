@@ -7,17 +7,24 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
+import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -26,6 +33,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 import play.Configuration;
+import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -108,7 +116,7 @@ public abstract class OERWorldMap extends Controller {
     Mustache template = mf.compile(play.Play.application().path().getAbsolutePath() + "/app/mustache/" + templatePath);
     Writer writer = new StringWriter();
     template.execute(writer, mustacheData);
-    return views.html.main.render(pageTitle, Html.apply(writer.toString()));
+    return views.html.main.render(pageTitle, Html.apply(writer.toString()), getClientTemplates());
   }
 
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope) {
@@ -117,6 +125,30 @@ public abstract class OERWorldMap extends Controller {
 
   protected static Html render(String pageTitle, String templatePath) {
     return render(pageTitle, templatePath, null, null);
+  }
+
+  private static String getClientTemplates() {
+    List<String> templates = new ArrayList<>();
+    try {
+      Files.walk(Paths.get(play.Play.application().path().getAbsolutePath() + "/app/mustache/ClientTemplates"))
+          .forEach(new Consumer<Path>() {
+            @Override
+            public void accept(Path path) {
+              try {
+                String template = "<script id=\"".concat(path.getFileName().toString())
+                    .concat("\" type=\"text/mustache\">\n");
+                template = template.concat(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
+                template = template.concat("</script>\n\n");
+                templates.add(template);
+              } catch (IOException e) {
+                Logger.error(e.toString());
+              }
+            }
+          });
+    } catch (IOException e) {
+      Logger.error(e.toString());
+    }
+    return String.join("\n", templates);
   }
 
 }

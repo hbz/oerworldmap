@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(templates: String)
 <!DOCTYPE html>
 <html class="no-js">
   <head>
@@ -63,6 +63,8 @@
   <script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>
   
   <script type="text/javascript" src="/assets/javascripts/main.js"></script>
+
+  @Html(templates)
 
   </body>
 </html>
