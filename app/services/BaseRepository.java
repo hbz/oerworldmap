@@ -17,6 +17,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import play.Logger;
 
 public class BaseRepository {
 
@@ -80,9 +81,13 @@ public class BaseRepository {
     }
   }
 
-  public List<Resource> esQuery(String aEsQuery) throws IOException, ParseException {
+  public List<Resource> esQuery(String aEsQuery) {
     List<Resource> resources = new ArrayList<Resource>();
-    resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
+    try {
+      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
+    } catch (IOException | ParseException e) {
+      Logger.error(e.toString());
+    }
     return resources;
     // TODO eventually add FileResourceRepository.esQuery(String aEsQuery)
   }

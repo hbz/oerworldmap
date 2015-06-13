@@ -79,14 +79,15 @@ Hijax.behaviours.map = {
           if (properties.url) {
             window.location = properties.url;
           } else {
-            window.location = "/resource/?q=about.\\*.addressCountry:" + feature.getId();
+            window.location = "/country/" + feature.getId().toLowerCase();
           }
         }
       });
 
+      var that = this;
       // FIXME: Naive workaround for asychronous loading, should be ol.source.Vector.loader
-      setTimeout(function(){ map.setBoundingBox(); }, 1000);
-      
+
+      setTimeout(function(){ map.setBoundingBox(); }, 1000);      
       $(this).addClass("map-view");
 
     });
@@ -143,12 +144,6 @@ Hijax.behaviours.map = {
       .domain([d3.quantile(heats, .01), d3.quantile(heats, .99)]);
 
     map.vector.setStyle(function(feature) {
-      var properties = feature.getProperties();
-      var country = aggregations.entries.filter(function(entry) {
-        return entry.key == feature.getId().toLowerCase();
-      })[0];
-      properties.country = country || {key: feature.getId().toLowerCase()};
-      feature.setProperties(properties);
       return [new ol.style.Style({
         fill: new ol.style.Fill({
           color: heat_data[ feature.getId() ] ? color( heat_data[ feature.getId() ] ) : "#ffffff"
@@ -218,23 +213,14 @@ Hijax.behaviours.map = {
 
   },
 
-  setBoundingBox : function() {
+  setBoundingBox : function(element) {
+
     var map = this;
-    var q = Hijax.functions.getQueryVariable("q");
-    var id;
 
-    if (q) {
-      var countryParams = q.match(/(addressCountry:..)/g);
-      if (countryParams) {
-        id = countryParams[0].split(':')[1];
-      }
-    } else {
-      id = Hijax.functions.getResourceId();
-    }
-
-    if (id) {
+    var focusId = element.getAttribute("data-focus");
+    if (focusId) {
       map.world.getLayers().forEach(function(layer) {
-        var feature = layer.getSource().getFeatureById(id);
+        var feature = layer.getSource().getFeatureById(focusId);
         if (feature) {
           var extent = feature.getGeometry().getExtent();
           if (extent[0] == extent[2]) {
