@@ -5,11 +5,19 @@
 
     <section>
         <form method="get" action="/resource/" id="search">
-            <input name="q" placeholder="Search ..." value="{{scope.q}}"/>
-            <button type="submit"><i class="fa fa-search"></i></button>
-            <div class="hits">{{scope.resources.size}} hits</div>
+            
+            <div class="input-group">
+              <input type="text" name="q" class="form-control input-lg" value="{{scope.q}}" placeholder="Search for ...">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+            
         </form>
     </section>
+    
+    <div class="hits">{{scope.resources.size}} found ...</div>
+    
     <section>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
@@ -19,19 +27,26 @@
                 <li about="{{@id}}">
                     {{#?Article}}
                     <article>
-                      <div class="placeholder" style="width: 100px; height: 100px;"></div>
+                    
                       <h1>
                         <a href="/resource/{{@id}}">
                           {{#name}}{{@value}}{{/name}}
                         </a>
                       </h1>
-                      <strong>Contributed by</strong>
-                      <ul class="csl">
-                        {{#creator}}
-                          <li>{{#?Organization}}{{#legalName}}{{@value}}{{/legalName}}{{/?Organization}}{{#?Person}}{{name}}{{/?Person}}</li>
-                        {{/creator}}
-                      </ul>
-                      {{#articleBody}}{{{@value}}}{{/articleBody}}
+                      
+                      <div class="contributed-by">
+                        <strong>Contributed by</strong>
+                        <ul class="csl">
+                          {{#creator}}
+                            <li>{{#?Organization}}{{#legalName}}{{@value}}{{/legalName}}{{/?Organization}}{{#?Person}}{{name}}{{/?Person}}</li>
+                          {{/creator}}
+                        </ul>
+                      </div>
+                      
+                      <div class="article-body">
+                        {{#articleBody}}{{{@value}}}{{/articleBody}}
+                      </div>
+                      
                     </article>
                     {{/?Article}}
                     {{#?Organization}}

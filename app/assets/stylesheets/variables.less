@@ -1,5 +1,6 @@
 @blue-darker: #244267;
 @blue-dark: #3d5f8a;
+//@blue: #4f6785;
 @blue-light: #268ccd;
 @blue-light-gradient-end: #5faada;
 @blue-lighter: #58a6d8;
@@ -8,27 +9,25 @@
 @orange: #fe8a00;
 @green: #a1cd3f;
 @red: #e15636;
-
+@white: #fff;
 
 /* - - - color schemes - - - */
 
+/*
 @blue: #0c75c0;
-@white: #fff;
+
 @orange: #f09711;
+*/
 
 @hightlight-color: @orange;
 
+
+
+
+// --- color scheme text ---
+
 @color-scheme-text-background: @white;
 @color-scheme-text-color: @blue-darker;
-
-@color-scheme-map-background: @blue-light;
-@color-scheme-map-color: @white;
-
-@color-scheme-map-gradient-start: lighten(@blue-light, 25%);
-@color-scheme-map-gradient-end: @blue-light;
-
-
-// text
 
 .color-scheme-text {
   background: @color-scheme-text-background;
@@ -44,8 +43,13 @@
 }
 
 
+// --- color scheme map ---
 
-// map
+@color-scheme-map-background: @blue-light;
+@color-scheme-map-color: @white;
+
+@color-scheme-map-gradient-start: lighten(@blue-light, 25%);
+@color-scheme-map-gradient-end: @blue-light;
 
 .color-scheme-map {
   background: @color-scheme-map-background;
