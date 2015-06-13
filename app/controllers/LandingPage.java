@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class LandingPage extends OERWorldMap {
 
-  public static Result get() throws IOException {
+  public static Result get() {
 
     return ok(render("Home", "LandingPage/index.mustache"));
 
