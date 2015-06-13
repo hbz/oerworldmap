@@ -19,11 +19,13 @@ public class CountryIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
+    List<Resource> champions = mBaseRepository.esQuery("countryChampionFor:".concat(id.toUpperCase()));
     List<Resource> resources = mBaseRepository.esQuery("about.\\*.addressCountry:".concat(id.toUpperCase()));
     Map<String,Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
     scope.put("name", Countries.getNameFor(id, currentLocale));
+    scope.put("champions", champions);
     scope.put("resources", resources);
 
     if (request().accepts("text/html")) {
