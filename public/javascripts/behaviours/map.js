@@ -27,7 +27,7 @@ Hijax.behaviours.map = {
       //map.projection = ol.proj.get('WGS84');
 
       // Map container
-      map.container = $('<div id="map"></div>')[0];
+      map.container = $('<div id="map"><div id="popup"></div></div>')[0];
       $(this).prepend(map.container);
 
       // Vector layer
@@ -89,6 +89,16 @@ Hijax.behaviours.map = {
 
       setTimeout(function(){ map.setBoundingBox(); }, 1000);      
       $(this).addClass("map-view");
+      
+      map.popupElement = document.getElementById('popup');
+      
+      map.popup = new ol.Overlay({
+        element: map.popupElement,
+        positioning: 'bottom-center',
+        stopEvent: false
+      });
+      
+      map.world.addOverlay(map.popup);
 
     });
 
@@ -110,12 +120,27 @@ Hijax.behaviours.map = {
         // Feature is an icon to which the resource and references are attached
         console.log(properties.resource);
         console.log(properties.refBy);
+        
+        var geometry = feature.getGeometry();
+        var coord = geometry.getCoordinates();
+        map.popup.setPosition(coord);
+        
+        $(map.popupElement).popover({
+          'placement': 'top',
+          'html': true,
+          'content': 'test', //feature.get('name')
+          'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+        });
+        $(map.popupElement).popover('show');
+        
       } else if (properties.country) {
         // Feature is a country
         console.log(properties.country);
         info.find('thead>tr').show();
         info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
       }
+    } else {
+      $(map.popupElement).popover('destroy');
     }
 
   },
@@ -216,8 +241,12 @@ Hijax.behaviours.map = {
   setBoundingBox : function(element) {
 
     var map = this;
-
-    var focusId = element.getAttribute("data-focus");
+    
+    if(element) {
+      var focusId = element.getAttribute("data-focus");
+    } else {
+      var focusId = false;
+    }
     if (focusId) {
       map.world.getLayers().forEach(function(layer) {
         var feature = layer.getSource().getFeatureById(focusId);
