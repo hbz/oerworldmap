@@ -3,6 +3,7 @@ Hijax.behaviours.map = {
   container : null,
   world : null,
   vector : null,
+  vectorSource : null,
   projection: null,
 
   attach : function(context) {
@@ -30,14 +31,17 @@ Hijax.behaviours.map = {
       map.container = $('<div id="map"><div id="popup"></div></div>')[0];
       $(this).prepend(map.container);
 
+      // Vector source
+      map.vectorSource = new ol.source.Vector({
+        url: '/assets/json/ne_50m_admin_0_countries_topo.json',
+        format: new ol.format.TopoJSON(),
+        noWrap: true,
+        wrapX: false
+      });
+
       // Vector layer
       map.vector = new ol.layer.Vector({
-        source: new ol.source.Vector({
-          url: '/assets/json/ne_50m_admin_0_countries_topo.json',
-          format: new ol.format.TopoJSON(),
-          noWrap: true,
-          wrapX: false
-        })
+        source: map.vectorSource
       });
 
       // Map object
@@ -84,10 +88,7 @@ Hijax.behaviours.map = {
         }
       });
 
-      var that = this;
-      // FIXME: Naive workaround for asychronous loading, should be ol.source.Vector.loader
-
-      setTimeout(function(){ map.setBoundingBox(); }, 1000);      
+      map.setBoundingBox(this);
       $(this).addClass("map-view");
       
       map.popupElement = document.getElementById('popup');
@@ -150,6 +151,22 @@ Hijax.behaviours.map = {
     var map = this;
 
     var heat_data = {};
+
+    var dataAttached = false;
+    map.vectorSource.on('change', function(e) {
+      if (map.vectorSource.getState() == 'ready' && !dataAttached) {
+        dataAttached = true;
+        for(var j = 0; j < aggregations["entries"].length; j++) {
+          var aggregation = aggregations["entries"][j];
+          var feature = map.vectorSource.getFeatureById(aggregation.key.toUpperCase());
+          if (feature) {
+            var properties = feature.getProperties();
+            properties.country = aggregation;
+            feature.setProperties(properties);
+          }
+        }
+      }
+    });
 
     for(var j = 0; j < aggregations["entries"].length; j++) {
       var aggregation = aggregations["entries"][j];
@@ -241,26 +258,30 @@ Hijax.behaviours.map = {
   setBoundingBox : function(element) {
 
     var map = this;
-    
-    if(element) {
-      var focusId = element.getAttribute("data-focus");
-    } else {
-      var focusId = false;
-    }
+
+    var focusId = element.getAttribute("data-focus");
+
+    var focussed = false;
+
     if (focusId) {
-      map.world.getLayers().forEach(function(layer) {
-        var feature = layer.getSource().getFeatureById(focusId);
-        if (feature) {
-          var extent = feature.getGeometry().getExtent();
-          if (extent[0] == extent[2]) {
-            extent[0] -= 1000000;
-            extent[2] += 1000000;
-          }
-          if (extent[1] == extent[3]) {
-            extent[1] -= 1000000;
-            extent[3] += 1000000;
-          }
-          map.world.getView().fitExtent(extent, map.world.getSize());
+      map.vectorSource.on('change', function(e) {
+        if (map.vectorSource.getState() == 'ready' && !focussed) {
+          focussed = true;
+          map.world.getLayers().forEach(function(layer) {
+            var feature = layer.getSource().getFeatureById(focusId);
+            if (feature) {
+              var extent = feature.getGeometry().getExtent();
+              if (extent[0] == extent[2]) {
+                extent[0] -= 1000000;
+                extent[2] += 1000000;
+              }
+              if (extent[1] == extent[3]) {
+                extent[1] -= 1000000;
+                extent[3] += 1000000;
+              }
+              map.world.getView().fitExtent(extent, map.world.getSize());
+            }
+          });
         }
       });
     }
