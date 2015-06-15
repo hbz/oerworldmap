@@ -111,6 +111,8 @@ Hijax.behaviours.map = {
 
   },
 
+
+  displayedFeatureInfo : null,
   displayFeatureInfo : function(pixel, context) {
     var map = this;
 
@@ -122,6 +124,10 @@ Hijax.behaviours.map = {
     info.find('tr').hide();
     info.find('thead>tr').hide();
     if (feature) {
+      if (!(map.displayedFeatureInfo && map.displayedFeatureInfo.getId() == feature.getId())) {
+        $(map.popupElement).popover('destroy');
+        map.displayedFeatureInfo = feature;
+      }
       var properties = feature.getProperties();
       if (properties.type) {
         // Feature is an icon to which the resource and references are attached
