@@ -36,7 +36,7 @@ Hijax.behaviours.map = {
         url: '/assets/json/ne_50m_admin_0_countries_topo.json',
         format: new ol.format.TopoJSON(),
         noWrap: true,
-        wrapX: false
+        wrapX: true
       });
 
       // Vector layer
@@ -44,25 +44,38 @@ Hijax.behaviours.map = {
         source: map.vectorSource
       });
 
+      // View
+      map.view = new ol.View({
+        center: [0, 0],
+        projection: map.projection,
+        zoom: 1
+      });
+
       // Map object
       map.world = new ol.Map({
         layers: [map.vector],
         target: map.container,
-        view: new ol.View({
-          center: [0, 0],
-          projection: map.projection,
-          zoom: 1
-        })
+        view: map.view
       });
 
-      var graticule = new ol.Graticule({
+      // User position
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lon = position.coords.latitude;
+          var center = ol.proj.transform([lon, 0], 'EPSG:4326', map.projection.getCode());
+          map.world.getView().setCenter(center);
+        });
+      }
+
+      // Grid
+      /*var graticule = new ol.Graticule({
         map: map.world,
         strokeStyle: new ol.style.Stroke({
           color: 'rgba(255,120,0,0.9)',
           width: 1.5,
           lineDash: [0.5, 4]
         })
-      });
+      });*/
 
       map.world.on('pointermove', function(evt) {
         if (evt.dragging) {
@@ -110,7 +123,6 @@ Hijax.behaviours.map = {
     });
 
   },
-
 
   displayedFeatureInfo : null,
   displayFeatureInfo : function(pixel, context) {
@@ -222,7 +234,7 @@ Hijax.behaviours.map = {
     var vectorSource = new ol.source.Vector({
       features: placemarks,
       noWrap: true,
-      wrapX: false
+      wrapX: true
     });
 
     /*var clusterSource = new ol.source.Cluster({
