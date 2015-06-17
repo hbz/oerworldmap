@@ -15,8 +15,140 @@
                   "type": "string"
                 }
               }
+            },
+            "geo": {
+              "type": "geo_point"
             }
           }
+        },
+        "@id": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "@type": {
+          "index": "not_analyzed",
+          "type": "string"
+        }
+      }
+    },
+    "Organization": {
+      "properties": {
+        "location": {
+          "properties": {
+            "address": {
+              "properties": {
+                "addressCountry": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                }
+              }
+            },
+            "geo": {
+              "type": "geo_point"
+            }
+          }
+        },
+        "@id": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "@type": {
+          "index": "not_analyzed",
+          "type": "string"
+        }
+      }
+    },
+    "Action": {
+      "properties": {
+        "agent": {
+          "properties": {
+            "email": {
+              "index": "not_analyzed",
+              "type": "string"
+            },
+            "workLocation": {
+              "properties": {
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "geo": {
+                  "type": "geo_point"
+                }
+              }
+            },
+            "location": {
+              "properties": {
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "geo": {
+                  "type": "geo_point"
+                }
+              }
+            }
+          }
+        },
+        "participant": {
+          "properties": {
+            "email": {
+              "index": "not_analyzed",
+              "type": "string"
+            },
+            "workLocation": {
+              "properties": {
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "geo": {
+                  "type": "geo_point"
+                }
+              }
+            },
+            "location": {
+              "properties": {
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "geo": {
+                  "type": "geo_point"
+                }
+              }
+            }
+          }
+        },
+        "image": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "url": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "startDate": {
+          "type": "date"
+        },
+        "endDate": {
+          "type": "date"
         },
         "@id": {
           "index": "not_analyzed",

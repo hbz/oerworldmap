@@ -1,0 +1,53 @@
+<div role="complementary" class="color-scheme-map column large" data-view="map" data-focus="{{scope.alpha-2}}">
+    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+</div>
+<div role="main" class="color-scheme-text list-view column small">
+    <section>
+        <h1>{{scope.name}}</h1>
+        <pre>{{{scope.champions}}}</pre>
+        <ul class="resource-list" data-behaviour="linkedListEntries">
+            <script type="application/ld+json">
+                {{{scope.resources}}}
+            </script>
+          {{#scope.resources}}
+              <li about="{{@id}}">
+                {{#?Article}}
+                    <article>
+                        <div class="placeholder" style="width: 100px; height: 100px;"></div>
+                        <h1>
+                            <a href="/resource/{{@id}}">
+                              {{#name}}{{@value}}{{/name}}
+                            </a>
+                        </h1>
+                        <strong>Contributed by</strong>
+                        <ul class="csl">
+                          {{#creator}}
+                              <li>{{#?Organization}}{{#legalName}}{{@value}}{{/legalName}}{{/?Organization}}{{#?Person}}{{name}}{{/?Person}}</li>
+                          {{/creator}}
+                        </ul>
+                      {{#articleBody}}{{{@value}}}{{/articleBody}}
+                    </article>
+                {{/?Article}}
+                {{#?Organization}}
+                    <div>
+                        <h1>
+                            <a href="/resource/{{@id}}">
+                              {{#legalName}}{{@value}}{{/legalName}}
+                            </a>
+                        </h1>
+                    </div>
+                {{/?Organization}}
+                {{#?Person}}
+                    <div>
+                        <h1>
+                            <a href="/resource/{{@id}}">
+                              {{@id}}
+                            </a>
+                        </h1>
+                    </div>
+                {{/?Person}}
+              </li>
+          {{/scope.resources}}
+        </ul>
+    </section>
+</div>

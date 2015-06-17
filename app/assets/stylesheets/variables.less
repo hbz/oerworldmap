@@ -1,0 +1,86 @@
+@blue-darker: #244267;
+@blue-dark: #3d5f8a;
+//@blue: #4f6785;
+@blue-light: #268ccd;
+@blue-light-gradient-end: #5faada;
+@blue-lighter: #58a6d8;
+@blue-lightest: #e6f0f5;
+
+@orange: #fe8a00;
+@green: #a1cd3f;
+@red: #e15636;
+@white: #fff;
+
+/* - - - color schemes - - - */
+
+/*
+@blue: #0c75c0;
+
+@orange: #f09711;
+*/
+
+@hightlight-color: @orange;
+
+
+
+
+// --- color scheme text ---
+
+@color-scheme-text-background: @white;
+@color-scheme-text-color: @blue-darker;
+
+.color-scheme-text {
+  background: @color-scheme-text-background;
+  color: @color-scheme-text-color;
+}
+
+.color-scheme-text a {
+  color: @color-scheme-text-color;
+}
+
+.color-scheme-text a:hover {
+  color: @hightlight-color;
+}
+
+
+// --- color scheme map ---
+
+@color-scheme-map-background: @blue-light;
+@color-scheme-map-color: @white;
+
+@color-scheme-map-gradient-start: lighten(@blue-light, 25%);
+@color-scheme-map-gradient-end: @blue-light;
+
+.color-scheme-map {
+  background: @color-scheme-map-background;
+  color: @color-scheme-map-color;
+}
+
+.color-scheme-map a {
+  color: @color-scheme-map-color;
+}
+
+.color-scheme-map a:hover {
+  color: @hightlight-color;
+}
+
+.color-scheme-map {
+  background: rgba(95,171,218,1);
+  background: -moz-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, @color-scheme-map-gradient-start), color-stop(100%, @color-scheme-map-gradient-end));
+  background: -webkit-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: -o-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: -ms-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  background: radial-gradient(ellipse at center, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5fabda', endColorstr='#268dcd', GradientType=1 );
+}
+
+.color-scheme-map .call-for-action {
+  background: @blue-darker;
+  color: white;
+}
+
+.color-scheme-map .call-for-action:hover {
+  background: @orange;
+  color: white;
+}

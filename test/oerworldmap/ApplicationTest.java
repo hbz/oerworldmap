@@ -14,6 +14,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.Test;
 
+import controllers.Global;
 import play.Configuration;
 import play.Play;
 import play.libs.F.Callback;
@@ -27,7 +28,7 @@ public class ApplicationTest {
   @Test  
   public void runningLandingPage() {
     
-    final ElasticsearchConfig config = new ElasticsearchConfig(true);
+    final ElasticsearchConfig config = Global.createElasticsearchConfig(true);
     final Settings mClientSettings = ImmutableSettings.settingsBuilder()
           .put(config.getClientSettings()).build();
     @SuppressWarnings("resource")
