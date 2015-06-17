@@ -29,7 +29,7 @@ public class CountryIndex extends OERWorldMap {
     scope.put("resources", resources);
 
     if (request().accepts("text/html")) {
-      return ok(render("Home", "CountryIndex/read.mustache", scope));
+      return ok(render(Countries.getNameFor(id, currentLocale), "CountryIndex/read.mustache", scope));
     } else {
       return ok(resources.toString()).as("application/json");
     }
