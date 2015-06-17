@@ -28,8 +28,8 @@ public class SecuredTest {
 
   @Test
   public void authenticated() {
-    Resource user = new Resource("Person");
-    String email = "foo@bar.de";
+    final Resource user = new Resource("Person");
+    final String email = "foo@bar.de";
     user.put("email", email);
     running(fakeApplication(), new Runnable() {
       @Override

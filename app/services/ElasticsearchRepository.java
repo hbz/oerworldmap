@@ -3,7 +3,11 @@ package services;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -12,9 +16,6 @@ import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
 

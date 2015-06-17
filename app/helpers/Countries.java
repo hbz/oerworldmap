@@ -20,7 +20,7 @@ public class Countries {
       countryList.add(entry);
     }
 
-    Collator collator = Collator.getInstance(aLocale);
+    final Collator collator = Collator.getInstance(aLocale);
     Collections.sort(countryList, new Comparator<Map<String, String>>() {
       @Override
       public int compare(Map<String, String> o1, Map<String, String> o2) {

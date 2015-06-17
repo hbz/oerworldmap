@@ -1,24 +1,25 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.mustachejava.MustacheNotFoundException;
 import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
-import models.Record;
-import models.Resource;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.json.simple.parser.ParseException;
-import play.mvc.Result;
-import play.mvc.Security;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import models.Resource;
+
+import org.json.simple.parser.ParseException;
+
+import play.mvc.Result;
+import play.mvc.Security;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.mustachejava.MustacheNotFoundException;
 
 /**
  * @author fo

@@ -152,7 +152,7 @@ public class FileResourceRepository implements ResourceRepository {
     }
   }
 
-  private Path getResourcePath(@Nonnull String aId) throws IOException {
+  private Path getResourcePath(@Nonnull final String aId) throws IOException {
 
     DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
         new DirectoryStream.Filter<Path>() {

@@ -1,5 +1,8 @@
 package services;
 
+import helpers.JsonLdConstants;
+import helpers.UniversalFunctions;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -8,8 +11,6 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import helpers.JsonLdConstants;
-import helpers.UniversalFunctions;
 import models.Record;
 import models.Resource;
 
@@ -17,7 +18,6 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import play.Logger;
 
 public class BaseRepository {
