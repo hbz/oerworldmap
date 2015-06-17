@@ -40,7 +40,7 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resources", resources);
 
     if (request().accepts("text/html")) {
-      return ok(render("Home", "ResourceIndex/index.mustache", scope));
+      return ok(render("Resources", "ResourceIndex/index.mustache", scope));
     } else {
       return ok(resources.toString()).as("application/json");
     }
@@ -78,11 +78,26 @@ public class ResourceIndex extends OERWorldMap {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
+
+    String title;
+    try {
+      switch (resource.get("@type").toString()) {
+        case "Organization":
+          title = ((Resource) resource.get("legalName")).get("@value").toString();
+          break;
+        default:
+          title = resource.get("name").toString();
+          break;
+      }
+    } catch (NullPointerException e) {
+      title = id;
+    }
+
     if (request().accepts("text/html")) {
       try {
-        return ok(render("Home", "ResourceIndex/" + type + "/read.mustache", resource));
+        return ok(render(title, "ResourceIndex/" + type + "/read.mustache", resource));
       } catch (MustacheNotFoundException ex) {
-        return ok(render("Home", "ResourceIndex/read.mustache", resource));
+        return ok(render(title, "ResourceIndex/read.mustache", resource));
       }
     } else {
       return ok(resource.toString()).as("application/json");

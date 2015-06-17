@@ -9,7 +9,7 @@ public class LandingPage extends OERWorldMap {
 
   public static Result get() {
 
-    return ok(render("Home", "LandingPage/index.mustache"));
+    return ok(render("OER World Map", "LandingPage/index.mustache"));
 
   }
 
