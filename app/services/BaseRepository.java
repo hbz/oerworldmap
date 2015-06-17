@@ -13,6 +13,7 @@ import helpers.UniversalFunctions;
 import models.Record;
 import models.Resource;
 
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
@@ -81,10 +82,39 @@ public class BaseRepository {
     }
   }
 
+  private void attachReferencedResources(Resource aResource) {
+    String id = QueryParser.escape(aResource.get(JsonLdConstants.ID).toString());
+    List<Resource> referencedResources = esQueryNoRef(id);
+    List<Resource> referencedResourcesExludingSelf = new ArrayList<>();
+    for (Resource reference : referencedResources) {
+      if (!reference.get(JsonLdConstants.ID).equals(aResource.get(JsonLdConstants.ID))) {
+        referencedResourcesExludingSelf.add(reference);
+      }
+    }
+    aResource.put(Resource.REFERENCEKEY, referencedResourcesExludingSelf);
+  }
+
+  private void attachReferencedResources(List<Resource> aResources) {
+    for (Resource resource : aResources) {
+      attachReferencedResources(resource);
+    }
+  }
+
+  private List<Resource> esQueryNoRef(String aEsQuery) {
+    List<Resource> resources = new ArrayList<Resource>();
+    try {
+      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
+    } catch (IOException | ParseException e) {
+      Logger.error(e.toString());
+    }
+    return resources;
+  }
+
   public List<Resource> esQuery(String aEsQuery) {
     List<Resource> resources = new ArrayList<Resource>();
     try {
       resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
+      attachReferencedResources(resources);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
@@ -100,6 +130,7 @@ public class BaseRepository {
     if (resource != null){
       resource = (Resource) resource.get(Record.RESOURCEKEY);
     }
+    attachReferencedResources(resource);
     return resource;
   }
 
@@ -128,6 +159,7 @@ public class BaseRepository {
     if (aSearchAllRepos || resources.isEmpty()) {
       resources.addAll(mFileRepo.getResourcesByContent(aType, field, aContent));
     }
+    attachReferencedResources(resources);
     return resources;
   }
 
@@ -153,6 +185,7 @@ public class BaseRepository {
     if (aSearchAllRepos || resources.isEmpty()) {
       resources.addAll(mFileRepo.query(aType));
     }
+    attachReferencedResources(resources);
     return resources;
   }
 }
