@@ -15,14 +15,14 @@
                 <input type="hidden" name="@type" value="Person" />
                 <div class="form-group">
                     <label class="sr-only" for="register-email">{{i18n.email_address}}</label>
-                    <input type="email" name="email" id="register-email" class="form-control input-lg" value="{{scope.user.email}}" placeholder="{{i18n.placeholder_email}}" />
+                    <input type="email" name="email" required id="register-email" class="form-control input-lg" value="{{scope.user.email}}" placeholder="{{i18n.placeholder_email}}" />
                 </div>
 
                 <div class="form-group">
                     <label class="sr-only" for="register-country">{{i18n.country}}</label>
                     <input type="hidden" name="workLocation[@type]" value="Place" />
                     <input type="hidden" name="workLocation[address][@type]" value="PostalAddress" />
-                    <select class="form-control input-lg" name="workLocation[address][addressCountry]" id="register-country">
+                    <select class="form-control input-lg" name="workLocation[address][addressCountry]" required id="register-country">
                         <option value="">{{i18n.select_country}}</option>
                         {{#scope.countries}}
                         <option value="{{alpha-2}}">{{name}}</option>

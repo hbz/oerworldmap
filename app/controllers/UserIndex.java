@@ -25,6 +25,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
 import helpers.Countries;
@@ -44,7 +45,6 @@ public class UserIndex extends OERWorldMap {
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     Map<String, Object> scope = new HashMap<>();
 
-    user.put("mbox_sha1sum", Account.getEncryptedEmailAddress(user));
     ProcessingReport report = user.validate();
     if (mConf.getBoolean("user.email.unique")) {
       ensureEmailUnique(user, report);
@@ -57,6 +57,7 @@ public class UserIndex extends OERWorldMap {
     }
 
     newsletterSignup(user);
+    user.put("mbox_sha1sum", Account.getEncryptedEmailAddress(user));
     user.remove("email");
     mBaseRepository.addResource(user);
 
