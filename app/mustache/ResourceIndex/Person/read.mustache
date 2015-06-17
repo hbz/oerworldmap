@@ -1,0 +1,26 @@
+<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}}" class="color-scheme-map column medium">
+    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+</div>
+<div role="main" class="color-scheme-text container column medium">
+  {{#scope}}
+      <div class="resource-person">
+        <script type="application/ld+json">
+          {{{.}}}
+        </script>
+        <h1>{{name}}</h1>
+        {{#location.address}}
+          {{streetAddress}} <br />
+          {{addressLocality}} <br />
+          {{postalCode}} <br />
+          {{addressCountry}}
+        {{/location.address}}
+        <p>{{#description}}{{{@value}}}{{/description}}</p>
+        <h2>{{i18n.contributions}}</h2>
+        <ul>
+        {{#referencedBy}}
+          {{#?Article}}<li><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></li>{{/?Article}}
+        {{/referencedBy}}
+        </ul>
+      </div>
+  {{/scope}}
+</div>
