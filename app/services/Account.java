@@ -1,16 +1,17 @@
 package services;
 
-import models.Resource;
-import org.apache.commons.codec.digest.DigestUtils;
-import play.Play;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
-import java.util.Optional;
+
+import models.Resource;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
+import play.Play;
 
 /**
  * @author fo

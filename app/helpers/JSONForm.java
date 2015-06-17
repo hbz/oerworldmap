@@ -1,18 +1,23 @@
 package helpers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.*;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchema;
-import models.Resource;
-import scala.util.parsing.json.JSONObject;
-
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import models.Resource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 
 /**
  * This class implements the application/json encoding algorithm described in
@@ -31,7 +36,6 @@ public class JSONForm {
       List<JSONForm.Step> steps = parsePath(path);
       Collections.reverse(steps);
       //TODO: implement file inputs
-      boolean isFile = false;
       for (JSONForm.Step step : steps) {
 
         if (step.last) {

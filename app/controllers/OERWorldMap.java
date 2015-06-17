@@ -2,11 +2,6 @@ package controllers;
 
 import helpers.FilesConfig;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -24,7 +19,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -42,6 +36,10 @@ import services.BaseRepository;
 import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchRepository;
+
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
 
 /**
  * @author fo
@@ -128,7 +126,7 @@ public abstract class OERWorldMap extends Controller {
   }
 
   private static String getClientTemplates() {
-    List<String> templates = new ArrayList<>();
+    final List<String> templates = new ArrayList<>();
     try {
       Files.walk(Paths.get(play.Play.application().path().getAbsolutePath() + "/app/mustache/ClientTemplates"))
           .forEach(new Consumer<Path>() {

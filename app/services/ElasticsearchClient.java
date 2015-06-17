@@ -42,7 +42,6 @@ public class ElasticsearchClient {
 
   private static ElasticsearchConfig mEsConfig;
   private static Client mClient;
-  private static String mSearchStub;
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
@@ -53,7 +52,6 @@ public class ElasticsearchClient {
   public ElasticsearchClient(@Nullable final Client aClient, ElasticsearchConfig aEsConfig) {
     mClient = aClient;
     mEsConfig = aEsConfig;
-    mSearchStub = "http://" + mEsConfig.getServer() + ":" + mEsConfig.getHttpPort() + "/";
   }
 
   public static Client getClient() {
@@ -209,7 +207,7 @@ public class ElasticsearchClient {
         String key = entry.getKey();
         long value = entry.getDocCount();
         if (null == observations.get(key)) {
-          observations.put(key, new ArrayList<>());
+          observations.put(key, new ArrayList<Map>());
         }
         Map<String, Object> observation = new HashMap<>();
         observation.put("dimension", aggregation.getName());

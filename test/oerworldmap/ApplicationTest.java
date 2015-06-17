@@ -14,15 +14,11 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.Test;
 
-import controllers.Global;
-import play.Configuration;
-import play.Play;
 import play.libs.F.Callback;
 import play.test.TestBrowser;
-import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
-import services.ElasticsearchRepository;
+import controllers.Global;
 
 public class ApplicationTest {
   @Test  

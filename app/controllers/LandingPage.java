@@ -2,8 +2,6 @@ package controllers;
 
 import play.mvc.Result;
 
-import java.io.IOException;
-
 
 public class LandingPage extends OERWorldMap {
 
