@@ -27,7 +27,7 @@ Hijax.behaviours.map = {
       map.vectorSource = new ol.source.Vector({
         url: '/assets/json/ne_50m_admin_0_countries_topo.json',
         format: new ol.format.TopoJSON(),
-        noWrap: true,
+        // noWrap: true,
         wrapX: true
       });
 
@@ -71,9 +71,10 @@ Hijax.behaviours.map = {
           return;
         }
         var pixel = map.world.getEventPixel(evt.originalEvent);
+        var coord = map.world.getEventCoordinate(evt.originalEvent);
         var hit = map.world.hasFeatureAtPixel(pixel);
         map.world.getTarget().style.cursor = hit ? 'pointer' : '';
-        map.displayFeatureInfo(pixel, context);
+        map.displayFeatureInfo(pixel, coord, context);
       });
 
       map.world.on('click', function(evt) {        
@@ -98,7 +99,8 @@ Hijax.behaviours.map = {
       map.popup = new ol.Overlay({
         element: map.popupElement,
         positioning: 'bottom-center',
-        stopEvent: false
+        stopEvent: false,
+        wrapX: true
       });
       map.world.addOverlay(map.popup);
       map.templates = {};
@@ -138,30 +140,65 @@ Hijax.behaviours.map = {
   },
 
   displayedFeatureInfo : null,
-  displayFeatureInfo : function(pixel, context) {
+  displayFeatureInfo : function(pixel, coord, context) {
     var map = this;
 
     var feature = map.world.forEachFeatureAtPixel(pixel, function(feature, layer) {
       return feature;
     });
-
+    
     var info = $('[about="#users-by-country"]', context);
     info.find('tr').hide();
     info.find('thead>tr').hide();
     if (feature) {
+      
+      // get which world repitition we are on
+      
+      var extent = map.projection.getExtent();
+      var extent_width = extent[0] * (-1) + extent[2];
+      
+      if(
+        extent[0] <= coord[0] &&
+        coord[0] <= extent[2]
+      ) {
+        // coord in central world
+        var world_n = 0;
+      } else if(
+        coord[0] < extent[2]
+      ) {
+        // coord in a left world
+        var world_n = Math.floor(
+          (coord[0] - extent[0]) / extent_width
+        );
+      } else if(
+        extent[2] < coord[0]
+      ) {
+        // coord in a right world
+        var world_n = Math.ceil(
+          (coord[0] - extent[2]) / extent_width
+        );
+      }
+    
       if (!(map.displayedFeatureInfo && map.displayedFeatureInfo.getId() == feature.getId())) {
         $(map.popupElement).popover('destroy');
         map.displayedFeatureInfo = feature;
       }
       var properties = feature.getProperties();
       if (properties.type) {
-        // Feature is an icon to which the resource and references are attached
-        console.log(properties.resource);
-        console.log(properties.refBy);
         
-        var geometry = feature.getGeometry();
-        var coord = geometry.getCoordinates();
-        map.popup.setPosition(coord);
+        // console.log("pixel", pixel);
+        // console.log("coord", coord);
+        
+        // Feature is an icon to which the resource and references are attached
+        // console.log(properties.resource);
+        // console.log(properties.refBy);
+        
+        var popup_coord = feature.getGeometry().getCoordinates();
+        popup_coord[0] =
+          popup_coord[0] +
+          world_n * extent_width;
+       
+        map.popup.setPosition(popup_coord);
         
         properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
         
@@ -246,7 +283,6 @@ Hijax.behaviours.map = {
 
     var vectorSource = new ol.source.Vector({
       features: placemarks,
-      noWrap: true,
       wrapX: true
     });
 
