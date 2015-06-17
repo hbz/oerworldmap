@@ -15,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,9 @@ public class ResourceIndex extends OERWorldMap {
       switch (resource.get("@type").toString()) {
         case "Organization":
           title = ((Resource) resource.get("legalName")).get("@value").toString();
+          break;
+        case "Article":
+          title = ((Resource)((ArrayList) resource.get("name")).get(0)).get("@value").toString();
           break;
         default:
           title = resource.get("name").toString();
