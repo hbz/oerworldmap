@@ -386,6 +386,9 @@ Hijax.behaviours.map = {
 
     if (!markers.length) {
       for (var key in resource) {
+        if ('referencedBy' == key) {
+          continue;
+        }
         var value = resource[key];
         if (value instanceof Array) {
           for (var i = 0; i < value.length; i++) {
