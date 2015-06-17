@@ -21,14 +21,14 @@ Hijax.behaviours.search = {
       input.val(query.replace(regex, '').trim());
     }
 
-    form.submit(function() {
+    /*form.submit(function() {
       var qstring = input.val();
       $(this).find('span[data-value]').each(function(){
         console.log($(this).attr('data-value'));
         qstring = qstring + ' ' + $(this).attr('data-value');
       });
       input.val(qstring);
-    });
+    });*/
 
   }
 
