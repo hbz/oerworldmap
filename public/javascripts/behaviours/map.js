@@ -10,6 +10,8 @@ Hijax.behaviours.map = {
   standartInitialZoom: 1.85,
   standartMinZoom: 1.85,
   standartMaxZoom: 8,
+  
+  defaultCenter: [0, 5000000],
 
   attach : function(context) {
     var map = this;
@@ -41,7 +43,7 @@ Hijax.behaviours.map = {
       
       // View
       map.view = new ol.View({
-        center: [0, 5000000],
+        center: map.defaultCenter,
         projection: map.projection,
         zoom: zoom_values.initialZoom,
         minZoom: zoom_values.minZoom,
@@ -56,15 +58,17 @@ Hijax.behaviours.map = {
       });
 
       // User position
-/*
-      if (navigator.geolocation) {
+      if (
+        navigator.geolocation &&
+        ! $(this).attr('data-focus')
+      ) {
         navigator.geolocation.getCurrentPosition(function(position) {
-          var lon = position.coords.latitude;
+          var lon = position.coords.longitude;
           var center = ol.proj.transform([lon, 0], 'EPSG:4326', map.projection.getCode());
+          center[1] = map.defaultCenter[1];
           map.world.getView().setCenter(center);
         });
       }
-*/
 
       map.world.on('pointermove', function(evt) {
         if (evt.dragging) {
