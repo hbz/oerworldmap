@@ -301,6 +301,10 @@
         "legalName": {
           "description": "The organization's primary name, e.g. a legally recognized name",
           "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "descripton": "An alternate name, such as an abbreviation",
+          "type": "string"
         }
       },
       "required": [
