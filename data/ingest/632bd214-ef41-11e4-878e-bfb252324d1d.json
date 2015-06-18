@@ -5,13 +5,15 @@
   "creator": [
     {
       "@type": "Person",
+      "@id": "urn:uuid:febeb59c-15d0-11e5-bb77-07db4b659c7c",
       "name": "Swinamer, Alicia",
-      "email": "foo@bar.de"
-    },{
-      "@type": "Organization",
-      "legalName": {
-        "@language": "en",
-        "@value": "Commonwealth Of Learning"
+      "email": "foo@bar.de",
+      "affiliation": {
+        "@type": "Organization",
+        "legalName": {
+          "@language": "en",
+          "@value": "Commonwealth Of Learning"
+        }
       }
     }
   ],
@@ -31,11 +33,17 @@
   "mentions": [
     {
       "@type": "Organization",
+      "@id": "urn:uuid:09c1718c-15d1-11e5-aadf-cf8d8138b965",
       "legalName": {
         "@language": "en",
         "@value": "Virtual Universities for Small States of the Commonwealth"
       },
-      "url": "http://www.col.org/progServ/programmes/Pages/VUSSC.aspx",
+      "alternateName": "VUSSC",
+      "description": {
+        "@language": "en",
+        "@value": "The Virtual University for Small States of the Commonwealth (VUSSC) is a network of small countries committed to the collaborative development of free content resources for use in an educational context."
+      },
+      "url": "http://www.col.org/programmes/vussc/virtual-university-small-states-commonwealth-vussc",
       "location": {
         "@type": "Place",
         "address": {
@@ -53,10 +61,13 @@
     },
     {
       "@type": "Organization",
+      "@id": "urn:uuid:1a85be1a-15d1-11e5-9f40-2fdaf6095dea",
       "legalName": {
         "@language": "en",
         "@value": "University of the West Indies, School of Business and Applied Studies"
       },
+      "alternateName": "ROYTEC",
+      "url": "http://www.roytec.edu/",
       "location": {
         "@type": "Place",
         "address": {
@@ -71,5 +82,6 @@
         }
       }
     }
-  ]
+  ],
+  "keywords": ["OER production", "OEP", "accreditation", "course development"]
 }
