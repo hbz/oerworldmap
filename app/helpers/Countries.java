@@ -32,6 +32,15 @@ public class Countries {
 
   }
 
+  public static Map<String,String> map(Locale aLocale) {
+    Map<String,String> countryMap = new HashMap<>();
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale country = new Locale("en", countryCode);
+      countryMap.put(country.getCountry(), country.getDisplayCountry(aLocale));
+    }
+    return countryMap;
+  }
+
   public static String getNameFor(String aCountryCode, Locale aLocale) {
     Locale country = new Locale("en", aCountryCode);
     return country.getDisplayCountry(aLocale);
