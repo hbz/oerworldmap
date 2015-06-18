@@ -5,6 +5,7 @@
   "creator": [
     {
       "@type": "Person",
+      "@id": "urn:uuid:97a477c6-15de-11e5-bcfa-0f578bdf76c5",
       "name": "Lauryn Oates",
       "email": "foo@bar.com"
     }
@@ -25,10 +26,13 @@
   "mentions": [
     {
       "@type": "Organization",
+      "@id": "urn:uuid:c7ff2466-15de-11e5-88c7-f782df163dd6",
       "legalName": {
         "@language": "en",
         "@value": "Canadian Women for Women in Afghanistan, National Office"
       },
+      "alternateName": ["CW4WAfghan, National Office"],
+      "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
       "url": "http://www.cw4wafghan.ca",
       "email": "info@cw4wafghan.ca",
       "location": {
@@ -48,10 +52,12 @@
     },
     {
       "@type": "Organization",
+      "@id": "urn:uuid:7281d74e-15df-11e5-b738-07f53be1ad36",
       "legalName": {
         "@language": "en",
         "@value": "Canadian Women for Women in Afghanistan, Country Office"
       },
+      "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
       "location": {
         "@type": "Place",
         "address": {
@@ -67,39 +73,64 @@
     },
     {
       "@type": "Action",
+      "@id": "urn:uuid:65276dec-15e0-11e5-b26e-e3e2bf958bef",
+      "url": "http://www.cw4wafghan.ca/programs/darakht-e-danesh-online-library",
       "name": [
         {
           "@language": "en",
-          "@value": "Development of the Darakht-e Danesh Library"
+          "@value": "Development of the Darakht­e Danesh Online Library for Afghan Educators"
         }
       ],
-      "startTime": "2009-01-01"
+      "startTime": "2009",
+      "startTime": "2014"
     },
     {
       "@type": "Action",
+      "@id": "urn:uuid:ba79fc74-15e0-11e5-b27a-9784762edee6",
       "name": [
         {
           "@language": "en",
           "@value": "Research on Open Educational Resources for Development"
         }
       ],
+      "alternateName": ["ROER4D"],
+      "description": [
+        {
+          "@language": "en",
+          "@value": "The Research on Open Educational Resources for Development (ROER4D) project aims to provide evidence­based research from a number of countries in South America, Sub­Saharan Africa and Southeast Asia. The primary objective of the programme is to improve educational policy, practice, and research in developing countries by better understanding the use and impact of OER."
+        }
+      ],
+      "image": "http://roer4d.org/wp-content/uploads/2014/04/logo2.png",
+      "startTime": "2013",
+      "endTime": "2017",
       "url": "http://roer4d.org/"
     },
     {
       "@type": "Service",
+      "@id": "urn:uuid:08c3e516-15e1-11e5-ae56-7b7962b74c0e",
       "name": [
         {
           "@language": "en",
           "@value": "The Darakht-e Danesh Library"
         }
       ],
-      "serviceType": "repository",
-      "serviceChannel": {
-        "availableLanguage": ["fas", "pus", "eng"],
-        "serviceUrl": "http://www.darakhtdanesh.org"
-      },
-      "startDate": "2014-01-01",
-      "email": "info@darakhtdanesh.org"
+      "alternateName": ["DD­Library"],
+      "description": [
+        {
+          "@language": "en",
+          "@value": "The Darakht­e Danesh Online Library for Educators is a repository of open educational resources for teachers, teacher trainers, school administrators, literacy workers and others involved in furthering education in Afghanistan. These open source resources include lesson plans, pedagogical tools, exercises, experiments, reading texts, work books, curricula and other resources for use in Afghan classrooms. The Darakht­e Danesh Library aims to increase access to quality resources for Afghan educators, encourage teachers to consult a wide variety of resources in their practice, to use these tools to adapt their own, and to share their own resources with other educators through this open­source collection. The DD Library uses an innovative interactive, multilingual web platform custom­designed for this initiative, and currently houses more than 1,100 resources in 14 subject categories, for both primary and secondary teachers, in three languages: Dari, Pashto and English."
+        }
+      ],
+      "serviceType": "Repository",
+      "availableChannel": [
+        {
+          "availableLanguage": ["fas", "pus", "eng"],
+          "serviceUrl": "http://www.darakhtdanesh.org"
+        }
+      ],
+      "startDate": "2014",
+      "email": "info@darakhtdanesh.org",
+      "audience": ["ISCED level 1", "ISCED level 2", "ISCED level 3"]
     }
   ]
 }
