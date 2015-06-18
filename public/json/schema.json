@@ -79,6 +79,16 @@
           "type": "string",
           "enum": ["Action"]
         },
+        "additionalType": {
+          "description": "An additonal type for the Action",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "email": {
+          "type": "string"
+        },
         "agent": {
           "description": "The direct performer or driver of the action (i.e. also primary contact)",
           "type": "array",
@@ -105,6 +115,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "alternateName": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         },
         "description": {
@@ -136,10 +152,7 @@
           ]
         },
         "location": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Place"
-          }
+          "$ref": "#/definitions/Place"
         },
         "instrument": {
           "type": "array",
@@ -176,21 +189,36 @@
             "$ref": "#/definitions/LocalizedString"
           }
         },
+        "alternateName": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "serviceType": {
           "type": "string"
         },
-        "serviceChannel": {
-          "type": "object",
-          "properties": {
-            "availableLanguage": {
-              "type": "array",
-              "items": {
-                "type": "string"
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "availableChannel": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "availableLanguage": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "serviceUrl": {
+                "type": "string",
+                "format": "uri"
               }
-            },
-            "serviceUrl": {
-              "type": "string",
-              "format": "uri"
             }
           }
         },
@@ -204,6 +232,12 @@
         "email": {
           "type": "string",
           "format": "email"
+        },
+        "audience": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": ["name"],
@@ -303,8 +337,28 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
-          "descripton": "An alternate name, such as an abbreviation",
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "logo": {
+          "type": "string",
+          "format": "uri"
+        },
+        "contactPoint": {
+          "description": "A contact point",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "additionalType": {
+          "description": "An additonal type for the Organization",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
