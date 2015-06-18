@@ -36,8 +36,7 @@ public class ResourceIndex extends OERWorldMap {
     if (q.equals("")) {
       q = "*";
     }
-    // Only expose Articles and Organizations for now
-    q = "(" + q + ") AND (about.@type:Article OR about.@type:Organization)";
+
     List<Resource> resources = mBaseRepository.esQuery(q);
     scope.put("resources", resources);
 
@@ -80,6 +79,11 @@ public class ResourceIndex extends OERWorldMap {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
+
+    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria: has no unencrypted email address
+    if (type.equals("Person") && null == resource.get("email")) {
+      return notFound("Not found");
+    }
 
     String title;
     try {

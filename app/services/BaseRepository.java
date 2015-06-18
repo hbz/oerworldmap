@@ -111,6 +111,8 @@ public class BaseRepository {
   }
 
   public List<Resource> esQuery(String aEsQuery) {
+    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria: has no unencrypted email address
+    aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
     List<Resource> resources = new ArrayList<Resource>();
     try {
       resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
