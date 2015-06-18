@@ -46,13 +46,20 @@
 
 /* --- popover --- */
 
+/*
 #popup {
   padding-bottom: 20px;
 }
+*/
 
 .popover hr {
   margin-top: (@line-height-computed / 3);
   margin-bottom: (@line-height-computed / 3);  
+}
+
+.popover {
+  border: none;
+  pointer-events: none;
 }
 
 .popover-content {
@@ -61,7 +68,7 @@
 
 .popover-section {
   padding: 9px 14px;
-  border-bottom: 1px solid @popover-border-color;
+  border-bottom: 1px solid @blue-pale;
 }
 
 .popover-section:last-child {

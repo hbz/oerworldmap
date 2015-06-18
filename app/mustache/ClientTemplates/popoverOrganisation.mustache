@@ -1,25 +1,17 @@
-<!-- <p class="text-right">
-  <span class="label label-default"><i class="fa fa-users"></i> ORGANISATION</span>
-</p> -->
+<div class="popover-section">
 
-<p>
-  <strong>{{#resource.legalName}}{{@value}}{{/resource.legalName}}</strong>
-</p>
+  <i class="fa fa-users"></i> <strong>Organization:</strong>
+  {{#resource.legalName}}{{@value}}{{/resource.legalName}}
+
+</div>
 
 {{#refBy.first.name.0}}
 
-  <hr />
+  <div class="popover-section">
   
-  <div class="pull-right">
-    <span class="label label-default"><i class="fa fa-comment"></i> STORY</span>
+    <i class="fa fa-comment"></i> <strong>Story:</strong>
+    {{@value}}
+    
   </div>
-  
-  <p>
-    Mentioned in:
-  </p>
-  
-  <p>
-    <strong>{{@value}}</strong>
-  </p>
 
 {{/refBy.first.name.0}}

@@ -18,6 +18,11 @@ Hijax.behaviours.map = {
     'users': 'user',
     'stories': 'comment'
   },
+  
+  colors: {
+    'blue-darker': '#2d567b',
+    'orange': '#fe8a00'
+  },
 
   attach : function(context) {
     var map = this;
@@ -82,13 +87,9 @@ Hijax.behaviours.map = {
         }
         var pixel = map.world.getEventPixel(evt.originalEvent);
         var coord = map.world.getEventCoordinate(evt.originalEvent);
-        var hit = map.world.hasFeatureAtPixel(pixel);
-        if(hit) {
-          map.world.getTarget().style.cursor = 'pointer';
-          map.displayFeatureInfo(pixel, coord, context);
-        } else {
-          map.world.getTarget().style.cursor = '';
-        }
+        var hit = map.world.hasFeatureAtPixel(pixel)
+        map.world.getTarget().style.cursor = hit ? 'pointer' : '';
+        map.displayFeatureInfo(pixel, coord, context);
       });
 
       map.world.on('click', function(evt) {        
@@ -160,13 +161,6 @@ Hijax.behaviours.map = {
     });
     
     if(feature){
-    
-      if (!(map.displayedFeatureInfo && map.displayedFeatureInfo.getId() == feature.getId())) {
-        $(map.popupElement).popover('destroy');
-        map.displayedFeatureInfo = feature;
-      }
-      
-      var properties = feature.getProperties();
       
       if(
         feature.getId().indexOf("urn:uuid") === 0
@@ -175,8 +169,15 @@ Hijax.behaviours.map = {
       } else {
         var feature_type = "country";
       }
+       
+      if (!(map.displayedFeatureInfo && map.displayedFeatureInfo.getId() == feature.getId())) {
+        $(map.popupElement).popover('destroy');
+        map.displayedFeatureInfo = feature;
+      }
       
-      console.log(feature.getId());
+      var properties = feature.getProperties();
+      
+
       
       if(feature_type == "placemark") {
         
@@ -215,6 +216,11 @@ Hijax.behaviours.map = {
           world_n * extent_width;
        
         map.popup.setPosition(popup_coord);
+        map.popup.setOffset([0, -20]);
+        
+        // hightlight placemark
+        
+        feature.setStyle(map.iconHighlightStyle);
         
         // ...
         
@@ -226,7 +232,6 @@ Hijax.behaviours.map = {
           'placement': 'top',
           'html': true,
           'container': '#map',
-          'title': '<i class="fa fa-users"></i> Organisation',
           'content': Mustache.to_html($('#popoverOrganisation\\.mustache').html(), properties),
           'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
         });
@@ -243,11 +248,12 @@ Hijax.behaviours.map = {
         info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
 */
         
-        console.log(properties);
+        // console.log(properties);
         
         // set popover coordinates
         
         map.popup.setPosition(coord);
+        map.popup.setOffset([0, -10]);
         
         // setup empty countrydata, if undefined
         
@@ -260,7 +266,7 @@ Hijax.behaviours.map = {
         
         // set popover content and show
         
-        properties.country.championIcon = 'times';
+        properties.country.championIcon = 'times'; console.log(properties.country.observations);
         
         for(i in properties.country.observations) {
           // set icon
@@ -281,11 +287,11 @@ Hijax.behaviours.map = {
             properties.country.observations[i].dimension == "champions_by_country" ||
             properties.country.observations[i].value == 0
           ) {
-            delete properties.country.observations[i];
+            properties.country.observations.splice(i, 1);
           }
         }
         
-        console.log(properties.country.observations);
+        // console.log(properties.country.observations);
         
         properties.country.name = i18n[
           properties.country.key.toUpperCase()
@@ -305,6 +311,11 @@ Hijax.behaviours.map = {
     } else {
       
       $(map.popupElement).popover('destroy');
+/*
+      if(map.displayedFeatureInfo) {
+        map.displayedFeatureInfo.setStyle(map.iconBaseStyle);
+      }
+*/
     
     }
 
@@ -436,7 +447,6 @@ Hijax.behaviours.map = {
             if (feature) {
               if (feature.getId() == "RU") {
                 var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
-                console.log(extent);
               } else if (feature.getId() == "US") {
                 var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
               } else if (feature.getId() == "FR") {
@@ -490,25 +500,41 @@ Hijax.behaviours.map = {
     for (var l in locations) {
       if (geo = locations[l].geo) {
         var point = new ol.geom.Point(ol.proj.transform([geo['lon'], geo['lat']], 'EPSG:4326', that.projection.getCode()));
-
-        var color;
-        switch (resource['@type']) {
-          case 'Article':
-            color = 'red';
-            break;
-          case 'Organization':
-            color = 'blue';
-            break;
-          default:
-            color = 'black';
-        }
-
-        var iconStyle = new ol.style.Style({
+        
+        console.log(
+          that.colors['blue-darker'],
+          that.colors['orange']
+        );
+        
+        // base style
+        that.iconBaseStyle = new ol.style.Style({
           text: new ol.style.Text({
             text: '\uf041',
             font: 'normal 1.5em FontAwesome',
             textBaseline: 'Bottom',
-            fill: new ol.style.Fill({color: color})
+            fill: new ol.style.Fill({
+              color: that.colors['blue-darker']
+            }),
+            stroke: new ol.style.Stroke({
+              color: 'white',
+              width: 3
+            })
+          })
+        });
+
+        // hightlight style
+        that.iconHighlightStyle = new ol.style.Style({
+          text: new ol.style.Text({
+            text: '\uf041',
+            font: 'normal 1.5em FontAwesome',
+            textBaseline: 'Bottom',
+            fill: new ol.style.Fill({
+              color: that.colors['orange']
+            }),
+            stroke: new ol.style.Stroke({
+              color: 'white',
+              width: 3
+            })
           })
         });
 
@@ -523,7 +549,7 @@ Hijax.behaviours.map = {
 
         var feature = new ol.Feature(featureProperties);
         feature.setId(resource['@id']);
-        feature.setStyle(iconStyle);
+        feature.setStyle(that.iconBaseStyle);
         markers.push(feature);
       }
     }
