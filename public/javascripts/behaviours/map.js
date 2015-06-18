@@ -107,10 +107,6 @@ Hijax.behaviours.map = {
         wrapX: true
       });
       map.world.addOverlay(map.popup);
-      map.templates = {};
-      $.get('/assets/mustache/popover.mustache', function(data){
-        map.templates.popover = data;
-      });
       
       // switch style
       $(this).addClass("map-view");
@@ -211,7 +207,7 @@ Hijax.behaviours.map = {
           'html': true,
           'container': '#map',
           'title': '<i class="fa fa-users"></i> Organisation',
-          'content': Mustache.to_html(map.templates.popover, properties), //properties.resource.legalName['@value'], //feature.get('name')
+          'content': Mustache.to_html($('#popover\\.mustache').html(), properties),
           'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
         });
         $(map.popupElement).popover('show');
