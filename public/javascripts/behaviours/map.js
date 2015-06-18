@@ -12,6 +12,12 @@ Hijax.behaviours.map = {
   standartMaxZoom: 8,
   
   defaultCenter: [0, 5000000],
+  
+  iconCodes: {
+    'organizations': 'users',
+    'users': 'user',
+    'stories': 'comment'
+  },
 
   attach : function(context) {
     var map = this;
@@ -77,8 +83,12 @@ Hijax.behaviours.map = {
         var pixel = map.world.getEventPixel(evt.originalEvent);
         var coord = map.world.getEventCoordinate(evt.originalEvent);
         var hit = map.world.hasFeatureAtPixel(pixel);
-        map.world.getTarget().style.cursor = hit ? 'pointer' : '';
-        map.displayFeatureInfo(pixel, coord, context);
+        if(hit) {
+          map.world.getTarget().style.cursor = 'pointer';
+          map.displayFeatureInfo(pixel, coord, context);
+        } else {
+          map.world.getTarget().style.cursor = '';
+        }
       });
 
       map.world.on('click', function(evt) {        
@@ -98,7 +108,7 @@ Hijax.behaviours.map = {
       // zoom to bounding box, if focus is set
       map.setBoundingBox(this);
       
-      // init popovers
+      // init popover
       map.popupElement = document.getElementById('popup');      
       map.popup = new ol.Overlay({
         element: map.popupElement,
@@ -140,58 +150,64 @@ Hijax.behaviours.map = {
   },
 
   displayedFeatureInfo : null,
+  
   displayFeatureInfo : function(pixel, coord, context) {
+    
     var map = this;
 
     var feature = map.world.forEachFeatureAtPixel(pixel, function(feature, layer) {
       return feature;
     });
     
-    var info = $('[about="#users-by-country"]', context);
-    info.find('tr').hide();
-    info.find('thead>tr').hide();
-    if (feature) {
-      
-      // get which world repitition we are on
-      
-      var extent = map.projection.getExtent();
-      var extent_width = extent[0] * (-1) + extent[2];
-      
-      if(
-        extent[0] <= coord[0] &&
-        coord[0] <= extent[2]
-      ) {
-        // coord in central world
-        var world_n = 0;
-      } else if(
-        coord[0] < extent[2]
-      ) {
-        // coord in a left world
-        var world_n = Math.floor(
-          (coord[0] - extent[0]) / extent_width
-        );
-      } else if(
-        extent[2] < coord[0]
-      ) {
-        // coord in a right world
-        var world_n = Math.ceil(
-          (coord[0] - extent[2]) / extent_width
-        );
-      }
+    if(feature){
     
       if (!(map.displayedFeatureInfo && map.displayedFeatureInfo.getId() == feature.getId())) {
         $(map.popupElement).popover('destroy');
         map.displayedFeatureInfo = feature;
       }
+      
       var properties = feature.getProperties();
-      if (properties.type) {
+      
+      if(
+        feature.getId().indexOf("urn:uuid") === 0
+      ) {
+        var feature_type = "placemark";
+      } else {
+        var feature_type = "country";
+      }
+      
+      console.log(feature.getId());
+      
+      if(feature_type == "placemark") {
         
-        // console.log("pixel", pixel);
-        // console.log("coord", coord);
+        // get which world repitition we are on
         
-        // Feature is an icon to which the resource and references are attached
-        // console.log(properties.resource);
-        // console.log(properties.refBy);
+        var extent = map.projection.getExtent();
+        var extent_width = extent[0] * (-1) + extent[2];
+        
+        if(
+          extent[0] <= coord[0] &&
+          coord[0] <= extent[2]
+        ) {
+          // coord in central world
+          var world_n = 0;
+        } else if(
+          coord[0] < extent[2]
+        ) {
+          // coord in a left world
+          var world_n = Math.floor(
+            (coord[0] - extent[0]) / extent_width
+          );
+        } else if(
+          extent[2] < coord[0]
+        ) {
+          // coord in a right world
+          var world_n = Math.ceil(
+            (coord[0] - extent[2]) / extent_width
+          );
+        }
+        
+        // set popover coordinates for the right repition
         
         var popup_coord = feature.getGeometry().getCoordinates();
         popup_coord[0] =
@@ -200,26 +216,96 @@ Hijax.behaviours.map = {
        
         map.popup.setPosition(popup_coord);
         
+        // ...
+        
         properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
+        
+        // set popover content and show
         
         $(map.popupElement).popover({
           'placement': 'top',
           'html': true,
           'container': '#map',
           'title': '<i class="fa fa-users"></i> Organisation',
-          'content': Mustache.to_html($('#popover\\.mustache').html(), properties),
+          'content': Mustache.to_html($('#popoverOrganisation\\.mustache').html(), properties),
           'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
         });
         $(map.popupElement).popover('show');
         
-      } else if (properties.country) {
-        // Feature is a country
-        console.log(properties.country);
+      } else if(feature_type == "country") {
+
+/*
+        var info = $('[about="#users-by-country"]', context);
+        info.find('tr').hide();
+        info.find('thead>tr').hide();
+
         info.find('thead>tr').show();
         info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
+*/
+        
+        console.log(properties);
+        
+        // set popover coordinates
+        
+        map.popup.setPosition(coord);
+        
+        // setup empty countrydata, if undefined
+        
+        if( typeof properties.country == 'undefined' ) {
+          properties.country = {
+            key : feature.getId(),
+            observations : []
+          } 
+        }
+        
+        // set popover content and show
+        
+        properties.country.championIcon = 'times';
+        
+        for(i in properties.country.observations) {
+          // set icon
+          properties.country.observations[i].icon = map.iconCodes[
+            properties.country.observations[i].dimension.split("_")[0]
+          ];
+          
+          // set championIcon, if there is at least one champion
+          if(
+            properties.country.observations[i].dimension == "champions_by_country" &&
+            properties.country.observations[i].value > 0
+          ) {
+            properties.country.championIcon = 'check';
+          }
+          
+          // delete country champions observation and those with value = 0
+          if(
+            properties.country.observations[i].dimension == "champions_by_country" ||
+            properties.country.observations[i].value == 0
+          ) {
+            delete properties.country.observations[i];
+          }
+        }
+        
+        console.log(properties.country.observations);
+        
+        properties.country.name = i18n[
+          properties.country.key.toUpperCase()
+        ];
+        
+        $(map.popupElement).popover({
+          'placement': 'top',
+          'html': true,
+          'container': '#map',
+          'content': Mustache.to_html($('#popoverCountry\\.mustache').html(), properties.country),
+          'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+        });
+        
+        $(map.popupElement).popover('show');
+        
       }
     } else {
+      
       $(map.popupElement).popover('destroy');
+    
     }
 
   },
