@@ -346,8 +346,18 @@ Hijax.behaviours.map = {
           focussed = true;
           map.world.getLayers().forEach(function(layer) {
             var feature = layer.getSource().getFeatureById(focusId);
+            var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
             if (feature) {
-              var extent = feature.getGeometry().getExtent();
+              if (feature.getId() == "RU") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
+                console.log(extent);
+              } else if (feature.getId() == "US") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
+              } else if (feature.getId() == "FR") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-5, 51], [-10, 42]]), tfn);
+              } else {
+                var extent = feature.getGeometry().getExtent();
+              }
               if (extent[0] == extent[2]) {
                 extent[0] -= 1000000;
                 extent[2] += 1000000;
