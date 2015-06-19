@@ -20,6 +20,10 @@
               {{/creator}}
             </ul>
           {{#articleBody}}{{{@value}}}{{/articleBody}}
+          <h2>Keywords</h2>
+          <ul>
+              {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
+          </ul>
         </article>
         <aside>
             {{#mentions}}
