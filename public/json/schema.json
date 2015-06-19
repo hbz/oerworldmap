@@ -45,6 +45,9 @@
             "$ref": "#/definitions/LocalizedString"
           }
         },
+        "image": {
+          "type": "string"
+        },
         "mentions": {
           "description": "Something mentioned in the article",
           "type": "array",
@@ -232,6 +235,15 @@
         "email": {
           "type": "string",
           "format": "email"
+        },
+        "about": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "type": "string"
         },
         "audience": {
           "type": "array",
