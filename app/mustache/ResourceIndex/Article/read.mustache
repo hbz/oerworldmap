@@ -7,7 +7,7 @@
             <script type="application/ld+json">
                 {{{.}}}
             </script>
-            <div class="placeholder" style="width: 250px; height: 250px;"></div>
+            {{#image}}<img src="{{.}}" width="250" />{{/image}}
             <h1>{{#name}}{{@value}}{{/name}}</h1>
             <strong>Contributed by</strong>
             <ul class="csl">
@@ -20,6 +20,10 @@
               {{/creator}}
             </ul>
           {{#articleBody}}{{{@value}}}{{/articleBody}}
+          <h2>Keywords</h2>
+          <ul>
+              {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
+          </ul>
         </article>
         <aside>
             {{#mentions}}
