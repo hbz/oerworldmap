@@ -18,7 +18,7 @@ public interface ResourceRepository {
   /**
    * Get a Resource specified by the given identifier.
    * @param aId
-   * @return all resources of a given type as a List.
+   * @return the Resource
    */
   public Resource getResource(@Nonnull String aId) throws IOException;
 

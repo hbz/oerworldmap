@@ -16,11 +16,13 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controllers.Global;
+
 public class ElasticsearchClientTest {
   protected static Client mClient;
   protected static ElasticsearchClient mElasticsearchClient;
 
-  private static final ElasticsearchConfig mEsConfig = new ElasticsearchConfig(true);
+  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass
@@ -44,7 +46,7 @@ public class ElasticsearchClientTest {
 
   //@Test
   public void testEsSearch() throws ParseException {
-    final String aQueryString = "_search?*:*";
+    final String aQueryString = "*";
     try {
       // TODO : this test currently presumes that there is some data existent in your elasticsearch
       // instance. Otherwise it will fail. This restriction can be overturned when a parallel method

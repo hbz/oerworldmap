@@ -1,156 +1,708 @@
 {
   "id": "#root",
+  "$schema": "http://json-schema.org/draft-04/schema#",
 
-  "Person": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Person",
-    "description": "A person serving or working with Open Educational Resources.",
-    "type": "object",
-    "properties": {
-      "@id": {
-        "description": "The person's unique identifier",
-        "type": "string"
-      },
-      "@type": {
-        "type": "string",
-        "enum": ["Person"]
-      },
-      "email": {
-        "type": "string",
-        "format": "email"
-      },
-      "workLocation": {
-        "$ref": "#/Place"
+  "definitions": {
+    "Article": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Article",
+      "description": "An article about activity that is being carried through in the realm of OER.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The article's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Article"]
+        },
+        "creator": {
+          "description": "The author of the article",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "articleBody": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "mentions": {
+          "description": "Something mentioned in the article",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Organization"},
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Service"},
+              {"$ref": "#/definitions/Action"}
+            ]
+          }
+        }
       }
     },
-    "required": ["email", "workLocation"],
-    "additionalProperties": false
-  },
-
-  "Organization": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Organization",
-    "description": "An institution serving or working with Open Educational Resources.",
-    "type": "object",
-    "properties": {
-      "@id": {
-        "description": "The organization's unique identifier",
-        "type": "string"
+    "Action": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Action",
+      "description": "An action / project that is being carried through in the realm of OER.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The action's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Action"]
+        },
+        "agent": {
+          "description": "The direct performer or driver of the action (i.e. also primary contact)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
+        },
+        "participant": {
+          "description": "Other co-agents that participated in the action",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {"$ref": "#/definitions/Person"},
+              {"$ref": "#/definitions/Organization"}
+            ]
+          }
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "startTime": {
+          "oneOf": [
+            {"$ref": "#/definitions/date-fullyear"},
+            {"$ref": "#/definitions/full-date"},
+            {"$ref": "#/definitions/date-time"}
+          ]
+        },
+        "endTime": {
+          "oneOf": [
+            {"$ref": "#/definitions/date-fullyear"},
+            {"$ref": "#/definitions/full-date"},
+            {"$ref": "#/definitions/date-time"}
+          ]
+        },
+        "location": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
+        },
+        "instrument": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
+        }
       },
-      "@type": {
-        "type": "string",
-        "enum": ["Organization"]
-      },
-      "location": {
-        "description": "The organization's address and geo data",
-        "$ref": "#/Place"
-      },
-      "legalName": {
-        "description": "The organization's primary name, e.g. a legally recognized name",
-        "type": "string"
-      }
+      "required": ["name"],
+      "additionalProperties": false
     },
-    "required": ["legalName", "location"],
-    "additionalProperties": false
-  },
-
-  "Place": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Place",
-    "description": "An location description consisting of an address and/or geo data",
-    "type": "object",
-    "properties": {
-      "@id": {
-        "description": "The place's unique identifier",
-        "type": "string"
+    "Service": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Service",
+      "description": "A service used in an Action.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The services's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Service"]
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
+        },
+        "serviceType": {
+          "type": "string"
+        },
+        "serviceChannel": {
+          "type": "object",
+          "properties": {
+            "availableLanguage": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "serviceUrl": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "startDate": {
+          "oneOf": [
+            {"$ref": "#/definitions/date-fullyear"},
+            {"$ref": "#/definitions/full-date"},
+            {"$ref": "#/definitions/date-time"}
+          ]
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
       },
-      "@type": {
-        "type": "string",
-        "enum": ["Place"]
-      },
-      "geo": {
-        "$ref": "#/GeoCoordinates"
-      },
-      "address": {
-        "$ref": "#/PostalAddress"
-      }
+      "required": ["name"],
+      "additionalProperties": false
     },
-    "required": [
-      "address"
-    ],
-    "additionalProperties": false
-  },
-
-  "GeoCoordinates": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "GeoCoordinates",
-    "description": "A geographical coordinate",
-    "type": "object",
-    "properties": {
-      "@id": {
-        "description": "The geo coordinates's unique identifier",
-        "type": "string"
-      },
-      "@type": {
-        "type": "string",
-        "enum": ["GeoCoordinates"]
-      },
-      "latitude": {
-        "type": "number"
-      },
-      "longitude": {
-        "type": "number"
-      }
+    "Person": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Person",
+      "description": "A person serving or working with Open Educational Resources.",
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "string",
+              "format": "uri"
+            },
+            "@id": {
+              "description": "The person's unique identifier",
+              "type": "string",
+              "format": "uri"
+            },
+            "@type": {
+              "type": "string",
+              "enum": ["Person"]
+            },
+            "name": {
+              "type": "string"
+            },
+            "workLocation": {
+              "$ref": "#/definitions/Place"
+            }
+          }
+        },
+        {
+          "anyOf":[
+            {
+              "type": "object",
+              "properties": {
+                "mbox_sha1sum": {
+                  "type": "string"
+                }
+              },
+              "required": ["mbox_sha1sum"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": ["email"]
+            }
+          ]
+        }
+      ]
     },
-    "required": [
-      "latitude",
-      "longitude"
-    ],
-    "additionalProperties": false
-  },
-
-  "PostalAddress": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "PostalAddress",
-    "description": "An universal address description",
-    "type": "object",
-    "properties": {
-      "@id": {
-        "description": "The geo addresses' unique identifier",
-        "type": "string"
+    "Organization": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Organization",
+      "description": "An institution serving or working with Open Educational Resources.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The organization's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Organization"]
+        },
+        "location": {
+          "description": "The organization's address and geo data",
+          "$ref": "#/definitions/Place"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "description": {
+          "description": "The description of the organization",
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "legalName": {
+          "description": "The organization's primary name, e.g. a legally recognized name",
+          "$ref": "#/definitions/LocalizedString"
+        }
       },
-      "@type": {
-        "type": "string",
-        "enum": ["PostalAddress"]
-      },
-      "streetAddress": {
-        "type": "string"
-      },
-      "postalCode": {
-        "type": "string"
-      },
-      "addressLocality": {
-        "type": "string"
-      },
-      "addressRegion": {
-        "type": "string"
-      },
-      "addressCountry": {
-        "$ref": "#/Country"
-      }
+      "required": [
+        "legalName"
+      ],
+      "additionalProperties": false
     },
-    "required": [
-      "addressCountry"
-    ],
-    "additionalProperties": false
-  },
-
-  "Country": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Country",
-    "description": "A country, represented by its ISO country code",
-    "type": "string",
-    "enum":["AD","AE","AF","AG","AI","AL","AM","AN","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"]
+    "Place": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Place",
+      "description": "An location description consisting of an address and/or geo data",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The place's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["Place"]
+        },
+        "geo": {
+          "$ref": "#/definitions/GeoCoordinates"
+        },
+        "address": {
+          "$ref": "#/definitions/PostalAddress"
+        }
+      },
+      "required": [
+        "address"
+      ],
+      "additionalProperties": false
+    },
+    "GeoCoordinates": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "GeoCoordinates",
+      "description": "A geographical coordinate",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The geo coordinates's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "lat": {
+          "type": "number"
+        },
+        "lon": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "lat",
+        "lon"
+      ],
+      "additionalProperties": false
+    },
+    "PostalAddress": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "PostalAddress",
+      "description": "An universal address description",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The geo addresses' unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": ["PostalAddress"]
+        },
+        "streetAddress": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "addressLocality": {
+          "type": "string"
+        },
+        "addressRegion": {
+          "type": "string"
+        },
+        "addressCountry": {
+          "$ref": "#/definitions/Country"
+        }
+      },
+      "required": [
+        "addressCountry"
+      ],
+      "additionalProperties": false
+    },
+    "LocalizedString": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Localized string",
+      "description": "A language-tagged string",
+      "type": "object",
+      "properties": {
+        "@language": {
+          "type": "string"
+        },
+        "@value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "@value"
+      ]
+    },
+    "date-fullyear": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Year",
+      "description": "4 digit year",
+      "type": "string",
+      "pattern": "^[0-9]{4}$"
+    },
+    "full-date": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Full Date",
+      "description": "Full Date",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "date-time": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Full Date and Time",
+      "description": "Full Date and Time",
+      "type": "string",
+      "format": "date-time"
+    },
+    "Country": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Country",
+      "description": "A country, represented by its ISO country code",
+      "type": "string",
+      "enum": [
+        "AD",
+        "AE",
+        "AF",
+        "AG",
+        "AI",
+        "AL",
+        "AM",
+        "AN",
+        "AO",
+        "AQ",
+        "AR",
+        "AS",
+        "AT",
+        "AU",
+        "AW",
+        "AX",
+        "AZ",
+        "BA",
+        "BB",
+        "BD",
+        "BE",
+        "BF",
+        "BG",
+        "BH",
+        "BI",
+        "BJ",
+        "BL",
+        "BM",
+        "BN",
+        "BO",
+        "BQ",
+        "BR",
+        "BS",
+        "BT",
+        "BV",
+        "BW",
+        "BY",
+        "BZ",
+        "CA",
+        "CC",
+        "CD",
+        "CF",
+        "CG",
+        "CH",
+        "CI",
+        "CK",
+        "CL",
+        "CM",
+        "CN",
+        "CO",
+        "CR",
+        "CU",
+        "CV",
+        "CW",
+        "CX",
+        "CY",
+        "CZ",
+        "DE",
+        "DJ",
+        "DK",
+        "DM",
+        "DO",
+        "DZ",
+        "EC",
+        "EE",
+        "EG",
+        "EH",
+        "ER",
+        "ES",
+        "ET",
+        "FI",
+        "FJ",
+        "FK",
+        "FM",
+        "FO",
+        "FR",
+        "GA",
+        "GB",
+        "GD",
+        "GE",
+        "GF",
+        "GG",
+        "GH",
+        "GI",
+        "GL",
+        "GM",
+        "GN",
+        "GP",
+        "GQ",
+        "GR",
+        "GS",
+        "GT",
+        "GU",
+        "GW",
+        "GY",
+        "HK",
+        "HM",
+        "HN",
+        "HR",
+        "HT",
+        "HU",
+        "ID",
+        "IE",
+        "IL",
+        "IM",
+        "IN",
+        "IO",
+        "IQ",
+        "IR",
+        "IS",
+        "IT",
+        "JE",
+        "JM",
+        "JO",
+        "JP",
+        "KE",
+        "KG",
+        "KH",
+        "KI",
+        "KM",
+        "KN",
+        "KP",
+        "KR",
+        "KW",
+        "KY",
+        "KZ",
+        "LA",
+        "LB",
+        "LC",
+        "LI",
+        "LK",
+        "LR",
+        "LS",
+        "LT",
+        "LU",
+        "LV",
+        "LY",
+        "MA",
+        "MC",
+        "MD",
+        "ME",
+        "MF",
+        "MG",
+        "MH",
+        "MK",
+        "ML",
+        "MM",
+        "MN",
+        "MO",
+        "MP",
+        "MQ",
+        "MR",
+        "MS",
+        "MT",
+        "MU",
+        "MV",
+        "MW",
+        "MX",
+        "MY",
+        "MZ",
+        "NA",
+        "NC",
+        "NE",
+        "NF",
+        "NG",
+        "NI",
+        "NL",
+        "NO",
+        "NP",
+        "NR",
+        "NU",
+        "NZ",
+        "OM",
+        "PA",
+        "PE",
+        "PF",
+        "PG",
+        "PH",
+        "PK",
+        "PL",
+        "PM",
+        "PN",
+        "PR",
+        "PS",
+        "PT",
+        "PW",
+        "PY",
+        "QA",
+        "RE",
+        "RO",
+        "RS",
+        "RU",
+        "RW",
+        "SA",
+        "SB",
+        "SC",
+        "SD",
+        "SE",
+        "SG",
+        "SH",
+        "SI",
+        "SJ",
+        "SK",
+        "SL",
+        "SM",
+        "SN",
+        "SO",
+        "SR",
+        "SS",
+        "ST",
+        "SV",
+        "SX",
+        "SY",
+        "SZ",
+        "TC",
+        "TD",
+        "TF",
+        "TG",
+        "TH",
+        "TJ",
+        "TK",
+        "TL",
+        "TM",
+        "TN",
+        "TO",
+        "TR",
+        "TT",
+        "TV",
+        "TW",
+        "TZ",
+        "UA",
+        "UG",
+        "UM",
+        "US",
+        "UY",
+        "UZ",
+        "VA",
+        "VC",
+        "VE",
+        "VG",
+        "VI",
+        "VN",
+        "VU",
+        "WF",
+        "WS",
+        "YE",
+        "YT",
+        "ZA",
+        "ZM",
+        "ZW"
+      ]
+    }
   }
 
 }

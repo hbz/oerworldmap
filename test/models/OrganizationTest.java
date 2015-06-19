@@ -1,12 +1,16 @@
 package models;
 
+import helpers.FilesConfig;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.junit.Assert;
+
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,9 +28,9 @@ public class OrganizationTest {
   public static void testConstructorWithoutId() throws IOException, ProcessingException {
 
     organizationSchema = JsonSchemaFactory.byDefault().getJsonSchema(
-        new ObjectMapper().readTree(Paths.get("public/json/schema.json").toFile()));
+        new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
     organizationInstance = new ObjectMapper().readTree(Files.readAllBytes(Paths
-        .get("public/json/ld/organization.jsonld")));
+        .get(FilesConfig.getOrganizationJsonld())));
   }
 
   @Test

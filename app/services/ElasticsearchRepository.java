@@ -29,21 +29,25 @@ public class ElasticsearchRepository implements ResourceRepository {
   }
 
   @Override
-  public void addResource(Resource aResource) throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
+  public void addResource(@Nonnull final Resource aResource) throws IOException {
     String type = (String) aResource.get(JsonLdConstants.TYPE);
-    if (StringUtils.isEmpty(id)) {
-      id = UUID.randomUUID().toString();
-    }
     if (StringUtils.isEmpty(type)) {
       type = DEFAULT_TYPE;
     }
-    elasticsearch.addJson(aResource.toString(), id, type);
+    addResource(aResource, type);
+  }
+
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
+      throws IOException {
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    if (StringUtils.isEmpty(id)) {
+      id = UUID.randomUUID().toString();
+    }
+    elasticsearch.addJson(aResource.toString(), id, aType);
   }
 
   @Override
-  public Resource getResource(String aId) throws IOException {
-    // FIXME: results in NullPointerException if aId is unknown
+  public Resource getResource(String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
   }
 
@@ -55,9 +59,10 @@ public class ElasticsearchRepository implements ResourceRepository {
    * @param aField
    * @param aContent
    * @return all matching Resources or an empty list if no resources match the
-   *         given field / content combination.
+   * given field / content combination.
    */
-  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField, String aContent) {
+  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField,
+      String aContent) {
     if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField)) {
       throw new IllegalArgumentException("Non-complete arguments.");
     } else {
@@ -81,10 +86,12 @@ public class ElasticsearchRepository implements ResourceRepository {
     return resources;
   }
 
-  public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
-    Resource aggregation = new Resource("Aggregation", "country-list");
-    aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
-    return aggregation;
+  public ArrayList query(AggregationBuilder aAggregationBuilder) throws IOException {
+    return elasticsearch.getAggregation(aAggregationBuilder);
+  }
+
+  public Map<String, Object> query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
+    return elasticsearch.getAggregations(aAggregationBuilders);
   }
 
   /**
@@ -105,5 +112,4 @@ public class ElasticsearchRepository implements ResourceRepository {
     }
     return resources;
   }
-
 }

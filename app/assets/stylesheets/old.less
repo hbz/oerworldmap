@@ -1,0 +1,283 @@
+
+/* --- colors --- */
+
+@text-color: #ffffff;
+@text-color-70: rgba(255, 255, 255, 0.7);
+@background-color: hsl(205, 88%, 40%);
+//@hightlight-color: #cf7f07;
+@hightlight-color: #f09711;
+
+@green: #a1cd3f;
+@red: #e15636;
+
+
+/* --- distances --- */
+
+@paragraph-distance: 10px;
+
+
+
+/* --- links --- */
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none;
+}
+
+
+/* --- general --- */
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 17.5px;
+  color: @text-color;
+/*
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  max-height: 999999px;
+*/
+}
+
+p:last-child {
+  margin-bottom: 0px; 
+}
+
+h1 {
+  font-size: 55px;
+  font-weight: bold;
+  margin: 30px 0;
+}
+
+
+.lead small {
+  font-size: 14px;
+}
+
+.small {
+  font-size: 15px;
+}
+
+.small h3 {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+nav ul, ul.resource-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav ul li {
+  float: left;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.placeholder {
+  color: #fff;
+}
+
+
+
+
+/* --- register --- */
+
+.register .form-group {
+  margin-right: 10px;
+}
+
+.register input,
+.register select {
+  background: @background-color;
+  border-color: @text-color;
+  color: @text-color;
+}
+
+.register select option {
+  background-color: @background-color;
+}
+
+.form-control:focus {
+  border-color: @text-color;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
+}
+
+/* http://stackoverflow.com/a/2610741/1060128 */
+.register ::-webkit-input-placeholder { /* WebKit browsers */
+  color: @text-color;
+}
+.register :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: @text-color;
+  opacity: 1;
+}
+.register ::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: @text-color;
+  opacity: 1;
+}
+.register :-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: @text-color;
+}
+
+.loading-indicator {
+  display: none;
+  margin-right: 7px;
+}
+
+/* --- resource --- */
+form#add-organization {
+  text-align: left;
+}
+
+
+
+
+/* --- panel --- */
+
+.panel {
+  background: rgba(255,255,255,0.2);
+  text-align: left;
+  border: none;
+}
+
+.panel-default > .panel-heading {
+  background: rgba(255,255,255,0.3);
+  border: none;
+  color: @text-color;
+}
+
+.panel p:last-child {
+  margin-bottom: 0px;
+}
+
+h3 + .panel {
+  margin-top: 30px;
+}
+
+
+/* --- jvectormap tip --- */
+
+.jvectormap-tip {
+  background: @text-color;
+  color: @background-color;
+  font-size: 14px;
+  border: 2px solid @background-color;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: -15px 0 0 -25px;
+  // box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+
+
+/* --- message list --- */
+
+ul#messages {
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}
+
+
+/* --- alerts --- */
+
+.alert-success {
+  background-color: @green;
+  color: white;
+  border: none !important;
+}
+
+.alert-warning,
+.alert-danger {
+  background: @red;
+  color: white;
+  border: none !important;
+}
+
+.alert-success a:hover,
+.alert-warning a:hover,
+.alert-danger a:hover {
+  color: white;
+}
+
+
+/* --- container --- */
+
+.container {
+  margin-top: 20px;
+  padding-bottom: 80px;
+}
+
+
+/* ------------------------- */
+
+
+.center {
+  text-align: center;
+}
+
+#worldmap {
+  display: inline-block;
+}
+
+article header {
+  background-color: #bdcad2;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+article img {
+  float: left;
+  width: 150px;
+  padding: 5px;
+}
+
+h1:first-child {
+  margin-top: 0px;
+}
+
+
+
+/* ------------------------- */
+
+
+
+
+
+/* --- container ---
+
+.container {
+  margin: 0;
+  max-width: 768px;
+}
+*/
+// can .container be reconfigured via less vars?
+// .container probably not the right for setting the narrow max-width, maybe should be something like a .text-col
+
+
+
+
+
+
+
+
+/* --- placeholder --- */
+
+.placeholder {
+  background: #ccc;
+  float: left;
+  margin: 0 10px 10px 0;
+}

@@ -24,14 +24,16 @@ public class FileResourceRepository implements ResourceRepository {
    */
   private Path mPath;
 
-  private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>(){};
+  private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>() {
+  };
 
   /**
    * Construct FileResourceRepository.
+   * 
    * @param aPath The file system path where resources are stored
    */
   public FileResourceRepository(Path aPath) throws IOException {
-    if (!Files.exists(aPath)) {
+    if (aPath == null || !Files.exists(aPath)) {
       throw new IOException(aPath + " not existing.");
     }
     if (!Files.isWritable(aPath)) {
@@ -42,12 +44,13 @@ public class FileResourceRepository implements ResourceRepository {
 
   /**
    * Add a new resource to the repository.
+   * 
    * @param aResource
    */
   @Override
   public void addResource(@Nonnull Resource aResource) throws IOException {
-    String id = (String)aResource.get(JsonLdConstants.ID);
-    String type = (String)aResource.get(JsonLdConstants.TYPE);
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    String type = (String) aResource.get(JsonLdConstants.TYPE);
     Path dir = Paths.get(mPath.toString(), type);
     Path file = Paths.get(dir.toString(), id);
     if (!Files.exists(dir)) {
@@ -58,41 +61,66 @@ public class FileResourceRepository implements ResourceRepository {
 
   /**
    * Get a Resource specified by the given identifier.
+   * 
    * @param aId
-   * @return the Resource by the given identifier or null if no such Resource exists.
+   * @return the Resource by the given identifier or null if no such Resource
+   * exists.
    */
   @Override
-  public Resource getResource(@Nonnull String aId) throws IOException {
+  public Resource getResource(@Nonnull String aId) {
     ObjectMapper objectMapper = new ObjectMapper();
-    Path resourceFile = getResourcePath(aId);
-    Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
-    return Resource.fromMap(resourceMap);
+    Path resourceFile;
+    try {
+      resourceFile = getResourcePath(aId);
+      Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      return Resource.fromMap(resourceMap);
+    } catch (IOException e) {
+      return null;
+    }
   }
 
   /**
    * Delete a Resource specified by the given identifier.
+   * 
    * @param aId
    * @return The resource that has been deleted.
    */
-  public Resource deleteResource(@Nonnull String aId) throws IOException {
+  public Resource deleteResource(@Nonnull String aId) {
     Resource resource = this.getResource(aId);
-    Files.delete(getResourcePath(aId));
+    try {
+      Files.delete(getResourcePath(aId));
+    } catch (IOException e) {
+      return null;
+    }
     return resource;
   }
 
   /**
    * Query all resources of a given type.
+   * 
    * @param aType
    * @return all resources of a given type as a List.
    */
   @Override
-  public List<Resource> query(@Nonnull String aType) throws IOException {
+  public List<Resource> query(@Nonnull String aType) {
     ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(mPath.toString(), aType);
-    DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir);
+    DirectoryStream<Path> resourceFiles;
+    try {
+      resourceFiles = Files.newDirectoryStream(typeDir);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      return results;
+    }
     ObjectMapper objectMapper = new ObjectMapper();
-    for (Path resourceFile: resourceFiles) {
-      Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+    for (Path resourceFile : resourceFiles) {
+      Map<String, Object> resourceMap;
+      try {
+        resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        continue;
+      }
       results.add(Resource.fromMap(resourceMap));
     }
     return results;
@@ -106,20 +134,15 @@ public class FileResourceRepository implements ResourceRepository {
    * @param aField
    * @param aContent
    * @return all matching Resources or an empty list if no resources match the
-   *         given field / content combination.
+   * given field / content combination.
    */
-  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField, String aContent) {
+  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField,
+      String aContent) {
     if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField)) {
       throw new IllegalArgumentException("Non-complete arguments.");
     } else {
       List<Resource> result = new LinkedList<>();
-      List<Resource> resources;
-      try {
-        resources = query(aType);
-      } catch (IOException e) {
-        resources = new ArrayList<>();
-        e.printStackTrace();
-      }
+      List<Resource> resources = query(aType);
       for (Resource resource : resources) {
         if (resource.get(aField).toString().equals(aContent)) {
           result.add(resource);
@@ -129,29 +152,25 @@ public class FileResourceRepository implements ResourceRepository {
     }
   }
 
-  private Path getResourcePath(@Nonnull String aId) throws IOException {
+  private Path getResourcePath(@Nonnull final String aId) throws IOException {
 
     DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
-            new DirectoryStream.Filter<Path>() {
-              @Override
-              public boolean accept(Path entry) throws IOException
-              {
-                return Files.isDirectory(entry);
-              }
-            }
-    );
+        new DirectoryStream.Filter<Path>() {
+          @Override
+          public boolean accept(Path entry) throws IOException {
+            return Files.isDirectory(entry);
+          }
+        });
 
-    for (Path typeDir: typeDirs) {
+    for (Path typeDir : typeDirs) {
       DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir,
-              new DirectoryStream.Filter<Path>() {
-                @Override
-                public boolean accept(Path entry) throws IOException
-                {
-                  return (entry.getFileName().toString().equals(aId));
-                }
-              }
-      );
-      for (Path resourceFile: resourceFiles) {
+          new DirectoryStream.Filter<Path>() {
+            @Override
+            public boolean accept(Path entry) throws IOException {
+              return (entry.getFileName().toString().equals(aId));
+            }
+          });
+      for (Path resourceFile : resourceFiles) {
         return resourceFile;
       }
     }

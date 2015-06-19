@@ -14,20 +14,17 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.Test;
 
-import play.Configuration;
-import play.Play;
 import play.libs.F.Callback;
 import play.test.TestBrowser;
-import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
-import services.ElasticsearchRepository;
+import controllers.Global;
 
 public class ApplicationTest {
   @Test  
   public void runningLandingPage() {
     
-    final ElasticsearchConfig config = new ElasticsearchConfig(true);
+    final ElasticsearchConfig config = Global.createElasticsearchConfig(true);
     final Settings mClientSettings = ImmutableSettings.settingsBuilder()
           .put(config.getClientSettings()).build();
     @SuppressWarnings("resource")
