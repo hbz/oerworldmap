@@ -91,6 +91,8 @@ public class ResourceIndex extends OERWorldMap {
         case "Organization":
           title = ((Resource) resource.get("legalName")).get("@value").toString();
           break;
+        case "Action":
+        case "Service":
         case "Article":
           title = ((Resource)((ArrayList) resource.get("name")).get(0)).get("@value").toString();
           break;
