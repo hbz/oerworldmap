@@ -7,10 +7,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
 
+import controllers.Global;
 import models.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import play.Configuration;
+import play.Logger;
 import play.Play;
 
 /**
@@ -43,7 +46,9 @@ public class Account {
   }
 
   public static boolean authenticate(String username, String password) {
-    Path tokenFile = Paths.get(mTokenDir, getEncryptedEmailAddress(username));
+    return username.equals(Global.getConfig().getString("admin.user"))
+        && password.equals(Global.getConfig().getString("admin.pass"));
+    /*Path tokenFile = Paths.get(mTokenDir, getEncryptedEmailAddress(username));
     try {
       if (new String(Files.readAllBytes(tokenFile)).equals(password)) {
         return true;
@@ -51,7 +56,7 @@ public class Account {
     } catch (IOException e) {
       return false;
     }
-    return false;
+    return false;*/
   }
 
   public static String getEncryptedEmailAddress(Resource user) {

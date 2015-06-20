@@ -50,7 +50,8 @@ public class ResourceIndexTest {
       @Override
       public void run() {
         String token = Account.createTokenFor(user);
-        String authString = email + ":" + token;
+        //String authString = email + ":" + token;
+        String authString = "user:pass";
         String auth = Base64.getEncoder().encodeToString(authString.getBytes());
         Map<String, String> data = new HashMap<>();
         data.put(JsonLdConstants.TYPE, "Person");
@@ -73,7 +74,8 @@ public class ResourceIndexTest {
       @Override
       public void run() {
         String token = Account.createTokenFor(user);
-        String authString = email + ":" + token;
+        //String authString = email + ":" + token;
+        String authString = "user:pass";
         String auth = Base64.getEncoder().encodeToString(authString.getBytes());
         ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
         data.put(JsonLdConstants.TYPE, "Person");
@@ -96,7 +98,8 @@ public class ResourceIndexTest {
       @Override
       public void run() {
         String token = Account.createTokenFor(user);
-        String authString = email + ":" + token;
+        //String authString = email + ":" + token;
+        String authString = "user:pass";
         String auth = Base64.getEncoder().encodeToString(authString.getBytes());
         String id = UUID.randomUUID().toString();
         ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
@@ -124,7 +127,8 @@ public class ResourceIndexTest {
       @Override
       public void run() {
         String token = Account.createTokenFor(user);
-        String authString = email + ":" + token;
+        //String authString = email + ":" + token;
+        String authString = "user:pass";
         String auth = Base64.getEncoder().encodeToString(authString.getBytes());
         String id = UUID.randomUUID().toString();
         ObjectNode data = new ObjectNode(JsonNodeFactory.instance);

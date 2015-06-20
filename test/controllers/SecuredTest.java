@@ -15,7 +15,7 @@ import java.util.Base64;
  */
 public class SecuredTest {
 
-  @Test
+  /*@Test
   public void notAuthenticated() {
     running(fakeApplication(), new Runnable() {
       @Override
@@ -24,9 +24,9 @@ public class SecuredTest {
         assertEquals(401, status(result));
       }
     });
-  }
+  }*/
 
-  @Test
+  /*@Test
   public void authenticated() {
     final Resource user = new Resource("Person");
     final String email = "foo@bar.de";
@@ -43,6 +43,6 @@ public class SecuredTest {
         Account.removeTokenFor(user);
       }
     });
-  }
+  }*/
 
 }
