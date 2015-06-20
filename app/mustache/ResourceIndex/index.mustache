@@ -25,6 +25,7 @@
             </script>
             {{#scope.resources}}
                 <li about="{{@id}}">
+                    <!-- TODO: extract partial for each resource type -->
                     {{#?Article}}
                     <article>
                     
@@ -62,11 +63,20 @@
                         <div>
                             <h1>
                                 <a href="/resource/{{@id}}">
-                                  {{@id}}
+                                  {{name}}
                                 </a>
                             </h1>
                         </div>
                     {{/?Person}}
+                    {{#?Service}}
+                        <div>
+                            <h1>
+                                <a href="/resource/{{@id}}">
+                                  {{#name}}{{@value}}{{/name}}
+                                </a>
+                            </h1>
+                        </div>
+                    {{/?Service}}
                 </li>
             {{/scope.resources}}
         </ul>
