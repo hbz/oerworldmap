@@ -20,11 +20,11 @@
               </ul>
               <h2>Audience</h2>
               <ul>
-                  {{#audience}}<li>{{.}}</li>{{/audience}}
+                  {{#audience}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/audience}}
               </ul>
               <h2>Topics</h2>
               <ul>
-                  {{#about}}<li>{{.}}</li>{{/about}}
+                  {{#about}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/about}}
               </ul>
           </div>
           {{/availableChannel}}
