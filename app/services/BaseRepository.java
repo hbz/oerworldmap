@@ -83,11 +83,12 @@ public class BaseRepository {
   }
 
   private void attachReferencedResources(Resource aResource) {
-    String id = QueryParser.escape(aResource.get(JsonLdConstants.ID).toString());
-    List<Resource> referencedResources = esQueryNoRef(id);
+    String id = aResource.get(JsonLdConstants.ID).toString();
+    List<Resource> referencedResources = esQueryNoRef(QueryParser.escape(id));
     List<Resource> referencedResourcesExludingSelf = new ArrayList<>();
     for (Resource reference : referencedResources) {
-      if (!reference.get(JsonLdConstants.ID).equals(aResource.get(JsonLdConstants.ID))) {
+      String refId = reference.get(JsonLdConstants.ID).toString();
+      if (! id.equals(refId)) {
         referencedResourcesExludingSelf.add(reference);
       }
     }

@@ -1,0 +1,39 @@
+<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}}" class="color-scheme-map column medium">
+    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+</div>
+<div role="main" class="color-scheme-text container column medium">
+  {{#scope}}
+      <div class="resource-service">
+          <script type="application/ld+json">
+                {{{.}}}
+            </script>
+          <h1>{{#name}}{{@value}}{{/name}} ({{@type}})</h1>
+          {{#description}}<p>{{{@value}}}</p>{{/description}}
+          {{#serviceType}}<h2>Service type</h2><p>{{.}}</p>{{/serviceType}}
+          {{#availableChannel}}
+          <div>
+              <h2>Available at</h2>
+              {{#serviceUrl}}<a href="{{.}}">{{.}}</a>{{/serviceUrl}}
+              <h2>Available languages</h2>
+              <ul>
+                  {{#availableLanguage}}<li>{{.}}</li>{{/availableLanguage}}
+              </ul>
+              <h2>Audience</h2>
+              <ul>
+                  {{#audience}}<li>{{.}}</li>{{/audience}}
+              </ul>
+              <h2>Topics</h2>
+              <ul>
+                  {{#about}}<li>{{.}}</li>{{/about}}
+              </ul>
+          </div>
+          {{/availableChannel}}
+      </div>
+      <h2>{{i18n.mentioned_in}}</h2>
+      <ul>
+        {{#referencedBy}}
+          {{#?Article}}<li><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></li>{{/?Article}}
+        {{/referencedBy}}
+      </ul>
+  {{/scope}}
+</div>

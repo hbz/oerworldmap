@@ -30,7 +30,15 @@
               <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
                   <h3>
                       <a href="/resource/{{@id}}">
-                        {{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}} ({{@type}})
+                        {{#legalName}}
+                          {{@value}}
+                        {{/legalName}}
+                        {{^legalName}}
+                          {{#name}}
+                            {{#@value}}{{.}}{{/@value}}
+                            {{^@value}}{{.}}{{/@value}}
+                          {{/name}}
+                        {{/legalName}} ({{@type}})
                       </a>
                   </h3>
                   {{#location.address}}
