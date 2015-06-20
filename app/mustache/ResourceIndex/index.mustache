@@ -77,6 +77,15 @@
                             </h1>
                         </div>
                     {{/?Service}}
+                    {{#?Action}}
+                        <div>
+                            <h1>
+                                <a href="/resource/{{@id}}">
+                                  {{#name}}{{@value}}{{/name}}
+                                </a>
+                            </h1>
+                        </div>
+                    {{/?Action}}
                 </li>
             {{/scope.resources}}
         </ul>
