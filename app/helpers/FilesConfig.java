@@ -1,5 +1,7 @@
 package helpers;
 
+import controllers.Global;
+
 public class FilesConfig {
 
   public static String getSchema() {
@@ -11,7 +13,7 @@ public class FilesConfig {
   }
 
   public static String getRepo() {
-    return "data/resources";
+    return Global.getConfig().getString("filerepo.dir");
   }
 
 }
