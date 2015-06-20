@@ -92,7 +92,9 @@ public class BaseRepository {
         referencedResourcesExludingSelf.add(reference);
       }
     }
-    aResource.put(Resource.REFERENCEKEY, referencedResourcesExludingSelf);
+    if (!referencedResourcesExludingSelf.isEmpty()) {
+      aResource.put(Resource.REFERENCEKEY, referencedResourcesExludingSelf);
+    }
   }
 
   private void attachReferencedResources(List<Resource> aResources) {
@@ -132,8 +134,8 @@ public class BaseRepository {
     }
     if (resource != null){
       resource = (Resource) resource.get(Record.RESOURCEKEY);
+      attachReferencedResources(resource);
     }
-    attachReferencedResources(resource);
     return resource;
   }
 
