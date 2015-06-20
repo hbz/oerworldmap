@@ -4,8 +4,24 @@
 <div role="main" class="color-scheme-text list-view column small">
     <section>
         <h1>{{scope.name}}</h1>
-        <pre>{{{scope.champions}}}</pre>
-        <pre>{{{scope.countryAggregation}}}</pre>
+        {{#scope.champions}}
+        <div>
+            {{^image}}
+                <div class="placeholder" style="width: 150px; height: 150px;"></div>
+            {{/image}}
+            <h2>{{name}}</h2>
+        </div>
+        <hr style="clear: both;" />
+        {{/scope.champions}}
+        {{#scope.countryAggregation}}
+            <table class="table">
+                {{#entries}}
+                    {{#observations}}
+                        <tr><td>{{dimension}}</td><td>{{value}}</td></tr>
+                    {{/observations}}
+                {{/entries}}
+            </table>
+        {{/scope.countryAggregation}}
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}

@@ -20,6 +20,7 @@ public class AggregationIndex extends OERWorldMap {
     @SuppressWarnings("rawtypes")
     AggregationBuilder usersByCountry = AggregationBuilders.terms("users_by_country").field(
         Record.RESOURCEKEY + ".workLocation.address.addressCountry").size(0);
+    // FIXME: Use filter to restrict to only organizations
     AggregationBuilder organizationsByCountry = AggregationBuilders.terms("organizations_by_country").field(
         Record.RESOURCEKEY + ".location.address.addressCountry").size(0);
     Resource countryAggregation = mBaseRepository.query(Arrays.asList(usersByCountry, organizationsByCountry));
