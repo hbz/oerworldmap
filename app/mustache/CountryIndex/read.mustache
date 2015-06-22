@@ -6,6 +6,9 @@
         <h1>{{scope.name}}</h1>
         {{#scope.champions}}
         <div>
+            {{#image}}
+                <img src="{{.}}" />
+            {{/image}}
             {{^image}}
                 <div class="placeholder" style="width: 150px; height: 150px;"></div>
             {{/image}}
@@ -13,13 +16,20 @@
             {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
         </div>
         {{/scope.champions}}
+        {{^scope.champions}}
+            <div class="alert alert-success" role="alert">
+                <a href="mailto:info@oerworldmap.org">Contact us</a> to become the country champion for {{scope.name}}!
+            </div>
+        {{/scope.champions}}
         {{#scope.countryAggregation.by_country.buckets}}
+            <h2>Country stats</h2>
             <table class="table">
                 <tr><td><i class="fa fa-user"></i> Users</td><td>{{users.doc_count}}</td></tr>
                 <tr><td><i class="fa fa-users"></i> Organizations</td><td>{{organizations.doc_count}}</td></tr>
                 <tr><td><i class="fa fa-comment"></i> Stories</td><td>{{articles.doc_count}}</td></tr>
             </table>
         {{/scope.countryAggregation.by_country.buckets}}
+        <h2>Related</h2>
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}
