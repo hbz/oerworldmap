@@ -1,161 +1,619 @@
 {
   "mappings": {
-    "Person": {
+    "Article": {
       "properties": {
-        "email": {
-          "index": "not_analyzed",
-          "type": "string"
+        "@id": {
+          "type": "string",
+          "index": "not_analyzed"
         },
-        "workLocation": {
+        "@type": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "about": {
           "properties": {
-            "address": {
+            "@context": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "@id": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "@type": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "articleBody": {
               "properties": {
-                "addressCountry": {
-                  "index": "not_analyzed",
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
                   "type": "string"
                 }
               }
             },
-            "geo": {
-              "type": "geo_point"
+            "creator": {
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@type": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "affiliation": {
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "@type": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "legalName": {
+                      "properties": {
+                        "@language": {
+                          "type": "string",
+                          "index": "not_analyzed"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "email": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            },
+            "dateCreated": {
+              "type": "date",
+              "format": "dateOptionalTime"
+            },
+            "image": {
+              "type": "string"
+            },
+            "keywords": {
+              "type": "string"
+            },
+            "mentions": {
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@type": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "about": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "additionalType": {
+                  "type": "string"
+                },
+                "alternateName": {
+                  "type": "string"
+                },
+                "audience": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "availableChannel": {
+                  "properties": {
+                    "availableLanguage": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "serviceUrl": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "contactPoint": {
+                  "type": "string"
+                },
+                "description": {
+                  "properties": {
+                    "@language": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "email": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "endTime": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "legalName": {
+                  "properties": {
+                    "@language": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "license": {
+                  "type": "string"
+                },
+                "location": {
+                  "properties": {
+                    "@type": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "address": {
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "index": "not_analyzed"
+                        },
+                        "addressCountry": {
+                          "type": "string"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double"
+                        },
+                        "lon": {
+                          "type": "double"
+                        }
+                      }
+                    }
+                  }
+                },
+                "logo": {
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@language": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "serviceType": {
+                  "type": "string"
+                },
+                "startDate": {
+                  "type": "string"
+                },
+                "startTime": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            },
+            "name": {
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
-        "@id": {
-          "index": "not_analyzed",
+        "dateCreated": {
           "type": "string"
         },
+        "dateModified": {
+          "type": "string"
+        }
+      }
+    },
+    "Person": {
+      "properties": {
+        "@id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
         "@type": {
-          "index": "not_analyzed",
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "about": {
+          "properties": {
+            "@id": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "@type": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "affiliation": {
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@type": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "legalName": {
+                  "properties": {
+                    "@language": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "email": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "dateCreated": {
           "type": "string"
         }
       }
     },
     "Organization": {
       "properties": {
-        "location": {
+        "@id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "@type": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "about": {
           "properties": {
-            "address": {
+            "@id": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "@type": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "additionalType": {
+              "type": "string"
+            },
+            "alternateName": {
+              "type": "string"
+            },
+            "contactPoint": {
+              "type": "string"
+            },
+            "description": {
               "properties": {
-                "addressCountry": {
-                  "index": "not_analyzed",
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
                   "type": "string"
                 }
               }
             },
-            "geo": {
-              "type": "geo_point"
+            "email": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "legalName": {
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
+            },
+            "location": {
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "address": {
+                  "properties": {
+                    "@type": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "addressCountry": {
+                      "type": "string"
+                    },
+                    "addressLocality": {
+                      "type": "string"
+                    },
+                    "addressRegion": {
+                      "type": "string"
+                    },
+                    "postalCode": {
+                      "type": "string"
+                    },
+                    "streetAddress": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double"
+                    },
+                    "lon": {
+                      "type": "double"
+                    }
+                  }
+                }
+              }
+            },
+            "logo": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
             }
           }
         },
-        "@id": {
-          "index": "not_analyzed",
+        "dateCreated": {
           "type": "string"
         },
-        "@type": {
-          "index": "not_analyzed",
+        "dateModified": {
           "type": "string"
         }
       }
     },
     "Action": {
       "properties": {
-        "agent": {
-          "properties": {
-            "email": {
-              "index": "not_analyzed",
-              "type": "string"
-            },
-            "workLocation": {
-              "properties": {
-                "address": {
-                  "properties": {
-                    "addressCountry": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
-                "geo": {
-                  "type": "geo_point"
-                }
-              }
-            },
-            "location": {
-              "properties": {
-                "address": {
-                  "properties": {
-                    "addressCountry": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
-                "geo": {
-                  "type": "geo_point"
-                }
-              }
-            }
-          }
-        },
-        "participant": {
-          "properties": {
-            "email": {
-              "index": "not_analyzed",
-              "type": "string"
-            },
-            "workLocation": {
-              "properties": {
-                "address": {
-                  "properties": {
-                    "addressCountry": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
-                "geo": {
-                  "type": "geo_point"
-                }
-              }
-            },
-            "location": {
-              "properties": {
-                "address": {
-                  "properties": {
-                    "addressCountry": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
-                "geo": {
-                  "type": "geo_point"
-                }
-              }
-            }
-          }
-        },
-        "image": {
-          "index": "not_analyzed",
-          "type": "string"
-        },
-        "url": {
-          "index": "not_analyzed",
-          "type": "string"
-        },
-        "startDate": {
-          "type": "date"
-        },
-        "endDate": {
-          "type": "date"
-        },
         "@id": {
-          "index": "not_analyzed",
-          "type": "string"
+          "type": "string",
+          "index": "not_analyzed"
         },
         "@type": {
-          "index": "not_analyzed",
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "about": {
+          "properties": {
+            "@id": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "@type": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "alternateName": {
+              "type": "string"
+            },
+            "description": {
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
+            },
+            "email": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "endTime": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "location": {
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "address": {
+                  "properties": {
+                    "@type": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "addressCountry": {
+                      "type": "string"
+                    },
+                    "addressLocality": {
+                      "type": "string"
+                    },
+                    "addressRegion": {
+                      "type": "string"
+                    },
+                    "postalCode": {
+                      "type": "string"
+                    },
+                    "streetAddress": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double"
+                    },
+                    "lon": {
+                      "type": "double"
+                    }
+                  }
+                }
+              }
+            },
+            "name": {
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
+            },
+            "startTime": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "dateCreated": {
+          "type": "string"
+        },
+        "dateModified": {
+          "type": "string"
+        }
+      }
+    },
+    "Service": {
+      "properties": {
+        "@id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "@type": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "about": {
+          "properties": {
+            "@id": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "@type": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "about": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "alternateName": {
+              "type": "string"
+            },
+            "audience": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "availableChannel": {
+              "properties": {
+                "availableLanguage": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "serviceUrl": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": {
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
+            },
+            "email": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "license": {
+              "type": "string"
+            },
+            "name": {
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
+            },
+            "serviceType": {
+              "type": "string"
+            },
+            "startDate": {
+              "type": "string"
+            }
+          }
+        },
+        "dateCreated": {
+          "type": "string"
+        },
+        "dateModified": {
           "type": "string"
         }
       }
