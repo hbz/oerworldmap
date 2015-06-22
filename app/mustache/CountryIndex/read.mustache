@@ -13,15 +13,13 @@
         </div>
         <hr style="clear: both;" />
         {{/scope.champions}}
-        {{#scope.countryAggregation}}
+        {{#scope.countryAggregation.by_country.buckets}}
             <table class="table">
-                {{#entries}}
-                    {{#observations}}
-                        <tr><td>{{dimension}}</td><td>{{value}}</td></tr>
-                    {{/observations}}
-                {{/entries}}
+                <tr><td>Users</td><td>{{users.doc_count}}</td></tr>
+                <tr><td>Organizations</td><td>{{organizations.doc_count}}</td></tr>
+                <tr><td>Champions</td><td>{{champions.doc_count}}</td></tr>
             </table>
-        {{/scope.countryAggregation}}
+        {{/scope.countryAggregation.by_country.buckets}}
         <ul class="resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}

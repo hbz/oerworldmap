@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import play.Logger;
 
 public class Resource extends HashMap<String, Object> {
 
@@ -118,6 +119,15 @@ public class Resource extends HashMap<String, Object> {
         new TypeReference<HashMap<String, Object>>() {
         });
     return fromMap(resourceMap);
+  }
+
+  public static Resource fromJson(String aJsonString) {
+    try {
+      return fromJson(new ObjectMapper().readTree(aJsonString));
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return null;
+    }
   }
 
   public ProcessingReport validate() {

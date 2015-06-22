@@ -2,22 +2,28 @@
 
   <strong>{{name}}</strong>
   
-  {{#observationsForTemplate}}
+  {{#organizations}}
     <span class="entity-count">
-      {{value}}
-      <i class="fa fa-{{icon}}"></i>
+      {{organizations.doc_count}}
+      <i class="fa fa-users"></i>
     </span>
-  {{/observationsForTemplate}}
+  {{/organizations}}
+  {{#users}}
+      <span class="entity-count">
+      {{users.doc_count}}
+      <i class="fa fa-user"></i>
+    </span>
+  {{/users}}
   
 </div>
 
 <div class="popover-section bg-blue-paler">
   
-  {{#hasChampion}}
+  {{#champions.doc_count}}
     Country Champion: <i class="fa fa-check"></i>
-  {{/hasChampion}}
-  {{^hasChampion}}
+  {{/champions.doc_count}}
+  {{^champions.doc_count}}
     Country Champion: <i class="fa fa-times"></i>
-  {{/hasChampion}}
+  {{/champions.doc_count}}
   
 </div>

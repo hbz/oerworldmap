@@ -86,12 +86,22 @@ public class ElasticsearchRepository implements ResourceRepository {
     return resources;
   }
 
-  public ArrayList query(AggregationBuilder aAggregationBuilder) throws IOException {
-    return elasticsearch.getAggregation(aAggregationBuilder);
+  public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
+    Resource aggregations = Resource
+        .fromJson(elasticsearch.getAggregation(aAggregationBuilder).toString());
+    if (null == aggregations) {
+      return null;
+    }
+    return (Resource) aggregations.get("aggregations");
   }
 
-  public Map<String, Object> query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
-    return elasticsearch.getAggregations(aAggregationBuilders);
+  public Resource query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
+    Resource aggregations = Resource
+        .fromJson(elasticsearch.getAggregations(aAggregationBuilders).toString());
+    if (null == aggregations) {
+      return null;
+    }
+    return (Resource) aggregations.get("aggregations");
   }
 
   /**

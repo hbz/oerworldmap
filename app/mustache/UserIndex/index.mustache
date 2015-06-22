@@ -20,9 +20,9 @@
 
                 <div class="form-group">
                     <label class="sr-only" for="register-country">{{i18n.country}}</label>
-                    <input type="hidden" name="workLocation[@type]" value="Place" />
-                    <input type="hidden" name="workLocation[address][@type]" value="PostalAddress" />
-                    <select class="form-control input-lg" name="workLocation[address][addressCountry]" required id="register-country">
+                    <input type="hidden" name="location[@type]" value="Place" />
+                    <input type="hidden" name="location[address][@type]" value="PostalAddress" />
+                    <select class="form-control input-lg" name="location[address][addressCountry]" required id="register-country">
                         <option value="">{{i18n.select_country}}</option>
                         {{#scope.countries}}
                         <option value="{{alpha-2}}">{{name}}</option>

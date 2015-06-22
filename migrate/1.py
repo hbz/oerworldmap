@@ -10,6 +10,7 @@ def migrate(input_dir, output_dir):
         with open(input_path) as data_file:
             data = remove_ids(json.load(data_file))
             data = email_to_shasum(data)
+            data = workLocation_to_location(data)
             output_path = os.path.join(output_dir, inputfile)
             with open(output_path, 'w') as migrated_file:
                 json.dump(data, migrated_file)
@@ -25,6 +26,11 @@ def remove_ids(json_data):
 def email_to_shasum(json_data):
     json_data['mbox_sha1sum'] = json_data['email']
     del json_data['email']
+    return json_data
+
+def workLocation_to_location(json_data):
+    json_data['location'] = json_data['workLocation']
+    del json_data['workLocation']
     return json_data
 
 if __name__ == "__main__":

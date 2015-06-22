@@ -14,6 +14,7 @@ import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.json.simple.parser.ParseException;
 import play.Logger;
@@ -162,19 +163,10 @@ public class ElasticsearchClient {
    * @param aAggregationBuilder
    * @return a List of docs, each represented by a Map of String/Object.
    */
-  public ArrayList<Object> getAggregation(final AggregationBuilder aAggregationBuilder) {
-    final ArrayList<Object> entries = new ArrayList<Object>();
+  public SearchResponse getAggregation(final AggregationBuilder aAggregationBuilder) {
 
-    SearchResponse response = mClient.prepareSearch(mEsConfig.getIndex())
+    return mClient.prepareSearch(mEsConfig.getIndex())
         .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
-    Aggregation aggregation = response.getAggregations().asList().get(0);
-    for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
-      Map<String, Object> e = new HashMap<>();
-      e.put("key", entry.getKey());
-      e.put("value", entry.getDocCount());
-      entries.add(e);
-    }
-    return entries;
   }
 
   /**
@@ -183,60 +175,15 @@ public class ElasticsearchClient {
    * @param aAggregationBuilders
    * @return a List of docs, each represented by a Map of String/Object.
    */
-  public Map<String, Object> getAggregations(final List<AggregationBuilder> aAggregationBuilders) {
-
-    final Map<String, Object> result = new HashMap<>();
-    final ArrayList<String> dimensions = new ArrayList<>();
-    final ArrayList<Map> entries = new ArrayList<>();
-
+  public SearchResponse getAggregations(final List<AggregationBuilder> aAggregationBuilders) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mEsConfig.getIndex());
     for (AggregationBuilder aggregationBuilder : aAggregationBuilders) {
       searchRequestBuilder.addAggregation(aggregationBuilder);
     }
 
-    SearchResponse response = searchRequestBuilder.setSize(0).execute().actionGet();
+    return searchRequestBuilder.setSize(0).execute().actionGet();
 
-    List<Aggregation> aggregations = response.getAggregations().asList();
-
-    final Map<String, ArrayList<Map>> observations = new HashMap<>();
-
-    for (Aggregation aggregation : aggregations) {
-      dimensions.add(aggregation.getName());
-      for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
-        String key = entry.getKey();
-        long value = entry.getDocCount();
-        if (null == observations.get(key)) {
-          observations.put(key, new ArrayList<Map>());
-        }
-        Map<String, Object> observation = new HashMap<>();
-        observation.put("dimension", aggregation.getName());
-        observation.put("value", value);
-        observations.get(key).add(observation);
-      }
-    }
-
-    for (Map.Entry<String, ArrayList<Map>> observation : observations.entrySet()) {
-      Map<String, Object> entry = new HashMap<>();
-      entry.put("key", observation.getKey());
-
-      List<Map> obs = observation.getValue();
-      for (int i = 0; i < obs.size(); i++) {
-        if (!dimensions.get(i).equals(obs.get(i).get("dimension"))) {
-          Map<String, Object> ob = new HashMap<>();
-          ob.put("dimension", dimensions.get(i));
-          ob.put("value", 0);
-          obs.add(i, ob);
-        }
-      }
-      entry.put("observations", obs);
-      entries.add(entry);
-    }
-
-    result.put("dimensions", dimensions);
-    result.put("entries", entries);
-
-    return result;
   }
 
   /**

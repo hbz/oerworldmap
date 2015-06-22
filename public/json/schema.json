@@ -279,7 +279,7 @@
             "name": {
               "type": "string"
             },
-            "workLocation": {
+            "location": {
               "$ref": "#/definitions/Place"
             }
           }

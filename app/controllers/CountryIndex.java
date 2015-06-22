@@ -3,8 +3,11 @@ package controllers;
 import helpers.Countries;
 import models.Record;
 import models.Resource;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import play.Logger;
 import play.mvc.Result;
 
 import java.io.IOException;
@@ -23,14 +26,22 @@ public class CountryIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
-    AggregationBuilder usersByCountry = AggregationBuilders.terms("users_by_country").field(
-        Record.RESOURCEKEY + ".workLocation.address.addressCountry").include(id).size(0);
-    AggregationBuilder organizationsByCountry = AggregationBuilders.terms("organizations_by_country").field(
-        Record.RESOURCEKEY + ".location.address.addressCountry").include(id).size(0);
-    AggregationBuilder championsByCountry = AggregationBuilders.terms("champions_by_country").field(
-        Record.RESOURCEKEY + ".countryChampionFor").include(id).size(0);
-    Resource countryAggregation = mBaseRepository.query(Arrays.asList(usersByCountry, organizationsByCountry, championsByCountry));
+    AggregationBuilder byCountry = AggregationBuilders
+        .terms("by_country").field(Record.RESOURCEKEY + ".location.address.addressCountry").include(id).size(0)
+        .subAggregation(AggregationBuilders
+            .filter("organizations")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
+        .subAggregation(AggregationBuilders
+            .filter("users")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Person")))
+        // TODO: The following implies that somebody can only be a chamption for her country. Is this correct?
+        .subAggregation(AggregationBuilders
+            .filter("champions")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".countryChampionFor", id)));
 
+    //AggregationBuilder championsByCountry = AggregationBuilders.terms("champions_by_country").field(
+        //Record.RESOURCEKEY + ".countryChampionFor").include(id).size(0);
+    Resource countryAggregation = mBaseRepository.query(byCountry);
 
     List<Resource> champions = mBaseRepository.esQuery("countryChampionFor:".concat(id.toUpperCase()));
     List<Resource> resources = mBaseRepository.esQuery("about.\\*.addressCountry:".concat(id.toUpperCase()));

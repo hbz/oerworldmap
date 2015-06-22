@@ -170,18 +170,12 @@ public class BaseRepository {
 
   public Resource query(@SuppressWarnings("rawtypes") AggregationBuilder aAggregationBuilder)
       throws IOException {
-    Resource aggregation = new Resource("Aggregation", "country-list");
-    aggregation.put("entries", mElasticsearchRepo.query(aAggregationBuilder));
-    return aggregation;
+    return mElasticsearchRepo.query(aAggregationBuilder);
   }
 
   public Resource query(@SuppressWarnings("rawtypes") List<AggregationBuilder> aAggregationBuilders)
       throws IOException {
-    Resource aggregation = new Resource("Aggregation", "country-list");
-    Map<String, Object> result = mElasticsearchRepo.query(aAggregationBuilders);
-    aggregation.put("entries", result.get("entries"));
-    aggregation.put("dimensions", result.get("dimensions"));
-    return aggregation;
+    return mElasticsearchRepo.query(aAggregationBuilders);
   }
 
   public List<Resource> query(String aType, boolean aSearchAllRepos) throws IOException {

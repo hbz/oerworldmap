@@ -341,8 +341,7 @@ Hijax.behaviours.map = {
       // setup empty countrydata, if undefined
       if( typeof properties.country == 'undefined' ) {
         properties.country = {
-          key : feature.getId(),
-          observations : []
+          key : feature.getId()
         }
       }
       
@@ -350,28 +349,6 @@ Hijax.behaviours.map = {
       
       // set name, init champions flag
       country.name = i18n[ country.key.toUpperCase() ];
-      country.hasChampion = false;
-      
-      // init observations for template
-      country.observationsForTemplate = [];
-      
-      for(i in country.observations) {  
-        
-        if(
-          country.observations[i].dimension == "champions_by_country" &&
-          country.observations[i].value > 0
-        ) {
-          country.hasChampion = true;
-        } else if( country.observations[i].value > 0 ) {
-          country.observationsForTemplate.push({
-            icon : map.iconCodes[
-              country.observations[i].dimension.split("_")[0]
-            ],
-            value : country.observations[i].value
-          });
-        }
-                
-      }
 
       var content = Mustache.to_html(
         $('#popoverCountry\\.mustache').html(),
@@ -384,7 +361,6 @@ Hijax.behaviours.map = {
   },
 
   setHeatmapData : function(aggregations) {
-
     var map = this;
 
     var heat_data = {};
@@ -393,8 +369,8 @@ Hijax.behaviours.map = {
     map.vectorSource.on('change', function(e) {
       if (map.vectorSource.getState() == 'ready' && !dataAttached) {
         dataAttached = true;
-        for(var j = 0; j < aggregations["entries"].length; j++) {
-          var aggregation = aggregations["entries"][j];
+        for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
+          var aggregation = aggregations["by_country"]["buckets"][j];
           var feature = map.vectorSource.getFeatureById(aggregation.key.toUpperCase());
           if (feature) {
             var properties = feature.getProperties();
@@ -405,12 +381,9 @@ Hijax.behaviours.map = {
       }
     });
 
-    for(var j = 0; j < aggregations["entries"].length; j++) {
-      var aggregation = aggregations["entries"][j];
-      heat_data[ aggregation.key.toUpperCase() ] = 0;
-      for(var i = 0; i < aggregation["observations"].length; i ++) {
-        heat_data[ aggregation.key.toUpperCase() ] += aggregation["observations"][i].value;
-      }
+    for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
+      var aggregation = aggregations["by_country"]["buckets"][j];
+      heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
     }
 
     var heats = $.map(heat_data, function(value, index) {
