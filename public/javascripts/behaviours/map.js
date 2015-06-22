@@ -131,36 +131,39 @@ Hijax.behaviours.map = {
     map.styles = {
       placemark : {
         
-        base : new ol.style.Style({
-          text: new ol.style.Text({
-            text: '\uf041',
-            font: 'normal 1.5em FontAwesome',
-            textBaseline: 'Bottom',
-            fill: new ol.style.Fill({
-              color: map.colors['blue-darker']
-            }),
-            stroke: new ol.style.Stroke({
-              color: 'white',
-              width: 3
+        base : function() {
+          return new ol.style.Style({
+            text: new ol.style.Text({
+              text: '\uf041',
+              font: 'normal 1.5em FontAwesome',
+              textBaseline: 'Bottom',
+              fill: new ol.style.Fill({
+                color: map.colors['blue-darker']
+              }),
+              stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 3
+              })
             })
           })
-        }),
+        },
         
-        hover : new ol.style.Style({
-          text: new ol.style.Text({
-            text: '\uf041',
-            font: 'normal 1.5em FontAwesome',
-            textBaseline: 'Bottom',
-            fill: new ol.style.Fill({
-              color: map.colors['orange']
-            }),
-            stroke: new ol.style.Stroke({
-              color: 'white',
-              width: 3
+        hover : function() {
+          return new ol.style.Style({
+            text: new ol.style.Text({
+              text: '\uf041',
+              font: 'normal 1.5em FontAwesome',
+              textBaseline: 'Bottom',
+              fill: new ol.style.Fill({
+                color: map.colors['orange']
+              }),
+              stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 3
+              })
             })
           })
-        })
-        
+        }
       }
     };
   },
@@ -283,7 +286,7 @@ Hijax.behaviours.map = {
     if( feature_type == 'country' ) { return; }
     
     feature.setStyle(
-      map.styles[ feature_type ][ style ]
+      map.styles[ feature_type ][ style ]()
     );
   },
   
@@ -572,7 +575,7 @@ Hijax.behaviours.map = {
 
         var feature = new ol.Feature(featureProperties);
         feature.setId(resource['@id']);
-        feature.setStyle(that.styles['placemark']['base']);
+        feature.setStyle(that.styles['placemark']['base']());
         markers.push(feature);
       }
     }
