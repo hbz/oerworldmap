@@ -21,14 +21,19 @@ public class AggregationIndex extends OERWorldMap {
   public static Result list() throws IOException {
     @SuppressWarnings("rawtypes")
 
+    String resource_field = Record.RESOURCEKEY + ".location.address.addressCountry";
+    String mentions_field = Record.RESOURCEKEY + ".mentions.location.address.addressCountry";
     AggregationBuilder byCountry = AggregationBuilders
-        .terms("by_country").field(Record.RESOURCEKEY + ".location.address.addressCountry").size(0)
+        .terms("by_country").script("doc['" + resource_field + "'].values + doc['" + mentions_field + "'].values").size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
         .subAggregation(AggregationBuilders
             .filter("users")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Person")))
+        .subAggregation(AggregationBuilders
+            .filter("articles")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Article")))
         // TODO: The following implies that somebody can be a champion for another country. Is this correct?
         .subAggregation(AggregationBuilders
             .filter("champions")

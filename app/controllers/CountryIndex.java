@@ -26,14 +26,19 @@ public class CountryIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
+    String resource_field = Record.RESOURCEKEY + ".location.address.addressCountry";
+    String mentions_field = Record.RESOURCEKEY + ".mentions.location.address.addressCountry";
     AggregationBuilder byCountry = AggregationBuilders
-        .terms("by_country").field(Record.RESOURCEKEY + ".location.address.addressCountry").include(id).size(0)
+        .terms("by_country").script("doc['" + resource_field + "'].values + doc['" + mentions_field + "'].values").include(id).size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
         .subAggregation(AggregationBuilders
             .filter("users")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Person")))
+        .subAggregation(AggregationBuilders
+            .filter("articles")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Article")))
         // TODO: The following implies that somebody can only be a chamption for her country. Is this correct?
         .subAggregation(AggregationBuilders
             .filter("champions")
