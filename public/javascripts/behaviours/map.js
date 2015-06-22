@@ -31,9 +31,12 @@ Hijax.behaviours.map = {
       
       // Get mercator projection
       map.projection = ol.proj.get('EPSG:3857');
+      
+      // Styles
+      map.setupStyles();
 
       // Map container
-      map.container = $('<div id="map"><div id="popup"></div></div>')[0];
+      map.container = $('<div id="map"></div>')[0];
       $(this).prepend(map.container);
 
       // Vector source
@@ -82,14 +85,9 @@ Hijax.behaviours.map = {
       }
 
       map.world.on('pointermove', function(evt) {
-        if (evt.dragging) {
-          return;
-        }
+        if (evt.dragging) { return; }
         var pixel = map.world.getEventPixel(evt.originalEvent);
-        var coord = map.world.getEventCoordinate(evt.originalEvent);
-        var hit = map.world.hasFeatureAtPixel(pixel)
-        map.world.getTarget().style.cursor = hit ? 'pointer' : '';
-        map.displayFeatureInfo(pixel, coord, context);
+        map.updateHoverState(pixel);
       });
 
       map.world.on('click', function(evt) {        
@@ -110,20 +108,61 @@ Hijax.behaviours.map = {
       map.setBoundingBox(this);
       
       // init popover
-      map.popupElement = document.getElementById('popup');      
-      map.popup = new ol.Overlay({
-        element: map.popupElement,
+      map.popoverElement = $('<div class="popover fade top in" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
+      map.popover = new ol.Overlay({
+        element: map.popoverElement,
         positioning: 'bottom-center',
         stopEvent: false,
         wrapX: true
       });
-      map.world.addOverlay(map.popup);
+      map.world.addOverlay(map.popover);
       
       // switch style
       $(this).addClass("map-view");
 
     });
 
+  },
+  
+  setupStyles : function() {
+    
+    var map = this;
+    
+    map.styles = {
+      placemark : {
+        
+        base : new ol.style.Style({
+          text: new ol.style.Text({
+            text: '\uf041',
+            font: 'normal 1.5em FontAwesome',
+            textBaseline: 'Bottom',
+            fill: new ol.style.Fill({
+              color: map.colors['blue-darker']
+            }),
+            stroke: new ol.style.Stroke({
+              color: 'white',
+              width: 3
+            })
+          })
+        }),
+        
+        hover : new ol.style.Style({
+          text: new ol.style.Text({
+            text: '\uf041',
+            font: 'normal 1.5em FontAwesome',
+            textBaseline: 'Bottom',
+            fill: new ol.style.Fill({
+              color: map.colors['orange']
+            }),
+            stroke: new ol.style.Stroke({
+              color: 'white',
+              width: 3
+            })
+          })
+        })
+        
+      }
+    };
   },
   
   getZoomValues : function() {
@@ -149,175 +188,195 @@ Hijax.behaviours.map = {
     };
     
   },
-
-  displayedFeatureInfo : null,
   
-  displayFeatureInfo : function(pixel, coord, context) {
+  getFeatureType : function(feature) {
+    if( typeof feature == 'object' ) {
+      var id = feature.getId();
+    } else {
+      var id = feature;
+    }
+    
+    if( id.indexOf("urn:uuid") === 0 ) {
+      return "placemark";
+    } else {
+      return "country";
+    }
+  },
+  
+  hoverState : {
+    id : false
+  },
+  
+  updateHoverState : function(pixel) {
     
     var map = this;
-
+    
+    // get feature at pixel
     var feature = map.world.forEachFeatureAtPixel(pixel, function(feature, layer) {
       return feature;
     });
     
-    if(feature){
+    // get feature type
+    if(feature) {
+      var type = map.getFeatureType( feature );
+    }
+    
+    // the statemachine ...
+    if(
+      ! map.hoverState.id &&
+      feature
+    ) {
+      // ... no popover yet, but now. show it, update position, content and state
       
-      if(
-        feature.getId().indexOf("urn:uuid") === 0
-      ) {
-        var feature_type = "placemark";
-      } else {
-        var feature_type = "country";
-      }
-       
-      if (!(map.displayedFeatureInfo && map.displayedFeatureInfo.getId() == feature.getId())) {
-        $(map.popupElement).popover('destroy');
-        map.displayedFeatureInfo = feature;
-      }
+      $(map.popoverElement).show();
+      map.setPopoverContent( feature, type );
+      map.setPopoverPosition( feature, type, pixel );
+      map.setFeatureStyle( feature, 'hover' );
+      map.hoverState.id = feature.getId();
+      map.world.getTarget().style.cursor = 'pointer';
       
-      var properties = feature.getProperties();
+    } else if(
+      map.hoverState.id &&
+      feature &&
+      feature.getId() == map.hoverState.id
+    ) {
+      // ... popover was active for the same feature, just update position
       
-
+      map.setPopoverPosition( feature, type, pixel );
       
-      if(feature_type == "placemark") {
-        
-        // get which world repitition we are on
-        
-        var extent = map.projection.getExtent();
-        var extent_width = extent[0] * (-1) + extent[2];
-        
-        if(
-          extent[0] <= coord[0] &&
-          coord[0] <= extent[2]
-        ) {
-          // coord in central world
-          var world_n = 0;
-        } else if(
-          coord[0] < extent[2]
-        ) {
-          // coord in a left world
-          var world_n = Math.floor(
-            (coord[0] - extent[0]) / extent_width
-          );
-        } else if(
-          extent[2] < coord[0]
-        ) {
-          // coord in a right world
-          var world_n = Math.ceil(
-            (coord[0] - extent[2]) / extent_width
-          );
-        }
-        
-        // set popover coordinates for the right repition
-        
-        var popup_coord = feature.getGeometry().getCoordinates();
-        popup_coord[0] =
-          popup_coord[0] +
-          world_n * extent_width;
-       
-        map.popup.setPosition(popup_coord);
-        map.popup.setOffset([0, -20]);
-        
-        // hightlight placemark
-        
-        feature.setStyle(map.iconHighlightStyle);
-        
-        // ...
-        
-        properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
-        
-        // set popover content and show
-        
-        $(map.popupElement).popover({
-          'placement': 'top',
-          'html': true,
-          'container': '#map',
-          'content': Mustache.to_html($('#popoverOrganisation\\.mustache').html(), properties),
-          'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-        });
-        $(map.popupElement).popover('show');
-        
-      } else if(feature_type == "country") {
-
-/*
-        var info = $('[about="#users-by-country"]', context);
-        info.find('tr').hide();
-        info.find('thead>tr').hide();
-
-        info.find('thead>tr').show();
-        info.find('tr[about="#' + feature.getId().toLowerCase() + '"]').show();
-*/
-        
-        // console.log(properties);
-        
-        // set popover coordinates
-        
-        map.popup.setPosition(coord);
-        map.popup.setOffset([0, -10]);
-        
-        // setup empty countrydata, if undefined
-        
-        if( typeof properties.country == 'undefined' ) {
-          properties.country = {
-            key : feature.getId(),
-            observations : []
-          } 
-        }
-        
-        // set popover content and show
-        
-        properties.country.championIcon = 'times'; console.log(properties.country.observations);
-        
-        for(i in properties.country.observations) {
-          // set icon
-          properties.country.observations[i].icon = map.iconCodes[
-            properties.country.observations[i].dimension.split("_")[0]
-          ];
-          
-          // set championIcon, if there is at least one champion
-          if(
-            properties.country.observations[i].dimension == "champions_by_country" &&
-            properties.country.observations[i].value > 0
-          ) {
-            properties.country.championIcon = 'check';
-          }
-          
-          // delete country champions observation and those with value = 0
-          if(
-            properties.country.observations[i].dimension == "champions_by_country" ||
-            properties.country.observations[i].value == 0
-          ) {
-            properties.country.observations.splice(i, 1);
-          }
-        }
-        
-        // console.log(properties.country.observations);
-        
-        properties.country.name = i18n[
-          properties.country.key.toUpperCase()
-        ];
-        
-        $(map.popupElement).popover({
-          'placement': 'top',
-          'html': true,
-          'container': '#map',
-          'content': Mustache.to_html($('#popoverCountry\\.mustache').html(), properties.country),
-          'template': '<div class="popover color-scheme-text" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-        });
-        
-        $(map.popupElement).popover('show');
-        
-      }
+    } else if(
+      map.hoverState.id &&
+      feature &&
+      feature.getId() != map.hoverState.id
+    ) {
+      // ... popover was active for another feature, update position, content and state
+            
+      map.setPopoverContent( feature, type );
+      map.setPopoverPosition( feature, type, pixel );
+      map.setFeatureStyle( feature, 'hover' );
+      map.resetFeatureStyle( map.hoverState.id );
+      map.hoverState.id = feature.getId();
+      
+    } else if(
+      map.hoverState.id &&
+      ! feature
+    ) {
+      // ... popover was active, but now no feature is hovered. hide popover and update state
+      
+      $(map.popoverElement).hide();
+      map.resetFeatureStyle( map.hoverState.id );
+      map.hoverState.id = false;
+      map.world.getTarget().style.cursor = '';
+      
     } else {
       
-      $(map.popupElement).popover('destroy');
-/*
-      if(map.displayedFeatureInfo) {
-        map.displayedFeatureInfo.setStyle(map.iconBaseStyle);
-      }
-*/
-    
+      // ... do nothing probably – or did i miss somehting?
+      
     }
+  
+  },
+  
+  setFeatureStyle : function( feature, style ) {
+    var map = this;
+    var feature_type = map.getFeatureType( feature );
+    
+    if( feature_type == 'country' ) { return; }
+    
+    feature.setStyle(
+      map.styles[ feature_type ][ style ]
+    );
+  },
+  
+  resetFeatureStyle : function( feature_id ) {
+    var map = this;
+    
+    if( map.getFeatureType(feature_id) == 'placemark' ) {    
+      map.setFeatureStyle(
+        map.placemarksVectorSource.getFeatureById( feature_id ),
+        'base'
+      );
+    }
+  },
+  
+  setPopoverPosition : function(feature, type, pixel) {
+    var map = this;
+    
+    var coord = map.world.getCoordinateFromPixel(pixel);
+    
+    if( type == 'country' ) {
+      map.popover.setPosition(coord);
+      map.popover.setOffset([0, -20]);
+    }
+    
+    if( type == 'placemark' ) {
+      // calculate offset first
+      // ... see http://gis.stackexchange.com/questions/151305/get-correct-coordinates-of-feature-when-projection-is-wrapped-around-dateline
+      // ... old offest code until commit ae99f9886bdef1c3c517cd8ea91c28ad23126551
+      var offset = Math.floor((coord[0] / 40075016.68) + 0.5);
+      var popup_coord = feature.getGeometry().getCoordinates();
+      popup_coord[0] += (offset * 20037508.34 * 2);
+      
+      map.popover.setPosition(popup_coord);
+      map.popover.setOffset([0, -30]);
+    }
+  },
+
+  setPopoverContent : function(feature, type) {
+    var map = this;
+    var properties = feature.getProperties();
+    
+    if( type == "placemark" ) {
+      properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
+      var content = Mustache.to_html(
+        $('#popoverOrganisation\\.mustache').html(),
+        properties
+      );
+    }
+    
+    if( type == "country" ) {
+      
+      // setup empty countrydata, if undefined
+      if( typeof properties.country == 'undefined' ) {
+        properties.country = {
+          key : feature.getId(),
+          observations : []
+        }
+      }
+      
+      var country = properties.country;
+      
+      // set name, init champions flag
+      country.name = i18n[ country.key.toUpperCase() ];
+      country.hasChampion = false;
+      
+      // init observations for template
+      country.observationsForTemplate = [];
+      
+      for(i in country.observations) {  
+        
+        if(
+          country.observations[i].dimension == "champions_by_country" &&
+          country.observations[i].value > 0
+        ) {
+          country.hasChampion = true;
+        } else if( country.observations[i].value > 0 ) {
+          country.observationsForTemplate.push({
+            icon : map.iconCodes[
+              country.observations[i].dimension.split("_")[0]
+            ],
+            value : country.observations[i].value
+          });
+        }
+                
+      }
+
+      var content = Mustache.to_html(
+        $('#popoverCountry\\.mustache').html(),
+        country
+      );
+    }
+    
+    $(map.popoverElement).find('.popover-content').html( content );
 
   },
 
@@ -378,7 +437,7 @@ Hijax.behaviours.map = {
 
     var map = this;
 
-    var vectorSource = new ol.source.Vector({
+    map.placemarksVectorSource = new ol.source.Vector({
       features: placemarks,
       wrapX: true
     });
@@ -422,7 +481,7 @@ Hijax.behaviours.map = {
     map.world.addLayer(clusterLayer);*/
 
     var vectorLayer = new ol.layer.Vector({
-      source: vectorSource
+      source: map.placemarksVectorSource
     });
 
     map.world.addLayer(vectorLayer);
@@ -472,6 +531,7 @@ Hijax.behaviours.map = {
   },
 
   markers : {},
+  
   getMarkers : function(resource, labelCallback, origin) {
 
     origin = origin || resource;
@@ -500,43 +560,6 @@ Hijax.behaviours.map = {
     for (var l in locations) {
       if (geo = locations[l].geo) {
         var point = new ol.geom.Point(ol.proj.transform([geo['lon'], geo['lat']], 'EPSG:4326', that.projection.getCode()));
-        
-        console.log(
-          that.colors['blue-darker'],
-          that.colors['orange']
-        );
-        
-        // base style
-        that.iconBaseStyle = new ol.style.Style({
-          text: new ol.style.Text({
-            text: '\uf041',
-            font: 'normal 1.5em FontAwesome',
-            textBaseline: 'Bottom',
-            fill: new ol.style.Fill({
-              color: that.colors['blue-darker']
-            }),
-            stroke: new ol.style.Stroke({
-              color: 'white',
-              width: 3
-            })
-          })
-        });
-
-        // hightlight style
-        that.iconHighlightStyle = new ol.style.Style({
-          text: new ol.style.Text({
-            text: '\uf041',
-            font: 'normal 1.5em FontAwesome',
-            textBaseline: 'Bottom',
-            fill: new ol.style.Fill({
-              color: that.colors['orange']
-            }),
-            stroke: new ol.style.Stroke({
-              color: 'white',
-              width: 3
-            })
-          })
-        });
 
         var featureProperties = {
           resource: resource,
@@ -549,7 +572,7 @@ Hijax.behaviours.map = {
 
         var feature = new ol.Feature(featureProperties);
         feature.setId(resource['@id']);
-        feature.setStyle(that.iconBaseStyle);
+        feature.setStyle(that.styles['placemark']['base']);
         markers.push(feature);
       }
     }

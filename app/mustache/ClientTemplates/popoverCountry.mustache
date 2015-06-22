@@ -1,18 +1,23 @@
-<div class="popover-section">
+<div class="popover-section bg-blue-palest">
 
-  {{name}}
+  <strong>{{name}}</strong>
   
-  {{#observations}}
+  {{#observationsForTemplate}}
     <span class="entity-count">
       {{value}}
       <i class="fa fa-{{icon}}"></i>
     </span>
-  {{/observations}}
+  {{/observationsForTemplate}}
   
 </div>
 
-<div class="popover-section">
-
-  Country Champion: <i class="fa fa-{{championIcon}}"></i>
+<div class="popover-section bg-blue-paler">
+  
+  {{#hasChampion}}
+    Country Champion: <i class="fa fa-check"></i>
+  {{/hasChampion}}
+  {{^hasChampion}}
+    Country Champion: <i class="fa fa-times"></i>
+  {{/hasChampion}}
   
 </div>

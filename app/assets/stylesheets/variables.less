@@ -15,6 +15,20 @@
 @red: #e15636;
 @white: #fff;
 
+
+// --- backgrounds ---
+
+.bg(@color) {
+  .bg-@{color} {
+    background: @@color;
+  }
+}
+
+.bg(blue-pale);
+.bg(blue-paler);
+.bg(blue-palest);
+
+
 /* - - - color schemes - - - */
 
 /*
