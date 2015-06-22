@@ -44,12 +44,7 @@
                         {{/legalName}} ({{@type}})
                       </a>
                   </h3>
-                  {{#location.address}}
-                    {{streetAddress}} <br />
-                    {{addressLocality}} <br />
-                    {{postalCode}} <br />
-                    {{addressCountry}}
-                  {{/location.address}}
+                  {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
               </div>
             {{/mentions}}
         </aside>

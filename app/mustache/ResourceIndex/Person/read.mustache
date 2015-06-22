@@ -8,12 +8,7 @@
           {{{.}}}
         </script>
         <h1><i class="fa fa-user"></i> {{name}}</h1>
-        {{#location.address}}
-          {{streetAddress}} <br />
-          {{addressLocality}} <br />
-          {{postalCode}} <br />
-          {{addressCountry}}
-        {{/location.address}}
+        {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
         <p>{{#description}}{{{@value}}}{{/description}}</p>
         <h2>{{i18n.contributions}}</h2>
         <ul>

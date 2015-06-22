@@ -8,12 +8,7 @@
                 {{{.}}}
             </script>
             <h1><i class="fa fa-users"></i> {{#legalName}}{{@value}}{{/legalName}} ({{@type}})</h1>
-            {{#location.address}}
-              {{streetAddress}} <br />
-              {{addressLocality}} <br />
-              {{postalCode}} <br />
-              {{addressCountry}}
-            {{/location.address}}
+            {{#location}}{{> ../Place/read.mustache}}{{/location}}
             <p>{{#description}}{{{@value}}}{{/description}}</p>
         </div>
         <h2>{{i18n.mentioned_in}}</h2>

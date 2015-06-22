@@ -10,13 +10,7 @@
           <h1><i class="fa fa-gears"></i> {{#name}}{{@value}}{{/name}}</h1>
           {{#startTime}}<p>Duration: {{.}}{{#endTime}} - {{.}}{{/endTime}}</p>{{/startTime}}
           {{#description}}<p lang="{{@language}}">{{@value}}</p>{{/description}}
-          {{#location.address}}
-            <h2>Location</h2>
-            {{streetAddress}} <br />
-            {{addressLocality}} <br />
-            {{postalCode}} <br />
-            {{addressCountry}}
-          {{/location.address}}
+          {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
       </div>
       <h2>{{i18n.mentioned_in}}</h2>
       <ul>
