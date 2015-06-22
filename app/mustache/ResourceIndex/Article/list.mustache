@@ -1,0 +1,22 @@
+<article>
+
+    <h1><i class="fa fa-comment"></i>
+        <a href="/resource/{{@id}}">
+          {{#name}}{{@value}}{{/name}}
+        </a>
+    </h1>
+
+    <div class="contributed-by">
+        <strong>Contributed by</strong>
+        <ul class="csl">
+          {{#creator}}
+              <li>{{#?Organization}}{{#legalName}}{{@value}}{{/legalName}}{{/?Organization}}{{#?Person}}{{name}}{{/?Person}}</li>
+          {{/creator}}
+        </ul>
+    </div>
+
+    <div class="article-body">
+      {{#articleBody}}{{{@value}}}{{/articleBody}}
+    </div>
+
+</article>

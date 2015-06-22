@@ -6,20 +6,23 @@
         </script>
       <thead>
           <tr>
-              <th>id</th>
-              {{#scope.countryAggregation.dimensions}}
-                  <th>{{.}}</th>
-              {{/scope.countryAggregation.dimensions}}
+              <th>Country</th>
+              <th>Users</th>
+              <th>Organizations</th>
+              <th>Stories</th>
+              <th>Champions</th>
           </tr>
       </thead>
       <tbody>
-      {{#scope.countryAggregation.entries}}
-          <tr about="#{{key}}"><td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td>
-              {{#observations}}
-                  <td>{{value}}</td>
-              {{/observations}}
+          {{#scope.countryAggregation.by_country.buckets}}
+          <tr about="#{{key}}">
+              <td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td>
+              <td>{{users.doc_count}}</td>
+              <td>{{organizations.doc_count}}</td>
+              <td>{{articles.doc_count}}</td>
+              <td>{{champions.doc_count}}</td>
           </tr>
-      {{/scope.countryAggregation.entries}}
+          {{/scope.countryAggregation.by_country.buckets}}
       </tbody>
     </table>
 </div>

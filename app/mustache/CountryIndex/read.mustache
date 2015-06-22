@@ -11,13 +11,12 @@
             {{/image}}
             <h2>{{name}}</h2>
         </div>
-        <hr style="clear: both;" />
         {{/scope.champions}}
         {{#scope.countryAggregation.by_country.buckets}}
             <table class="table">
-                <tr><td>Users</td><td>{{users.doc_count}}</td></tr>
-                <tr><td>Organizations</td><td>{{organizations.doc_count}}</td></tr>
-                <tr><td>Champions</td><td>{{champions.doc_count}}</td></tr>
+                <tr><td><i class="fa fa-user"></i> Users</td><td>{{users.doc_count}}</td></tr>
+                <tr><td><i class="fa fa-users"></i> Organizations</td><td>{{organizations.doc_count}}</td></tr>
+                <tr><td><i class="fa fa-comment"></i> Stories</td><td>{{articles.doc_count}}</td></tr>
             </table>
         {{/scope.countryAggregation.by_country.buckets}}
         <ul class="resource-list" data-behaviour="linkedListEntries">
@@ -27,57 +26,19 @@
           {{#scope.resources}}
               <li about="{{@id}}">
                 {{#?Article}}
-                    <article>
-                        <div class="placeholder" style="width: 100px; height: 100px;"></div>
-                        <h1>
-                            <a href="/resource/{{@id}}">
-                              {{#name}}{{@value}}{{/name}}
-                            </a>
-                        </h1>
-                        <strong>Contributed by</strong>
-                        <ul class="csl">
-                          {{#creator}}
-                              <li>{{#?Organization}}{{#legalName}}{{@value}}{{/legalName}}{{/?Organization}}{{#?Person}}{{name}}{{/?Person}}</li>
-                          {{/creator}}
-                        </ul>
-                      {{#articleBody}}{{{@value}}}{{/articleBody}}
-                    </article>
+                    {{>../ResourceIndex/Article/list.mustache}}
                 {{/?Article}}
                 {{#?Organization}}
-                    <div class="resource">
-                        <h1>
-                            <a href="/resource/{{@id}}">
-                              {{#legalName}}{{@value}}{{/legalName}}
-                            </a>
-                        </h1>
-                    </div>
+                    {{>../ResourceIndex/Organization/list.mustache}}
                 {{/?Organization}}
                 {{#?Person}}
-                    <div class="resource">
-                        <h1>
-                            <a href="/resource/{{@id}}">
-                              {{@id}}
-                            </a>
-                        </h1>
-                    </div>
+                    {{>../ResourceIndex/Person/list.mustache}}
                 {{/?Person}}
                 {{#?Service}}
-                    <div class="resource">
-                        <h1>
-                            <a href="/resource/{{@id}}">
-                              {{#name}}{{@value}}{{/name}}
-                            </a>
-                        </h1>
-                    </div>
+                    {{>../ResourceIndex/Service/list.mustache}}
                 {{/?Service}}
                 {{#?Action}}
-                    <div class="resource">
-                        <h1>
-                            <a href="/resource/{{@id}}">
-                              {{#name}}{{@value}}{{/name}}
-                            </a>
-                        </h1>
-                    </div>
+                    {{>../ResourceIndex/Action/list.mustache}}
                 {{/?Action}}
               </li>
           {{/scope.resources}}

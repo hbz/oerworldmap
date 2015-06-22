@@ -1,19 +1,25 @@
 <div class="popover-section bg-blue-palest">
 
   <strong>{{name}}</strong>
-  
-  {{#organizations}}
-    <span class="entity-count">
-      {{organizations.doc_count}}
-      <i class="fa fa-users"></i>
-    </span>
-  {{/organizations}}
+
   {{#users}}
       <span class="entity-count">
       {{users.doc_count}}
       <i class="fa fa-user"></i>
     </span>
   {{/users}}
+  {{#organizations}}
+      <span class="entity-count">
+      {{organizations.doc_count}}
+      <i class="fa fa-users"></i>
+    </span>
+  {{/organizations}}
+  {{#articles}}
+      <span class="entity-count">
+      {{articles.doc_count}}
+      <i class="fa fa-comment"></i>
+    </span>
+  {{/articles}}
   
 </div>
 

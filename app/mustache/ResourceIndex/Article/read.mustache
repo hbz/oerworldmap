@@ -8,7 +8,7 @@
                 {{{.}}}
             </script>
             {{#image}}<img src="{{.}}" width="250" />{{/image}}
-            <h1>{{#name}}{{@value}}{{/name}}</h1>
+            <h1><i class="fa fa-comment"></i> {{#name}}{{@value}}{{/name}}</h1>
             <strong>Contributed by</strong>
             <ul class="csl">
               {{#creator}}
@@ -20,12 +20,15 @@
               {{/creator}}
             </ul>
           {{#articleBody}}{{{@value}}}{{/articleBody}}
+          {{#keywords.size}}
           <h2>Keywords</h2>
           <ul>
               {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
           </ul>
+          {{/keywords.size}}
         </article>
         <aside>
+            <h2>Related</h2>
             {{#mentions}}
               <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
                   <h3>
