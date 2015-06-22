@@ -30,12 +30,6 @@
   top: 80px;
 }
 
-.map-view .call-for-actions {
-  left: 0px;
-  bottom: 0px;
-  width: 100%;
-}
-
 .map-view #user-register {
   background: @color-scheme-map-background;
   border-top: 1px solid white;
@@ -46,14 +40,58 @@
 
 /* --- popover --- */
 
-#popup {
-  padding-bottom: 20px;
+#popover {
+  // padding-bottom: 20px;
+/*
+  width: 30px;
+  height: 30px;
+  background: red;
+*/
+  overflow: hidden;
 }
 
 .popover hr {
   margin-top: (@line-height-computed / 3);
   margin-bottom: (@line-height-computed / 3);  
-} 
+}
+
+.popover {
+  color: @blue-darker;
+  position: static;
+  display: block;
+  //border: none;
+  padding: 0px;
+  pointer-events: none;
+}
+
+.popover-content {
+  padding: 0px;
+}
+
+.popover-section {
+  padding: 7px 12px;
+  border-bottom: 1px solid @blue-pale;
+}
+
+.popover-section:last-child {
+  border-bottom: none;
+}
+
+.entity-count {
+  padding-left: 5px;
+}
+
+@icon-indent: 22px;
+
+.icon-indented {
+  text-indent: -(@icon-indent);
+  padding-left: @icon-indent;
+}
+
+.icon-indented .fa {
+  text-indent: 0px;
+  width: @icon-indent;
+}
 
 /* --- call for action --- */
 
@@ -80,6 +118,20 @@
   text-decoration: none !important;
   padding: 10px;
 //  box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
+}
+
+.map-view .call-for-actions {
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+}
+
+.map-view .call-for-actions {
+  pointer-events: none;
+}
+
+.map-view .call-for-actions * {
+  pointer-events: all;
 }
 
 

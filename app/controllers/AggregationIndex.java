@@ -23,7 +23,9 @@ public class AggregationIndex extends OERWorldMap {
     // FIXME: Use filter to restrict to only organizations
     AggregationBuilder organizationsByCountry = AggregationBuilders.terms("organizations_by_country").field(
         Record.RESOURCEKEY + ".location.address.addressCountry").size(0);
-    Resource countryAggregation = mBaseRepository.query(Arrays.asList(usersByCountry, organizationsByCountry));
+    AggregationBuilder countryChampions = AggregationBuilders.terms("champions_by_country").field(
+        Record.RESOURCEKEY + ".countryChampionFor").size(0);
+    Resource countryAggregation = mBaseRepository.query(Arrays.asList(usersByCountry, organizationsByCountry, countryChampions));
     Map<String,Object> scope = new HashMap<>();
     scope.put("countryAggregation", countryAggregation);
     return ok(render("Country Aggregations", "AggregationIndex/index.mustache", scope));

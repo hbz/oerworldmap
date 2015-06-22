@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.Countries;
 import helpers.FilesConfig;
 
 import java.io.IOException;
@@ -99,6 +100,7 @@ public abstract class OERWorldMap extends Controller {
         i18n.put(key, messages.getString(key));
       }
     }
+    i18n.putAll(Countries.map(currentLocale));
   }
 
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
