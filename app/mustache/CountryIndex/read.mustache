@@ -13,7 +13,7 @@
             {{^image}}
                 <div class="placeholder" style="width: 150px; height: 150px;"></div>
             {{/image}}
-            <h3>{{name}}</h3>
+            <h3><a href="/resource/{{@id}}">{{name}}</a></h3>
             {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
         </div>
         {{/scope.champions}}

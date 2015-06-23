@@ -1,6 +1,6 @@
 {{#location.address}}
-  {{streetAddress}} <br />
-  {{addressLocality}} <br />
-  {{postalCode}} <br />
-  {{addressCountry}}
+  {{#streetAddress}}{{.}} <br />{{/streetAddress}}
+  {{#addressLocality}}{{.}} <br />{{/addressLocality}}
+  {{#postalCode}}{{.}} <br />{{/postalCode}}
+  {{#addressCountry}}{{.}}{{/addressCountry}}
 {{/location.address}}
