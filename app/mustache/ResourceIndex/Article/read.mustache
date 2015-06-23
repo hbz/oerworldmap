@@ -41,10 +41,10 @@
                             {{#@value}}{{.}}{{/@value}}
                             {{^@value}}{{.}}{{/@value}}
                           {{/name}}
-                        {{/legalName}} ({{@type}})
+                        {{/legalName}}
                       </a>
                   </h3>
-                  {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
+                  {{#location}}{{> ../Place/read.mustache}}{{/location}}
               </div>
             {{/mentions}}
         </aside>

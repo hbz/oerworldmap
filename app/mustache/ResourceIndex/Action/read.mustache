@@ -10,7 +10,7 @@
           <h1><i class="fa fa-gears"></i> {{#name}}{{@value}}{{/name}}</h1>
           {{#startTime}}<p>Duration: {{.}}{{#endTime}} - {{.}}{{/endTime}}</p>{{/startTime}}
           {{#description}}<p lang="{{@language}}">{{@value}}</p>{{/description}}
-          {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
+          {{#location}}{{> ../Place/read.mustache}}{{/location}}
       </div>
       <h2>{{i18n.mentioned_in}}</h2>
       <ul>
