@@ -5,6 +5,7 @@ Hijax.behaviours.mapResource = {
 
     $('article.resource-story', context)
       .add($('div.resource-organization', context))
+      .add($('div.resource-action', context))
       .each(function() {
         that.populate( this );
       });

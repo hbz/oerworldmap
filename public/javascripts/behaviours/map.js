@@ -331,7 +331,7 @@ Hijax.behaviours.map = {
     if( type == "placemark" ) {
       properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
       var content = Mustache.to_html(
-        $('#popoverOrganisation\\.mustache').html(),
+        $('#popover' + properties.type + '\\.mustache').html(),
         properties
       );
     }

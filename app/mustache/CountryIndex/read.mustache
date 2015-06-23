@@ -6,13 +6,14 @@
         <h1>{{scope.name}}</h1>
         {{#scope.champions}}
         <div>
+            <h2>Country Champion</h2>
             {{#image}}
                 <img src="{{.}}" />
             {{/image}}
             {{^image}}
                 <div class="placeholder" style="width: 150px; height: 150px;"></div>
             {{/image}}
-            <h2>{{name}}</h2>
+            <h3>{{name}}</h3>
             {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
         </div>
         {{/scope.champions}}
