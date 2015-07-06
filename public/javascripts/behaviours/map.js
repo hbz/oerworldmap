@@ -479,7 +479,22 @@ Hijax.behaviours.map = {
           map.world.getLayers().forEach(function(layer) {
             var feature = layer.getSource().getFeatureById(focusId);
             var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
+
             if (feature) {
+              var properties = feature.getProperties();
+              if (properties.geometry
+                  && (properties.geometry instanceof ol.geom.Polygon
+                  ||  properties.geometry instanceof ol.geom.MultiPolygon)) {
+                var highlightStyle = [new ol.style.Style({
+                  fill: new ol.style.Fill({
+                    color: map.colors['orange']
+                  })
+                })];
+                feature.setStyle(highlightStyle);
+              } else {
+                console.log(properties);
+              }
+
               if (feature.getId() == "RU") {
                 var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
               } else if (feature.getId() == "US") {
