@@ -485,7 +485,9 @@ Hijax.behaviours.map = {
               } else if (feature.getId() == "US") {
                 var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
               } else if (feature.getId() == "FR") {
-                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-5, 51], [-10, 42]]), tfn);
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
+              } else if (feature.getId() == "NZ") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
               } else {
                 var extent = feature.getGeometry().getExtent();
               }
