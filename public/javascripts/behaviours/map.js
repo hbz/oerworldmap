@@ -152,7 +152,7 @@ Hijax.behaviours.map = {
           return new ol.style.Style({
             text: new ol.style.Text({
               text: '\uf041',
-              font: 'normal 1.5em FontAwesome',
+              font: 'normal 2em FontAwesome',
               textBaseline: 'Bottom',
               fill: new ol.style.Fill({
                 color: map.colors['orange']

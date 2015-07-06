@@ -18,9 +18,7 @@ Hijax.behaviours.linkedListEntries = {
         })[0];
         var markers = Hijax.behaviours.map.getMarkers(resource);
         for (var i = 0; i < markers.length; i++) {
-          var style = markers[i].getStyle();
-          style.getText().setFont('normal 3em FontAwesome');
-          markers[i].setStyle(style);
+          markers[i].setStyle(Hijax.behaviours.map.styles.placemark.hover());
         }
       });
       $( this ).on("mouseleave", "li", function() {
@@ -31,9 +29,7 @@ Hijax.behaviours.linkedListEntries = {
         })[0];
         var markers = Hijax.behaviours.map.getMarkers(resource);
         for (var i = 0; i < markers.length; i++) {
-          var style = markers[i].getStyle();
-          style.getText().setFont('normal 1.5em FontAwesome');
-          markers[i].setStyle(style);
+          markers[i].setStyle(Hijax.behaviours.map.styles.placemark.base());
         }
       });
     });
