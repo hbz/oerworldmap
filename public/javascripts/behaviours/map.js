@@ -164,7 +164,33 @@ Hijax.behaviours.map = {
             })
           })
         }
+      }/*
+,
+      
+      country : {
+        
+        base : new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: heat_data[ feature.getId() ] ? color( heat_data[ feature.getId() ] ) : "#ffffff"
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#0c75bf',
+            width: .5
+          })
+        }),
+ 
+        hover : new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: heat_data[ feature.getId() ] ? color( heat_data[ feature.getId() ] ) : "#ffffff"
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#0c75bf',
+            width: .5
+          })
+        })
+               
       }
+*/
     };
   },
   
@@ -283,7 +309,19 @@ Hijax.behaviours.map = {
     var map = this;
     var feature_type = map.getFeatureType( feature );
     
-    if( feature_type == 'country' ) { return; }
+    // neither performant nor elegant ...
+    if( feature_type == 'country' ) {
+      var current_style = map.vector.getStyle()(feature);
+      feature.setStyle(new ol.style.Style({
+        fill: current_style[0].getFill(),
+        stroke: new ol.style.Stroke({
+          color: '#0c75bf',
+          width: 2
+        }),
+        zIndex: 10
+      }));     
+      return;
+    }
     
     feature.setStyle(
       map.styles[ feature_type ][ style ]()
@@ -299,6 +337,14 @@ Hijax.behaviours.map = {
         'base'
       );
     }
+    
+    if( map.getFeatureType(feature_id) == 'country' ) {
+      var feature = map.vectorSource.getFeatureById( feature_id );
+      feature.setStyle(
+        map.vector.getStyle()(feature)
+      );
+    }
+        
   },
   
   setPopoverPosition : function(feature, type, pixel) {
@@ -347,7 +393,7 @@ Hijax.behaviours.map = {
       
       var country = properties.country;
       
-      // set name, init champions flag
+      // set name
       country.name = i18n[ country.key.toUpperCase() ];
 
       var content = Mustache.to_html(
@@ -378,8 +424,6 @@ Hijax.behaviours.map = {
   setAggregations : function(aggregations) {
     
     var map = this;
-
-    var heat_data = {};
     
     // attach aggregations to country features
     
@@ -397,6 +441,28 @@ Hijax.behaviours.map = {
       }
     });
     
+    map.setHeatmapColors(aggregations);
+    
+  },
+  
+  setHeatmapColors : function(aggregations) {
+    
+    var map = this;
+    
+    var heat_data = {};
+    
+    // determine focused country
+    
+    var focusId = $('[data-view="map"]').attr("data-focus");
+    if(
+      focusId &&
+      map.getFeatureType(focusId) == "country"
+    ) {
+      var focused_country = focusId;
+    } else {
+      var focused_country = false;
+    }
+    
     // build heat data hashmap
 
     for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
@@ -407,23 +473,52 @@ Hijax.behaviours.map = {
     // setup d3 color callback
     
     var heats_arr = _.values(heat_data);
-    var color = d3.scale.log()
+    var get_color = d3.scale.log()
       .range(["#a1cd3f", "#eaf0e2"])
       .interpolate(d3.interpolateHcl)
       .domain([d3.quantile(heats_arr, .01), d3.quantile(heats_arr, .99)]);
-    
-    // set country colors
+      
+    // set style callback
     
     map.vector.setStyle(function(feature) {
+
+      if(
+        ! focused_country
+      ) {
+        var stroke_width = 0.5;
+        var stroke_color = '#0c75bf';
+        var zIndex = 1;
+        
+        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";        
+      } else if(
+        focused_country != feature.getId()
+      ) {
+        var stroke_width = 0.5;
+        var stroke_color = '#0c75bf';
+        var zIndex = 1;
+        
+        var color_rgb = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+        var color_d3 = d3.rgb(color_rgb);
+        var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.9)";
+      } else {
+        var stroke_width = 2;
+        var stroke_color = '#0c75bf';
+        var zIndex = 2;
+        
+        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+      }
+      
       return [new ol.style.Style({
         fill: new ol.style.Fill({
-          color: heat_data[ feature.getId() ] ? color( heat_data[ feature.getId() ] ) : "#ffffff"
+          color: color
         }),
         stroke: new ol.style.Stroke({
-          color: '#0c75bf',
-          width: .5
-        })
+          color: stroke_color,
+          width: stroke_width
+        }),
+        zIndex: zIndex
       })];
+      
     });
 
   },
@@ -489,8 +584,6 @@ Hijax.behaviours.map = {
 
     var focusId = element.getAttribute("data-focus");
 
-    var focussed = false;
-
     if (focusId) {
       map.doWhenVectorSourceReady(function(){
         
@@ -499,10 +592,17 @@ Hijax.behaviours.map = {
           var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
 
           if (feature) {
+            
             var properties = feature.getProperties();
-            if (properties.geometry
-                && (properties.geometry instanceof ol.geom.Polygon
-                ||  properties.geometry instanceof ol.geom.MultiPolygon)) {
+            
+/*
+            if (
+              properties.geometry &&
+              (
+                properties.geometry instanceof ol.geom.Polygon ||
+                properties.geometry instanceof ol.geom.MultiPolygon
+              )
+            ) {
               var highlightStyle = [new ol.style.Style({
                 fill: new ol.style.Fill({
                   color: map.colors['orange']
@@ -512,6 +612,7 @@ Hijax.behaviours.map = {
             } else {
               console.log(properties);
             }
+*/
 
             if (feature.getId() == "RU") {
               var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
@@ -589,7 +690,6 @@ Hijax.behaviours.map = {
         markers.push(feature);
       }
     }
-
 
     if (!markers.length) {
       for (var key in resource) {
