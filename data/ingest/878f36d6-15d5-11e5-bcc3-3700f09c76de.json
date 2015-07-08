@@ -2,6 +2,14 @@
   "@context": "http://schema.org/",
   "@type": "Article",
   "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de",
+  "creator": [
+    {
+      "@type": "Person",
+      "@id": "urn:uuid:57a0ed74-2562-11e5-ba8c-3c970e4a9cbf",
+      "name": "Mary Hutner",
+      "mbox_sha1sum": "b801bac9053f30fc9527f0af646296ab46e6e3d7"
+    }
+  ],
   "name": [
     {
       "@language": "en",
@@ -68,10 +76,6 @@
           "addressRegion": "PR",
           "postalCode": "80240­900",
           "streetAddress": "Av. Água Verde, 2140"
-        },
-        "geo": {
-          "lat": -25.4540167,
-          "lon": -49.2921109
         }
       },
       "email": "gabinete.seed@seed.pr.gov.br",

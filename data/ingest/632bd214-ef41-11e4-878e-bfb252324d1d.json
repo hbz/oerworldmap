@@ -6,8 +6,8 @@
     {
       "@type": "Person",
       "@id": "urn:uuid:febeb59c-15d0-11e5-bb77-07db4b659c7c",
-      "name": "Swinamer, Alicia",
-      "email": "foo@bar.de",
+      "name": "Alicia Swinamer",
+      "mbox_sha1sum": "c74a4948f6f47586142b4ee0f00ec4ed3f083f36",
       "affiliation": {
         "@type": "Organization",
         "legalName": {
