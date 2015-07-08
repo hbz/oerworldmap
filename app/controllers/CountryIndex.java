@@ -28,8 +28,13 @@ public class CountryIndex extends OERWorldMap {
 
     String resource_field = Record.RESOURCEKEY + ".location.address.addressCountry";
     String mentions_field = Record.RESOURCEKEY + ".mentions.location.address.addressCountry";
+    String provider_field = Record.RESOURCEKEY + ".provider.location.address.addressCountry";
+    String participant_field = Record.RESOURCEKEY + ".participant.location.address.addressCountry";
+
     AggregationBuilder byCountry = AggregationBuilders
-        .terms("by_country").script("doc['" + resource_field + "'].values + doc['" + mentions_field + "'].values").include(id).size(0)
+        .terms("by_country").script("doc['"
+            + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
+            + provider_field + "'].values  + doc['" + participant_field + "'].values").include(id).size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
@@ -39,6 +44,12 @@ public class CountryIndex extends OERWorldMap {
         .subAggregation(AggregationBuilders
             .filter("articles")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Article")))
+        .subAggregation(AggregationBuilders
+            .filter("services")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Service")))
+        .subAggregation(AggregationBuilders
+            .filter("projects")
+            .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Action")))
         // TODO: The following implies that somebody can only be a chamption for her country. Is this correct?
         .subAggregation(AggregationBuilders
             .filter("champions")
