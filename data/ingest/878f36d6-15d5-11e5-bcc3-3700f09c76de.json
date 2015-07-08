@@ -94,38 +94,54 @@
           "serviceUrl": "http://www.educadores.diaadia.pr.gov.br/modules/conteudo/conteudo.php?conteudo=6"
         }
       ],
-		"provider": [
-				{
-		    "@type": "Organization",
-		    "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
-		    "legalName": {
-		      "@language": "es",
-		      "@value": "Secretaria da Educação do Paraná"
-		    },
-		    "alternateName": ["SEED­PR"],
-		    "email": "gabinete.seed@seed.pr.gov.br",
-		    "url": "http://www.educacao.pr.gov.br/",
-		    "location": {
-		      "@type": "Place",
-		      "address": {
-		        "@type": "PostalAddress",
-		        "addressCountry": "BR",
-		        "addressLocality": "Curitiba",
-		        "addressRegion": "PR",
-		        "postalCode": "80240­900",
-		        "streetAddress": "Av. Água Verde, 2140"
-		      },
-		      "geo": {
-		        "lat": -25.4540167,
-		        "lon": -49.2921109
-		      }
-		    }
-			}
-		],
+      "provider": [
+        {
+          "@type": "Organization",
+          "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
+          "legalName": {
+            "@language": "es",
+            "@value": "Secretaria da Educação do Paraná"
+          },
+          "alternateName": ["SEED­PR"],
+          "email": "gabinete.seed@seed.pr.gov.br",
+          "url": "http://www.educacao.pr.gov.br/",
+          "location": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "BR",
+              "addressLocality": "Curitiba",
+              "addressRegion": "PR",
+              "postalCode": "80240­900",
+              "streetAddress": "Av. Água Verde, 2140"
+            },
+            "geo": {
+              "lat": -25.4540167,
+              "lon": -49.2921109
+            }
+          }
+        }
+      ],
       "license": "Public Domain",
-      "about": ["Basic programmes and qualifications (ISCED-2013:001)", "Languages (ISCED-2013:023)", "Arts (ISCED-2013:021)", "Sociology and cultural studies (ISCED-2013:0314)", "Philosophy and Ethics (ISCED-2013:0223)" ,"History and archaeologyc (ISCED-2013:0222)", "Mathematics (ISCED-2013:0541)", "Physics (ISCED-2013:0533)", "Chemistry (ISCED-2013:0531)", "Biology (ISCED-2013:0511)", "Geography", "Portuguese/spanish/English language and literature", "Portuguese", "Foreign Language [Spanish and English]"],
+      "about": [
+        "Basic programmes and qualifications (ISCED-2013:001)",
+        "Languages (ISCED-2013:023)",
+        "Arts (ISCED-2013:021)",
+        "Sociology and cultural studies (ISCED-2013:0314)",
+        "Philosophy and Ethics (ISCED-2013:0223)",
+        "History and archaeologyc (ISCED-2013:0222)",
+        "Mathematics (ISCED-2013:0541)",
+        "Physics (ISCED-2013:0533)",
+        "Chemistry (ISCED-2013:0531)",
+        "Biology (ISCED-2013:0511)",
+        "Geography",
+        "Portuguese/spanish/English language and literature",
+        "Portuguese",
+        "Foreign Language [Spanish and English]"
+      ],
       "audience": [
-        "Lower Secondary Education (ISCED-1997:2)", "Secondary Education (ISCED-1997:3)"
+        "Lower Secondary Education (ISCED-1997:2)",
+        "Secondary Education (ISCED-1997:3)"
       ],
       "startDate": "2011"
     }
