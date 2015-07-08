@@ -80,7 +80,35 @@
       },
       "email": "gabinete.seed@seed.pr.gov.br",
       "startTime": "2003",
-      "endTime": "2010"
+      "endTime": "2010",
+      "participant": [
+        {
+          "@type": "Organization",
+          "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
+          "legalName": {
+            "@language": "es",
+            "@value": "Secretaria da Educação do Paraná"
+          },
+          "alternateName": ["SEED­PR"],
+          "email": "gabinete.seed@seed.pr.gov.br",
+          "url": "http://www.educacao.pr.gov.br/",
+          "location": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "BR",
+              "addressLocality": "Curitiba",
+              "addressRegion": "PR",
+              "postalCode": "80240­900",
+              "streetAddress": "Av. Água Verde, 2140"
+            },
+            "geo": {
+              "lat": -25.4540167,
+              "lon": -49.2921109
+            }
+          }
+        }
+      ]
     },
     {
       "@type": "Service",

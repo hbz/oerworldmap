@@ -83,7 +83,56 @@
         }
       ],
       "startTime": "2009",
-      "startTime": "2014"
+      "startTime": "2014",
+      "participant": [
+        {
+          "@type": "Organization",
+          "@id": "urn:uuid:c7ff2466-15de-11e5-88c7-f782df163dd6",
+          "legalName": {
+            "@language": "en",
+            "@value": "Canadian Women for Women in Afghanistan, National Office"
+          },
+          "alternateName": ["CW4WAfghan, National Office"],
+          "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
+          "url": "http://www.cw4wafghan.ca",
+          "email": "info@cw4wafghan.ca",
+          "location": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "CA",
+              "addressLocality": "Calgary",
+              "postalCode": "AB T2T 6B7",
+              "streetAddress": "PO Box 86016 Marda Loop"
+            },
+            "geo": {
+              "lat": 51.024072,
+              "lon": -114.109857
+            }
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "urn:uuid:7281d74e-15df-11e5-b738-07f53be1ad36",
+          "legalName": {
+            "@language": "en",
+            "@value": "Canadian Women for Women in Afghanistan, Country Office"
+          },
+          "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
+          "location": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "AF",
+              "addressLocality": "Kabul"
+            },
+            "geo": {
+              "lat": 34.526275,
+              "lon": 69.167519
+            }
+          }
+        }
+      ]
     },
     {
       "@type": "Action",
