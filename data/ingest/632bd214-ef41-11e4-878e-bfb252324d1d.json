@@ -6,14 +6,21 @@
     {
       "@type": "Person",
       "@id": "urn:uuid:febeb59c-15d0-11e5-bb77-07db4b659c7c",
-      "name": "Alicia Swinamer",
-      "mbox_sha1sum": "c74a4948f6f47586142b4ee0f00ec4ed3f083f36",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Alicia Swinamer"
+        }
+      ],
+      "email": "aswinamer@col.org",
       "affiliation": {
         "@type": "Organization",
-        "legalName": {
-          "@language": "en",
-          "@value": "Commonwealth Of Learning"
-        }
+        "name": [
+          {
+            "@language": "en",
+            "@value": "Commonwealth Of Learning"
+          }
+        ]
       }
     }
   ],
@@ -35,10 +42,12 @@
     {
       "@type": "Organization",
       "@id": "urn:uuid:09c1718c-15d1-11e5-aadf-cf8d8138b965",
-      "legalName": {
-        "@language": "en",
-        "@value": "Virtual Universities for Small States of the Commonwealth"
-      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Virtual Universities for Small States of the Commonwealth"
+        }
+      ],
       "alternateName": ["VUSSC"],
       "description": {
         "@language": "en",
@@ -63,10 +72,12 @@
     {
       "@type": "Organization",
       "@id": "urn:uuid:1a85be1a-15d1-11e5-9f40-2fdaf6095dea",
-      "legalName": {
-        "@language": "en",
-        "@value": "University of the West Indies, School of Business and Applied Studies"
-      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "University of the West Indies, School of Business and Applied Studies"
+        }
+      ],
       "alternateName": ["ROYTEC"],
       "url": "http://www.roytec.edu/",
       "location": {
@@ -84,5 +95,10 @@
       }
     }
   ],
-  "keywords": ["OER production", "OEP", "accreditation", "course development"]
+  "keywords": [
+    "OER production",
+    "OEP",
+    "accreditation",
+    "course development"
+  ]
 }

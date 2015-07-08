@@ -14,7 +14,7 @@
               {{#creator}}
                   <li>
                       <a href="/resource/{{@id}}">
-                        {{#legalName}}{{@value}}{{/legalName}}{{^legalName}}{{name}}{{/legalName}}
+                        {{#name}}{{@value}}{{/name}}
                       </a>
                   </li>
               {{/creator}}
@@ -33,15 +33,9 @@
               <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
                   <h3>
                       <a href="/resource/{{@id}}">
-                        {{#legalName}}
-                          {{@value}}
-                        {{/legalName}}
-                        {{^legalName}}
                           {{#name}}
                             {{#@value}}{{.}}{{/@value}}
-                            {{^@value}}{{.}}{{/@value}}
                           {{/name}}
-                        {{/legalName}}
                       </a>
                   </h3>
                   {{#location}}{{> ../Place/read.mustache}}{{/location}}

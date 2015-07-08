@@ -5,13 +5,7 @@ import helpers.JsonLdConstants;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -177,6 +171,9 @@ public class Resource extends HashMap<String, Object> {
     String keyString = key.toString();
     if (keyString.startsWith("?")) {
       return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
+    } else if (keyString.equals("@value")) {
+      return super.get("@language") != null
+          && super.get("@language").toString().equals(Locale.getDefault().getLanguage());
     }
     return super.containsKey(key);
   }

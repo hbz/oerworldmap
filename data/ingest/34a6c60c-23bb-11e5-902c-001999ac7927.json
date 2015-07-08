@@ -6,7 +6,12 @@
     {
       "@type": "Person",
       "@id": "urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac7927",
-      "name": "Simon Köhl",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Simon Köhl"
+        }
+      ],
       "email": "simon.koehl@serlo.org",
       "affiliation": [
         {
@@ -68,10 +73,12 @@
     {
       "@type": "Organization",
       "@id": "urn:uuid:656ac8ec-23bb-11e5-bfe8-001999ac7927",
-      "legalName": {
-        "@language": "de",
-        "@value": "Gesellschaft für freie Bildung e. V."
-      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Gesellschaft für freie Bildung e. V."
+        }
+      ],
       "url": "https://de.serlo.org/verein",
       "email": "info-de@serlo.org",
       "location": {
@@ -122,10 +129,12 @@
         {
           "@type": "Organization",
           "@id": "urn:uuid:656ac8ec-23bb-11e5-bfe8-001999ac7927",
-          "legalName": {
-            "@language": "de",
-            "@value": "Gesellschaft für freie Bildung e. V."
-          },
+          "name": [
+            {
+              "@language": "en",
+              "@value": "Gesellschaft für freie Bildung e. V."
+            }
+          ],
           "url": "https://de.serlo.org/verein",
           "email": "info-de@serlo.org",
           "location": {

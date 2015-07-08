@@ -6,8 +6,13 @@
     {
       "@type": "Person",
       "@id": "urn:uuid:97a477c6-15de-11e5-bcfa-0f578bdf76c5",
-      "name": "Lauryn Oates",
-      "mbox_sha1sum": "e60c1ee23092618de9d3b6621c5cde78614d5e40"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Lauryn Oates"
+        }
+      ],
+      "email": "lauryn.oates@gmail.com"
     }
   ],
   "name": [
@@ -28,10 +33,12 @@
     {
       "@type": "Organization",
       "@id": "urn:uuid:c7ff2466-15de-11e5-88c7-f782df163dd6",
-      "legalName": {
-        "@language": "en",
-        "@value": "Canadian Women for Women in Afghanistan, National Office"
-      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Canadian Women for Women in Afghanistan, National Office"
+        }
+      ],
       "alternateName": ["CW4WAfghan, National Office"],
       "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
       "url": "http://www.cw4wafghan.ca",
@@ -54,10 +61,12 @@
     {
       "@type": "Organization",
       "@id": "urn:uuid:7281d74e-15df-11e5-b738-07f53be1ad36",
-      "legalName": {
-        "@language": "en",
-        "@value": "Canadian Women for Women in Afghanistan, Country Office"
-      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Canadian Women for Women in Afghanistan, Country Office"
+        }
+      ],
       "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
       "location": {
         "@type": "Place",
@@ -88,10 +97,12 @@
         {
           "@type": "Organization",
           "@id": "urn:uuid:c7ff2466-15de-11e5-88c7-f782df163dd6",
-          "legalName": {
-            "@language": "en",
-            "@value": "Canadian Women for Women in Afghanistan, National Office"
-          },
+          "name": [
+            {
+              "@language": "en",
+              "@value": "Canadian Women for Women in Afghanistan, National Office"
+            }
+          ],
           "alternateName": ["CW4WAfghan, National Office"],
           "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
           "url": "http://www.cw4wafghan.ca",
@@ -114,10 +125,12 @@
         {
           "@type": "Organization",
           "@id": "urn:uuid:7281d74e-15df-11e5-b738-07f53be1ad36",
-          "legalName": {
-            "@language": "en",
-            "@value": "Canadian Women for Women in Afghanistan, Country Office"
-          },
+          "name": [
+            {
+              "@language": "en",
+              "@value": "Canadian Women for Women in Afghanistan, Country Office"
+            }
+          ],
           "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
           "location": {
             "@type": "Place",
@@ -174,22 +187,53 @@
       "serviceType": "Repository",
       "availableChannel": [
         {
-          "availableLanguage": ["fas", "pus", "eng"],
+          "availableLanguage": [
+            "fas",
+            "pus",
+            "eng"
+          ],
           "serviceUrl": "http://www.darakhtdanesh.org"
         }
       ],
       "startDate": "2014",
       "email": "info@darakhtdanesh.org",
-      "about": ["Basic programmes and qualifications (ISCED-2013:001)", "Health (ISCED-2013:091)", "Fine Arts (ISCED-2013:0213)", "Music and performing arts (ISCED-2013:0215)", "Physics (ISCED-2013:0533)", "Environment (ISCED-2013:052)", "Chemistry (ISCED-2013:0531)", "Mathematics (ISCED-2013:0541)", "Languages (ISCED-2013:023)", "Social and behavioural sciences (ISCED-2013:031)", "History and archaeology (ISCED-2013:0222)", "Natural environments and wildlife (ISCED-2013:0522)", "Biology (ISCED-2013:0511)", "Geography", "English language and literature", "Astronomy", "Pedagogy", "Geography",  "Civics and Rights", "Life Skills"],
-      "audience": ["Primary Education (ISCED-1997:1)", "Lower secondary education (ISCED-1997:2)", "Secondary Education (ISCED-1997:3)"],
+      "about": [
+        "Basic programmes and qualifications (ISCED-2013:001)",
+        "Health (ISCED-2013:091)",
+        "Fine Arts (ISCED-2013:0213)",
+        "Music and performing arts (ISCED-2013:0215)",
+        "Physics (ISCED-2013:0533)",
+        "Environment (ISCED-2013:052)",
+        "Chemistry (ISCED-2013:0531)",
+        "Mathematics (ISCED-2013:0541)",
+        "Languages (ISCED-2013:023)",
+        "Social and behavioural sciences (ISCED-2013:031)",
+        "History and archaeology (ISCED-2013:0222)",
+        "Natural environments and wildlife (ISCED-2013:0522)",
+        "Biology (ISCED-2013:0511)",
+        "Geography",
+        "English language and literature",
+        "Astronomy",
+        "Pedagogy",
+        "Geography",
+        "Civics and Rights",
+        "Life Skills"
+      ],
+      "audience": [
+        "Primary Education (ISCED-1997:1)",
+        "Lower secondary education (ISCED-1997:2)",
+        "Secondary Education (ISCED-1997:3)"
+      ],
       "provider": [
         {
           "@type": "Organization",
           "@id": "urn:uuid:7281d74e-15df-11e5-b738-07f53be1ad36",
-          "legalName": {
-            "@language": "en",
-            "@value": "Canadian Women for Women in Afghanistan, Country Office"
-          },
+          "name": [
+            {
+              "@language": "en",
+              "@value": "Canadian Women for Women in Afghanistan, Country Office"
+            }
+          ],
           "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
           "location": {
             "@type": "Place",
@@ -207,10 +251,12 @@
         {
           "@type": "Organization",
           "@id": "urn:uuid:c7ff2466-15de-11e5-88c7-f782df163dd6",
-          "legalName": {
-            "@language": "en",
-            "@value": "Canadian Women for Women in Afghanistan, National Office"
-          },
+          "name": [
+            {
+              "@language": "en",
+              "@value": "Canadian Women for Women in Afghanistan, National Office"
+            }
+          ],
           "alternateName": ["CW4WAfghan, National Office"],
           "logo": "http://assets.cw4wafghan.ca/images/CW4WAfghan-logo_compressed.png",
           "url": "http://www.cw4wafghan.ca",

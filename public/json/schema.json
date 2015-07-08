@@ -283,7 +283,10 @@
               "enum": ["Person"]
             },
             "name": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LocalizedString"
+              }
             },
             "location": {
               "$ref": "#/definitions/Place"
@@ -350,9 +353,11 @@
           "description": "The description of the organization",
           "$ref": "#/definitions/LocalizedString"
         },
-        "legalName": {
-          "description": "The organization's primary name, e.g. a legally recognized name",
-          "$ref": "#/definitions/LocalizedString"
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizedString"
+          }
         },
         "alternateName": {
           "type": "array",
@@ -380,7 +385,7 @@
         }
       },
       "required": [
-        "legalName"
+        "name"
       ],
       "additionalProperties": false
     },

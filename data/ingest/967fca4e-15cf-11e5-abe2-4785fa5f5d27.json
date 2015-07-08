@@ -6,8 +6,13 @@
     {
       "@type": "Person",
       "@id": "urn:uuid:e173c3a6-15d0-11e5-9640-af34b3090fb8",
-      "name": "Nancy Graham",
-      "mbox_sha1sum": "02a4dabf0b43925f7ad25466ad817a530c305098"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Nancy Graham"
+        }
+      ],
+      "email": "N.Graham1@lse.ac.uk"
     }
   ],
   "name": [
@@ -31,10 +36,12 @@
       "additionalType": [
         "Community"
       ],
-      "legalName": {
-        "@language": "en",
-        "@value": "Community of Practice for Information Literacy Online Teaching"
-      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Community of Practice for Information Literacy Online Teaching"
+        }
+      ],
       "alternateName": ["CoPilot"],
       "description": {
         "@language": "en",

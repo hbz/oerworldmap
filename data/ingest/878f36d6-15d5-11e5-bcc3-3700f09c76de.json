@@ -6,8 +6,13 @@
     {
       "@type": "Person",
       "@id": "urn:uuid:57a0ed74-2562-11e5-ba8c-3c970e4a9cbf",
-      "name": "Mary Hutner",
-      "mbox_sha1sum": "b801bac9053f30fc9527f0af646296ab46e6e3d7"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Mary Hutner"
+        }
+      ],
+      "email": "maryhutner@hotmail.com"
     }
   ],
   "name": [
@@ -27,10 +32,12 @@
     {
       "@type": "Organization",
       "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
-      "legalName": {
-        "@language": "es",
-        "@value": "Secretaria da Educação do Paraná"
-      },
+      "name": [
+        {
+          "@language": "es",
+          "@value": "Secretaria da Educação do Paraná"
+        }
+      ],
       "alternateName": ["SEED­PR"],
       "email": "gabinete.seed@seed.pr.gov.br",
       "url": "http://www.educacao.pr.gov.br/",
@@ -85,10 +92,12 @@
         {
           "@type": "Organization",
           "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
-          "legalName": {
-            "@language": "es",
-            "@value": "Secretaria da Educação do Paraná"
-          },
+          "name": [
+            {
+              "@language": "es",
+              "@value": "Secretaria da Educação do Paraná"
+            }
+          ],
           "alternateName": ["SEED­PR"],
           "email": "gabinete.seed@seed.pr.gov.br",
           "url": "http://www.educacao.pr.gov.br/",
@@ -130,10 +139,12 @@
         {
           "@type": "Organization",
           "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
-          "legalName": {
-            "@language": "es",
-            "@value": "Secretaria da Educação do Paraná"
-          },
+          "name": [
+            {
+              "@language": "es",
+              "@value": "Secretaria da Educação do Paraná"
+            }
+          ],
           "alternateName": ["SEED­PR"],
           "email": "gabinete.seed@seed.pr.gov.br",
           "url": "http://www.educacao.pr.gov.br/",
