@@ -492,51 +492,52 @@ Hijax.behaviours.map = {
     var focussed = false;
 
     if (focusId) {
-      map.vectorSource.on('change', function(e) {
-        if (map.vectorSource.getState() == 'ready' && !focussed) {
-          focussed = true;
-          map.world.getLayers().forEach(function(layer) {
-            var feature = layer.getSource().getFeatureById(focusId);
-            var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
+      map.doWhenVectorSourceReady(function(){
+        
+        map.world.getLayers().forEach(function(layer) {
+          var feature = layer.getSource().getFeatureById(focusId);
+          var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
 
-            if (feature) {
-              var properties = feature.getProperties();
-              if (properties.geometry
-                  && (properties.geometry instanceof ol.geom.Polygon
-                  ||  properties.geometry instanceof ol.geom.MultiPolygon)) {
-                var highlightStyle = [new ol.style.Style({
-                  fill: new ol.style.Fill({
-                    color: map.colors['orange']
-                  })
-                })];
-                feature.setStyle(highlightStyle);
-              } else {
-                console.log(properties);
-              }
-
-              if (feature.getId() == "RU") {
-                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
-              } else if (feature.getId() == "US") {
-                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
-              } else if (feature.getId() == "FR") {
-                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
-              } else if (feature.getId() == "NZ") {
-                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
-              } else {
-                var extent = feature.getGeometry().getExtent();
-              }
-              if (extent[0] == extent[2]) {
-                extent[0] -= 1000000;
-                extent[2] += 1000000;
-              }
-              if (extent[1] == extent[3]) {
-                extent[1] -= 1000000;
-                extent[3] += 1000000;
-              }
-              map.world.getView().fit(extent, map.world.getSize());
+          if (feature) {
+            var properties = feature.getProperties();
+            if (properties.geometry
+                && (properties.geometry instanceof ol.geom.Polygon
+                ||  properties.geometry instanceof ol.geom.MultiPolygon)) {
+              var highlightStyle = [new ol.style.Style({
+                fill: new ol.style.Fill({
+                  color: map.colors['orange']
+                })
+              })];
+              feature.setStyle(highlightStyle);
+            } else {
+              console.log(properties);
             }
-          });
-        }
+
+            if (feature.getId() == "RU") {
+              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
+            } else if (feature.getId() == "US") {
+              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
+            } else if (feature.getId() == "FR") {
+              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
+            } else if (feature.getId() == "NZ") {
+              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
+            } else {
+              var extent = feature.getGeometry().getExtent();
+            }
+            
+            if (extent[0] == extent[2]) {
+              extent[0] -= 1000000;
+              extent[2] += 1000000;
+            }
+            if (extent[1] == extent[3]) {
+              extent[1] -= 1000000;
+              extent[3] += 1000000;
+            }
+            
+            map.world.getView().fit(extent, map.world.getSize());
+          }
+        });
+        
       });
     }
 
