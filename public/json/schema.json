@@ -207,6 +207,12 @@
             "$ref": "#/definitions/LocalizedString"
           }
         },
+        "provider": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Organization"
+          }
+        },
         "availableChannel": {
           "type": "array",
           "items": {
