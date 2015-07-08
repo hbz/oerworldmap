@@ -359,42 +359,61 @@ Hijax.behaviours.map = {
     $(map.popoverElement).find('.popover-content').html( content );
 
   },
+  
+  doWhenVectorSourceReady : function(callback) {
+    var map = this;
+    
+    if (map.vectorSource.getFeatureById("US")) { // Is this a relieable test?
+      callback();
+    } else {
+      var listener = map.vectorSource.on('change', function(e) {
+        if (map.vectorSource.getState() == 'ready') {
+          ol.Observable.unByKey(listener);
+          callback();
+        }
+      });
+    }
+  },
 
-  setHeatmapData : function(aggregations) {
+  setAggregations : function(aggregations) {
+    
     var map = this;
 
     var heat_data = {};
-
-    var dataAttached = false;
-    map.vectorSource.on('change', function(e) {
-      if (map.vectorSource.getState() == 'ready' && !dataAttached) {
-        dataAttached = true;
-        for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
-          var aggregation = aggregations["by_country"]["buckets"][j];
-          var feature = map.vectorSource.getFeatureById(aggregation.key.toUpperCase());
-          if (feature) {
-            var properties = feature.getProperties();
-            properties.country = aggregation;
-            feature.setProperties(properties);
-          }
+    
+    // attach aggregations to country features
+    
+    map.doWhenVectorSourceReady(function(){
+      for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
+        var aggregation = aggregations["by_country"]["buckets"][j];
+        var feature = map.vectorSource.getFeatureById(aggregation.key.toUpperCase());
+        if (feature) {
+          var properties = feature.getProperties();
+          properties.country = aggregation;
+          feature.setProperties(properties);
+        } else {
+          throw 'No feature with id "' + aggregation.key.toUpperCase() + '" found';
         }
       }
     });
+    
+    // build heat data hashmap
 
     for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
       var aggregation = aggregations["by_country"]["buckets"][j];
       heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
     }
-
-    var heats = $.map(heat_data, function(value, index) {
-      return [value];
-    });
-
+    
+    // setup d3 color callback
+    
+    var heats_arr = _.values(heat_data);
     var color = d3.scale.log()
       .range(["#a1cd3f", "#eaf0e2"])
       .interpolate(d3.interpolateHcl)
-      .domain([d3.quantile(heats, .01), d3.quantile(heats, .99)]);
-
+      .domain([d3.quantile(heats_arr, .01), d3.quantile(heats_arr, .99)]);
+    
+    // set country colors
+    
     map.vector.setStyle(function(feature) {
       return [new ol.style.Style({
         fill: new ol.style.Fill({
@@ -514,7 +533,7 @@ Hijax.behaviours.map = {
                 extent[1] -= 1000000;
                 extent[3] += 1000000;
               }
-              map.world.getView().fitExtent(extent, map.world.getSize());
+              map.world.getView().fit(extent, map.world.getSize());
             }
           });
         }

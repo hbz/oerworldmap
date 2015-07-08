@@ -27,7 +27,7 @@ Hijax.behaviours.populateMap = {
 
   populateHeatdata : function(list) {
     var json = JSON.parse( $(list).find('script[type="application/ld+json"]').html() );
-    Hijax.behaviours.map.setHeatmapData( json );
+    Hijax.behaviours.map.setAggregations( json );
   }
 
 };
