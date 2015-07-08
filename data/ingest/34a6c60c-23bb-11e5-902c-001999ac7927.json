@@ -84,8 +84,8 @@
           "streetAddress": "Leopoldstr. 15"
         },
         "geo": {
-          "lat": "48.1565",
-          "lon": "11.5834"
+          "lat": 48.1565,
+          "lon": 11.5834
         }
       }
     },
@@ -138,15 +138,15 @@
               "streetAddress": "Leopoldstr. 15"
             },
             "geo": {
-              "lat": "48.1565",
-              "lon": "11.5834"
+              "lat": 48.1565,
+              "lon": 11.5834
             }
           }
         }
       ],
       "startDate": "2011-02-19",
       "email": "info-de@serlo.org",
-      "about": "Mathematics (ISCED-2013:0541)",
+      "about": ["Mathematics (ISCED-2013:0541)"],
       "audience": [
         "Lower Secondary Education (ISCED-1997:2)",
         "Secondary Education (ISCED-1997:3)"
