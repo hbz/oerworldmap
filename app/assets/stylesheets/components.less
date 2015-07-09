@@ -1,0 +1,47 @@
+/* --- placeholder --- */
+
+.placeholder:before,
+.placeholder-qmark:before {
+  background: @blue-pale;
+  color: white;
+  display: block;
+  text-align: center;
+}
+
+.placeholder:before {
+  content: '';
+}
+
+.placeholder-qmark:before {
+  content: '?';
+}
+
+/* --- img text --- */
+
+.img130text {
+  .clearfix();
+}
+
+.img130text .img {
+  width: 130px;
+  float: left;
+}
+
+.img130text .text {
+  margin-left: 150px;
+}
+
+.img130text .placeholder-qmark:before,
+.img130text .placeholder:before {
+  width: 130px;
+  height: 130px;
+  font-size: 130px;
+  line-height: 130px;
+}
+
+/* --- statistics table --- */
+
+.statistics-table td {
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
