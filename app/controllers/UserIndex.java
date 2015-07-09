@@ -49,6 +49,7 @@ public class UserIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     ProcessingReport report = user.validate();
+    user.put("mbox_sha1sum", Account.getEncryptedEmailAddress(user));
     if (mConf.getBoolean("user.email.unique")) {
       ensureEmailUnique(user, report);
     }
@@ -60,7 +61,6 @@ public class UserIndex extends OERWorldMap {
     }
 
     newsletterSignup(user);
-    user.put("mbox_sha1sum", Account.getEncryptedEmailAddress(user));
     user.remove("email");
     mBaseRepository.addResource(user);
 
