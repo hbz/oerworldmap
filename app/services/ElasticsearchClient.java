@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -209,6 +210,11 @@ public class ElasticsearchClient {
    */
   public Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final UUID aUuid) {
     return getDocument(aType, aUuid.toString());
+  }
+
+  public boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+    final DeleteResponse response = mClient.prepareDelete(mEsConfig.getIndex(), aType, aIdentifier).execute().actionGet();
+    return response.isFound();
   }
 
   /**

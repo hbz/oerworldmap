@@ -22,6 +22,8 @@ public interface ResourceRepository {
    */
   public Resource getResource(@Nonnull String aId) throws IOException;
 
+  public Resource deleteResource(@Nonnull String aId);
+
   /**
    * Query all resources of a given type.
    * @param aType

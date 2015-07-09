@@ -7,7 +7,7 @@
             <script type="application/ld+json">
                 {{{.}}}
             </script>
-            <h1><i class="fa fa-users"></i> {{#legalName}}{{@value}}{{/legalName}} ({{@type}})</h1>
+            <h1><i class="fa fa-users"></i> {{#name}}{{@value}}{{/name}} ({{@type}})</h1>
             {{#location}}{{> ../Place/read.mustache}}{{/location}}
             <p>{{#description}}{{{@value}}}{{/description}}</p>
         </div>

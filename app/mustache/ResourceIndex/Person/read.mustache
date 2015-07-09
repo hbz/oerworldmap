@@ -7,7 +7,7 @@
         <script type="application/ld+json">
           {{{.}}}
         </script>
-        <h1><i class="fa fa-user"></i> {{name}}</h1>
+          <h1><i class="fa fa-user"></i> {{#name}}{{@value}}{{/name}}</h1>
         {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
         {{#location}}{{> ../Place/read.mustache}}{{/location}}
         <p>{{#description}}{{{@value}}}{{/description}}</p>

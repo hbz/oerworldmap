@@ -55,7 +55,7 @@
                       "type": "string",
                       "index": "not_analyzed"
                     },
-                    "legalName": {
+                    "name": {
                       "properties": {
                         "@language": {
                           "type": "string",
@@ -73,7 +73,15 @@
                   "index": "not_analyzed"
                 },
                 "name": {
-                  "type": "string"
+                  "properties": {
+                    "@language": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             },
@@ -146,7 +154,7 @@
                 "image": {
                   "type": "string"
                 },
-                "legalName": {
+                "name": {
                   "properties": {
                     "@language": {
                       "type": "string",
@@ -280,7 +288,7 @@
                   "type": "string",
                   "index": "not_analyzed"
                 },
-                "legalName": {
+                "name": {
                   "properties": {
                     "@language": {
                       "type": "string",
@@ -298,7 +306,15 @@
               "index": "not_analyzed"
             },
             "name": {
-              "type": "string"
+              "properties": {
+                "@language": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                },
+                "@value": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
@@ -351,7 +367,7 @@
               "type": "string",
               "index": "not_analyzed"
             },
-            "legalName": {
+            "name": {
               "properties": {
                 "@language": {
                   "type": "string",

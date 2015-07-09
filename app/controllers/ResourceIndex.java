@@ -87,19 +87,7 @@ public class ResourceIndex extends OERWorldMap {
 
     String title;
     try {
-      switch (resource.get("@type").toString()) {
-        case "Organization":
-          title = ((Resource) resource.get("legalName")).get("@value").toString();
-          break;
-        case "Action":
-        case "Service":
-        case "Article":
-          title = ((Resource)((ArrayList) resource.get("name")).get(0)).get("@value").toString();
-          break;
-        default:
-          title = resource.get("name").toString();
-          break;
-      }
+      title = ((Resource)((ArrayList) resource.get("name")).get(0)).get("@value").toString();
     } catch (NullPointerException e) {
       title = id;
     }
@@ -150,6 +138,16 @@ public class ResourceIndex extends OERWorldMap {
     }
     mBaseRepository.addResource(resource);
     return created("updated resource " + resource.toString());
+  }
+
+  @Security.Authenticated(Secured.class)
+  public static Result delete(String id) {
+    Resource resource = mBaseRepository.deleteResource(id);
+    if (null != resource) {
+      return ok("deleted resource " + resource.toString());
+    } else {
+      return badRequest("Failed to delete resource " + id);
+    }
   }
 
 }

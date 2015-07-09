@@ -12,7 +12,7 @@
         <h2>Country Champion</h2>
         
         {{#scope.champions}}
-            <div class="img130text">    
+            <div class="img130text">
                 
                 {{#image}}
                     <img src="{{.}}" class="img" />
@@ -22,7 +22,7 @@
                 {{/image}}
                 
                 <div class="text">
-                    <h3><a href="/resource/{{@id}}">{{name}}</a></h3>
+                    <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
                     {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
                 </div>
                 

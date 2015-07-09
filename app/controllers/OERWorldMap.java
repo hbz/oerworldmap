@@ -86,6 +86,7 @@ public abstract class OERWorldMap extends Controller {
     } else {
       currentLocale = new Locale("en");
     }
+    Locale.setDefault(currentLocale);
   }
 
   protected static Map<String, String> i18n = new HashMap<>();
