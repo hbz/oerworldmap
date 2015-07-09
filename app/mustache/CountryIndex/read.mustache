@@ -55,38 +55,37 @@
             </table>
         {{/scope.countryAggregation.by_country.buckets}}
         
-        {{#scope.resources.length}}
+        <hr/>
         
-          <hr/>
-          
-          <h2>Related</h2>
-          
-          <ul class="related-list populate-map" data-behaviour="linkedListEntries">
-              <script type="application/ld+json">
-                  {{{scope.resources}}}
-              </script>
-              {{#scope.resources}}
-                  <li about="{{@id}}">
-                      {{#?Article}}
-                          {{>../ResourceIndex/Article/link.mustache}}
-                      {{/?Article}}
-                      {{#?Organization}}
-                          {{>../ResourceIndex/Organization/link.mustache}}
-                      {{/?Organization}}
-                      {{#?Person}}
-                          {{>../ResourceIndex/Person/link.mustache}}
-                      {{/?Person}}
-                      {{#?Service}}
-                          {{>../ResourceIndex/Service/link.mustache}}
-                      {{/?Service}}
-                      {{#?Action}}
-                          {{>../ResourceIndex/Action/link.mustache}}
-                      {{/?Action}}
-                  </li>
-              {{/scope.resources}}
-          </ul>
-          
-        {{/scope.resources.length}}
+        <h2>Related</h2>
+        
+        <ul class="related-list populate-map" data-behaviour="linkedListEntries">
+            <script type="application/ld+json">
+                {{{scope.resources}}}
+            </script>
+            {{#scope.resources}}
+                <li about="{{@id}}">
+                    {{#?Article}}
+                        {{>../ResourceIndex/Article/link.mustache}}
+                    {{/?Article}}
+                    {{#?Organization}}
+                        {{>../ResourceIndex/Organization/link.mustache}}
+                    {{/?Organization}}
+                    {{#?Person}}
+                        {{>../ResourceIndex/Person/link.mustache}}
+                    {{/?Person}}
+                    {{#?Service}}
+                        {{>../ResourceIndex/Service/link.mustache}}
+                    {{/?Service}}
+                    {{#?Action}}
+                        {{>../ResourceIndex/Action/link.mustache}}
+                    {{/?Action}}
+                </li>
+            {{/scope.resources}}
+        </ul>
+        {{^scope.resources}}
+            <em>No related entities found</em>
+        {{/scope.resources}}
         
     </section>
 </div>
