@@ -30,9 +30,12 @@ public class BaseRepository {
     mFileRepo = new FileResourceRepository(aPath);
   }
 
-  public Resource deleteResource(String aId) throws IOException {
-    // TODO: add ElasticsearchRepository.deleteResource(String aId)
-    return mFileRepo.deleteResource(aId);
+  public Resource deleteResource(String aId) {
+    if (null == mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY)) {
+      return null;
+    } else {
+      return mFileRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+    }
   }
 
   public void addResource(Resource aResource) throws IOException {
