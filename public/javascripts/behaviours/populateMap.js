@@ -3,7 +3,8 @@ Hijax.behaviours.populateMap = {
   attach : function(context) {
     var that = this;
 
-    $('.resource-list', context).each(function(){
+    // don't use class names for js actions -> reorganize behaviours
+    $('.populate-map', context).each(function(){
       that.populatePlacemarks( this );
     });
 

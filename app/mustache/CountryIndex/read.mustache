@@ -35,7 +35,7 @@
                 <div class="img placeholder-qmark"></div>
                 
                 <div class="text">
-                    There is no country champion for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
+                    There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
                 </div>
                 
             </div>
@@ -59,29 +59,29 @@
         
         <h2>Related</h2>
         
-        <ul class="" data-behaviour="linkedListEntries">
+        <ul class="related-list populate-map" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}
             </script>
-          {{#scope.resources}}
-              <li about="{{@id}}">
-                {{#?Article}}
-                    {{>../ResourceIndex/Article/list.mustache}}
-                {{/?Article}}
-                {{#?Organization}}
-                    {{>../ResourceIndex/Organization/list.mustache}}
-                {{/?Organization}}
-                {{#?Person}}
-                    {{>../ResourceIndex/Person/list.mustache}}
-                {{/?Person}}
-                {{#?Service}}
-                    {{>../ResourceIndex/Service/list.mustache}}
-                {{/?Service}}
-                {{#?Action}}
-                    {{>../ResourceIndex/Action/list.mustache}}
-                {{/?Action}}
-              </li>
-          {{/scope.resources}}
+            {{#scope.resources}}
+                <li about="{{@id}}">
+                    {{#?Article}}
+                        {{>../ResourceIndex/Article/link.mustache}}
+                    {{/?Article}}
+                    {{#?Organization}}
+                        {{>../ResourceIndex/Organization/link.mustache}}
+                    {{/?Organization}}
+                    {{#?Person}}
+                        {{>../ResourceIndex/Person/link.mustache}}
+                    {{/?Person}}
+                    {{#?Service}}
+                        {{>../ResourceIndex/Service/link.mustache}}
+                    {{/?Service}}
+                    {{#?Action}}
+                        {{>../ResourceIndex/Action/link.mustache}}
+                    {{/?Action}}
+                </li>
+            {{/scope.resources}}
         </ul>
         
     </section>
