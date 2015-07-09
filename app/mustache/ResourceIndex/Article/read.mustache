@@ -1,24 +1,29 @@
 <div role="complementary" data-view="map" class="color-scheme-map column medium">
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
+
 <div role="main" class="color-scheme-text container column medium">
     {{#scope}}
         <article class="resource-story">
             <script type="application/ld+json">
                 {{{.}}}
             </script>
-            {{#image}}<img src="{{.}}" width="250" />{{/image}}
             <h1><i class="fa fa-comment"></i> {{#name}}{{@value}}{{/name}}</h1>
-            <strong>Contributed by</strong>
-            <ul class="csl">
-              {{#creator}}
-                  <li>
-                      <a href="/resource/{{@id}}">
-                        {{#name}}{{@value}}{{/name}}
-                      </a>
-                  </li>
-              {{/creator}}
-            </ul>
+            
+            <div class="clearfix">
+                <strong>Contributed by</strong>
+                <ul class="csl">
+                  {{#creator}}
+                      <li>
+                          <a href="/resource/{{@id}}">
+                            {{#name}}{{@value}}{{/name}}
+                          </a>
+                      </li>
+                  {{/creator}}
+                </ul>
+            </div>
+            
+            {{#image}}<img src="{{.}}" width="250" />{{/image}}
           {{#articleBody}}{{{@value}}}{{/articleBody}}
           {{#keywords.size}}
           <h2>Keywords</h2>
