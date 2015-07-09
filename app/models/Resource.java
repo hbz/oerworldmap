@@ -16,6 +16,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import helpers.UniversalFunctions;
 import play.Logger;
 
 public class Resource extends HashMap<String, Object> {
@@ -183,6 +184,8 @@ public class Resource extends HashMap<String, Object> {
     String keyString = key.toString();
     if (keyString.startsWith("?")) {
       return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
+    } else if (keyString.equals("email")) {
+      return UniversalFunctions.getHtmlEntities(super.get(key).toString());
     }
     return super.get(key);
   }

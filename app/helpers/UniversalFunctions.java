@@ -30,4 +30,14 @@ public class UniversalFunctions {
     df.setTimeZone(tz);
     return df.format(new Date());
   }
+
+  public static String getHtmlEntities(String aString) {
+    String escapedString = "";
+    for (int i = 0; i < aString.length(); i++) {
+      char c = aString.charAt(i);
+      int value = c;
+      escapedString += "&#" + value + ";";
+    }
+    return escapedString;
+  }
 }
