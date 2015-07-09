@@ -11,40 +11,64 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import models.Record;
 import models.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
+import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
   final private ElasticsearchClient elasticsearch;
 
   final public static String DEFAULT_TYPE = "resource";
-  final public static String AGGREGATION_TYPE = "aggregation";
 
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
   }
 
   @Override
-  public void addResource(Resource aResource) throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
+  public void addResource(@Nonnull final Resource aResource) throws IOException {
     String type = (String) aResource.get(JsonLdConstants.TYPE);
-    if (StringUtils.isEmpty(id)) {
-      id = UUID.randomUUID().toString();
-    }
     if (StringUtils.isEmpty(type)) {
       type = DEFAULT_TYPE;
     }
-    elasticsearch.addJson(aResource.toString(), id, type);
+    addResource(aResource, type);
+  }
+
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
+      throws IOException {
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    if (StringUtils.isEmpty(id)) {
+      id = UUID.randomUUID().toString();
+    }
+    elasticsearch.addJson(aResource.toString(), id, aType);
   }
 
   @Override
-  public Resource getResource(String aId) throws IOException {
-    // FIXME: results in NullPointerException if aId is unknown
+  public Resource getResource(String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
+  }
+
+  @Override
+  public Resource deleteResource(String aId) {
+    // TODO: delete mentioned resources?
+    Resource resource = getResource(aId);
+    if (null == resource) {
+      return null;
+    }
+
+    // FIXME: check why deleting from _all is not possible, remove dependency on Record class
+    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE).toString();
+    Logger.info("DELETING " + type + aId);
+
+    if (elasticsearch.deleteDocument(type, aId)) {
+      return resource;
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -55,9 +79,10 @@ public class ElasticsearchRepository implements ResourceRepository {
    * @param aField
    * @param aContent
    * @return all matching Resources or an empty list if no resources match the
-   *         given field / content combination.
+   * given field / content combination.
    */
-  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField, String aContent) {
+  public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField,
+      String aContent) {
     if (StringUtils.isEmpty(aType) || StringUtils.isEmpty(aField)) {
       throw new IllegalArgumentException("Non-complete arguments.");
     } else {
@@ -82,9 +107,21 @@ public class ElasticsearchRepository implements ResourceRepository {
   }
 
   public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
-    Resource aggregation = new Resource("Aggregation", "country-list");
-    aggregation.put("entries", elasticsearch.getAggregation(aAggregationBuilder));
-    return aggregation;
+    Resource aggregations = Resource
+        .fromJson(elasticsearch.getAggregation(aAggregationBuilder).toString());
+    if (null == aggregations) {
+      return null;
+    }
+    return (Resource) aggregations.get("aggregations");
+  }
+
+  public Resource query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
+    Resource aggregations = Resource
+        .fromJson(elasticsearch.getAggregations(aAggregationBuilders).toString());
+    if (null == aggregations) {
+      return null;
+    }
+    return (Resource) aggregations.get("aggregations");
   }
 
   /**
@@ -105,5 +142,4 @@ public class ElasticsearchRepository implements ResourceRepository {
     }
     return resources;
   }
-
 }

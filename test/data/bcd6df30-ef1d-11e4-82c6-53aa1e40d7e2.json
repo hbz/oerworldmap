@@ -1,0 +1,70 @@
+{
+  "@context": "http://schema.org/",
+  "@type": "Article",
+  "@id": "urn:uuid:bcd6df30-ef1d-11e4-82c6-53aa1e40d7e2",
+  "creator": [
+    {
+      "@type": "Person",
+      "name": "Felix Ostrowski",
+      "email": "foo@bar.de"
+    }
+  ],
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Building the OER World Map"
+    }
+  ],
+  "articleBody": [
+    {
+      "@language": "en",
+      "@value": "<p>OER World Map shares information on behalf of the worldwide OER community, using local knowledge to describe the OER ecosystem. Built with cutting edge linked open data technology, OER World Map visualizes the world of OER and supports a range of widgets and tools through powerful statistical analysis. OER World Map is built by hbz and graphthinking GmbH with funding from The William and Flora Hewlett Foundation.</p>"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Organization",
+      "legalName": {
+        "@language": "de",
+        "@value": "hbz"
+      },
+      "url": "http://www.hbz-nrw.de/",
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "DE",
+          "addressLocality": "Köln",
+          "postalCode": "50674",
+          "streetAddress": "Jülicher Straße 6"
+        },
+        "geo": {
+          "lat": 50.9340509,
+          "lon": 6.9355108
+        }
+      }
+    },
+    {
+      "@type": "Organization",
+      "legalName": {
+        "@language": "de",
+        "@value": "graphthinking Gmbh"
+      },
+      "url": "http://www.graphthinking.com/",
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "DE",
+          "addressLocality": "Berlin",
+          "postalCode": "12059",
+          "streetAddress": "Treptower Straße 23"
+        },
+        "geo": {
+          "lat": 52.4806114,
+          "lon": 13.4517184
+        }
+      }
+    }
+  ]
+}

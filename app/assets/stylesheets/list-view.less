@@ -1,0 +1,127 @@
+@list-view-padding: 20px;
+
+.list-view {
+  padding: @list-view-padding;
+}
+
+
+/* --- list section --- */
+
+.list-section {
+  border-top: 1px solid @blue-light;
+  margin: 0 -(@list-view-padding);
+  padding: @list-view-padding;
+}
+
+
+/* --- search --- */
+
+#search {
+  //padding-bottom: @list-view-padding;
+  margin: -(@list-view-padding) -(@list-view-padding) 0px -(@list-view-padding);
+  font-size: @font-size-large;
+}
+
+#search input[name="q"] {
+  border: none;
+  background: @input-bg;
+  padding: @list-view-padding;
+  height: 62px;
+  color: @color-scheme-text-color;
+  box-shadow: none;
+}
+
+#search button {
+  border: none;
+  background: none;
+  color: @color-scheme-text-color;
+  height: 62px;
+  padding-top: @list-view-padding;
+  padding-bottom: @list-view-padding;
+}
+
+
+/* --- query filter --- */
+
+.query-filter {
+  display: none;
+}
+
+
+/* --- hits --- */
+
+.hits {
+  .list-section();
+}
+
+/* --- list resource ---*/
+
+.list-view div.resource {
+  .list-section();
+}
+
+list-view div.resource:last-child {
+  border-bottom: 1px solid @blue-light;
+}
+
+.list-view div.resource h1 {
+  .h4();
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+
+/* --- list article --- */
+
+.list-view article {
+  .list-section();
+}
+
+list-view article:last-child {
+  border-bottom: 1px solid @blue-light;
+}
+
+.list-view article h1 {
+  .h2();
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.list-view article .contributed-by {
+  //.small();
+  font-size: @font-size-small;
+  color: @gray-light;
+  margin-bottom: 5px;
+}
+
+.list-view article .article-body p {
+  display: none;
+}
+
+.list-view article .article-body p:first-child {
+  display: block;
+  margin-bottom: 0px;
+}
+
+ul[data-behaviour="linkedListEntries"] li article {
+  cursor: pointer;
+}
+
+ul[data-behaviour="linkedListEntries"] li article:hover {
+  background: @blue-lightest;
+}
+
+
+
+ul.csl, ul.csl li {
+  display: inline;
+  padding: 0;
+}
+
+ul.csl li:before {
+  content: " & "
+}
+
+ul.csl li:first-child:before {
+  content: ""
+}

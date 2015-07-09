@@ -2,7 +2,6 @@ package helpers;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testNestedObject() throws IOException {
+  public void testNestedObject() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[bar][baz]", new String[]{"bam"});
     formData.put("foo[bar][qux]", new String[]{"quux"});
@@ -37,7 +36,7 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testFlatArrayWithNumericIndex() throws IOException {
+  public void testFlatArrayWithNumericIndex() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[0]", new String[]{"bar"});
     formData.put("foo[1]", new String[]{"baz"});
@@ -66,7 +65,7 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testImplicitArrayWithSingleMember() throws IOException {
+  public void testImplicitArrayWithSingleMember() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[]", new String[]{"bar"});
     String expected = "{\"foo\":[\"bar\"]}";
@@ -75,7 +74,7 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testNestedArrayWithNumericIndex() throws IOException {
+  public void testNestedArrayWithNumericIndex() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[0][0]", new String[]{"bar"});
     formData.put("foo[0][1]", new String[]{"baz"});
@@ -86,7 +85,7 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testSkippedIndex() throws IOException {
+  public void testSkippedIndex() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[0]", new String[]{"bar"});
     formData.put("foo[2]", new String[]{"bam"});
@@ -96,7 +95,7 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testNestedArrayWithImplicitIndex() throws IOException {
+  public void testNestedArrayWithImplicitIndex() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[0]", new String[]{"bar", "baz", "bam"});
     String expected = "{\"foo\":[[\"bar\",\"baz\",\"bam\"]]}";
@@ -114,13 +113,23 @@ public class JSONFormTest {
   }
 
   @Test
-  public void testInvalidPath() throws IOException {
+  public void testInvalidPath() {
     Map<String,String[]> formData= new HashMap<>();
     formData.put("foo[][bar]", new String[]{"bar", "baz", "bam"});
     formData.put("foo[bar][baz", new String[]{"bar"});
     formData.put("foo[0", new String[]{"bar"});
     formData.put("foo[", new String[]{"bar"});
     String expected = "{\"foo[bar][baz\":\"bar\",\"foo[\":\"bar\",\"foo[][bar]\":[\"bar\",\"baz\",\"bam\"],\"foo[0\":\"bar\"}";
+    String result = JSONForm.parseFormData(formData).toString();
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testNumericValues() {
+    Map<String,String[]> formData= new HashMap<>();
+    formData.put("latitude", new String[]{"52"});
+    formData.put("longitude", new String[]{"13.4148863"});
+    String expected = "{\"latitude\":52,\"longitude\":13.4148863}";
     String result = JSONForm.parseFormData(formData).toString();
     assertEquals(expected, result);
   }

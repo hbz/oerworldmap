@@ -1,0 +1,48 @@
+<div role="complementary" class="color-scheme-map column large" data-view="map">
+    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+</div>
+<div role="main" class="color-scheme-text list-view column small">
+
+    <section>
+        <form method="get" action="/resource/" id="search">
+            
+            <div class="input-group">
+              <input type="text" name="q" class="form-control input-lg" value="{{scope.q}}" placeholder="Search for ...">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+            
+        </form>
+    </section>
+    
+    <div class="hits">{{scope.resources.size}} found ...</div>
+    
+    <section>
+        <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
+            <script type="application/ld+json">
+                {{{scope.resources}}}
+            </script>
+            <!-- TODO: extract partial for each resource type -->
+            {{#scope.resources}}
+                <li about="{{@id}}">
+                    {{#?Article}}
+                      {{>Article/list.mustache}}
+                    {{/?Article}}
+                    {{#?Organization}}
+                      {{>Organization/list.mustache}}
+                    {{/?Organization}}
+                    {{#?Person}}
+                      {{>Person/list.mustache}}
+                    {{/?Person}}
+                    {{#?Service}}
+                      {{>Service/list.mustache}}
+                    {{/?Service}}
+                    {{#?Action}}
+                      {{>Action/list.mustache}}
+                    {{/?Action}}
+                </li>
+            {{/scope.resources}}
+        </ul>
+    </section>
+</div>

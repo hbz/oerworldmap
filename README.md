@@ -7,6 +7,12 @@ For inital background information about this project please refer to the
 
 ## Setup project
 
+### Get Source
+
+    $ git clone git@github.com:hbz/oerworldmap.git
+    $ git submodule init
+    $ git submodule update
+
 ### Setup Elasticsearch
 
 #### [Download and install elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/)

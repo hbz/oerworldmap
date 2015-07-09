@@ -1,0 +1,34 @@
+<article class="entity-teaser">
+
+    <header>
+        
+        <div class="header-icon">
+            <i class="fa fa-comment"></i>
+        </div>
+        
+        <div class="header-text">
+
+            <h1>
+                <a href="/resource/{{@id}}">
+                    {{#name}}{{@value}}{{/name}}
+                </a>
+            </h1>
+    
+            <div class="contributed-by">
+                <strong>Contributed by</strong>
+                <ul class="csl">
+                    {{#creator}}
+                        <li>{{#name}}{{@value}}{{/name}}</li>
+                    {{/creator}}
+                </ul>
+            </div>
+          
+        </div>
+        
+    </header>
+
+    <div class="article-body">
+        {{#articleBody}}{{{@value}}}{{/articleBody}}
+    </div>
+
+</article>

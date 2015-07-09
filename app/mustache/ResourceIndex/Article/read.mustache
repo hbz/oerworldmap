@@ -1,0 +1,51 @@
+<div role="complementary" data-view="map" class="color-scheme-map column medium">
+    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+</div>
+
+<div role="main" class="color-scheme-text container column medium">
+    {{#scope}}
+        <article class="resource-story">
+            <script type="application/ld+json">
+                {{{.}}}
+            </script>
+            <h1><i class="fa fa-comment"></i> {{#name}}{{@value}}{{/name}}</h1>
+            
+            <div class="clearfix">
+                <strong>Contributed by</strong>
+                <ul class="csl">
+                  {{#creator}}
+                      <li>
+                          <a href="/resource/{{@id}}">
+                            {{#name}}{{@value}}{{/name}}
+                          </a>
+                      </li>
+                  {{/creator}}
+                </ul>
+            </div>
+            
+            {{#image}}<img src="{{.}}" width="250" />{{/image}}
+          {{#articleBody}}{{{@value}}}{{/articleBody}}
+          {{#keywords.size}}
+          <h2>Keywords</h2>
+          <ul>
+              {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
+          </ul>
+          {{/keywords.size}}
+        </article>
+        <aside>
+            <h2>Related</h2>
+            {{#mentions}}
+              <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
+                  <h3>
+                      <a href="/resource/{{@id}}">
+                          {{#name}}
+                            {{#@value}}{{.}}{{/@value}}
+                          {{/name}}
+                      </a>
+                  </h3>
+                  {{#location}}{{> ../Place/read.mustache}}{{/location}}
+              </div>
+            {{/mentions}}
+        </aside>
+    {{/scope}}
+</div>

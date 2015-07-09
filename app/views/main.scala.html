@@ -1,35 +1,73 @@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(templates: String)
 <!DOCTYPE html>
 <html class="no-js">
   <head>
     
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=1024" />
+    <meta name="viewport" content="initial-scale=1; user-scalable=0;" />
     <meta name="description" content="OER World Map shares information on behalf of the worldwide OER community, using local knowledge to describe the OER ecosystem." />
 
     <title>@title</title>
     
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("vendor/jquery-jvectormap/jquery-jvectormap-2.0.1.css")" />
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.4.0/slick.css" />
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.4.0/slick-theme.css" />
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" />
-    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
-    <link rel="stylesheet" type="text/css" href="//cdn.rawgit.com/daneden/animate.css/master/animate.min.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Economica:400,700,400italic,700italic" />
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/ol-3.7/ol.css">
     
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="@routes.Assets.at("vendor/jquery-jvectormap/jquery-jvectormap-2.0.1.min.js")"></script>
-    <script type="text/javascript" src="@routes.Assets.at("vendor/jquery-jvectormap/jquery-jvectormap-world-mill-en.js")"></script>
-    <script type="text/javascript" src="//www.google.com/jsapi"></script>
-    <script type="text/javascript" src="@routes.Assets.at("vendor/mustache/mustache.min.js")""></script>
-    <script type="text/javascript" src="@routes.Assets.at("vendor/jquery-placeholder/jquery.placeholder.min.js")""></script>
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
+    
+    <script type="text/javascript" src="/assets/vendor/underscore.js"></script>
+    <script type="text/javascript" src="/assets/vendor/jquery.min.js"></script>
           
   </head>
   <body>
-    
-    @content
+
+  <header class="clearfix" id="page-header">
+
+      <nav class="main">
+          <ul>
+              <li><h1><a href="/" title="Home">OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+              <li><a href="/contribute" title="Contribute">Contribute</a></li>
+              <li><a href="/FAQ" title="FAQ">FAQ</a></li>
+              <li><a href="/about" title="About">About</a></li>
+              <li><a href="/imprint" title="Imprint">Imprint</a></li>
+          </ul>
+      </nav>
+
+      <nav class="social">
+          <ul>
+              <li><a href="https://oerworldmap.wordpress.com/" title="Blog" target="_blank"><i class="fa fa-wordpress"></i></a></li>
+              <li><a href="https://www.facebook.com/oerworldmap" title="Facebook" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
+              <li><a href="https://twitter.com/oerworldmap" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              <li><a href="https://github.com/hbz/oerworldmap" title="Github" target="_blank"><i class="fa fa-github-square"></i></a></li>
+          </ul>
+      </nav>
+      
+      <h2>Join us in mapping the world of OER!</h2>
+
+  </header>
+  
+  @content
+  
+  <script type="text/javascript" src="/assets/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/assets/vendor/mustache.min.js"></script>
+  <script type="text/javascript" src="/assets/vendor/jquery.placeholder.min.js"></script>
+  <script type="text/javascript" src="/assets/vendor/d3.v3.min.js"></script>
+  <script type="text/javascript" src="/assets/vendor/ol-3.7/ol-debug.js"></script>
+  <script type="text/javascript" src="/assets/i18n.js"></script>
+
+  <script type="text/javascript" src="/assets/javascripts/hijax.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/hfactor.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/map.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/populateMap.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/linkedListEntries.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/mapResource.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/search.js"></script>
+  <script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>
+  
+  <script type="text/javascript" src="/assets/javascripts/main.js"></script>
+
+  @Html(templates)
 
   </body>
 </html>

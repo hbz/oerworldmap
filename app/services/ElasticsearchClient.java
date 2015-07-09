@@ -1,45 +1,35 @@
 package services;
 
+import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.indices.IndexMissingException;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.json.simple.parser.ParseException;
+import play.Logger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.indices.IndexMissingException;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-
-import play.Logger;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * This class serves as an interface to Elasticsearch providing access to
@@ -54,18 +44,16 @@ public class ElasticsearchClient {
 
   private static ElasticsearchConfig mEsConfig;
   private static Client mClient;
-  private static String mSearchStub;
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
    * 
    * @param aClient
-   * @param aEsConfig 
+   * @param aEsConfig
    */
   public ElasticsearchClient(@Nullable final Client aClient, ElasticsearchConfig aEsConfig) {
     mClient = aClient;
     mEsConfig = aEsConfig;
-    mSearchStub = "http://" + mEsConfig.getServer() + ":" + mEsConfig.getHttpPort() + "/";
   }
 
   public static Client getClient() {
@@ -97,9 +85,14 @@ public class ElasticsearchClient {
    * 
    * @param aJsonString
    */
-  public void addJson(final String aJsonString, final UUID aUuid) {
-    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
-        .setSource(aJsonString).execute().actionGet();
+  public void addJson(@Nonnull final String aJsonString, @Nullable final UUID aUuid) {
+    if (aUuid == null) {
+      mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), null).setSource(aJsonString)
+          .execute().actionGet();
+    } else {
+      mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
+          .setSource(aJsonString).execute().actionGet();
+    }
   }
 
   /**
@@ -107,7 +100,7 @@ public class ElasticsearchClient {
    * 
    * @param aJsonString
    */
-  public void addJson(final String aJsonString, final String aUuid) {
+  public void addJson(@Nonnull final String aJsonString, @Nullable final String aUuid) {
     mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid).setSource(aJsonString)
         .execute().actionGet();
   }
@@ -138,8 +131,8 @@ public class ElasticsearchClient {
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
-    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString()).setSource(aMap)
-        .execute().actionGet();
+    mClient.prepareIndex(mEsConfig.getIndex(), mEsConfig.getType(), aUuid.toString())
+        .setSource(aMap).execute().actionGet();
   }
 
   /**
@@ -171,24 +164,32 @@ public class ElasticsearchClient {
    * @param aAggregationBuilder
    * @return a List of docs, each represented by a Map of String/Object.
    */
-  public ArrayList<Object> getAggregation(final AggregationBuilder aAggregationBuilder) {
-    final ArrayList<Object> entries = new ArrayList<Object>();
+  public SearchResponse getAggregation(final AggregationBuilder aAggregationBuilder) {
 
-    SearchResponse response = mClient.prepareSearch(mEsConfig.getIndex())
+    return mClient.prepareSearch(mEsConfig.getIndex())
         .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
-    Aggregation aggregation = response.getAggregations().asList().get(0);
-    for (Terms.Bucket entry : ((Terms) aggregation).getBuckets()) {
-      Map<String, Object> e = new HashMap<>();
-      e.put("key", entry.getKey());
-      e.put("value", entry.getDocCount());
-      entries.add(e);
+  }
+
+  /**
+   * Get an aggregation of documents
+   *
+   * @param aAggregationBuilders
+   * @return a List of docs, each represented by a Map of String/Object.
+   */
+  public SearchResponse getAggregations(final List<AggregationBuilder> aAggregationBuilders) {
+
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mEsConfig.getIndex());
+    for (AggregationBuilder aggregationBuilder : aAggregationBuilders) {
+      searchRequestBuilder.addAggregation(aggregationBuilder);
     }
-    return entries;
+
+    return searchRequestBuilder.setSize(0).execute().actionGet();
+
   }
 
   /**
    * Get a document of a specified type specified by an identifier.
-   * 
+   *
    * @param aType
    * @param aIdentifier
    * @return the document as Map of String/Object
@@ -209,6 +210,11 @@ public class ElasticsearchClient {
    */
   public Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final UUID aUuid) {
     return getDocument(aType, aUuid.toString());
+  }
+
+  public boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+    final DeleteResponse response = mClient.prepareDelete(mEsConfig.getIndex(), aType, aIdentifier).execute().actionGet();
+    return response.isFound();
   }
 
   /**
@@ -311,30 +317,21 @@ public class ElasticsearchClient {
 
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String aType) throws IOException, ParseException {
-    URL url = new URL(mSearchStub + (StringUtils.isEmpty(aIndex) ? "_all" : (aIndex)) + "/"
-        + (StringUtils.isEmpty(aType) ? "" : (aType + "/")) + aEsQuery);
-    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    connection.setDoOutput(true);
-    connection.connect();
-    return searchResultToMaps(IOUtils.toString(connection.getInputStream(), "UTF-8"));
-  }
-
-  @SuppressWarnings("unchecked")
-  private static List<Map<String, Object>> searchResultToMaps(String aEsSearchResultJson)
-      throws JsonParseException, JsonMappingException, IOException, ParseException {
-
-    List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-
-    JSONParser jsonParser = new JSONParser();
-    JSONObject jsonObject = (JSONObject) jsonParser.parse(aEsSearchResultJson);
-    JSONObject hitsWrapper = (JSONObject) jsonObject.get("hits");
-    JSONArray hits = (JSONArray) hitsWrapper.get("hits");
-
-    ListIterator<JSONObject> iterator = hits.listIterator();
-    while (iterator.hasNext()) {
-      result.add((JSONObject) iterator.next().get("_source"));
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(
+        StringUtils.isEmpty(aIndex) ? mEsConfig.getIndex() : aIndex);
+    if (!StringUtils.isEmpty(aType)) {
+      searchRequestBuilder.setTypes(aType);
     }
-
-    return result;
+    SearchResponse response = searchRequestBuilder
+        .setQuery(QueryBuilders.queryString(aEsQuery).defaultOperator(QueryStringQueryBuilder.Operator.AND))
+        .setFrom(0).setSize(99999)
+        .execute().actionGet();
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    List<Map<String, Object>> matches = new ArrayList<>();
+    while (searchHits.hasNext()) {
+      matches.add(searchHits.next().sourceAsMap());
+    }
+    return matches;
   }
+
 }

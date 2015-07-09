@@ -1,15 +1,23 @@
 package helpers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.*;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import models.Resource;
-import scala.util.parsing.json.JSONObject;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import models.Resource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 
 /**
  * This class implements the application/json encoding algorithm described in
@@ -28,13 +36,22 @@ public class JSONForm {
       List<JSONForm.Step> steps = parsePath(path);
       Collections.reverse(steps);
       //TODO: implement file inputs
-      boolean isFile = false;
       for (JSONForm.Step step : steps) {
 
         if (step.last) {
           ArrayNode vals = new ArrayNode(JsonNodeFactory.instance);
           for (String value : values) {
-            vals.add(value);
+            if (!value.isEmpty()) {
+              try {
+                vals.add(Integer.parseInt(value));
+              } catch(NumberFormatException notInt) {
+                try {
+                  vals.add(Double.parseDouble(value));
+                } catch(NumberFormatException notDouble) {
+                  vals.add(value);
+                }
+              }
+            }
           }
           if (step.type == Step.Type.Array) {
             int index = Integer.parseInt(step.key);
@@ -44,7 +61,7 @@ public class JSONForm {
             }
             if ((!step.append) && (vals.size() == 1)) {
               object.insert(index, vals.get(0));
-            } else {
+            } else if (vals.size() > 0) {
               object.insert(index, vals);
             }
             context = object;
@@ -52,7 +69,7 @@ public class JSONForm {
             ObjectNode object = new ObjectNode(JsonNodeFactory.instance);
             if ((!step.append) && (vals.size() == 1)) {
               object.set(step.key, vals.get(0));
-            } else {
+            } else if (vals.size() > 0) {
               object.set(step.key, vals);
             }
             context = object;
@@ -78,33 +95,21 @@ public class JSONForm {
     return merge(results);
   }
 
-  public static List<Resource> generateErrorReport(ProcessingReport report) {
-    List<Resource> errorReport = new ArrayList<>();
+  public static List<Map<String,Object>> generateErrorReport(ProcessingReport report) {
+    List<Map<String,Object>> errorReport = new ArrayList<>();
     for (ProcessingMessage message : report) {
-      ObjectNode jsonMessage = (ObjectNode)message.asJson();
-      ObjectNode instanceInfo = (ObjectNode)jsonMessage.get("instance");
-      String path = pointerToPath(instanceInfo.get("pointer").textValue());
-      instanceInfo.put("path", path);
-      errorReport.add(Resource.fromJson(jsonMessage));
+      ObjectNode messageNode = (ObjectNode)message.asJson();
+      String messageText = messageNode.get("instance").get("pointer").asText()
+          + ": " + messageNode.get("message").asText();
+      messageNode.put("message", messageText);
+      switch (messageNode.get("level").asText()) {
+        case "error":
+          messageNode.put("level", "danger");
+          break;
+      }
+      errorReport.add(Resource.fromJson(messageNode));
     }
     return errorReport;
-  }
-
-  private static String pointerToPath(String pointer) {
-
-    if (pointer.substring(0, 1).equals("/")) {
-      pointer = pointer.substring(1);
-    }
-
-    String[] parts = pointer.split("/");
-
-    String path = parts[0];
-    for (int i = 1; i < parts.length; i++) {
-      path = path.concat("[".concat(parts[i]).concat("]"));
-    }
-
-    return path;
-
   }
 
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
@@ -180,9 +185,9 @@ public class JSONForm {
     return merged;
   }
 
-  public static class Step {
+  private static class Step {
 
-    public static enum Type {
+    private static enum Type {
       Object, Array
     }
 
@@ -198,7 +203,7 @@ public class JSONForm {
 
   }
 
-  public static List<Step> parsePath(String path) {
+  private static List<Step> parsePath(String path) {
 
     String original = path;
     List<Step> steps = new ArrayList<>();

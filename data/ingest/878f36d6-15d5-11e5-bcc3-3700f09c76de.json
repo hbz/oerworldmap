@@ -1,0 +1,192 @@
+{
+  "@context": "http://schema.org/",
+  "@type": "Article",
+  "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de",
+  "creator": [
+    {
+      "@type": "Person",
+      "@id": "urn:uuid:57a0ed74-2562-11e5-ba8c-3c970e4a9cbf",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Mary Hutner"
+        }
+      ],
+      "email": "maryhutner@hotmail.com"
+    }
+  ],
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Folhas: Public Textbook Project"
+    }
+  ],
+  "articleBody": [
+    {
+      "@language": "en",
+      "@value": "<p>The Folhas Textbook project was conducted from 2003­2010 by the Department of Basic Education in the Educational Office of the State of Paraná, Brasil. Its main objective was to focus on teacher professional development. In­service teachers created educational resources named “Folhas” (literally, “sheets”). Out of collection of these “folhas” ultimately a set of public textbooks was generated. One of the goals of the project was that teachers should act as producers of knowledge, aligned to state curricular guidelines. In order to incentivize participation, the production of resources was connected to growth in careers as teachers. Originally it was not thought of as an OER project, but from the beginning the project was based on the belief that everything produced with public funds should be public.</p><p>Public textbooks were created for all areas of the high school curriculum, as well as EJA (Educação de Jovens e Adultos; Youth Education s). Printed books were delivered to all registered students in high school and EJA and are available freely online as <a href=\"http://www.educadores.diaadia.pr.gov.br/modules/conteudo/conteudo.php?conteudo=6\">PDFs</a>. The collection of Folhas was based on the essential components of each area of the curriculum (Portuguese, Foreign Language [Spanish and English], Arts, Physical Education, Sociology, Philosophy, Geography, History, Mathematics, Physics, Chemistry and Biology).  It did not aim to cover every aspect of the discipline like traditional textbook, but instead to explore contemporary social issues and questions from the perspective of a young student, providing meaning to what is covered in high school.</p><p>The textbooks were aimed at an interdisciplinary focus. In other words, the Folhas always began with a day­to­day issue or concern which led to questions, and in turn, to answers based on local context based on the scientific work proposed by the Folhas project team. Any teacher from the state system was able to produce Folhas through the Office’s web portal. In order to assure the quality of the resources, they were sent to a Regional Education Office, validated, and sent to the pedagogical experts at the State Office. Once approved, they were published on the Folhas site. Once online they were made available to colleagues for review, comment or critique. Though the but the the project did not continue due to a change in government in 2011, the resources are still available online for download.</p>"
+    }
+  ],
+  "image": "/assets/images/878f36d6-15d5-11e5-bcc3-3700f09c76de.jpg",
+  "mentions": [
+    {
+      "@type": "Organization",
+      "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
+      "name": [
+        {
+          "@language": "es",
+          "@value": "Secretaria da Educação do Paraná"
+        }
+      ],
+      "alternateName": ["SEED­PR"],
+      "email": "gabinete.seed@seed.pr.gov.br",
+      "url": "http://www.educacao.pr.gov.br/",
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "BR",
+          "addressLocality": "Curitiba",
+          "addressRegion": "PR",
+          "postalCode": "80240­900",
+          "streetAddress": "Av. Água Verde, 2140"
+        },
+        "geo": {
+          "lat": -25.4540167,
+          "lon": -49.2921109
+        }
+      }
+    },
+    {
+      "@type": "Action",
+      "@id": "urn:uuid:9fd1fd1c-15d7-11e5-b82b-332b7535164b",
+      "name": [
+        {
+          "@language": "es",
+          "@value": "Projeto Folhas"
+        }
+      ],
+      "alternateName": ["Folhas"],
+      "description": [
+        {
+          "@language": "en",
+          "@value": "Project Folhas (2003-2010) was sponsored by the government of Parana State. It resulted not only in a collection of open textbooks but trained more than 5000 teachers along its way, training collaboration with peers research and authorship skills."
+        }
+      ],
+      "image": "http://www.diaadiaeducacao.pr.gov.br/portals/portal/projetofolhas/images/int_proj_01.gif",
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "BR",
+          "addressLocality": "Curitiba",
+          "addressRegion": "PR",
+          "postalCode": "80240­900",
+          "streetAddress": "Av. Água Verde, 2140"
+        }
+      },
+      "email": "gabinete.seed@seed.pr.gov.br",
+      "startTime": "2003",
+      "endTime": "2010",
+      "participant": [
+        {
+          "@type": "Organization",
+          "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
+          "name": [
+            {
+              "@language": "es",
+              "@value": "Secretaria da Educação do Paraná"
+            }
+          ],
+          "alternateName": ["SEED­PR"],
+          "email": "gabinete.seed@seed.pr.gov.br",
+          "url": "http://www.educacao.pr.gov.br/",
+          "location": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "BR",
+              "addressLocality": "Curitiba",
+              "addressRegion": "PR",
+              "postalCode": "80240­900",
+              "streetAddress": "Av. Água Verde, 2140"
+            },
+            "geo": {
+              "lat": -25.4540167,
+              "lon": -49.2921109
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "urn:uuid:fbbd8618-15d8-11e5-8850-2bd783bbdf05",
+      "serviceType": "Textbooks",
+      "name": [
+        {
+          "@language": "es",
+          "@value": "Livro Didático Público"
+        }
+      ],
+      "availableChannel": [
+        {
+          "availableLanguage": ["por"],
+          "serviceUrl": "http://www.educadores.diaadia.pr.gov.br/modules/conteudo/conteudo.php?conteudo=6"
+        }
+      ],
+      "provider": [
+        {
+          "@type": "Organization",
+          "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
+          "name": [
+            {
+              "@language": "es",
+              "@value": "Secretaria da Educação do Paraná"
+            }
+          ],
+          "alternateName": ["SEED­PR"],
+          "email": "gabinete.seed@seed.pr.gov.br",
+          "url": "http://www.educacao.pr.gov.br/",
+          "location": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "BR",
+              "addressLocality": "Curitiba",
+              "addressRegion": "PR",
+              "postalCode": "80240­900",
+              "streetAddress": "Av. Água Verde, 2140"
+            },
+            "geo": {
+              "lat": -25.4540167,
+              "lon": -49.2921109
+            }
+          }
+        }
+      ],
+      "license": "Public Domain",
+      "about": [
+        "Basic programmes and qualifications (ISCED-2013:001)",
+        "Languages (ISCED-2013:023)",
+        "Arts (ISCED-2013:021)",
+        "Sociology and cultural studies (ISCED-2013:0314)",
+        "Philosophy and Ethics (ISCED-2013:0223)",
+        "History and archaeologyc (ISCED-2013:0222)",
+        "Mathematics (ISCED-2013:0541)",
+        "Physics (ISCED-2013:0533)",
+        "Chemistry (ISCED-2013:0531)",
+        "Biology (ISCED-2013:0511)",
+        "Geography",
+        "Portuguese/spanish/English language and literature",
+        "Portuguese",
+        "Foreign Language [Spanish and English]"
+      ],
+      "audience": [
+        "Lower Secondary Education (ISCED-1997:2)",
+        "Secondary Education (ISCED-1997:3)"
+      ],
+      "startDate": "2011"
+    }
+  ]
+}
