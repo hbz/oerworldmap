@@ -1,61 +1,92 @@
 <div role="complementary" class="color-scheme-map column large" data-view="map" data-focus="{{scope.alpha-2}}">
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
+
 <div role="main" class="color-scheme-text list-view column small">
     <section>
+    
         <h1>{{scope.name}}</h1>
+        
+        <hr/>
+        
+        <h2>Country Champion</h2>
+        
         {{#scope.champions}}
-        <div>
-            <h2>Country Champion</h2>
-            {{#image}}
-                <img src="{{.}}" />
-            {{/image}}
-            {{^image}}
-                <div class="placeholder" style="width: 150px; height: 150px;"></div>
-            {{/image}}
-            <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
-            {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
-        </div>
-        {{/scope.champions}}
-        {{^scope.champions}}
-            <div class="alert alert-success" role="alert">
-                <a href="mailto:info@oerworldmap.org">Contact us</a> to become the country champion for {{scope.name}}!
+            <div class="img130text">
+                
+                {{#image}}
+                    <img src="{{.}}" class="img" />
+                {{/image}}
+                {{^image}}
+                    <div class="img placeholder"></div>
+                {{/image}}
+                
+                <div class="text">
+                    <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
+                    {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
+                </div>
+                
             </div>
         {{/scope.champions}}
+        
+        {{^scope.champions}}
+            <div class="img130text"> 
+            
+                <div class="img placeholder-qmark"></div>
+                
+                <div class="text">
+                    There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
+                </div>
+                
+            </div>
+        {{/scope.champions}}
+        
+        <hr/>
+        
+        <h2>Statistics</h2>
+        
         {{#scope.countryAggregation.by_country.buckets}}
-            <h2>Country stats</h2>
-            <table class="table">
-                <tr><td><i class="fa fa-user"></i> Users</td><td>{{users.doc_count}}</td></tr>
-                <tr><td><i class="fa fa-users"></i> Organizations</td><td>{{organizations.doc_count}}</td></tr>
-                <tr><td><i class="fa fa-comment"></i> Stories</td><td>{{articles.doc_count}}</td></tr>
-                <tr><td><i class="fa fa-desktop"></i> Services</td><td>{{services.doc_count}}</td></tr>
-                <tr><td><i class="fa fa-gears"></i> Projects</td><td>{{projects.doc_count}}</td></tr>
+            <table class="statistics-table">
+                <tr><td>{{users.doc_count}}</td><td><i class="fa fa-fw fa-user"></i> Users</td></tr>
+                <tr><td>{{organizations.doc_count}}</td><td><i class="fa fa-fw fa-users"></i> Organizations</td></tr>
+                <tr><td>{{articles.doc_count}}</td><td><i class="fa fa-fw fa-comment"></i> Stories</td></tr>
+                <tr><td>{{services.doc_count}}</td><td><i class="fa fa-fw fa-desktop"></i> Services</td></tr>
+                <tr><td>{{projects.doc_count}}</td><td><i class="fa fa-fw fa-gears"></i> Projects</td></tr>
             </table>
         {{/scope.countryAggregation.by_country.buckets}}
-        <h2>Related</h2>
-        <ul class="resource-list" data-behaviour="linkedListEntries">
-            <script type="application/ld+json">
-                {{{scope.resources}}}
-            </script>
-          {{#scope.resources}}
-              <li about="{{@id}}">
-                {{#?Article}}
-                    {{>../ResourceIndex/Article/list.mustache}}
-                {{/?Article}}
-                {{#?Organization}}
-                    {{>../ResourceIndex/Organization/list.mustache}}
-                {{/?Organization}}
-                {{#?Person}}
-                    {{>../ResourceIndex/Person/list.mustache}}
-                {{/?Person}}
-                {{#?Service}}
-                    {{>../ResourceIndex/Service/list.mustache}}
-                {{/?Service}}
-                {{#?Action}}
-                    {{>../ResourceIndex/Action/list.mustache}}
-                {{/?Action}}
-              </li>
-          {{/scope.resources}}
-        </ul>
+        
+        {{#scope.resources.length}}
+        
+          <hr/>
+          
+          <h2>Related</h2>
+          
+          <ul class="related-list populate-map" data-behaviour="linkedListEntries">
+              <script type="application/ld+json">
+                  {{{scope.resources}}}
+              </script>
+              {{#scope.resources}}
+                  <li about="{{@id}}">
+                      {{#?Article}}
+                          {{>../ResourceIndex/Article/link.mustache}}
+                      {{/?Article}}
+                      {{#?Organization}}
+                          {{>../ResourceIndex/Organization/link.mustache}}
+                      {{/?Organization}}
+                      {{#?Person}}
+                          {{>../ResourceIndex/Person/link.mustache}}
+                      {{/?Person}}
+                      {{#?Service}}
+                          {{>../ResourceIndex/Service/link.mustache}}
+                      {{/?Service}}
+                      {{#?Action}}
+                          {{>../ResourceIndex/Action/link.mustache}}
+                      {{/?Action}}
+                  </li>
+              {{/scope.resources}}
+          </ul>
+          
+        {{/scope.resources.length}}
+        
     </section>
 </div>
