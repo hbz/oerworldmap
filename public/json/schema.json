@@ -386,8 +386,7 @@
       },
       "required": [
         "name"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Place": {
       "$schema": "http://json-schema.org/draft-04/schema#",
