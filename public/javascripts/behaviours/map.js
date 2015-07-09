@@ -620,6 +620,8 @@ Hijax.behaviours.map = {
               var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
             } else if (feature.getId() == "FR") {
               var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
+            } else if (feature.getId() == "NL") {
+              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[1, 54], [10, 50]]), tfn);
             } else if (feature.getId() == "NZ") {
               var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
             } else {
