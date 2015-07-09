@@ -11,18 +11,19 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import models.Record;
 import models.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
+import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
   final private ElasticsearchClient elasticsearch;
 
   final public static String DEFAULT_TYPE = "resource";
-  final public static String AGGREGATION_TYPE = "aggregation";
 
   public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
     elasticsearch = aElasticsearchClient;
@@ -49,6 +50,25 @@ public class ElasticsearchRepository implements ResourceRepository {
   @Override
   public Resource getResource(String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
+  }
+
+  @Override
+  public Resource deleteResource(String aId) {
+    // TODO: delete mentioned resources?
+    Resource resource = getResource(aId);
+    if (null == resource) {
+      return null;
+    }
+
+    // FIXME: check why deleting from _all is not possible, remove dependency on Record class
+    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE).toString();
+    Logger.info("DELETING " + type + aId);
+
+    if (elasticsearch.deleteDocument(type, aId)) {
+      return resource;
+    } else {
+      return null;
+    }
   }
 
   /**

@@ -140,4 +140,14 @@ public class ResourceIndex extends OERWorldMap {
     return created("updated resource " + resource.toString());
   }
 
+  @Security.Authenticated(Secured.class)
+  public static Result delete(String id) {
+    Resource resource = mBaseRepository.deleteResource(id);
+    if (null != resource) {
+      return ok("deleted resource " + resource.toString());
+    } else {
+      return badRequest("Failed to delete resource " + id);
+    }
+  }
+
 }
