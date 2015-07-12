@@ -166,7 +166,7 @@ Hijax.behaviours.map = {
         }
       }/*
 ,
-      
+
       country : {
         
         base : new ol.style.Style({
@@ -454,6 +454,7 @@ Hijax.behaviours.map = {
     // determine focused country
     
     var focusId = $('[data-view="map"]').attr("data-focus");
+
     if(
       focusId &&
       map.getFeatureType(focusId) == "country"
@@ -582,66 +583,57 @@ Hijax.behaviours.map = {
 
     var map = this;
 
-    var focusId = element.getAttribute("data-focus");
+    var dataFocus = element.getAttribute("data-focus");
+    var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
 
-    if (focusId) {
-      map.doWhenVectorSourceReady(function(){
-        
+    if (focusIds) {
+
+      map.doWhenVectorSourceReady(function() {
+
+        // Init bounding box and transformation function
+        var boundingBox = ol.extent.createEmpty();
+        var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
+
+        // Look for features on all layers and extend bounding box
         map.world.getLayers().forEach(function(layer) {
-          var feature = layer.getSource().getFeatureById(focusId);
-          var tfn = ol.proj.getTransform('EPSG:4326', map.projection.getCode());
+          for (var i = 0; i < focusIds.length; i++) {
+            var feature = layer.getSource().getFeatureById(focusIds[i]);
 
-          if (feature) {
-            
-            var properties = feature.getProperties();
-            
-/*
-            if (
-              properties.geometry &&
-              (
-                properties.geometry instanceof ol.geom.Polygon ||
-                properties.geometry instanceof ol.geom.MultiPolygon
-              )
-            ) {
-              var highlightStyle = [new ol.style.Style({
-                fill: new ol.style.Fill({
-                  color: map.colors['orange']
-                })
-              })];
-              feature.setStyle(highlightStyle);
-            } else {
-              console.log(properties);
+            if (feature) {
+              if (feature.getId() == "RU") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
+              } else if (feature.getId() == "US") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
+              } else if (feature.getId() == "FR") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
+              } else if (feature.getId() == "NL") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[1, 54], [10, 50]]), tfn);
+              } else if (feature.getId() == "NZ") {
+                var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
+              } else {
+                var extent = feature.getGeometry().getExtent();
+              }
+              ol.extent.extend(boundingBox, extent);
             }
-*/
 
-            if (feature.getId() == "RU") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
-            } else if (feature.getId() == "US") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
-            } else if (feature.getId() == "FR") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
-            } else if (feature.getId() == "NL") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[1, 54], [10, 50]]), tfn);
-            } else if (feature.getId() == "NZ") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
-            } else {
-              var extent = feature.getGeometry().getExtent();
-            }
-            
-            if (extent[0] == extent[2]) {
-              extent[0] -= 1000000;
-              extent[2] += 1000000;
-            }
-            if (extent[1] == extent[3]) {
-              extent[1] -= 1000000;
-              extent[3] += 1000000;
-            }
-            
-            map.world.getView().fit(extent, map.world.getSize());
           }
         });
-        
+
+        // Special case single point
+        if (boundingBox[0] == boundingBox[2]) {
+          boundingBox[0] -= 1000000;
+          boundingBox[2] += 1000000;
+        }
+        if (boundingBox[1] == boundingBox[3]) {
+          boundingBox[1] -= 1000000;
+          boundingBox[3] += 1000000;
+        }
+
+        // Set extent of map view
+        map.world.getView().fit(boundingBox, map.world.getSize());
+
       });
+
     }
 
   },
@@ -693,7 +685,7 @@ Hijax.behaviours.map = {
       }
     }
 
-    if (!markers.length) {
+   if (!markers.length) {
       for (var key in resource) {
         if ('referencedBy' == key) {
           continue;
