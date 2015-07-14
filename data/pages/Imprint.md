@@ -13,7 +13,7 @@ Deutschland
 Tel.: +49 221 400 75-0  
 Fax.: +49 221 4 00 75-180
 
-E-Mail: [info-hbz@hbz-nrw.de](mailto:info-hbz@hbz-nrw.de)  
+E-Mail: [i&#110;f&#111;-hbz&#64;hbz-nrw&#46;&#100;e](mailto:i&#110;f&#111;-hbz&#64;hbz-nrw&#46;&#100;e)  
 Internet: http://www.hbz-nrw.de  
 ISIL: DE-605  
 
@@ -34,7 +34,7 @@ OER World Map and the corresponding newsletter is a service by the Hochschulbibl
 You are giving your consent to processing your email address solely for the purpose of sending you irregular updates on progress of the OER Wold Map and related projects (newsletter).
 
 - hbz will not transfer the email address we have received for newsletters to any third party, except for the purpose of sending out the newsletter, where we may work with a specialised provider contracted by us.
-- You can, of course, unsubscribe from the newsletter at any time via email to [oerworldmap-news-leave@listen.hbz-nrw.de](mailto:oerworldmap-news-leave@listen.hbz-nrw.de), or by following the instructions provided at the bottom of each newsletter. After unsubscribing, your email address will be removed from the system.
+- You can, of course, unsubscribe from the newsletter at any time via email to [&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;](mailto:&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;), or by following the instructions provided at the bottom of each newsletter. After unsubscribing, your email address will be removed from the system.
 - You will receive a first email that requires you to confirm your subscription. We do this to avoid people registering other people and spelling errors. The system will await a confirmation for two weeks, during which the email address is temporarily stored, after this period the E-Mailadress will permanently be removed from our system.
 
 We may invite you to provide this and any further information for future phases of the OER Wold Map, but will ask for your consent for these processes separately in the future.
@@ -56,4 +56,4 @@ Referrer URL (the page, from which this page was linked, including the search te
 Time and date of the request.
 We may – in the future – also process data to analyse the use of the site, which will then be reflected in an updated version of this privacy policy. For the time being logs will be deleted after a period of two weeks. Besides this, the web site does not process any personal data during your visit.
 
-To get in touch with the administrators of this website, please contact: [info@oerworldmap.org](mailto:info@oerworldmap.org).
+To get in touch with the administrators of this website, please contact: [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
