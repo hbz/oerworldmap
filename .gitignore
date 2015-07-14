@@ -9,5 +9,6 @@ data/*/
 !data/resources/
 !data/tokens/
 !data/ingest/
+!data/pages/
 repo-deb-build*.*
 .idea/
