@@ -326,7 +326,15 @@
             },
             "location": {
               "$ref": "#/definitions/Place"
-            }
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+           },
+            "sameAs": {
+              "type": "string",
+              "format": "uri"
+           },
           }
         },
         {
