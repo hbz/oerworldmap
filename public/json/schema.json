@@ -334,7 +334,7 @@
             "sameAs": {
               "type": "string",
               "format": "uri"
-           },
+           }
           }
         },
         {
