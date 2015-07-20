@@ -151,6 +151,10 @@
           "type": "string",
           "format": "uri"
         },
+        "sameAs": {
+          "type": "string",
+          "format": "uri"
+        },
         "startTime": {
           "oneOf": [
             {
@@ -251,6 +255,10 @@
               }
             }
           }
+        },
+        "sameAs": {
+          "type": "string",
+          "format": "uri"
         },
         "startDate": {
           "oneOf": [
@@ -376,6 +384,10 @@
           "$ref": "#/definitions/Place"
         },
         "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sameAs": {
           "type": "string",
           "format": "uri"
         },
