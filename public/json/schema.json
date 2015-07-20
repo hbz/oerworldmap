@@ -1,7 +1,6 @@
 {
   "id": "#root",
   "$schema": "http://json-schema.org/draft-04/schema#",
-
   "definitions": {
     "Article": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -20,7 +19,9 @@
         },
         "@type": {
           "type": "string",
-          "enum": ["Article"]
+          "enum": [
+            "Article"
+          ]
         },
         "creator": {
           "description": "The author of the article",
@@ -28,22 +29,20 @@
           "items": {
             "type": "object",
             "oneOf": [
-              {"$ref": "#/definitions/Person"},
-              {"$ref": "#/definitions/Organization"}
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
             ]
           }
         },
         "name": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "articleBody": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "image": {
           "type": "string"
@@ -54,10 +53,18 @@
           "items": {
             "type": "object",
             "oneOf": [
-              {"$ref": "#/definitions/Organization"},
-              {"$ref": "#/definitions/Person"},
-              {"$ref": "#/definitions/Service"},
-              {"$ref": "#/definitions/Action"}
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Service"
+              },
+              {
+                "$ref": "#/definitions/Action"
+              }
             ]
           }
         }
@@ -80,7 +87,9 @@
         },
         "@type": {
           "type": "string",
-          "enum": ["Action"]
+          "enum": [
+            "Action"
+          ]
         },
         "additionalType": {
           "description": "An additonal type for the Action",
@@ -98,8 +107,12 @@
           "items": {
             "type": "object",
             "oneOf": [
-              {"$ref": "#/definitions/Person"},
-              {"$ref": "#/definitions/Organization"}
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
             ]
           }
         },
@@ -109,16 +122,17 @@
           "items": {
             "type": "object",
             "oneOf": [
-              {"$ref": "#/definitions/Person"},
-              {"$ref": "#/definitions/Organization"}
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
             ]
           }
         },
         "name": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
           "type": "array",
@@ -127,10 +141,7 @@
           }
         },
         "description": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "image": {
           "type": "string",
@@ -142,16 +153,28 @@
         },
         "startTime": {
           "oneOf": [
-            {"$ref": "#/definitions/date-fullyear"},
-            {"$ref": "#/definitions/full-date"},
-            {"$ref": "#/definitions/date-time"}
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
           ]
         },
         "endTime": {
           "oneOf": [
-            {"$ref": "#/definitions/date-fullyear"},
-            {"$ref": "#/definitions/full-date"},
-            {"$ref": "#/definitions/date-time"}
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
           ]
         },
         "location": {
@@ -164,7 +187,9 @@
           }
         }
       },
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "additionalProperties": false
     },
     "Service": {
@@ -184,13 +209,12 @@
         },
         "@type": {
           "type": "string",
-          "enum": ["Service"]
+          "enum": [
+            "Service"
+          ]
         },
         "name": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
           "type": "array",
@@ -202,10 +226,7 @@
           "type": "string"
         },
         "description": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "provider": {
           "type": "array",
@@ -233,9 +254,15 @@
         },
         "startDate": {
           "oneOf": [
-            {"$ref": "#/definitions/date-fullyear"},
-            {"$ref": "#/definitions/full-date"},
-            {"$ref": "#/definitions/date-time"}
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
           ]
         },
         "email": {
@@ -258,7 +285,9 @@
           }
         }
       },
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "additionalProperties": false
     },
     "Person": {
@@ -280,13 +309,12 @@
             },
             "@type": {
               "type": "string",
-              "enum": ["Person"]
+              "enum": [
+                "Person"
+              ]
             },
             "name": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/LocalizedString"
-              }
+              "$ref": "#/definitions/LocalizedString"
             },
             "location": {
               "$ref": "#/definitions/Place"
@@ -294,7 +322,7 @@
           }
         },
         {
-          "anyOf":[
+          "anyOf": [
             {
               "type": "object",
               "properties": {
@@ -302,7 +330,9 @@
                   "type": "string"
                 }
               },
-              "required": ["mbox_sha1sum"]
+              "required": [
+                "mbox_sha1sum"
+              ]
             },
             {
               "type": "object",
@@ -312,7 +342,9 @@
                   "format": "email"
                 }
               },
-              "required": ["email"]
+              "required": [
+                "email"
+              ]
             }
           ]
         }
@@ -335,7 +367,9 @@
         },
         "@type": {
           "type": "string",
-          "enum": ["Organization"]
+          "enum": [
+            "Organization"
+          ]
         },
         "location": {
           "description": "The organization's address and geo data",
@@ -354,10 +388,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "name": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalizedString"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
           "type": "array",
@@ -405,7 +436,9 @@
         },
         "@type": {
           "type": "string",
-          "enum": ["Place"]
+          "enum": [
+            "Place"
+          ]
         },
         "geo": {
           "$ref": "#/definitions/GeoCoordinates"
@@ -464,7 +497,9 @@
         },
         "@type": {
           "type": "string",
-          "enum": ["PostalAddress"]
+          "enum": [
+            "PostalAddress"
+          ]
         },
         "streetAddress": {
           "type": "string"
@@ -491,18 +526,23 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Localized string",
       "description": "A language-tagged string",
-      "type": "object",
-      "properties": {
-        "@language": {
-          "type": "string"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@language": {
+            "type": "string"
+          },
+          "@value": {
+            "type": "string"
+          }
         },
-        "@value": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@value"
-      ]
+        "required": [
+          "@language",
+          "@value"
+        ],
+        "additionalProperties": false
+      }
     },
     "date-fullyear": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -784,5 +824,4 @@
       ]
     }
   }
-
 }
