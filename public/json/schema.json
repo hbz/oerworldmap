@@ -152,8 +152,11 @@
           "format": "uri"
         },
         "sameAs": {
-          "type": "string",
-          "format": "uri"
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "startTime": {
           "oneOf": [
@@ -256,9 +259,12 @@
             }
           }
         },
-        "sameAs": {
-          "type": "string",
-          "format": "uri"
+       "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "startDate": {
           "oneOf": [
@@ -332,9 +338,12 @@
               "format": "uri"
            },
             "sameAs": {
-              "type": "string",
-              "format": "uri"
-           }
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
           }
         },
         {
@@ -395,9 +404,12 @@
           "type": "string",
           "format": "uri"
         },
-        "sameAs": {
-          "type": "string",
-          "format": "uri"
+       "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "email": {
           "type": "string",
