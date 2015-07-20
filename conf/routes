@@ -1,4 +1,5 @@
 GET     /                     controllers.LandingPage.get()
+GET     /robots.txt           controllers.Robots.get()
 GET     /assets/i18n.js       controllers.I18n.get()
 GET     /assets/*file         controllers.Assets.at(path="/public", file)
 GET     /user/                controllers.UserIndex.get()
