@@ -47,6 +47,22 @@
         "image": {
           "type": "string"
         },
+        "mainEntity": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Person"
+            },
+            {
+              "$ref": "#/definitions/Organization"
+            },
+            {
+              "$ref": "#/definitions/Service"
+            },
+            {
+              "$ref": "#/definitions/Action"
+            }
+          ]
+        },
         "mentions": {
           "description": "Something mentioned in the article",
           "type": "array",
