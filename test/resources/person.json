@@ -1,0 +1,7 @@
+{
+  "@type": "Person",
+  "email": "foo@bar.de",
+  "sameAs": [
+    "urn:uuid:foo"
+  ]
+}

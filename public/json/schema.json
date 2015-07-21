@@ -151,6 +151,13 @@
           "type": "string",
           "format": "uri"
         },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
         "startTime": {
           "oneOf": [
             {
@@ -261,6 +268,13 @@
             }
           }
         },
+       "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
         "startDate": {
           "oneOf": [
             {
@@ -327,6 +341,17 @@
             },
             "location": {
               "$ref": "#/definitions/Place"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+           },
+            "sameAs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uri"
+              }
             }
           }
         },
@@ -387,6 +412,13 @@
         "url": {
           "type": "string",
           "format": "uri"
+        },
+       "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "email": {
           "type": "string",
