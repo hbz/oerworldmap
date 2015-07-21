@@ -1,0 +1,30 @@
+{
+  "@type": "Service",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Some service"
+    }
+  ],
+  "provider": [
+    {
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Some organization"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Some person"
+        }
+      ],
+      "email": "foo@bar.de"
+    }
+  ]
+}

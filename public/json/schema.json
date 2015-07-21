@@ -236,9 +236,18 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "provider": {
+          "description": "The person or organization responsible for provision of the service.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
+            ]
           }
         },
         "availableChannel": {
