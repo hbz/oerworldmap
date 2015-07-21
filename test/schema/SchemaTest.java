@@ -19,10 +19,18 @@ public class SchemaTest {
   public void testPerson() throws IOException {
     InputStream in = ClassLoader.getSystemResourceAsStream("person.json");
     String json = IOUtils.toString(in, "UTF-8");
-    Resource Person = Resource.fromJson(json);
-    assertNotNull(Person);
-    assertTrue(Person.validate().isSuccess());
+    Resource person = Resource.fromJson(json);
+    assertNotNull(person);
+    assertTrue(person.validate().isSuccess());
   }
 
+  @Test
+  public void testService() throws IOException {
+    InputStream in = ClassLoader.getSystemResourceAsStream("service.json");
+    String json = IOUtils.toString(in, "UTF-8");
+    Resource service = Resource.fromJson(json);
+    assertNotNull(service);
+    assertTrue(service.validate().isSuccess());
+  }
 
 }
