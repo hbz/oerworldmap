@@ -167,6 +167,13 @@
           "type": "string",
           "format": "uri"
         },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
         "startTime": {
           "oneOf": [
             {
@@ -245,9 +252,18 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "provider": {
+          "description": "The person or organization responsible for provision of the service.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
+            ]
           }
         },
         "availableChannel": {
@@ -266,6 +282,13 @@
                 "format": "uri"
               }
             }
+          }
+        },
+       "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
           }
         },
         "startDate": {
@@ -334,6 +357,17 @@
             },
             "location": {
               "$ref": "#/definitions/Place"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+           },
+            "sameAs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uri"
+              }
             }
           }
         },
@@ -394,6 +428,13 @@
         "url": {
           "type": "string",
           "format": "uri"
+        },
+       "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "email": {
           "type": "string",
