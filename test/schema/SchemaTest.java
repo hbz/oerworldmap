@@ -33,4 +33,12 @@ public class SchemaTest {
     assertTrue(service.validate().isSuccess());
   }
 
+  @Test
+  public void testArticle() throws IOException {
+    InputStream in = ClassLoader.getSystemResourceAsStream("article.json");
+    String json = IOUtils.toString(in, "UTF-8");
+    Resource article = Resource.fromJson(json);
+    assertNotNull(article);
+    assertTrue(article.validate().isSuccess());
+  }
 }
