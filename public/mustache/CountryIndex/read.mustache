@@ -24,7 +24,7 @@
                 <div class="text">
                     <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
                     <a href="mailto:{{{email}}}">{{{email}}}</a><br />
-                    {{#location}}{{> ../ResourceIndex/Place/read.mustache}}{{/location}}
+                    {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
                 </div>
                 
             </div>
@@ -67,19 +67,19 @@
             {{#scope.resources}}
                 <li about="{{@id}}">
                     {{#?Article}}
-                        {{>../ResourceIndex/Article/link.mustache}}
+                        {{>ResourceIndex/Article/link.mustache}}
                     {{/?Article}}
                     {{#?Organization}}
-                        {{>../ResourceIndex/Organization/link.mustache}}
+                        {{>ResourceIndex/Organization/link.mustache}}
                     {{/?Organization}}
                     {{#?Person}}
-                        {{>../ResourceIndex/Person/link.mustache}}
+                        {{>ResourceIndex/Person/link.mustache}}
                     {{/?Person}}
                     {{#?Service}}
-                        {{>../ResourceIndex/Service/link.mustache}}
+                        {{>ResourceIndex/Service/link.mustache}}
                     {{/?Service}}
                     {{#?Action}}
-                        {{>../ResourceIndex/Action/link.mustache}}
+                        {{>ResourceIndex/Action/link.mustache}}
                     {{/?Action}}
                 </li>
             {{/scope.resources}}

@@ -19,7 +19,6 @@ import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.mustachejava.MustacheNotFoundException;
 
 /**
  * @author fo
@@ -93,11 +92,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     if (request().accepts("text/html")) {
-      try {
-        return ok(render(title, "ResourceIndex/" + type + "/read.mustache", resource));
-      } catch (MustacheNotFoundException ex) {
-        return ok(render(title, "ResourceIndex/read.mustache", resource));
-      }
+      return ok(render(title, "ResourceIndex/" + type + "/read.mustache", resource));
     } else {
       return ok(resource.toString()).as("application/json");
     }
