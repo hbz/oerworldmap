@@ -1,25 +1,42 @@
 package controllers;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import helpers.Countries;
 import helpers.FilesConfig;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -38,9 +55,6 @@ import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchRepository;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 
 /**
  * @author fo
@@ -113,11 +127,20 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("i18n", i18n);
     mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
 
-    MustacheFactory mf = new DefaultMustacheFactory();
-    Mustache template = mf.compile(play.Play.application().path().getAbsolutePath() + "/app/mustache/" + templatePath);
-    Writer writer = new StringWriter();
-    template.execute(writer, mustacheData);
-    return views.html.main.render(pageTitle, Html.apply(writer.toString()), getClientTemplates());
+    ClassLoader classLoader = Play.application().classloader();
+    Mustache.Compiler compiler = Mustache.compiler().withLoader(new Mustache.TemplateLoader() {
+        @Override
+        public Reader getTemplate(String templatePath) throws Exception {
+          Logger.info("Attempting to load template " + templatePath);
+          return new InputStreamReader(classLoader.getResourceAsStream("public/mustache/" + templatePath));
+        }
+      }
+    );
+
+    Template template = compiler.defaultValue("").compile(new InputStreamReader(
+        classLoader.getResourceAsStream("public/mustache/" + templatePath)));
+    return views.html.main.render(pageTitle, Html.apply(template.execute(mustacheData)), getClientTemplates());
+
   }
 
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope) {
@@ -129,27 +152,47 @@ public abstract class OERWorldMap extends Controller {
   }
 
   private static String getClientTemplates() {
+
     final List<String> templates = new ArrayList<>();
-    try {
-      Files.walk(Paths.get(play.Play.application().path().getAbsolutePath() + "/app/mustache/ClientTemplates"))
-          .forEach(new Consumer<Path>() {
-            @Override
-            public void accept(Path path) {
-              try {
-                String template = "<script id=\"".concat(path.getFileName().toString())
-                    .concat("\" type=\"text/mustache\">\n");
-                template = template.concat(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
-                template = template.concat("</script>\n\n");
-                templates.add(template);
-              } catch (IOException e) {
-                Logger.error(e.toString());
-              }
-            }
-          });
-    } catch (IOException e) {
-      Logger.error(e.toString());
+    final String path = "public/mustache/ClientTemplates/";
+    final ClassLoader classLoader = Play.application().classloader();
+
+    URL dirURL = classLoader.getResource(path);
+    if (null == dirURL) {
+      return "";
     }
+    String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!"));
+    JarFile jar;
+    try {
+      jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+    } catch (IOException e) {
+      return "";
+    }
+    Enumeration<JarEntry> entries = jar.entries();
+
+    while(entries.hasMoreElements()) {
+      String name = entries.nextElement().getName();
+      if (name.startsWith(path)) {
+        String entry = name.substring(path.length());
+        int checkSubdir = entry.indexOf("/");
+        if (checkSubdir >= 0) {
+          entry = entry.substring(0, checkSubdir);
+        }
+        if (!entry.equals("")) {
+          try {
+            String template = "<script id=\"".concat(entry).concat("\" type=\"text/mustache\">\n");
+            template = template.concat(IOUtils.toString(classLoader.getResourceAsStream(path + entry)));
+            template = template.concat("</script>\n\n");
+            templates.add(template);
+          } catch (IOException e) {
+            Logger.error(e.toString());
+          }
+        }
+      }
+    }
+
     return String.join("\n", templates);
+
   }
 
 }

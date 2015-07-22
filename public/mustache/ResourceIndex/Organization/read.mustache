@@ -10,7 +10,7 @@
             <h1><i class="fa fa-users"></i> {{#name}}{{@value}}{{/name}} ({{@type}})</h1>
             {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
             <a href="mailto:{{{email}}}">{{{email}}}</a><br />
-            {{#location}}{{> ../Place/read.mustache}}{{/location}}
+            {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
             <p>{{#description}}{{{@value}}}{{/description}}</p>
         </div>
         <h2>{{i18n.mentioned_in}}</h2>

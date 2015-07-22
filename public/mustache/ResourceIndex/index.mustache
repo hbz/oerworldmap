@@ -27,19 +27,19 @@
             {{#scope.resources}}
                 <li about="{{@id}}">
                     {{#?Article}}
-                      {{>Article/list.mustache}}
+                      {{>ResourceIndex/Article/list.mustache}}
                     {{/?Article}}
                     {{#?Organization}}
-                      {{>Organization/list.mustache}}
+                      {{>ResourceIndex/Organization/list.mustache}}
                     {{/?Organization}}
                     {{#?Person}}
-                      {{>Person/list.mustache}}
+                      {{>ResourceIndex/Person/list.mustache}}
                     {{/?Person}}
                     {{#?Service}}
-                      {{>Service/list.mustache}}
+                      {{>ResourceIndex/Service/list.mustache}}
                     {{/?Service}}
                     {{#?Action}}
-                      {{>Action/list.mustache}}
+                      {{>ResourceIndex/Action/list.mustache}}
                     {{/?Action}}
                 </li>
             {{/scope.resources}}
