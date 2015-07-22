@@ -154,44 +154,72 @@ public abstract class OERWorldMap extends Controller {
   private static String getClientTemplates() {
 
     final List<String> templates = new ArrayList<>();
-    final String path = "public/mustache/ClientTemplates/";
+    final String dir = "public/mustache/ClientTemplates/";
     final ClassLoader classLoader = Play.application().classloader();
 
-    URL dirURL = classLoader.getResource(path);
-    if (null == dirURL) {
-      return "";
-    }
-    String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!"));
-    JarFile jar;
+    String[] paths = new String[0];
     try {
-      jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
-    } catch (IOException e) {
-      return "";
+      paths = getResourceListing(dir, classLoader);
+    } catch (URISyntaxException | IOException e) {
+      Logger.error(e.toString());
     }
-    Enumeration<JarEntry> entries = jar.entries();
 
-    while(entries.hasMoreElements()) {
-      String name = entries.nextElement().getName();
-      if (name.startsWith(path)) {
-        String entry = name.substring(path.length());
-        int checkSubdir = entry.indexOf("/");
-        if (checkSubdir >= 0) {
-          entry = entry.substring(0, checkSubdir);
-        }
-        if (!entry.equals("")) {
-          try {
-            String template = "<script id=\"".concat(entry).concat("\" type=\"text/mustache\">\n");
-            template = template.concat(IOUtils.toString(classLoader.getResourceAsStream(path + entry)));
-            template = template.concat("</script>\n\n");
-            templates.add(template);
-          } catch (IOException e) {
-            Logger.error(e.toString());
-          }
-        }
+    for (String path : paths) {
+      try {
+        String template = "<script id=\"".concat(path).concat("\" type=\"text/mustache\">\n");
+        template = template.concat(IOUtils.toString(classLoader.getResourceAsStream(dir + path)));
+        template = template.concat("</script>\n\n");
+        templates.add(template);
+      } catch (IOException e) {
+        Logger.error(e.toString());
       }
     }
 
     return String.join("\n", templates);
+
+  }
+
+  /**
+   * List directory contents for a resource folder. Not recursive.
+   * This is basically a brute-force implementation.
+   * Works for regular files and also JARs.
+   *
+   * Adapted from http://www.uofr.net/~greg/java/get-resource-listing.html
+   *
+   * @param path Should end with "/", but not start with one.
+   * @return Just the name of each member item, not the full paths.
+   * @throws URISyntaxException
+   * @throws IOException
+   */
+  private static String[] getResourceListing(String path, ClassLoader classLoader)
+      throws URISyntaxException, IOException {
+
+    URL dirURL = classLoader.getResource(path);;
+    if (dirURL == null) {
+      return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path)).list();
+    } else if (dirURL.getProtocol().equals("jar")) {
+      String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); //strip out only the JAR file
+      JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+      Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+      Set<String> result = new HashSet<String>(); //avoid duplicates in case it is a subdirectory
+      while(entries.hasMoreElements()) {
+        String name = entries.nextElement().getName();
+        if (name.startsWith(path)) { //filter according to the path
+          String entry = name.substring(path.length());
+          int checkSubdir = entry.indexOf("/");
+          if (checkSubdir >= 0) {
+            // if it is a subdirectory, we just return the directory name
+            entry = entry.substring(0, checkSubdir);
+          }
+          if (! entry.equals("")) {
+            result.add(entry);
+          }
+        }
+      }
+      return result.toArray(new String[result.size()]);
+    }
+
+    throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
   }
 
