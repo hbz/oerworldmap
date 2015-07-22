@@ -1,0 +1,12 @@
+{
+  "@type": "Article",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": [
+      {
+        "@language": "en",
+        "@value": "Some organization"
+      }
+    ]
+  }
+}
