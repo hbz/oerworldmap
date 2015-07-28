@@ -24,6 +24,7 @@ public class BaseRepository {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileResourceRepository mFileRepo;
+  private static ResourceDenormaliser mDenormaliser;
 
   public BaseRepository(ElasticsearchClient aElasticsearchClient, Path aPath) throws IOException {
     mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchClient);
@@ -39,49 +40,11 @@ public class BaseRepository {
   }
 
   public void addResource(Resource aResource) throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
-    Resource record;
-    if (null != id) {
-      record = getRecord(id);
-      if (null == record) {
-        record = new Record(aResource);
-      } else {
-        record.put("dateModified", UniversalFunctions.getCurrentTime());
-        record.put(Record.RESOURCEKEY, aResource);
-      }
-    } else {
-      record = new Record(aResource);
-    }
-    mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
-    mFileRepo.addResource(record);
-    addMentionedData(aResource);
-  }
-
-  /**
-   * Add data mentioned within other items.
-   *
-   * @param aResource The type of mentioned data sub item.
-   * @throws IOException
-   */
-  @SuppressWarnings("unchecked")
-  private void addMentionedData(@Nonnull final Resource aResource) throws IOException {
-    for (Map.Entry<String, Object> entry : aResource.entrySet()) {
-      Object value = entry.getValue();
-      if (value instanceof Resource) {
-        Resource r = (Resource) value;
-        if (r.hasId()) {
-          addResource(((Resource) value));
-        }
-      } else if (value instanceof List) {
-        for (Object v : (List<Object>) value) {
-          if (v instanceof Resource) {
-            Resource r = (Resource) v;
-            if (r.hasId()) {
-              addResource(r);
-            }
-          }
-        }
-      }
+    @SuppressWarnings("static-access")
+    List<Resource> denormalisedResources = mDenormaliser.denormalise(aResource);
+    for (Resource dnr : denormalisedResources) {
+      mElasticsearchRepo.addResource(dnr);
+      mFileRepo.addResource(dnr);
     }
   }
 
