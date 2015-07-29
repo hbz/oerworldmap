@@ -16,10 +16,14 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.rits.cloning.Cloner;
+
 import helpers.UniversalFunctions;
 import play.Logger;
 
 public class Resource extends HashMap<String, Object> {
+
+  private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
@@ -92,7 +96,7 @@ public class Resource extends HashMap<String, Object> {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
       } else if (value instanceof List) {
         List<Object> vals = new ArrayList<>();
-        for (Object v : (List) value) {
+        for (Object v : (List<?>) value) {
           if (v instanceof Map) {
             vals.add(Resource.fromMap((Map<String, Object>) v));
           } else {
@@ -188,6 +192,41 @@ public class Resource extends HashMap<String, Object> {
       return UniversalFunctions.getHtmlEntities(super.get(key).toString());
     }
     return super.get(key);
+  }
+  
+  public static Resource getLinkView(Resource aResource) {
+    Resource result = new Resource();
+    result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
+    result.put(JsonLdConstants.TYPE, aResource.get(JsonLdConstants.TYPE));
+    result.put("name", aResource.get("name"));
+    return result;
+  }
+
+  public static Resource getEmbedView(Resource aResource) {
+    Resource result = new Cloner().deepClone(aResource);
+    for (Iterator<Map.Entry<String, Object>> it = result.entrySet().iterator(); it.hasNext();) {
+      Map.Entry<String, Object> entry = it.next();
+      // remove entries of type List if they only contain ID entries
+      if (entry.getValue() instanceof List) {
+        List<?> list = (List<?>) (entry.getValue());
+        list.removeIf(o -> o instanceof Resource && ((Resource) o).hasId());
+        if (list.isEmpty()) {
+          it.remove();
+        }
+        continue;
+      }
+      // remove entries of type Resource if they have an ID
+      if (entry.getValue() instanceof Resource) {
+        Resource innerResource = (Resource)(entry.getValue());
+        if (innerResource.hasId()) {
+          it.remove();
+        }
+        else{
+          entry.setValue(getEmbedView(innerResource));
+        }
+      }
+    }
+    return result;
   }
 
   @Override

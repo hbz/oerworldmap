@@ -43,11 +43,12 @@ public class BaseRepository {
     @SuppressWarnings("static-access")
     List<Resource> denormalisedResources = mDenormaliser.denormalise(aResource);
     for (Resource dnr : denormalisedResources) {
-      mElasticsearchRepo.addResource(dnr);
-      mFileRepo.addResource(dnr);
+      Resource rec = getRecord(dnr); 
+      mElasticsearchRepo.addResource(rec);
+      mFileRepo.addResource(rec);
     }
   }
-
+  
   private void attachReferencedResources(Resource aResource) {
     String id = aResource.get(JsonLdConstants.ID).toString();
     List<Resource> referencedResources = esQueryNoRef(QueryParser.escape(id));
@@ -105,14 +106,31 @@ public class BaseRepository {
     return resource;
   }
 
-  private Resource getRecord(String aId) {
+  private Resource getRecord(Resource aResource) {
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    Resource record;
+    if (null != id) {
+      record = getRecordFromRepo(id);
+      if (null == record) {
+        record = new Record(aResource);
+      } else {
+        record.put("dateModified", UniversalFunctions.getCurrentTime());
+        record.put(Record.RESOURCEKEY, aResource);
+      }
+    } else {
+      record = new Record(aResource);
+    }
+    return record;
+  }
+
+  private Resource getRecordFromRepo(String aId) {
     Resource record = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (record == null || record.isEmpty()) {
       record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
     return record;
   }
-
+  
   private List<Resource> getResources(List<Resource> aRecords) {
     List<Resource> resources = new ArrayList<Resource>();
     for (Resource rec : aRecords) {
