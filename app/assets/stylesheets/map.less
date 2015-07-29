@@ -38,6 +38,29 @@
 }
 
 
+/* --- footer --- */
+
+.map-view #page-footer {
+  position: absolute;
+  right: @map-padding;
+  bottom: @map-padding;
+  // text-transform: uppercase;
+  ul{
+    font-size: 14px;
+    line-height: 14px;
+    li {
+      margin-left: 20px;
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+
 /* --- popover --- */
 
 #popover {

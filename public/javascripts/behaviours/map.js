@@ -63,12 +63,13 @@ Hijax.behaviours.map = {
         minZoom: zoom_values.minZoom,
         maxZoom: zoom_values.maxZoom
       });
-      
+
       // Map object
       map.world = new ol.Map({
         layers: [map.vector],
         target: map.container,
-        view: map.view
+        view: map.view,
+        controls: ol.control.defaults({ attribution: false })
       });
 
       // User position
@@ -116,6 +117,9 @@ Hijax.behaviours.map = {
         wrapX: true
       });
       map.world.addOverlay(map.popover);
+      
+      // move footer to map container
+      $('footer').appendTo('div[role="main"]');
       
       // switch style
       $(this).addClass("map-view");
