@@ -29,6 +29,13 @@ Hijax.behaviours.map = {
 
     $('div[data-view="map"]', context).each(function() {
       
+      // move footer to map container
+      $('footer').appendTo(this);
+      
+      // switch style
+      $(this).addClass("map-view");
+      $('body').removeClass("layout-scroll").addClass("layout-fixed");
+      
       // Get mercator projection
       map.projection = ol.proj.get('EPSG:3857');
       
@@ -118,12 +125,6 @@ Hijax.behaviours.map = {
       });
       map.world.addOverlay(map.popover);
       
-      // move footer to map container
-      $('footer').appendTo('div[role="main"]');
-      
-      // switch style
-      $(this).addClass("map-view");
-
     });
 
   },

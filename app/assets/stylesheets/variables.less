@@ -1,3 +1,5 @@
+/* --- colors --- */
+
 @blue-darker: #244267;
 @blue-dark: #3d5f8a;
 //@blue: #4f6785;
@@ -16,7 +18,14 @@
 @white: #fff;
 
 
-// --- backgrounds ---
+/* --- header --- */
+
+@header-height: 40px;
+@header-padding: 15px;
+@header-fontsize: 20px;
+
+
+/* --- backgrounds --- */
 
 .bg(@color) {
   .bg-@{color} {
@@ -29,20 +38,7 @@
 .bg(blue-palest);
 
 
-/* - - - color schemes - - - */
-
-/*
-@blue: #0c75c0;
-
-@orange: #f09711;
-*/
-
-@hightlight-color: @orange;
-
-
-
-
-// --- color scheme text ---
+/* --- color scheme text --- */
 
 @color-scheme-text-background: @white;
 @color-scheme-text-color: @blue-darker;
@@ -61,7 +57,7 @@
 }
 
 
-// --- color scheme map ---
+/* --- color scheme map --- */
 
 @color-scheme-map-background: @blue-light;
 @color-scheme-map-color: @white;
