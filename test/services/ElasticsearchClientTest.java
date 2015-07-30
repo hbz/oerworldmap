@@ -52,7 +52,7 @@ public class ElasticsearchClientTest {
       // instance. Otherwise it will fail. This restriction can be overturned when a parallel method
       // for the use of POST is introduced in ElasticsearchClient.
       List<Map<String, Object>> result1 = mElasticsearchClient.esQuery(aQueryString);
-      List<Map<String, Object>> result2 = mElasticsearchClient.esQuery(aQueryString, "_all");
+      List<Map<String, Object>> result2 = mElasticsearchClient.esQuery(aQueryString, "_all", null);
       List<Map<String, Object>> result3 = mElasticsearchClient.esQuery(aQueryString, "_all", "");
       Assert.assertTrue(!result1.isEmpty());
       Assert.assertTrue(!result2.isEmpty());
