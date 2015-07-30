@@ -58,5 +58,9 @@ public class MockResourceRepository implements ResourceRepository {
       String aContent) {
     return new ArrayList<>();
   }
+  
+  public int size(){
+    return db.size();
+  }
 
 }

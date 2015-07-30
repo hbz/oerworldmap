@@ -24,6 +24,7 @@ public class ResourceTrimmer {
 
   private static Resource trimClone(Resource aResource, ResourceRepository aRepo)
       throws IOException {
+    
     Resource result = aRepo.getResource(aResource.get(JsonLdConstants.ID).toString());
     if (result == null || result.isEmpty()) {
       result = new Resource();
@@ -42,17 +43,16 @@ public class ResourceTrimmer {
       // truncate subresources
       if (entry.getValue() instanceof Resource) {
         aResource.put(entry.getKey(), Resource.getEmbedView((Resource) entry.getValue(), false));
-      } 
+      }
       // truncate lists of subresources
       else if (entry.getValue() instanceof List) {
         List<?> list = (List<?>) (entry.getValue());
         List<Object> truncatedList = new ArrayList<>();
         for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
           Object li = innerIt.next();
-          if (li instanceof Resource){
+          if (li instanceof Resource) {
             truncatedList.add(Resource.getEmbedView(((Resource) li), false));
-          }
-          else{
+          } else {
             truncatedList.add(li);
           }
           if (truncatedList.isEmpty()) {

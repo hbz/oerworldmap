@@ -7,7 +7,6 @@
       "@type": "Person",
       "@id": "456",
       "name": "Hans Wurst",
-      "email": "foo@bar.de",
       "authorOf": [
         {
           "@type": "Article",
