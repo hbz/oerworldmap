@@ -9,18 +9,18 @@ import org.apache.commons.lang3.StringUtils;
 
 import models.Resource;
 
-public class ResourceDenormaliser {
+public class ResourceDenormalizer {
 
   final private static Map<String, String> mKnownRelations = new HashMap<>();
 
   // TODO: add configurable member variables / parameters that specify in what
-  // manner exactly Resources should be denormalised ??
+  // manner exactly Resources should be denormalized ??
 
-  public ResourceDenormaliser() {
+  public ResourceDenormalizer() {
     initializeRelations();
   }
 
-  public static List<Resource> denormalise(Resource aResource) {
+  public static List<Resource> denormalize(Resource aResource, BaseRepository aRepo) {
 
     // create flat list of the given resource and all of its subresources
     List<Resource> result = new ArrayList<>();
@@ -28,7 +28,7 @@ public class ResourceDenormaliser {
 
     // ensure that data granulation level is appropriate
     result.forEach(r -> {
-      Resource trimmedResource = trimDataGranularity(r);
+      Resource trimmedResource = ResourceTrimmer.trim(r, aRepo);
       result.remove(r);
       result.add(trimmedResource);
     });
@@ -56,11 +56,6 @@ public class ResourceDenormaliser {
       }
     }
     return aList;
-  }
-
-  private static Resource trimDataGranularity(Resource aResource) {
-    // TODO
-    return null;
   }
 
   private static String getReverseReference(String aKey) {

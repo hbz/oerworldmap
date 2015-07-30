@@ -20,6 +20,8 @@ import com.rits.cloning.Cloner;
 
 import helpers.UniversalFunctions;
 import play.Logger;
+import services.ElasticsearchClient;
+import services.ElasticsearchRepository;
 
 public class Resource extends HashMap<String, Object> {
 
@@ -43,7 +45,7 @@ public class Resource extends HashMap<String, Object> {
   public Resource(final String type) {
     this(type, null);
   }
-
+  
   /**
    * Constructor.
    *
@@ -184,32 +186,42 @@ public class Resource extends HashMap<String, Object> {
   }
 
   @Override
-  public Object get(Object key) {
-    String keyString = key.toString();
+  public Object get(final Object aKey) {
+    final String keyString = aKey.toString();
     if (keyString.startsWith("?")) {
       return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
     } else if (keyString.equals("email")) {
-      return UniversalFunctions.getHtmlEntities(super.get(key).toString());
+      return UniversalFunctions.getHtmlEntities(super.get(aKey).toString());
     }
-    return super.get(key);
+    return super.get(aKey);
   }
   
-  public static Resource getLinkView(Resource aResource) {
-    Resource result = new Resource();
+  public static Resource getLinkView(final Resource aResource) {
+    final Resource result = new Resource();
     result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
     result.put(JsonLdConstants.TYPE, aResource.get(JsonLdConstants.TYPE));
     result.put("name", aResource.get("name"));
     return result;
   }
 
-  public static Resource getEmbedView(Resource aResource) {
-    Resource result = new Cloner().deepClone(aResource);
+  public static Resource getEmbedView(final Resource aResource, final boolean doClone) {
+    final Resource result;
+    if (doClone){
+      result = new Cloner().deepClone(aResource); 
+    }
+    else {
+      result = aResource;
+    }
     for (Iterator<Map.Entry<String, Object>> it = result.entrySet().iterator(); it.hasNext();) {
       Map.Entry<String, Object> entry = it.next();
       // remove entries of type List if they only contain ID entries
       if (entry.getValue() instanceof List) {
         List<?> list = (List<?>) (entry.getValue());
-        list.removeIf(o -> o instanceof Resource && ((Resource) o).hasId());
+        list.forEach(li -> {
+          if (li instanceof Resource){
+            li = getLinkView((Resource)(li));
+          }
+        });
         if (list.isEmpty()) {
           it.remove();
         }
@@ -217,13 +229,7 @@ public class Resource extends HashMap<String, Object> {
       }
       // remove entries of type Resource if they have an ID
       if (entry.getValue() instanceof Resource) {
-        Resource innerResource = (Resource)(entry.getValue());
-        if (innerResource.hasId()) {
-          it.remove();
-        }
-        else{
-          entry.setValue(getEmbedView(innerResource));
-        }
+        result.put(entry.getKey(), getLinkView((Resource)(entry.getValue())));
       }
     }
     return result;

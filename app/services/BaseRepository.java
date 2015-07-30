@@ -24,11 +24,12 @@ public class BaseRepository {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileResourceRepository mFileRepo;
-  private static ResourceDenormaliser mDenormaliser;
+  private static ResourceDenormalizer mDenormalizer;
 
   public BaseRepository(ElasticsearchClient aElasticsearchClient, Path aPath) throws IOException {
     mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchClient);
     mFileRepo = new FileResourceRepository(aPath);
+    mDenormalizer = new ResourceDenormalizer();
   }
 
   public Resource deleteResource(String aId) {
@@ -41,52 +42,20 @@ public class BaseRepository {
 
   public void addResource(Resource aResource) throws IOException {
     @SuppressWarnings("static-access")
-    List<Resource> denormalisedResources = mDenormaliser.denormalise(aResource);
-    for (Resource dnr : denormalisedResources) {
+    List<Resource> denormalizedResources = mDenormalizer.denormalize(aResource, this);
+    for (Resource dnr : denormalizedResources) {
       Resource rec = getRecord(dnr); 
       mElasticsearchRepo.addResource(rec);
       mFileRepo.addResource(rec);
     }
   }
   
-  private void attachReferencedResources(Resource aResource) {
-    String id = aResource.get(JsonLdConstants.ID).toString();
-    List<Resource> referencedResources = esQueryNoRef(QueryParser.escape(id));
-    List<Resource> referencedResourcesExludingSelf = new ArrayList<>();
-    for (Resource reference : referencedResources) {
-      String refId = reference.get(JsonLdConstants.ID).toString();
-      if (! id.equals(refId)) {
-        referencedResourcesExludingSelf.add(reference);
-      }
-    }
-    if (!referencedResourcesExludingSelf.isEmpty()) {
-      aResource.put(Resource.REFERENCEKEY, referencedResourcesExludingSelf);
-    }
-  }
-
-  private void attachReferencedResources(List<Resource> aResources) {
-    for (Resource resource : aResources) {
-      attachReferencedResources(resource);
-    }
-  }
-
-  private List<Resource> esQueryNoRef(String aEsQuery) {
-    List<Resource> resources = new ArrayList<Resource>();
-    try {
-      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
-    } catch (IOException | ParseException e) {
-      Logger.error(e.toString());
-    }
-    return resources;
-  }
-
   public List<Resource> esQuery(String aEsQuery) {
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria: has no unencrypted email address
     aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
     List<Resource> resources = new ArrayList<Resource>();
     try {
       resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery)));
-      attachReferencedResources(resources);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
@@ -101,7 +70,6 @@ public class BaseRepository {
     }
     if (resource != null){
       resource = (Resource) resource.get(Record.RESOURCEKEY);
-      attachReferencedResources(resource);
     }
     return resource;
   }
@@ -148,7 +116,6 @@ public class BaseRepository {
     if (aSearchAllRepos || resources.isEmpty()) {
       resources.addAll(mFileRepo.getResourcesByContent(aType, field, aContent));
     }
-    attachReferencedResources(resources);
     return resources;
   }
 
@@ -168,7 +135,6 @@ public class BaseRepository {
     if (aSearchAllRepos || resources.isEmpty()) {
       resources.addAll(mFileRepo.query(aType));
     }
-    attachReferencedResources(resources);
     return resources;
   }
 }
