@@ -135,9 +135,9 @@ public class ElasticsearchRepository implements ResourceRepository {
    * @throws IOException
    * @throws ParseException
    */
-  public List<Resource> esQuery(String aEsQuery) throws IOException, ParseException {
+  public List<Resource> esQuery(String aEsQuery, String aEsSort) throws IOException, ParseException {
     List<Resource> resources = new ArrayList<Resource>();
-    for (Map<String, Object> doc : elasticsearch.esQuery(aEsQuery)) {
+    for (Map<String, Object> doc : elasticsearch.esQuery(aEsQuery, null, aEsSort)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
