@@ -1,0 +1,25 @@
+{
+  "@type": "Article",
+  "name": "Noch spannenderen!",
+  "@id": "987",
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "456",
+      "name": "Hans Wurst",
+      "email": "foo@bar.de",
+      "authorOf": [
+        {
+          "@type": "Article",
+          "@id": "123",
+          "name": "Ganz spannend!"
+        },
+        {
+          "@type": "Article",
+          "@id": "987",
+          "name": "Noch spannenderen!"
+        }
+      ]
+    }
+  ]
+}

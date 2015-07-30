@@ -1,0 +1,11 @@
+{
+  "@type": "Article",
+  "name": "Ganz spannend!",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Hans Wurst",
+      "email": "foo@bar.de"
+    }
+  ]
+}

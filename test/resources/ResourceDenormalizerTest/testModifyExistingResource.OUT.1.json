@@ -1,0 +1,31 @@
+{
+  "@type": "Person",
+  "@id": "456",
+  "name": "Hans Dampf",
+  "authorOf": [
+    {
+      "@type": "Article",
+      "@id": "123",
+      "name": "Ganz spannend",
+      "author": [
+        {
+          "@type": "Person",
+          "@id": "456",
+          "name": "Hans Dampf"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "@id": "987",
+      "name": "Noch spannender",
+      "author": [
+        {
+          "@type": "Person",
+          "@id": "456",
+          "name": "Hans Dampf"
+        }
+      ]
+    }
+  ]
+}
