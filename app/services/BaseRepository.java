@@ -7,20 +7,16 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
 
 import models.Record;
 import models.Resource;
 
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import play.Logger;
 
-public class BaseRepository {
+public class BaseRepository implements ResourceRepository{
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileResourceRepository mFileRepo;
@@ -136,5 +132,17 @@ public class BaseRepository {
       resources.addAll(mFileRepo.query(aType));
     }
     return resources;
+  }
+
+  @Override
+  public List<Resource> query(String aType) throws IOException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<Resource> getResourcesByContent(String aType, String aField, String aContent) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

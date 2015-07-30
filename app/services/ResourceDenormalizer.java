@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
 import models.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class ResourceDenormalizer {
 
@@ -28,9 +28,14 @@ public class ResourceDenormalizer {
 
     // ensure that data granulation level is appropriate
     result.forEach(r -> {
-      Resource trimmedResource = ResourceTrimmer.trim(r, aRepo);
-      result.remove(r);
-      result.add(trimmedResource);
+      Resource trimmedResource;
+      try {
+        trimmedResource = ResourceTrimmer.trim(r, aRepo);
+        result.remove(r);
+        result.add(trimmedResource);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     });
     return result;
   }

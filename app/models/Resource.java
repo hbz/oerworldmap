@@ -217,18 +217,23 @@ public class Resource extends HashMap<String, Object> {
       // remove entries of type List if they only contain ID entries
       if (entry.getValue() instanceof List) {
         List<?> list = (List<?>) (entry.getValue());
-        list.forEach(li -> {
+        List<Object> truncatedList = new ArrayList<>();
+        for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
+          Object li = innerIt.next();
           if (li instanceof Resource){
-            li = getLinkView((Resource)(li));
+            truncatedList.add(Resource.getLinkView((Resource) li));
           }
-        });
-        if (list.isEmpty()) {
+          else{
+            truncatedList.add(li);
+          }
+        }
+        if (truncatedList.isEmpty()) {
           it.remove();
         }
-        continue;
+        result.put(entry.getKey(), truncatedList);
       }
       // remove entries of type Resource if they have an ID
-      if (entry.getValue() instanceof Resource) {
+      else if (entry.getValue() instanceof Resource) {
         result.put(entry.getKey(), getLinkView((Resource)(entry.getValue())));
       }
     }
