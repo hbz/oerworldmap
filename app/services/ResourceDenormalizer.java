@@ -96,7 +96,7 @@ public class ResourceDenormalizer {
 
   private static String getInverseReference(final String aKey) {
     String reverseRef = mKnownInverseRelations.get(aKey);
-    return (StringUtils.isEmpty(reverseRef) ? "referencedBy" : reverseRef);
+    return (StringUtils.isEmpty(reverseRef) ? Resource.REFERENCEKEY : reverseRef);
   }
 
 }

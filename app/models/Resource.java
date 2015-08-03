@@ -201,14 +201,27 @@ public class Resource extends HashMap<String, Object> {
     return super.get(aKey);
   }
   
+  public String getAsString(final Object aKey){
+    Object result = get(aKey);
+    return (result == null) ? null : result.toString();
+  }
+  
   public static Resource getLinkView(final Resource aResource) {
     final Resource result = new Resource();
-    result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
-    result.put(JsonLdConstants.TYPE, aResource.get(JsonLdConstants.TYPE));
-    result.put("name", aResource.get("name"));
+    if (null != aResource.get(JsonLdConstants.ID)){
+      result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
+    }
+    if (null != aResource.get(JsonLdConstants.TYPE)){
+      result.put(JsonLdConstants.TYPE, aResource.get(JsonLdConstants.TYPE));
+    }
+    if (null != aResource.get("name")){
+      result.put("name", aResource.get("name"));
+    }
     return result;
   }
 
+  // TODO: the second argument doClone may be unnecessary. Check after implementation of GETting
+  // and rePOSTing of denormalized resources.
   public static Resource getEmbedView(final Resource aResource, final boolean doClone) {
     final Resource result;
     if (doClone){

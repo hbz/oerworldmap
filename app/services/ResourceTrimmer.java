@@ -24,8 +24,7 @@ public class ResourceTrimmer {
 
   private static Resource trimClone(Resource aResource, ResourceRepository aRepo)
       throws IOException {
-    
-    Resource result = aRepo.getResource(aResource.get(JsonLdConstants.ID).toString());
+    Resource result = aRepo.getResource(aResource.getAsString(JsonLdConstants.ID));
     if (result == null || result.isEmpty()) {
       result = new Resource();
     }

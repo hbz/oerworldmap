@@ -23,7 +23,7 @@ public class MockResourceRepository implements ResourceRepository {
    * @param aResource
    */
   public void addResource(@Nonnull Resource aResource) throws IOException {
-    String id = aResource.get(JsonLdConstants.ID).toString();
+    String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }
 

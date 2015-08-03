@@ -29,8 +29,8 @@ public class ResourceDenormalizerTest implements JsonTest{
       repo.addResource(resource);
     }
     assertEquals(2, repo.size());
-    Resource get1 = repo.getResource(out1.get(JsonLdConstants.ID).toString());
-    Resource get2 = repo.getResource(out2.get(JsonLdConstants.ID).toString());
+    Resource get1 = repo.getResource(out1.getAsString(JsonLdConstants.ID));
+    Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
     assertEquals(out2, get2);
   }
@@ -48,8 +48,8 @@ public class ResourceDenormalizerTest implements JsonTest{
       repo.addResource(resource);
     }
     assertEquals(2, repo.size());
-    Resource get1 = repo.getResource(out1.get(JsonLdConstants.ID).toString());
-    Resource get2 = repo.getResource(out2.get(JsonLdConstants.ID).toString());
+    Resource get1 = repo.getResource(out1.getAsString(JsonLdConstants.ID));
+    Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
     assertEquals(out2, get2);
   }
