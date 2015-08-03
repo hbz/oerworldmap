@@ -20,9 +20,9 @@ public class ResourceDenormalizerTest implements JsonTest{
   
   @Test
   public void testNewResourceWithNewReference() throws IOException {
-    Resource in = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithNewReference.IN.json");
-    Resource out1 = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithNewReference.OUT.1.json");
-    Resource out2 = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithNewReference.OUT.2.json");
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithNewReference.IN.json");
+    Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithNewReference.OUT.1.json");
+    Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithNewReference.OUT.2.json");
     MockResourceRepository repo = new MockResourceRepository();
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
     for (Resource resource : denormalized){
@@ -35,12 +35,12 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out2, get2);
   }
 
-  // TODO: not yet working @Test 
+  // @Test
   public void testNewResourceWithExistingReference() throws IOException {
-    Resource in = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithExistingReference.IN.json");
-    Resource db = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithExistingReference.DB.1.json");
-    Resource out1 = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.1.json");
-    Resource out2 = getResourceFromJsonFile("resources/ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.2.json");
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.IN.json");
+    Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.DB.1.json");
+    Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.1.json");
+    Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.2.json");
     MockResourceRepository repo = new MockResourceRepository();
     repo.addResource(db);
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);

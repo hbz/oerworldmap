@@ -16,8 +16,8 @@ public class ResourceTrimmerTest implements JsonTest{
   
   @Test
   public void testSimpleTrim() throws IOException {
-    Resource in = getResourceFromJsonFile("resources/ResourceTrimmerTest/simpleTrim.IN.json");
-    Resource out = getResourceFromJsonFile("resources/ResourceTrimmerTest/simpleTrim.OUT.json");
+    Resource in = getResourceFromJsonFile("ResourceTrimmerTest/simpleTrim.IN.json");
+    Resource out = getResourceFromJsonFile("ResourceTrimmerTest/simpleTrim.OUT.json");
     assertNotNull(in);
     Resource trimmed = ResourceTrimmer.trim(in, mRepo);
     assertEquals(out, trimmed);

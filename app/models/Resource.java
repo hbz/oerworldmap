@@ -56,10 +56,11 @@ public class Resource extends HashMap<String, Object> {
     if (null != aType) {
       this.put(JsonLdConstants.TYPE, aType);
     }
-    if (mIdentifiedTypes.contains(aType)) {
-      if (null != aId) {
-        this.put(JsonLdConstants.ID, aId);
-      } else {
+    if (null != aId){
+      this.put(JsonLdConstants.ID, aId);
+    }
+    else{
+      if (mIdentifiedTypes.contains(aType)){
         this.put(JsonLdConstants.ID, generateId());
       }
     }
@@ -187,10 +188,14 @@ public class Resource extends HashMap<String, Object> {
 
   @Override
   public Object get(final Object aKey) {
+    return get(aKey, false);
+  }
+  
+  public Object get(final Object aKey, final boolean isSuppressEscape) {
     final String keyString = aKey.toString();
     if (keyString.startsWith("?")) {
       return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
-    } else if (keyString.equals("email")) {
+    } else if (!isSuppressEscape && keyString.equals("email")) {
       return UniversalFunctions.getHtmlEntities(super.get(aKey).toString());
     }
     return super.get(aKey);
@@ -252,7 +257,7 @@ public class Resource extends HashMap<String, Object> {
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (!pair.getValue().equals(other.get(pair.getKey()))) {
+      if (!pair.getValue().equals(other.get(pair.getKey(), true))) {
         return false;
       }
     }

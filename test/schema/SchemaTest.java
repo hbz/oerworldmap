@@ -18,21 +18,21 @@ public class SchemaTest implements JsonTest{
 
   @Test
   public void testPerson() throws IOException {
-    Resource person = getResourceFromJsonFile("resources/SchemaTest/testPerson.json");
+    Resource person = getResourceFromJsonFile("SchemaTest/testPerson.json");
     assertNotNull(person);
     assertTrue(person.validate().isSuccess());
   }
 
   @Test
   public void testService() throws IOException {
-    Resource service = getResourceFromJsonFile("resources/SchemaTest/testService.json");
+    Resource service = getResourceFromJsonFile("SchemaTest/testService.json");
     assertNotNull(service);
     assertTrue(service.validate().isSuccess());
   }
 
   @Test
   public void testArticle() throws IOException {
-    Resource article = getResourceFromJsonFile("resources/SchemaTest/testArticle.json");
+    Resource article = getResourceFromJsonFile("SchemaTest/testArticle.json");
     assertNotNull(article);
     assertTrue(article.validate().isSuccess());
   }

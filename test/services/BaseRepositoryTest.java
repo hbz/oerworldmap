@@ -21,11 +21,14 @@ public class BaseRepositoryTest {
   private static Settings mClientSettings;
   private static TransportClient mClient;
   private static ElasticsearchClient mElClient;
-  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
+  private static ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
   @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
+    if (mEsConfig == null){
+      mEsConfig = Global.createElasticsearchConfig(true);
+    }
     mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings())
         .build();
     mClient = new TransportClient(mClientSettings)
@@ -62,6 +65,5 @@ public class BaseRepositoryTest {
       e.printStackTrace();
     }
     Assert.assertEquals(resource, mRepo.getResource("id002"));
-    Assert.assertNull(mRepo.getResource("Foo15"));
   }
 }
