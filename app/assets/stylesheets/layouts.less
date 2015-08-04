@@ -1,15 +1,25 @@
-/* --- layouts --- */
+/* --- container --- */
 
-body.layout-fixed > header,
+
+/* --- layout scroll --- */
+
+body.layout-scroll {
+  padding-top: (@header-height * 1.5);
+}
+
+body.layout-scroll #page-footer {
+  border-top: 1px solid @blue-darker;
+  margin: 50px 0 0 0;
+  padding: 10px 0 10px 0;
+  overflow: hidden;
+}
+
+
+/* --- layout fixed --- */
+
 body.layout-fixed > div[role="main"],
 body.layout-fixed > div[role="complementary"] {
   position: fixed;
-}
-
-body.layout-fixed > header {
-  top: 0px;
-  left: 0px;
-  width: 100%;
 }
 
 body.layout-fixed > div[role="main"] {
