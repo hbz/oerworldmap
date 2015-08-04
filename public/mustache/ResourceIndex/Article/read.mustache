@@ -23,6 +23,8 @@
                 </ul>
             </div>
             
+            <hr/>
+            
             {{#image}}<img src="{{.}}" width="250" />{{/image}}
           {{#articleBody}}{{{@value}}}{{/articleBody}}
           {{#keywords.size}}
@@ -33,19 +35,38 @@
           {{/keywords.size}}
         </article>
         <aside>
+        
+            <hr/>
+                        
             <h2>Related</h2>
-            {{#mentions}}
-              <div style="border: 1px solid black; padding: 5px; margin: 10px; float: left;">
-                  <h3>
-                      <a href="/resource/{{@id}}">
-                          {{#name}}
-                            {{#@value}}{{.}}{{/@value}}
-                          {{/name}}
-                      </a>
-                  </h3>
-                  {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
-              </div>
+            
+            <ul class="fa-ul related-list populate-map">
+                <script type="application/ld+json">
+                    {{{mentions}}}
+                </script>
+                {{#mentions}}
+                    <li about="{{@id}}">
+                        {{#?Organization}}
+                            {{>ResourceIndex/Organization/link.mustache}}
+                        {{/?Organization}}
+                        {{#?Person}}
+                            {{>ResourceIndex/Person/link.mustache}}
+                        {{/?Person}}
+                        {{#?Service}}
+                            {{>ResourceIndex/Service/link.mustache}}
+                        {{/?Service}}
+                        {{#?Action}}
+                            {{>ResourceIndex/Action/link.mustache}}
+                        {{/?Action}}
+                    </li>
+                {{/mentions}}
+            </ul>
+            {{^mentions}}
+                <em>No related entities found</em>
             {{/mentions}}
+        
         </aside>
+
+        
     {{/scope}}
 </div>
