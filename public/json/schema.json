@@ -313,8 +313,8 @@
           "type": "string",
           "format": "email"
         },
-        "address": {
-          "$ref": "#/definitions/PostalAddress"
+        "location": {
+          "$ref": "#/definitions/Place"
         },
         "about": {
           "type": "array",
