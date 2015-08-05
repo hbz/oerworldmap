@@ -20,6 +20,7 @@ import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import services.AggregationProvider;
 
 /**
  * @author fo
