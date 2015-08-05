@@ -14,6 +14,7 @@ import models.Resource;
 
 import org.json.simple.parser.ParseException;
 
+import play.Logger;
 import play.mvc.Result;
 import play.mvc.Security;
 
@@ -25,7 +26,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q) throws IOException, ParseException {
+  public static Result list(String q, String sort) throws IOException, ParseException {
 
     Map<String,Object> scope = new HashMap<>();
 
@@ -36,7 +37,7 @@ public class ResourceIndex extends OERWorldMap {
       q = "*";
     }
 
-    List<Resource> resources = mBaseRepository.esQuery(q);
+    List<Resource> resources = mBaseRepository.esQuery(q, sort);
     scope.put("resources", resources);
 
     if (request().accepts("text/html")) {

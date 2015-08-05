@@ -17,6 +17,7 @@ import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
 import play.Logger;
 
@@ -307,20 +308,28 @@ public class ElasticsearchClient {
 
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery) throws IOException,
       ParseException {
-    return esQuery(aEsQuery, null);
+    return esQuery(aEsQuery, null, null);
   }
 
-  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex)
+  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex, @Nullable String sort)
       throws IOException, ParseException {
-    return esQuery(aEsQuery, aIndex, null);
+    return esQuery(aEsQuery, aIndex, null, sort);
   }
 
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
-      @Nullable String aType) throws IOException, ParseException {
+      @Nullable String aType, @Nullable String aSort) throws IOException, ParseException {
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(
         StringUtils.isEmpty(aIndex) ? mEsConfig.getIndex() : aIndex);
     if (!StringUtils.isEmpty(aType)) {
       searchRequestBuilder.setTypes(aType);
+    }
+    if (!StringUtils.isEmpty(aSort)) {
+      String[] sort = aSort.split(":");
+      if (2 == sort.length) {
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+      } else {
+        Logger.error("Invalid sort string: " + aSort);
+      }
     }
     SearchResponse response = searchRequestBuilder
         .setQuery(QueryBuilders.queryString(aEsQuery).defaultOperator(QueryStringQueryBuilder.Operator.AND))
