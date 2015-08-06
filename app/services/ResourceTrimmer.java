@@ -18,13 +18,26 @@ public class ResourceTrimmer {
   private ResourceTrimmer() { /* no instantiation */
   }
 
+  /**
+   * Returns a truncated clone of the given Resource.
+   */
+  public static Resource trim(Resource aResource) throws IOException {
+    return trimClone(aResource, null);
+  }
+  
+  /**
+   * Returns a truncated clone of the given Resource that is enriched
+   * with information contained in the given ResourceRepository.
+   */
   public static Resource trim(Resource aResource, ResourceRepository aRepo) throws IOException {
     return trimClone(aResource, aRepo);
   }
 
-  private static Resource trimClone(Resource aResource, ResourceRepository aRepo)
-      throws IOException {
-    Resource result = aRepo.getResource(aResource.getAsString(JsonLdConstants.ID));
+  private static Resource trimClone(Resource aResource, ResourceRepository aRepo) throws IOException {
+    Resource result = null;
+    if (aRepo != null) {
+      result = aRepo.getResource(aResource.getAsString(JsonLdConstants.ID));
+    }
     if (result == null || result.isEmpty()) {
       result = new Resource();
     }
@@ -41,7 +54,7 @@ public class ResourceTrimmer {
       Map.Entry<String, Object> entry = it.next();
       // truncate subresources
       if (entry.getValue() instanceof Resource) {
-        aResource.put(entry.getKey(), Resource.getEmbedView((Resource) entry.getValue(), false));
+        aResource.put(entry.getKey(), Resource.getEmbedClone((Resource) entry.getValue()));
       }
       // truncate lists of subresources
       else if (entry.getValue() instanceof List) {
@@ -50,7 +63,7 @@ public class ResourceTrimmer {
         for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
           Object li = innerIt.next();
           if (li instanceof Resource) {
-            truncatedList.add(Resource.getEmbedView(((Resource) li), false));
+            truncatedList.add(Resource.getEmbedClone((Resource) li));
           } else {
             truncatedList.add(li);
           }
@@ -62,4 +75,5 @@ public class ResourceTrimmer {
       }
     }
   }
+  
 }

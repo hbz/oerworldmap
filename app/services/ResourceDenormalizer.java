@@ -1,102 +1,120 @@
 package services;
 
+import helpers.JsonLdConstants;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import models.DenormalizeResourceWrapper;
 import models.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.rits.cloning.Cloner;
 
 public class ResourceDenormalizer {
 
   final private static Map<String, String> mKnownInverseRelations = new HashMap<>();
-  static{
+  static {
     mKnownInverseRelations.put("author", "authorOf");
     mKnownInverseRelations.put("authorOf", "author");
   }
   final private static List<String> mListValueEntries = new ArrayList<>();
-  static{
+  static {
     mListValueEntries.add("author");
     mListValueEntries.add("authorOf");
   }
 
+  //
   // TODO: add configurable member variables / parameters that specify in what
   // manner exactly Resources should be denormalized ??
+  //
 
-  public static List<Resource> denormalize(Resource aResource, ResourceRepository aRepo) {
-
-    // create flat list of the given resource and all of its subresources
-    List<Resource> flatted = new ArrayList<>();
-    List<Resource> trimmed = new ArrayList<>();
-    splitDescendantResources(flatted, aResource);
-
-    // trim the flatted resources to the appropriate granulation level
-    for (Resource flat : flatted){
-      try {
-        trimmed.add(ResourceTrimmer.trim(flat, aRepo));
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    return trimmed;
+  /**
+   * 
+   */
+  private ResourceDenormalizer() { /* no instantiation */
   }
 
-  private static List<Resource> splitDescendantResources(final List<Resource> aList, final Resource aResource) {
-    aList.add(aResource);
-    for (final Map.Entry<String, Object> entry : aResource.entrySet()) {
-      final Object value = entry.getValue();
-      // TODO: check for directly nested objects like {"about" : {"author" :
-      // "John Doe"}}
-      if (value instanceof Resource) {
-        final Resource res = (Resource) value;
-        splitDescendantResources(aList, res);
-        addInverseResourceEntry(aResource, entry.getKey(), res);
-      } else if (value instanceof List) {
-        for (final Object listItem : (List<?>) value) {
-          if (listItem instanceof Resource) {
-            final Resource res = (Resource) listItem;
-            splitDescendantResources(aList, res);
-            addInverseResourceEntry(aResource, entry.getKey(), res);
+  /**
+   * TODO
+   * 
+   * @param aResource
+   * @param aRepo
+   * @return
+   * @throws IOException
+   */
+  public static List<Resource> denormalize(Resource aResource, ResourceRepository aRepo)
+      throws IOException {
+
+    Map<String, DenormalizeResourceWrapper> wrappedResources = new HashMap<>();
+    split(aResource, wrappedResources, aRepo);
+    
+    addInverseReferences(wrappedResources);
+    
+    createLinkViews(wrappedResources);
+    createEmbedViews(wrappedResources);
+    
+    return export(wrappedResources);
+
+  }
+
+  private static void createEmbedViews(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+      wrapperEntry.getValue().createEmbedView(aWrappedResources, mListValueEntries);
+    }
+  }
+
+  private static void createLinkViews(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+      wrapperEntry.getValue().createLinkView();
+    }
+  }
+
+  private static void split(Resource aResource,
+      Map<String, DenormalizeResourceWrapper> aWrappedResources, ResourceRepository aRepo)
+      throws IOException {
+
+    String keyId = aResource.getAsString(JsonLdConstants.ID);
+    if (keyId == null || !aWrappedResources.containsKey(keyId)){
+      // we need a new wrapper
+      DenormalizeResourceWrapper wrapper = new DenormalizeResourceWrapper(aResource, aWrappedResources, aRepo);
+      aWrappedResources.put(wrapper.getKeyId(), wrapper);
+    }
+    else{
+      // take the existing wrapper
+      aWrappedResources.get(keyId).addResource(aResource);
+    }
+    
+    for (Entry<String, Object> entry : aResource.entrySet()) {
+      if (entry.getValue() instanceof Resource) {
+        split((Resource) entry.getValue(), aWrappedResources, aRepo);
+      } else if (entry.getValue() instanceof List) {
+        Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
+        while (iter.hasNext()) {
+          Object next = iter.next();
+          if (next instanceof Resource) {
+            split((Resource) next, aWrappedResources, aRepo);
           }
         }
       }
     }
-    return aList;
+
   }
 
-  @SuppressWarnings("unchecked")
-  private static void addInverseResourceEntry(final Resource aResource, final String aKey,
-      final Resource aReferencedResource) {
-    if (mListValueEntries.contains(aKey)){
-      // add the inverse reference as a list entry
-      Object value = aReferencedResource.get(aKey, true);
-      final List<Resource> newEntry;
-      if (value == null){
-        newEntry = new ArrayList<>();
-      }
-      else if (value instanceof List<?>){
-        newEntry = (List<Resource>) value;
-      }
-      else{
-        throw new IllegalArgumentException("Malformed entry in Resource " + aReferencedResource + ". Excpected a list entry for key \"" + aKey + "\".");
-      }
-      newEntry.add(new Cloner().deepClone(aResource));
-      aReferencedResource.put(getInverseReference(aKey), newEntry);
-    }
-    else{
-      // inverse reference can be added without list wrapper
-      aReferencedResource.put(getInverseReference(aKey), new Cloner().deepClone(aResource));
+  private static void addInverseReferences(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+      wrapperEntry.getValue().createInverseReferences(aWrappedResources, mKnownInverseRelations);
     }
   }
 
-  private static String getInverseReference(final String aKey) {
-    String reverseRef = mKnownInverseRelations.get(aKey);
-    return (StringUtils.isEmpty(reverseRef) ? Resource.REFERENCEKEY : reverseRef);
+  private static List<Resource> export(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
+    List<Resource> result = new ArrayList<>();
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+      result.add(wrapperEntry.getValue().export(aWrappedResources, mListValueEntries));
+    }
+    return result;
   }
 
 }

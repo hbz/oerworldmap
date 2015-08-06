@@ -16,16 +16,14 @@ import org.json.simple.parser.ParseException;
 
 import play.Logger;
 
-public class BaseRepository implements ResourceRepository{
+public class BaseRepository implements ResourceRepository {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileResourceRepository mFileRepo;
-  private static ResourceDenormalizer mDenormalizer;
 
   public BaseRepository(ElasticsearchClient aElasticsearchClient, Path aPath) throws IOException {
     mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchClient);
     mFileRepo = new FileResourceRepository(aPath);
-    mDenormalizer = new ResourceDenormalizer();
   }
 
   public Resource deleteResource(String aId) {
@@ -38,16 +36,17 @@ public class BaseRepository implements ResourceRepository{
 
   public void addResource(Resource aResource) throws IOException {
     @SuppressWarnings("static-access")
-    List<Resource> denormalizedResources = mDenormalizer.denormalize(aResource, this);
+    List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
     for (Resource dnr : denormalizedResources) {
-      Resource rec = getRecord(dnr); 
+      Resource rec = getRecord(dnr);
       mElasticsearchRepo.addResource(rec);
       mFileRepo.addResource(rec);
     }
   }
-  
+
   public List<Resource> esQuery(String aEsQuery) {
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria: has no unencrypted email address
+    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
+    // has no unencrypted email address
     aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
     List<Resource> resources = new ArrayList<Resource>();
     try {
@@ -64,7 +63,7 @@ public class BaseRepository implements ResourceRepository{
     if (resource == null || resource.isEmpty()) {
       resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
-    if (resource != null){
+    if (resource != null) {
       resource = (Resource) resource.get(Record.RESOURCEKEY);
     }
     return resource;
@@ -94,7 +93,7 @@ public class BaseRepository implements ResourceRepository{
     }
     return record;
   }
-  
+
   private List<Resource> getResources(List<Resource> aRecords) {
     List<Resource> resources = new ArrayList<Resource>();
     for (Resource rec : aRecords) {
