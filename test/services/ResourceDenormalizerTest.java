@@ -113,4 +113,13 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out3, get3);
     assertEquals(out4, get4);
   }
+
+  @Test
+  public void testRemoveReference() {
+    // testRemoveReference.IN.json
+    // testRemoveReference.DB.1.json
+    // testRemoveReference.DB.2.json
+    // testRemoveReference.OUT.1.json
+    // testRemoveReference.OUT.2.json
+  }
 }
