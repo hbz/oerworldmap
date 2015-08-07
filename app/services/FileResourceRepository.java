@@ -153,7 +153,7 @@ public class FileResourceRepository implements ResourceRepository {
       List<Resource> result = new LinkedList<>();
       List<Resource> resources = query(aType);
       for (Resource resource : resources) {
-        if (resource.get(aField).toString().equals(aContent)) {
+        if (null != resource.get(aField) && resource.get(aField).toString().equals(aContent)) {
           result.add(resource);
         }
       }
