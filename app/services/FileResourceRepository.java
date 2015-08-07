@@ -49,9 +49,18 @@ public class FileResourceRepository implements ResourceRepository {
    */
   @Override
   public void addResource(@Nonnull Resource aResource) throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
     String type = (String) aResource.get(JsonLdConstants.TYPE);
-    Path dir = Paths.get(mPath.toString(), type);
+    addResource(aResource, type);
+  }
+
+  /**
+   * Add a new resource to the repository.
+   *
+   * @param aResource
+   */
+  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    Path dir = Paths.get(mPath.toString(), aType);
     Path file = Paths.get(dir.toString(), id);
     if (!Files.exists(dir)) {
       Files.createDirectory(dir);
