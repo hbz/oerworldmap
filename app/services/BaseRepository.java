@@ -53,7 +53,7 @@ public class BaseRepository {
       record = new Record(aResource);
     }
     mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
-    mFileRepo.addResource(record);
+    mFileRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
     addMentionedData(aResource);
   }
 
