@@ -11,6 +11,17 @@
           {{#startTime}}<p>Duration: {{.}}{{#endTime}} - {{.}}{{/endTime}}</p>{{/startTime}}
           {{#description}}<p lang="{{@language}}">{{@value}}</p>{{/description}}
           {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
+          <h2>Participants</h2>
+          {{#agent}}
+              <ul>
+                {{#?Organization}}
+                    <li>{{>ResourceIndex/Organization/link.mustache}}</li>
+                {{/?Organization}}
+                {{#?Person}}
+                    <li>{{>ResourceIndex/Person/link.mustache}}</li>
+                {{/?Person}}
+              </ul>
+          {{/agent}}
       </div>
       <h2>{{i18n.mentioned_in}}</h2>
       <ul>
