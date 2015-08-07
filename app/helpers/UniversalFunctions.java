@@ -26,7 +26,7 @@ public class UniversalFunctions {
 
   public static String getCurrentTime() {
     TimeZone tz = TimeZone.getTimeZone("UTC");
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.Z");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
     df.setTimeZone(tz);
     return df.format(new Date());
   }
