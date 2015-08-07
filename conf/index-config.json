@@ -251,10 +251,12 @@
           }
         },
         "dateCreated": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         },
         "dateModified": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         }
       }
     },
@@ -319,7 +321,8 @@
           }
         },
         "dateCreated": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         }
       }
     },
@@ -428,10 +431,12 @@
           }
         },
         "dateCreated": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         },
         "dateModified": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         }
       }
     },
@@ -540,10 +545,12 @@
           }
         },
         "dateCreated": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         },
         "dateModified": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         }
       }
     },
@@ -627,10 +634,12 @@
           }
         },
         "dateCreated": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         },
         "dateModified": {
-          "type": "string"
+          "type": "date",
+          "format": "dateOptionalTime"
         }
       }
     }
