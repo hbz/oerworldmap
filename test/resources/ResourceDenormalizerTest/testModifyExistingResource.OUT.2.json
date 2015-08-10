@@ -11,12 +11,12 @@
         {
           "@type": "Article",
           "@id": "123",
-          "name": "Ganz spannend"
+          "name": "Ganz spannend!"
         },
         {
           "@type": "Article",
           "@id": "987",
-          "name": "Noch spannender"
+          "name": "Noch spannenderen!"
         }
       ]
     }

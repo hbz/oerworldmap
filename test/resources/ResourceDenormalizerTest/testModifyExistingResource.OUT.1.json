@@ -6,7 +6,7 @@
     {
       "@type": "Article",
       "@id": "123",
-      "name": "Ganz spannend",
+      "name": "Ganz spannend!",
       "author": [
         {
           "@type": "Person",
@@ -18,7 +18,7 @@
     {
       "@type": "Article",
       "@id": "987",
-      "name": "Noch spannender",
+      "name": "Noch spannenderen!",
       "author": [
         {
           "@type": "Person",

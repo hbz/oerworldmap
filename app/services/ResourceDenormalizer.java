@@ -57,7 +57,6 @@ public class ResourceDenormalizer {
     createEmbedViews(wrappedResources);
     
     return export(wrappedResources);
-
   }
 
   private static void createEmbedViews(Map<String, DenormalizeResourceWrapper> aWrappedResources) {

@@ -28,7 +28,7 @@ import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.rits.cloning.Cloner;
 
-public class Resource extends HashMap<String, Object> {
+public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
   private static final long serialVersionUID = -6177433021348713601L;
 
@@ -228,8 +228,8 @@ public class Resource extends HashMap<String, Object> {
   }
 
   public static Resource getEmbedClone(final Resource aResource) {
-    final Resource result = new Cloner().deepClone(aResource);
-    for (Iterator<Map.Entry<String, Object>> it = result.entrySet().iterator(); it.hasNext();) {
+    final Resource result = new Resource();
+    for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
       Map.Entry<String, Object> entry = it.next();
       // remove entries of type List if they only contain ID entries
       if (entry.getValue() instanceof List) {
@@ -251,6 +251,8 @@ public class Resource extends HashMap<String, Object> {
       // remove entries of type Resource if they have an ID
       else if (entry.getValue() instanceof Resource) {
         result.put(entry.getKey(), getLinkClone((Resource) (entry.getValue())));
+      } else {
+        result.put(entry.getKey(), entry.getValue());
       }
     }
     return result;
@@ -268,6 +270,10 @@ public class Resource extends HashMap<String, Object> {
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
+      if (pair.getValue() instanceof List && other.get(pair.getKey(), true) instanceof List){
+        ((List<?>) pair.getValue()).sort(null);
+        ((List<?>) other.get(pair.getKey(), true)).sort(null);
+      }
       if (!pair.getValue().equals(other.get(pair.getKey(), true))) {
         return false;
       }
@@ -280,38 +286,38 @@ public class Resource extends HashMap<String, Object> {
   }
 
   public void merge(Resource aOther) {
-    for (Entry<String, Object> entry : aOther.entrySet()){
-      
-      if (entry.getValue() instanceof Resource){
+    for (Entry<String, Object> entry : aOther.entrySet()) {
+
+      if (entry.getValue() instanceof Resource) {
         Resource resource = (Resource) entry.getValue();
-        if (!resource.hasIdOnly()){
+        if (!resource.hasIdOnly()) {
           put(entry.getKey(), resource);
         }
       } //
-      
-      else if(entry.getValue() instanceof List){
-        
+
+      else if (entry.getValue() instanceof List) {
+
         @SuppressWarnings("unchecked")
         List<Resource> list = (List<Resource>) get(entry.getKey());
-        if (list == null){
+        if (list == null) {
           list = new ArrayList<>();
         }
         final List<Resource> finalList = new ArrayList<Resource>();
         finalList.addAll(list);
-        
+
         @SuppressWarnings("unchecked")
         List<Resource> otherList = (List<Resource>) entry.getValue();
         otherList.forEach(resource -> {
-          if (!resource.hasIdOnly()){
+          if (!resource.hasIdOnly()) {
             finalList.add(resource);
           }
         });
-        
+
         put(entry.getKey(), finalList);
       } //
-      
+
       else {
-        put (entry.getKey(), entry.getValue());
+        put(entry.getKey(), entry.getValue());
       }
     }
   }
@@ -356,6 +362,11 @@ public class Resource extends HashMap<String, Object> {
     Resource result = new Resource();
     result.put(JsonLdConstants.ID, value.get(JsonLdConstants.ID));
     return result;
+  }
+
+  @Override
+  public int compareTo(Resource aOther) {
+    return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
   }
 
 }

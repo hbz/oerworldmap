@@ -57,7 +57,7 @@ public class DenormalizeResourceWrapper {
     } else {
       // other Resources contained in the repo will be affected by changes on
       // this Resource (wrapper), so add them to the wrappers map.
-      getMentionedResourcesFromRepo(aWrappedResources, mResource, aRepo, 2);
+      getMentionedResources(aWrappedResources, mResource, aRepo, 2);
     }
     addResource(aResource);
     mLinkView = null;
@@ -70,7 +70,9 @@ public class DenormalizeResourceWrapper {
     mReferences = new HashMap<>();
     mKeyId = aResource.getAsString(JsonLdConstants.ID);
     mResource = aRepo.getResource(mKeyId);
-    getMentionedResourcesFromRepo(aWrappedResources, mResource, aRepo, aSubLevels);
+    if (aSubLevels > -1) {
+      getMentionedResources(aWrappedResources, mResource, aRepo, aSubLevels);
+    }
     mLinkView = null;
     mEmbedView = null;
   }
@@ -78,20 +80,23 @@ public class DenormalizeResourceWrapper {
   /*
    * 
    */
-  private static void getMentionedResourcesFromRepo(
+  private void getMentionedResources(
       final Map<String, DenormalizeResourceWrapper> aWrappedResources, final Resource aResource,
       final ResourceRepository aRepo, final int aSubLevels) throws IOException {
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
-        putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels,
-            ((Resource) entry.getValue()));
+        Resource resource = (Resource) entry.getValue();
+        putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, (resource));
+        addReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
       } //
       else if (entry.getValue() instanceof List) {
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
           Object next = iter.next();
           if (next instanceof Resource) {
-            putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, (Resource) next);
+            Resource resource = (Resource) next;
+            putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, resource);
+            addReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
           }
         }
       }

@@ -35,7 +35,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out2, get2);
   }
 
-  // @Test
+  @Test
   public void testNewResourceWithExistingReference() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.IN.json");
     Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.DB.1.json");
@@ -57,7 +57,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out2, get2);
   }
 
-  // @Test
+  @Test
   public void testModifyExistingResource() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testModifyExistingResource.IN.json");
     Resource db1 = getResourceFromJsonFile("ResourceDenormalizerTest/testModifyExistingResource.DB.1.json");
@@ -74,7 +74,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     for (Resource resource : denormalized){
       repo.addResource(resource);
     }
-    assertEquals(2, repo.size());
+    assertEquals(3, repo.size());
     Resource get1 = repo.getResource(out1.getAsString(JsonLdConstants.ID));
     Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
     Resource get3 = repo.getResource(out3.getAsString(JsonLdConstants.ID));
@@ -83,7 +83,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out3, get3);
   }
 
-  // @Test
+  @Test
   public void testModifyExistingResourceAllReferences() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testModifyExistingResourceAllReferences.IN.json");
     Resource db1 = getResourceFromJsonFile("ResourceDenormalizerTest/testModifyExistingResourceAllReferences.DB.1.json");
@@ -103,7 +103,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     for (Resource resource : denormalized){
       repo.addResource(resource);
     }
-    assertEquals(2, repo.size());
+    assertEquals(4, repo.size());
     Resource get1 = repo.getResource(out1.getAsString(JsonLdConstants.ID));
     Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
     Resource get3 = repo.getResource(out3.getAsString(JsonLdConstants.ID));
