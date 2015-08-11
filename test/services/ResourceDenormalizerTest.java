@@ -42,7 +42,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.1.json");
     Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.2.json");
     MockResourceRepository repo = new MockResourceRepository();
-    List<Resource> denormalizedDb = ResourceDenormalizer.denormalize(db, repo); // TODO: contains 2 Hans Wurst's --> remove/merge duplicates
+    List<Resource> denormalizedDb = ResourceDenormalizer.denormalize(db, repo);
     for (Resource resource : denormalizedDb){
       repo.addResource(resource);
     }
@@ -56,7 +56,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out1, get1);
     assertEquals(out2, get2);
   }
-
+  
   @Test
   public void testModifyExistingResource() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testModifyExistingResource.IN.json");
@@ -115,11 +115,23 @@ public class ResourceDenormalizerTest implements JsonTest{
   }
 
   @Test
-  public void testRemoveReference() {
-    // testRemoveReference.IN.json
-    // testRemoveReference.DB.1.json
-    // testRemoveReference.DB.2.json
-    // testRemoveReference.OUT.1.json
-    // testRemoveReference.OUT.2.json
+  public void testRemoveReference() throws IOException {
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testRemoveReference.IN.json");
+    Resource db1 = getResourceFromJsonFile("ResourceDenormalizerTest/testRemoveReference.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("ResourceDenormalizerTest/testRemoveReference.DB.2.json");
+    Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testRemoveReference.OUT.1.json");
+    Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testRemoveReference.OUT.2.json");
+    MockResourceRepository repo = new MockResourceRepository();
+    repo.addResource(db1);
+    repo.addResource(db2);
+    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
+    for (Resource resource : denormalized){
+      repo.addResource(resource);
+    }
+    assertEquals(2, repo.size());
+    Resource get1 = repo.getResource(out1.getAsString(JsonLdConstants.ID));
+    Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
+    assertEquals(out1, get1);
+    assertEquals(out2, get2);
   }
 }

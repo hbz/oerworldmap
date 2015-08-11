@@ -83,7 +83,7 @@ public class ResourceDenormalizer {
     }
     else{
       // take the existing wrapper
-      aWrappedResources.get(keyId).addResource(aResource);
+      aWrappedResources.get(keyId).addResource(aResource, aWrappedResources);
     }
     
     for (Entry<String, Object> entry : aResource.entrySet()) {
@@ -114,6 +114,10 @@ public class ResourceDenormalizer {
       result.add(wrapperEntry.getValue().export(aWrappedResources, mListValueEntries));
     }
     return result;
+  }
+
+  public static Map<String, String> getKnownInverseRelations() {
+    return mKnownInverseRelations;
   }
 
 }
