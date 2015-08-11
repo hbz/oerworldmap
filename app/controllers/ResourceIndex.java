@@ -14,7 +14,6 @@ import models.Resource;
 
 import org.json.simple.parser.ParseException;
 
-import play.Logger;
 import play.mvc.Result;
 import play.mvc.Security;
 
@@ -28,7 +27,7 @@ public class ResourceIndex extends OERWorldMap {
 
   public static Result list(String q, String sort) throws IOException, ParseException {
 
-    Map<String,Object> scope = new HashMap<>();
+    Map<String, Object> scope = new HashMap<>();
 
     scope.put("q", q);
 
@@ -80,14 +79,15 @@ public class ResourceIndex extends OERWorldMap {
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
 
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria: has no unencrypted email address
+    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
+    // has no unencrypted email address
     if (type.equals("Person") && null == resource.get("email")) {
       return notFound("Not found");
     }
 
     String title;
     try {
-      title = ((Resource)((ArrayList) resource.get("name")).get(0)).get("@value").toString();
+      title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
     } catch (NullPointerException e) {
       title = id;
     }
@@ -103,7 +103,8 @@ public class ResourceIndex extends OERWorldMap {
    * This method is designed to add information to existing resources. If the
    * resource doesn't exist yet, a bad request response is returned
    * 
-   * @param id The ID of the resource to update
+   * @param id
+   *          The ID of the resource to update
    * @throws IOException
    */
   @Security.Authenticated(Secured.class)

@@ -1,5 +1,16 @@
 package services;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -13,24 +24,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
-import play.Logger;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import play.Logger;
 
 /**
  * This class serves as an interface to Elasticsearch providing access to
@@ -165,10 +163,10 @@ public class ElasticsearchClient {
    * @param aAggregationBuilder
    * @return a List of docs, each represented by a Map of String/Object.
    */
-  public SearchResponse getAggregation(final AggregationBuilder aAggregationBuilder) {
+  public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder) {
 
-    return mClient.prepareSearch(mEsConfig.getIndex())
-        .addAggregation(aAggregationBuilder).setSize(0).execute().actionGet();
+    return mClient.prepareSearch(mEsConfig.getIndex()).addAggregation(aAggregationBuilder)
+        .setSize(0).execute().actionGet();
   }
 
   /**
@@ -177,10 +175,10 @@ public class ElasticsearchClient {
    * @param aAggregationBuilders
    * @return a List of docs, each represented by a Map of String/Object.
    */
-  public SearchResponse getAggregations(final List<AggregationBuilder> aAggregationBuilders) {
+  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mEsConfig.getIndex());
-    for (AggregationBuilder aggregationBuilder : aAggregationBuilders) {
+    for (AggregationBuilder<?> aggregationBuilder : aAggregationBuilders) {
       searchRequestBuilder.addAggregation(aggregationBuilder);
     }
 
@@ -214,7 +212,8 @@ public class ElasticsearchClient {
   }
 
   public boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
-    final DeleteResponse response = mClient.prepareDelete(mEsConfig.getIndex(), aType, aIdentifier).execute().actionGet();
+    final DeleteResponse response = mClient.prepareDelete(mEsConfig.getIndex(), aType, aIdentifier)
+        .execute().actionGet();
     return response.isFound();
   }
 
@@ -311,30 +310,32 @@ public class ElasticsearchClient {
     return esQuery(aEsQuery, null, null);
   }
 
-  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex, @Nullable String sort)
-      throws IOException, ParseException {
+  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
+      @Nullable String sort) throws IOException, ParseException {
     return esQuery(aEsQuery, aIndex, null, sort);
   }
 
   public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String aType, @Nullable String aSort) throws IOException, ParseException {
-    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(
-        StringUtils.isEmpty(aIndex) ? mEsConfig.getIndex() : aIndex);
+    SearchRequestBuilder searchRequestBuilder = mClient
+        .prepareSearch(StringUtils.isEmpty(aIndex) ? mEsConfig.getIndex() : aIndex);
     if (!StringUtils.isEmpty(aType)) {
       searchRequestBuilder.setTypes(aType);
     }
     if (!StringUtils.isEmpty(aSort)) {
       String[] sort = aSort.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC
+            : SortOrder.DESC);
       } else {
         Logger.error("Invalid sort string: " + aSort);
       }
     }
     SearchResponse response = searchRequestBuilder
-        .setQuery(QueryBuilders.queryString(aEsQuery).defaultOperator(QueryStringQueryBuilder.Operator.AND))
-        .setFrom(0).setSize(99999)
-        .execute().actionGet();
+        .setQuery(
+            QueryBuilders.queryString(aEsQuery).defaultOperator(
+                QueryStringQueryBuilder.Operator.AND)).setFrom(0).setSize(99999).execute()
+        .actionGet();
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Map<String, Object>> matches = new ArrayList<>();
     while (searchHits.hasNext()) {

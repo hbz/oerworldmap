@@ -1,28 +1,18 @@
 package controllers;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import helpers.Countries;
 import helpers.FilesConfig;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -32,7 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -55,6 +44,8 @@ import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
 import services.ElasticsearchRepository;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
 /**
  * @author fo
@@ -63,7 +54,7 @@ public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();
   final private static ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
-  
+
   final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
       .put(mEsConfig.getClientSettings()).build();
   final private static Client mClient = new TransportClient(mClientSettings)
@@ -76,8 +67,6 @@ public abstract class OERWorldMap extends Controller {
   final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(
       mElasticsearchClient);
 
-  
-  
   // TODO final protected static FileResourceRepository
   // mUnconfirmedUserRepository;
   static {
@@ -129,17 +118,18 @@ public abstract class OERWorldMap extends Controller {
 
     ClassLoader classLoader = Play.application().classloader();
     Mustache.Compiler compiler = Mustache.compiler().withLoader(new Mustache.TemplateLoader() {
-        @Override
-        public Reader getTemplate(String templatePath) throws Exception {
-          Logger.info("Attempting to load template " + templatePath);
-          return new InputStreamReader(classLoader.getResourceAsStream("public/mustache/" + templatePath));
-        }
+      @Override
+      public Reader getTemplate(String templatePath) throws Exception {
+        Logger.info("Attempting to load template " + templatePath);
+        return new InputStreamReader(classLoader.getResourceAsStream("public/mustache/"
+            + templatePath));
       }
-    );
+    });
 
-    Template template = compiler.defaultValue("").compile(new InputStreamReader(
-        classLoader.getResourceAsStream("public/mustache/" + templatePath)));
-    return views.html.main.render(pageTitle, Html.apply(template.execute(mustacheData)), getClientTemplates());
+    Template template = compiler.defaultValue("").compile(
+        new InputStreamReader(classLoader.getResourceAsStream("public/mustache/" + templatePath)));
+    return views.html.main.render(pageTitle, Html.apply(template.execute(mustacheData)),
+        getClientTemplates());
 
   }
 
@@ -180,13 +170,14 @@ public abstract class OERWorldMap extends Controller {
   }
 
   /**
-   * List directory contents for a resource folder. Not recursive.
-   * This is basically a brute-force implementation.
-   * Works for regular files and also JARs.
+   * List directory contents for a resource folder. Not recursive. This is
+   * basically a brute-force implementation. Works for regular files and also
+   * JARs.
    *
    * Adapted from http://www.uofr.net/~greg/java/get-resource-listing.html
    *
-   * @param path Should end with "/", but not start with one.
+   * @param path
+   *          Should end with "/", but not start with one.
    * @return Just the name of each member item, not the full paths.
    * @throws URISyntaxException
    * @throws IOException
@@ -194,28 +185,37 @@ public abstract class OERWorldMap extends Controller {
   private static String[] getResourceListing(String path, ClassLoader classLoader)
       throws URISyntaxException, IOException {
 
-    URL dirURL = classLoader.getResource(path);;
+    URL dirURL = classLoader.getResource(path);
+    ;
     if (dirURL == null) {
-      return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path)).list();
+      return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path))
+          .list();
     } else if (dirURL.getProtocol().equals("jar")) {
-      String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); //strip out only the JAR file
+      String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); // strip
+                                                                                     // out
+                                                                                     // only
+                                                                                     // the
+                                                                                     // JAR
+                                                                                     // file
       JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
-      Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-      Set<String> result = new HashSet<String>(); //avoid duplicates in case it is a subdirectory
-      while(entries.hasMoreElements()) {
+      Enumeration<JarEntry> entries = jar.entries(); // gives ALL entries in jar
+      Set<String> result = new HashSet<String>(); // avoid duplicates in case it
+                                                  // is a subdirectory
+      while (entries.hasMoreElements()) {
         String name = entries.nextElement().getName();
-        if (name.startsWith(path)) { //filter according to the path
+        if (name.startsWith(path)) { // filter according to the path
           String entry = name.substring(path.length());
           int checkSubdir = entry.indexOf("/");
           if (checkSubdir >= 0) {
             // if it is a subdirectory, we just return the directory name
             entry = entry.substring(0, checkSubdir);
           }
-          if (! entry.equals("")) {
+          if (!entry.equals("")) {
             result.add(entry);
           }
         }
       }
+      jar.close();
       return result.toArray(new String[result.size()]);
     }
 
