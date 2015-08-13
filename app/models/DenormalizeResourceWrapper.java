@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
+import controllers.routes.ref;
 import services.ResourceDenormalizer;
 import services.ResourceRepository;
 
@@ -88,8 +89,10 @@ public class DenormalizeResourceWrapper {
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
         Resource resource = (Resource) entry.getValue();
-        putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, resource);
-        putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
+        if (resource.hasId()) {
+          putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, resource);
+          putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
+        }
       } //
       else if (entry.getValue() instanceof List) {
         Set<String> ids = new HashSet<>();
@@ -98,8 +101,10 @@ public class DenormalizeResourceWrapper {
           Object next = iter.next();
           if (next instanceof Resource) {
             Resource resource = (Resource) next;
-            ids.add(resource.getAsString(JsonLdConstants.ID));
-            putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, resource);
+            if (resource.hasId()) {
+              ids.add(resource.getAsString(JsonLdConstants.ID));
+              putResourceToWrapperList(aWrappedResources, aRepo, aSubLevels, resource);
+            }
           }
         }
         putReference(entry.getKey(), ids);
@@ -124,7 +129,7 @@ public class DenormalizeResourceWrapper {
       final Map<String, DenormalizeResourceWrapper> aWrappedResources,
       final ResourceRepository aRepo, final int aSubLevels, Resource resource) throws IOException {
     String id = resource.getAsString(JsonLdConstants.ID);
-    if (!aWrappedResources.containsKey(id)) {
+    if (id != null && !aWrappedResources.containsKey(id)) {
       aWrappedResources.put(id, new DenormalizeResourceWrapper(resource, aWrappedResources, aRepo,
           aSubLevels - 1));
     }
@@ -151,9 +156,14 @@ public class DenormalizeResourceWrapper {
       Map<String, DenormalizeResourceWrapper> aWrappedResources) {
     for (final Entry<String, Object> entry : aResource.entrySet()) {
       Set<String> oldReferences = new HashSet<>();
+      final Map<String, Resource> noIdResources = new HashMap<>();
       if (entry.getValue() instanceof Resource) {
-        oldReferences = putReference(entry.getKey(),
-            ((Resource) entry.getValue()).getAsString(JsonLdConstants.ID));
+        Resource resource = (Resource) entry.getValue();
+        if (resource.hasId()) {
+          oldReferences = putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
+        } else {
+          noIdResources.put(entry.getKey(), resource);
+        }
       }
       if (entry.getValue() instanceof List) {
         Set<String> ids = new HashSet<>();
@@ -162,7 +172,11 @@ public class DenormalizeResourceWrapper {
           Object next = iter.next();
           if (next instanceof Resource) {
             Resource resource = (Resource) next;
-            ids.add(resource.getAsString(JsonLdConstants.ID));
+            if (resource.hasId()) {
+              ids.add(resource.getAsString(JsonLdConstants.ID));
+            } else {
+              noIdResources.put(entry.getKey(), resource);
+            }
           }
         }
         oldReferences = putReference(entry.getKey(), ids);
@@ -170,7 +184,17 @@ public class DenormalizeResourceWrapper {
       if (oldReferences != null && !oldReferences.isEmpty()) {
         removeOldReferences(entry.getKey(), oldReferences, aWrappedResources);
       }
+      if (noIdResources != null) {
+        for (Entry<String, Resource> keyAndResource : noIdResources.entrySet()) {
+          addNoIdInverseRelation(keyAndResource.getKey(), keyAndResource.getValue());
+        }
+      }
     }
+  }
+
+  private void addNoIdInverseRelation(final String aKey, final Resource aResource) {
+    aResource.put(getInverseReference(aKey, ResourceDenormalizer.getKnownInverseRelations()),
+        Resource.getLinkClone(mResource));
   }
 
   private void removeOldReferences(String aKey, Set<String> aReferences,
@@ -202,6 +226,13 @@ public class DenormalizeResourceWrapper {
    * which the other wrapper is referenced.
    */
   public void addReference(final String aKey, final String aId) {
+    if (aKey.equals(Resource.REFERENCEKEY)){
+      // check whether we still need an inverse reference for this default key
+      if (hasReferenceTo(aId)){
+        // inverse reference already exists 
+        return;
+      }
+    }
     if (mReferences.get(aKey) == null) {
       // this is the first reference for this predicate key
       final Set<String> refSet = new HashSet<>();
@@ -214,6 +245,15 @@ public class DenormalizeResourceWrapper {
     }
     mLinkView = null;
     mEmbedView = null;
+  }
+
+  private boolean hasReferenceTo(String aId) {
+    for (Entry<String, Set<String>> referenceEntry : mReferences.entrySet()){
+      if (referenceEntry.getValue().contains(aId)){
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -238,10 +278,10 @@ public class DenormalizeResourceWrapper {
       Map<String, String> aKnownInverseRelations) {
     for (Entry<String, Set<String>> referenceSet : mReferences.entrySet()) {
       String key = referenceSet.getKey();
-      referenceSet.getValue().forEach(id -> {
+      for (String id : referenceSet.getValue()) {
         String inverseKey = getInverseReference(key, aKnownInverseRelations);
         aWrappedResources.get(id).addReference(inverseKey, mKeyId);
-      });
+      }
     }
   }
 

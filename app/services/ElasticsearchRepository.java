@@ -17,6 +17,7 @@ import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
+
 import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
@@ -31,7 +32,6 @@ public class ElasticsearchRepository implements ResourceRepository {
 
   @Override
   public void addResource(@Nonnull final Resource aResource) throws IOException {
-    
     String type = (String) aResource.get(JsonLdConstants.TYPE);
     if (StringUtils.isEmpty(type)) {
       type = DEFAULT_TYPE;
@@ -56,8 +56,10 @@ public class ElasticsearchRepository implements ResourceRepository {
       return null;
     }
 
-    // FIXME: check why deleting from _all is not possible, remove dependency on Record class
-    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE).toString();
+    // FIXME: check why deleting from _all is not possible, remove dependency on
+    // Record class
+    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE)
+        .toString();
     Logger.info("DELETING " + type + aId);
 
     if (elasticsearch.deleteDocument(type, aId)) {
@@ -75,7 +77,7 @@ public class ElasticsearchRepository implements ResourceRepository {
    * @param aField
    * @param aContent
    * @return all matching Resources or an empty list if no resources match the
-   * given field / content combination.
+   *         given field / content combination.
    */
   public List<Resource> getResourcesByContent(@Nonnull String aType, @Nonnull String aField,
       String aContent) {
@@ -102,18 +104,18 @@ public class ElasticsearchRepository implements ResourceRepository {
     return resources;
   }
 
-  public Resource query(AggregationBuilder aAggregationBuilder) throws IOException {
-    Resource aggregations = Resource
-        .fromJson(elasticsearch.getAggregation(aAggregationBuilder).toString());
+  public Resource query(AggregationBuilder<?> aAggregationBuilder) throws IOException {
+    Resource aggregations = Resource.fromJson(elasticsearch.getAggregation(aAggregationBuilder)
+        .toString());
     if (null == aggregations) {
       return null;
     }
     return (Resource) aggregations.get("aggregations");
   }
 
-  public Resource query(List<AggregationBuilder> aAggregationBuilders) throws IOException {
-    Resource aggregations = Resource
-        .fromJson(elasticsearch.getAggregations(aAggregationBuilders).toString());
+  public Resource query(List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
+    Resource aggregations = Resource.fromJson(elasticsearch.getAggregations(aAggregationBuilders)
+        .toString());
     if (null == aggregations) {
       return null;
     }
@@ -126,14 +128,15 @@ public class ElasticsearchRepository implements ResourceRepository {
    * http://www.elasticsearch.org/guide
    * /en/elasticsearch/reference/current/search-uri-request.html .
    *
-   * @param aEsQuery a String representing the
+   * @param aEsQuery
+   *          a String representing the
    * @return an ArrayList of Resources representing the search result
    * @throws IOException
    * @throws ParseException
    */
-  public List<Resource> esQuery(String aEsQuery) throws IOException, ParseException {
+  public List<Resource> esQuery(String aEsQuery, String aEsSort) throws IOException, ParseException {
     List<Resource> resources = new ArrayList<Resource>();
-    for (Map<String, Object> doc : elasticsearch.esQuery(aEsQuery)) {
+    for (Map<String, Object> doc : elasticsearch.esQuery(aEsQuery, null, aEsSort)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;

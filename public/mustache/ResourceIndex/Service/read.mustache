@@ -28,6 +28,17 @@
               </ul>
           </div>
           {{/availableChannel}}
+          <h2>Provider</h2>
+          {{#provider}}
+            <ul>
+            {{#?Organization}}
+              <li>{{>ResourceIndex/Organization/link.mustache}}</li>
+            {{/?Organization}}
+            {{#?Person}}
+                <li>{{>ResourceIndex/Person/link.mustache}}</li>
+            {{/?Person}}
+            </ul>
+          {{/provider}}
       </div>
       <h2>{{i18n.mentioned_in}}</h2>
       <ul>

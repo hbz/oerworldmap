@@ -1,5 +1,6 @@
 package services;
 
+import helpers.ElasticsearchHelpers;
 import helpers.JsonTest;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -61,5 +63,10 @@ public class BaseRepositoryTest implements JsonTest{
     Resource expected = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
     mRepo.addResource(resource);
     Assert.assertEquals(expected, mRepo.getResource("id002"));
+  }
+  
+  @AfterClass
+  public static void clean() throws IOException {
+    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
   }
 }

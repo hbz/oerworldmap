@@ -45,7 +45,8 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "image": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "mainEntity": {
           "oneOf": [
@@ -251,6 +252,10 @@
         "description": {
           "$ref": "#/definitions/LocalizedString"
         },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
         "provider": {
           "description": "The person or organization responsible for provision of the service.",
           "type": "array",
@@ -307,6 +312,9 @@
         "email": {
           "type": "string",
           "format": "email"
+        },
+        "location": {
+          "$ref": "#/definitions/Place"
         },
         "about": {
           "type": "array",

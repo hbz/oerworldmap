@@ -30,6 +30,9 @@ import com.rits.cloning.Cloner;
 
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
+  /**
+   * 
+   */
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
@@ -102,12 +105,12 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (key.equals(JsonLdConstants.ID) && !mIdentifiedTypes.contains(type)) {
         continue;
       }
-      if (value instanceof Map) {
+      if (value instanceof Map<?, ?>) {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
-      } else if (value instanceof List) {
+      } else if (value instanceof List<?>) {
         List<Object> vals = new ArrayList<>();
         for (Object v : (List<?>) value) {
-          if (v instanceof Map) {
+          if (v instanceof Map<?, ?>) {
             vals.add(Resource.fromMap((Map<String, Object>) v));
           } else {
             vals.add(v);
@@ -214,6 +217,9 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource getLinkClone(final Resource aResource) {
+    if (aResource == null){
+      return null;
+    }
     final Resource result = new Resource();
     if (null != aResource.get(JsonLdConstants.ID)) {
       result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
@@ -228,6 +234,9 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource getEmbedClone(final Resource aResource) {
+    if (aResource == null){
+      return null;
+    }
     final Resource result = new Resource();
     for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
       Map.Entry<String, Object> entry = it.next();
@@ -340,7 +349,6 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
         result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
       } else {
         result.put(entry.getKey(), entry.getValue());
-        // TODO: implement handling of nodes nested via JsonNode
       }
     }
     return result;

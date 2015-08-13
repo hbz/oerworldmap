@@ -5,6 +5,9 @@ import helpers.UniversalFunctions;
 
 public class Record extends Resource {
 
+  /**
+   * 
+   */
   private static final long serialVersionUID = 5181258925743099684L;
   public static final String RESOURCEKEY = "about";
 

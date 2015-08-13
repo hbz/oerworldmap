@@ -26,5 +26,12 @@
       ],
       "email": "foo@bar.de"
     }
-  ]
+  ],
+  "location": {
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "DE"
+    }
+  },
+  "image": "http://foo.bar.de"
 }

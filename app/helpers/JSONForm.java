@@ -27,15 +27,15 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
  */
 public class JSONForm {
 
-  public static JsonNode parseFormData(Map<String,String[]> formData) {
+  public static JsonNode parseFormData(Map<String, String[]> formData) {
     List<JsonNode> results = new ArrayList<>();
-    for (Map.Entry<String,String[]> entry : formData.entrySet()) {
+    for (Map.Entry<String, String[]> entry : formData.entrySet()) {
       JsonNode context = new ObjectNode(JsonNodeFactory.instance);
       String path = entry.getKey();
       String[] values = entry.getValue();
       List<JSONForm.Step> steps = parsePath(path);
       Collections.reverse(steps);
-      //TODO: implement file inputs
+      // TODO: implement file inputs
       for (JSONForm.Step step : steps) {
 
         if (step.last) {
@@ -44,10 +44,10 @@ public class JSONForm {
             if (!value.isEmpty()) {
               try {
                 vals.add(Integer.parseInt(value));
-              } catch(NumberFormatException notInt) {
+              } catch (NumberFormatException notInt) {
                 try {
                   vals.add(Double.parseDouble(value));
-                } catch(NumberFormatException notDouble) {
+                } catch (NumberFormatException notDouble) {
                   vals.add(value);
                 }
               }
@@ -95,17 +95,17 @@ public class JSONForm {
     return merge(results);
   }
 
-  public static List<Map<String,Object>> generateErrorReport(ProcessingReport report) {
-    List<Map<String,Object>> errorReport = new ArrayList<>();
+  public static List<Map<String, Object>> generateErrorReport(ProcessingReport report) {
+    List<Map<String, Object>> errorReport = new ArrayList<>();
     for (ProcessingMessage message : report) {
-      ObjectNode messageNode = (ObjectNode)message.asJson();
-      String messageText = messageNode.get("instance").get("pointer").asText()
-          + ": " + messageNode.get("message").asText();
+      ObjectNode messageNode = (ObjectNode) message.asJson();
+      String messageText = messageNode.get("instance").get("pointer").asText() + ": "
+          + messageNode.get("message").asText();
       messageNode.put("message", messageText);
       switch (messageNode.get("level").asText()) {
-        case "error":
-          messageNode.put("level", "danger");
-          break;
+      case "error":
+        messageNode.put("level", "danger");
+        break;
       }
       errorReport.add(Resource.fromJson(messageNode));
     }
@@ -116,12 +116,12 @@ public class JSONForm {
 
     ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
     Set<String> keys = new HashSet<>();
-    Iterator itx = x.fieldNames();
+    Iterator<?> itx = x.fieldNames();
     while (itx.hasNext()) {
       String key = itx.next().toString();
       keys.add(key);
     }
-    Iterator ity = y.fieldNames();
+    Iterator<?> ity = y.fieldNames();
     while (ity.hasNext()) {
       String key = ity.next().toString();
       keys.add(key);
@@ -137,9 +137,9 @@ public class JSONForm {
       } else if (nully && !nullx) {
         result.put(key, valx);
       } else if (valx instanceof ArrayNode && valy instanceof ArrayNode) {
-        result.put(key, merge((ArrayNode)valx, (ArrayNode)valy));
+        result.put(key, merge((ArrayNode) valx, (ArrayNode) valy));
       } else if (valx instanceof ObjectNode && valy instanceof ObjectNode) {
-        result.put(key, merge((ObjectNode)valx, (ObjectNode)valy));
+        result.put(key, merge((ObjectNode) valx, (ObjectNode) valy));
       } else if (!nullx) {
         ArrayNode val = new ArrayNode(JsonNodeFactory.instance);
         val.add(valx);
@@ -180,7 +180,7 @@ public class JSONForm {
   public static JsonNode merge(List<JsonNode> nodes) {
     ObjectNode merged = new ObjectNode(JsonNodeFactory.instance);
     for (JsonNode node : nodes) {
-      merged = merge(merged, (ObjectNode)node);
+      merged = merge(merged, (ObjectNode) node);
     }
     return merged;
   }
@@ -198,7 +198,8 @@ public class JSONForm {
     public boolean append;
 
     public String toString() {
-      return "{Type: " + type + ", Key: " + key + ", Last: " + last + ", Append: " + append + ", Next type: " + nextType + "}";
+      return "{Type: " + type + ", Key: " + key + ", Last: " + last + ", Append: " + append
+          + ", Next type: " + nextType + "}";
     }
 
   }

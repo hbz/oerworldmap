@@ -1,10 +1,6 @@
 {
   "attended" : {
-    "@type" : "Foo",
-    "referencedBy" : {
-      "@type" : "Person",
-      "@id" : "id002"
-    }
+    "@type" : "Foo"
   },
   "@type" : "Person",
   "@id" : "id002"

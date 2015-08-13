@@ -74,7 +74,6 @@ public class ResourceDenormalizer {
   private static void split(Resource aResource,
       Map<String, DenormalizeResourceWrapper> aWrappedResources, ResourceRepository aRepo)
       throws IOException {
-
     String keyId = aResource.getAsString(JsonLdConstants.ID);
     if (keyId == null || !aWrappedResources.containsKey(keyId)){
       // we need a new wrapper
@@ -88,12 +87,19 @@ public class ResourceDenormalizer {
     
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
-        split((Resource) entry.getValue(), aWrappedResources, aRepo);
+        Resource resource = (Resource) entry.getValue();
+        if (resource.hasId()){
+          split(resource, aWrappedResources, aRepo);
+        }
       } else if (entry.getValue() instanceof List) {
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
           Object next = iter.next();
           if (next instanceof Resource) {
+            Resource resource = (Resource) next;
+            if (resource.hasId()){
+              split(resource, aWrappedResources, aRepo);
+            }
             split((Resource) next, aWrappedResources, aRepo);
           }
         }
