@@ -15,6 +15,7 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 
+import play.Logger;
 import play.mvc.Result;
 
 /**
@@ -66,9 +67,9 @@ public class CountryIndex extends OERWorldMap {
     Resource countryAggregation = mBaseRepository.query(byCountry);
 
     List<Resource> champions = mBaseRepository.esQuery(
-        "countryChampionFor:".concat(id.toUpperCase()), null);
+        Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), null);
     List<Resource> resources = mBaseRepository.esQuery(
-        "about.\\*.addressCountry:".concat(id.toUpperCase()), null);
+        Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), null);
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
