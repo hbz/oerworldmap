@@ -40,9 +40,12 @@
                         
             <h2>Related</h2>
             
-            <ul class="fa-ul related-list populate-map">
+            <ul class="fa-ul related-list">
                 <script type="application/ld+json">
                     {{{mentions}}}
+                </script>
+                <script type="application/ld+json">
+                    {{{mainEntity}}}
                 </script>
                 {{#mainEntity}}
                     <li about="{{@id}}">

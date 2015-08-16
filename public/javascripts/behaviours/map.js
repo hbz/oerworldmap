@@ -380,7 +380,6 @@ Hijax.behaviours.map = {
     var properties = feature.getProperties();
     
     if( type == "placemark" ) {
-      properties.refBy.first = properties.refBy[ Object.keys(properties.refBy)[0] ];
       var content = Mustache.to_html(
         $('#popover' + properties.type + '\\.mustache').html(),
         properties
@@ -646,18 +645,11 @@ Hijax.behaviours.map = {
   markers : {},
   
   getMarkers : function(resource, labelCallback, origin) {
-
     origin = origin || resource;
+
     var that = this;
 
     if (that.markers[resource['@id']]) {
-      for (var i = 0; i < that.markers[resource['@id']].length; i++) {
-        var properties = that.markers[resource['@id']][i].getProperties();
-        if (!properties.refBy[origin['@id']] && origin['@id'] != resource['@id']) {
-          properties.refBy[origin['@id']] = origin;
-        }
-        that.markers[resource['@id']][i].setProperties(properties);
-      }
       return that.markers[resource['@id']];
     }
 
@@ -673,15 +665,17 @@ Hijax.behaviours.map = {
     for (var l in locations) {
       if (geo = locations[l].geo) {
         var point = new ol.geom.Point(ol.proj.transform([geo['lon'], geo['lat']], 'EPSG:4326', that.projection.getCode()));
-
+        if (resource['@id'] != origin['@id'] && resource.referencedBy) {
+          resource.referencedBy.push(origin);
+        } else if (resource['@id'] != origin['@id']) {
+          resource.referencedBy = [origin];
+        }
         var featureProperties = {
           resource: resource,
-          refBy: {},
           geometry: point,
           url: "/resource/" + resource['@id'],
           type: resource['@type'],
         };
-        featureProperties.refBy[origin['@id']] = origin;
 
         var feature = new ol.Feature(featureProperties);
         feature.setId(resource['@id']);
