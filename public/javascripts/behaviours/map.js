@@ -650,6 +650,20 @@ Hijax.behaviours.map = {
     var that = this;
 
     if (that.markers[resource['@id']]) {
+      for (var i = 0; i < that.markers[resource['@id']].length; i++) {
+        var properties = that.markers[resource['@id']][i].getProperties();
+        if (properties.resource['@id'] != origin['@id'] && properties.resource.referencedBy) {
+          var referenced = properties.resource.referencedBy.reduce(function(previousValue, currentValue, index, array) {
+            return (previousValue || ( currentValue['@id'] == origin['@id'] ));
+          }, false);
+          if (!referenced) {
+            properties.resource.referencedBy.push(origin);
+          }
+        } else if (resource['@id'] != origin['@id']) {
+          properties.resource.referencedBy = [origin];
+        }
+        that.markers[resource['@id']][i].setProperties(properties);
+      }
       return that.markers[resource['@id']];
     }
 
