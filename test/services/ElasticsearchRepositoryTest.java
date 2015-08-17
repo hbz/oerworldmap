@@ -103,7 +103,7 @@ public class ElasticsearchRepositoryTest {
     Set<String> employers = new HashSet<String>();
 
     for (Resource r : resourcesGotBack) {
-      ids.add(r.get(JsonLdConstants.ID).toString());
+      ids.add(r.getAsString(JsonLdConstants.ID));
       names.add(r.get("name").toString());
       employers.add(r.get("worksFor").toString());
     }

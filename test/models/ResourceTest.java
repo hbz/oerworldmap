@@ -40,7 +40,7 @@ public class ResourceTest {
   public void testConstructUnidentifiedResourceWithId() {
     Resource resource = new Resource("Foo", "id");
     assertEquals("Foo", resource.get(JsonLdConstants.TYPE));
-    assertNull(resource.get(JsonLdConstants.ID));
+    assertEquals("id", resource.get(JsonLdConstants.ID));
   }
 
   @Test

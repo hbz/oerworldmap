@@ -17,6 +17,7 @@ import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
+
 import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
@@ -35,16 +36,11 @@ public class ElasticsearchRepository implements ResourceRepository {
     if (StringUtils.isEmpty(type)) {
       type = DEFAULT_TYPE;
     }
-    addResource(aResource, type);
-  }
-
-  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
-      throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
     }
-    elasticsearch.addJson(aResource.toString(), id, aType);
+    elasticsearch.addJson(aResource.toString(), id, type);
   }
 
   @Override

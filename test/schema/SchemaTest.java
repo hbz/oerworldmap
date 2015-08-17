@@ -1,44 +1,40 @@
 package schema;
 
-import static org.junit.Assert.*;
-
-import models.Resource;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import helpers.JsonTest;
 
 import java.io.IOException;
-import java.io.InputStream;
+
+import models.Resource;
+
+import org.junit.Test;
 
 
 /**
  * @author fo
  */
-public class SchemaTest {
+public class SchemaTest implements JsonTest{
 
   @Test
   public void testPerson() throws IOException {
-    InputStream in = ClassLoader.getSystemResourceAsStream("person.json");
-    String json = IOUtils.toString(in, "UTF-8");
-    Resource person = Resource.fromJson(json);
+    Resource person = getResourceFromJsonFile("SchemaTest/testPerson.json");
     assertNotNull(person);
     assertTrue(person.validate().isSuccess());
   }
 
   @Test
   public void testService() throws IOException {
-    InputStream in = ClassLoader.getSystemResourceAsStream("service.json");
-    String json = IOUtils.toString(in, "UTF-8");
-    Resource service = Resource.fromJson(json);
+    Resource service = getResourceFromJsonFile("SchemaTest/testService.json");
     assertNotNull(service);
     assertTrue(service.validate().isSuccess());
   }
 
   @Test
   public void testArticle() throws IOException {
-    InputStream in = ClassLoader.getSystemResourceAsStream("article.json");
-    String json = IOUtils.toString(in, "UTF-8");
-    Resource article = Resource.fromJson(json);
+    Resource article = getResourceFromJsonFile("SchemaTest/testArticle.json");
     assertNotNull(article);
     assertTrue(article.validate().isSuccess());
   }
+
 }
