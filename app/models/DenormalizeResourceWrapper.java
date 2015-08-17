@@ -156,16 +156,13 @@ public class DenormalizeResourceWrapper {
       Map<String, DenormalizeResourceWrapper> aWrappedResources) {
     for (final Entry<String, Object> entry : aResource.entrySet()) {
       Set<String> oldReferences = new HashSet<>();
-      final Map<String, Resource> noIdResources = new HashMap<>();
       if (entry.getValue() instanceof Resource) {
         Resource resource = (Resource) entry.getValue();
         if (resource.hasId()) {
           oldReferences = putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
-        } else {
-          noIdResources.put(entry.getKey(), resource);
         }
-      }
-      if (entry.getValue() instanceof List) {
+      } //
+      else if (entry.getValue() instanceof List) {
         Set<String> ids = new HashSet<>();
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
@@ -174,8 +171,6 @@ public class DenormalizeResourceWrapper {
             Resource resource = (Resource) next;
             if (resource.hasId()) {
               ids.add(resource.getAsString(JsonLdConstants.ID));
-            } else {
-              noIdResources.put(entry.getKey(), resource);
             }
           }
         }
@@ -184,17 +179,7 @@ public class DenormalizeResourceWrapper {
       if (oldReferences != null && !oldReferences.isEmpty()) {
         removeOldReferences(entry.getKey(), oldReferences, aWrappedResources);
       }
-      if (noIdResources != null) {
-        for (Entry<String, Resource> keyAndResource : noIdResources.entrySet()) {
-          addNoIdInverseRelation(keyAndResource.getKey(), keyAndResource.getValue());
-        }
-      }
     }
-  }
-
-  private void addNoIdInverseRelation(final String aKey, final Resource aResource) {
-    aResource.put(getInverseReference(aKey, ResourceDenormalizer.getKnownInverseRelations()),
-        Resource.getLinkClone(mResource));
   }
 
   private void removeOldReferences(String aKey, Set<String> aReferences,
@@ -226,10 +211,10 @@ public class DenormalizeResourceWrapper {
    * which the other wrapper is referenced.
    */
   public void addReference(final String aKey, final String aId) {
-    if (aKey.equals(Resource.REFERENCEKEY)){
+    if (aKey.equals(Resource.REFERENCEKEY)) {
       // check whether we still need an inverse reference for this default key
-      if (hasReferenceTo(aId)){
-        // inverse reference already exists 
+      if (hasReferenceTo(aId)) {
+        // inverse reference already exists
         return;
       }
     }
@@ -248,8 +233,8 @@ public class DenormalizeResourceWrapper {
   }
 
   private boolean hasReferenceTo(String aId) {
-    for (Entry<String, Set<String>> referenceEntry : mReferences.entrySet()){
-      if (referenceEntry.getValue().contains(aId)){
+    for (Entry<String, Set<String>> referenceEntry : mReferences.entrySet()) {
+      if (referenceEntry.getValue().contains(aId)) {
         return true;
       }
     }

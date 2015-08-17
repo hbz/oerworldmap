@@ -217,7 +217,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource getLinkClone(final Resource aResource) {
-    if (aResource == null){
+    if (aResource == null) {
       return null;
     }
     final Resource result = new Resource();
@@ -234,7 +234,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource getEmbedClone(final Resource aResource) {
-    if (aResource == null){
+    if (aResource == null) {
       return null;
     }
     final Resource result = new Resource();
@@ -279,7 +279,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List && other.get(pair.getKey(), true) instanceof List){
+      if (pair.getValue() instanceof List && other.get(pair.getKey(), true) instanceof List) {
         ((List<?>) pair.getValue()).sort(null);
         ((List<?>) other.get(pair.getKey(), true)).sort(null);
       }
@@ -343,7 +343,13 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
-        result.put(entry.getKey(), Resource.getIdClone((Resource) entry.getValue()));
+        Resource resource = (Resource) entry.getValue();
+        if (resource.hasId()) {
+          result.put(entry.getKey(), Resource.getIdClone(resource));
+        } //
+        else {
+          result.put(entry.getKey(), entry.getValue());
+        }
       } //
       else if (entry.getValue() instanceof List) {
         result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
