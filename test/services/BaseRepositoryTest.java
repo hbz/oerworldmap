@@ -20,7 +20,7 @@ public class BaseRepositoryTest {
   private static BaseRepository mRepo;
   private static Settings mClientSettings;
   private static TransportClient mClient;
-  private static ElasticsearchClient mElClient;
+  private static ElasticsearchProvider mElClient;
   private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
   @SuppressWarnings("resource")
@@ -31,7 +31,7 @@ public class BaseRepositoryTest {
     mClient = new TransportClient(mClientSettings)
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer
             .valueOf(mEsConfig.getJavaPort())));
-    mElClient = new ElasticsearchClient(mClient, mEsConfig);
+    mElClient = new ElasticsearchProvider(mClient, mEsConfig, true);
     mRepo = new BaseRepository(mElClient, Paths.get(System.getProperty("java.io.tmpdir")));
   }
 
