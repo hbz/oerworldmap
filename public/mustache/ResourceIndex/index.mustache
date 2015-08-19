@@ -2,7 +2,7 @@
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 <div role="main" class="color-scheme-text list-view column small">
-
+    {{#scope.search}}
     <section>
         <form method="get" action="/resource/" id="search">
             
@@ -17,7 +17,8 @@
     </section>
     
     <div class="hits">{{scope.resources.size}} found ...</div>
-    
+    {{/scope.search}}
+
     <section>
         <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
