@@ -53,14 +53,15 @@ public class BaseRepository {
       record = new Record(aResource);
     }
     mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
-    mFileRepo.addResource(record);
+    mFileRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
     addMentionedData(aResource);
   }
 
   /**
    * Add data mentioned within other items.
    *
-   * @param aResource The type of mentioned data sub item.
+   * @param aResource
+   *          The type of mentioned data sub item.
    * @throws IOException
    */
   @SuppressWarnings("unchecked")
@@ -91,7 +92,7 @@ public class BaseRepository {
     List<Resource> referencedResourcesExludingSelf = new ArrayList<>();
     for (Resource reference : referencedResources) {
       String refId = reference.get(JsonLdConstants.ID).toString();
-      if (! id.equals(refId)) {
+      if (!id.equals(refId)) {
         referencedResourcesExludingSelf.add(reference);
       }
     }
@@ -117,7 +118,8 @@ public class BaseRepository {
   }
 
   public List<Resource> esQuery(String aEsQuery, String aEsSort) {
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria: has no unencrypted email address
+    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
+    // has no unencrypted email address
     aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
     List<Resource> resources = new ArrayList<Resource>();
     try {
@@ -135,7 +137,7 @@ public class BaseRepository {
     if (resource == null || resource.isEmpty()) {
       resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
-    if (resource != null){
+    if (resource != null) {
       resource = (Resource) resource.get(Record.RESOURCEKEY);
       attachReferencedResources(resource);
     }
@@ -171,13 +173,11 @@ public class BaseRepository {
     return resources;
   }
 
-  public Resource query(@SuppressWarnings("rawtypes") AggregationBuilder aAggregationBuilder)
-      throws IOException {
+  public Resource query(AggregationBuilder<?> aAggregationBuilder) throws IOException {
     return mElasticsearchRepo.query(aAggregationBuilder);
   }
 
-  public Resource query(@SuppressWarnings("rawtypes") List<AggregationBuilder> aAggregationBuilders)
-      throws IOException {
+  public Resource query(List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
     return mElasticsearchRepo.query(aAggregationBuilders);
   }
 

@@ -21,6 +21,11 @@ import play.Logger;
 
 public class Resource extends HashMap<String, Object> {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6177433021348713601L;
+
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
@@ -34,7 +39,8 @@ public class Resource extends HashMap<String, Object> {
   /**
    * Constructor which sets up a random UUID.
    *
-   * @param type The type of the resource.
+   * @param type
+   *          The type of the resource.
    */
   public Resource(final String type) {
     this(type, null);
@@ -43,8 +49,10 @@ public class Resource extends HashMap<String, Object> {
   /**
    * Constructor.
    *
-   * @param aType The type of the resource.
-   * @param aId The id of the resource.
+   * @param aType
+   *          The type of the resource.
+   * @param aId
+   *          The id of the resource.
    */
   public Resource(final String aType, final String aId) {
     if (null != aType) {
@@ -68,13 +76,14 @@ public class Resource extends HashMap<String, Object> {
    * values of the map are properly represented by the toString() method of
    * their class.
    *
-   * @param aProperties The map to create the resource from
+   * @param aProperties
+   *          The map to create the resource from
    * @return a Resource containing all given properties
    */
   @SuppressWarnings("unchecked")
   public static Resource fromMap(Map<String, Object> aProperties) {
 
-    if (aProperties == null){
+    if (aProperties == null) {
       return null;
     }
 
@@ -85,15 +94,15 @@ public class Resource extends HashMap<String, Object> {
     for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
       String key = entry.getKey();
       Object value = entry.getValue();
-      if (key.equals(JsonLdConstants.ID) && ! mIdentifiedTypes.contains(type)) {
+      if (key.equals(JsonLdConstants.ID) && !mIdentifiedTypes.contains(type)) {
         continue;
       }
-      if (value instanceof Map) {
+      if (value instanceof Map<?, ?>) {
         resource.put(key, Resource.fromMap((Map<String, Object>) value));
-      } else if (value instanceof List) {
+      } else if (value instanceof List<?>) {
         List<Object> vals = new ArrayList<>();
-        for (Object v : (List) value) {
-          if (v instanceof Map) {
+        for (Object v : (List<?>) value) {
+          if (v instanceof Map<?, ?>) {
             vals.add(Resource.fromMap((Map<String, Object>) v));
           } else {
             vals.add(v);

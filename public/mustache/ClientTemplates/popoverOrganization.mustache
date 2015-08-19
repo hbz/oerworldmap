@@ -7,15 +7,15 @@
   </div>
 </div>
 
-{{#refBy.first.name.0}}
+{{#resource.referencedBy}}
 
   <div class="popover-section bg-blue-paler">
     <div class="icon-indented">
   
-      <i class="fa fa-comment"></i><strong>Story:</strong>
-      {{@value}}
+      <i class="fa fa-link"></i><strong>{{@type}}:</strong>
+      {{#name.0}}{{@value}}{{/name.0}}
     
     </div>
   </div>
 
-{{/refBy.first.name.0}}
+{{/resource.referencedBy}}

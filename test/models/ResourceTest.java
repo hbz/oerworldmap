@@ -35,7 +35,7 @@ public class ResourceTest {
     assertEquals("Person", resource.get(JsonLdConstants.TYPE));
     assertNotNull(resource.get(JsonLdConstants.ID));
   }
-    
+
   @Test
   public void testConstructUnidentifiedResourceWithId() {
     Resource resource = new Resource("Foo", "id");
@@ -49,7 +49,7 @@ public class ResourceTest {
     assertEquals("Foo", resource.get(JsonLdConstants.TYPE));
     assertNull(resource.get(JsonLdConstants.ID));
   }
-  
+
   @Test
   public void testSetGetProperty() {
     Resource resource = new Resource("Type", "id");
@@ -68,7 +68,7 @@ public class ResourceTest {
     String expected = "{\"@type\":\"Type\",\"property\":\"value\"}";
     assertEquals(expected, resource.toString().replaceAll("[\n \t]", ""));
   }
-  
+
   @Test
   public void testFromFlatMap() {
     Map<String, Object> map = new HashMap<String, Object>();
@@ -80,14 +80,14 @@ public class ResourceTest {
     Resource resource = Resource.fromMap(map);
     assertEquals(resource.get(property), value);
   }
-  
+
   @Test
   public void testFromNestedMap() {
-    
+
     String property = "nested";
     String type = "Type";
     String id = UUID.randomUUID().toString();
-    
+
     Map<String, Object> map = new HashMap<String, Object>();
     Map<String, Object> value = new HashMap<String, Object>();
 
@@ -99,7 +99,7 @@ public class ResourceTest {
     map.put(property, value);
     Resource resource = Resource.fromMap(map);
     assertEquals(resource.get(property), Resource.fromMap(value));
-    
+
   }
 
   @Test
@@ -119,7 +119,7 @@ public class ResourceTest {
 
     map.put(property, value);
     Resource resource = Resource.fromMap(map);
-    assertEquals((ArrayList) resource.get(property), value);
+    assertEquals((ArrayList<?>) resource.get(property), value);
 
   }
 
