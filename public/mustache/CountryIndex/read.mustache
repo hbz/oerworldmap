@@ -23,7 +23,7 @@
                 
                 <div class="text">
                     <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
-                    <a href="mailto:{{{email}}}">{{{email}}}</a><br />
+                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
                     {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
                 </div>
                 
@@ -66,21 +66,7 @@
             </script>
             {{#scope.resources}}
                 <li about="{{@id}}">
-                    {{#?Article}}
-                        {{>ResourceIndex/Article/link.mustache}}
-                    {{/?Article}}
-                    {{#?Organization}}
-                        {{>ResourceIndex/Organization/link.mustache}}
-                    {{/?Organization}}
-                    {{#?Person}}
-                        {{>ResourceIndex/Person/link.mustache}}
-                    {{/?Person}}
-                    {{#?Service}}
-                        {{>ResourceIndex/Service/link.mustache}}
-                    {{/?Service}}
-                    {{#?Action}}
-                        {{>ResourceIndex/Action/link.mustache}}
-                    {{/?Action}}
+                    {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                 </li>
             {{/scope.resources}}
         </ul>

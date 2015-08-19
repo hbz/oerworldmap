@@ -1,12 +1,34 @@
 package controllers;
 
+import com.github.jknack.handlebars.*;
+import com.github.jknack.handlebars.helper.StringHelpers;
+import com.github.jknack.handlebars.io.FileTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 import helpers.Countries;
 import helpers.FilesConfig;
+import helpers.UniversalFunctions;
+import models.Resource;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import play.Configuration;
+import play.Logger;
+import play.Play;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.twirl.api.Html;
+import services.BaseRepository;
+import services.ElasticsearchClient;
+import services.ElasticsearchConfig;
+import services.ElasticsearchRepository;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,28 +46,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-
-import play.Configuration;
-import play.Logger;
-import play.Play;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.twirl.api.Html;
-import services.BaseRepository;
-import services.ElasticsearchClient;
-import services.ElasticsearchConfig;
-import services.ElasticsearchRepository;
-
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 
 /**
  * @author fo
@@ -116,20 +116,39 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("i18n", i18n);
     mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
 
-    ClassLoader classLoader = Play.application().classloader();
-    Mustache.Compiler compiler = Mustache.compiler().withLoader(new Mustache.TemplateLoader() {
-      @Override
-      public Reader getTemplate(String templatePath) throws Exception {
-        Logger.info("Attempting to load template " + templatePath);
-        return new InputStreamReader(classLoader.getResourceAsStream("public/mustache/"
-            + templatePath));
+    TemplateLoader loader = new FileTemplateLoader("public/mustache", "");
+    Handlebars handlebars = new Handlebars(loader);
+    handlebars.registerHelpers(StringHelpers.class);
+    handlebars.registerHelper("size", new Helper<ArrayList>() {
+      public CharSequence apply(ArrayList list, Options options) {
+        return Integer.toString(list.size());
       }
     });
 
-    Template template = compiler.defaultValue("").compile(
-        new InputStreamReader(classLoader.getResourceAsStream("public/mustache/" + templatePath)));
-    return views.html.main.render(pageTitle, Html.apply(template.execute(mustacheData)),
-        getClientTemplates());
+    handlebars.registerHelper("obfuscate", new Helper<String>() {
+      public CharSequence apply(String string, Options options) {
+        return UniversalFunctions.getHtmlEntities(string);
+      }
+    });
+
+    handlebars.registerHelper("@value", new Helper<Resource>() {
+      public CharSequence apply(Resource resource, Options options) {
+        if (resource.get("@language") != null
+            && resource.get("@language").toString().equals(Locale.getDefault().getLanguage())) {
+          return resource.get("@value").toString();
+        } else {
+          return "";
+        }
+      }
+    });
+
+    try {
+      Template template = handlebars.compile(templatePath);
+      return views.html.main.render(pageTitle, Html.apply(template.apply(mustacheData)), getClientTemplates());
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return null;
+    }
 
   }
 

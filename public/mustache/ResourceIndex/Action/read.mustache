@@ -14,19 +14,14 @@
           <h2>Participants</h2>
           {{#agent}}
               <ul>
-                {{#?Organization}}
-                    <li>{{>ResourceIndex/Organization/link.mustache}}</li>
-                {{/?Organization}}
-                {{#?Person}}
-                    <li>{{>ResourceIndex/Person/link.mustache}}</li>
-                {{/?Person}}
+                {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
               </ul>
           {{/agent}}
       </div>
       <h2>{{i18n.mentioned_in}}</h2>
       <ul>
         {{#referencedBy}}
-          {{#?Article}}<li><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></li>{{/?Article}}
+          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
         {{/referencedBy}}
       </ul>
   {{/scope}}

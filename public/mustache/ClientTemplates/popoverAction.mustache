@@ -2,7 +2,7 @@
     <div class="icon-indented">
 
         <i class="fa fa-gears"></i><strong>Project:</strong>
-      {{#resource.name}}{{@value}}{{/resource.name}}
+      {{#resource.name}}{{[@value]}}{{/resource.name}}
 
     </div>
 </div>
@@ -12,8 +12,8 @@
     <div class="popover-section bg-blue-paler">
         <div class="icon-indented">
 
-            <i class="fa fa-link"></i><strong>{{@type}}:</strong>
-          {{#name}}{{@value}}{{/name}}
+            <i class="fa fa-link"></i><strong>{{[@type]}}:</strong>
+          {{#name}}{{[@value]}}{{/name}}
 
         </div>
     </div>
