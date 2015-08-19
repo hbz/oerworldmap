@@ -6,6 +6,7 @@ import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import helpers.Countries;
 import helpers.FilesConfig;
+import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
 import org.apache.commons.io.IOUtils;
@@ -114,9 +115,13 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("i18n", i18n);
     mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
 
-    TemplateLoader loader = new FileTemplateLoader("public/mustache", "");
+    TemplateLoader loader = new ResourceTemplateLoader();
+    loader.setPrefix("public/mustache");
+    loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
+
     handlebars.registerHelpers(StringHelpers.class);
+    
     handlebars.registerHelper("size", new Helper<ArrayList>() {
       public CharSequence apply(ArrayList list, Options options) {
         return Integer.toString(list.size());
