@@ -37,9 +37,10 @@ public class ElasticsearchProvider {
 
   private static ElasticsearchConfig mConfig = new ElasticsearchConfig();
   
-  private static Node mNode;
-  private static boolean mIsLocal;
-  private static Client mClient;
+  private final boolean mIsLocal;
+  private static Node mServerNode;
+  private final Node mLocalNode;
+  private Client mClient;
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
@@ -47,47 +48,26 @@ public class ElasticsearchProvider {
    * @param aClient
    * @param aConfig
    */
-  public ElasticsearchProvider(@Nullable final Client aClient, ElasticsearchConfig aConfig, @Nonnull boolean shallBeLocal) {
+  public ElasticsearchProvider(@Nullable final Client aClient, ElasticsearchConfig aConfig, @Nonnull boolean isLocal) {
     mClient = aClient;
     mConfig = aConfig;
-    createServerNode(shallBeLocal);
-  }
-
-  public static Node createServerNode(@Nonnull boolean shallBeLocal) {
-    if (mNode != null) {
-      Logger.warn("A Server node already exists while trying to create a(nother) server node.");
-      if (mIsLocal && !shallBeLocal){
-        Logger.error("Local server node exists while trying to create remote server node.");
-      }
-      else if (!mIsLocal && shallBeLocal){
-        Logger.error("Remote server node exists while trying to create local server node.");
+    mIsLocal = isLocal;
+    if (!mIsLocal){
+      mLocalNode = null;
+      if (mServerNode != null){
+        mServerNode = nodeBuilder().clusterName(mConfig.getCluster()).node();
       }
     }
     else{
-      if (shallBeLocal) {
-        mNode = nodeBuilder().local(true).node();
-        mIsLocal = true;
-      }
-      else {
-        mNode = nodeBuilder().clusterName(mConfig.getCluster()).node();
-        mIsLocal = false;
-      }
+      mLocalNode = nodeBuilder().local(true).node();
     }
-    return mNode;
+  }
+
+  public Node getNode(){
+    return mIsLocal ? mLocalNode : mServerNode;
   }
   
-  public static Node getNode(){
-    return mNode;
-  }
-  
-  public static boolean hasNode(){
-    return mNode != null;
-  }
-  
-  public static Client getClient() {
-    if (mClient == null) {
-      mClient = getClient(ElasticsearchProvider.createServerNode(true));
-    }
+  public Client getClient() {
     return mClient;
   }
 
@@ -97,10 +77,6 @@ public class ElasticsearchProvider {
 
   public static String getType() {
     return mConfig.getType();
-  }
-
-  public static Client getClient(Node aServerNode) {
-    return aServerNode.client();
   }
 
   public static void createIndex(Client aClient, String aIndex) {
