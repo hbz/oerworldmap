@@ -1,4 +1,4 @@
-<div role="main" class="color-scheme-map" data-view="map">
+<div role="complementary" class="color-scheme-map column large" data-view="map">
     
     <div class="call-for-actions">
       <div class="call-for-actions-table">
@@ -18,8 +18,22 @@
     </div>
 
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
-    <a href="/resource/?q=about.@type:Article&sort=dateCreated:desc" class="hijax transclude map-view-hidden" target="_blank">{{i18n.resource_list}}</a>
 
+</div>
+
+<div role="main" class="color-scheme-text list-view column small">
+    <h2>Currently on the OER World Map</h2>
+    <table class="statistics-table">
+        {{#scope.globalAggregation.global.buckets}}
+            <tr><td>{{users.doc_count}}</td><td><i class="fa fa-fw fa-user"></i> Users</td></tr>
+            <tr><td>{{organizations.doc_count}}</td><td><i class="fa fa-fw fa-users"></i> <a href="/resource/?q=about.@type:Organization">Organizations</a></td></tr>
+            <tr><td>{{articles.doc_count}}</td><td><i class="fa fa-fw fa-comment"></i> <a href="/resource/?q=about.@type:Article">Stories</a></td></tr>
+            <tr><td>{{services.doc_count}}</td><td><i class="fa fa-fw fa-desktop"></i> <a href="/resource/?q=about.@type:Service">Services</a></td></tr>
+            <tr><td>{{projects.doc_count}}</td><td><i class="fa fa-fw fa-gears"></i> <a href="/resource/?q=about.@type:Action">Projects</a></td></tr>
+        {{/scope.globalAggregation.global.buckets}}
+    </table>
+    <h2>Stories recently shared on the OER World Map</h2>
+    <a href="/resource/?q=about.@type:Article&sort=dateCreated:desc&search=false" class="hijax transclude map-view-hidden" target="_self">{{i18n.resource_list}}</a>
 </div>
 
 <footer>
