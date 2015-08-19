@@ -9,7 +9,7 @@
         </script>
           <h1><i class="fa fa-user"></i> {{#name}}{{@value}}{{/name}}</h1>
         {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
-        <a href="mailto:{{{email}}}">{{{email}}}</a><br />
+        <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
         {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
         <p>{{#description}}{{{@value}}}{{/description}}</p>
         {{#referencedBy.size}}

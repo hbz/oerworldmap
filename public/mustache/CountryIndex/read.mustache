@@ -23,7 +23,7 @@
                 
                 <div class="text">
                     <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
-                    <a href="mailto:{{{email}}}">{{{email}}}</a><br />
+                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
                     {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
                 </div>
                 
