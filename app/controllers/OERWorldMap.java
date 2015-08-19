@@ -7,6 +7,7 @@ import com.github.jknack.handlebars.io.TemplateLoader;
 import helpers.Countries;
 import helpers.FilesConfig;
 import helpers.UniversalFunctions;
+import models.Resource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.client.Client;
@@ -127,6 +128,17 @@ public abstract class OERWorldMap extends Controller {
     handlebars.registerHelper("obfuscate", new Helper<String>() {
       public CharSequence apply(String string, Options options) {
         return UniversalFunctions.getHtmlEntities(string);
+      }
+    });
+
+    handlebars.registerHelper("@value", new Helper<Resource>() {
+      public CharSequence apply(Resource resource, Options options) {
+        if (resource.get("@language") != null
+            && resource.get("@language").toString().equals(Locale.getDefault().getLanguage())) {
+          return resource.get("@value").toString();
+        } else {
+          return "";
+        }
       }
     });
 
