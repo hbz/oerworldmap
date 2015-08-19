@@ -26,21 +26,7 @@
             </script>
             {{#scope.resources}}
                 <li about="{{@id}}">
-                    {{#?Article}}
-                      {{>ResourceIndex/Article/list.mustache}}
-                    {{/?Article}}
-                    {{#?Organization}}
-                      {{>ResourceIndex/Organization/list.mustache}}
-                    {{/?Organization}}
-                    {{#?Person}}
-                      {{>ResourceIndex/Person/list.mustache}}
-                    {{/?Person}}
-                    {{#?Service}}
-                      {{>ResourceIndex/Service/list.mustache}}
-                    {{/?Service}}
-                    {{#?Action}}
-                      {{>ResourceIndex/Action/list.mustache}}
-                    {{/?Action}}
+                  {{> (stringFormat "ResourceIndex/%s/list.mustache" @type) }}
                 </li>
             {{/scope.resources}}
         </ul>

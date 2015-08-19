@@ -380,10 +380,7 @@ Hijax.behaviours.map = {
     var properties = feature.getProperties();
     
     if( type == "placemark" ) {
-      var content = Mustache.to_html(
-        $('#popover' + properties.type + '\\.mustache').html(),
-        properties
-      );
+      var content = Handlebars.compile($('#popover' + properties.type + '\\.mustache').html())(properties);
     }
     
     if( type == "country" ) {
@@ -400,10 +397,8 @@ Hijax.behaviours.map = {
       // set name
       country.name = i18n[ country.key.toUpperCase() ];
 
-      var content = Mustache.to_html(
-        $('#popoverCountry\\.mustache').html(),
-        country
-      );
+      var content = Handlebars.compile($('#popoverCountry\\.mustache').html())(country);
+
     }
     
     $(map.popoverElement).find('.popover-content').html( content );

@@ -177,29 +177,6 @@ public class Resource extends HashMap<String, Object> {
   }
 
   @Override
-  public boolean containsKey(Object key) {
-    String keyString = key.toString();
-    if (keyString.startsWith("?")) {
-      return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
-    } else if (keyString.equals("@value")) {
-      return super.get("@language") != null
-          && super.get("@language").toString().equals(Locale.getDefault().getLanguage());
-    }
-    return super.containsKey(key);
-  }
-
-  @Override
-  public Object get(Object key) {
-    String keyString = key.toString();
-    if (keyString.startsWith("?")) {
-      return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
-    } else if (keyString.equals("email")) {
-      return UniversalFunctions.getHtmlEntities(super.get(key).toString());
-    }
-    return super.get(key);
-  }
-
-  @Override
   public boolean equals(final Object aOther) {
     if (!(aOther instanceof Resource)) {
       return false;
