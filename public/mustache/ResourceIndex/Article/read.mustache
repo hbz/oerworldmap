@@ -49,34 +49,12 @@
                 </script>
                 {{#mainEntity}}
                     <li about="{{@id}}">
-                        {{#?Organization}}
-                            {{>ResourceIndex/Organization/link.mustache}}
-                        {{/?Organization}}
-                        {{#?Person}}
-                            {{>ResourceIndex/Person/link.mustache}}
-                        {{/?Person}}
-                        {{#?Service}}
-                            {{>ResourceIndex/Service/link.mustache}}
-                        {{/?Service}}
-                        {{#?Action}}
-                            {{>ResourceIndex/Action/link.mustache}}
-                        {{/?Action}}
+                        {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                     </li>
                 {{/mainEntity}}
                 {{#mentions}}
                     <li about="{{@id}}">
-                        {{#?Organization}}
-                            {{>ResourceIndex/Organization/link.mustache}}
-                        {{/?Organization}}
-                        {{#?Person}}
-                            {{>ResourceIndex/Person/link.mustache}}
-                        {{/?Person}}
-                        {{#?Service}}
-                            {{>ResourceIndex/Service/link.mustache}}
-                        {{/?Service}}
-                        {{#?Action}}
-                            {{>ResourceIndex/Action/link.mustache}}
-                        {{/?Action}}
+                        {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                     </li>
                 {{/mentions}}
             </ul>

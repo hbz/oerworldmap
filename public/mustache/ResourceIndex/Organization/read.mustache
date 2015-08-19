@@ -24,9 +24,7 @@
             </script>
             {{#referencedBy}}
                 <li about="{{@id}}">
-                    {{#?Article}}
-                        {{>ResourceIndex/Article/link.mustache}}
-                    {{/?Article}}
+                    {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                 </li>
             {{/referencedBy}}
         </ul>

@@ -16,7 +16,7 @@
         <h2>{{i18n.contributions}}</h2>
         <ul>
         {{#referencedBy}}
-          {{#?Article}}<li><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></li>{{/?Article}}
+          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
         {{/referencedBy}}
         </ul>
         {{/referencedBy.size}}
