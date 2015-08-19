@@ -2,7 +2,7 @@
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 <div role="main" class="color-scheme-text list-view column small">
-
+    {{#scope.search}}
     <section>
         <form method="get" action="/resource/" id="search">
             
@@ -17,30 +17,16 @@
     </section>
     
     <div class="hits">{{scope.resources.size}} found ...</div>
-    
+    {{/scope.search}}
+
     <section>
         <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
                 {{{scope.resources}}}
             </script>
-            <!-- TODO: extract partial for each resource type -->
             {{#scope.resources}}
                 <li about="{{@id}}">
-                    {{#?Article}}
-                      {{>ResourceIndex/Article/list.mustache}}
-                    {{/?Article}}
-                    {{#?Organization}}
-                      {{>ResourceIndex/Organization/list.mustache}}
-                    {{/?Organization}}
-                    {{#?Person}}
-                      {{>ResourceIndex/Person/list.mustache}}
-                    {{/?Person}}
-                    {{#?Service}}
-                      {{>ResourceIndex/Service/list.mustache}}
-                    {{/?Service}}
-                    {{#?Action}}
-                      {{>ResourceIndex/Action/list.mustache}}
-                    {{/?Action}}
+                  {{> (stringFormat "ResourceIndex/%s/list.mustache" @type) }}
                 </li>
             {{/scope.resources}}
         </ul>

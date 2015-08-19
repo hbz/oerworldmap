@@ -32,6 +32,9 @@ public class UniversalFunctions {
   }
 
   public static String getHtmlEntities(String aString) {
+    if (null == aString) {
+      return "";
+    }
     String escapedString = "";
     for (int i = 0; i < aString.length(); i++) {
       char c = aString.charAt(i);

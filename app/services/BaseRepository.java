@@ -25,8 +25,8 @@ public class BaseRepository {
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileResourceRepository mFileRepo;
 
-  public BaseRepository(ElasticsearchClient aElasticsearchClient, Path aPath) throws IOException {
-    mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchClient);
+  public BaseRepository(ElasticsearchProvider aElasticsearchProvider, Path aPath) throws IOException {
+    mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchProvider);
     mFileRepo = new FileResourceRepository(aPath);
   }
 

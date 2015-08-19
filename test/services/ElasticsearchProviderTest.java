@@ -18,9 +18,9 @@ import org.junit.Test;
 
 import controllers.Global;
 
-public class ElasticsearchClientTest {
+public class ElasticsearchProviderTest {
   protected static Client mClient;
-  protected static ElasticsearchClient mElasticsearchClient;
+  protected static ElasticsearchProvider mElasticsearchProvider;
 
   private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
 
@@ -32,14 +32,14 @@ public class ElasticsearchClientTest {
     mClient = new TransportClient(mClientSettings)
           .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
               9300));
-    mElasticsearchClient = new ElasticsearchClient(mClient, mEsConfig);
+    mElasticsearchProvider = new ElasticsearchProvider(mClient, mEsConfig);
   }
 
   @Test
   public void testOnMap() {
     final UUID uuid = UUID.randomUUID();
-    mElasticsearchClient.addMap(ElasticsearchDemoData.JSON_MAP, uuid);
-    final Map<String, Object> mapGotBack = mElasticsearchClient.getDocument(mEsConfig.getType(),
+    mElasticsearchProvider.addMap(ElasticsearchDemoData.JSON_MAP, uuid);
+    final Map<String, Object> mapGotBack = mElasticsearchProvider.getDocument(mEsConfig.getType(),
         uuid);
     Assert.assertEquals(ElasticsearchDemoData.JSON_MAP, mapGotBack);
   }
@@ -50,10 +50,10 @@ public class ElasticsearchClientTest {
     try {
       // TODO : this test currently presumes that there is some data existent in your elasticsearch
       // instance. Otherwise it will fail. This restriction can be overturned when a parallel method
-      // for the use of POST is introduced in ElasticsearchClient.
-      List<Map<String, Object>> result1 = mElasticsearchClient.esQuery(aQueryString);
-      List<Map<String, Object>> result2 = mElasticsearchClient.esQuery(aQueryString, "_all", null);
-      List<Map<String, Object>> result3 = mElasticsearchClient.esQuery(aQueryString, "_all", "");
+      // for the use of POST is introduced in ElasticsearchProvider.
+      List<Map<String, Object>> result1 = mElasticsearchProvider.esQuery(aQueryString);
+      List<Map<String, Object>> result2 = mElasticsearchProvider.esQuery(aQueryString, "_all", null);
+      List<Map<String, Object>> result3 = mElasticsearchProvider.esQuery(aQueryString, "_all", "");
       Assert.assertTrue(!result1.isEmpty());
       Assert.assertTrue(!result2.isEmpty());
       Assert.assertTrue(!result3.isEmpty());
