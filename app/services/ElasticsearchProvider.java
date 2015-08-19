@@ -1,7 +1,5 @@
 package services;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +23,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
-import org.elasticsearch.node.Node;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -37,9 +34,6 @@ public class ElasticsearchProvider {
 
   private static ElasticsearchConfig mConfig = new ElasticsearchConfig();
   
-  private final boolean mIsLocal;
-  private static Node mServerNode;
-  private final Node mLocalNode;
   private Client mClient;
 
   /**
@@ -48,25 +42,11 @@ public class ElasticsearchProvider {
    * @param aClient
    * @param aConfig
    */
-  public ElasticsearchProvider(@Nullable final Client aClient, ElasticsearchConfig aConfig, @Nonnull boolean isLocal) {
+  public ElasticsearchProvider(@Nullable final Client aClient, ElasticsearchConfig aConfig) {
     mClient = aClient;
     mConfig = aConfig;
-    mIsLocal = isLocal;
-    if (!mIsLocal){
-      mLocalNode = null;
-      if (mServerNode != null){
-        mServerNode = nodeBuilder().clusterName(mConfig.getCluster()).node();
-      }
-    }
-    else{
-      mLocalNode = nodeBuilder().local(true).node();
-    }
   }
 
-  public Node getNode(){
-    return mIsLocal ? mLocalNode : mServerNode;
-  }
-  
   public Client getClient() {
     return mClient;
   }

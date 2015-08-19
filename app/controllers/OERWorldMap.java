@@ -63,9 +63,8 @@ public abstract class OERWorldMap extends Controller {
   // ElasticsearchProvider(mClient);
   protected static BaseRepository mBaseRepository = null;
   final private static ElasticsearchProvider mElasticsearchProvider = new ElasticsearchProvider(mClient,
-      mEsConfig, false);
-  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(
-      mElasticsearchProvider);
+      mEsConfig);
+  
 
   // TODO final protected static FileResourceRepository
   // mUnconfirmedUserRepository;

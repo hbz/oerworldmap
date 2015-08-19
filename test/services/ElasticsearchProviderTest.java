@@ -32,7 +32,7 @@ public class ElasticsearchProviderTest {
     mClient = new TransportClient(mClientSettings)
           .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
               9300));
-    mElasticsearchProvider = new ElasticsearchProvider(mClient, mEsConfig, true);
+    mElasticsearchProvider = new ElasticsearchProvider(mClient, mEsConfig);
   }
 
   @Test
