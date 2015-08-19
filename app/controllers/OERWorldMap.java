@@ -22,9 +22,8 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.twirl.api.Html;
 import services.BaseRepository;
-import services.ElasticsearchClient;
 import services.ElasticsearchConfig;
-import services.ElasticsearchRepository;
+import services.ElasticsearchProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,19 +58,18 @@ public abstract class OERWorldMap extends Controller {
       .put(mEsConfig.getClientSettings()).build();
   final private static Client mClient = new TransportClient(mClientSettings)
       .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), 9300));
-  // TODO final private static ElasticsearchClient mElasticsearchClient = new
-  // ElasticsearchClient(mClient);
+  // TODO final private static ElasticsearchProvider mElasticsearchProvider = new
+  // ElasticsearchProvider(mClient);
   protected static BaseRepository mBaseRepository = null;
-  final private static ElasticsearchClient mElasticsearchClient = new ElasticsearchClient(mClient,
+  final private static ElasticsearchProvider mElasticsearchProvider = new ElasticsearchProvider(mClient,
       mEsConfig);
-  final protected static ElasticsearchRepository mResourceRepository = new ElasticsearchRepository(
-      mElasticsearchClient);
+  
 
   // TODO final protected static FileResourceRepository
   // mUnconfirmedUserRepository;
   static {
     try {
-      mBaseRepository = new BaseRepository(mElasticsearchClient, Paths.get(FilesConfig.getRepo()));
+      mBaseRepository = new BaseRepository(mElasticsearchProvider, Paths.get(FilesConfig.getRepo()));
     } catch (final Exception ex) {
       throw new RuntimeException("Failed to create Respository", ex);
     }

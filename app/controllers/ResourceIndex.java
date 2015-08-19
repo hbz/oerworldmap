@@ -19,17 +19,19 @@ import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import services.AggregationProvider;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, String sort) throws IOException, ParseException {
+  public static Result list(String q, String sort, Boolean search) throws IOException, ParseException {
 
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("q", q);
+    scope.put("search", search);
 
     // Empty query string matches everything
     if (q.equals("")) {
