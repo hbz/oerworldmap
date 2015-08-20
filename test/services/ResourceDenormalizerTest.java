@@ -154,14 +154,4 @@ public class ResourceDenormalizerTest implements JsonTest{
 
   }
 
-  @Test
-  public void testOriginalResourceIsNotMutatedByDenormalization() throws IOException {
-    Resource original = getResourceFromJsonFile("ResourceDenormalizerTest/testOriginalResourceIsNotMutatedByDenormalization.IN.json");
-    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testOriginalResourceIsNotMutatedByDenormalization.IN.json");
-    ResourceRepository repo = new MockResourceRepository();
-    repo.addResource(in);
-    ResourceDenormalizer.denormalize(in, repo);
-    assertEquals(original, in);
-  }
-
 }

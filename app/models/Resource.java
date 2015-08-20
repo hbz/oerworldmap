@@ -254,17 +254,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List){
-        if (!(other.get(pair.getKey()) instanceof List)){
+      if (pair.getValue() instanceof List) {
+        if (!(other.get(pair.getKey()) instanceof List)) {
           return false;
         }
         List<Object> list = (List<Object>) pair.getValue();
-        List<Object> otherList = (List<Object>)other.get(pair.getKey()) ;
-        if (list.size() != otherList.size() || !list.containsAll(otherList)){
+        List<Object> otherList = (List<Object>) other.get(pair.getKey());
+        if (list.size() != otherList.size() || !list.containsAll(otherList)) {
           return false;
         }
-      }
-      else if (!pair.getValue().equals(other.get(pair.getKey()))) {
+      } else if (!pair.getValue().equals(other.get(pair.getKey()))) {
         return false;
       }
     }
@@ -298,7 +297,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
         @SuppressWarnings("unchecked")
         List<Resource> otherList = (List<Resource>) entry.getValue();
         otherList.forEach(resource -> {
-          if (!resource.hasIdOnly()) {
+          if (!resource.hasIdOnly() && !finalList.contains(resource)) {
             finalList.add(resource);
           }
         });
