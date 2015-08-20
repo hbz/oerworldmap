@@ -33,11 +33,12 @@ public class ElasticsearchRepository implements ResourceRepository {
   @Override
   public void addResource(@Nonnull final Resource aResource) throws IOException {
     String type = (String) aResource.get(JsonLdConstants.TYPE);
-    if (StringUtils.isEmpty(type)) {
-      type = DEFAULT_TYPE;
-    }
+    addResource(aResource, type);
+  }
+
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType) throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
-    elasticsearch.addJson(aResource.toString(), id, type);
+    elasticsearch.addJson(aResource.toString(), id, aType);
   }
 
   @Override

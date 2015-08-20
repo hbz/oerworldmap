@@ -48,7 +48,7 @@ public class FileResourceRepository implements ResourceRepository {
    * @param aResource
    */
   @Override
-  public void addResource(@Nonnull Resource aResource) throws IOException {
+  public void addResource(@Nonnull final Resource aResource) throws IOException {
     String type = (String) aResource.get(JsonLdConstants.TYPE);
     addResource(aResource, type);
   }
@@ -58,7 +58,7 @@ public class FileResourceRepository implements ResourceRepository {
    *
    * @param aResource
    */
-  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType) throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
     Path dir = Paths.get(mPath.toString(), aType);
     Path file = Paths.get(dir.toString(), id);

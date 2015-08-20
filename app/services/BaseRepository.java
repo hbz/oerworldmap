@@ -39,8 +39,10 @@ public class BaseRepository implements ResourceRepository {
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
-        mElasticsearchRepo.addResource(rec);
-        mFileRepo.addResource(rec);
+        // Extract the type from the resource, otherwise everything will be typed WebPage!
+        String type = aResource.getAsString(JsonLdConstants.TYPE);
+        mElasticsearchRepo.addResource(rec, type);
+        mFileRepo.addResource(rec, type);
       }
     }
   }
