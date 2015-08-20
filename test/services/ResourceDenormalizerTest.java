@@ -1,6 +1,7 @@
 package services;
 
 import static org.junit.Assert.assertEquals;
+
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
 
@@ -135,11 +136,21 @@ public class ResourceDenormalizerTest implements JsonTest{
 
   @Test
   public void testResourceWithUnidentifiedObjectValues() throws IOException {
+
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithUnidentifiedObjectValues.IN.json");
     ResourceRepository repo = new MockResourceRepository();
+
+    // Test case: empty repo
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
     assertEquals(1, denormalized.size());
     assertEquals(in, denormalized.get(0));
+
+    // Test case: resource already in repo
+    repo.addResource(in);
+    denormalized = ResourceDenormalizer.denormalize(in, repo);
+    assertEquals(1, denormalized.size());
+    assertEquals(in, denormalized.get(0));
+
   }
 
 }
