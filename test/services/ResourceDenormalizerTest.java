@@ -16,8 +16,6 @@ import org.junit.Test;
  */
 public class ResourceDenormalizerTest implements JsonTest{
 
-  
-  
   @Test
   public void testNewResourceWithNewReference() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithNewReference.IN.json");
@@ -134,4 +132,14 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(out1, get1);
     assertEquals(out2, get2);
   }
+
+  @Test
+  public void testResourceWithUnidentifiedObjectValues() throws IOException {
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithUnidentifiedObjectValues.IN.json");
+    ResourceRepository repo = new MockResourceRepository();
+    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
+    assertEquals(1, denormalized.size());
+    assertEquals(in, denormalized.get(0));
+  }
+
 }
