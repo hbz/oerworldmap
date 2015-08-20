@@ -37,16 +37,15 @@ public class ResourceDenormalizerTest implements JsonTest{
   @Test
   public void testNewResourceWithExistingReference() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.IN.json");
-    Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.DB.1.json");
+    Resource db1 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.DB.2.json");
     Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.1.json");
     Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testNewResourceWithExistingReference.OUT.2.json");
     MockResourceRepository repo = new MockResourceRepository();
-    List<Resource> denormalizedDb = ResourceDenormalizer.denormalize(db, repo);
-    for (Resource resource : denormalizedDb){
-      repo.addResource(resource);
-    }
-    List<Resource> denormalizedIn = ResourceDenormalizer.denormalize(in, repo);
-    for (Resource resource : denormalizedIn){
+    repo.addResource(db1);
+    repo.addResource(db2);
+    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
+    for (Resource resource : denormalized){
       repo.addResource(resource);
     }
     assertEquals(3, repo.size());
