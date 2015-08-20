@@ -49,11 +49,9 @@ public class DenormalizeResourceWrapper {
       final ResourceRepository aRepo) throws IOException {
     mReferences = new HashMap<>();
     mKeyId = aResource.getAsString(JsonLdConstants.ID);
-    if (mKeyId == null) {
-      // this is an unidentified new data set, build new wrapper
-      mKeyId = UUID.randomUUID().toString();
+    if (mKeyId != null) {
+      mResource = aRepo.getResource(mKeyId);
     }
-    mResource = aRepo.getResource(mKeyId);
     if (mResource == null) {
       // this is NOT a modification of an existing data set, build new data set
       mResource = new Resource(aResource.getAsString(JsonLdConstants.TYPE), mKeyId);

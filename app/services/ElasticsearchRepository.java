@@ -37,9 +37,6 @@ public class ElasticsearchRepository implements ResourceRepository {
       type = DEFAULT_TYPE;
     }
     String id = (String) aResource.get(JsonLdConstants.ID);
-    if (StringUtils.isEmpty(id)) {
-      id = UUID.randomUUID().toString();
-    }
     elasticsearch.addJson(aResource.toString(), id, type);
   }
 

@@ -76,15 +76,6 @@ public class ElasticsearchProvider {
   public static boolean indexExists(Client aClient, String aIndex) {
     return aClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
-  
-  /**
-   * Add a document consisting of a JSON String.
-   * 
-   * @param aJsonString
-   */
-  public void addJson(final String aJsonString) {
-    addJson(aJsonString, UUID.randomUUID());
-  }
 
   /**
    * Add a document consisting of a JSON String specified by a given UUID.
@@ -120,15 +111,6 @@ public class ElasticsearchProvider {
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
     mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
         .actionGet();
-  }
-
-  /**
-   * Add a document consisting of a Map.
-   * 
-   * @param aMap
-   */
-  public void addMap(final Map<String, Object> aMap) {
-    addMap(aMap, UUID.randomUUID());
   }
 
   /**
