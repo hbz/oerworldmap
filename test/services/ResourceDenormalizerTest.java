@@ -154,4 +154,15 @@ public class ResourceDenormalizerTest implements JsonTest{
 
   }
 
+  @Test
+  public void testResourceIsUpdatedWithNewUnidentifiedValuesOnly() throws IOException {
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceIsUpdatedWithNewUnidentifiedValuesOnly.IN.json");
+    Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceIsUpdatedWithNewUnidentifiedValuesOnly.DB.json");
+    ResourceRepository repo = new MockResourceRepository();
+    repo.addResource(db);
+    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
+    assertEquals(1, denormalized.size());
+    assertEquals(in, denormalized.get(0));
+  }
+
 }
