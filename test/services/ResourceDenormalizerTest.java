@@ -137,20 +137,31 @@ public class ResourceDenormalizerTest implements JsonTest{
   @Test
   public void testResourceWithUnidentifiedObjectValues() throws IOException {
 
+    Resource original = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithUnidentifiedObjectValues.IN.json");
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithUnidentifiedObjectValues.IN.json");
     ResourceRepository repo = new MockResourceRepository();
 
     // Test case: empty repo
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
     assertEquals(1, denormalized.size());
-    assertEquals(in, denormalized.get(0));
+    assertEquals(original, denormalized.get(0));
 
     // Test case: resource already in repo
     repo.addResource(in);
     denormalized = ResourceDenormalizer.denormalize(in, repo);
     assertEquals(1, denormalized.size());
-    assertEquals(in, denormalized.get(0));
+    assertEquals(original, denormalized.get(0));
 
+  }
+
+  @Test
+  public void testOriginalResourceIsNotMutatedByDenormalization() throws IOException {
+    Resource original = getResourceFromJsonFile("ResourceDenormalizerTest/testOriginalResourceIsNotMutatedByDenormalization.IN.json");
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testOriginalResourceIsNotMutatedByDenormalization.IN.json");
+    ResourceRepository repo = new MockResourceRepository();
+    repo.addResource(in);
+    ResourceDenormalizer.denormalize(in, repo);
+    assertEquals(original, in);
   }
 
 }
