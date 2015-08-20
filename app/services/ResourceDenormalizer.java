@@ -100,7 +100,6 @@ public class ResourceDenormalizer {
             if (resource.hasId()){
               split(resource, aWrappedResources, aRepo);
             }
-            split((Resource) next, aWrappedResources, aRepo);
           }
         }
       }

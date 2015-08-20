@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -240,6 +241,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(final Object aOther) {
     if (!(aOther instanceof Resource)) {
@@ -252,11 +254,17 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List && other.get(pair.getKey()) instanceof List) {
-        ((List<?>) pair.getValue()).sort(null);
-        ((List<?>) other.get(pair.getKey())).sort(null);
+      if (pair.getValue() instanceof List){
+        if (!(other.get(pair.getKey()) instanceof List)){
+          return false;
+        }
+        List<Object> list = (List<Object>) pair.getValue();
+        List<Object> otherList = (List<Object>)other.get(pair.getKey()) ;
+        if (list.size() != otherList.size() || !list.containsAll(otherList)){
+          return false;
+        }
       }
-      if (!pair.getValue().equals(other.get(pair.getKey()))) {
+      else if (!pair.getValue().equals(other.get(pair.getKey()))) {
         return false;
       }
     }
