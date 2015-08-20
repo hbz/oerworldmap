@@ -94,13 +94,18 @@ list-view article:last-child {
   margin-bottom: 5px;
 }
 
-.list-view article .article-body p {
-  display: none;
+.list-view article .article-body {
+  display: block;
+  height: 60px;
+  overflow: hidden;
+  position: relative;
 }
 
-.list-view article .article-body p:first-child {
-  display: block;
-  margin-bottom: 0px;
+.list-view article .article-body::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 ul[data-behaviour="linkedListEntries"] li article {

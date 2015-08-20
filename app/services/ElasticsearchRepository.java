@@ -22,12 +22,12 @@ import play.Logger;
 
 public class ElasticsearchRepository implements ResourceRepository {
 
-  final private ElasticsearchClient elasticsearch;
+  final private ElasticsearchProvider elasticsearch;
 
   final public static String DEFAULT_TYPE = "resource";
 
-  public ElasticsearchRepository(@Nonnull ElasticsearchClient aElasticsearchClient) {
-    elasticsearch = aElasticsearchClient;
+  public ElasticsearchRepository(@Nonnull ElasticsearchProvider aElasticsearchProvider) {
+    elasticsearch = aElasticsearchProvider;
   }
 
   @Override

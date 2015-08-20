@@ -24,8 +24,8 @@ public class BaseRepositoryTest implements JsonTest{
   private static BaseRepository mRepo;
   private static Settings mClientSettings;
   private static TransportClient mClient;
-  private static ElasticsearchClient mElClient;
   private static ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
+  private static ElasticsearchProvider mElClient;
 
   @SuppressWarnings("resource")
   @BeforeClass
@@ -38,7 +38,7 @@ public class BaseRepositoryTest implements JsonTest{
     mClient = new TransportClient(mClientSettings)
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer
             .valueOf(mEsConfig.getJavaPort())));
-    mElClient = new ElasticsearchClient(mClient, mEsConfig);
+    mElClient = new ElasticsearchProvider(mClient, mEsConfig);
     mRepo = new BaseRepository(mElClient, Paths.get(System.getProperty("java.io.tmpdir")));
   }
 

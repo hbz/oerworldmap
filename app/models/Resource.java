@@ -184,33 +184,6 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return output;
   }
 
-  @Override
-  public boolean containsKey(Object key) {
-    String keyString = key.toString();
-    if (keyString.startsWith("?")) {
-      return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
-    } else if (keyString.equals("@value")) {
-      return super.get("@language") != null
-          && super.get("@language").toString().equals(Locale.getDefault().getLanguage());
-    }
-    return super.containsKey(key);
-  }
-
-  @Override
-  public Object get(final Object aKey) {
-    return get(aKey, false);
-  }
-
-  public Object get(final Object aKey, final boolean isSuppressEscape) {
-    final String keyString = aKey.toString();
-    if (keyString.startsWith("?")) {
-      return keyString.substring(1).equals(this.get(JsonLdConstants.TYPE));
-    } else if (!isSuppressEscape && keyString.equals("email")) {
-      return UniversalFunctions.getHtmlEntities(super.get(aKey).toString());
-    }
-    return super.get(aKey);
-  }
-
   public String getAsString(final Object aKey) {
     Object result = get(aKey);
     return (result == null) ? null : result.toString();
@@ -279,11 +252,11 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List && other.get(pair.getKey(), true) instanceof List) {
+      if (pair.getValue() instanceof List && other.get(pair.getKey()) instanceof List) {
         ((List<?>) pair.getValue()).sort(null);
-        ((List<?>) other.get(pair.getKey(), true)).sort(null);
+        ((List<?>) other.get(pair.getKey())).sort(null);
       }
-      if (!pair.getValue().equals(other.get(pair.getKey(), true))) {
+      if (!pair.getValue().equals(other.get(pair.getKey()))) {
         return false;
       }
     }

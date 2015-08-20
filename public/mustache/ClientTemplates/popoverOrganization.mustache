@@ -2,8 +2,7 @@
   <div class="icon-indented">
 
     <i class="fa fa-users"></i><strong>Organization:</strong>
-    {{#resource.name}}{{@value}}{{/resource.name}}
-  
+    {{#resource.name}}{{[@value]}}{{/resource.name}}
   </div>
 </div>
 
@@ -12,8 +11,8 @@
   <div class="popover-section bg-blue-paler">
     <div class="icon-indented">
   
-      <i class="fa fa-link"></i><strong>{{@type}}:</strong>
-      {{#name.0}}{{@value}}{{/name.0}}
+      <i class="fa fa-link"></i><strong>{{[@type]}}:</strong>
+      {{#name.[0]}}{{[@value]}}{{/name.[0]}}
     
     </div>
   </div>

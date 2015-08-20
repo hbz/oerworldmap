@@ -9,7 +9,7 @@
             </script>
             <h1><i class="fa fa-users"></i> {{#name}}{{@value}}{{/name}} ({{@type}})</h1>
             {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
-            <a href="mailto:{{{email}}}">{{{email}}}</a><br />
+            <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
             {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
             <p>{{#description}}{{{@value}}}{{/description}}</p>
         </div>
@@ -24,9 +24,7 @@
             </script>
             {{#referencedBy}}
                 <li about="{{@id}}">
-                    {{#?Article}}
-                        {{>ResourceIndex/Article/link.mustache}}
-                    {{/?Article}}
+                    {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                 </li>
             {{/referencedBy}}
         </ul>
