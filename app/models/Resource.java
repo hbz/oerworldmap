@@ -220,7 +220,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
         List<Object> truncatedList = new ArrayList<>();
         for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
           Object li = innerIt.next();
-          if (li instanceof Resource) {
+          if (li instanceof Resource && ((Resource) li).hasId()) {
             truncatedList.add(Resource.getLinkClone((Resource) li));
           } else {
             truncatedList.add(li);
@@ -232,7 +232,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
         result.put(entry.getKey(), truncatedList);
       }
       // remove entries of type Resource if they have an ID
-      else if (entry.getValue() instanceof Resource) {
+      else if (entry.getValue() instanceof Resource && ((Resource) entry.getValue()).hasId()) {
         result.put(entry.getKey(), getLinkClone((Resource) (entry.getValue())));
       } else {
         result.put(entry.getKey(), entry.getValue());
