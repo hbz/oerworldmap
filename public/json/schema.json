@@ -209,7 +209,13 @@
           "items": {
             "$ref": "#/definitions/Service"
           }
-        }
+        },
+        "result":  {
+           "type": "array",
+               "items": {
+                  "$ref": "#/definitions/Service"
+               }
+            }
       },
       "required": [
         "name"
