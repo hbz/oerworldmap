@@ -19,11 +19,15 @@ public class ResourceDenormalizer {
   static {
     mKnownInverseRelations.put("author", "authorOf");
     mKnownInverseRelations.put("authorOf", "author");
+    mKnownInverseRelations.put("member", "memberOf");
+    mKnownInverseRelations.put("memberOf", "member");
   }
   final private static List<String> mListValueEntries = new ArrayList<>();
   static {
     mListValueEntries.add("author");
     mListValueEntries.add("authorOf");
+    mListValueEntries.add("member");
+    mListValueEntries.add("memberOf");
   }
 
   //

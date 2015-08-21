@@ -165,4 +165,22 @@ public class ResourceDenormalizerTest implements JsonTest{
     assertEquals(in, denormalized.get(0));
   }
 
+  @Test
+  public void testResourceWithoutIdIsIncludedCompletely() throws IOException {
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithoutIdIsIncludedCompletely.IN.json");
+    Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithoutIdIsIncludedCompletely.OUT.1.json");
+    Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithoutIdIsIncludedCompletely.OUT.2.json");
+
+    ResourceRepository repo = new MockResourceRepository();
+    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
+    for (Resource resource : denormalized) {
+      repo.addResource(resource);
+    }
+    assertEquals(2, denormalized.size());
+    Resource get1 = repo.getResource(out1.getAsString(JsonLdConstants.ID));
+    Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
+    assertEquals(out1, get1);
+    assertEquals(out2, get2);
+  }
+
 }
