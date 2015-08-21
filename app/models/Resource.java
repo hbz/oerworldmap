@@ -286,13 +286,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
       else if (entry.getValue() instanceof List) {
 
-        @SuppressWarnings("unchecked")
-        List<Resource> list = (List<Resource>) get(entry.getKey());
-        if (list == null) {
-          list = new ArrayList<>();
-        }
         final List<Resource> finalList = new ArrayList<Resource>();
-        finalList.addAll(list);
 
         @SuppressWarnings("unchecked")
         List<Resource> otherList = (List<Resource>) entry.getValue();

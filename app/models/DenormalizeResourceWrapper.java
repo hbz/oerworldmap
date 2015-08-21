@@ -323,4 +323,8 @@ public class DenormalizeResourceWrapper {
   private Resource getEmbedView() {
     return mEmbedView;
   }
+
+  public String toString() {
+    return mResource.toString();
+  }
 }
