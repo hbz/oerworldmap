@@ -17,6 +17,7 @@ public class AggregationProvider {
   private static String mentions_field = Record.RESOURCEKEY + ".mentions.location.address.addressCountry";
   private static String provider_field = Record.RESOURCEKEY + ".provider.location.address.addressCountry";
   private static String participant_field = Record.RESOURCEKEY + ".participant.location.address.addressCountry";
+  private static String agent_field = Record.RESOURCEKEY + ".agent.location.address.addressCountry";
 
   public static AggregationBuilder<?> getGlobalAggregation() {
     return AggregationBuilders
@@ -42,7 +43,8 @@ public class AggregationProvider {
     return AggregationBuilders
         .terms("by_country").script("doc['"
             + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
-            + provider_field + "'].values  + doc['" + participant_field + "'].values").size(0)
+            + provider_field + "'].values  + doc['" + participant_field + "'].values  + doc['"
+            + agent_field + "'].values").size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
@@ -68,7 +70,8 @@ public class AggregationProvider {
     return AggregationBuilders
         .terms("by_country").script("doc['"
             + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
-            + provider_field + "'].values  + doc['" + participant_field + "'].values").include(id).size(0)
+            + provider_field + "'].values  + doc['" + participant_field + "'].values + doc['"
+            + agent_field + "'].values").include(id).size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
