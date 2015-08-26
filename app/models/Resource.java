@@ -38,7 +38,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
+      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
 
   public static final String REFERENCEKEY = "referencedBy";
 

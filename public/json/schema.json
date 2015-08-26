@@ -2,6 +2,23 @@
   "id": "#root",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
+    "ConceptScheme": {
+      "@type": {
+        "type": "string",
+        "enum": [
+          "ConceptScheme"
+        ]
+      }
+    },
+    "Concept": {
+      "ConceptScheme": {
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Concept"
+          ]
+        }
+    },
     "Article": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Article",
