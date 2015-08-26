@@ -41,6 +41,9 @@
         "name": {
           "$ref": "#/definitions/LocalizedString"
         },
+        "description": {
+          "$ref": "#/definitions/LocalizedString"
+        },
         "articleBody": {
           "$ref": "#/definitions/LocalizedString"
         },
