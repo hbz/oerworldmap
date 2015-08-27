@@ -21,6 +21,16 @@ public class ResourceDenormalizer {
     mKnownInverseRelations.put("authorOf", "author");
     mKnownInverseRelations.put("member", "memberOf");
     mKnownInverseRelations.put("memberOf", "member");
+    mKnownInverseRelations.put("provider", "provides");
+    mKnownInverseRelations.put("provides", "provider");
+    mKnownInverseRelations.put("creator", "created");
+    mKnownInverseRelations.put("created", "creator");
+    mKnownInverseRelations.put("agent", "agentIn");
+    mKnownInverseRelations.put("agentIn", "agent");
+    mKnownInverseRelations.put("mentions", "mentionedIn");
+    mKnownInverseRelations.put("mentionedIn", "mentions");
+    mKnownInverseRelations.put("participant", "participantIn");
+    mKnownInverseRelations.put("participantIn", "participant");
   }
   final private static List<String> mListValueEntries = new ArrayList<>();
   static {
@@ -28,6 +38,16 @@ public class ResourceDenormalizer {
     mListValueEntries.add("authorOf");
     mListValueEntries.add("member");
     mListValueEntries.add("memberOf");
+    mListValueEntries.add("provider");
+    mListValueEntries.add("provides");
+    mListValueEntries.add("creator");
+    mListValueEntries.add("created");
+    mListValueEntries.add("agent");
+    mListValueEntries.add("agentIn");
+    mListValueEntries.add("mentions");
+    mListValueEntries.add("mentionedIn");
+    mListValueEntries.add("participant");
+    mListValueEntries.add("participantIn");
   }
 
   //
