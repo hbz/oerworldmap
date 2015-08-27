@@ -276,32 +276,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   public void merge(Resource aOther) {
     for (Entry<String, Object> entry : aOther.entrySet()) {
-
-      if (entry.getValue() instanceof Resource) {
-        Resource resource = (Resource) entry.getValue();
-        if (!resource.hasIdOnly()) {
-          put(entry.getKey(), resource);
-        }
-      } //
-
-      else if (entry.getValue() instanceof List) {
-
-        final List<Resource> finalList = new ArrayList<Resource>();
-
-        @SuppressWarnings("unchecked")
-        List<Resource> otherList = (List<Resource>) entry.getValue();
-        otherList.forEach(resource -> {
-          if (!resource.hasIdOnly() && !finalList.contains(resource)) {
-            finalList.add(resource);
-          }
-        });
-
-        put(entry.getKey(), finalList);
-      } //
-
-      else {
-        put(entry.getKey(), entry.getValue());
-      }
+      put(entry.getKey(), entry.getValue());
     }
   }
 
