@@ -57,7 +57,7 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = resource.validate();
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     if (!report.isSuccess()) {
       Map<String, Object> scope = new HashMap<>();
       scope.put("resource", resource);
@@ -65,11 +65,9 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest(report.toString());
       } else {
-        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-            JSONForm.generateErrorReport(report)));
+        return badRequest(report.toString());
       }
     }
-    mBaseRepository.addResource(resource);
     return created("created resource " + resource.toString());
   }
 
@@ -123,7 +121,7 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = resource.validate();
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     if (!report.isSuccess()) {
       Map<String, Object> scope = new HashMap<>();
       scope.put("resource", resource);
@@ -131,11 +129,9 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest(report.toString());
       } else {
-        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-            JSONForm.generateErrorReport(report)));
+        return badRequest(report.toString());
       }
     }
-    mBaseRepository.addResource(resource);
     return created("updated resource " + resource.toString());
   }
 

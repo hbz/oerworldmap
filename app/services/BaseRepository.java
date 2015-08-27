@@ -1,5 +1,7 @@
 package services;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
 
@@ -45,6 +47,31 @@ public class BaseRepository implements ResourceRepository {
         mFileRepo.addResource(rec, type);
       }
     }
+  }
+
+  public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
+    List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
+    ProcessingReport processingReport = denormalizedResources.get(0).validate();
+    for (int i = 1; i < denormalizedResources.size(); i++) {
+      try {
+        processingReport.mergeWith(denormalizedResources.get(i).validate());
+      } catch (ProcessingException e) {
+        Logger.error(e.toString());
+      }
+    }
+    if (!processingReport.isSuccess()) {
+      return processingReport;
+    }
+    for (Resource dnr : denormalizedResources) {
+      if (dnr.hasId()) {
+        Resource rec = getRecord(dnr);
+        // Extract the type from the resource, otherwise everything will be typed WebPage!
+        String type = aResource.getAsString(JsonLdConstants.TYPE);
+        mElasticsearchRepo.addResource(rec, type);
+        mFileRepo.addResource(rec, type);
+      }
+    }
+    return processingReport;
   }
 
   public List<Resource> esQuery(String aEsQuery, String aEsSort) {
