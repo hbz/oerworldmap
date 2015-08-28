@@ -18,10 +18,10 @@
 
   /* Global vars
   *****************************************/
-  var Handlebars,
+  //var Handlebars,
 
     // Configurable options
-    config = {
+  var  config = {
       validationErrorClass: 'validation-error',
       namespace: ''
     },
@@ -167,9 +167,10 @@
   }
 
   /* {{submit "Submit form"}} */
-  function helperSubmit(name, body, options) {
+  function helperSubmit(body, options) {
     return new Handlebars.SafeString(createElement('button', true, extend({
-      name: name,
+      // fo: no name by default
+      //name: name,
       type: 'submit'
     }, options.hash), body));
   }
@@ -353,3 +354,7 @@
     helpers: helpers
   };
 }));
+
+for (helper in HandlebarsFormHelpers.helpers) {
+  Handlebars.registerHelper(helper, HandlebarsFormHelpers.helpers[helper]);
+}

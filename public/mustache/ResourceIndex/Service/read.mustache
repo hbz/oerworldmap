@@ -41,5 +41,10 @@
             {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
         {{/referencedBy}}
       </ul>
+
+      {{#form "/resource/"}}
+          {{> ResourceIndex/Service/edit.mustache}}
+          {{submit "Submit"}}
+      {{/form}}
   {{/scope}}
 </div>

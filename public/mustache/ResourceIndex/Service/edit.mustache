@@ -1,0 +1,69 @@
+<fieldset>
+    <legend>Service</legend>
+    {{input "@type" "Service" type="hidden"}}
+    {{#[@id]}}
+        {{input "@id" [@id] type="hidden"}}
+    {{/[@id]}}
+
+    {{! --- name --- }}
+    {{#name}}
+        {{input (stringFormat "name[%s][@value]" @index) [@value]}}
+        {{input (stringFormat "name[%s][@language]" @index) [@language]}}
+    {{/name}}
+    {{^name}}
+        {{input "name[0][@value]" ""}}
+        {{input "name[0][@language]" ""}}
+    {{/name}}
+
+    {{! --- description --- }}
+    {{#description}}
+        {{textarea (stringFormat "description[%s][@value]" @index) [@value]}}
+        {{input (stringFormat "description[%s][@language]" @index) [@language]}}
+    {{/description}}
+    {{^description}}
+        {{textarea "description[0][@value]" ""}}
+        {{input "description[0][@language]" ""}}
+    {{/description}}
+
+    {{! --- provider --- }}
+    {{#provider}}
+        {{input (stringFormat "provider[%s][@id]" @index) [@id] type="url"}}
+    {{/provider}}
+    {{^provider}}
+        {{input "provider[0][@id]" "" type="url"}}
+    {{/provider}}
+
+    {{! --- availableChannel --- }}
+    {{#availableChannel}}
+        <fieldset>
+            <legend>Available Channel</legend>
+            {{input (stringFormat "availableChannel[%s][serviceUrl]" @index) serviceUrl type="url"}}
+            {{#availableLanguage}}
+                {{input (stringFormat "availableChannel[%s][availableLanguage][]" @index) .}}
+            {{/availableLanguage}}
+            {{^availableLanguage}}
+                {{input (stringFormat "availableChannel[%s][availableLanguage][]" @index) ""}}
+            {{/availableLanguage}}
+        </fieldset>
+    {{/availableChannel}}
+    {{^availableChannel}}
+        <fieldset>
+            <legend>Available Channel</legend>
+            {{input "availableChannel[0][serviceUrl]"  "" type="url"}}
+            {{input "availableChannel[0][availableLanguage][]" ""}}
+        </fieldset>
+    {{/availableChannel}}
+
+    {{! --- audience --- }}
+    {{#audience}}
+        {{input "audience[]" . }}
+    {{/audience}}
+    {{input "audience[]" "" }}
+
+    {{! --- about --- }}
+    {{#about}}
+        {{input "about[]" . }}
+    {{/about}}
+    {{input "about[]" "" }}
+
+</fieldset>

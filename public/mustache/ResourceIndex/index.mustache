@@ -31,4 +31,9 @@
             {{/scope.resources}}
         </ul>
     </section>
+
+    {{#form "/resource/"}}
+        {{> ResourceIndex/Service/edit.mustache}}
+        {{submit "Submit"}}
+    {{/form}}
 </div>
