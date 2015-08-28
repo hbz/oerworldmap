@@ -121,12 +121,6 @@ public abstract class OERWorldMap extends Controller {
     Handlebars handlebars = new Handlebars(loader);
 
     handlebars.registerHelpers(StringHelpers.class);
-    
-    handlebars.registerHelper("size", new Helper<ArrayList>() {
-      public CharSequence apply(ArrayList list, Options options) {
-        return Integer.toString(list.size());
-      }
-    });
 
     handlebars.registerHelper("obfuscate", new Helper<String>() {
       public CharSequence apply(String string, Options options) {

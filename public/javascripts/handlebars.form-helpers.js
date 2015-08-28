@@ -358,3 +358,7 @@
 for (helper in HandlebarsFormHelpers.helpers) {
   Handlebars.registerHelper(helper, HandlebarsFormHelpers.helpers[helper]);
 }
+
+Handlebars.registerHelper('size', function (context) {
+  return context ? "" + context.length : "0";
+});
