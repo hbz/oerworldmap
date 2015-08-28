@@ -209,13 +209,6 @@ public class DenormalizeResourceWrapper {
    * which the other wrapper is referenced.
    */
   public void addReference(final String aKey, final String aId) {
-    if (aKey.equals(Resource.REFERENCEKEY)) {
-      // check whether we still need an inverse reference for this default key
-      if (hasReferenceTo(aId)) {
-        // inverse reference already exists
-        return;
-      }
-    }
     if (mReferences.get(aKey) == null) {
       // this is the first reference for this predicate key
       final Set<String> refSet = new HashSet<>();
@@ -263,15 +256,16 @@ public class DenormalizeResourceWrapper {
       String key = referenceSet.getKey();
       for (String id : referenceSet.getValue()) {
         String inverseKey = getInverseReference(key, aKnownInverseRelations);
-        aWrappedResources.get(id).addReference(inverseKey, mKeyId);
+        if (!StringUtils.isEmpty(inverseKey)) {
+          aWrappedResources.get(id).addReference(inverseKey, mKeyId);
+        }
       }
     }
   }
 
   private static String getInverseReference(final String aKey,
       Map<String, String> aKnownInverseRelations) {
-    String reverseRef = aKnownInverseRelations.get(aKey);
-    return (StringUtils.isEmpty(reverseRef) ? Resource.REFERENCEKEY : reverseRef);
+    return aKnownInverseRelations.get(aKey);
   }
 
   public void createLinkView() {

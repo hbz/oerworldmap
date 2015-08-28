@@ -1,13 +1,5 @@
 {
   "@type" : "Event",
-  "@id" : "OER15",
-  "referencedBy" : {
-    "attended" : {
-      "@type" : "Event",
-      "@id" : "OER15"
-    },
-    "@type" : "Person",
-    "@id" : "id001"
-  }
+  "@id" : "OER15"
 }
 
