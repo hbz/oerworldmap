@@ -11,13 +11,12 @@
       }
     },
     "Concept": {
-      "ConceptScheme": {
-        "@type": {
-          "type": "string",
-          "enum": [
-            "Concept"
-          ]
-        }
+      "@type": {
+        "type": "string",
+        "enum": [
+          "Concept"
+        ]
+      }
     },
     "Article": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -227,12 +226,12 @@
             "$ref": "#/definitions/Service"
           }
         },
-        "result":  {
-           "type": "array",
-               "items": {
-                  "$ref": "#/definitions/Service"
-               }
-            }
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
+        }
       },
       "required": [
         "name"
@@ -312,7 +311,7 @@
             }
           }
         },
-       "sameAs": {
+        "sameAs": {
           "type": "array",
           "items": {
             "type": "string",
@@ -392,7 +391,7 @@
             "url": {
               "type": "string",
               "format": "uri"
-           },
+            },
             "sameAs": {
               "type": "array",
               "items": {
@@ -460,7 +459,7 @@
           "type": "string",
           "format": "uri"
         },
-       "sameAs": {
+        "sameAs": {
           "type": "array",
           "items": {
             "type": "string",
