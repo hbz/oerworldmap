@@ -230,7 +230,7 @@ Hijax.behaviours.map = {
       var id = feature;
     }
     
-    if( id.indexOf("urn:uuid") === 0 ) {
+    if( id.length !== 2 ) {
       return "placemark";
     } else {
       return "country";
