@@ -10,6 +10,7 @@
           <h1><i class="fa fa-gears"></i> {{#name}}{{@value}}{{/name}}</h1>
           <p><a href="{{url}}">{{url}}</a></p>
           {{#startTime}}<p>Duration: {{.}}{{#endTime}} - {{.}}{{/endTime}}</p>{{/startTime}}
+          {{#image}}<img src="{{.}}" width="250" />{{/image}}
           {{#description}}<p lang="{{@language}}">{{@value}}</p>{{/description}}
           {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
           <h2>Participants</h2>
