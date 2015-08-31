@@ -470,7 +470,7 @@
             "type": "string"
           }
         },
-        "logo": {
+        "image": {
           "type": "string",
           "format": "uri"
         },
