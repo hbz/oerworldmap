@@ -11,7 +11,7 @@
             <p><a href="{{url}}">{{url}}</a></p>
             {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
             <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
-            {{#logo}}<img src="{{.}}" width="250" />{{/logo}}
+            {{#image}}<img src="{{.}}" width="250" />{{/image}}
             {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
             <p>{{#description}}{{{@value}}}{{/description}}</p>
         </div>
