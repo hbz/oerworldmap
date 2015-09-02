@@ -24,6 +24,14 @@ Hijax.behaviours.map = {
     'orange': '#fe8a00'
   },
 
+  doThrottled: function(callback) {
+    var map = this;
+    window.clearTimeout( map.throttledTimer );
+    map.throttledTimer = window.setTimeout(function(){
+      callback();
+    }, 200);
+  },
+  
   attach : function(context) {
     var map = this;
 
@@ -78,6 +86,27 @@ Hijax.behaviours.map = {
         view: map.view,
         controls: ol.control.defaults({ attribution: false })
       });
+      
+      // overlay for country hover style      
+      var collection = new ol.Collection();
+      map.hoveredCountriesOverlay = new ol.layer.Vector({
+        map: map.world,
+        source: new ol.source.Vector({
+          features: collection,
+          useSpatialIndex: false // optional, might improve performance
+        }),
+        style: function(feature, resolution) {
+          return [new ol.style.Style({
+            stroke: new ol.style.Stroke({
+              color: '#0c75bf',
+              width: 2
+            }),
+            zIndex: 10
+          })];
+        },
+        updateWhileAnimating: false, // optional, for instant visual feedback
+        updateWhileInteracting: false // optional, for instant visual feedback
+      });
 
       // User position
       if (
@@ -91,13 +120,15 @@ Hijax.behaviours.map = {
           map.world.getView().setCenter(center);
         });
       }
-
+      
+      // Bind hover events
       map.world.on('pointermove', function(evt) {
         if (evt.dragging) { return; }
         var pixel = map.world.getEventPixel(evt.originalEvent);
         map.updateHoverState(pixel);
       });
-
+      
+      // Bind click events
       map.world.on('click', function(evt) {        
         var feature = map.world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
           return feature;
@@ -124,6 +155,15 @@ Hijax.behaviours.map = {
         wrapX: true
       });
       map.world.addOverlay(map.popover);
+      
+      // precompile handlebar templates
+      map.templates = {
+        popoverAction : Handlebars.compile($('#popoverAction\\.mustache').html()),
+        popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
+        popoverOrganization : Handlebars.compile($('#popoverOrganization\\.mustache').html()),
+        popoverPerson : Handlebars.compile($('#popoverPerson\\.mustache').html()),
+        popoverService : Handlebars.compile($('#popoverService\\.mustache').html())
+      };
       
     });
 
@@ -284,11 +324,12 @@ Hijax.behaviours.map = {
       feature.getId() != map.hoverState.id
     ) {
       // ... popover was active for another feature, update position, content and state
-            
-      map.setPopoverContent( feature, type );
+      
+      map.setPopoverContent( feature, type )
       map.setPopoverPosition( feature, type, pixel );
       map.setFeatureStyle( feature, 'hover' );
       map.resetFeatureStyle( map.hoverState.id );
+
       map.hoverState.id = feature.getId();
       
     } else if(
@@ -314,17 +355,8 @@ Hijax.behaviours.map = {
     var map = this;
     var feature_type = map.getFeatureType( feature );
     
-    // neither performant nor elegant ...
     if( feature_type == 'country' ) {
-      var current_style = map.vector.getStyle()(feature);
-      feature.setStyle(new ol.style.Style({
-        fill: current_style[0].getFill(),
-        stroke: new ol.style.Stroke({
-          color: '#0c75bf',
-          width: 2
-        }),
-        zIndex: 10
-      }));     
+      map.hoveredCountriesOverlay.getSource().addFeature(feature);
       return;
     }
     
@@ -344,9 +376,8 @@ Hijax.behaviours.map = {
     }
     
     if( map.getFeatureType(feature_id) == 'country' ) {
-      var feature = map.vectorSource.getFeatureById( feature_id );
-      feature.setStyle(
-        map.vector.getStyle()(feature)
+      map.hoveredCountriesOverlay.getSource().removeFeature(
+        map.vectorSource.getFeatureById( feature_id )
       );
     }
         
@@ -374,16 +405,16 @@ Hijax.behaviours.map = {
       map.popover.setOffset([0, -30]);
     }
   },
-
+  
   setPopoverContent : function(feature, type) {
     var map = this;
     var properties = feature.getProperties();
     
     if( type == "placemark" ) {
-      var content = Handlebars.compile($('#popover' + properties.type + '\\.mustache').html())(properties);
+      var content = map.templates['popover' + properties.type](properties);
     }
     
-    if( type == "country" ) {
+    if( type == "country") {
       
       // setup empty countrydata, if undefined
       if( typeof properties.country == 'undefined' ) {
@@ -396,9 +427,8 @@ Hijax.behaviours.map = {
       
       // set name
       country.name = i18n[ country.key.toUpperCase() ];
-
-      var content = Handlebars.compile($('#popoverCountry\\.mustache').html())(country);
-
+      
+      var content = map.templates.popoverCountry(country);
     }
     
     $(map.popoverElement).find('.popover-content').html( content );
