@@ -332,7 +332,10 @@
           }
         },
         "license": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "audience": {
           "type": "array",
