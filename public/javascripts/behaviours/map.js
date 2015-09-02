@@ -78,19 +78,10 @@ Hijax.behaviours.map = {
         minZoom: zoom_values.minZoom,
         maxZoom: zoom_values.maxZoom
       });
-
-      // Map object
-      map.world = new ol.Map({
-        layers: [map.vector],
-        target: map.container,
-        view: map.view,
-        controls: ol.control.defaults({ attribution: false })
-      });
       
-      // overlay for country hover style      
+      // overlay for country hover style
       var collection = new ol.Collection();
       map.hoveredCountriesOverlay = new ol.layer.Vector({
-        map: map.world,
         source: new ol.source.Vector({
           features: collection,
           useSpatialIndex: false // optional, might improve performance
@@ -100,14 +91,21 @@ Hijax.behaviours.map = {
             stroke: new ol.style.Stroke({
               color: '#0c75bf',
               width: 2
-            }),
-            zIndex: 10
+            })
           })];
         },
         updateWhileAnimating: false, // optional, for instant visual feedback
         updateWhileInteracting: false // optional, for instant visual feedback
       });
 
+      // Map object
+      map.world = new ol.Map({
+        layers: [map.vector, map.hoveredCountriesOverlay],
+        target: map.container,
+        view: map.view,
+        controls: ol.control.defaults({ attribution: false })
+      });
+            
       // User position
       if (
         navigator.geolocation &&
@@ -599,11 +597,11 @@ Hijax.behaviours.map = {
       }
     });
     map.world.addLayer(clusterLayer);*/
-
+    
     var vectorLayer = new ol.layer.Vector({
       source: map.placemarksVectorSource
     });
-
+    
     map.world.addLayer(vectorLayer);
 
   },
