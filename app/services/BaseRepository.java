@@ -42,7 +42,7 @@ public class BaseRepository implements ResourceRepository {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
         // Extract the type from the resource, otherwise everything will be typed WebPage!
-        String type = aResource.getAsString(JsonLdConstants.TYPE);
+        String type = dnr.getAsString(JsonLdConstants.TYPE);
         mElasticsearchRepo.addResource(rec, type);
         mFileRepo.addResource(rec, type);
       }
@@ -66,7 +66,7 @@ public class BaseRepository implements ResourceRepository {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
         // Extract the type from the resource, otherwise everything will be typed WebPage!
-        String type = aResource.getAsString(JsonLdConstants.TYPE);
+        String type = dnr.getAsString(JsonLdConstants.TYPE);
         mElasticsearchRepo.addResource(rec, type);
         mFileRepo.addResource(rec, type);
       }

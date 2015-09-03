@@ -48,6 +48,8 @@ public class ResourceDenormalizer {
     mListValueEntries.add("mentionedIn");
     mListValueEntries.add("participant");
     mListValueEntries.add("participantIn");
+    mListValueEntries.add("narrower");
+    mListValueEntries.add("hasTopConcept");
   }
 
   //
