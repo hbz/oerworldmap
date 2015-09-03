@@ -9,7 +9,9 @@ var Hijax = (function ($, Hijax) {
       countryVectorSource = null,
       countryVectorLayer = null,
       placemarksVectorSource = null,
-      placemarksVectorLayer = null
+      placemarksVectorLayer = null,
+      osmTileSource = null,
+      osmTileLayer = null,
       hoveredCountriesOverlay = null,
 
       standartMapSize = [896, 655],
@@ -375,7 +377,7 @@ var Hijax = (function ($, Hijax) {
 
       // Look for features on all layers and extend bounding box
       world.getLayers().forEach(function(layer) {
-        for (var i = 0; i < focusIds.length; i++) {
+        for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
           var feature = layer.getSource().getFeatureById(focusIds[i]);
           if (feature) {
             ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
@@ -548,6 +550,18 @@ var Hijax = (function ($, Hijax) {
           source: placemarksVectorSource
         });
 
+        // OSM tile source
+        osmTileSource = new ol.source.OSM({
+          url: 'https://{a-c}.tiles.mapbox.com/v4/johjoh.oer_worldmap/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiam9oam9oIiwiYSI6Imd3bnowY3MifQ.fk6HYuu3q5LzDi3dyip0Bw'
+        });
+
+         // OSM tile layer
+         osmTileLayer = new ol.layer.Tile({
+           source: osmTileSource,
+           opacity: 1
+         });
+         osmTileLayer.setVisible(false);
+
         // Get zoom values adapted to map size
         var zoom_values = getZoomValues();
 
@@ -558,6 +572,19 @@ var Hijax = (function ($, Hijax) {
           zoom: zoom_values.initialZoom,
           minZoom: zoom_values.minZoom,
           maxZoom: zoom_values.maxZoom
+        });
+
+        // Show OSM layer when zooming in
+        view.on('propertychange', function(e) {
+          switch (e.key) {
+            case 'resolution':
+              if (4 < view.getZoom()) {
+                osmTileLayer.setVisible(true);
+              } else {
+                osmTileLayer.setVisible(false);
+              }
+              break;
+          }
         });
 
         // overlay for country hover style
@@ -581,7 +608,7 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          layers: [countryVectorLayer, hoveredCountriesOverlay, placemarksVectorLayer],
+          layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
