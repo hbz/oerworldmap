@@ -8,9 +8,23 @@
                 {{{.}}}
             </script>
             <h1><i class="fa fa-users"></i> {{#name}}{{@value}}{{/name}} ({{@type}})</h1>
+            <p><a href="{{url}}">{{url}}</a></p>
+            <div class="img130text">
+                
+                {{#image}}
+                    <img src="{{.}}" class="img" />
+                {{/image}}
+                {{^image}}
+                    <div class="img placeholder"></div>
+                {{/image}}
+                
+                <div class="text">
+                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
+                    {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
+                </div>
+                
+            </div>
             {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
-            <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
-            {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
             <p>{{#description}}{{{@value}}}{{/description}}</p>
         </div>
 

@@ -57,6 +57,9 @@
         "name": {
           "$ref": "#/definitions/LocalizedString"
         },
+        "description": {
+          "$ref": "#/definitions/LocalizedString"
+        },
         "articleBody": {
           "$ref": "#/definitions/LocalizedString"
         },
@@ -345,7 +348,10 @@
           }
         },
         "license": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "audience": {
           "type": "array",
@@ -483,7 +489,7 @@
             "type": "string"
           }
         },
-        "logo": {
+        "image": {
           "type": "string",
           "format": "uri"
         },
