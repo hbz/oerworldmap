@@ -378,20 +378,7 @@ var Hijax = (function ($, Hijax) {
         for (var i = 0; i < focusIds.length; i++) {
           var feature = layer.getSource().getFeatureById(focusIds[i]);
           if (feature) {
-            if (feature.getId() == "RU") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[32, 73], [175, 42]]), tfn);
-            } else if (feature.getId() == "US") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-133, 52], [-65, 25]]), tfn);
-            } else if (feature.getId() == "FR") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[-8, 52], [15, 41]]), tfn);
-            } else if (feature.getId() == "NL") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[1, 54], [10, 50]]), tfn);
-            } else if (feature.getId() == "NZ") {
-              var extent = ol.extent.applyTransform(ol.extent.boundingExtent([[160, -32], [171, -50]]), tfn);
-            } else {
-              var extent = feature.getGeometry().getExtent();
-            }
-            ol.extent.extend(boundingBox, extent);
+            ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
           }
 
         }
@@ -496,6 +483,34 @@ var Hijax = (function ($, Hijax) {
   var my = {
     init : function(context) {
 
+      // Get mercator projection
+      projection = ol.proj.get('EPSG:3857');
+
+      // Override extents
+      (
+        function() {
+          var overrides = {
+            "FR": [[-8, 52], [15, 41]],
+            "RU": [[32, 73], [175, 42]],
+            "US": [[-133, 52], [-65, 25]],
+            "NL": [[1, 54], [10, 50]],
+            "NZ": [[160, -32], [171, -50]]
+          };
+          var getGeometry = ol.Feature.prototype.getGeometry;
+          var transform = ol.proj.getTransform('EPSG:4326', projection.getCode());
+          ol.Feature.prototype.getGeometry = function() {
+            var result = getGeometry.call(this);
+            var id = this.getId();
+            if (id in overrides) {
+              result.getExtent = function() {
+                return ol.extent.applyTransform(ol.extent.boundingExtent(overrides[id]), transform);
+              }
+            }
+            return result;
+          }
+        }
+      )();
+
       $('div[data-view="map"]', context).each(function() {
 
         // move footer to map container
@@ -504,9 +519,6 @@ var Hijax = (function ($, Hijax) {
         // switch style
         $(this).addClass("map-view");
         $('body').removeClass("layout-scroll").addClass("layout-fixed");
-
-        // Get mercator projection
-        projection = ol.proj.get('EPSG:3857');
 
         // Map container
         container = $('<div id="map"></div>')[0];
