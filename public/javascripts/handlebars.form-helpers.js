@@ -123,12 +123,13 @@
 
   /* {{input "firstname" person.name}} */
   function helperInput(name, value, options) {
-    return new Handlebars.SafeString(createElement('input', false, extend({
+    var label = helperLabel(name, name);
+    return new Handlebars.SafeString(label + '<br>' + createElement('input', false, extend({
       name: name,
       id: name,
       value: value,
       type: 'text'
-    }, options.hash)));
+    }, options.hash)) + '<br>');
   }
 
   /* {{input_validation "firstname" person.name errors}} */
@@ -307,6 +308,8 @@
   function helperTextareaValidation(name, body, errors, options) {
     return helperTextarea(name, body, addValidationClass(name, errors, options));
   }
+
+  //function helperFieldset()
 
   /*
   {{field_errors 'surname' errors class="help-block"}}

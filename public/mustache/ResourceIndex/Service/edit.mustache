@@ -1,6 +1,6 @@
 <fieldset>
     <legend>Service</legend>
-    {{input "@type" "Service" type="hidden"}}
+    {{input "@type" "Service" readonly="readonly"}}
     {{#[@id]}}
         {{input "@id" [@id] type="hidden"}}
     {{/[@id]}}
@@ -62,8 +62,8 @@
 
     {{! --- about --- }}
     {{#about}}
-        {{input "about[]" . }}
+        {{input (stringFormat "about[%s][@id]" @index) [@id] type="url" }}
     {{/about}}
-    {{input "about[]" "" }}
+    {{input (stringFormat "about[%s][@id]" (size about)) "" type="url" }}
 
 </fieldset>

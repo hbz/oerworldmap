@@ -7,8 +7,18 @@ def convert(input_path, output_path):
     skos = jsonld.from_rdf(get_skos(input_path))
     context = {
         "@vocab": "http://www.w3.org/2004/02/skos/core#",
-        "name": "http://www.w3.org/2004/02/skos/core#prefLabel",
-        "description": "http://purl.org/dc/terms/description",
+        "name": {
+            "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+            "@container": "@set"
+        },
+        "narrower": {
+            "@id": "http://www.w3.org/2004/02/skos/core#narrower",
+            "@container": "@set"
+        },
+        "description": {
+            "@id": "http://purl.org/dc/terms/description",
+            "@container": "@set"
+        },
         "publisher": "http://purl.org/dc/terms/publisher",
         "alternateName": "http://www.w3.org/2004/02/skos/core#altLabel",
         "title": "http://purl.org/dc/terms/title",
@@ -19,6 +29,7 @@ def convert(input_path, output_path):
     frame = {
         "@context": context,
         "@type": "ConceptScheme",
+        "@explicit": True,
         "hasTopConcept": {
             "@type": "Concept",
             "narrower": {

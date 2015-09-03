@@ -38,7 +38,9 @@
           "@value": "Secretaria da Educação do Paraná"
         }
       ],
-      "alternateName": ["SEED­PR"],
+      "alternateName": [
+        "SEED­PR"
+      ],
       "email": "gabinete.seed@seed.pr.gov.br",
       "url": "http://www.educacao.pr.gov.br/",
       "location": {
@@ -66,7 +68,9 @@
           "@value": "Projeto Folhas"
         }
       ],
-      "alternateName": ["Folhas"],
+      "alternateName": [
+        "Folhas"
+      ],
       "description": [
         {
           "@language": "en",
@@ -98,7 +102,9 @@
               "@value": "Secretaria da Educação do Paraná"
             }
           ],
-          "alternateName": ["SEED­PR"],
+          "alternateName": [
+            "SEED­PR"
+          ],
           "email": "gabinete.seed@seed.pr.gov.br",
           "url": "http://www.educacao.pr.gov.br/",
           "location": {
@@ -131,7 +137,9 @@
       ],
       "availableChannel": [
         {
-          "availableLanguage": ["por"],
+          "availableLanguage": [
+            "por"
+          ],
           "serviceUrl": "http://www.educadores.diaadia.pr.gov.br/modules/conteudo/conteudo.php?conteudo=6"
         }
       ],
@@ -145,7 +153,9 @@
               "@value": "Secretaria da Educação do Paraná"
             }
           ],
-          "alternateName": ["SEED­PR"],
+          "alternateName": [
+            "SEED­PR"
+          ],
           "email": "gabinete.seed@seed.pr.gov.br",
           "url": "http://www.educacao.pr.gov.br/",
           "location": {
@@ -165,26 +175,37 @@
           }
         }
       ],
-      "license": "Public Domain",
-      "about": [
-        "Basic programmes and qualifications (ISCED-2013:001)",
-        "Languages (ISCED-2013:023)",
-        "Arts (ISCED-2013:021)",
-        "Sociology and cultural studies (ISCED-2013:0314)",
-        "Philosophy and Ethics (ISCED-2013:0223)",
-        "History and archaeologyc (ISCED-2013:0222)",
-        "Mathematics (ISCED-2013:0541)",
-        "Physics (ISCED-2013:0533)",
-        "Chemistry (ISCED-2013:0531)",
-        "Biology (ISCED-2013:0511)",
-        "Geography",
-        "Portuguese/spanish/English language and literature",
-        "Portuguese",
-        "Foreign Language [Spanish and English]"
+      "license": [
+        "Public Domain"
       ],
-      "audience": [
-        "Lower Secondary Education (ISCED-1997:2)",
-        "Secondary Education (ISCED-1997:3)"
+      "about": [
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n023"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0314"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0223"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0222"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0541"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0533"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0531"
+        },
+        {
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0511"
+        }
       ],
       "startDate": "2011"
     }

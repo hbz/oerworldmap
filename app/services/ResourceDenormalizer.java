@@ -27,8 +27,8 @@ public class ResourceDenormalizer {
     mKnownInverseRelations.put("created", "creator");
     mKnownInverseRelations.put("agent", "agentIn");
     mKnownInverseRelations.put("agentIn", "agent");
-    mKnownInverseRelations.put("mentions", "mentionedIn");
-    mKnownInverseRelations.put("mentionedIn", "mentions");
+    //mKnownInverseRelations.put("mentions", "mentionedIn");
+    //mKnownInverseRelations.put("mentionedIn", "mentions");
     mKnownInverseRelations.put("participant", "participantIn");
     mKnownInverseRelations.put("participantIn", "participant");
   }
@@ -50,6 +50,7 @@ public class ResourceDenormalizer {
     mListValueEntries.add("participantIn");
     mListValueEntries.add("narrower");
     mListValueEntries.add("hasTopConcept");
+    mListValueEntries.add("about");
   }
 
   //

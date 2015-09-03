@@ -25,7 +25,7 @@
               </ul>
               <h2>Topics</h2>
               <ul>
-                  {{#about}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/about}}
+                  {{#about}}<li>{{> ResourceIndex/Concept/link.mustache}}</li>{{/about}}
               </ul>
           </div>
           {{/availableChannel}}

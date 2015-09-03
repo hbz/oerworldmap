@@ -147,6 +147,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     JsonSchema schema;
     ProcessingReport report;
     try {
+      System.out.println(this);
       schema = JsonSchemaFactory.byDefault().getJsonSchema(
           new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
           "/definitions/".concat(this.get(JsonLdConstants.TYPE).toString()));
