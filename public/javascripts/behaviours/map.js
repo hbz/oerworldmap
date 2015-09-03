@@ -453,7 +453,7 @@ var Hijax = (function ($, Hijax) {
       }
     }
 
-   if (!markers.length) {
+    if (!markers.length) {
       for (var key in resource) {
         if ('referencedBy' == key) {
           continue;
@@ -475,7 +475,10 @@ var Hijax = (function ($, Hijax) {
       }
     }
 
-    markers[resource['@id']] = _markers;
+    if (_markers.length && resource['@id']) {
+      markers[resource['@id']] = _markers;
+    }
+
     return _markers;
 
   }
