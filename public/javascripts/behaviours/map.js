@@ -646,12 +646,6 @@ var Hijax = (function ($, Hijax) {
 
     attach : function(context) {
 
-      // Set zoom
-      $('[data-view="map"]', context).each(function() {
-        // zoom to bounding box, if focus is set
-        setBoundingBox(this);
-      });
-
       // Populate map with pins from single resources
       $('article.resource-story', context)
         .add($('div.resource-organization', context))
@@ -712,6 +706,12 @@ var Hijax = (function ($, Hijax) {
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
         $(this).find('tr').hide();
+      });
+
+      // Set zoom
+      $('[data-view="map"]', context).each(function() {
+        // zoom to bounding box, if focus is set
+        setBoundingBox(this);
       });
 
     }
