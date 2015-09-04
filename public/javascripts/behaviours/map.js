@@ -558,6 +558,7 @@ var Hijax = (function ($, Hijax) {
          // OSM tile layer
          osmTileLayer = new ol.layer.Tile({
            source: osmTileSource,
+           preload: Infinity,
            opacity: 1
          });
          osmTileLayer.setVisible(false);
