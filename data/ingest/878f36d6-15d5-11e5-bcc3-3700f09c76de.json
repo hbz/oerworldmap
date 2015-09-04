@@ -34,7 +34,7 @@
       "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
       "name": [
         {
-          "@language": "es",
+          "@language": "en",
           "@value": "Secretaria da Educação do Paraná"
         }
       ],
@@ -64,7 +64,7 @@
       "@id": "urn:uuid:9fd1fd1c-15d7-11e5-b82b-332b7535164b",
       "name": [
         {
-          "@language": "es",
+          "@language": "en",
           "@value": "Projeto Folhas"
         }
       ],
@@ -98,7 +98,7 @@
           "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
           "name": [
             {
-              "@language": "es",
+              "@language": "en",
               "@value": "Secretaria da Educação do Paraná"
             }
           ],
@@ -131,7 +131,7 @@
       "serviceType": "Textbooks",
       "name": [
         {
-          "@language": "es",
+          "@language": "en",
           "@value": "Livro Didático Público"
         }
       ],
@@ -149,7 +149,7 @@
           "@id": "urn:uuid:be797d5e-15d6-11e5-9bb6-8758d8ed508b",
           "name": [
             {
-              "@language": "es",
+              "@language": "en",
               "@value": "Secretaria da Educação do Paraná"
             }
           ],
@@ -205,6 +205,14 @@
         },
         {
           "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0511"
+        }
+      ],
+      "audience": [
+        {
+          "@id": "urn:uuid:8084e848-52e0-11e5-a1a5-3c970e4a9cbf#level2"
+        },
+        {
+          "@id": "urn:uuid:8084e848-52e0-11e5-a1a5-3c970e4a9cbf#level3"
         }
       ],
       "startDate": "2011"

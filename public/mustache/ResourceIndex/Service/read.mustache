@@ -21,7 +21,7 @@
               </ul>
               <h2>Audience</h2>
               <ul>
-                  {{#audience}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/audience}}
+                  {{#audience}}<li>{{> ResourceIndex/Concept/link.mustache}}</li>{{/audience}}
               </ul>
               <h2>Topics</h2>
               <ul>

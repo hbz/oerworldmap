@@ -51,6 +51,7 @@ public class ResourceDenormalizer {
     mListValueEntries.add("narrower");
     mListValueEntries.add("hasTopConcept");
     mListValueEntries.add("about");
+    mListValueEntries.add("audience");
   }
 
   //

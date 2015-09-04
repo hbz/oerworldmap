@@ -356,7 +356,21 @@
         "about": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Concept"
+            "allOf": [
+              {"$ref": "#/definitions/Concept"},
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": ["urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         "license": {
@@ -368,7 +382,21 @@
         "audience": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Concept"
+            "allOf": [
+              {"$ref": "#/definitions/Concept"},
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": ["urn:uuid:8084e848-52e0-11e5-a1a5-3c970e4a9cbf#scheme"]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       },

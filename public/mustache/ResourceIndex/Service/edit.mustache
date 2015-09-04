@@ -39,26 +39,24 @@
             <legend>Available Channel</legend>
             {{input (stringFormat "availableChannel[%s][serviceUrl]" @index) serviceUrl type="url"}}
             {{#availableLanguage}}
-                {{input (stringFormat "availableChannel[%s][availableLanguage][]" @index) .}}
+                {{input (stringFormat "availableChannel[%s][availableLanguage][%s]" ../@index @index) .}}
             {{/availableLanguage}}
-            {{^availableLanguage}}
-                {{input (stringFormat "availableChannel[%s][availableLanguage][]" @index) ""}}
-            {{/availableLanguage}}
+            {{input (stringFormat "availableChannel[%s][availableLanguage][%s]" @index (size availableLanguage)) ""}}
         </fieldset>
     {{/availableChannel}}
     {{^availableChannel}}
         <fieldset>
             <legend>Available Channel</legend>
             {{input "availableChannel[0][serviceUrl]"  "" type="url"}}
-            {{input "availableChannel[0][availableLanguage][]" ""}}
+            {{input "availableChannel[0][availableLanguage][0]" ""}}
         </fieldset>
     {{/availableChannel}}
 
     {{! --- audience --- }}
     {{#audience}}
-        {{input "audience[]" . }}
+        {{input (stringFormat "audience[%s][@id]" @index) [@id] type="url" }}
     {{/audience}}
-    {{input "audience[]" "" }}
+    {{input (stringFormat "audience[%s][@id]" (size audience)) "" type="url" }}
 
     {{! --- about --- }}
     {{#about}}
