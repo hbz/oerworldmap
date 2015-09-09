@@ -27,7 +27,6 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.rits.cloning.Cloner;
 
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
@@ -289,7 +288,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource getFlatClone(Resource aResource) {
-    Resource result = new Cloner().deepClone(aResource);
+    Resource result = Resource.fromMap(aResource);
 
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
