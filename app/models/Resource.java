@@ -1,18 +1,16 @@
 package models;
 
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
-import helpers.UniversalFunctions;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -144,15 +142,19 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   public ProcessingReport validate() {
     JsonSchema schema;
-    ProcessingReport report;
+    ProcessingReport report = new ListProcessingReport();
     try {
-      System.out.println(this);
-      schema = JsonSchemaFactory.byDefault().getJsonSchema(
-          new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
-          "/definitions/".concat(this.get(JsonLdConstants.TYPE).toString()));
-      report = schema.validate(toJson());
+      String type = this.getAsString(JsonLdConstants.TYPE);
+      if (null == type) {
+        report.error(new ProcessingMessage().setMessage("No type found for ".concat(this.toString())
+            .concat(", cannot validate")));
+      } else {
+        schema = JsonSchemaFactory.byDefault().getJsonSchema(
+            new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
+            "/definitions/".concat(type));
+        report = schema.validate(toJson());
+      }
     } catch (ProcessingException | IOException e) {
-      report = new ListProcessingReport();
       e.printStackTrace();
     }
     return report;

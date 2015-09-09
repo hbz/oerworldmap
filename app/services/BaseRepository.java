@@ -1,6 +1,7 @@
 package services;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
@@ -51,10 +52,10 @@ public class BaseRepository implements ResourceRepository {
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
     List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
-    ProcessingReport processingReport = denormalizedResources.get(0).validate();
-    for (int i = 1; i < denormalizedResources.size(); i++) {
+    ProcessingReport processingReport = new ListProcessingReport();
+    for (Resource dnr : denormalizedResources) {
       try {
-        processingReport.mergeWith(denormalizedResources.get(i).validate());
+        processingReport.mergeWith(dnr.validate());
       } catch (ProcessingException e) {
         Logger.error(e.toString());
       }
