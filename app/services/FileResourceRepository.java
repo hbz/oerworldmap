@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import models.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class FileResourceRepository implements ResourceRepository {
@@ -59,9 +60,10 @@ public class FileResourceRepository implements ResourceRepository {
    * @param aResource
    */
   public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType) throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
+    String id = aResource.getAsString(JsonLdConstants.ID);
+    String encodedId = DigestUtils.sha256Hex(id);
     Path dir = Paths.get(mPath.toString(), aType);
-    Path file = Paths.get(dir.toString(), id);
+    Path file = Paths.get(dir.toString(), encodedId);
     if (!Files.exists(dir)) {
       Files.createDirectory(dir);
     }
@@ -162,7 +164,7 @@ public class FileResourceRepository implements ResourceRepository {
   }
 
   private Path getResourcePath(@Nonnull final String aId) throws IOException {
-
+    String encodedId = DigestUtils.sha256Hex(aId);
     DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
         new DirectoryStream.Filter<Path>() {
           @Override
@@ -176,7 +178,7 @@ public class FileResourceRepository implements ResourceRepository {
           new DirectoryStream.Filter<Path>() {
             @Override
             public boolean accept(Path entry) throws IOException {
-              return (entry.getFileName().toString().equals(aId));
+              return (entry.getFileName().toString().equals(encodedId));
             }
           });
       for (Path resourceFile : resourceFiles) {
