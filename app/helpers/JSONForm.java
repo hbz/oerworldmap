@@ -28,6 +28,10 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 public class JSONForm {
 
   public static JsonNode parseFormData(Map<String, String[]> formData) {
+    return parseFormData(formData, false);
+  }
+
+  public static JsonNode parseFormData(Map<String,String[]> formData, boolean removeEmptyValues) {
     List<JsonNode> results = new ArrayList<>();
     for (Map.Entry<String, String[]> entry : formData.entrySet()) {
       JsonNode context = new ObjectNode(JsonNodeFactory.instance);
@@ -92,7 +96,7 @@ public class JSONForm {
       }
       results.add(context);
     }
-    return merge(results);
+    return removeEmptyValues ? removeEmptyValues((ObjectNode) merge(results)) : merge(results);
   }
 
   public static List<Map<String, Object>> generateErrorReport(ProcessingReport report) {
@@ -184,6 +188,42 @@ public class JSONForm {
     }
     return merged;
   }
+
+  private static ObjectNode removeEmptyValues(ObjectNode node) {
+    ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
+    Iterator<String> fieldNames = node.fieldNames();
+    while(fieldNames.hasNext()) {
+      String fieldName = fieldNames.next();
+      JsonNode fieldValue = node.get(fieldName);
+      if (fieldValue.isArray() && fieldValue.size() > 0) {
+        ArrayNode value = removeEmptyValues((ArrayNode) fieldValue);
+        if (value.size() > 0) result.put(fieldName, value);
+      } else if (fieldValue.isObject() && fieldValue.size() > 0) {
+        ObjectNode value = removeEmptyValues((ObjectNode) fieldValue);
+        if (value.size() > 0) result.put(fieldName, value);
+      } else if (!fieldValue.isArray() && !fieldValue.isObject() && !fieldValue.isNull()) {
+        result.put(fieldName, fieldValue);
+      }
+    }
+    return result;
+  }
+
+  private static ArrayNode removeEmptyValues(ArrayNode node) {
+    ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
+    for (JsonNode arrayValue : node) {
+      if (arrayValue.isArray() && arrayValue.size() > 0) {
+        ArrayNode value = removeEmptyValues((ArrayNode) arrayValue);
+        if (value.size() > 0) result.add(value);
+      } else if (arrayValue.isObject() && arrayValue.size() > 0) {
+        ObjectNode value = removeEmptyValues((ObjectNode) arrayValue);
+        if (value.size() > 0) result.add(value);
+      } else if (!arrayValue.isArray() && !arrayValue.isObject() && !arrayValue.isNull()) {
+        result.add(arrayValue);
+      }
+    }
+    return result;
+  }
+
 
   private static class Step {
 

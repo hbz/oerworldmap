@@ -53,7 +53,7 @@ public class ResourceIndex extends OERWorldMap {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
@@ -63,9 +63,9 @@ public class ResourceIndex extends OERWorldMap {
       scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(report.toString());
+        return badRequest(resource + report.toString());
       } else {
-        return badRequest(report.toString());
+        return badRequest(resource + report.toString());
       }
     }
     return created("created resource " + resource.toString());
@@ -117,7 +117,7 @@ public class ResourceIndex extends OERWorldMap {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
@@ -127,9 +127,9 @@ public class ResourceIndex extends OERWorldMap {
       scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(report.toString());
+        return badRequest(resource + report.toString());
       } else {
-        return badRequest(report.toString());
+        return badRequest(resource + report.toString());
       }
     }
     return created("updated resource " + resource.toString());
