@@ -29,10 +29,10 @@ public class CountryIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
-    Resource countryAggregation = mBaseRepository.query(AggregationProvider.getForCountryAggregation(id));
-    List<Resource> champions = mBaseRepository.esQuery(
+    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id));
+    List<Resource> champions = mBaseRepository.query(
         Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), null);
-    List<Resource> resources = mBaseRepository.esQuery(
+    List<Resource> resources = mBaseRepository.query(
         Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), null);
     Map<String, Object> scope = new HashMap<>();
 

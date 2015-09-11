@@ -2,7 +2,6 @@ package controllers;
 
 import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
-import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import helpers.Countries;
 import helpers.FilesConfig;
@@ -22,7 +21,7 @@ import play.Play;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.twirl.api.Html;
-import services.BaseRepository;
+import services.repository.BaseRepository;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
 
@@ -66,7 +65,7 @@ public abstract class OERWorldMap extends Controller {
       mEsConfig);
   
 
-  // TODO final protected static FileResourceRepository
+  // TODO final protected static FileRepository
   // mUnconfirmedUserRepository;
   static {
     try {

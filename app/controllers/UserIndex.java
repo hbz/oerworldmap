@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import helpers.JsonLdConstants;
 import models.Resource;
 
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -111,7 +112,9 @@ public class UserIndex extends OERWorldMap {
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
     String aEmail = user.get("mbox_sha1sum").toString();
-    if ((!mBaseRepository.getResourcesByContent("Person", "mbox_sha1sum", aEmail, true).isEmpty())) {
+    String emailExistsQuery = JsonLdConstants.TYPE.concat(":Person")
+        .concat(" AND ").concat("mbox_sha1sum:").concat(aEmail);
+    if ((!mBaseRepository.query(emailExistsQuery, null).isEmpty())) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
       ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);

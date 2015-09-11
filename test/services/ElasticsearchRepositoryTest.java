@@ -23,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import controllers.Global;
+import services.repository.ElasticsearchRepository;
 
 public class ElasticsearchRepositoryTest {
 
@@ -61,21 +62,21 @@ public class ElasticsearchRepositoryTest {
     mResource3.put("name", "oeruser3");
     mResource3.put("worksFor", "unesco.org");
 
-    mRepo.addResource(mResource1);
-    mRepo.addResource(mResource2);
-    mRepo.addResource(mResource3);
+    mRepo.addResource(mResource1, "Person");
+    mRepo.addResource(mResource2, "Person");
+    mRepo.addResource(mResource3, "Person");
     mElClient.refreshIndex(mEsConfig.getIndex());
   }
 
   @Test
-  public void testAddAndQueryResources() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query("Person");
+  public void testAddAndQueryResources() throws IOException, ParseException {
+    List<Resource> resourcesGotBack = mRepo.query(JsonLdConstants.TYPE.concat(":Person"), null);
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
   }
 
   @Test
-  public void testAddAndEsQueryResources() throws IOException {
+  public void testAddAndEsQueryResources() throws IOException, ParseException {
     final String aQueryString = "*";
     List<Resource> result = null;
     try {
@@ -84,10 +85,8 @@ public class ElasticsearchRepositoryTest {
       // instance. Otherwise it will fail. This restriction can be overturned
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
-      result = mRepo.esQuery(aQueryString, null);
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
+      result = mRepo.query(aQueryString, null);
+    } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {
       Assert.assertNotNull(result);
@@ -96,8 +95,8 @@ public class ElasticsearchRepositoryTest {
   }
 
   @Test
-  public void testUniqueFields() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query("Person");
+  public void testUniqueFields() throws IOException, ParseException {
+    List<Resource> resourcesGotBack = mRepo.query(JsonLdConstants.TYPE.concat(":Person"), null);
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
     Set<String> employers = new HashSet<String>();

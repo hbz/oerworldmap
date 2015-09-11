@@ -1,4 +1,4 @@
-package services;
+package services.repository;
 
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
@@ -14,20 +14,24 @@ import javax.annotation.Nonnull;
 import models.Record;
 import models.Resource;
 
+import models.ResourceList;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import play.Logger;
+import services.ElasticsearchProvider;
+import services.repository.ElasticsearchRepository;
+import services.repository.FileRepository;
 
 public class BaseRepository {
 
   private static ElasticsearchRepository mElasticsearchRepo;
-  private static FileResourceRepository mFileRepo;
+  private static FileRepository mFileRepo;
 
   public BaseRepository(ElasticsearchProvider aElasticsearchProvider, Path aPath) throws IOException {
     mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchProvider);
-    mFileRepo = new FileResourceRepository(aPath);
+    mFileRepo = new FileRepository(aPath);
   }
 
   public Resource deleteResource(String aId) {
@@ -110,26 +114,25 @@ public class BaseRepository {
   private List<Resource> esQueryNoRef(String aEsQuery) {
     List<Resource> resources = new ArrayList<Resource>();
     try {
-      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery, null)));
+      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, null)));
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
     return resources;
   }
 
-  public List<Resource> esQuery(String aEsQuery, String aEsSort) {
+  public ResourceList query(String aEsQuery, String aEsSort) {
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
     // has no unencrypted email address
     aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
-    List<Resource> resources = new ArrayList<Resource>();
+    ResourceList resources = new ResourceList();
     try {
-      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery, aEsSort)));
+      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, aEsSort)));
       attachReferencedResources(resources);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
     return resources;
-    // TODO eventually add FileResourceRepository.esQuery(String aEsQuery)
   }
 
   public Resource getResource(String aId) {
@@ -160,34 +163,19 @@ public class BaseRepository {
     return resources;
   }
 
-  public List<Resource> getResourcesByContent(String aType, String aField, String aContent,
-      boolean aSearchAllRepos) {
-    String field = Record.RESOURCEKEY + "." + aField;
+  public Resource aggregate(AggregationBuilder<?> aAggregationBuilder) throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilder);
+  }
+
+  public List<Resource> getAll(String aType) {
     List<Resource> resources = new ArrayList<Resource>();
-    resources
-        .addAll(getResources(mElasticsearchRepo.getResourcesByContent(aType, field, aContent)));
-    if (aSearchAllRepos || resources.isEmpty()) {
-      resources.addAll(mFileRepo.getResourcesByContent(aType, field, aContent));
+    try {
+      resources = mElasticsearchRepo.getAll(aType);
+    } catch (IOException e) {
+      Logger.error(e.toString());
     }
     attachReferencedResources(resources);
     return resources;
   }
 
-  public Resource query(AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return mElasticsearchRepo.query(aAggregationBuilder);
-  }
-
-  public Resource query(List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
-    return mElasticsearchRepo.query(aAggregationBuilders);
-  }
-
-  public List<Resource> query(String aType, boolean aSearchAllRepos) throws IOException {
-    List<Resource> resources = new ArrayList<Resource>();
-    resources.addAll(getResources(mElasticsearchRepo.query(aType)));
-    if (aSearchAllRepos || resources.isEmpty()) {
-      resources.addAll(mFileRepo.query(aType));
-    }
-    attachReferencedResources(resources);
-    return resources;
-  }
 }

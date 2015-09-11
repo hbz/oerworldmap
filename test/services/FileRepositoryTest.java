@@ -15,20 +15,21 @@ import models.Resource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import services.repository.FileRepository;
 
-public class FileResourceRepositoryTest {
+public class FileRepositoryTest {
 
   private static Path tmpPath = Paths.get(System.getProperty("java.io.tmpdir"), "resources");
-  private static ResourceRepository resourceRepository;
+  private static FileRepository resourceRepository;
   private static Resource resource;
 
   @BeforeClass
   public static void setUpDir() throws IOException {
     Files.createDirectory(tmpPath);
-    resourceRepository = new FileResourceRepository(tmpPath);
+    resourceRepository = new FileRepository(tmpPath);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
-    resourceRepository.addResource(resource);
+    resourceRepository.addResource(resource, "Person");
   }
 
   @Test
@@ -38,16 +39,9 @@ public class FileResourceRepositoryTest {
   }
 
   @Test
-  public void testQuery() throws IOException {
-    List<Resource> results = resourceRepository.query("Person");
+  public void testGetAll() throws IOException {
+    List<Resource> results = resourceRepository.getAll("Person");
     assertEquals(results.size(), 1);
-  }
-
-  @Test
-  public void testGetResourcesByContent() throws IOException {
-    List<Resource> results = resourceRepository.getResourcesByContent("Person", "name", "John Doe");
-    assertEquals(results.size(), 1);
-    assertTrue(results.get(0).equals(resource));
   }
 
   @AfterClass

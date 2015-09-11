@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import controllers.Global;
+import services.repository.BaseRepository;
 
 public class BaseRepositoryTest {
 

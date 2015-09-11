@@ -12,6 +12,7 @@ import java.util.Map;
 
 import models.Resource;
 
+import models.ResourceList;
 import org.json.simple.parser.ParseException;
 
 import play.mvc.Result;
@@ -38,7 +39,7 @@ public class ResourceIndex extends OERWorldMap {
       q = "*";
     }
 
-    List<Resource> resources = mBaseRepository.esQuery(q, sort);
+    ResourceList resources = mBaseRepository.query(q, sort);
     scope.put("resources", resources);
 
     if (request().accepts("text/html")) {
