@@ -114,7 +114,7 @@ public class UserIndex extends OERWorldMap {
     String aEmail = user.get("mbox_sha1sum").toString();
     String emailExistsQuery = JsonLdConstants.TYPE.concat(":Person")
         .concat(" AND ").concat("mbox_sha1sum:").concat(aEmail);
-    if ((!mBaseRepository.query(emailExistsQuery, null).isEmpty())) {
+    if ((!(mBaseRepository.query(emailExistsQuery, 0, 1, null).getTotalItems() == 0))) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
       ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);

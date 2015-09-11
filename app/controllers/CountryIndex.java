@@ -11,6 +11,7 @@ import java.util.Map;
 import models.Record;
 import models.Resource;
 
+import models.ResourceList;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -30,16 +31,16 @@ public class CountryIndex extends OERWorldMap {
     }
 
     Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id));
-    List<Resource> champions = mBaseRepository.query(
-        Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), null);
-    List<Resource> resources = mBaseRepository.query(
-        Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), null);
+    ResourceList champions = mBaseRepository.query(
+        Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null);
+    ResourceList resources = mBaseRepository.query(
+        Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), 0, 9999, null);
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
     scope.put("name", Countries.getNameFor(id, currentLocale));
-    scope.put("champions", champions);
-    scope.put("resources", resources);
+    scope.put("champions", champions.toResource());
+    scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
 
     if (request().accepts("text/html")) {

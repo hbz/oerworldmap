@@ -114,25 +114,25 @@ public class BaseRepository {
   private List<Resource> esQueryNoRef(String aEsQuery) {
     List<Resource> resources = new ArrayList<Resource>();
     try {
-      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, null)));
+      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, 0, 9999, null).getItems()));
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
     return resources;
   }
 
-  public ResourceList query(String aEsQuery, String aEsSort) {
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
-    // has no unencrypted email address
-    aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
-    ResourceList resources = new ResourceList();
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
     try {
-      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, aEsSort)));
+      ResourceList resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder);
+      List<Resource> resources = new ArrayList<>();
+      resources.addAll(getResources(resourceList.getItems()));
       attachReferencedResources(resources);
+      resourceList.setItems(resources);
+      return resourceList;
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
+      return null;
     }
-    return resources;
   }
 
   public Resource getResource(String aId) {

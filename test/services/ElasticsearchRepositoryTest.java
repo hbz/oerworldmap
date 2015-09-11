@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import models.Resource;
 
+import models.ResourceList;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -70,7 +71,7 @@ public class ElasticsearchRepositoryTest {
 
   @Test
   public void testAddAndQueryResources() throws IOException, ParseException {
-    List<Resource> resourcesGotBack = mRepo.query(JsonLdConstants.TYPE.concat(":Person"), null);
+    List<Resource> resourcesGotBack = mRepo.getAll("Person");
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
   }
@@ -78,25 +79,26 @@ public class ElasticsearchRepositoryTest {
   @Test
   public void testAddAndEsQueryResources() throws IOException, ParseException {
     final String aQueryString = "*";
-    List<Resource> result = null;
+    ResourceList result = null;
     try {
       // TODO : this test currently presumes that there is some data existent in
       // your elasticsearch
       // instance. Otherwise it will fail. This restriction can be overturned
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
-      result = mRepo.query(aQueryString, null);
+      result = mRepo.query(aQueryString, 0, 10, null);
+      System.out.println(result.getItems());
     } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {
       Assert.assertNotNull(result);
-      Assert.assertTrue(!result.isEmpty());
+      Assert.assertTrue(!result.getItems().isEmpty());
     }
   }
 
   @Test
   public void testUniqueFields() throws IOException, ParseException {
-    List<Resource> resourcesGotBack = mRepo.query(JsonLdConstants.TYPE.concat(":Person"), null);
+    List<Resource> resourcesGotBack = mRepo.getAll("Person");
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
     Set<String> employers = new HashSet<String>();

@@ -3,10 +3,7 @@ package services.repository;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
@@ -15,6 +12,8 @@ import models.Resource;
 
 import models.ResourceList;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 import play.Logger;
@@ -98,11 +97,28 @@ public class ElasticsearchRepository implements Readable, Writable, Queryable, A
    * @throws ParseException
    */
   @Override
-  public ResourceList query(@Nonnull String aQueryString, String aSortOrder) throws IOException, ParseException {
-    ResourceList resources = new ResourceList();
-    for (Map<String, Object> doc : elasticsearch.esQuery(aQueryString, null, aSortOrder)) {
-      resources.add(Resource.fromMap(doc));
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) throws IOException, ParseException {
+    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
+    // has no unencrypted email address
+    String filteredQueryString = aQueryString + " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
+    ResourceList resourceList = new ResourceList();
+    SearchResponse response = elasticsearch.esQuery(filteredQueryString, aFrom, aSize, aSortOrder);
+    resourceList.setItemsPerPage(aSize);
+    long totalHits = response.getHits().getTotalHits();
+    String nextPage = aFrom + aSize < totalHits
+        ? "?q=".concat(aQueryString).concat("&from=".concat(Long.toString(aFrom + aSize))).concat("&size=").concat(Long.toString(aSize)) : null;
+    String previousPage = aFrom - aSize >= 0
+        ? "?q=".concat(aQueryString).concat("&from=".concat(Long.toString(aFrom - aSize))).concat("&size=").concat(Long.toString(aSize)) : null;
+    resourceList.setTotalItems(totalHits);
+    resourceList.setNextPage(nextPage);
+    resourceList.setPreviousPage(previousPage);
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    List<Resource> matches = new ArrayList<>();
+    while (searchHits.hasNext()) {
+      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
+      matches.add(match);
     }
-    return resources;
+    resourceList.setItems(matches);
+    return resourceList;
   }
 }

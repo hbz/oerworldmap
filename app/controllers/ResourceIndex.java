@@ -7,7 +7,6 @@ import helpers.JsonLdConstants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import models.Resource;
@@ -27,25 +26,24 @@ import services.AggregationProvider;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, String sort, Boolean search) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
 
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("q", q);
-    scope.put("search", search);
 
     // Empty query string matches everything
     if (q.equals("")) {
       q = "*";
     }
 
-    ResourceList resources = mBaseRepository.query(q, sort);
-    scope.put("resources", resources);
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort);
+    scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {
       return ok(render("Resources", "ResourceIndex/index.mustache", scope));
     } else {
-      return ok(resources.toString()).as("application/json");
+      return ok(resourceList.toResource().toString()).as("application/json");
     }
   }
 

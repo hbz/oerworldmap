@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -51,12 +52,12 @@ public class ElasticsearchProviderTest {
       // TODO : this test currently presumes that there is some data existent in your elasticsearch
       // instance. Otherwise it will fail. This restriction can be overturned when a parallel method
       // for the use of POST is introduced in ElasticsearchProvider.
-      List<Map<String, Object>> result1 = mElasticsearchProvider.esQuery(aQueryString);
-      List<Map<String, Object>> result2 = mElasticsearchProvider.esQuery(aQueryString, "_all", null);
-      List<Map<String, Object>> result3 = mElasticsearchProvider.esQuery(aQueryString, "_all", "");
-      Assert.assertTrue(!result1.isEmpty());
-      Assert.assertTrue(!result2.isEmpty());
-      Assert.assertTrue(!result3.isEmpty());
+      SearchResponse result1 = mElasticsearchProvider.esQuery(aQueryString);
+      SearchResponse result2 = mElasticsearchProvider.esQuery(aQueryString, "_all", null);
+      SearchResponse result3 = mElasticsearchProvider.esQuery(aQueryString, "_all", "");
+      Assert.assertTrue(result1.getHits().getTotalHits() > 1);
+      Assert.assertTrue(result2.getHits().getTotalHits() > 1);
+      Assert.assertTrue(result3.getHits().getTotalHits() > 1);
     } catch (IOException e) {
       e.printStackTrace();
     }
