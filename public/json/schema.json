@@ -364,7 +364,7 @@
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"]
+                        "enum": ["https://w3id.org/isced/2013/scheme"]
                       }
                     }
                   }
@@ -390,7 +390,7 @@
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["urn:uuid:8084e848-52e0-11e5-a1a5-3c970e4a9cbf#scheme"]
+                        "enum": ["https://w3id.org/isced/1997/scheme"]
                       }
                     }
                   }

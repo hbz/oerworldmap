@@ -197,10 +197,12 @@ public class JSONForm {
       JsonNode fieldValue = node.get(fieldName);
       if (fieldValue.isArray() && fieldValue.size() > 0) {
         ArrayNode value = removeEmptyValues((ArrayNode) fieldValue);
-        if (value.size() > 0) result.put(fieldName, value);
+        //if (value.size() > 0)
+          result.put(fieldName, value);
       } else if (fieldValue.isObject() && fieldValue.size() > 0) {
         ObjectNode value = removeEmptyValues((ObjectNode) fieldValue);
-        if (value.size() > 0) result.put(fieldName, value);
+        //if (value.size() > 0)
+          result.put(fieldName, value);
       } else if (!fieldValue.isArray() && !fieldValue.isObject() && !fieldValue.isNull()) {
         result.put(fieldName, fieldValue);
       }
@@ -213,10 +215,12 @@ public class JSONForm {
     for (JsonNode arrayValue : node) {
       if (arrayValue.isArray() && arrayValue.size() > 0) {
         ArrayNode value = removeEmptyValues((ArrayNode) arrayValue);
-        if (value.size() > 0) result.add(value);
+        //if (value.size() > 0)
+          result.add(value);
       } else if (arrayValue.isObject() && arrayValue.size() > 0) {
         ObjectNode value = removeEmptyValues((ObjectNode) arrayValue);
-        if (value.size() > 0) result.add(value);
+        //if (value.size() > 0)
+          result.add(value);
       } else if (!arrayValue.isArray() && !arrayValue.isObject() && !arrayValue.isNull()) {
         result.add(arrayValue);
       }

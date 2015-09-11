@@ -1,37 +1,44 @@
 <fieldset>
     <legend>Service</legend>
     {{input "@type" "Service" readonly="readonly"}}
-    {{#[@id]}}
-        {{input "@id" [@id] type="hidden"}}
-    {{/[@id]}}
+    {{input "@id" [@id] readonly="readonly"}}
 
     {{! --- name --- }}
-    {{#name}}
-        {{input (stringFormat "name[%s][@value]" @index) [@value]}}
-        {{input (stringFormat "name[%s][@language]" @index) [@language]}}
-    {{/name}}
-    {{^name}}
-        {{input "name[0][@value]" ""}}
-        {{input "name[0][@language]" ""}}
-    {{/name}}
+    <fieldset>
+        <legend>Names</legend>
+        {{#name}}
+            <fieldset class="i18n">
+                <legend>Name</legend>
+                {{input (stringFormat "name[%s][@value]" @index) [@value]}}
+                {{input (stringFormat "name[%s][@language]" @index) [@language]}}
+            </fieldset>
+        {{/name}}
+        <fieldset class="i18n">
+            <legend>Name</legend>
+            {{input (stringFormat "name[%s][@value]" (size name)) ""}}
+            {{input (stringFormat "name[%s][@language]" (size name)) ""}}
+        </fieldset>
+    </fieldset>
 
     {{! --- description --- }}
     {{#description}}
-        {{textarea (stringFormat "description[%s][@value]" @index) [@value]}}
-        {{input (stringFormat "description[%s][@language]" @index) [@language]}}
+        <fieldset class="i18n">
+            <legend>Description</legend>
+            {{textarea (stringFormat "description[%s][@value]" @index) [@value]}}
+            {{input (stringFormat "description[%s][@language]" @index) [@language]}}
+        </fieldset>
     {{/description}}
-    {{^description}}
-        {{textarea "description[0][@value]" ""}}
-        {{input "description[0][@language]" ""}}
-    {{/description}}
+    <fieldset class="i18n">
+        <legend>Description</legend>
+        {{textarea (stringFormat "description[%s][@value]" (size description)) ""}}
+        {{input (stringFormat "description[%s][@language]" (size description)) ""}}
+    </fieldset>
 
     {{! --- provider --- }}
     {{#provider}}
         {{input (stringFormat "provider[%s][@id]" @index) [@id] type="url"}}
     {{/provider}}
-    {{^provider}}
-        {{input "provider[0][@id]" "" type="url"}}
-    {{/provider}}
+    {{input (stringFormat "provider[%s][@id]" (size provider)) "" type="url"}}
 
     {{! --- availableChannel --- }}
     {{#availableChannel}}

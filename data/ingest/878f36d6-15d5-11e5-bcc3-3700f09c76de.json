@@ -180,39 +180,39 @@
       ],
       "about": [
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n023"
+          "@id": "https://w3id.org/isced/2013/n023"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+          "@id": "https://w3id.org/isced/2013/n021"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0314"
+          "@id": "https://w3id.org/isced/2013/n0314"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0223"
+          "@id": "https://w3id.org/isced/2013/n0223"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0222"
+          "@id": "https://w3id.org/isced/2013/n0222"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0541"
+          "@id": "https://w3id.org/isced/2013/n0541"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0533"
+          "@id": "https://w3id.org/isced/2013/n0533"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0531"
+          "@id": "https://w3id.org/isced/2013/n0531"
         },
         {
-          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0511"
+          "@id": "https://w3id.org/isced/2013/n0511"
         }
       ],
       "audience": [
         {
-          "@id": "urn:uuid:8084e848-52e0-11e5-a1a5-3c970e4a9cbf#level2"
+          "@id": "https://w3id.org/isced/1997/level2"
         },
         {
-          "@id": "urn:uuid:8084e848-52e0-11e5-a1a5-3c970e4a9cbf#level3"
+          "@id": "https://w3id.org/isced/1997/level3"
         }
       ],
       "startDate": "2011"
