@@ -27,11 +27,13 @@
                 </li>
             {{/scope.resources.member}}
         </ul>
+        <a href="/resource/{{scope.resources.firstPage}}">first</a>
         {{#if scope.resources.previousPage}}
             <a href="/resource/{{scope.resources.previousPage}}">prev</a>
         {{/if}}
         {{#if scope.resources.nextPage}}
             <a href="/resource/{{scope.resources.nextPage}}">next</a>
         {{/if}}
+        <a href="/resource/{{scope.resources.lastPage}}">last</a>
     </section>
 </div>

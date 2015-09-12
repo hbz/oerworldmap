@@ -17,6 +17,10 @@ public class ResourceList {
 
   private String previousPage;
 
+  private String firstPage;
+
+  private String lastPage;
+
   public List<Resource> getItems() {
     return this.items;
   }
@@ -53,6 +57,22 @@ public class ResourceList {
     return this.previousPage;
   }
 
+  public String getFirstPage() {
+    return this.firstPage;
+  }
+
+  public void setFirstPage(String firstPage) {
+    this.firstPage = firstPage;
+  }
+
+  public String getLastPage() {
+    return this.lastPage;
+  }
+
+  public void setLastPage(String lastPage) {
+    this.lastPage = lastPage;
+  }
+
   public void setPreviousPage(String previousPage) {
     this.previousPage = previousPage;
   }
@@ -63,6 +83,8 @@ public class ResourceList {
     pagedCollection.put("itemsPerPage", itemsPerPage);
     pagedCollection.put("nextPage", nextPage);
     pagedCollection.put("previousPage", previousPage);
+    pagedCollection.put("lastPage", lastPage);
+    pagedCollection.put("firstPage", firstPage);
     pagedCollection.put("member", items);
     return pagedCollection;
   }

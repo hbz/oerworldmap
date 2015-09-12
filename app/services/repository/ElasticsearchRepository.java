@@ -100,18 +100,27 @@ public class ElasticsearchRepository implements Readable, Writable, Queryable, A
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) throws IOException, ParseException {
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
     // has no unencrypted email address
-    String filteredQueryString = aQueryString + " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
+    String filteredQueryString = aQueryString
+        .concat(" AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
+        .concat(" OR (about.@type:Person AND about.email:*))");
     ResourceList resourceList = new ResourceList();
     SearchResponse response = elasticsearch.esQuery(filteredQueryString, aFrom, aSize, aSortOrder);
     resourceList.setItemsPerPage(aSize);
     long totalHits = response.getHits().getTotalHits();
     String nextPage = aFrom + aSize < totalHits
-        ? "?q=".concat(aQueryString).concat("&from=".concat(Long.toString(aFrom + aSize))).concat("&size=").concat(Long.toString(aSize)) : null;
+        ? "?q=".concat(aQueryString).concat("&from=").concat(Long.toString(aFrom + aSize)).concat("&size=")
+        .concat(Long.toString(aSize)) : null;
     String previousPage = aFrom - aSize >= 0
-        ? "?q=".concat(aQueryString).concat("&from=".concat(Long.toString(aFrom - aSize))).concat("&size=").concat(Long.toString(aSize)) : null;
+        ? "?q=".concat(aQueryString).concat("&from=").concat(Long.toString(aFrom - aSize)).concat("&size=")
+        .concat(Long.toString(aSize)) : null;
+    String firstPage = "?q=".concat(aQueryString).concat("&from=0&size=").concat(Long.toString(aSize));
+    String lastPage = "?q=".concat(aQueryString).concat("&from=").concat(Long.toString((totalHits / aSize) * aSize))
+        .concat("&size=").concat(Long.toString(aSize));
     resourceList.setTotalItems(totalHits);
     resourceList.setNextPage(nextPage);
     resourceList.setPreviousPage(previousPage);
+    resourceList.setFirstPage(firstPage);
+    resourceList.setLastPage(lastPage);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
