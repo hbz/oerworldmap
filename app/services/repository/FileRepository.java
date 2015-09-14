@@ -115,6 +115,7 @@ public class FileRepository implements Writable, Readable {
    * @param aId
    * @return The resource that has been deleted.
    */
+  @Override
   public Resource deleteResource(@Nonnull String aId) {
     Resource resource = this.getResource(aId);
     try {

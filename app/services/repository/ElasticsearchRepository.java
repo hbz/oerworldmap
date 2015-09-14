@@ -40,12 +40,12 @@ public class ElasticsearchRepository implements Readable, Writable, Queryable, A
   }
 
   @Override
-  public Resource getResource(String aId) {
+  public Resource getResource(@Nonnull String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
   }
 
   @Override
-  public List<Resource> getAll(String aType) throws IOException {
+  public List<Resource> getAll(@Nonnull String aType) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
     for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)) {
       resources.add(Resource.fromMap(doc));
@@ -55,7 +55,7 @@ public class ElasticsearchRepository implements Readable, Writable, Queryable, A
 
 
   @Override
-  public Resource deleteResource(String aId) {
+  public Resource deleteResource(@Nonnull String aId) {
     // TODO: delete mentioned resources?
     Resource resource = getResource(aId);
     if (null == resource) {
@@ -76,7 +76,7 @@ public class ElasticsearchRepository implements Readable, Writable, Queryable, A
   }
 
   @Override
-  public Resource aggregate(AggregationBuilder<?> aAggregationBuilder) throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
     Resource aggregations = Resource.fromJson(elasticsearch.getAggregation(aAggregationBuilder)
         .toString());
     if (null == aggregations) {

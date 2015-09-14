@@ -24,7 +24,7 @@ import services.ElasticsearchProvider;
 import services.repository.ElasticsearchRepository;
 import services.repository.FileRepository;
 
-public class BaseRepository {
+public class BaseRepository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileRepository mFileRepo;
@@ -34,7 +34,8 @@ public class BaseRepository {
     mFileRepo = new FileRepository(aPath);
   }
 
-  public Resource deleteResource(String aId) {
+  @Override
+  public Resource deleteResource(@Nonnull String aId) {
     if (null == mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY)) {
       return null;
     } else {
@@ -43,6 +44,12 @@ public class BaseRepository {
   }
 
   public void addResource(Resource aResource) throws IOException {
+    String type = aResource.get(JsonLdConstants.TYPE).toString();
+    addResource(aResource, type);
+  }
+
+  @Override
+  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
     Resource record;
     if (null != id) {
@@ -56,8 +63,8 @@ public class BaseRepository {
     } else {
       record = new Record(aResource);
     }
-    mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
-    mFileRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
+    mElasticsearchRepo.addResource(record, aType);
+    mFileRepo.addResource(record, aType);
     addMentionedData(aResource);
   }
 
@@ -121,6 +128,7 @@ public class BaseRepository {
     return resources;
   }
 
+  @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
     try {
       ResourceList resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder);
@@ -135,7 +143,8 @@ public class BaseRepository {
     }
   }
 
-  public Resource getResource(String aId) {
+  @Override
+  public Resource getResource(@Nonnull String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
       resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
@@ -163,11 +172,13 @@ public class BaseRepository {
     return resources;
   }
 
-  public Resource aggregate(AggregationBuilder<?> aAggregationBuilder) throws IOException {
+  @Override
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
     return mElasticsearchRepo.aggregate(aAggregationBuilder);
   }
 
-  public List<Resource> getAll(String aType) {
+  @Override
+  public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<Resource>();
     try {
       resources = mElasticsearchRepo.getAll(aType);
