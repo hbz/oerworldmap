@@ -1,19 +1,23 @@
 package services;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import helpers.ElasticsearchHelpers;
+import helpers.UniversalFunctions;
 import models.Resource;
 
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controllers.Global;
 import services.repository.BaseRepository;
 
 public class BaseRepositoryTest {
@@ -22,18 +26,21 @@ public class BaseRepositoryTest {
   private static Settings mClientSettings;
   private static TransportClient mClient;
   private static ElasticsearchProvider mElClient;
-  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
+  private static ElasticsearchConfig mEsConfig;
+  private static Config mConfig;
 
   @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
+    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    mEsConfig = new ElasticsearchConfig(mConfig);
     mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings())
         .build();
     mClient = new TransportClient(mClientSettings)
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer
             .valueOf(mEsConfig.getJavaPort())));
     mElClient = new ElasticsearchProvider(mClient, mEsConfig);
-    mRepo = new BaseRepository(Global.getConfig());
+    mRepo = new BaseRepository(mConfig);
   }
 
   @Test
@@ -65,4 +72,5 @@ public class BaseRepositoryTest {
     Assert.assertEquals(resource, mRepo.getResource("id002"));
     Assert.assertNull(mRepo.getResource("Foo15"));
   }
+
 }

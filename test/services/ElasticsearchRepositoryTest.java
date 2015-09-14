@@ -15,18 +15,12 @@ import java.util.UUID;
 import models.Resource;
 
 import models.ResourceList;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.json.simple.parser.ParseException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controllers.Global;
 import services.repository.ElasticsearchRepository;
 
 public class ElasticsearchRepositoryTest {
@@ -83,7 +77,6 @@ public class ElasticsearchRepositoryTest {
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
       result = mRepo.query(aQueryString, 0, 10, null);
-      System.out.println(result.getItems());
     } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {
@@ -114,6 +107,6 @@ public class ElasticsearchRepositoryTest {
   
   @AfterClass
   public static void clean() throws IOException {
-    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), Global.getConfig().getString("es.index.name"));
+    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), mConfig.getString("es.index.name"));
   }
 }

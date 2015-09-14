@@ -5,14 +5,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import controllers.Global;
+import helpers.UniversalFunctions;
 import models.Resource;
 
 import org.junit.AfterClass;
@@ -29,6 +26,7 @@ public class FileRepositoryTest {
   @BeforeClass
   public static void setUpDir() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    UniversalFunctions.deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
     resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
@@ -49,22 +47,8 @@ public class FileRepositoryTest {
 
   @AfterClass
   public static void tearDownDir() throws IOException {
-    deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
+    UniversalFunctions.deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
   }
 
-  private static boolean deleteDirectory(File path) {
-    if (path != null && path.exists()) {
-      for (File file : path.listFiles()){
-        if (file.isDirectory()){
-          deleteDirectory(file);
-        }
-        else{
-          file.delete();
-        }
-      }
-      return(path.delete());
-    }
-    return false;
-  }
 }
 
