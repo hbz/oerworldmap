@@ -39,6 +39,7 @@
         {{input (stringFormat "provider[%s][@id]" @index) [@id] type="url"}}
     {{/provider}}
     {{input (stringFormat "provider[%s][@id]" (size provider)) "" type="url"}}
+    <a href="/resource/?q=about.@type:Organization" target="_blank">?</a>
 
     {{! --- availableChannel --- }}
     {{#availableChannel}}

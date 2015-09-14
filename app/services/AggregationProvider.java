@@ -43,8 +43,7 @@ public class AggregationProvider {
     return AggregationBuilders
         .terms("by_country").script("doc['"
             + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
-            + provider_field + "'].values  + doc['" + participant_field + "'].values  + doc['"
-            + agent_field + "'].values").size(0)
+            + provider_field + "'].values").size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))
@@ -70,8 +69,7 @@ public class AggregationProvider {
     return AggregationBuilders
         .terms("by_country").script("doc['"
             + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
-            + provider_field + "'].values  + doc['" + participant_field + "'].values + doc['"
-            + agent_field + "'].values").include(id).size(0)
+            + provider_field + "'].values").include(id).size(0)
         .subAggregation(AggregationBuilders
             .filter("organizations")
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Organization")))

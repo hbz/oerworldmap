@@ -3,7 +3,8 @@
 </div>
 <div role="main" class="color-scheme-text container column medium">
   {{#scope}}
-      <div class="resource-service">
+      <div class="resource-service" id="view">
+          <h2 class="tab"><a href="#view">View</a></h2>
           <script type="application/ld+json">
                 {{{.}}}
             </script>
@@ -35,17 +36,19 @@
               {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
             </ul>
           {{/provider}}
-      </div>
       <h2>{{i18n.mentioned_in}}</h2>
       <ul>
         {{#referencedBy}}
             {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
         {{/referencedBy}}
       </ul>
-
+      </div>
+      <div class="resource-service-edit" id="edit">
+      <h2 class="tab"><a href="#edit">Edit</a></h2>
       {{#form (stringFormat "/resource/%s" [@id])}}
           {{> ResourceIndex/Service/edit.mustache}}
           {{submit "Submit"}}
       {{/form}}
+      </div>
   {{/scope}}
 </div>

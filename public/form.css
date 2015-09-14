@@ -35,3 +35,52 @@ fieldset {
 fieldset.i18n legend {
   display: none;
 }
+
+div[role="main"]>div {
+  position: absolute;
+  width: 90%;
+  height: 1000px;
+  display: block;
+  top: 100px;
+  background-color: #c5d2de;
+}
+
+div[role="main"]>div h2.tab {
+  position: absolute;
+  left: 0;
+  top: -30px;
+  width: 124px;
+  height: 29px;
+  font-family: Verdana;
+  font-size: 15px;
+  margin: 0;
+  background-color: #194b7d;
+  border: solid #ffffff;
+  border-width: 1px 1px 0 0;
+  z-index: 1;
+}
+
+div[role="main"]>div:nth-child(2) h2.tab {
+  left: 120px;
+  z-index: 0;
+}
+
+div[role="main"]>div:nth-child(3) h2.tab {
+  left: 240px;
+  z-index: -1;
+}
+
+div[role="main"]>div h2.tab a {
+  display: block;
+  margin: 5px 0 0 0;
+  text-align: center;
+  text-decoration: none;
+  color: #c5d2de;
+}
+
+div[role="main"]>div:target, div[role="main"]>div:target h2.tab {
+  color: #000000;
+  background-color: #c5d2de;
+  z-index: 1;
+}
+
