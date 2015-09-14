@@ -115,7 +115,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) throws IOException, ParseException {
-    ResourceList resourceList = new ResourceList();
     SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
@@ -123,7 +122,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
-    resourceList.setItems(matches);
-    return resourceList;
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder);
   }
 }

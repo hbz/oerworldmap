@@ -1,5 +1,9 @@
 package models;
 
+import org.apache.commons.lang3.StringUtils;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,18 +17,26 @@ public class ResourceList {
 
   private long itemsPerPage;
 
-  private String nextPage;
+  private String sortOrder;
 
-  private String previousPage;
+  private String searchTerms;
 
-  private String firstPage;
+  private int offset;
 
-  private String lastPage;
+  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset, int aSize, String aSortOrder) {
+    items = aResourceList;
+    totalItems = aTotalItems;
+    searchTerms = aSearchTerms;
+    offset = aOffset;
+    itemsPerPage = aSize;
+    sortOrder = aSortOrder;
+  }
 
   public List<Resource> getItems() {
     return this.items;
   }
 
+  // TODO: remove setter when unwrapping records in BaseRepository becomes unnecessary
   public void setItems(List<Resource> items) {
     this.items = items;
   }
@@ -33,58 +45,108 @@ public class ResourceList {
     return this.totalItems;
   }
 
-  public void setTotalItems(long totalItems) {
-    this.totalItems = totalItems;
-  }
-
   public long getItemsPerPage() {
     return this.itemsPerPage;
   }
 
-  public void setItemsPerPage(long itemsPerPage) {
-    this.itemsPerPage = itemsPerPage;
-  }
-
   public String getNextPage() {
-    return this.nextPage;
+
+    if (offset + itemsPerPage >= totalItems) {
+      return null;
+    }
+
+    ArrayList<String> params = new ArrayList<>();
+    if (!StringUtils.isEmpty(searchTerms)) {
+      params.add("q=".concat(searchTerms));
+    }
+    params.add("from=".concat(Long.toString(offset + itemsPerPage)));
+    params.add("size=".concat(Long.toString(itemsPerPage)));
+    if (!StringUtils.isEmpty(sortOrder)) {
+      params.add("sort=".concat(sortOrder));
+    }
+    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
 
-  public void setNextPage(String nextPage) {
-    this.nextPage = nextPage;
-  }
 
   public String getPreviousPage() {
-    return this.previousPage;
+
+    if (offset - itemsPerPage < 0) {
+      return null;
+    }
+
+    ArrayList<String> params = new ArrayList<>();
+    if (!StringUtils.isEmpty(searchTerms)) {
+      params.add("q=".concat(searchTerms));
+    }
+    params.add("from=".concat(Long.toString(offset - itemsPerPage)));
+    params.add("size=".concat(Long.toString(itemsPerPage)));
+    if (!StringUtils.isEmpty(sortOrder)) {
+      params.add("sort=".concat(sortOrder));
+    }
+    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
 
   public String getFirstPage() {
-    return this.firstPage;
-  }
 
-  public void setFirstPage(String firstPage) {
-    this.firstPage = firstPage;
+    if (offset <= 0) {
+      return null;
+    }
+
+    ArrayList<String> params = new ArrayList<>();
+    if (!StringUtils.isEmpty(searchTerms)) {
+      params.add("q=".concat(searchTerms));
+    }
+    params.add("from=0");
+    params.add("size=".concat(Long.toString(itemsPerPage)));
+    if (!StringUtils.isEmpty(sortOrder)) {
+      params.add("sort=".concat(sortOrder));
+    }
+    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
 
   public String getLastPage() {
-    return this.lastPage;
+
+    if (offset + itemsPerPage >= totalItems) {
+      return null;
+    }
+
+    ArrayList<String> params = new ArrayList<>();
+    if (!StringUtils.isEmpty(searchTerms)) {
+      params.add("q=".concat(searchTerms));
+    }
+    if ((totalItems / itemsPerPage) * itemsPerPage == totalItems) {
+      params.add("from=".concat(Long.toString((totalItems / itemsPerPage) * itemsPerPage - itemsPerPage)));
+    } else {
+      params.add("from=".concat(Long.toString((totalItems / itemsPerPage) * itemsPerPage)));
+    }
+    params.add("size=".concat(Long.toString(itemsPerPage)));
+    if (!StringUtils.isEmpty(sortOrder)) {
+      params.add("sort=".concat(sortOrder));
+    }
+    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
 
-  public void setLastPage(String lastPage) {
-    this.lastPage = lastPage;
+  public String getSortOrder() {
+    return this.sortOrder;
   }
 
-  public void setPreviousPage(String previousPage) {
-    this.previousPage = previousPage;
+  // TODO: remove setter when filter appended to search terms becomes unnecessary
+  public void setSearchTerms(String searchTerms) {
+    this.searchTerms = searchTerms;
+  }
+
+  public String getSearchTerms() {
+    return this.searchTerms;
   }
 
   public Resource toResource() {
     Resource pagedCollection = new Resource("PagedCollection");
     pagedCollection.put("totalItems", totalItems);
     pagedCollection.put("itemsPerPage", itemsPerPage);
-    pagedCollection.put("nextPage", nextPage);
-    pagedCollection.put("previousPage", previousPage);
-    pagedCollection.put("lastPage", lastPage);
-    pagedCollection.put("firstPage", firstPage);
+    pagedCollection.put("nextPage", getNextPage());
+    pagedCollection.put("previousPage", getPreviousPage());
+    pagedCollection.put("lastPage", getLastPage());
+    pagedCollection.put("firstPage", getFirstPage());
     pagedCollection.put("member", items);
     return pagedCollection;
   }

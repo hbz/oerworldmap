@@ -144,22 +144,9 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
       Logger.error(e.toString());
       return null;
     }
-    resourceList.setItemsPerPage(aSize);
-    long totalHits = resourceList.getTotalItems();
-    String nextPage = aFrom + aSize < totalHits
-        ? "?q=".concat(aQueryString).concat("&from=").concat(Long.toString(aFrom + aSize)).concat("&size=")
-        .concat(Long.toString(aSize)) : null;
-    String previousPage = aFrom - aSize >= 0
-        ? "?q=".concat(aQueryString).concat("&from=").concat(Long.toString(aFrom - aSize)).concat("&size=")
-        .concat(Long.toString(aSize)) : null;
-    String firstPage = "?q=".concat(aQueryString).concat("&from=0&size=").concat(Long.toString(aSize));
-    String lastPage = "?q=".concat(aQueryString).concat("&from=").concat(Long.toString((totalHits / aSize) * aSize))
-        .concat("&size=").concat(Long.toString(aSize));
-    resourceList.setTotalItems(totalHits);
-    resourceList.setNextPage(nextPage);
-    resourceList.setPreviousPage(previousPage);
-    resourceList.setFirstPage(firstPage);
-    resourceList.setLastPage(lastPage);
+    // set this manually so that the filteredQueryString does not become visible
+    resourceList.setSearchTerms(aQueryString);
+    // members are Records, unwrap to plain Resources
     List<Resource> resources = new ArrayList<>();
     resources.addAll(getResources(resourceList.getItems()));
     attachReferencedResources(resources);
