@@ -38,10 +38,6 @@ public class ElasticsearchConfig {
   private Map<String, String> mClientSettings;
   private Builder mClientSettingsBuilder;
 
-  public ElasticsearchConfig() {
-    this(null);
-  }
-
   public ElasticsearchConfig(String aFilename) {
     File configFile;
     if (!StringUtils.isEmpty(aFilename)) {
@@ -50,6 +46,10 @@ public class ElasticsearchConfig {
       configFile = new File(DEFAULT_CONFIG_FILE);
     }
     init(configFile);
+  }
+
+  public ElasticsearchConfig(Config aConfiguration) {
+    init(aConfiguration);
   }
 
   private void checkFileExists(File file) {
@@ -63,12 +63,8 @@ public class ElasticsearchConfig {
     }
   }
 
-  private void init(File aConfigFile) {
-    checkFileExists(aConfigFile);
 
-    // CONFIG FILE
-    mConfig = ConfigFactory.parseFile(aConfigFile).resolve();
-
+  private void init() {
     // HOST
     mServer = mConfig.getString("es.host.server");
     mJavaPort = mConfig.getString("es.host.port.java");
@@ -87,6 +83,20 @@ public class ElasticsearchConfig {
 
     mClientSettingsBuilder = ImmutableSettings.settingsBuilder().put(mClientSettings);
   }
+
+  private void init(File aConfigFile) {
+    // CONFIG FILE
+    checkFileExists(aConfigFile);
+    mConfig = ConfigFactory.parseFile(aConfigFile).resolve();
+    init();
+  }
+
+  private void init(Config aConfiguration) {
+    // CONFIG OBJECT
+    mConfig = aConfiguration;
+    init();
+  }
+
 
   public String getIndex() {
     return mClientSettings.get("index.name");

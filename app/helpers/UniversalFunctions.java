@@ -1,5 +1,6 @@
 package helpers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -43,4 +44,20 @@ public class UniversalFunctions {
     }
     return escapedString;
   }
+
+  public static boolean deleteDirectory(File path) {
+    if (path != null && path.exists()) {
+      for (File file : path.listFiles()){
+        if (file.isDirectory()){
+          deleteDirectory(file);
+        }
+        else{
+          file.delete();
+        }
+      }
+      return(path.delete());
+    }
+    return false;
+  }
+
 }

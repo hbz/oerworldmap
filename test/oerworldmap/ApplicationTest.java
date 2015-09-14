@@ -7,33 +7,15 @@ import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.running;
 import static play.test.Helpers.testServer;
 
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.Test;
 
 import play.libs.F.Callback;
 import play.test.TestBrowser;
-import services.ElasticsearchConfig;
-import services.ElasticsearchProvider;
-import controllers.Global;
 
 public class ApplicationTest {
   @Test  
   public void runningLandingPage() {
-    
-    final ElasticsearchConfig config = Global.createElasticsearchConfig(true);
-    final Settings mClientSettings = ImmutableSettings.settingsBuilder()
-          .put(config.getClientSettings()).build();
-    @SuppressWarnings("resource")
-    final Client mClient = new TransportClient(mClientSettings)
-          .addTransportAddress(new InetSocketTransportAddress(config.getServer(),
-              9300));
 
-    ElasticsearchProvider.createIndex(mClient, config.getIndex());
-    
     running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT,
         new Callback<TestBrowser>() {
           @Override
@@ -42,6 +24,5 @@ public class ApplicationTest {
             assertThat(browser.pageSource().contains("Registration"));
           }
         });
-    mClient.close();
   }
 }

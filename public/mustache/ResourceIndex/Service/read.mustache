@@ -1,4 +1,4 @@
-<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}}" class="color-scheme-map column medium">
+<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}} {{#scope.provider}}{{@id}} {{/scope.provider}}" class="color-scheme-map column medium">
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 <div role="main" class="color-scheme-text container column medium">
@@ -8,6 +8,7 @@
                 {{{.}}}
             </script>
           <h1><i class="fa fa-desktop"></i> {{#name}}{{@value}}{{/name}}</h1>
+          {{#image}}<img src="{{.}}" width="250" />{{/image}}
           {{#description}}<p>{{{@value}}}</p>{{/description}}
           {{#serviceType}}<h2>Service type</h2><p>{{.}}</p>{{/serviceType}}
           {{#availableChannel}}

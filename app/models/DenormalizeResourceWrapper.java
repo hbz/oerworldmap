@@ -18,7 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import controllers.routes.ref;
 import services.ResourceDenormalizer;
-import services.ResourceRepository;
+import services.repository.*;
+import services.repository.Readable;
 
 /**
  * Provides a wrapper around a Resource that has to be separated from, merged
@@ -46,7 +47,7 @@ public class DenormalizeResourceWrapper {
    */
   public DenormalizeResourceWrapper(final Resource aResource,
       final Map<String, DenormalizeResourceWrapper> aWrappedResources,
-      final ResourceRepository aRepo) throws IOException {
+      final services.repository.Readable aRepo) throws IOException {
     mReferences = new HashMap<>();
     mKeyId = aResource.getAsString(JsonLdConstants.ID);
     if (mKeyId != null) {
@@ -67,7 +68,7 @@ public class DenormalizeResourceWrapper {
 
   private DenormalizeResourceWrapper(final Resource aResource,
       final Map<String, DenormalizeResourceWrapper> aWrappedResources,
-      final ResourceRepository aRepo, final int aSubLevels) throws IOException {
+      final Readable aRepo, final int aSubLevels) throws IOException {
     mReferences = new HashMap<>();
     mKeyId = aResource.getAsString(JsonLdConstants.ID);
     mResource = aRepo.getResource(mKeyId);
@@ -83,7 +84,7 @@ public class DenormalizeResourceWrapper {
    */
   private void getMentionedResources(
       final Map<String, DenormalizeResourceWrapper> aWrappedResources, final Resource aResource,
-      final ResourceRepository aRepo, final int aSubLevels) throws IOException {
+      final Readable aRepo, final int aSubLevels) throws IOException {
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
         Resource resource = (Resource) entry.getValue();
@@ -125,7 +126,7 @@ public class DenormalizeResourceWrapper {
    */
   private static void putResourceToWrapperList(
       final Map<String, DenormalizeResourceWrapper> aWrappedResources,
-      final ResourceRepository aRepo, final int aSubLevels, Resource resource) throws IOException {
+      final Readable aRepo, final int aSubLevels, Resource resource) throws IOException {
     String id = resource.getAsString(JsonLdConstants.ID);
     if (id != null && !aWrappedResources.containsKey(id)) {
       aWrappedResources.put(id, new DenormalizeResourceWrapper(resource, aWrappedResources, aRepo,

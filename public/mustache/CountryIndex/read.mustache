@@ -62,13 +62,13 @@
         
         <ul class="fa-ul related-list populate-map">
             <script type="application/ld+json">
-                {{{scope.resources}}}
+                {{{scope.resources.member}}}
             </script>
-            {{#scope.resources}}
+            {{#scope.resources.member}}
                 <li about="{{@id}}">
                     {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                 </li>
-            {{/scope.resources}}
+            {{/scope.resources.member}}
         </ul>
         {{^scope.resources}}
             <em>No related entities found</em>

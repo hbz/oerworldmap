@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 
 import models.DenormalizeResourceWrapper;
 import models.Resource;
+import services.repository.*;
+import services.repository.Readable;
 
 public class ResourceDenormalizer {
 
@@ -71,7 +73,7 @@ public class ResourceDenormalizer {
    * @return
    * @throws IOException
    */
-  public static List<Resource> denormalize(Resource aResource, ResourceRepository aRepo)
+  public static List<Resource> denormalize(Resource aResource, services.repository.Readable aRepo)
       throws IOException {
 
     Map<String, DenormalizeResourceWrapper> wrappedResources = new HashMap<>();
@@ -98,7 +100,7 @@ public class ResourceDenormalizer {
   }
 
   private static void split(Resource aResource,
-      Map<String, DenormalizeResourceWrapper> aWrappedResources, ResourceRepository aRepo)
+      Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo)
       throws IOException {
     String keyId = aResource.getAsString(JsonLdConstants.ID);
     if (keyId == null || !aWrappedResources.containsKey(keyId)){
