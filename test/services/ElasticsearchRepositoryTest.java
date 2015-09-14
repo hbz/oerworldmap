@@ -107,6 +107,6 @@ public class ElasticsearchRepositoryTest {
   
   @AfterClass
   public static void clean() throws IOException {
-    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), mConfig.getString("es.index.name"));
+    mRepo.getElasticsearchProvider().deleteIndex(mConfig.getString("es.index.name"));
   }
 }

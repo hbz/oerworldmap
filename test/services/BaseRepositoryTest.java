@@ -40,6 +40,7 @@ public class BaseRepositoryTest {
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer
             .valueOf(mEsConfig.getJavaPort())));
     mElClient = new ElasticsearchProvider(mClient, mEsConfig);
+    mElClient.createIndex(mConfig.getString("es.index.name"));
     mRepo = new BaseRepository(mConfig);
   }
 
@@ -71,6 +72,11 @@ public class BaseRepositoryTest {
     }
     Assert.assertEquals(resource, mRepo.getResource("id002"));
     Assert.assertNull(mRepo.getResource("Foo15"));
+  }
+
+  @AfterClass
+  public static void tearDown() {
+    mElClient.deleteIndex(mConfig.getString("es.index.name"));
   }
 
 }
