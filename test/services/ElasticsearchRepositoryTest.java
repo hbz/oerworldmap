@@ -1,8 +1,11 @@
 package services;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import helpers.ElasticsearchHelpers;
 import helpers.JsonLdConstants;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -11,40 +14,29 @@ import java.util.UUID;
 
 import models.Resource;
 
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import models.ResourceList;
 import org.json.simple.parser.ParseException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controllers.Global;
+import services.repository.ElasticsearchRepository;
 
 public class ElasticsearchRepositoryTest {
 
   private static Resource mResource1;
   private static Resource mResource2;
   private static Resource mResource3;
-  private static Settings mClientSettings;
-  private static Client mClient;
-  private static ElasticsearchProvider mElClient;
   private static ElasticsearchRepository mRepo;
-  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
+  private static Config mConfig;
 
   @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
-    mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings()).build();
-    mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer.valueOf(mEsConfig
-            .getJavaPort())));
-    mElClient = new ElasticsearchProvider(mClient, mEsConfig);
-    mRepo = new ElasticsearchRepository(mElClient);
-    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
+    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    mRepo = new ElasticsearchRepository(mConfig);
+    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), mConfig.getString("es.index.name"));
     setupResources();
   }
 
@@ -61,43 +53,41 @@ public class ElasticsearchRepositoryTest {
     mResource3.put("name", "oeruser3");
     mResource3.put("worksFor", "unesco.org");
 
-    mRepo.addResource(mResource1);
-    mRepo.addResource(mResource2);
-    mRepo.addResource(mResource3);
-    mElClient.refreshIndex(mEsConfig.getIndex());
+    mRepo.addResource(mResource1, "Person");
+    mRepo.addResource(mResource2, "Person");
+    mRepo.addResource(mResource3, "Person");
+    mRepo.getElasticsearchProvider().refreshIndex(mConfig.getString("es.index.name"));
   }
 
   @Test
-  public void testAddAndQueryResources() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query("Person");
+  public void testAddAndQueryResources() throws IOException, ParseException {
+    List<Resource> resourcesGotBack = mRepo.getAll("Person");
     Assert.assertTrue(resourcesGotBack.contains(mResource1));
     Assert.assertTrue(resourcesGotBack.contains(mResource2));
   }
 
   @Test
-  public void testAddAndEsQueryResources() throws IOException {
+  public void testAddAndEsQueryResources() throws IOException, ParseException {
     final String aQueryString = "*";
-    List<Resource> result = null;
+    ResourceList result = null;
     try {
       // TODO : this test currently presumes that there is some data existent in
       // your elasticsearch
       // instance. Otherwise it will fail. This restriction can be overturned
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
-      result = mRepo.esQuery(aQueryString, null);
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
+      result = mRepo.query(aQueryString, 0, 10, null);
+    } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {
       Assert.assertNotNull(result);
-      Assert.assertTrue(!result.isEmpty());
+      Assert.assertTrue(!result.getItems().isEmpty());
     }
   }
 
   @Test
-  public void testUniqueFields() throws IOException {
-    List<Resource> resourcesGotBack = mRepo.query("Person");
+  public void testUniqueFields() throws IOException, ParseException {
+    List<Resource> resourcesGotBack = mRepo.getAll("Person");
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
     Set<String> employers = new HashSet<String>();
@@ -117,6 +107,6 @@ public class ElasticsearchRepositoryTest {
   
   @AfterClass
   public static void clean() throws IOException {
-    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
+    mRepo.getElasticsearchProvider().deleteIndex(mConfig.getString("es.index.name"));
   }
 }

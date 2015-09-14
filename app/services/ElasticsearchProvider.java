@@ -1,12 +1,7 @@
 package services;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +27,7 @@ import play.Logger;
 
 public class ElasticsearchProvider {
 
-  private static ElasticsearchConfig mConfig = new ElasticsearchConfig();
+  private static ElasticsearchConfig mConfig;
   
   private Client mClient;
 
@@ -94,7 +89,7 @@ public class ElasticsearchProvider {
 
   /**
    * Add a document consisting of a JSON String specified by a given UUID.
-   * 
+   *
    * @param aJsonString
    */
   public void addJson(@Nonnull final String aJsonString, @Nullable final String aUuid) {
@@ -159,23 +154,6 @@ public class ElasticsearchProvider {
   }
 
   /**
-   * Get an aggregation of documents
-   *
-   * @param aAggregationBuilders
-   * @return a List of docs, each represented by a Map of String/Object.
-   */
-  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders) {
-
-    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
-    for (AggregationBuilder<?> aggregationBuilder : aAggregationBuilders) {
-      searchRequestBuilder.addAggregation(aggregationBuilder);
-    }
-
-    return searchRequestBuilder.setSize(0).execute().actionGet();
-
-  }
-
-  /**
    * Get a document of a specified type specified by an identifier.
    *
    * @param aType
@@ -204,33 +182,6 @@ public class ElasticsearchProvider {
     final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
         .execute().actionGet();
     return response.isFound();
-  }
-
-  /**
-   * Get a document of a specified type specified by a content in a specified
-   * field.
-   * 
-   * @param aType
-   * @param aFieldName
-   * @param aContent
-   * @return
-   */
-  public List<Map<String, Object>> getExactMatches(@Nonnull final String aType,
-      @Nonnull final String aFieldName, @Nonnull final String aContent) {
-
-    if (!hasIndex(mConfig.getIndex())) {
-      createIndex(mConfig.getIndex());
-    }
-    List<Map<String, Object>> matches = new LinkedList<Map<String, Object>>();
-
-    final SearchResponse response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
-        .setQuery(QueryBuilders.matchQuery(aFieldName, aContent)).execute().actionGet();
-
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
-    while (searchHits.hasNext()) {
-      matches.add(searchHits.next().sourceAsMap());
-    }
-    return matches;
   }
 
   /**
@@ -294,17 +245,38 @@ public class ElasticsearchProvider {
     }
   }
 
-  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery) throws IOException,
+  public SearchResponse esQuery(@Nonnull String aEsQuery) throws IOException,
       ParseException {
     return esQuery(aEsQuery, null, null);
   }
 
-  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
+  public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String sort) throws IOException, ParseException {
     return esQuery(aEsQuery, aIndex, null, sort);
   }
 
-  public List<Map<String, Object>> esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
+  // TODO: make this the only available method signature?
+  public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
+    SearchRequestBuilder searchRequestBuilder = mClient
+        .prepareSearch(mConfig.getIndex());
+    if (!StringUtils.isEmpty(aSortOrder)) {
+      String[] sort = aSortOrder.split(":");
+      if (2 == sort.length) {
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC
+            : SortOrder.DESC);
+      } else {
+        Logger.error("Invalid sort string: " + aSortOrder);
+      }
+    }
+
+    return searchRequestBuilder
+        .setQuery(
+            QueryBuilders.queryString(aQueryString).defaultOperator(
+                QueryStringQueryBuilder.Operator.AND)).setFrom(aFrom).setSize(aSize).execute()
+        .actionGet();
+  }
+
+  public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
       @Nullable String aType, @Nullable String aSort) throws IOException, ParseException {
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(StringUtils.isEmpty(aIndex) ? mConfig.getIndex() : aIndex);
@@ -320,16 +292,12 @@ public class ElasticsearchProvider {
         Logger.error("Invalid sort string: " + aSort);
       }
     }
-    SearchResponse response = searchRequestBuilder
+
+    return searchRequestBuilder
         .setQuery(
             QueryBuilders.queryString(aEsQuery).defaultOperator(
-                QueryStringQueryBuilder.Operator.AND)).setFrom(0).setSize(99999).execute()
+                QueryStringQueryBuilder.Operator.AND)).setFrom(0).setSize(1).execute()
         .actionGet();
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
-    List<Map<String, Object>> matches = new ArrayList<>();
-    while (searchHits.hasNext()) {
-      matches.add(searchHits.next().sourceAsMap());
-    }
-    return matches;
+
   }
 }

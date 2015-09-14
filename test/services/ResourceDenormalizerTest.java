@@ -11,6 +11,7 @@ import java.util.List;
 import models.Resource;
 
 import org.junit.Test;
+import services.repository.Repository;
 
 /**
  * @author fo, pvb
@@ -138,7 +139,7 @@ public class ResourceDenormalizerTest implements JsonTest{
 
     Resource original = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithUnidentifiedObjectValues.IN.json");
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithUnidentifiedObjectValues.IN.json");
-    ResourceRepository repo = new MockResourceRepository();
+    MockResourceRepository repo = new MockResourceRepository();
 
     // Test case: empty repo
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
@@ -157,7 +158,7 @@ public class ResourceDenormalizerTest implements JsonTest{
   public void testResourceIsUpdatedWithNewUnidentifiedValuesOnly() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceIsUpdatedWithNewUnidentifiedValuesOnly.IN.json");
     Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceIsUpdatedWithNewUnidentifiedValuesOnly.DB.json");
-    ResourceRepository repo = new MockResourceRepository();
+    MockResourceRepository repo = new MockResourceRepository();
     repo.addResource(db);
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
     assertEquals(1, denormalized.size());
@@ -170,7 +171,7 @@ public class ResourceDenormalizerTest implements JsonTest{
     Resource out1 = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithoutIdIsIncludedCompletely.OUT.1.json");
     Resource out2 = getResourceFromJsonFile("ResourceDenormalizerTest/testResourceWithoutIdIsIncludedCompletely.OUT.2.json");
 
-    ResourceRepository repo = new MockResourceRepository();
+    MockResourceRepository repo = new MockResourceRepository();
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
     for (Resource resource : denormalized) {
       repo.addResource(resource);

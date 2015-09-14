@@ -2,7 +2,6 @@
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 <div role="main" class="color-scheme-text list-view column small">
-    {{#scope.search}}
     <section>
         <form method="get" action="/resource/" id="search">
             
@@ -16,20 +15,30 @@
         </form>
     </section>
     
-    <div class="hits">{{scope.resources.size}} found ...</div>
-    {{/scope.search}}
-
+    <div class="hits">{{scope.resources.totalItems}} found ...</div>
     <section>
         <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
-                {{{scope.resources}}}
+                {{{scope.resources.member}}}
             </script>
-            {{#scope.resources}}
+            {{#scope.resources.member}}
                 <li about="{{@id}}">
                   {{> (stringFormat "ResourceIndex/%s/list.mustache" @type) }}
                 </li>
-            {{/scope.resources}}
+            {{/scope.resources.member}}
         </ul>
+        {{#if scope.resources.firstPage}}
+            <a href="/resource/{{scope.resources.firstPage}}">first</a>
+        {{/if}}
+        {{#if scope.resources.previousPage}}
+            <a href="/resource/{{scope.resources.previousPage}}">prev</a>
+        {{/if}}
+        {{#if scope.resources.nextPage}}
+            <a href="/resource/{{scope.resources.nextPage}}">next</a>
+        {{/if}}
+        {{#if scope.resources.lastPage}}
+            <a href="/resource/{{scope.resources.lastPage}}">last</a>
+        {{/if}}
     </section>
 
     {{#form "/resource/"}}
