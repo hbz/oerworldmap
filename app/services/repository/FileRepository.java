@@ -1,6 +1,7 @@
 package services.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
@@ -16,29 +17,17 @@ import models.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class FileRepository implements Writable, Readable {
-
-  /**
-   * The file system path where resources are stored
-   */
-  private Path mPath;
+public class FileRepository extends Repository implements Writable, Readable {
 
   private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>() {
   };
 
-  /**
-   * Construct FileRepository.
-   * 
-   * @param aPath The file system path where resources are stored
-   */
-  public FileRepository(Path aPath) throws IOException {
-    if (aPath == null || !Files.exists(aPath)) {
-      throw new IOException(aPath + " not existing.");
-    }
-    if (!Files.isWritable(aPath)) {
-      throw new IOException(aPath + " not writable.");
-    }
-    mPath = aPath;
+  private Path getPath() {
+    return Paths.get(mConfiguration.getString("filerepo.dir"));
+  }
+
+  public FileRepository(Config aConfiguration) {
+    super(aConfiguration);
   }
 
   /**
@@ -49,7 +38,7 @@ public class FileRepository implements Writable, Readable {
   @Override
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
-    Path dir = Paths.get(mPath.toString(), aType);
+    Path dir = Paths.get(getPath().toString(), aType);
     Path file = Paths.get(dir.toString(), id);
     if (!Files.exists(dir)) {
       Files.createDirectory(dir);
@@ -86,7 +75,7 @@ public class FileRepository implements Writable, Readable {
   @Override
   public List<Resource> getAll(@Nonnull String aType) {
     ArrayList<Resource> results = new ArrayList<>();
-    Path typeDir = Paths.get(mPath.toString(), aType);
+    Path typeDir = Paths.get(getPath().toString(), aType);
     DirectoryStream<Path> resourceFiles;
     try {
       resourceFiles = Files.newDirectoryStream(typeDir);
@@ -128,7 +117,7 @@ public class FileRepository implements Writable, Readable {
 
   private Path getResourcePath(@Nonnull final String aId) throws IOException {
 
-    DirectoryStream<Path> typeDirs = Files.newDirectoryStream(mPath,
+    DirectoryStream<Path> typeDirs = Files.newDirectoryStream(getPath(),
         new DirectoryStream.Filter<Path>() {
           @Override
           public boolean accept(Path entry) throws IOException {

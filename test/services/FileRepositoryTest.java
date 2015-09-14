@@ -10,6 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import controllers.Global;
 import models.Resource;
 
 import org.junit.AfterClass;
@@ -19,14 +22,14 @@ import services.repository.FileRepository;
 
 public class FileRepositoryTest {
 
-  private static Path tmpPath = Paths.get(System.getProperty("java.io.tmpdir"), "resources");
   private static FileRepository resourceRepository;
   private static Resource resource;
+  private static Config mConfig;
 
   @BeforeClass
   public static void setUpDir() throws IOException {
-    Files.createDirectory(tmpPath);
-    resourceRepository = new FileRepository(tmpPath);
+    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
     resourceRepository.addResource(resource, "Person");
@@ -46,7 +49,7 @@ public class FileRepositoryTest {
 
   @AfterClass
   public static void tearDownDir() throws IOException {
-    deleteDirectory(tmpPath.toFile());
+    deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
   }
 
   private static boolean deleteDirectory(File path) {

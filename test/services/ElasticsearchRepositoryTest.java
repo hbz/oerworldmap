@@ -1,8 +1,11 @@
 package services;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import helpers.ElasticsearchHelpers;
 import helpers.JsonLdConstants;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -31,22 +34,15 @@ public class ElasticsearchRepositoryTest {
   private static Resource mResource1;
   private static Resource mResource2;
   private static Resource mResource3;
-  private static Settings mClientSettings;
-  private static Client mClient;
-  private static ElasticsearchProvider mElClient;
   private static ElasticsearchRepository mRepo;
-  private static final ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
+  private static Config mConfig;
 
   @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
-    mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings()).build();
-    mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer.valueOf(mEsConfig
-            .getJavaPort())));
-    mElClient = new ElasticsearchProvider(mClient, mEsConfig);
-    mRepo = new ElasticsearchRepository(mElClient);
-    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
+    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    mRepo = new ElasticsearchRepository(mConfig);
+    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), mConfig.getString("es.index.name"));
     setupResources();
   }
 
@@ -66,7 +62,7 @@ public class ElasticsearchRepositoryTest {
     mRepo.addResource(mResource1, "Person");
     mRepo.addResource(mResource2, "Person");
     mRepo.addResource(mResource3, "Person");
-    mElClient.refreshIndex(mEsConfig.getIndex());
+    mRepo.getElasticsearchProvider().refreshIndex(mConfig.getString("es.index.name"));
   }
 
   @Test
@@ -118,6 +114,6 @@ public class ElasticsearchRepositoryTest {
   
   @AfterClass
   public static void clean() throws IOException {
-    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
+    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), Global.getConfig().getString("es.index.name"));
   }
 }

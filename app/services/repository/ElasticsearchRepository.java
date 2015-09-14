@@ -1,5 +1,6 @@
 package services.repository;
 
+import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
@@ -13,20 +14,36 @@ import models.Resource;
 import models.ResourceList;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 import play.Logger;
+import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
 
-public class ElasticsearchRepository implements Readable, Writable, Queryable, Aggregatable {
+public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   final private ElasticsearchProvider elasticsearch;
 
   final public static String DEFAULT_TYPE = "Thing";
 
-  public ElasticsearchRepository(@Nonnull ElasticsearchProvider aElasticsearchProvider) {
-    elasticsearch = aElasticsearchProvider;
+  public ElasticsearchRepository(Config aConfiguration) {
+    super(aConfiguration);
+    ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(aConfiguration);
+    Settings settings = ImmutableSettings.settingsBuilder()
+        .put(elasticsearchConfig.getClientSettings()).build();
+    Client client = new TransportClient(settings)
+        .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
+    elasticsearch = new ElasticsearchProvider(client, elasticsearchConfig);
+  }
+
+  public ElasticsearchProvider getElasticsearchProvider() {
+    return this.elasticsearch;
   }
 
   @Override

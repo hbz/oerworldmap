@@ -1,5 +1,6 @@
 package services.repository;
 
+import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
 
@@ -24,14 +25,15 @@ import services.ElasticsearchProvider;
 import services.repository.ElasticsearchRepository;
 import services.repository.FileRepository;
 
-public class BaseRepository implements Readable, Writable, Queryable, Aggregatable {
+public class BaseRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileRepository mFileRepo;
 
-  public BaseRepository(ElasticsearchProvider aElasticsearchProvider, Path aPath) throws IOException {
-    mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchProvider);
-    mFileRepo = new FileRepository(aPath);
+  public BaseRepository(Config aConfiguration) {
+    super(aConfiguration);
+    mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
+    mFileRepo = new FileRepository(aConfiguration);
   }
 
   @Override

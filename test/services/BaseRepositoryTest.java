@@ -33,7 +33,7 @@ public class BaseRepositoryTest {
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer
             .valueOf(mEsConfig.getJavaPort())));
     mElClient = new ElasticsearchProvider(mClient, mEsConfig);
-    mRepo = new BaseRepository(mElClient, Paths.get(System.getProperty("java.io.tmpdir")));
+    mRepo = new BaseRepository(Global.getConfig());
   }
 
   @Test
