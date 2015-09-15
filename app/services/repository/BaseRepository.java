@@ -1,5 +1,6 @@
-package services;
+package services.repository;
 
+import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
 
@@ -14,23 +15,29 @@ import javax.annotation.Nonnull;
 import models.Record;
 import models.Resource;
 
+import models.ResourceList;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import play.Logger;
+import services.ElasticsearchProvider;
+import services.repository.ElasticsearchRepository;
+import services.repository.FileRepository;
 
-public class BaseRepository {
+public class BaseRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
-  private static FileResourceRepository mFileRepo;
+  private static FileRepository mFileRepo;
 
-  public BaseRepository(ElasticsearchProvider aElasticsearchProvider, Path aPath) throws IOException {
-    mElasticsearchRepo = new ElasticsearchRepository(aElasticsearchProvider);
-    mFileRepo = new FileResourceRepository(aPath);
+  public BaseRepository(Config aConfiguration) {
+    super(aConfiguration);
+    mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
+    mFileRepo = new FileRepository(aConfiguration);
   }
 
-  public Resource deleteResource(String aId) {
+  @Override
+  public Resource deleteResource(@Nonnull String aId) {
     if (null == mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY)) {
       return null;
     } else {
@@ -39,6 +46,12 @@ public class BaseRepository {
   }
 
   public void addResource(Resource aResource) throws IOException {
+    String type = aResource.get(JsonLdConstants.TYPE).toString();
+    addResource(aResource, type);
+  }
+
+  @Override
+  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     String id = (String) aResource.get(JsonLdConstants.ID);
     Resource record;
     if (null != id) {
@@ -52,8 +65,8 @@ public class BaseRepository {
     } else {
       record = new Record(aResource);
     }
-    mElasticsearchRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
-    mFileRepo.addResource(record, aResource.get(JsonLdConstants.TYPE).toString());
+    mElasticsearchRepo.addResource(record, aType);
+    mFileRepo.addResource(record, aType);
     addMentionedData(aResource);
   }
 
@@ -110,29 +123,39 @@ public class BaseRepository {
   private List<Resource> esQueryNoRef(String aEsQuery) {
     List<Resource> resources = new ArrayList<Resource>();
     try {
-      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery, null)));
+      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, 0, 9999, null).getItems()));
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
     return resources;
   }
 
-  public List<Resource> esQuery(String aEsQuery, String aEsSort) {
+  @Override
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
     // has no unencrypted email address
-    aEsQuery += " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service) OR (about.@type:Person AND about.email:*))";
-    List<Resource> resources = new ArrayList<Resource>();
+    String filteredQueryString = aQueryString
+        .concat(" AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
+        .concat(" OR (about.@type:Person AND about.email:*))");
+    ResourceList resourceList;
     try {
-      resources.addAll(getResources(mElasticsearchRepo.esQuery(aEsQuery, aEsSort)));
-      attachReferencedResources(resources);
+      resourceList = mElasticsearchRepo.query(filteredQueryString, aFrom, aSize, aSortOrder);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
+      return null;
     }
-    return resources;
-    // TODO eventually add FileResourceRepository.esQuery(String aEsQuery)
+    // set this manually so that the filteredQueryString does not become visible
+    resourceList.setSearchTerms(aQueryString);
+    // members are Records, unwrap to plain Resources
+    List<Resource> resources = new ArrayList<>();
+    resources.addAll(getResources(resourceList.getItems()));
+    attachReferencedResources(resources);
+    resourceList.setItems(resources);
+    return resourceList;
   }
 
-  public Resource getResource(String aId) {
+  @Override
+  public Resource getResource(@Nonnull String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
       resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
@@ -160,34 +183,21 @@ public class BaseRepository {
     return resources;
   }
 
-  public List<Resource> getResourcesByContent(String aType, String aField, String aContent,
-      boolean aSearchAllRepos) {
-    String field = Record.RESOURCEKEY + "." + aField;
+  @Override
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilder);
+  }
+
+  @Override
+  public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<Resource>();
-    resources
-        .addAll(getResources(mElasticsearchRepo.getResourcesByContent(aType, field, aContent)));
-    if (aSearchAllRepos || resources.isEmpty()) {
-      resources.addAll(mFileRepo.getResourcesByContent(aType, field, aContent));
+    try {
+      resources = mElasticsearchRepo.getAll(aType);
+    } catch (IOException e) {
+      Logger.error(e.toString());
     }
     attachReferencedResources(resources);
     return resources;
   }
 
-  public Resource query(AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return mElasticsearchRepo.query(aAggregationBuilder);
-  }
-
-  public Resource query(List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
-    return mElasticsearchRepo.query(aAggregationBuilders);
-  }
-
-  public List<Resource> query(String aType, boolean aSearchAllRepos) throws IOException {
-    List<Resource> resources = new ArrayList<Resource>();
-    resources.addAll(getResources(mElasticsearchRepo.query(aType)));
-    if (aSearchAllRepos || resources.isEmpty()) {
-      resources.addAll(mFileRepo.query(aType));
-    }
-    attachReferencedResources(resources);
-    return resources;
-  }
 }

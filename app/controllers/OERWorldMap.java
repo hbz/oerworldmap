@@ -2,7 +2,6 @@ package controllers;
 
 import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
-import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import helpers.Countries;
 import helpers.FilesConfig;
@@ -22,7 +21,7 @@ import play.Play;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.twirl.api.Html;
-import services.BaseRepository;
+import services.repository.BaseRepository;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
 
@@ -53,24 +52,13 @@ import java.util.jar.JarFile;
 public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();
-  final private static ElasticsearchConfig mEsConfig = Global.getElasticsearchConfig();
-
-  final private static Settings mClientSettings = ImmutableSettings.settingsBuilder()
-      .put(mEsConfig.getClientSettings()).build();
-  final private static Client mClient = new TransportClient(mClientSettings)
-      .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), 9300));
-  // TODO final private static ElasticsearchProvider mElasticsearchProvider = new
-  // ElasticsearchProvider(mClient);
   protected static BaseRepository mBaseRepository = null;
-  final private static ElasticsearchProvider mElasticsearchProvider = new ElasticsearchProvider(mClient,
-      mEsConfig);
-  
 
-  // TODO final protected static FileResourceRepository
+  // TODO final protected static FileRepository
   // mUnconfirmedUserRepository;
   static {
     try {
-      mBaseRepository = new BaseRepository(mElasticsearchProvider, Paths.get(FilesConfig.getRepo()));
+      mBaseRepository = new BaseRepository(Global.getConfig());
     } catch (final Exception ex) {
       throw new RuntimeException("Failed to create Respository", ex);
     }

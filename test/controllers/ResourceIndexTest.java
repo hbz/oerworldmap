@@ -6,8 +6,12 @@ import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
+
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import helpers.JsonLdConstants;
 
+import java.io.File;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,33 +19,41 @@ import java.util.UUID;
 
 import models.Resource;
 
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import services.ElasticsearchConfig;
+import services.ElasticsearchProvider;
 
 /**
  * @author fo
  */
 public class ResourceIndexTest {
 
-  /*
-   * private static Map<String, Object> testParameters = new HashMap<String,
-   * Object>();
-   * 
-   * @SuppressWarnings("unchecked")
-   * 
-   * @Before public void initialize() { Configuration testConfiguration; Config
-   * additionalConfig = ConfigFactory.parseFile(new
-   * File("conf/application.conf")); testConfiguration = new
-   * Configuration(additionalConfig); testParameters =
-   * testConfiguration.asMap(); ((HashMap<String, Object>)((HashMap<String,
-   * Object>)((HashMap<String,
-   * Object>)testParameters.get("es")).get("index")).get("app")).put("name",
-   * "testindex"); int i=0; }
-   */
+  private static Config mConfig;
+  private static ElasticsearchProvider mEsClient;
+
+  @BeforeClass
+  public static void setup() {
+    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(mConfig);
+    Settings settings = ImmutableSettings.settingsBuilder()
+        .put(elasticsearchConfig.getClientSettings()).build();
+    Client client = new TransportClient(settings)
+        .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
+    mEsClient = new ElasticsearchProvider(client, elasticsearchConfig);
+    mEsClient.createIndex(mConfig.getString("es.index.name"));
+  }
 
   @Test
   public void createResourceFromFormUrlEncoded() {
@@ -138,6 +150,11 @@ public class ResourceIndexTest {
         assertEquals(400, status(updateResult));
       }
     });
+  }
+
+  @AfterClass
+  public static void tearDown() {
+    mEsClient.deleteIndex(mConfig.getString("es.index.name"));
   }
 
 }

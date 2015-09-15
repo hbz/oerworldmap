@@ -14,7 +14,7 @@ public class LandingPage extends OERWorldMap {
   public static Result get() throws IOException {
 
     Map<String,Object> scope = new HashMap<>();
-    Resource globalAggregation = mBaseRepository.query(AggregationProvider.getGlobalAggregation());
+    Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getGlobalAggregation());
     scope.put("globalAggregation", globalAggregation);
     return ok(render("OER World Map", "LandingPage/index.mustache", scope));
 
