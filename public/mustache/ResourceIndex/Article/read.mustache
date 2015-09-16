@@ -25,7 +25,11 @@
             
             <hr/>
             
-            {{#image}}<img src="{{.}}" width="250" />{{/image}}
+            {{#image}}
+                <div class="paragraph-image">
+                  <img src="{{.}}" width="250" />
+                </div>
+            {{/image}}
           {{#articleBody}}{{{@value}}}{{/articleBody}}
           {{#keywords.size}}
           <h2>Keywords</h2>
