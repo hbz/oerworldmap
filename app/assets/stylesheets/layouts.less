@@ -26,30 +26,41 @@ body.layout-fixed > div[role="main"] {
   top: @header-height;
   bottom: 0px;
   left: 0%;
-  width: 70%;
+  // width: 70%;
   overflow-y: auto;
 }
 
 body.layout-fixed > div[role="complementary"] {
   top: @header-height;
   right: 0px;
-  width: 30%;
+  // width: 30%;
   bottom: 0px;
   overflow-y: auto;
 }
 
-body.layout-fixed > div.column.small {
+body.layout-fixed > .column-small {
   width: 30%;
 }
 
-body.layout-fixed > div.column.medium {
+body.layout-fixed > .column-medium {
   width: 50%;
 }
 
-body.layout-fixed > div.column.large {
+body.layout-fixed > .column-large {
   width: 70%;
 }
 
-body.layout-fixed > div.column.full {
+body.layout-fixed > .column-full {
   width: 100%;
+}
+
+
+/* --- typo small --- */
+
+.layout-typo-small {
+  font-size: 15px;
+}
+
+.column-small {
+  .layout-typo-small();
 }

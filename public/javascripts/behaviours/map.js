@@ -651,7 +651,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // init popover
-        popoverElement = $('<div class="popover fade top in" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
+        popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
         popover = new ol.Overlay({
           element: popoverElement,
           positioning: 'bottom-center',
