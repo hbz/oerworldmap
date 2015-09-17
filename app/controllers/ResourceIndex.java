@@ -7,6 +7,7 @@ import helpers.JsonLdConstants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import models.Resource;
@@ -19,14 +20,13 @@ import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import services.AggregationProvider;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort, List<String> filter) throws IOException, ParseException {
 
     Map<String, Object> scope = new HashMap<>();
 
@@ -37,7 +37,7 @@ public class ResourceIndex extends OERWorldMap {
       q = "*";
     }
 
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort);
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filter);
     scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {

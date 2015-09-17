@@ -15,8 +15,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -274,9 +273,12 @@ public class ElasticsearchProvider {
   }
 
   // TODO: make this the only available method signature?
-  public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
+  public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                                List<String> aFilters) {
+
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(mConfig.getIndex());
+
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
@@ -287,11 +289,19 @@ public class ElasticsearchProvider {
       }
     }
 
-    return searchRequestBuilder
-        .setQuery(
-            QueryBuilders.queryString(aQueryString).defaultOperator(
-                QueryStringQueryBuilder.Operator.AND)).setFrom(aFrom).setSize(aSize).execute()
-        .actionGet();
+    AndFilterBuilder filterBuilder = FilterBuilders.andFilter();
+    if (null != aFilters) {
+      for (String filter : aFilters) {
+        String[] keyValue = filter.split(":");
+        filterBuilder.add(FilterBuilders.termFilter(keyValue[0], keyValue[1]));
+      }
+    }
+
+    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(QueryBuilders.queryString(aQueryString)
+        .defaultOperator(QueryStringQueryBuilder.Operator.AND), filterBuilder));
+
+    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+
   }
 
   public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,

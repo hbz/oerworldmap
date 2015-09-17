@@ -76,7 +76,7 @@ public class ElasticsearchRepositoryTest {
       // instance. Otherwise it will fail. This restriction can be overturned
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
-      result = mRepo.query(aQueryString, 0, 10, null);
+      result = mRepo.query(aQueryString, 0, 10, null, null);
     } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {

@@ -109,13 +109,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * /en/elasticsearch/reference/current/search-uri-request.html .
    *
    * @param  aQueryString A string describing the query
+   * @param aFilters
    * @return A resource resembling the result set of resources matching the criteria given in the query string
    * @throws IOException
    * @throws ParseException
    */
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) throws IOException, ParseException {
-    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder);
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize,
+                            String aSortOrder,List<String> aFilters) throws IOException, ParseException {
+    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {

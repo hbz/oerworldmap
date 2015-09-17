@@ -5,7 +5,6 @@ import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +20,6 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
 import play.Logger;
-import services.ElasticsearchProvider;
-import services.repository.ElasticsearchRepository;
-import services.repository.FileRepository;
 
 public class BaseRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
@@ -123,7 +119,7 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
   private List<Resource> esQueryNoRef(String aEsQuery) {
     List<Resource> resources = new ArrayList<Resource>();
     try {
-      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, 0, 9999, null).getItems()));
+      resources.addAll(getResources(mElasticsearchRepo.query(aEsQuery, 0, 9999, null, null).getItems()));
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
     }
@@ -131,7 +127,7 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
   }
 
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder, List<String> aFilters) {
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
     // has no unencrypted email address
     String filteredQueryString = aQueryString
@@ -139,7 +135,7 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
         .concat(" OR (about.@type:Person AND about.email:*))");
     ResourceList resourceList;
     try {
-      resourceList = mElasticsearchRepo.query(filteredQueryString, aFrom, aSize, aSortOrder);
+      resourceList = mElasticsearchRepo.query(filteredQueryString, aFrom, aSize, aSortOrder, aFilters);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
       return null;
