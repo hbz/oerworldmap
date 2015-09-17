@@ -57,9 +57,9 @@ public class ResourceIndex extends OERWorldMap {
     }
     Resource resource = Resource.fromJson(json);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
     if (!report.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
-      scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
         return badRequest(resource + report.toString());
@@ -67,7 +67,9 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(resource + report.toString());
       }
     }
-    return created("created resource " + resource.toString());
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request())
+        .concat(resource.getAsString(JsonLdConstants.ID)));
+    return created(render("Created", "created.mustache", scope));
   }
 
   public static Result read(String id) {
@@ -121,9 +123,9 @@ public class ResourceIndex extends OERWorldMap {
     }
     Resource resource = Resource.fromJson(json);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
     if (!report.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
-      scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
         return badRequest(resource + report.toString());
@@ -131,7 +133,7 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(resource + report.toString());
       }
     }
-    return created("updated resource " + resource.toString());
+    return ok(render("Updated", "updated.mustache", scope));
   }
 
   @Security.Authenticated(Secured.class)

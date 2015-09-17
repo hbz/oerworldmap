@@ -123,12 +123,15 @@
 
   /* {{input "firstname" person.name}} */
   function helperInput(name, value, options) {
-    return new Handlebars.SafeString('<label><b>' + name + '</b> '+ createElement('input', false, extend({
+    var label = options.hash.title || name;
+    var lookup = options.hash['data-lookup']
+        ? ' <a href="' + options.hash['data-lookup'] + '" target="_blank"><i class="fa fa-search"></i> </a>' : '';
+    return new Handlebars.SafeString('<label><b>' + label + '</b> '+ createElement('input', false, extend({
       name: name,
       id: name,
       value: value,
       type: 'text'
-    }, options.hash)) + '</label>');
+    }, options.hash)) + lookup + '</label>');
   }
 
   /* {{input_validation "firstname" person.name errors}} */
@@ -297,7 +300,8 @@
 
   /* {{textarea "text" "Here is some text"}} */
   function helperTextarea(name, body, options) {
-    return new Handlebars.SafeString('<label><b>' + name + '</b> '+ createElement('textarea', true, extend({
+    var label = options.hash.title ? options.hash.title : name;
+    return new Handlebars.SafeString('<label><b>' + label + '</b> '+ createElement('textarea', true, extend({
       name: name,
       id: name
     }, options.hash), body) + '</label>');
@@ -361,6 +365,10 @@ for (helper in HandlebarsFormHelpers.helpers) {
   Handlebars.registerHelper(helper, HandlebarsFormHelpers.helpers[helper]);
 }
 
-Handlebars.registerHelper('size', function (context) {
+Handlebars.registerHelper('size', function(context) {
   return context ? "" + context.length : "0";
+});
+
+Handlebars.registerHelper('json', function(context) {
+  return new Handlebars.SafeString(JSON.stringify(context));
 });

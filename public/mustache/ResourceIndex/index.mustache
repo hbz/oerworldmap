@@ -41,7 +41,7 @@
         {{/if}}
     </section>
 
-    {{#form "/resource/"}}
+    {{#form "/resource/" class="hijax" target="_parent"}}
         {{> ResourceIndex/Service/edit.mustache}}
         {{submit "Submit"}}
     {{/form}}

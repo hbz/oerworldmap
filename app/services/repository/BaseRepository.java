@@ -96,7 +96,7 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
     // has no unencrypted email address
     String filteredQueryString = aQueryString
-        .concat(" AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
+        .concat(" AND ((about.@type:Concept OR about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
         .concat(" OR (about.@type:Person AND about.email:*))");
     ResourceList resourceList;
     try {
