@@ -55,6 +55,19 @@ body.layout-fixed > .column-full {
 }
 
 
+/* --- inside columns --- */
+
+@column-padding: 20px;
+
+.column-section {
+  padding: @column-padding;
+  border-bottom: 1px solid @blue-light;
+}
+
+.column-section:last-child {
+  border-bottom: none;
+}
+
 /* --- typo small --- */
 
 .layout-typo-small {

@@ -33,10 +33,15 @@
 /* --- backgrounds --- */
 
 .bg(@color) {
-  .bg-@{color} {
+  .bg-@{color},
+  .color-scheme-text.bg-@{color} {
     background: @@color;
   }
 }
+
+.bg(blue-light);
+.bg(blue-lighter);
+.bg(blue-lightest);
 
 .bg(blue-pale);
 .bg(blue-paler);

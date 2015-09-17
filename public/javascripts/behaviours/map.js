@@ -703,7 +703,7 @@ var Hijax = (function ($, Hijax) {
 
       // Populate map with pins from resource listings
       // FIXME: don't use class names for js actions -> reorganize behaviours
-      $('.populate-map', context).each(function(){
+      $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         var markers = [];
         for (i in json) {
@@ -713,7 +713,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Link list entries to pins
-      $('[data-behaviour="linkedListEntries"]', context).each(function(){
+      $('[data-behaviour~="linkedListEntries"]', context).each(function(){
         $( this ).on("mouseenter", "li", function() {
           var id = this.getAttribute("about");
           var script = $(this).closest("ul").children('script[type="application/ld+json"]');

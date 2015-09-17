@@ -139,6 +139,19 @@ public class ResourceList {
     return this.searchTerms;
   }
 
+  public String getFrom() {
+    return Integer.toString(this.offset + 1);
+  }
+
+  public String getUntil() {
+    if(this.offset + this.itemsPerPage < this.totalItems) {
+      return Long.toString(this.offset + this.itemsPerPage);
+    } else {
+      return Long.toString(this.totalItems);
+    }
+    
+  }  
+
   public Resource toResource() {
     Resource pagedCollection = new Resource("PagedCollection");
     pagedCollection.put("totalItems", totalItems);
@@ -147,6 +160,8 @@ public class ResourceList {
     pagedCollection.put("previousPage", getPreviousPage());
     pagedCollection.put("lastPage", getLastPage());
     pagedCollection.put("firstPage", getFirstPage());
+    pagedCollection.put("from", getFrom());
+    pagedCollection.put("until", getUntil());
     pagedCollection.put("member", items);
     return pagedCollection;
   }

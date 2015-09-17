@@ -1,32 +1,46 @@
 <div role="complementary" class="color-scheme-map column-large" data-view="map">
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
-<div role="main" class="color-scheme-text list-view column-small">
-    <section>
+
+<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+
+    <div class="column-section">
         <form method="get" action="/resource/" id="search">
             
-            <div class="input-group">
-              <input type="text" name="q" class="form-control input-lg" value="{{scope.q}}" placeholder="Search for ...">
-              <span class="input-group-btn">
-                <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
+            <input type="text" name="q" value="{{scope.q}}" placeholder="Search the map ...">
+            <button class="btn" type="submit"><i class="fa fa-search"></i></button>
             
         </form>
-    </section>
+    </div>
     
-    <div class="hits">{{scope.resources.totalItems}} found ...</div>
-    <section>
-        <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
+    <div class="column-section">
+        {{#if scope.q}}
+            You searched for "{{{scope.q}}}"
+        {{else}}
+            No filters set.
+        {{/if}}
+    </div>
+    
+    <div class="column-section">
+        
+        <p>
+            Found <span class="badge">{{scope.resources.totalItems}}</span> entities
+            (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
+        </p>
+        
+        <script type="text/javascript">console.log({{{scope.resources}}});</script>
+        
+        <ul class="resource-list" data-behaviour="linkedListEntries populateMap">
             <script type="application/ld+json">
                 {{{scope.resources.member}}}
             </script>
             {{#scope.resources.member}}
                 <li about="{{@id}}">
-                  {{> (stringFormat "ResourceIndex/%s/list.mustache" @type) }}
+                  {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                 </li>
             {{/scope.resources.member}}
         </ul>
+        
         {{#if scope.resources.firstPage}}
             <a href="/resource/{{scope.resources.firstPage}}">first</a>
         {{/if}}
@@ -39,5 +53,6 @@
         {{#if scope.resources.lastPage}}
             <a href="/resource/{{scope.resources.lastPage}}">last</a>
         {{/if}}
-    </section>
+        
+    </div>
 </div>
