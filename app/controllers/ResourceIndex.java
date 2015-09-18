@@ -29,14 +29,6 @@ public class ResourceIndex extends OERWorldMap {
   public static Result list(String q, int from, int size, String sort, List<String> filter) throws IOException, ParseException {
 
     Map<String, Object> scope = new HashMap<>();
-
-    scope.put("q", q);
-
-    // Empty query string matches everything
-    if (q.equals("")) {
-      q = "*";
-    }
-
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filter);
     scope.put("resources", resourceList.toResource());
 

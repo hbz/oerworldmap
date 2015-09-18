@@ -128,14 +128,10 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
 
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder, List<String> aFilters) {
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
-    // has no unencrypted email address
-    String filteredQueryString = aQueryString
-        .concat(" AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
-        .concat(" OR (about.@type:Person AND about.email:*))");
+
     ResourceList resourceList;
     try {
-      resourceList = mElasticsearchRepo.query(filteredQueryString, aFrom, aSize, aSortOrder, aFilters);
+      resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
       return null;

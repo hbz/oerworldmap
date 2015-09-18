@@ -20,6 +20,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 import play.Logger;
@@ -124,6 +125,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder, aFilters);
+    Resource aggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder, aFilters, aggregations);
   }
 }

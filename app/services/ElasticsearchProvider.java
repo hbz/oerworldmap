@@ -297,8 +297,22 @@ public class ElasticsearchProvider {
       }
     }
 
-    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(QueryBuilders.queryString(aQueryString)
-        .defaultOperator(QueryStringQueryBuilder.Operator.AND), filterBuilder));
+    QueryBuilder queryBuilder;
+    if (!StringUtils.isEmpty(aQueryString)) {
+      queryBuilder = QueryBuilders.queryString(aQueryString).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+    } else {
+      queryBuilder = QueryBuilders.matchAllQuery();
+    }
+
+    // TODO: where should aggregations be added?
+    searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getLocationAggregation());
+
+    // TODO: Remove privacy filter when all persons are accounts
+    filterBuilder.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
+        .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email")))));
+
+    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, filterBuilder));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
 

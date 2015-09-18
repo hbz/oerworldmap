@@ -22,16 +22,6 @@
 </div>
 
 <div role="main" class="color-scheme-text list-view column small">
-    <h2>Currently on the OER World Map</h2>
-    <table class="statistics-table" style="margin-bottom: 20px;">
-        {{#scope.globalAggregation.global.buckets}}
-            <tr><td>{{users.doc_count}}</td><td><i class="fa fa-fw fa-user"></i> Users</td></tr>
-            <tr><td>{{organizations.doc_count}}</td><td><i class="fa fa-fw fa-users"></i> <a href="/resource/?filter=about.@type:Organization">Organizations</a></td></tr>
-            <tr><td>{{articles.doc_count}}</td><td><i class="fa fa-fw fa-comment"></i> <a href="/resource/?filter=about.@type:Article">Stories</a></td></tr>
-            <tr><td>{{services.doc_count}}</td><td><i class="fa fa-fw fa-desktop"></i> <a href="/resource/?filter=about.@type:Service">Services</a></td></tr>
-            <tr><td>{{projects.doc_count}}</td><td><i class="fa fa-fw fa-gears"></i> <a href="/resource/?filter=about.@type:Action">Projects</a></td></tr>
-        {{/scope.globalAggregation.global.buckets}}
-    </table>
     <a href="/resource/?sort=dateCreated:desc" class="hijax transclude map-view-hidden" target="_self">{{i18n.resource_list}}</a>
 </div>
 

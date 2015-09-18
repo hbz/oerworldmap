@@ -39,6 +39,15 @@ public class AggregationProvider {
             .filter(FilterBuilders.termFilter(Record.RESOURCEKEY + ".@type", "Action")));
   }
 
+  public static AggregationBuilder<?> getTypeAggregation() {
+    return AggregationBuilders.terms("about.@type").field("about.@type");
+  }
+
+  public static AggregationBuilder<?> getLocationAggregation() {
+    return AggregationBuilders.terms("about.location.address.addressCountry")
+        .field("about.location.address.addressCountry");
+  }
+
   public static AggregationBuilder<?> getByCountryAggregation() {
     return AggregationBuilders
         .terms("by_country").script("doc['"

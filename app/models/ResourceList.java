@@ -25,8 +25,10 @@ public class ResourceList {
 
   private List<String> filters;
 
+  private Resource aggregations;
+
   public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset,
-                      int aSize, String aSortOrder, List<String> aFilters) {
+                      int aSize, String aSortOrder, List<String> aFilters, Resource aAggregations) {
     items = aResourceList;
     totalItems = aTotalItems;
     searchTerms = aSearchTerms;
@@ -34,6 +36,7 @@ public class ResourceList {
     itemsPerPage = aSize;
     sortOrder = aSortOrder;
     filters = aFilters;
+    aggregations = aAggregations;
   }
 
   public List<Resource> getItems() {
@@ -69,7 +72,7 @@ public class ResourceList {
         params.add("filter=".concat(filter));
       }
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getNextPage() {
@@ -92,7 +95,7 @@ public class ResourceList {
         params.add("filter=".concat(filter));
       }
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
 
@@ -116,7 +119,7 @@ public class ResourceList {
         params.add("filter=".concat(filter));
       }
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getFirstPage() {
@@ -139,7 +142,7 @@ public class ResourceList {
         params.add("filter=".concat(filter));
       }
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getLastPage() {
@@ -166,7 +169,7 @@ public class ResourceList {
         params.add("filter=".concat(filter));
       }
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getSortOrder() {
@@ -194,6 +197,7 @@ public class ResourceList {
     pagedCollection.put("member", items);
     pagedCollection.put("filters", filters);
     pagedCollection.put("searchTerms", searchTerms);
+    pagedCollection.put("aggregations", aggregations);
     return pagedCollection;
   }
 

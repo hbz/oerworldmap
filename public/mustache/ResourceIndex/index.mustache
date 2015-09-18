@@ -3,10 +3,20 @@
 </div>
 <div role="main" class="color-scheme-text list-view column small">
     <section>
+        {{#each scope.resources.aggregations}}
+            <h2>Filter by {{@key}}</h2>
+            <table class="statistics-table" style="margin-bottom: 20px;">
+                {{#buckets}}
+                    {{#notIn (stringFormat "%s:%s" @key key) scope.resources.filters}}
+                        <tr><td>{{doc_count}}</td><td><a href="{{addFilterLink @key key scope.resources.currentPage}}">{{key}}</a></td></tr>
+                    {{/notIn}}
+                {{/buckets}}
+            </table>
+        {{/each}}
         <form method="get" action="/resource/" id="search">
             
             <div class="input-group">
-              <input type="text" name="q" class="form-control input-lg" value="{{scope.q}}" placeholder="Search for ...">
+              <input type="text" name="q" class="form-control input-lg" value="{{scope.resources.searchTerms}}" placeholder="Search for ...">
               <span class="input-group-btn">
                 <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
               </span>
@@ -40,16 +50,16 @@
             {{/scope.resources.member}}
         </ul>
         {{#if scope.resources.firstPage}}
-            <a href="/resource/{{scope.resources.firstPage}}">first</a>
+            <a href="{{scope.resources.firstPage}}">first</a>
         {{/if}}
         {{#if scope.resources.previousPage}}
-            <a href="/resource/{{scope.resources.previousPage}}">prev</a>
+            <a href="{{scope.resources.previousPage}}">prev</a>
         {{/if}}
         {{#if scope.resources.nextPage}}
-            <a href="/resource/{{scope.resources.nextPage}}">next</a>
+            <a href="{{scope.resources.nextPage}}">next</a>
         {{/if}}
         {{#if scope.resources.lastPage}}
-            <a href="/resource/{{scope.resources.lastPage}}">last</a>
+            <a href="{{scope.resources.lastPage}}">last</a>
         {{/if}}
     </section>
 </div>
