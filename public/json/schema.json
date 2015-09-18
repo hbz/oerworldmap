@@ -478,10 +478,10 @@
           "format": "uri"
         },
         "contactPoint": {
-          "description": "A contact point",
+          "description": "A contact person",
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/Person"
           }
         },
         "additionalType": {
