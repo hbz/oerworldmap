@@ -11,6 +11,18 @@
                 <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
               </span>
             </div>
+            <div class="input-group">
+                <ul class="filters">
+                    {{#scope.resources.filters}}
+                        <li>
+                            <label>
+                                <span>{{.}} <a href="{{removeFilterLink . scope.resources.currentPage}}"><i class="fa fa-times"></i></a></span>
+                                <input type="hidden" name="filter" value="{{.}}">
+                            </label>
+                        </li>
+                    {{/scope.resources.filters}}
+                </ul>
+            </div>
             
         </form>
     </section>

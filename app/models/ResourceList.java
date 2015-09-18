@@ -23,13 +23,17 @@ public class ResourceList {
 
   private int offset;
 
-  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset, int aSize, String aSortOrder) {
+  private List<String> filters;
+
+  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset,
+                      int aSize, String aSortOrder, List<String> aFilters) {
     items = aResourceList;
     totalItems = aTotalItems;
     searchTerms = aSearchTerms;
     offset = aOffset;
     itemsPerPage = aSize;
     sortOrder = aSortOrder;
+    filters = aFilters;
   }
 
   public List<Resource> getItems() {
@@ -49,6 +53,25 @@ public class ResourceList {
     return this.itemsPerPage;
   }
 
+  public String getCurrentPage() {
+
+    ArrayList<String> params = new ArrayList<>();
+    if (!StringUtils.isEmpty(searchTerms)) {
+      params.add("q=".concat(searchTerms));
+    }
+    params.add("from=".concat(Long.toString(offset)));
+    params.add("size=".concat(Long.toString(itemsPerPage)));
+    if (!StringUtils.isEmpty(sortOrder)) {
+      params.add("sort=".concat(sortOrder));
+    }
+    if (!(null == filters)) {
+      for (String filter : filters) {
+        params.add("filter=".concat(filter));
+      }
+    }
+    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+  }
+
   public String getNextPage() {
 
     if (offset + itemsPerPage >= totalItems) {
@@ -63,6 +86,11 @@ public class ResourceList {
     params.add("size=".concat(Long.toString(itemsPerPage)));
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
+    }
+    if (!(null == filters)) {
+      for (String filter : filters) {
+        params.add("filter=".concat(filter));
+      }
     }
     return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
@@ -83,6 +111,11 @@ public class ResourceList {
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
     }
+    if (!(null == filters)) {
+      for (String filter : filters) {
+        params.add("filter=".concat(filter));
+      }
+    }
     return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
 
@@ -100,6 +133,11 @@ public class ResourceList {
     params.add("size=".concat(Long.toString(itemsPerPage)));
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
+    }
+    if (!(null == filters)) {
+      for (String filter : filters) {
+        params.add("filter=".concat(filter));
+      }
     }
     return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
@@ -123,6 +161,11 @@ public class ResourceList {
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
     }
+    if (!(null == filters)) {
+      for (String filter : filters) {
+        params.add("filter=".concat(filter));
+      }
+    }
     return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
   }
 
@@ -143,11 +186,14 @@ public class ResourceList {
     Resource pagedCollection = new Resource("PagedCollection");
     pagedCollection.put("totalItems", totalItems);
     pagedCollection.put("itemsPerPage", itemsPerPage);
+    pagedCollection.put("currentPage", getCurrentPage());
     pagedCollection.put("nextPage", getNextPage());
     pagedCollection.put("previousPage", getPreviousPage());
     pagedCollection.put("lastPage", getLastPage());
     pagedCollection.put("firstPage", getFirstPage());
     pagedCollection.put("member", items);
+    pagedCollection.put("filters", filters);
+    pagedCollection.put("searchTerms", searchTerms);
     return pagedCollection;
   }
 
