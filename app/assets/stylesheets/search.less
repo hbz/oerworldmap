@@ -1,18 +1,16 @@
 @x: "empty";
 
-ul.filters {
+form#search ul:before {
+   content: attr(title);
+}
+
+form#search ul {
   list-style: none;
 }
 
-ul.filters>li {
-  display: inline;
-}
-
-ul.filters>li>label>span {
-  display: block;
-  padding: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background-color: @blue-pale;
+/**
+ * FIXME: this only works if whitespace is removed from html
+ */
+form#search ul:empty {
+  display: none;
 }

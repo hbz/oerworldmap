@@ -38,6 +38,11 @@ var Hijax = (function ($, Hijax) {
         });
       });
 
+      // trigger search on facet select
+      $('form#search input[name="filter"]', context).click(function() {
+        $('form#search').submit();
+      });
+
     }
   }
 

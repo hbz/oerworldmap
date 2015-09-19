@@ -125,7 +125,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
-    Resource aggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder, aFilters, aggregations);
+    //FIXME: response.toString returns string serializations of scripted keys
+    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder, aFilters, aAggregations);
   }
 }

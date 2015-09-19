@@ -307,6 +307,8 @@ public class ElasticsearchProvider {
     // TODO: where should aggregations be added?
     searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
     searchRequestBuilder.addAggregation(AggregationProvider.getLocationAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
+    //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
 
     // TODO: Remove privacy filter when all persons are accounts
     filterBuilder.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders

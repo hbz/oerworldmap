@@ -3,37 +3,25 @@
 </div>
 <div role="main" class="color-scheme-text list-view column small">
     <section>
-        {{#each scope.resources.aggregations}}
-            <h2>Filter by {{@key}}</h2>
-            <table class="statistics-table" style="margin-bottom: 20px;">
-                {{#buckets}}
-                    {{#notIn (stringFormat "%s:%s" @key key) scope.resources.filters}}
-                        <tr><td>{{doc_count}}</td><td><a href="{{addFilterLink @key key scope.resources.currentPage}}">{{key}}</a></td></tr>
-                    {{/notIn}}
-                {{/buckets}}
-            </table>
-        {{/each}}
         <form method="get" action="/resource/" id="search">
-            
+            {{#each scope.resources.aggregations}}
+                <ul title="Filter by {{@key}}">
+                    {{#buckets}}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filter" value="{{@key}}:{{key}}" {{#ifIn (stringFormat "%s:%s" @key key) scope.resources.filters}}checked{{/ifIn}}>
+                                <b>{{key}} ({{doc_count}})</b>
+                            </label>
+                        </li>
+                    {{/buckets}}
+                </ul>
+            {{/each}}
             <div class="input-group">
               <input type="text" name="q" class="form-control input-lg" value="{{scope.resources.searchTerms}}" placeholder="Search for ...">
               <span class="input-group-btn">
                 <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
               </span>
             </div>
-            <div class="input-group">
-                <ul class="filters">
-                    {{#scope.resources.filters}}
-                        <li>
-                            <label>
-                                <span>{{.}} <a href="{{removeFilterLink . scope.resources.currentPage}}"><i class="fa fa-times"></i></a></span>
-                                <input type="hidden" name="filter" value="{{.}}">
-                            </label>
-                        </li>
-                    {{/scope.resources.filters}}
-                </ul>
-            </div>
-            
         </form>
     </section>
     

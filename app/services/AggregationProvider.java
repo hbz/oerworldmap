@@ -48,6 +48,16 @@ public class AggregationProvider {
         .field("about.location.address.addressCountry");
   }
 
+  public static AggregationBuilder<?> getServiceLanguageAggregation() {
+    return AggregationBuilders.terms("about.availableChannel.availableLanguage")
+        .field("about.availableChannel.availableLanguage");
+  }
+
+  public static AggregationBuilder<?> getFieldOfEducationAggregation() {
+    return AggregationBuilders.terms("about.audience.@id")
+        .field("about.audience.@id");
+  }
+
   public static AggregationBuilder<?> getByCountryAggregation() {
     return AggregationBuilders
         .terms("by_country").script("doc['"

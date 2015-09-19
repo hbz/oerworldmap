@@ -1,18 +1,3 @@
-Handlebars.registerHelper('removeFilterLink', function (filter, href) {
-  var matchFilter = new RegExp("[?&]filter=" + filter, "g");
-  var matchFrom = new RegExp("from=\\d+", "g");
-  return new Handlebars.SafeString(
-    href.replace(matchFilter, '').replace(matchFrom, 'from=0')
-  );
-});
-
-Handlebars.registerHelper('addFilterLink', function (filter, value, href) {
-  var matchFrom = new RegExp("from=\\d+", "g");
-  return new Handlebars.SafeString(
-    href.replace(matchFrom, 'from=0') + "&filter=" + filter + ':' + value
-  );
-});
-
 Handlebars.registerHelper('notIn', function (item, list, options) {
   var found = false;
   for (i in list) {
@@ -25,4 +10,13 @@ Handlebars.registerHelper('notIn', function (item, list, options) {
   } else {
     return options.inverse(this);
   }
+});
+
+Handlebars.registerHelper('ifIn', function (item, list, options) {
+  for (i in list) {
+    if (list[i] == item) {
+      return options.fn(this);
+    }
+  }
+  return options.inverse(this);
 });
