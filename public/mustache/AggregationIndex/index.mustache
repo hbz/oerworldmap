@@ -1,28 +1,29 @@
 <div role="complementary" class="color-scheme-map column large" data-view="map"></div>
 <div role="main" class="column small">
+  {{#scope.countryAggregation}}
     <table class="table" about="#users-by-country">
-        <script type="application/ld+json">
-            {{{scope.countryAggregation}}}
-        </script>
+      <script type="application/ld+json">
+        {{json .}}
+      </script>
       <thead>
-          <tr>
-              <th>Country</th>
-              <th>Users</th>
-              <th>Organizations</th>
-              <th>Stories</th>
-              <th>Champions</th>
-          </tr>
+        <tr>
+          <th>Country</th>
+          <th>Users</th>
+          <th>Organizations</th>
+          <th>Stories</th>
+          <th>Champions</th>
+        </tr>
       </thead>
       <tbody>
-          {{#scope.countryAggregation.by_country.buckets}}
-          <tr about="#{{key}}">
-              <td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td>
-              <td>{{users.doc_count}}</td>
-              <td>{{organizations.doc_count}}</td>
-              <td>{{articles.doc_count}}</td>
-              <td>{{champions.doc_count}}</td>
-          </tr>
-          {{/scope.countryAggregation.by_country.buckets}}
+      {{#by_country.buckets}}
+        <tr about="#{{key}}">
+          <td><a href="/country/{{key}}">{{key}}</a></td>
+          {{#by_type.buckets}}
+            <td>{{doc_count}}</td>
+          {{/by_type.buckets}}
+        </tr>
+      {{/by_country.buckets}}
       </tbody>
     </table>
+  {{/scope.countryAggregation}}
 </div>

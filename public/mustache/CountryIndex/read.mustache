@@ -8,10 +8,10 @@
         <h1>{{scope.name}}</h1>
         
         <hr/>
-        
+
         <h2>Country Champion</h2>
         
-        {{#scope.champions}}
+        {{#scope.champions.member}}
             <div class="img130text">
                 
                 {{#image}}
@@ -28,9 +28,9 @@
                 </div>
                 
             </div>
-        {{/scope.champions}}
+        {{/scope.champions.member}}
         
-        {{^scope.champions}}
+        {{^scope.champions.member}}
             <div class="img130text"> 
             
                 <div class="img placeholder-qmark"></div>
@@ -40,7 +40,7 @@
                 </div>
                 
             </div>
-        {{/scope.champions}}
+        {{/scope.champions.member}}
         
         <hr/>
         
@@ -48,11 +48,9 @@
         
         {{#scope.countryAggregation.by_country.buckets}}
             <table class="statistics-table">
-                <tr><td>{{users.doc_count}}</td><td><i class="fa fa-fw fa-user"></i> Users</td></tr>
-                <tr><td>{{organizations.doc_count}}</td><td><i class="fa fa-fw fa-users"></i> Organizations</td></tr>
-                <tr><td>{{articles.doc_count}}</td><td><i class="fa fa-fw fa-comment"></i> Stories</td></tr>
-                <tr><td>{{services.doc_count}}</td><td><i class="fa fa-fw fa-desktop"></i> Services</td></tr>
-                <tr><td>{{projects.doc_count}}</td><td><i class="fa fa-fw fa-gears"></i> Projects</td></tr>
+            {{#by_type.buckets}}
+                <tr><td>{{doc_count}}</td><td>{{getIcon key}} {{key}}</td></tr>
+            {{/by_type.buckets}}
             </table>
         {{/scope.countryAggregation.by_country.buckets}}
         
