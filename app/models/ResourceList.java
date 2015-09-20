@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo
@@ -23,12 +24,12 @@ public class ResourceList {
 
   private int offset;
 
-  private List<String> filters;
+  private Map<String, String[]> filters;
 
   private Resource aggregations;
 
   public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset,
-                      int aSize, String aSortOrder, List<String> aFilters, Resource aAggregations) {
+                      int aSize, String aSortOrder, Map<String, String[]> aFilters, Resource aAggregations) {
     items = aResourceList;
     totalItems = aTotalItems;
     searchTerms = aSearchTerms;
@@ -68,8 +69,10 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (String filter : filters) {
-        params.add("filter=".concat(filter));
+      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
       }
     }
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
@@ -91,8 +94,10 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (String filter : filters) {
-        params.add("filter=".concat(filter));
+      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
       }
     }
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
@@ -115,8 +120,10 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (String filter : filters) {
-        params.add("filter=".concat(filter));
+      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
       }
     }
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
@@ -138,8 +145,10 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (String filter : filters) {
-        params.add("filter=".concat(filter));
+      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
       }
     }
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
@@ -165,8 +174,10 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (String filter : filters) {
-        params.add("filter=".concat(filter));
+      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
       }
     }
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));

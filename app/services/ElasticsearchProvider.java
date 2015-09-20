@@ -274,7 +274,7 @@ public class ElasticsearchProvider {
 
   // TODO: make this the only available method signature?
   public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                List<String> aFilters) {
+                                Map<String, String[]> aFilters) {
 
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(mConfig.getIndex());
@@ -289,12 +289,19 @@ public class ElasticsearchProvider {
       }
     }
 
-    AndFilterBuilder filterBuilder = FilterBuilders.andFilter();
-    if (null != aFilters) {
-      for (String filter : aFilters) {
-        String[] keyValue = filter.split(":");
-        filterBuilder.add(FilterBuilders.termFilter(keyValue[0], keyValue[1]));
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+
+    if (!(null == aFilters)) {
+      AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
+      for (Map.Entry<String, String[]> entry : aFilters.entrySet()) {
+        // This could also be an OrFilterBuilder allowing to expand the result list
+        AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
+        for (String filter : entry.getValue()) {
+          andTermFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
+        }
+        aggregationAndFilter.add(andTermFilterBuilder);
       }
+      globalAndFilter.add(aggregationAndFilter);
     }
 
     QueryBuilder queryBuilder;
@@ -311,10 +318,10 @@ public class ElasticsearchProvider {
     //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
 
     // TODO: Remove privacy filter when all persons are accounts
-    filterBuilder.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
+    globalAndFilter.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
         .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email")))));
 
-    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, filterBuilder));
+    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
 

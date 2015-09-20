@@ -127,7 +127,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
   }
 
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder, List<String> aFilters) {
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, String[]> aFilters) {
 
     ResourceList resourceList;
     try {

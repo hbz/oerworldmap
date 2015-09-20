@@ -39,9 +39,12 @@ var Hijax = (function ($, Hijax) {
       });
 
       // trigger search on facet select
-      $('form#search input[name="filter"]', context).click(function() {
+      $('form#search input.filter', context).click(function() {
         $('form#search').submit();
       });
+
+      // hide empty filters
+      $('form#search ul.filters:not(:has(*))', context).hide();
 
     }
   }

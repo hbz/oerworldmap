@@ -117,7 +117,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize,
-                            String aSortOrder,List<String> aFilters) throws IOException, ParseException {
+                            String aSortOrder, Map<String, String[]> aFilters) throws IOException, ParseException {
+
     SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
@@ -128,5 +129,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     //FIXME: response.toString returns string serializations of scripted keys
     Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder, aFilters, aAggregations);
+
   }
 }

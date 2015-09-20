@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import models.Resource;
 
@@ -26,10 +28,20 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort, List<String> filter) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
+
+    // Extract filters directly from query params
+    Map<String, String[]> filters = new HashMap<>();
+    Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
+    for (Map.Entry<String, String[]> entry : request().queryString().entrySet()) {
+      Matcher filterMatcher = filterPattern.matcher(entry.getKey());
+      if (filterMatcher.find()) {
+        filters.put(filterMatcher.group(1), entry.getValue());
+      }
+    }
 
     Map<String, Object> scope = new HashMap<>();
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filter);
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
     scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {

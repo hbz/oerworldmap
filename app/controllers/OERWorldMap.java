@@ -3,10 +3,7 @@ package controllers;
 import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
-import helpers.Countries;
-import helpers.FilesConfig;
-import helpers.ResourceTemplateLoader;
-import helpers.UniversalFunctions;
+import helpers.*;
 import models.Resource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -132,6 +129,8 @@ public abstract class OERWorldMap extends Controller {
         }
       }
     });
+
+    handlebars.registerHelpers(new HandlebarsHelpers());
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers.js"));
