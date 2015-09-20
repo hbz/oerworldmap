@@ -68,7 +68,7 @@ public class UserIndex extends OERWorldMap {
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String,Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", i18n.get("user_registration_feedback"));
+    message.put("message", UserIndex.messages.getString("user_registration_feedback"));
     messages.add(message);
     return ok(render("Registration", "feedback.mustache", scope, messages));
 
@@ -92,7 +92,7 @@ public class UserIndex extends OERWorldMap {
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String,Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", i18n.get("user_token_request_feedback"));
+    message.put("message", UserIndex.messages.getString("user_registration_feedback"));
     messages.add(message);
     return ok(render("Request Token", "feedback.mustache", user, messages));
   }
@@ -105,7 +105,7 @@ public class UserIndex extends OERWorldMap {
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String,Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", i18n.get("user_token_delete_feedback"));
+    message.put("message", UserIndex.messages.getString("user_registration_feedback"));
     messages.add(message);
     return ok(render("Delete Token", "feedback.mustache", user, messages));
   }
@@ -173,7 +173,7 @@ public class UserIndex extends OERWorldMap {
       confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
       confirmationMail.setFrom(mConf.getString("mail.smtp.from"),
           mConf.getString("mail.smtp.sender"));
-      confirmationMail.setSubject(i18n.get("user_token_request_subject"));
+      confirmationMail.setSubject(UserIndex.messages.getString("user_registration_feedback"));
       confirmationMail.addTo((String) aUser.get("email"));
       confirmationMail.send();
       System.out.println(confirmationMail.toString());

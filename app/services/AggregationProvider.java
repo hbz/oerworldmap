@@ -41,7 +41,7 @@ public class AggregationProvider {
         .terms("by_country").script("doc['"
             + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
             + provider_field + "'].values").size(0)
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
+        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders
             .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
@@ -52,7 +52,7 @@ public class AggregationProvider {
         .terms("by_country").script("doc['"
             + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
             + provider_field + "'].values").include(id).size(0)
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
+        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders
             .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));

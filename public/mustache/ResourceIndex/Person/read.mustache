@@ -14,7 +14,7 @@
         {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
         <p>{{#description}}{{{@value}}}{{/description}}</p>
         {{#referencedBy.size}}
-        <h2>{{i18n.contributions}}</h2>
+        <h2>{{i18n "contributions"}}</h2>
         <ul>
         {{#referencedBy}}
           {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}

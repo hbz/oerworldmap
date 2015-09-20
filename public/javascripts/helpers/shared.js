@@ -11,7 +11,7 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'article': 'comment',
     'action': 'gears'
   };
-  return new Handlebars.SafeString('<i class="fa fa-' + (icons[string] || 'desktop') + '"></i>');
+  return new Handlebars.SafeString('<i class="fa fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
 });
 
 Handlebars.registerHelper('json', function (obj, options) {

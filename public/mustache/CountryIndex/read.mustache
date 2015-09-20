@@ -5,8 +5,8 @@
 <div role="main" class="color-scheme-text list-view column small">
     <section>
     
-        <h1>{{scope.name}}</h1>
-        
+        <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+
         <hr/>
 
         <h2>Country Champion</h2>
@@ -49,7 +49,7 @@
         {{#scope.countryAggregation.by_country.buckets}}
             <table class="statistics-table">
             {{#by_type.buckets}}
-                <tr><td>{{doc_count}}</td><td>{{getIcon key}} {{key}}</td></tr>
+                <tr><td>{{doc_count}}</td><td>{{getIcon key}} {{i18n key}}</td></tr>
             {{/by_type.buckets}}
             </table>
         {{/scope.countryAggregation.by_country.buckets}}
