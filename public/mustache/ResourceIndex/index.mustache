@@ -4,14 +4,25 @@
 <div role="main" class="color-scheme-text list-view column small">
     <section>
         <form method="get" action="/resource/" id="search">
-            
+            {{#each scope.resources.aggregations}}
+                <ul class="filters" title="{{getTitle @key}}">
+                    {{#buckets}}
+                        <li {{#ifIn @key key scope.resources.filters}}class="active"{{/ifIn}}>
+                            <label>
+                                <input type="checkbox" class="filter" name="filter.{{@key}}" value="{{key}}" {{#ifIn @key key scope.resources.filters}}checked{{/ifIn}}>
+                                <b>{{key}} ({{doc_count}})</b>
+                            </label>
+                        </li>
+                    {{/buckets}}
+                </ul>
+            {{/each}}
+            <hr style="clear: both;">
             <div class="input-group">
-              <input type="text" name="q" class="form-control input-lg" value="{{scope.q}}" placeholder="Search for ...">
+              <input type="text" name="q" class="form-control input-lg" value="{{scope.resources.searchTerms}}" placeholder="Search for ...">
               <span class="input-group-btn">
                 <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
               </span>
             </div>
-            
         </form>
     </section>
     
@@ -28,16 +39,16 @@
             {{/scope.resources.member}}
         </ul>
         {{#if scope.resources.firstPage}}
-            <a href="/resource/{{scope.resources.firstPage}}">first</a>
+            <a href="{{scope.resources.firstPage}}">first</a>
         {{/if}}
         {{#if scope.resources.previousPage}}
-            <a href="/resource/{{scope.resources.previousPage}}">prev</a>
+            <a href="{{scope.resources.previousPage}}">prev</a>
         {{/if}}
         {{#if scope.resources.nextPage}}
-            <a href="/resource/{{scope.resources.nextPage}}">next</a>
+            <a href="{{scope.resources.nextPage}}">next</a>
         {{/if}}
         {{#if scope.resources.lastPage}}
-            <a href="/resource/{{scope.resources.lastPage}}">last</a>
+            <a href="{{scope.resources.lastPage}}">last</a>
         {{/if}}
     </section>
 </div>

@@ -3,10 +3,7 @@ package controllers;
 import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
-import helpers.Countries;
-import helpers.FilesConfig;
-import helpers.ResourceTemplateLoader;
-import helpers.UniversalFunctions;
+import helpers.*;
 import models.Resource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -79,28 +76,13 @@ public abstract class OERWorldMap extends Controller {
     Locale.setDefault(currentLocale);
   }
 
-  protected static Map<String, String> i18n = new HashMap<>();
-  static {
-    ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-    for (String key : Collections.list(messages.getKeys())) {
-      try {
-        String message = StringEscapeUtils.unescapeJava(new String(messages.getString(key)
-            .getBytes("ISO-8859-1"), "UTF-8"));
-        i18n.put(key, message);
-      } catch (UnsupportedEncodingException e) {
-        i18n.put(key, messages.getString(key));
-      }
-    }
-    i18n.putAll(Countries.map(currentLocale));
-  }
+  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
 
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
-
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
-    mustacheData.put("i18n", i18n);
     mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
 
     TemplateLoader loader = new ResourceTemplateLoader();
@@ -132,6 +114,14 @@ public abstract class OERWorldMap extends Controller {
         }
       }
     });
+
+    handlebars.registerHelpers(new HandlebarsHelpers());
+
+    try {
+      handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
 
     try {
       Template template = handlebars.compile(templatePath);

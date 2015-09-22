@@ -252,10 +252,7 @@ var Hijax = (function ($, Hijax) {
       }
 
       var country = properties.country;
-
-      // set name
-      country.name = i18n[ country.key.toUpperCase() ];
-
+      country.key = country.key.toUpperCase();
       var content = templates.popoverCountry(country);
     }
 
