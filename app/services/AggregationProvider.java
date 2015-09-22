@@ -13,10 +13,6 @@ import java.util.Map;
  */
 public class AggregationProvider {
 
-  private static String resource_field = Record.RESOURCEKEY + ".location.address.addressCountry";
-  private static String mentions_field = Record.RESOURCEKEY + ".mentions.location.address.addressCountry";
-  private static String provider_field = Record.RESOURCEKEY + ".provider.location.address.addressCountry";
-
   public static AggregationBuilder<?> getTypeAggregation() {
     return AggregationBuilders.terms("about.@type").field("about.@type");
   }
@@ -38,9 +34,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getByCountryAggregation() {
     return AggregationBuilders
-        .terms("by_country").script("doc['"
-            + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
-            + provider_field + "'].values").size(0)
+        .terms("by_country").field("about.location.address.addressCountry").size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders
             .filter("champions")
@@ -49,9 +43,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getForCountryAggregation(String id) {
     return AggregationBuilders
-        .terms("by_country").script("doc['"
-            + resource_field + "'].values + doc['" + mentions_field + "'].values  + doc['"
-            + provider_field + "'].values").include(id).size(0)
+        .terms("by_country").field("about.location.address.addressCountry").include(id).size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders
             .filter("champions")
