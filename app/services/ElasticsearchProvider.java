@@ -237,6 +237,8 @@ public class ElasticsearchProvider {
     try {
       mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString())
           .execute().actionGet();
+      mClient.admin().cluster().prepareHealth()
+          .setWaitForYellowStatus().execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
       Logger.error("Trying to create index \"" + aIndex
           + "\" in Elasticsearch. Index already exists.");
