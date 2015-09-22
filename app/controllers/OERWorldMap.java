@@ -227,6 +227,8 @@ public abstract class OERWorldMap extends Controller {
       }
       jar.close();
       return result.toArray(new String[result.size()]);
+    } else if (dirURL.getProtocol().equals("file")) {
+      return new File(dirURL.getFile()).list();
     }
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
