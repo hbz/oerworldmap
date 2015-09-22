@@ -6,6 +6,7 @@ import java.util.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import controllers.Global;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -29,6 +30,8 @@ public class ElasticsearchProvider {
   private static ElasticsearchConfig mConfig;
   
   private Client mClient;
+
+  public static String user;
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
@@ -317,9 +320,11 @@ public class ElasticsearchProvider {
     searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
     //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
 
-    // TODO: Remove privacy filter when all persons are accounts
-    globalAndFilter.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
-        .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email")))));
+    // TODO: Remove privacy filter when all persons are accounts?
+    if (!Global.getConfig().getString("admin.user").equals(user)) {
+      globalAndFilter.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
+          .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email")))));
+    }
 
     searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
 

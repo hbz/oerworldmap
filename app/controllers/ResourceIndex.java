@@ -22,6 +22,7 @@ import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import services.ElasticsearchProvider;
 
 /**
  * @author fo
@@ -41,6 +42,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     Map<String, Object> scope = new HashMap<>();
+    ElasticsearchProvider.user = Secured.getHttpBasicAuthUser(ctx());
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
     scope.put("resources", resourceList.toResource());
 
