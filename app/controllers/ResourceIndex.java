@@ -58,24 +58,24 @@ public class ResourceIndex extends OERWorldMap {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = resource.validate();
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
     if (!report.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
-      scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(report.toString());
+        return badRequest(resource + report.toString());
       } else {
-        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-            JSONForm.generateErrorReport(report)));
+        return badRequest(resource + report.toString());
       }
     }
-    mBaseRepository.addResource(resource);
-    return created("created resource " + resource.toString());
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request())
+        .concat(resource.getAsString(JsonLdConstants.ID)));
+    return created(render("Created", "created.mustache", scope));
   }
 
   public static Result read(String id) {
@@ -124,24 +124,22 @@ public class ResourceIndex extends OERWorldMap {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = resource.validate();
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
     if (!report.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
-      scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(report.toString());
+        return badRequest(resource + report.toString());
       } else {
-        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-            JSONForm.generateErrorReport(report)));
+        return badRequest(resource + report.toString());
       }
     }
-    mBaseRepository.addResource(resource);
-    return created("updated resource " + resource.toString());
+    return ok(render("Updated", "updated.mustache", scope));
   }
 
   @Security.Authenticated(Secured.class)

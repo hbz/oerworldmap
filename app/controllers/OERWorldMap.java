@@ -91,12 +91,6 @@ public abstract class OERWorldMap extends Controller {
     Handlebars handlebars = new Handlebars(loader);
 
     handlebars.registerHelpers(StringHelpers.class);
-    
-    handlebars.registerHelper("size", new Helper<ArrayList>() {
-      public CharSequence apply(ArrayList list, Options options) {
-        return Integer.toString(list.size());
-      }
-    });
 
     handlebars.registerHelper("obfuscate", new Helper<String>() {
       public CharSequence apply(String string, Options options) {
@@ -119,6 +113,12 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
+
+    try {
+      handlebars.registerHelpers(new File("public/javascripts/handlebars.form-helpers.js"));
     } catch (Exception e) {
       Logger.error(e.toString());
     }

@@ -1,0 +1,43 @@
+{
+  "@type": "Organization",
+  "@id": "456",
+  "name": [
+    {
+      "@value": "John Doe Ltd. Inc.",
+      "@language": "en"
+    }
+  ],
+  "email": "info@jdli.com",
+  "member": [
+    {
+      "@type": "Person",
+      "@id": "123",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "John Doe"
+        }
+      ],
+      "email": "john.doe@foobar.com",
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US"
+        }
+      },
+      "memberOf": [
+        {
+          "@type": "Organization",
+          "@id": "456",
+          "name": [
+            {
+              "@value": "John Doe Ltd. Inc.",
+              "@language": "en"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

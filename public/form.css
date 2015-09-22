@@ -1,0 +1,58 @@
+form label {
+	display: block;
+	float: left;
+	clear: left;
+	margin: 10px 0;
+}
+form label b {
+  display: block;
+  float: left;
+  width: 360px;
+  margin-right: 20px;
+}
+form label input,
+form label textarea,
+form label select {
+  float: left;
+  width: 360px;
+}
+form label input[type="radio"],
+form label input[type="checkbox"] {
+  width: 20px;
+}
+form p {
+	clear: left;
+	margin: 10px 0 0;
+}
+form input[type="submit"], form button[type="submit"] {
+	margin-left: 100px;
+}
+
+fieldset {
+  clear: both;
+}
+
+form ul:before {
+  content:attr(title);
+  font-size:120%;
+  font-weight:bold;
+  margin-left:-15px;
+}
+
+form ul {
+  list-style: none;
+  clear: left;
+}
+
+div.tab:target ~ div.tab:last-child, div.tab {
+  display: none;
+}
+
+div.tab:last-child, div.tab:target {
+  display: inherit;
+  z-index: 1;
+}
+
+a.pager {
+  float: right;
+}

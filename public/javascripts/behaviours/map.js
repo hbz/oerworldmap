@@ -485,6 +485,10 @@ var Hijax = (function ($, Hijax) {
   var my = {
     init : function(context) {
 
+      if (!$('div[data-view="map"]', context).length) {
+        return new $.Deferred();
+      }
+
       // Get mercator projection
       projection = ol.proj.get('EPSG:3857');
 

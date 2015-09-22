@@ -51,4 +51,9 @@
             <a href="{{scope.resources.lastPage}}">last</a>
         {{/if}}
     </section>
+
+    {{#form "/resource/" class="hijax" target="_parent"}}
+        {{> ResourceIndex/Service/edit.mustache}}
+        {{submit "Submit"}}
+    {{/form}}
 </div>
