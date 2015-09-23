@@ -23,8 +23,12 @@ public class AggregationIndex extends OERWorldMap {
   public static Result list() throws IOException {
 
     Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation());
+    Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation());
+
     Map<String,Object> scope = new HashMap<>();
     scope.put("countryAggregation", countryAggregation);
+    scope.put("typeAggregation", typeAggregation);
+
     return ok(render("Country Aggregations", "AggregationIndex/index.mustache", scope));
 
   }
