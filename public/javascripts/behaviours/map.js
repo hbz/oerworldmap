@@ -264,8 +264,8 @@ var Hijax = (function ($, Hijax) {
 
     // attach aggregations to country features
 
-    for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
-      var aggregation = aggregations["by_country"]["buckets"][j];
+    for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
+      var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
       var feature = countryVectorSource.getFeatureById(aggregation.key.toUpperCase());
       if (feature) {
         var properties = feature.getProperties();
@@ -299,8 +299,8 @@ var Hijax = (function ($, Hijax) {
 
     // build heat data hashmap
 
-    for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
-      var aggregation = aggregations["by_country"]["buckets"][j];
+    for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
+      var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
       heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
     }
 
@@ -746,7 +746,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Add heat map data
-      $('[about="#users-by-country"]', context).each(function(){
+      $('[about="#users-by-country"], form#search', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
         $(this).find('tr').hide();

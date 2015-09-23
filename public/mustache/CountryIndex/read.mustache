@@ -1,5 +1,4 @@
 <div role="complementary" class="color-scheme-map column large" data-view="map" data-focus="{{scope.alpha-2}}">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 
 <div role="main" class="color-scheme-text list-view column small">
@@ -46,13 +45,13 @@
         
         <h2>Statistics</h2>
         
-        {{#scope.countryAggregation.by_country.buckets}}
+        {{#scope.countryAggregation.[about.location.address.addressCountry].buckets}}
             <table class="statistics-table">
             {{#by_type.buckets}}
                 <tr><td>{{doc_count}}</td><td>{{getIcon key}} {{i18n key}}</td></tr>
             {{/by_type.buckets}}
             </table>
-        {{/scope.countryAggregation.by_country.buckets}}
+        {{/scope.countryAggregation.[about.location.address.addressCountry].buckets}}
         
         <hr/>
         

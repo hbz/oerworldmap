@@ -34,7 +34,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getByCountryAggregation() {
     return AggregationBuilders
-        .terms("by_country").field("about.location.address.addressCountry").size(0)
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders
             .filter("champions")
@@ -43,7 +43,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getForCountryAggregation(String id) {
     return AggregationBuilders
-        .terms("by_country").field("about.location.address.addressCountry").include(id).size(0)
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(id).size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders
             .filter("champions")

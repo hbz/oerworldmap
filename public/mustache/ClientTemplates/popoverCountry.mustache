@@ -12,10 +12,12 @@
 
 <div class="popover-section bg-blue-paler">
 
-  {{#if champions.doc_count}}
-    Country Champion: <i class="fa fa-check"></i>
-  {{else}}
-    Country Champion: <i class="fa fa-times"></i>
-  {{/if}}
+  {{#champions}}
+    {{#if champions.doc_count}}
+      Country Champion: <i class="fa fa-check"></i>
+    {{else}}
+      Country Champion: <i class="fa fa-times"></i>
+    {{/if}}
+  {{/champions}}
 
 </div>
