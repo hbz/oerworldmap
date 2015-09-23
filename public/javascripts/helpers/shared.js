@@ -1,4 +1,4 @@
-Handlebars.registerHelper('getTitle', function (string, options) {
+Handlebars.registerHelper('getField', function (string, options) {
   var parts = string.split('.');
   return parts[parts.length -1];
 });
@@ -16,4 +16,12 @@ Handlebars.registerHelper('getIcon', function (string, options) {
 
 Handlebars.registerHelper('json', function (obj, options) {
   return new Handlebars.SafeString(JSON.stringify(obj, null, 2));
+});
+
+Handlebars.registerHelper('getBundle', function (field, options) {
+  var bundles = {
+    'availableLanguage': 'languages',
+    'addressCountry': 'countries'
+  }
+  return bundles[field] || 'messages';
 });
