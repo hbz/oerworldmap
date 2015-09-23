@@ -5,12 +5,12 @@
     <section>
         <form method="get" action="/resource/" id="search">
             {{#each scope.resources.aggregations}}
-                <ul class="filters" title="{{getTitle @key}}">
+                <ul class="filters" title="{{i18n (getField @key)}}">
                     {{#buckets}}
                         <li {{#ifIn @key key scope.resources.filters}}class="active"{{/ifIn}}>
                             <label>
                                 <input type="checkbox" class="filter" name="filter.{{@key}}" value="{{key}}" {{#ifIn @key key scope.resources.filters}}checked{{/ifIn}}>
-                                <b>{{key}} ({{doc_count}})</b>
+                                <b>{{i18n key bundle=(getBundle (getField @key))}} ({{doc_count}})</b>
                             </label>
                         </li>
                     {{/buckets}}
