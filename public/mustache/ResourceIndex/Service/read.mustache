@@ -43,13 +43,12 @@
               {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
             </ul>
           {{/provider}}
-      </div>
-      <h2>{{i18n "mentioned_in"}}</h2>
-      <ul>
-        {{#referencedBy}}
-            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-        {{/referencedBy}}
-      </ul>
+          <h2>{{i18n "mentioned_in"}}</h2>
+          <ul>
+            {{#referencedBy}}
+                {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+            {{/referencedBy}}
+          </ul>
       </div>
   {{/scope}}
 </div>
