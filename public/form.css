@@ -1,45 +1,49 @@
-form label {
-	display: block;
-	float: left;
-	clear: left;
-	margin: 10px 0;
+form.edit label {
+  display: block;
+  float: left;
+  clear: left;
+  margin: 10px 0;
 }
-form label b {
+
+form.edit label b {
   display: block;
   float: left;
   width: 360px;
   margin-right: 20px;
 }
-form label input,
-form label textarea,
-form label select {
+
+form.edit label input,
+form.edit label textarea,
+form.edit label select {
   float: left;
   width: 360px;
 }
-form label input[type="radio"],
-form label input[type="checkbox"] {
+
+form.edit label input[type="radio"],
+form.edit label input[type="checkbox"] {
   width: 20px;
 }
-form p {
-	clear: left;
-	margin: 10px 0 0;
+
+form.edit p {
+  clear: left;
+  margin: 10px 0 0;
 }
-form input[type="submit"], form button[type="submit"] {
-	margin-left: 100px;
+form.edit input[type="submit"], form button[type="submit"] {
+  margin-left: 100px;
 }
 
-fieldset {
+form.edit fieldset {
   clear: both;
 }
 
-form ul:before {
+form.edit ul:before {
   content:attr(title);
   font-size:120%;
   font-weight:bold;
   margin-left:-15px;
 }
 
-form ul {
+form.edit ul {
   list-style: none;
   clear: left;
 }

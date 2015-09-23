@@ -5,7 +5,7 @@
   {{#scope}}
       <div class="tab resource-service-edit" id="edit">
           <a class="pager" label="View" href="#view"><i class="fa fa-eye"></i></a>
-          {{#form (stringFormat "/resource/%s" [@id]) class="hijax" target="_parent"}}
+          {{#form (stringFormat "/resource/%s" [@id]) class="hijax edit" target="_parent"}}
               {{> ResourceIndex/Service/edit.mustache}}
               {{submit "Submit"}}
           {{/form}}
