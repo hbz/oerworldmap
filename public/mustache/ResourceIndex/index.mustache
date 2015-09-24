@@ -1,6 +1,7 @@
 <div role="complementary" class="color-scheme-map column large" data-view="map">
 </div>
 <div role="main" class="color-scheme-text list-view column small">
+    {{#unless scope.list}}
     <section>
         <form method="get" action="/resource/" id="search">
             <script type="application/ld+json">
@@ -29,6 +30,7 @@
     </section>
     
     <div class="hits">{{scope.resources.totalItems}} found ...</div>
+    {{/unless}}
     <section>
         <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
             <script type="application/ld+json">
@@ -40,22 +42,28 @@
                 </li>
             {{/scope.resources.member}}
         </ul>
-        {{#if scope.resources.firstPage}}
-            <a href="{{scope.resources.firstPage}}">first</a>
-        {{/if}}
-        {{#if scope.resources.previousPage}}
-            <a href="{{scope.resources.previousPage}}">prev</a>
-        {{/if}}
-        {{#if scope.resources.nextPage}}
-            <a href="{{scope.resources.nextPage}}">next</a>
-        {{/if}}
-        {{#if scope.resources.lastPage}}
-            <a href="{{scope.resources.lastPage}}">last</a>
-        {{/if}}
+        {{#unless scope.list}}
+            {{#if scope.resources.firstPage}}
+                <a href="{{scope.resources.firstPage}}">first</a>
+            {{/if}}
+            {{#if scope.resources.previousPage}}
+                <a href="{{scope.resources.previousPage}}">prev</a>
+            {{/if}}
+            {{#if scope.resources.nextPage}}
+                <a href="{{scope.resources.nextPage}}">next</a>
+            {{/if}}
+            {{#if scope.resources.lastPage}}
+                <a href="{{scope.resources.lastPage}}">last</a>
+            {{/if}}
+        {{else}}
+            <a href="/resource/">more</a>
+        {{/unless}}
     </section>
 
+    <!--
     {{#form "/resource/" class="hijax edit" target="_parent"}}
         {{> ResourceIndex/Service/edit.mustache}}
         {{submit "Submit"}}
     {{/form}}
+    -->
 </div>

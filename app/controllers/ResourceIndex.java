@@ -29,7 +29,7 @@ import services.ElasticsearchProvider;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort, boolean list) throws IOException, ParseException {
 
     // Extract filters directly from query params
     Map<String, String[]> filters = new HashMap<>();
@@ -44,6 +44,7 @@ public class ResourceIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     ElasticsearchProvider.user = Secured.getHttpBasicAuthUser(ctx());
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
+    scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {
