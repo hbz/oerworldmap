@@ -27,7 +27,12 @@ public class AggregationProvider {
         .field("about.availableChannel.availableLanguage");
   }
 
-  public static AggregationBuilder<?> getFieldOfEducationAggregation() {
+  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation() {
+    return AggregationBuilders.terms("about.about.@id")
+        .field("about.about.@id");
+  }
+
+  public static AggregationBuilder<?> getServiceByGradeLevelAggregation() {
     return AggregationBuilders.terms("about.audience.@id")
         .field("about.audience.@id");
   }
