@@ -1,5 +1,9 @@
 package services;
 
+import controllers.Global;
+import helpers.ElasticsearchHelpers;
+import helpers.JsonTest;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -20,7 +24,7 @@ import org.junit.Test;
 
 import services.repository.BaseRepository;
 
-public class BaseRepositoryTest {
+public class BaseRepositoryTest implements JsonTest{
 
   private static BaseRepository mRepo;
   private static Settings mClientSettings;
@@ -45,33 +49,31 @@ public class BaseRepositoryTest {
   }
 
   @Test
-  public void testResourceWithIdentifiedSubObject() {
+  public void testResourceWithIdentifiedSubObject() throws IOException {
     Resource resource = new Resource("Person", "id001");
     String property = "attended";
     Resource value = new Resource("Event", "OER15");
     resource.put(property, value);
-    try {
-      mRepo.addResource(resource);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Assert.assertEquals(resource, mRepo.getResource("id001"));
-    Assert.assertEquals(value, mRepo.getResource("OER15"));
+    Resource expected1 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.1.json");
+    Resource expected2 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.2.json");
+    mRepo.addResource(resource);
+    Assert.assertEquals(expected1, mRepo.getResource("id001"));
+    Assert.assertEquals(expected2, mRepo.getResource("OER15"));
   }
 
   @Test
-  public void testResourceWithUnidentifiedSubObject() {
+  public void testResourceWithUnidentifiedSubObject() throws IOException {
     Resource resource = new Resource("Person", "id002");
-    String property = "attended";
-    Resource value = new Resource("Foo", "Foo15");
-    resource.put(property, value);
-    try {
-      mRepo.addResource(resource);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Assert.assertEquals(resource, mRepo.getResource("id002"));
-    Assert.assertNull(mRepo.getResource("Foo15"));
+    Resource value = new Resource("Foo", null);
+    resource.put("attended", value);
+    Resource expected = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
+    mRepo.addResource(resource);
+    Assert.assertEquals(expected, mRepo.getResource("id002"));
+  }
+  
+  @AfterClass
+  public static void clean() throws IOException {
+    ElasticsearchHelpers.cleanIndex(mElClient, mEsConfig.getIndex());
   }
 
   @AfterClass

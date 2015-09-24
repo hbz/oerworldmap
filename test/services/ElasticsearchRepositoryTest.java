@@ -76,7 +76,7 @@ public class ElasticsearchRepositoryTest {
       // instance. Otherwise it will fail. This restriction can be overturned
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
-      result = mRepo.query(aQueryString, 0, 10, null);
+      result = mRepo.query(aQueryString, 0, 10, null, null);
     } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {
@@ -93,7 +93,7 @@ public class ElasticsearchRepositoryTest {
     Set<String> employers = new HashSet<String>();
 
     for (Resource r : resourcesGotBack) {
-      ids.add(r.get(JsonLdConstants.ID).toString());
+      ids.add(r.getAsString(JsonLdConstants.ID));
       names.add(r.get("name").toString());
       employers.add(r.get("worksFor").toString());
     }

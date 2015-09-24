@@ -20,6 +20,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 import play.Logger;
@@ -109,19 +110,25 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * /en/elasticsearch/reference/current/search-uri-request.html .
    *
    * @param  aQueryString A string describing the query
+   * @param aFilters
    * @return A resource resembling the result set of resources matching the criteria given in the query string
    * @throws IOException
    * @throws ParseException
    */
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) throws IOException, ParseException {
-    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder);
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize,
+                            String aSortOrder, Map<String, String[]> aFilters) throws IOException, ParseException {
+
+    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder);
+    //FIXME: response.toString returns string serializations of scripted keys
+    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder, aFilters, aAggregations);
+
   }
 }

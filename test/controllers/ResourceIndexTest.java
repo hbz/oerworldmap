@@ -123,7 +123,7 @@ public class ResourceIndexTest {
         assertEquals(201, status(createResult));
         Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
-        assertEquals(201, status(updateResult));
+        assertEquals(200, status(updateResult));
       }
     });
   }
