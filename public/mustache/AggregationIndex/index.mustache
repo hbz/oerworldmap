@@ -26,7 +26,14 @@
       </tbody>
     </table>
   {{/scope.countryAggregation}}
-  <div class="pie-chart">
-    {{pieChart scope.typeAggregation.[about.@type] width=300 height=300}}
-  </div>
+    <div class="row">
+        <div class="col-md-6">
+          <h2>Entries by type</h2>
+          {{pieChart scope.typeAggregation.[about.@type] width=200 height=200 href-template="/resource/?filter.about.@type={key}"}}
+        </div>
+        <div class="col-md-6">
+          <h2>Entries by country</h2>
+          {{pieChart scope.countryAggregation.[about.location.address.addressCountry] width=200 height=200 href-template="/country/{key}"}}
+        </div>
+    </div>
 </div>
