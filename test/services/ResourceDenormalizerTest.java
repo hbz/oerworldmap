@@ -3,6 +3,7 @@ package services;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -214,6 +215,16 @@ public class ResourceDenormalizerTest implements JsonTest {
     Resource get2 = repo.getResource(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
     assertEquals(out2, get2);
+  }
+
+  @Test
+  public void testDenormalizeStringArray() throws IOException {
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testDenormalizeStringArray.IN.json");
+    MockResourceRepository repo = new MockResourceRepository();
+    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
+    for (Resource resource : denormalized) {
+      assertEquals(2, ((ArrayList) resource.get("audience")).size());
+    }
   }
 
 }
