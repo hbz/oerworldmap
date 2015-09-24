@@ -198,7 +198,9 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'person': 'user',
     'organization': 'users',
     'article': 'comment',
-    'action': 'gears'
+    'action': 'gears',
+    'concept': 'bars',
+    'conceptscheme': 'envelope'
   };
   return new Handlebars.SafeString('<i class="fa fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
 });
@@ -215,7 +217,7 @@ Handlebars.registerHelper('getBundle', function (field, options) {
   return bundles[field] || 'messages';
 });
 
-Handlebars.registerHelper('url', function (url, options) {
+Handlebars.registerHelper('getResourceUrl', function (url, options) {
   return new Handlebars.SafeString("/resource/" + encodeURIComponent(url));
 });
 

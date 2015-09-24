@@ -364,7 +364,7 @@
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["https://w3id.org/isced/2013/scheme"]
+                        "enum": ["https://w3id.org/isced-extended/2013/scheme"]
                       }
                     }
                   }
