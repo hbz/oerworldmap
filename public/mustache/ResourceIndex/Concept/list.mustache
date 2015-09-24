@@ -1,7 +1,7 @@
 <div class="resource">
     <h1><i class="fa fa-bars"></i>
-        <a href="/resource/{{@id}}">
-            {{#name}}{{@value}}{{/name}}
+        <a href={{url @id}}>
+            {{#this.name}}{{@value}}{{/this.name}}
         </a>
     </h1>
 </div>

@@ -215,6 +215,10 @@ Handlebars.registerHelper('getBundle', function (field, options) {
   return bundles[field] || 'messages';
 });
 
+Handlebars.registerHelper('url', function (url, options) {
+  return new Handlebars.SafeString("/resource/" + encodeURIComponent(url));
+});
+
 /**
  * Adopted from http://stackoverflow.com/questions/7261318/svg-chart-generation-in-javascript
  */
