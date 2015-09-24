@@ -3,12 +3,6 @@ package services;
 import java.io.File;
 import java.io.IOException;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import helpers.ElasticsearchHelpers;
-import helpers.UniversalFunctions;
-import models.Resource;
-
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
@@ -18,6 +12,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+import models.Resource;
 import services.repository.BaseRepository;
 
 public class BaseRepositoryTest {
@@ -37,8 +35,8 @@ public class BaseRepositoryTest {
     mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings())
         .build();
     mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), Integer
-            .valueOf(mEsConfig.getJavaPort())));
+        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
+            Integer.valueOf(mEsConfig.getJavaPort())));
     mElClient = new ElasticsearchProvider(mClient, mEsConfig);
     mElClient.createIndex(mConfig.getString("es.index.name"));
     mRepo = new BaseRepository(mConfig);

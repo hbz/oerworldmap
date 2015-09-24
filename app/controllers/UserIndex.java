@@ -1,8 +1,5 @@
 package controllers;
 
-import helpers.Countries;
-import helpers.JSONForm;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,9 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import helpers.JsonLdConstants;
-import models.Resource;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -26,15 +20,19 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import play.mvc.Result;
-import play.mvc.Security;
-import services.Account;
-
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+
+import helpers.Countries;
+import helpers.JSONForm;
+import helpers.JsonLdConstants;
+import models.Resource;
+import play.mvc.Result;
+import play.mvc.Security;
+import services.Account;
 
 public class UserIndex extends OERWorldMap {
 
@@ -66,7 +64,7 @@ public class UserIndex extends OERWorldMap {
     mBaseRepository.addResource(user);
 
     List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String,Object> message = new HashMap<>();
+    HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
     message.put("message", i18n.get("user_registration_feedback"));
     messages.add(message);
@@ -90,7 +88,7 @@ public class UserIndex extends OERWorldMap {
     sendTokenMail(user, token);
 
     List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String,Object> message = new HashMap<>();
+    HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
     message.put("message", i18n.get("user_token_request_feedback"));
     messages.add(message);
@@ -103,7 +101,7 @@ public class UserIndex extends OERWorldMap {
     user.put("email", request().username());
     Account.removeTokenFor(user);
     List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String,Object> message = new HashMap<>();
+    HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
     message.put("message", i18n.get("user_token_delete_feedback"));
     messages.add(message);
@@ -112,8 +110,8 @@ public class UserIndex extends OERWorldMap {
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
     String aEmail = user.get("mbox_sha1sum").toString();
-    String emailExistsQuery = JsonLdConstants.TYPE.concat(":Person")
-        .concat(" AND ").concat("mbox_sha1sum:").concat(aEmail);
+    String emailExistsQuery = JsonLdConstants.TYPE.concat(":Person").concat(" AND ")
+        .concat("mbox_sha1sum:").concat(aEmail);
     if ((!(mBaseRepository.query(emailExistsQuery, 0, 1, null).getTotalItems() == 0))) {
       ProcessingMessage message = new ProcessingMessage();
       message.setMessage("This e-mail address is already registered");
@@ -138,6 +136,7 @@ public class UserIndex extends OERWorldMap {
       return;
     }
 
+    @SuppressWarnings("resource")
     HttpClient client = new DefaultHttpClient();
     HttpPost request = new HttpPost("https://" + mailmanHost + "/mailman/subscribe/" + mailmanList);
     try {
@@ -147,8 +146,8 @@ public class UserIndex extends OERWorldMap {
 
       HttpResponse response = client.execute(request);
       System.out.println(response.getStatusLine().getStatusCode());
-      BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity()
-          .getContent()));
+      BufferedReader rd = new BufferedReader(
+          new InputStreamReader(response.getEntity().getContent()));
       String line = "";
       while ((line = rd.readLine()) != null) {
         System.out.println(line);

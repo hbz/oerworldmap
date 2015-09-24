@@ -1,32 +1,30 @@
 package controllers;
 
-import helpers.Countries;
-import helpers.JSONForm;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.Resource;
-
-import models.ResourceList;
 import org.json.simple.parser.ParseException;
-
-import play.mvc.Result;
-import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import services.AggregationProvider;
+
+import helpers.Countries;
+import helpers.JSONForm;
+import helpers.JsonLdConstants;
+import models.Resource;
+import models.ResourceList;
+import play.mvc.Result;
+import play.mvc.Security;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort)
+      throws IOException, ParseException {
 
     Map<String, Object> scope = new HashMap<>();
 
