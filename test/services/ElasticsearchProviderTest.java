@@ -2,12 +2,9 @@ package services;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -19,6 +16,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 public class ElasticsearchProviderTest {
   protected static Client mClient;
@@ -32,10 +32,9 @@ public class ElasticsearchProviderTest {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
     mEsConfig = new ElasticsearchConfig(mConfig);
     final Settings mClientSettings = ImmutableSettings.settingsBuilder()
-          .put(mEsConfig.getClientSettings()).build();
+        .put(mEsConfig.getClientSettings()).build();
     mClient = new TransportClient(mClientSettings)
-          .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
-              9300));
+        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(), 9300));
     mElasticsearchProvider = new ElasticsearchProvider(mClient, mEsConfig);
   }
 
@@ -48,12 +47,14 @@ public class ElasticsearchProviderTest {
     Assert.assertEquals(ElasticsearchDemoData.JSON_MAP, mapGotBack);
   }
 
-  //@Test
+  // @Test
   public void testEsSearch() throws ParseException {
     final String aQueryString = "*";
     try {
-      // TODO : this test currently presumes that there is some data existent in your elasticsearch
-      // instance. Otherwise it will fail. This restriction can be overturned when a parallel method
+      // TODO : this test currently presumes that there is some data existent in
+      // your elasticsearch
+      // instance. Otherwise it will fail. This restriction can be overturned
+      // when a parallel method
       // for the use of POST is introduced in ElasticsearchProvider.
       SearchResponse result1 = mElasticsearchProvider.esQuery(aQueryString);
       SearchResponse result2 = mElasticsearchProvider.esQuery(aQueryString, "_all", null);

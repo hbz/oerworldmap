@@ -1,27 +1,24 @@
 package controllers;
 
-import helpers.Countries;
-import helpers.JSONForm;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import models.Resource;
-
-import models.ResourceList;
 import org.json.simple.parser.ParseException;
-
-import play.mvc.Result;
-import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+
+import helpers.Countries;
+import helpers.JSONForm;
+import helpers.JsonLdConstants;
+import models.Resource;
+import models.ResourceList;
+import play.mvc.Result;
+import play.mvc.Security;
 import services.ElasticsearchProvider;
 
 /**
@@ -29,7 +26,8 @@ import services.ElasticsearchProvider;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort)
+      throws IOException, ParseException {
 
     // Extract filters directly from query params
     Map<String, String[]> filters = new HashMap<>();

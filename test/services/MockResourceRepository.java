@@ -1,21 +1,23 @@
 package services;
 
-import com.typesafe.config.Config;
-import helpers.JsonLdConstants;
-import models.Resource;
-import services.repository.*;
-
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
+import helpers.JsonLdConstants;
+import models.Resource;
+import services.repository.Repository;
+import services.repository.Writable;
+
 /**
  * @author fo
  */
-public class MockResourceRepository extends Repository implements services.repository.Readable, Writable {
+public class MockResourceRepository extends Repository
+    implements services.repository.Readable, Writable {
 
   private Map<String, Resource> db = new HashMap<>();
 
@@ -59,8 +61,8 @@ public class MockResourceRepository extends Repository implements services.repos
   public List<Resource> getAll(@Nonnull String aType) {
     return new ArrayList<>(db.values());
   }
-  
-  public int size(){
+
+  public int size() {
     return db.size();
   }
 

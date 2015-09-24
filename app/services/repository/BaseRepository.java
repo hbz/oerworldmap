@@ -1,5 +1,15 @@
 package services.repository;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.json.simple.parser.ParseException;
+
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
@@ -7,29 +17,14 @@ import com.typesafe.config.Config;
 
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import models.Record;
 import models.Resource;
-
 import models.ResourceList;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.json.simple.parser.ParseException;
-
 import play.Logger;
-import services.ElasticsearchProvider;
 import services.ResourceDenormalizer;
-import services.repository.ElasticsearchRepository;
-import services.repository.FileRepository;
 
-import javax.annotation.Nonnull;
-
-public class BaseRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
+public class BaseRepository extends Repository
+    implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileRepository mFileRepo;
@@ -54,7 +49,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
-        // Extract the type from the resource, otherwise everything will be typed WebPage!
+        // Extract the type from the resource, otherwise everything will be
+        // typed WebPage!
         String type = dnr.getAsString(JsonLdConstants.TYPE);
         addResource(rec, type);
       }
@@ -83,7 +79,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
-        // Extract the type from the resource, otherwise everything will be typed WebPage!
+        // Extract the type from the resource, otherwise everything will be
+        // typed WebPage!
         String type = dnr.getAsString(JsonLdConstants.TYPE);
         addResource(rec, type);
       }
@@ -93,7 +90,7 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
 
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, String[]> aFilters) {
+      Map<String, String[]> aFilters) {
     ResourceList resourceList;
     try {
       resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters);

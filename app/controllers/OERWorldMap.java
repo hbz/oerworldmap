@@ -1,37 +1,11 @@
 package controllers;
 
-import com.github.jknack.handlebars.*;
-import com.github.jknack.handlebars.helper.StringHelpers;
-import com.github.jknack.handlebars.io.TemplateLoader;
-import helpers.*;
-import models.Resource;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import play.Configuration;
-import play.Logger;
-import play.Play;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.twirl.api.Html;
-import services.repository.BaseRepository;
-import services.ElasticsearchConfig;
-import services.ElasticsearchProvider;
-
 import java.io.File;
 import java.io.IOException;
-
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +16,27 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import org.apache.commons.io.IOUtils;
+
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.helper.StringHelpers;
+import com.github.jknack.handlebars.io.TemplateLoader;
+
+import helpers.HandlebarsHelpers;
+import helpers.ResourceTemplateLoader;
+import helpers.UniversalFunctions;
+import models.Resource;
+import play.Configuration;
+import play.Logger;
+import play.Play;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.twirl.api.Html;
+import services.repository.BaseRepository;
 
 /**
  * @author fo
@@ -63,6 +58,7 @@ public abstract class OERWorldMap extends Controller {
 
   // Internationalization
   protected static Locale currentLocale;
+
   static {
     if (mConf.getBoolean("i18n.enabled")) {
       try {
@@ -125,7 +121,8 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       Template template = handlebars.compile(templatePath);
-      return views.html.main.render(pageTitle, Html.apply(template.apply(mustacheData)), getClientTemplates());
+      return views.html.main.render(pageTitle, Html.apply(template.apply(mustacheData)),
+          getClientTemplates());
     } catch (IOException e) {
       Logger.error(e.toString());
       return null;

@@ -1,12 +1,10 @@
 package services;
 
-import models.Record;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 
-import java.util.HashMap;
-import java.util.Map;
+import models.Record;
 
 /**
  * @author fo
@@ -28,25 +26,22 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder<?> getFieldOfEducationAggregation() {
-    return AggregationBuilders.terms("about.audience.@id")
-        .field("about.audience.@id");
+    return AggregationBuilders.terms("about.audience.@id").field("about.audience.@id");
   }
 
   public static AggregationBuilder<?> getByCountryAggregation() {
-    return AggregationBuilders
-        .terms("by_country").field("about.location.address.addressCountry").size(0)
+    return AggregationBuilders.terms("by_country").field("about.location.address.addressCountry")
+        .size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
-        .subAggregation(AggregationBuilders
-            .filter("champions")
+        .subAggregation(AggregationBuilders.filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String id) {
-    return AggregationBuilders
-        .terms("by_country").field("about.location.address.addressCountry").include(id).size(0)
+    return AggregationBuilders.terms("by_country").field("about.location.address.addressCountry")
+        .include(id).size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
-        .subAggregation(AggregationBuilders
-            .filter("champions")
+        .subAggregation(AggregationBuilders.filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
   }
 
