@@ -1,11 +1,14 @@
 package models;
 
-import helpers.FilesConfig;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,7 +19,9 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import helpers.UniversalFunctions;
+
+import helpers.FilesConfig;
+import helpers.JsonLdConstants;
 import play.Logger;
 
 public class Resource extends HashMap<String, Object> {
@@ -27,8 +32,8 @@ public class Resource extends HashMap<String, Object> {
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
+  private static final List<String> mIdentifiedTypes = new ArrayList<String>(
+      Arrays.asList("Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
 
   public static final String REFERENCEKEY = "referencedBy";
 

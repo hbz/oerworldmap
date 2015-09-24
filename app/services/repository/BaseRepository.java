@@ -1,31 +1,27 @@
 package services.repository;
 
-import com.typesafe.config.Config;
-import helpers.JsonLdConstants;
-import helpers.UniversalFunctions;
-
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import models.Record;
-import models.Resource;
-
-import models.ResourceList;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
-import play.Logger;
-import services.ElasticsearchProvider;
-import services.repository.ElasticsearchRepository;
-import services.repository.FileRepository;
+import com.typesafe.config.Config;
 
-public class BaseRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
+import helpers.JsonLdConstants;
+import helpers.UniversalFunctions;
+import models.Record;
+import models.Resource;
+import models.ResourceList;
+import play.Logger;
+
+public class BaseRepository extends Repository
+    implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileRepository mFileRepo;
@@ -135,7 +131,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
     // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
     // has no unencrypted email address
     String filteredQueryString = aQueryString
-        .concat(" AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
+        .concat(
+            " AND ((about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
         .concat(" OR (about.@type:Person AND about.email:*))");
     ResourceList resourceList;
     try {

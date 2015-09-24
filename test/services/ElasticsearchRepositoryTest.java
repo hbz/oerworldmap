@@ -1,10 +1,5 @@
 package services;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import helpers.ElasticsearchHelpers;
-import helpers.JsonLdConstants;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -12,15 +7,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import models.Resource;
-
-import models.ResourceList;
 import org.json.simple.parser.ParseException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+import helpers.ElasticsearchHelpers;
+import helpers.JsonLdConstants;
+import models.Resource;
+import models.ResourceList;
 import services.repository.ElasticsearchRepository;
 
 public class ElasticsearchRepositoryTest {
@@ -31,12 +30,12 @@ public class ElasticsearchRepositoryTest {
   private static ElasticsearchRepository mRepo;
   private static Config mConfig;
 
-  @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
     mRepo = new ElasticsearchRepository(mConfig);
-    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), mConfig.getString("es.index.name"));
+    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(),
+        mConfig.getString("es.index.name"));
     setupResources();
   }
 
@@ -104,7 +103,7 @@ public class ElasticsearchRepositoryTest {
     // non-unique fields : some "persons" work for the same employer:
     Assert.assertTrue(resourcesGotBack.size() > employers.size());
   }
-  
+
   @AfterClass
   public static void clean() throws IOException {
     mRepo.getElasticsearchProvider().deleteIndex(mConfig.getString("es.index.name"));
