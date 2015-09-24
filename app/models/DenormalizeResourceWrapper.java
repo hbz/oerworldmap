@@ -88,7 +88,7 @@ public class DenormalizeResourceWrapper {
           putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (isResourceList(entry.getValue())) {
         Set<String> ids = new HashSet<>();
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
@@ -101,7 +101,9 @@ public class DenormalizeResourceWrapper {
             }
           }
         }
-        putReference(entry.getKey(), ids);
+        if (!ids.isEmpty()) {
+          putReference(entry.getKey(), ids);
+        }
       }
     }
   }
@@ -156,7 +158,7 @@ public class DenormalizeResourceWrapper {
           oldReferences = putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (isResourceList(entry.getValue())) {
         Set<String> ids = new HashSet<>();
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
@@ -313,6 +315,18 @@ public class DenormalizeResourceWrapper {
 
   private Resource getEmbedView() {
     return mEmbedView;
+  }
+
+  private boolean isResourceList(Object aList) {
+    if (!(aList instanceof List)) {
+      return false;
+    }
+    for (Object value : (List) aList) {
+      if (!(value instanceof Resource)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public String toString() {
