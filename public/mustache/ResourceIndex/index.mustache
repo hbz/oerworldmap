@@ -1,6 +1,20 @@
 <div role="complementary" class="color-scheme-map column large" data-view="map">
 </div>
 <div role="main" class="color-scheme-text list-view column small">
+
+    {{#unless scope.list}}
+        <a class="pager" label="List" href="#list"><i class="fa fa-eye"></i></a>
+        <a class="pager" label="Add" href="#add"><i class="fa fa-edit"></i></a>
+
+        <div class="tab" id="add">
+            {{#form "/resource/" class="hijax edit" target="_parent"}}
+                {{> ResourceIndex/Service/edit.mustache}}
+                {{submit "Submit"}}
+            {{/form}}
+        </div>
+    {{/unless}}
+
+    <div class="tab" id="list">
     {{#unless scope.list}}
     <section>
         <form method="get" action="/resource/" id="search">
@@ -10,10 +24,11 @@
             {{#each scope.resources.aggregations}}
                 <ul class="filters" title="{{i18n (getField @key)}}">
                     {{#buckets}}
-                        <li {{#ifIn @key key scope.resources.filters}}class="active"{{/ifIn}}>
+                        {{! Why do I have to use the parent @key here? }}
+                        <li {{#ifIn ../@key key scope.resources.filters}}class="active"{{/ifIn}}>
                             <label>
-                                <input type="checkbox" class="filter" name="filter.{{@key}}" value="{{key}}" {{#ifIn @key key scope.resources.filters}}checked{{/ifIn}}>
-                                <b>{{i18n key bundle=(getBundle (getField @key))}} ({{doc_count}})</b>
+                                <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}" {{#ifIn ../@key key scope.resources.filters}}checked{{/ifIn}}>
+                                <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
                             </label>
                         </li>
                     {{/buckets}}
@@ -60,10 +75,7 @@
         {{/unless}}
     </section>
 
-    <!--
-    {{#form "/resource/" class="hijax edit" target="_parent"}}
-        {{> ResourceIndex/Service/edit.mustache}}
-        {{submit "Submit"}}
-    {{/form}}
-    -->
+    </div>
+
+
 </div>
