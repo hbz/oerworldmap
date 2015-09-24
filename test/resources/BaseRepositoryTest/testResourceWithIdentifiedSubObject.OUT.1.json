@@ -1,0 +1,9 @@
+{
+  "attended" : {
+    "@type" : "Event",
+    "@id" : "OER15"
+  },
+  "@type" : "Person",
+  "@id" : "id001"
+}
+

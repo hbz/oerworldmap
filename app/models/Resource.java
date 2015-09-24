@@ -1,11 +1,20 @@
 package models;
 
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,10 +25,8 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import helpers.UniversalFunctions;
-import play.Logger;
 
-public class Resource extends HashMap<String, Object> {
+public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
   /**
    * 
@@ -28,12 +35,11 @@ public class Resource extends HashMap<String, Object> {
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service"));
+      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
 
   public static final String REFERENCEKEY = "referencedBy";
 
   public Resource() {
-    this(null, null);
   }
 
   /**
@@ -58,10 +64,10 @@ public class Resource extends HashMap<String, Object> {
     if (null != aType) {
       this.put(JsonLdConstants.TYPE, aType);
     }
-    if (mIdentifiedTypes.contains(aType)) {
-      if (null != aId) {
-        this.put(JsonLdConstants.ID, aId);
-      } else {
+    if (null != aId) {
+      this.put(JsonLdConstants.ID, aId);
+    } else {
+      if (mIdentifiedTypes.contains(aType)) {
         this.put(JsonLdConstants.ID, generateId());
       }
     }
@@ -136,14 +142,19 @@ public class Resource extends HashMap<String, Object> {
 
   public ProcessingReport validate() {
     JsonSchema schema;
-    ProcessingReport report;
+    ProcessingReport report = new ListProcessingReport();
     try {
-      schema = JsonSchemaFactory.byDefault().getJsonSchema(
-          new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
-          "/definitions/".concat(this.get(JsonLdConstants.TYPE).toString()));
-      report = schema.validate(toJson());
+      String type = this.getAsString(JsonLdConstants.TYPE);
+      if (null == type) {
+        report.error(new ProcessingMessage().setMessage("No type found for ".concat(this.toString())
+            .concat(", cannot validate")));
+      } else {
+        schema = JsonSchemaFactory.byDefault().getJsonSchema(
+            new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
+            "/definitions/".concat(type));
+        report = schema.validate(toJson());
+      }
     } catch (ProcessingException | IOException e) {
-      report = new ListProcessingReport();
       e.printStackTrace();
     }
     return report;
@@ -176,6 +187,63 @@ public class Resource extends HashMap<String, Object> {
     return output;
   }
 
+  public String getAsString(final Object aKey) {
+    Object result = get(aKey);
+    return (result == null) ? null : result.toString();
+  }
+
+  public static Resource getLinkClone(final Resource aResource) {
+    if (aResource == null) {
+      return null;
+    }
+    final Resource result = new Resource();
+    if (null != aResource.get(JsonLdConstants.ID)) {
+      result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
+    }
+    if (null != aResource.get(JsonLdConstants.TYPE)) {
+      result.put(JsonLdConstants.TYPE, aResource.get(JsonLdConstants.TYPE));
+    }
+    if (null != aResource.get("name")) {
+      result.put("name", aResource.get("name"));
+    }
+    return result;
+  }
+
+  public static Resource getEmbedClone(final Resource aResource) {
+    if (aResource == null) {
+      return null;
+    }
+    final Resource result = new Resource();
+    for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
+      Map.Entry<String, Object> entry = it.next();
+      // remove entries of type List if they only contain ID entries
+      if (entry.getValue() instanceof List) {
+        List<?> list = (List<?>) (entry.getValue());
+        List<Object> truncatedList = new ArrayList<>();
+        for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
+          Object li = innerIt.next();
+          if (li instanceof Resource && ((Resource) li).hasId()) {
+            truncatedList.add(Resource.getLinkClone((Resource) li));
+          } else {
+            truncatedList.add(li);
+          }
+        }
+        if (truncatedList.isEmpty()) {
+          it.remove();
+        }
+        result.put(entry.getKey(), truncatedList);
+      }
+      // remove entries of type Resource if they have an ID
+      else if (entry.getValue() instanceof Resource && ((Resource) entry.getValue()).hasId()) {
+        result.put(entry.getKey(), getLinkClone((Resource) (entry.getValue())));
+      } else {
+        result.put(entry.getKey(), entry.getValue());
+      }
+    }
+    return result;
+  }
+
+  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(final Object aOther) {
     if (!(aOther instanceof Resource)) {
@@ -188,7 +256,16 @@ public class Resource extends HashMap<String, Object> {
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (!pair.getValue().equals(other.get(pair.getKey()))) {
+      if (pair.getValue() instanceof List) {
+        if (!(other.get(pair.getKey()) instanceof List)) {
+          return false;
+        }
+        List<Object> list = (List<Object>) pair.getValue();
+        List<Object> otherList = (List<Object>) other.get(pair.getKey());
+        if (list.size() != otherList.size() || !list.containsAll(otherList)) {
+          return false;
+        }
+      } else if (!pair.getValue().equals(other.get(pair.getKey()))) {
         return false;
       }
     }
@@ -197,6 +274,64 @@ public class Resource extends HashMap<String, Object> {
 
   public boolean hasId() {
     return containsKey(JsonLdConstants.ID);
+  }
+
+  public void merge(Resource aOther) {
+    for (Entry<String, Object> entry : aOther.entrySet()) {
+      put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  public boolean hasIdOnly() {
+    if (size() == 1 && hasId()) {
+      return true;
+    }
+    return false;
+  }
+
+  public static Resource getFlatClone(Resource aResource) {
+    Resource result = Resource.fromMap(aResource);
+
+    for (Entry<String, Object> entry : aResource.entrySet()) {
+      if (entry.getValue() instanceof Resource) {
+        Resource resource = (Resource) entry.getValue();
+        if (resource.hasId()) {
+          result.put(entry.getKey(), Resource.getIdClone(resource));
+        } //
+        else {
+          result.put(entry.getKey(), entry.getValue());
+        }
+      } //
+      else if (entry.getValue() instanceof List) {
+        result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
+      } else {
+        result.put(entry.getKey(), entry.getValue());
+      }
+    }
+    return result;
+  }
+
+  private static List<?> getAsIdTree(List<?> aList) {
+    for (Object object : aList) {
+      if (object instanceof Resource) {
+        object = getIdClone((Resource) object);
+      } //
+      else if (object instanceof List) {
+        object = getAsIdTree((List<?>) object);
+      }
+    }
+    return aList;
+  }
+
+  private static Resource getIdClone(Resource value) {
+    Resource result = new Resource();
+    result.put(JsonLdConstants.ID, value.get(JsonLdConstants.ID));
+    return result;
+  }
+
+  @Override
+  public int compareTo(Resource aOther) {
+    return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
   }
 
 }

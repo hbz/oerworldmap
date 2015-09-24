@@ -6,6 +6,7 @@ import java.util.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import controllers.Global;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -15,8 +16,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -30,6 +30,8 @@ public class ElasticsearchProvider {
   private static ElasticsearchConfig mConfig;
   
   private Client mClient;
+
+  public static String user;
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
@@ -71,15 +73,6 @@ public class ElasticsearchProvider {
   public static boolean indexExists(Client aClient, String aIndex) {
     return aClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
-  
-  /**
-   * Add a document consisting of a JSON String.
-   * 
-   * @param aJsonString
-   */
-  public void addJson(final String aJsonString) {
-    addJson(aJsonString, UUID.randomUUID());
-  }
 
   /**
    * Add a document consisting of a JSON String specified by a given UUID.
@@ -115,15 +108,6 @@ public class ElasticsearchProvider {
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
     mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
         .actionGet();
-  }
-
-  /**
-   * Add a document consisting of a Map.
-   * 
-   * @param aMap
-   */
-  public void addMap(final Map<String, Object> aMap) {
-    addMap(aMap, UUID.randomUUID());
   }
 
   /**
@@ -237,6 +221,8 @@ public class ElasticsearchProvider {
     try {
       mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString())
           .execute().actionGet();
+      mClient.admin().cluster().prepareHealth()
+          .setWaitForYellowStatus().execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
       Logger.error("Trying to create index \"" + aIndex
           + "\" in Elasticsearch. Index already exists.");
@@ -274,9 +260,12 @@ public class ElasticsearchProvider {
   }
 
   // TODO: make this the only available method signature?
-  public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
+  public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                                Map<String, String[]> aFilters) {
+
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(mConfig.getIndex());
+
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
@@ -287,11 +276,44 @@ public class ElasticsearchProvider {
       }
     }
 
-    return searchRequestBuilder
-        .setQuery(
-            QueryBuilders.queryString(aQueryString).defaultOperator(
-                QueryStringQueryBuilder.Operator.AND)).setFrom(aFrom).setSize(aSize).execute()
-        .actionGet();
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+
+    if (!(null == aFilters)) {
+      AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
+      for (Map.Entry<String, String[]> entry : aFilters.entrySet()) {
+        // This could also be an OrFilterBuilder allowing to expand the result list
+        AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
+        for (String filter : entry.getValue()) {
+          andTermFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
+        }
+        aggregationAndFilter.add(andTermFilterBuilder);
+      }
+      globalAndFilter.add(aggregationAndFilter);
+    }
+
+    QueryBuilder queryBuilder;
+    if (!StringUtils.isEmpty(aQueryString)) {
+      queryBuilder = QueryBuilders.queryString(aQueryString).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+    } else {
+      queryBuilder = QueryBuilders.matchAllQuery();
+    }
+
+    // TODO: where should aggregations be added?
+    searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getLocationAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
+    //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
+
+    // TODO: Remove privacy filter when all persons are accounts?
+    if (!Global.getConfig().getString("admin.user").equals(user)) {
+      globalAndFilter.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
+          .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email")))));
+    }
+
+    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
+
+    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+
   }
 
   public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,

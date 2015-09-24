@@ -3,10 +3,18 @@
 </div>
 <div role="main" class="color-scheme-text container column medium">
   {{#scope}}
-      <div class="resource-service">
+      <div class="tab resource-service-edit" id="edit">
+          <a class="pager" label="View" href="#view"><i class="fa fa-eye"></i></a>
+          {{#form (stringFormat "/resource/%s" [@id]) class="hijax edit" target="_parent"}}
+              {{> ResourceIndex/Service/edit.mustache}}
+              {{submit "Submit"}}
+          {{/form}}
+      </div>
+      <div class="tab resource-service" id="view">
+          <a class="pager" label="Edit" href="#edit"><i class="fa fa-edit"></i></a>
           <script type="application/ld+json">
                 {{{.}}}
-            </script>
+          </script>
           <h1><i class="fa fa-desktop"></i> {{#name}}{{@value}}{{/name}}</h1>
           {{#image}}<img src="{{.}}" width="250" />{{/image}}
           {{#description}}<p>{{{@value}}}</p>{{/description}}
@@ -21,11 +29,11 @@
               </ul>
               <h2>Audience</h2>
               <ul>
-                  {{#audience}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/audience}}
+                  {{#audience}}<li>{{> ResourceIndex/Concept/link.mustache}}</li>{{/audience}}
               </ul>
               <h2>Topics</h2>
               <ul>
-                  {{#about}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/about}}
+                  {{#about}}<li>{{> ResourceIndex/Concept/link.mustache}}</li>{{/about}}
               </ul>
           </div>
           {{/availableChannel}}
@@ -35,12 +43,12 @@
               {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
             </ul>
           {{/provider}}
+          <h2>{{i18n "mentioned_in"}}</h2>
+          <ul>
+            {{#referencedBy}}
+                {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+            {{/referencedBy}}
+          </ul>
       </div>
-      <h2>{{i18n.mentioned_in}}</h2>
-      <ul>
-        {{#referencedBy}}
-            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-        {{/referencedBy}}
-      </ul>
   {{/scope}}
 </div>

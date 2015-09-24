@@ -20,7 +20,7 @@
               </ul>
           {{/agent}}
       </div>
-      <h2>{{i18n.mentioned_in}}</h2>
+      <h2>{{i18n "mentioned_in"}}</h2>
       <ul>
         {{#referencedBy}}
           {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}

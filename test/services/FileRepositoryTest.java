@@ -7,26 +7,24 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import helpers.UniversalFunctions;
-import models.Resource;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import helpers.ElasticsearchTestGrid;
+import helpers.UniversalFunctions;
+import models.Resource;
 import services.repository.FileRepository;
 
-public class FileRepositoryTest {
+public class FileRepositoryTest extends ElasticsearchTestGrid {
 
   private static FileRepository resourceRepository;
   private static Resource resource;
-  private static Config mConfig;
 
   @BeforeClass
   public static void setUpDir() throws IOException {
-    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    UniversalFunctions.deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
+    UniversalFunctions
+        .deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
     resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
@@ -47,8 +45,8 @@ public class FileRepositoryTest {
 
   @AfterClass
   public static void tearDownDir() throws IOException {
-    UniversalFunctions.deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
+    UniversalFunctions
+        .deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
   }
 
 }
-

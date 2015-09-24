@@ -252,10 +252,7 @@ var Hijax = (function ($, Hijax) {
       }
 
       var country = properties.country;
-
-      // set name
-      country.name = i18n[ country.key.toUpperCase() ];
-
+      country.key = country.key.toUpperCase();
       var content = templates.popoverCountry(country);
     }
 
@@ -487,6 +484,10 @@ var Hijax = (function ($, Hijax) {
 
   var my = {
     init : function(context) {
+
+      if (!$('div[data-view="map"]', context).length) {
+        return new $.Deferred();
+      }
 
       // Get mercator projection
       projection = ol.proj.get('EPSG:3857');
