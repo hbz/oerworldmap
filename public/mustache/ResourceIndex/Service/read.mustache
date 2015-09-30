@@ -52,11 +52,15 @@
                     </ul>
                     <h3>Audience</h3>
                     <ul>
-                        {{#audience}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/audience}}
+                        {{#audience}}
+                            <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                        {{/audience}}
                     </ul>
                     <h3>Topics</h3>
                     <ul>
-                        {{#about}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/about}}
+                        {{#about}}
+                            <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                        {{/about}}
                     </ul>
                 </div>
                 {{/availableChannel}}

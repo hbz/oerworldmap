@@ -9,7 +9,7 @@
             </script>
           <h1><i class="fa fa-gears"></i> {{#name}}{{@value}}{{/name}}</h1>
           <p><a href="{{url}}">{{url}}</a></p>
-          {{#startTime}}<p>Duration: {{.}}{{#endTime}} - {{.}}{{/endTime}}</p>{{/startTime}}
+          {{#startTime}}<p>Duration: {{.}} - {{#endTime}}{{.}}{{/endTime}}</p>{{/startTime}}
           {{#image}}<img src="{{.}}" width="250" />{{/image}}
           {{#description}}<p lang="{{@language}}">{{@value}}</p>{{/description}}
           {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
@@ -20,7 +20,7 @@
               </ul>
           {{/agent}}
       </div>
-      <h2>{{i18n.mentioned_in}}</h2>
+      <h2>{{i18n "mentioned_in"}}</h2>
       <ul>
         {{#referencedBy}}
           {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}

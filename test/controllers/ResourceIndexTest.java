@@ -7,17 +7,11 @@ import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import helpers.JsonLdConstants;
-
 import java.io.File;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import models.Resource;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -28,10 +22,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import play.mvc.Result;
-
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+import helpers.JsonLdConstants;
+import models.Resource;
+import play.mvc.Result;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
 
@@ -49,6 +47,7 @@ public class ResourceIndexTest {
     ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(mConfig);
     Settings settings = ImmutableSettings.settingsBuilder()
         .put(elasticsearchConfig.getClientSettings()).build();
+    @SuppressWarnings("resource")
     Client client = new TransportClient(settings)
         .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
     mEsClient = new ElasticsearchProvider(client, elasticsearchConfig);
@@ -71,8 +70,8 @@ public class ResourceIndexTest {
         data.put(JsonLdConstants.TYPE, "Person");
         data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
         data.put("email", "foo1@bar.com");
-        Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url()).withHeader(
-            "Authorization", "Basic " + auth).withFormUrlEncodedBody(data));
+        Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+            .withHeader("Authorization", "Basic " + auth).withFormUrlEncodedBody(data));
         assertEquals(201, status(result));
       }
     });
@@ -94,8 +93,8 @@ public class ResourceIndexTest {
         data.put(JsonLdConstants.TYPE, "Person");
         data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
         data.put("email", "foo2@bar.com");
-        Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url()).withHeader(
-            "Authorization", "Basic " + auth).withJsonBody(data));
+        Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+            .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
         assertEquals(201, status(result));
       }
     });
@@ -123,7 +122,7 @@ public class ResourceIndexTest {
         assertEquals(201, status(createResult));
         Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
-        assertEquals(201, status(updateResult));
+        assertEquals(200, status(updateResult));
       }
     });
   }

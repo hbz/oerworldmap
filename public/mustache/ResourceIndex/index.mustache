@@ -1,36 +1,68 @@
 <div role="complementary" class="color-scheme-map column-large" data-view="map">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 
 <div role="main" class="column column-small color-scheme-text bg-blue-palest">
 
     <div class="column-section">
+        
+        {{#unless scope.list}}
+        
         <form method="get" action="/resource/" id="search">
             
-            <input type="text" name="q" value="{{scope.q}}" placeholder="Search the map ...">
+            <script type="application/ld+json">
+                {{json scope.resources.aggregations}}
+            </script>
+            
+            <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
             <button class="btn" type="submit"><i class="fa fa-search"></i></button>
             
+            {{#each scope.resources.aggregations}}
+                <ul class="filters" title="{{i18n (getField @key)}}">
+                    {{#buckets}}
+                        {{! Why do I have to use the parent @key here? }}
+                        <li {{#ifIn ../@key key scope.resources.filters}}class="active"{{/ifIn}}>
+                            <label>
+                                <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}" {{#ifIn ../@key key scope.resources.filters}}checked{{/ifIn}}>
+                                <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
+                            </label>
+                        </li>
+                    {{/buckets}}
+                </ul>
+            {{/each}}
+            
         </form>
+        
+        {{/unless}}
+        
     </div>
     
-    <div class="column-section">
-        {{#if scope.q}}
-            You searched for "{{{scope.q}}}"
-        {{else}}
-            No filters set.
-        {{/if}}
-    </div>
+    {{#unless scope.list}}
+    
+        <div class="column-section">
+            {{#if scope.resources.searchTerms}}
+                You searched for "{{scope.resources.searchTerms}}"
+            {{else}}
+                No filters set.
+            {{/if}}
+        </div>
+        
+    {{/unless}}
     
     <div class="column-section">
         
-        <p>
-            Found <span class="badge">{{scope.resources.totalItems}}</span> entities
-            (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
-        </p>
+        {{#unless scope.list}}
+        
+            <p>
+                Found <span class="badge">{{scope.resources.totalItems}}</span> entities
+                (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
+            </p>
+        
+        {{/unless}}
         
         <script type="text/javascript">console.log({{{scope.resources}}});</script>
         
         <ul class="resource-list" data-behaviour="linkedListEntries populateMap">
+
             <script type="application/ld+json">
                 {{{scope.resources.member}}}
             </script>
@@ -41,18 +73,23 @@
             {{/scope.resources.member}}
         </ul>
         
-        {{#if scope.resources.firstPage}}
-            <a href="/resource/{{scope.resources.firstPage}}">first</a>
-        {{/if}}
-        {{#if scope.resources.previousPage}}
-            <a href="/resource/{{scope.resources.previousPage}}">prev</a>
-        {{/if}}
-        {{#if scope.resources.nextPage}}
-            <a href="/resource/{{scope.resources.nextPage}}">next</a>
-        {{/if}}
-        {{#if scope.resources.lastPage}}
-            <a href="/resource/{{scope.resources.lastPage}}">last</a>
-        {{/if}}
-        
+        {{#unless scope.list}}
+            {{#if scope.resources.firstPage}}
+                <a href="{{scope.resources.firstPage}}">first</a>
+            {{/if}}
+            {{#if scope.resources.previousPage}}
+                <a href="{{scope.resources.previousPage}}">prev</a>
+            {{/if}}
+            {{#if scope.resources.nextPage}}
+                <a href="{{scope.resources.nextPage}}">next</a>
+            {{/if}}
+            {{#if scope.resources.lastPage}}
+                <a href="{{scope.resources.lastPage}}">last</a>
+            {{/if}}
+        {{else}}
+            <a href="/resource/">more</a>
+        {{/unless}}
+
     </div>
+
 </div>

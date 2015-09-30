@@ -1,0 +1,26 @@
+<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}}" class="color-scheme-map column medium">
+    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+</div>
+<div role="main" class="color-scheme-text container column medium">
+  {{#scope}}
+      <div class="resource-concept">
+          <script type="application/ld+json">
+            {{{.}}}
+          </script>
+          <h1>{{getIcon "ConceptScheme"}} {{@id}}</h1>
+      </div>
+      {{#if hasTopConcept}}
+          <h2>Top concepts</h2>
+          <ul class="fa-ul related-list">
+              <script type="application/ld+json">
+                {{{hasTopConcept}}}
+              </script>
+            {{#hasTopConcept}}
+                <li about="{{@id}}">
+                  {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                </li>
+            {{/hasTopConcept}}
+          </ul>
+      {{/if}}
+  {{/scope}}
+</div>

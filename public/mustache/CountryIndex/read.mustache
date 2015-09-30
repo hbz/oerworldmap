@@ -1,17 +1,16 @@
 <div role="complementary" class="color-scheme-map column-large" data-view="map" data-focus="{{scope.alpha-2}}">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 
 <div role="main" class="color-scheme-text list-view column-small">
     <section>
     
-        <h1>{{scope.name}}</h1>
-        
+        <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+
         <hr/>
-        
+
         <h2>Country Champion</h2>
         
-        {{#scope.champions}}
+        {{#scope.champions.member}}
             <div class="img130text">
                 
                 {{#image}}
@@ -28,9 +27,9 @@
                 </div>
                 
             </div>
-        {{/scope.champions}}
+        {{/scope.champions.member}}
         
-        {{^scope.champions}}
+        {{^scope.champions.member}}
             <div class="img130text"> 
             
                 <div class="img placeholder-qmark"></div>
@@ -40,21 +39,19 @@
                 </div>
                 
             </div>
-        {{/scope.champions}}
+        {{/scope.champions.member}}
         
         <hr/>
         
         <h2>Statistics</h2>
         
-        {{#scope.countryAggregation.by_country.buckets}}
+        {{#scope.countryAggregation.[about.location.address.addressCountry].buckets}}
             <table class="statistics-table">
-                <tr><td>{{users.doc_count}}</td><td><i class="fa fa-fw fa-user"></i> Users</td></tr>
-                <tr><td>{{organizations.doc_count}}</td><td><i class="fa fa-fw fa-users"></i> Organizations</td></tr>
-                <tr><td>{{articles.doc_count}}</td><td><i class="fa fa-fw fa-comment"></i> Stories</td></tr>
-                <tr><td>{{services.doc_count}}</td><td><i class="fa fa-fw fa-desktop"></i> Services</td></tr>
-                <tr><td>{{projects.doc_count}}</td><td><i class="fa fa-fw fa-gears"></i> Projects</td></tr>
+            {{#by_type.buckets}}
+                <tr><td>{{doc_count}}</td><td>{{getIcon key}} {{i18n key}}</td></tr>
+            {{/by_type.buckets}}
             </table>
-        {{/scope.countryAggregation.by_country.buckets}}
+        {{/scope.countryAggregation.[about.location.address.addressCountry].buckets}}
         
         <hr/>
         

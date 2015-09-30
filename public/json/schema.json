@@ -2,6 +2,34 @@
   "id": "#root",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
+    "ConceptScheme": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Concept Scheme",
+      "description": "A SKOS Concept Scheme",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "enum": [
+            "ConceptScheme"
+          ]
+        }
+      }
+    },
+    "Concept": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Concept",
+      "description": "A SKOS Concept",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Concept"
+          ]
+        }
+      }
+    },
     "Article": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Article",
@@ -213,12 +241,12 @@
             "$ref": "#/definitions/Service"
           }
         },
-        "result":  {
-           "type": "array",
-               "items": {
-                  "$ref": "#/definitions/Service"
-               }
-            }
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
+        }
       },
       "required": [
         "name"
@@ -298,7 +326,7 @@
             }
           }
         },
-       "sameAs": {
+        "sameAs": {
           "type": "array",
           "items": {
             "type": "string",
@@ -328,7 +356,21 @@
         "about": {
           "type": "array",
           "items": {
-            "type": "string"
+            "allOf": [
+              {"$ref": "#/definitions/Concept"},
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": ["https://w3id.org/isced-extended/2013/scheme"]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         "license": {
@@ -340,7 +382,21 @@
         "audience": {
           "type": "array",
           "items": {
-            "type": "string"
+            "allOf": [
+              {"$ref": "#/definitions/Concept"},
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": ["https://w3id.org/isced/1997/scheme"]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       },
@@ -381,7 +437,7 @@
             "url": {
               "type": "string",
               "format": "uri"
-           },
+            },
             "sameAs": {
               "type": "array",
               "items": {
@@ -449,7 +505,7 @@
           "type": "string",
           "format": "uri"
         },
-       "sameAs": {
+        "sameAs": {
           "type": "array",
           "items": {
             "type": "string",

@@ -41,6 +41,16 @@ public class Countries {
     return countryMap;
   }
 
+  public static String propertyString(Locale aLocale) {
+    String propertyString = "";
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale country = new Locale("en", countryCode);
+      propertyString = propertyString.concat(country.getCountry()).concat("=")
+          .concat(country.getDisplayCountry(aLocale)).concat("\n");
+    }
+    return propertyString;
+  }
+
   public static String getNameFor(String aCountryCode, Locale aLocale) {
     Locale country = new Locale("en", aCountryCode);
     return country.getDisplayCountry(aLocale);

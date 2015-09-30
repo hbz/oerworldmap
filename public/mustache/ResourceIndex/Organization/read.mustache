@@ -30,7 +30,7 @@
 
         <hr/>
         
-        <h2>{{i18n.mentioned_in}}</h2>
+        <h2>{{i18n "mentioned_in"}}</h2>
         
         <ul class="fa-ul related-list">
             <script type="application/ld+json">
@@ -44,7 +44,13 @@
         </ul>
         {{^referencedBy}}
             <em>No related entities found</em>
-        {{/referencedBy}}        
+        {{/referencedBy}}
+        <h2>Provides</h2>
+        {{#provides}}
+            <li about="{{@id}}">
+                {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+            </li>
+        {{/provides}}
 
     {{/scope}}
 </div>
