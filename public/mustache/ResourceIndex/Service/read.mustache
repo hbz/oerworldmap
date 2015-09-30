@@ -50,33 +50,59 @@
                     </p>
                 {{/serviceUrl}}{{/availableChannel}}
                 
-                {{#availableChannel}}
-                <div>
-                    <h3>Available languages</h3>
-                    <ul>
-                        {{#availableLanguage}}<li>{{.}}</li>{{/availableLanguage}}
-                    </ul>
-                    <h3>Audience</h3>
-                    <ul>
-                        {{#audience}}
-                            <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                        {{/audience}}
-                    </ul>
-                    <h3>Topics</h3>
-                    <ul>
-                        {{#about}}
-                            <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                        {{/about}}
-                    </ul>
-                </div>
-                {{/availableChannel}}
+                <table class="table resource-details-table">
                 
-                <h3>Provider</h3>
-                {{#provider}}
-                  <ul>
-                    {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-                  </ul>
-                {{/provider}}
+                    <tr>
+                        <td>Languages</td>
+                        <td>
+                            <ul class="comma-seperated-list">
+                                {{#availableChannel}}
+                                    {{#availableLanguage}}
+                                        <li>{{i18n . bundle = "languages"}}</li>
+                                    {{/availableLanguage}}
+                                {{/availableChannel}}
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Audience</td>
+                        <td>
+                            <ul class="resource-list">
+                                {{#availableChannel}}
+                                    {{#audience}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/audience}}
+                                {{/availableChannel}}
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Provider</td>
+                        <td>
+                            <ul class="resource-list">
+                                {{#provider}}
+                                    <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                {{/provider}}
+                            </ul>
+                        </td>
+                    </tr>
+                                        
+                    <tr>
+                        <td>Topics</td>
+                        <td>
+                            <ul class="resource-list">
+                                {{#availableChannel}}
+                                    {{#about}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/about}}
+                                {{/availableChannel}}
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </table>
                 
             </div>
             
