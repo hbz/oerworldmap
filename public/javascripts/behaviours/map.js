@@ -702,7 +702,6 @@ var Hijax = (function ($, Hijax) {
         });
 
       // Populate map with pins from resource listings
-      // FIXME: don't use class names for js actions -> reorganize behaviours
       $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         var markers = [];

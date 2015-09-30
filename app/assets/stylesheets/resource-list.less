@@ -1,4 +1,5 @@
-@icon-width: 27px;
+@resource-list-icon-width: 2em;
+@vertical-padding: 0.3em;
 
 .resource-list {
   .list-unstyled();
@@ -6,16 +7,17 @@
 }
   
 .resource-list li {
-  padding: 5px 0px 5px @icon-width;
+  padding: @vertical-padding 0px @vertical-padding @resource-list-icon-width;
   border-bottom: 1px solid @blue-paler;
   position: relative;
 }
 
 .resource-list .fa {
-  width: @icon-width;
+  width: @resource-list-icon-width;
   position: absolute;
   left: 0px;
-  top: 8px;
+  top: @vertical-padding;
+  line-height: inherit;
 }
   
 .resource-list li a {

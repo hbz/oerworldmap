@@ -2,72 +2,88 @@
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
 
-<div role="main" class="color-scheme-text container column-medium">
-    {{#scope}}
-        <article class="resource-story">
-            <script type="application/ld+json">
-                {{{.}}}
-            </script>
-            <h1><i class="fa fa-comment"></i> {{#name}}{{@value}}{{/name}}</h1>
+<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
+    <div class="column-container">
+    
+        {{#scope}}
+        
+            <article class="resource" data-behaviour="populateMap">
             
-            <div class="clearfix">
-                <strong>Contributed by</strong>
-                <ul class="csl">
-                  {{#creator}}
-                      <li>
-                          <a href="/resource/{{@id}}">
-                            {{#name}}{{@value}}{{/name}}
-                          </a>
-                      </li>
-                  {{/creator}}
-                </ul>
-            </div>
-            
-            <hr/>
-            
-            {{#image}}
-                <div class="paragraph-image">
-                  <img src="{{.}}" width="250" />
+                <script type="application/ld+json">
+                    {{{.}}}
+                </script>
+                
+                <div class="resource-header">
+                
+                    <h1 class="resource-title">
+                      <i class="fa fa-fw fa-comment"></i>
+                      {{#name}}{{@value}}{{/name}}
+                    </h1>
+                    
+                    <div class="clearfix">
+                        <strong>Contributed by</strong>
+                        <ul class="comma-seperated-list">
+                          {{#creator}}
+                              <li>
+                                  <a href="/resource/{{@id}}">
+                                    {{#name}}{{@value}}{{/name}}
+                                  </a>
+                              </li>
+                          {{/creator}}
+                        </ul>
+                    </div>
+                    
                 </div>
-            {{/image}}
-          {{#articleBody}}{{{@value}}}{{/articleBody}}
-          {{#keywords.size}}
-          <h2>Keywords</h2>
-          <ul>
-              {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
-          </ul>
-          {{/keywords.size}}
-        </article>
-        <aside>
-        
-            <hr/>
-                        
-            <h2>Related</h2>
+                
+                {{#image}}
+                    <div class="paragraph-image">
+                        <img src="{{.}}" width="250" />
+                    </div>
+                {{/image}}
+                
+                {{#articleBody}}{{{@value}}}{{/articleBody}}
+                
+                {{#keywords.size}}
+                    <h2>Keywords</h2>
+                    <ul>
+                        {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
+                    </ul>
+                {{/keywords.size}}
+                
+            </article>
             
-            <ul class="fa-ul related-list">
-                <script type="application/ld+json">
-                    {{{mentions}}}
-                </script>
-                <script type="application/ld+json">
-                    {{{mainEntity}}}
-                </script>
-                {{#mainEntity}}
-                    <li about="{{@id}}">
-                        {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-                    </li>
-                {{/mainEntity}}
-                {{#mentions}}
-                    <li about="{{@id}}">
-                        {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-                    </li>
+            <hr/>
+            
+            <aside>
+                            
+                <h2>Related</h2>
+                
+                <ul class="resource-list">
+                    <script type="application/ld+json">
+                        {{{mentions}}}
+                    </script>
+                    <script type="application/ld+json">
+                        {{{mainEntity}}}
+                    </script>
+                    {{#mainEntity}}
+                        <li about="{{@id}}">
+                            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                        </li>
+                    {{/mainEntity}}
+                    {{#mentions}}
+                        <li about="{{@id}}">
+                            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                        </li>
+                    {{/mentions}}
+                </ul>
+                
+                {{^mentions}}
+                    <em>No related entities found</em>
                 {{/mentions}}
-            </ul>
-            {{^mentions}}
-                <em>No related entities found</em>
-            {{/mentions}}
-        
-        </aside>
-
-        
-    {{/scope}}
+            
+            </aside>
+          
+        {{/scope}}
+    
+    </div>
 </div>

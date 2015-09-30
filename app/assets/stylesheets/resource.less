@@ -1,0 +1,38 @@
+/* --- resource header --- */
+
+.resource-header {
+  margin-bottom: 30px;
+}
+
+
+/* --- resource title --- */
+
+@resource-icon-width: 1.6em;
+
+.resource-title {
+  padding: 0px 0px 0px @resource-icon-width;
+  position: relative;
+}
+
+.resource-title .fa {
+  width: @resource-icon-width;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+
+/* --- comma seperated list (for "attributed by") */
+
+.comma-seperated-list, .comma-seperated-list li {
+  display: inline;
+  padding: 0;
+}
+
+.comma-seperated-list li:before {
+  content: " & "
+}
+
+.comma-seperated-list li:first-child:before {
+  content: ""
+}
