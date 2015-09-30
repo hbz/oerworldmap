@@ -25,21 +25,29 @@ public class AggregationProvider {
         .field("about.availableChannel.availableLanguage");
   }
 
-  public static AggregationBuilder<?> getFieldOfEducationAggregation() {
-    return AggregationBuilders.terms("about.audience.@id").field("about.audience.@id");
+  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation() {
+    return AggregationBuilders.terms("about.about.@id")
+        .field("about.about.@id");
+  }
+
+  public static AggregationBuilder<?> getServiceByGradeLevelAggregation() {
+    return AggregationBuilders.terms("about.audience.@id")
+        .field("about.audience.@id");
   }
 
   public static AggregationBuilder<?> getByCountryAggregation() {
-    return AggregationBuilders.terms("by_country").field("about.location.address.addressCountry")
+    return AggregationBuilders
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry")
         .size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
-        .subAggregation(AggregationBuilders.filter("champions")
+        .subAggregation(AggregationBuilders
+            .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String id) {
-    return AggregationBuilders.terms("by_country").field("about.location.address.addressCountry")
-        .include(id).size(0)
+    return AggregationBuilders
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(id).size(0)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
         .subAggregation(AggregationBuilders.filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));

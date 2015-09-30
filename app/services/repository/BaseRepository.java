@@ -60,7 +60,8 @@ public class BaseRepository extends Repository
   @Override
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     mElasticsearchRepo.addResource(aResource, aType);
-    mFileRepo.addResource(aResource, aType);
+    // FIXME: As is the case for getResource, this may result in too many open files
+    // mFileRepo.addResource(aResource, aType);
   }
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
@@ -111,7 +112,8 @@ public class BaseRepository extends Repository
   public Resource getResource(@Nonnull String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
-      resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+      // FIXME: This may lead to inconsistencies (too many open files) when ES and FS are out of sync
+      // resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
     if (resource != null) {
       resource = (Resource) resource.get(Record.RESOURCEKEY);
