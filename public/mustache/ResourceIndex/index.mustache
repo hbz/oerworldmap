@@ -3,41 +3,44 @@
 
 <div role="main" class="column column-small color-scheme-text bg-blue-palest">
 
-    <div class="column-section">
+    {{#if scope.list}}
         
-        {{#unless scope.list}}
+        <div class="column-section">
+            {{> ResourceIndex/read.mustache}}
+            <a href="/resource/">more</a>
+        </div>
         
-        <form method="get" action="/resource/" id="search">
+    {{else}}
+
+        <div class="column-section">
             
-            <script type="application/ld+json">
-                {{json scope.resources.aggregations}}
-            </script>
+            <form method="get" action="/resource/" id="search">
+                
+                <script type="application/ld+json">
+                    {{json scope.resources.aggregations}}
+                </script>
+                
+                <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
+                <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                
+                {{#each scope.resources.aggregations}}
+                    <ul class="filters" title="{{i18n (getField @key)}}">
+                        {{#buckets}}
+                            {{! Why do I have to use the parent @key here? }}
+                            <li {{#ifIn ../@key key scope.resources.filters}}class="active"{{/ifIn}}>
+                                <label>
+                                    <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}" {{#ifIn ../@key key scope.resources.filters}}checked{{/ifIn}}>
+                                    <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
+                                </label>
+                            </li>
+                        {{/buckets}}
+                    </ul>
+                {{/each}}
+                
+            </form>
             
-            <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
-            <button class="btn" type="submit"><i class="fa fa-search"></i></button>
-            
-            {{#each scope.resources.aggregations}}
-                <ul class="filters" title="{{i18n (getField @key)}}">
-                    {{#buckets}}
-                        {{! Why do I have to use the parent @key here? }}
-                        <li {{#ifIn ../@key key scope.resources.filters}}class="active"{{/ifIn}}>
-                            <label>
-                                <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}" {{#ifIn ../@key key scope.resources.filters}}checked{{/ifIn}}>
-                                <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
-                            </label>
-                        </li>
-                    {{/buckets}}
-                </ul>
-            {{/each}}
-            
-        </form>
+        </div>
         
-        {{/unless}}
-        
-    </div>
-    
-    {{#unless scope.list}}
-    
         <div class="column-section">
             {{#if scope.resources.searchTerms}}
                 You searched for "{{scope.resources.searchTerms}}"
@@ -46,34 +49,15 @@
             {{/if}}
         </div>
         
-    {{/unless}}
-    
-    <div class="column-section">
-        
-        {{#unless scope.list}}
-        
+        <div class="column-section">
+            
             <p>
                 Found <span class="badge">{{scope.resources.totalItems}}</span> entities
                 (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
             </p>
-        
-        {{/unless}}
-        
-        <script type="text/javascript">console.log({{{scope.resources}}});</script>
-        
-        <ul class="resource-list" data-behaviour="linkedListEntries populateMap">
-
-            <script type="application/ld+json">
-                {{{scope.resources.member}}}
-            </script>
-            {{#scope.resources.member}}
-                <li about="{{@id}}">
-                  {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-                </li>
-            {{/scope.resources.member}}
-        </ul>
-        
-        {{#unless scope.list}}
+            
+            {{> ResourceIndex/read.mustache}}
+            
             {{#if scope.resources.firstPage}}
                 <a href="{{scope.resources.firstPage}}">first</a>
             {{/if}}
@@ -86,10 +70,9 @@
             {{#if scope.resources.lastPage}}
                 <a href="{{scope.resources.lastPage}}">last</a>
             {{/if}}
-        {{else}}
-            <a href="/resource/">more</a>
-        {{/unless}}
-
-    </div>
-
+    
+        </div>
+    
+    {{/if}}
+    
 </div>

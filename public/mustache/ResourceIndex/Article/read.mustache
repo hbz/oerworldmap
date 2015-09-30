@@ -20,8 +20,8 @@
                       {{#name}}{{@value}}{{/name}}
                     </h1>
                     
-                    <div class="clearfix">
-                        <strong>Contributed by</strong>
+                    <div class="resource-subline">
+                        <div class="resource-subline-label">Contributed by</div>
                         <ul class="comma-seperated-list">
                           {{#creator}}
                               <li>
@@ -37,7 +37,9 @@
                 
                 {{#image}}
                     <div class="paragraph-image">
-                        <img src="{{.}}" width="250" />
+                        <a href="{{.}}" target="_blank">
+                            <img src="{{.}}" width="250" />
+                        </a>
                     </div>
                 {{/image}}
                 
