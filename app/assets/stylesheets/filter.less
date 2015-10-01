@@ -1,7 +1,7 @@
 /* --- search --- */
 
 #search {
-  margin: -(@column-padding);
+  margin: -(@column-padding-vertical) -(@column-padding-horizontal);
   font-size: @font-size-base;
   position: relative;
 }
@@ -9,7 +9,7 @@
 #search input[name="q"] {
   border: none;
   background: transparent;
-  padding: @column-padding 40px @column-padding @column-padding;
+  padding: @column-padding-vertical 40px @column-padding-vertical @column-padding-horizontal;
   margin: 0px;
   color: @color-scheme-text-color;
   box-shadow: none;
@@ -25,7 +25,7 @@
   border: none;
   background: none;
   color: @color-scheme-text-color;
-  padding: @column-padding;
+  padding: @column-padding-vertical @column-padding-horizontal;
   position: absolute;
   top: -2px;
   right: 0px;

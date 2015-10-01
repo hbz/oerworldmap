@@ -748,7 +748,9 @@ var Hijax = (function ($, Hijax) {
       $('[about="#users-by-country"], form#search', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
-        $(this).find('tr').hide();
+        if( $(this).is('table') ) {
+          $(this).hide();
+        }
       });
 
       // Set zoom

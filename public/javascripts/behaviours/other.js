@@ -70,7 +70,7 @@ var Hijax = (function ($, Hijax) {
           
         });
       });
-
+      
     }
   }
 

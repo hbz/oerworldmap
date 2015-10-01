@@ -39,7 +39,7 @@ body.layout-fixed > div[role="complementary"] {
 }
 
 body.layout-fixed > .column-small {
-  width: 30%;
+  width: 35%;
 }
 
 body.layout-fixed > .column-medium {
@@ -47,7 +47,7 @@ body.layout-fixed > .column-medium {
 }
 
 body.layout-fixed > .column-large {
-  width: 70%;
+  width: 65%;
 }
 
 body.layout-fixed > .column-full {
@@ -57,10 +57,11 @@ body.layout-fixed > .column-full {
 
 /* --- inside columns --- */
 
-@column-padding: 20px;
+@column-padding-vertical: 20px;
+@column-padding-horizontal: 24px;
 
 .column-section {
-  padding: @column-padding;
+  padding: @column-padding-vertical @column-padding-horizontal;
   border-bottom: 1px solid @blue-light;
 }
 
@@ -69,18 +70,16 @@ body.layout-fixed > .column-full {
 }
 
 .column-container {
-  padding: @column-padding;
-}
-
-.column-medium .column-container {
-  padding: @column-padding (@column-padding * 1.3);
+  padding: @column-padding-vertical @column-padding-horizontal;
 }
 
 
 /* --- typo small --- */
 
+@typo-small-font-size-base: 15px;
+
 .layout-typo-small {
-  font-size: 15px;
+  font-size: @typo-small-font-size-base;
 }
 
 .column-small {
