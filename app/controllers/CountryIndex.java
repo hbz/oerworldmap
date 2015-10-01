@@ -25,7 +25,7 @@ public class CountryIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
-    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id));
+    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id.toUpperCase()));
     ResourceList champions = mBaseRepository.query(
         Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null, null);
     ResourceList resources = mBaseRepository.query(

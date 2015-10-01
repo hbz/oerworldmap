@@ -307,7 +307,7 @@ public class ElasticsearchProvider {
 
     // TODO: where should aggregations be added?
     searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
-    searchRequestBuilder.addAggregation(AggregationProvider.getLocationAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getByCountryAggregation());
     searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
     //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
 

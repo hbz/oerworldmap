@@ -40,7 +40,7 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getByCountryAggregation() {
     return AggregationBuilders
         .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(0)
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
+        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
@@ -49,7 +49,7 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getForCountryAggregation(String id) {
     return AggregationBuilders
         .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(id).size(0)
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0))
+        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
