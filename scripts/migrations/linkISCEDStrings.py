@@ -28,19 +28,22 @@ def string_to_object(string):
     pattern = re.compile('\(ISCED-(.+)\)')
     match = pattern.search(string)
     if match:
-        print match.group(1)
         try:
             classification, concept = match.group(1).split(":")
         except ValueError:
             print "Erroneous ISCED ID " + string + ", skipping"
             return None
+        id = None
         if classification == "2013":
-            id = "https://w3id.org/isced-extended/2013/n" + concept
+            id = "https://w3id.org/class/esc/n" + concept
         elif classification == "1997":
             id = "https://w3id.org/isced/1997/level" + concept
-        return {
-            "@id": id
-        }
+        if id:
+            return {
+                "@id": id
+            }
+        else:
+            return None
     else:
         print "No match for " + string
         return None
