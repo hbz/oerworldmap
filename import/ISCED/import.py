@@ -11,6 +11,10 @@ def convert(input_path, output_path):
             "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
             "@container": "@set"
         },
+        "alternateName": {
+            "@id": "http://www.w3.org/2004/02/skos/core#altLabel",
+            "@container": "@set"
+        },
         "narrower": {
             "@id": "http://www.w3.org/2004/02/skos/core#narrower",
             "@container": "@set"
@@ -19,8 +23,13 @@ def convert(input_path, output_path):
             "@id": "http://purl.org/dc/terms/description",
             "@container": "@set"
         },
+        "scopeNote": {
+            "@container": "@set"
+        },
+        "notation": {
+            "@container": "@set"
+        },
         "publisher": "http://purl.org/dc/terms/publisher",
-        "alternateName": "http://www.w3.org/2004/02/skos/core#altLabel",
         "title": "http://purl.org/dc/terms/title",
         "preferredNamespacePrefix": "http://purl.org/vocab/vann/preferredNamespacePrefix",
         "preferredNamespaceUri": "http://purl.org/vocab/vann/preferredNamespaceUri",
@@ -38,6 +47,7 @@ def convert(input_path, output_path):
         }
     }
     framed = jsonld.compact(jsonld.frame(skos, frame), context)
+    del framed['@context']
     with open(output_path, 'w') as output_file:
         json.dump(framed, output_file, indent=2)
     print "Wrote data for " + input_path + " to " + output_path

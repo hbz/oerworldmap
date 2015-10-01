@@ -4,23 +4,22 @@ def migrate(resource):
     return isced_to_object(resource)
 
 def isced_to_object(resource):
-    if "audience" in resource:
-        print "Migrating audience for " + resource["@id"]
-        objects = []
-        for string in resource["audience"]:
-            object = string_to_object(string)
-            if object:
-                objects.append(object)
-        resource["audience"] = objects
 
-    if "about" in resource:
-        print "Migrating about for " + resource["@id"]
-        objects = []
-        for string in resource["about"]:
-            object = string_to_object(string)
-            if object:
-                objects.append(object)
-        resource["about"] = objects
+    for property in resource.keys():
+        if property in ["audience", "about"]:
+            print "Migrating " + property + " for " + resource["@id"]
+            objects = []
+            for string in resource[property]:
+                object = string_to_object(string)
+                if object:
+                    objects.append(object)
+            resource[property] = objects
+        elif isinstance(resource[property], list):
+            for i, val in enumerate(resource[property]):
+                if isinstance(val, dict):
+                    resource[property][i] = isced_to_object(val)
+        elif isinstance(resource[property], dict):
+            resource[property] = isced_to_object(resource[property])
 
     return resource
 
