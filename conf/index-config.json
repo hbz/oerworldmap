@@ -812,8 +812,16 @@
         "about": {
           "properties": {
             "description": {
-              "type": "string"
-            }, 
+              "properties": {
+                "@value": {
+                  "type": "string"
+                },
+                "@language": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                }
+              }
+            },
             "created": {
               "properties": {
                 "articleBody": {
@@ -2518,7 +2526,15 @@
             "creator": {
               "properties": {
                 "description": {
-                  "type": "string"
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
                 }, 
                 "created": {
                   "properties": {
