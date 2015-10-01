@@ -1,3 +1,10 @@
 Handlebars.registerHelper('stripProtocol', function (context) {
-  return context.replace(/.*?:\/\//g, "");
+  
+  // strip protocoll
+  context = context.replace(/.*?:\/\//g, "");
+  
+  // also strip trailing slash
+  context = context.replace(/\/$/, "");
+  
+  return context;
 })

@@ -1,7 +1,16 @@
+@resource-vertical-distance: 30px;
+
+/* --- resource vertical container --- */
+
+.resource-vertical-container {
+  margin: @resource-vertical-distance 0px;
+}
+
+
 /* --- resource header --- */
 
 .resource-header {
-  margin-bottom: 30px;
+  margin-bottom: @resource-vertical-distance;
 }
 
 
@@ -50,7 +59,7 @@
 /* --- resource details table --- */
 
 .resource-details-table {
-  margin: 30px 0px;
+  margin: @resource-vertical-distance 0px;
 }
 
 .resource-details-table td:first-child {
