@@ -38,7 +38,7 @@
             {{/champions.member}}
             
             {{^champions.member}}
-                <div class="img130text"> 
+                <div class="country-champion"> 
                 
                     <div class="img placeholder-qmark"></div>
                     
@@ -52,7 +52,7 @@
         </div>
         <div class="column-section">
             
-            <h2>Statistics</h2>
+            <h3>Statistics</h3>
             
             {{#countryAggregation.[about.location.address.addressCountry].buckets}}
                 <table class="statistics-table">
@@ -65,7 +65,9 @@
         </div>
         <div class="column-section">
             
-            <h2>Related</h2>
+            <p>
+                Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
+            </p>
             
             <ul class="resource-list">
                 <script type="application/ld+json">
