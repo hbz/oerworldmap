@@ -82,45 +82,38 @@
                             </ul>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>Provider</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#provider}}
-                                    <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                                {{/provider}}
-                            </ul>
-                        </td>
-                    </tr>
-                                        
-                    <tr>
-                        <td>Topics</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#availableChannel}}
-                                    {{#about}}
+                    
+                    {{#if provider}}
+                        <tr>
+                            <td>Provider</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#provider}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                                    {{/about}}
-                                {{/availableChannel}}
-                            </ul>
-                        </td>
-                    </tr>
+                                    {{/provider}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    
+                    {{#if availableChannel.about}}                    
+                        <tr>
+                            <td>Topics</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#availableChannel}}
+                                        {{#about}}
+                                            <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        {{/about}}
+                                    {{/availableChannel}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
                     
                 </table>
                 
             </div>
-            
-            <hr/>
-            
-            <h2>{{i18n.mentioned_in}}</h2>
-            <ul class="resource-list">
-              {{#referencedBy}}
-                <li>
-                  {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-                </li>
-              {{/referencedBy}}
-            </ul>
             
         {{/scope}}
         

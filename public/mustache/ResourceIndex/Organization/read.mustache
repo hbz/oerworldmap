@@ -49,13 +49,15 @@
                 {{/url}}
                 
                 <table class="table resource-details-table">
-
-                    <tr>
-                        <td>Email Address</td>
-                        <td>
-                            <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                        </td>
-                    </tr>
+                    
+                    {{#if email}}
+                        <tr>
+                            <td>Email Address</td>
+                            <td>
+                                <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                            </td>
+                        </tr>
+                    {{/if}}
                                     
                     <tr>
                         <td>Location</td>

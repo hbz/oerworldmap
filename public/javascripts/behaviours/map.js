@@ -520,7 +520,7 @@ var Hijax = (function ($, Hijax) {
       $('div[data-view="map"]', context).each(function() {
 
         // move footer to map container
-        $('footer').appendTo(this);
+        $('#page-footer').appendTo(this);
 
         // switch style
         $(this).addClass("map-view");

@@ -85,3 +85,27 @@ body.layout-fixed > .column-full {
 .column-small {
   .layout-typo-small();
 }
+
+
+/* --- container static page --- */
+
+.container-static-page {
+  max-width: 940px;
+}
+
+.container-static-page-vertical {
+  padding-top: (50px + @header-height);
+  padding-bottom: 50px;
+}
+
+
+/* --- html from markdown --- */
+
+.html-from-markdown p {
+  .clearfix();
+}
+
+.html-from-markdown p img {
+  float: left;
+  margin: 0px 20px 15px 0px;
+}
