@@ -69,20 +69,18 @@
                             </ul>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <td>Audience</td>
                         <td>
                             <ul class="resource-list">
-                                {{#availableChannel}}
-                                    {{#audience}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                                    {{/audience}}
-                                {{/availableChannel}}
+                                {{#audience}}
+                                    <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                {{/audience}}
                             </ul>
                         </td>
                     </tr>
-                    
+
                     {{#if provider}}
                         <tr>
                             <td>Provider</td>
@@ -95,27 +93,25 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
-                    {{#if availableChannel.about}}                    
+
+                    {{#if about}}
                         <tr>
                             <td>Topics</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#availableChannel}}
-                                        {{#about}}
-                                            <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                                        {{/about}}
-                                    {{/availableChannel}}
+                                    {{#about}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/about}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                 </table>
-                
+
             </div>
-            
+
         {{/scope}}
-        
+
     </div>
 </div>

@@ -202,7 +202,7 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'concept': 'bars',
     'conceptscheme': 'envelope'
   };
-  return new Handlebars.SafeString('<i class="fa fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
+  return new Handlebars.SafeString('<i class="fa fa-fw fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
 });
 
 Handlebars.registerHelper('json', function (obj, options) {

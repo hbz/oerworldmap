@@ -91,6 +91,12 @@ public class ResourceIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
+    if (type.equals("Concept")) {
+      ResourceList relatedList = mBaseRepository
+          .query("about.about.@id:\"".concat(id).concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
+      resource.put("related", relatedList.getItems());
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
