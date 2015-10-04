@@ -382,6 +382,13 @@
               "type": "string",
               "format": "uri"
            },
+            "memberOf": {
+              "description": "An organization the person is member of.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Organization"
+                }
+            },
             "sameAs": {
               "type": "array",
               "items": {
@@ -448,6 +455,13 @@
         "url": {
           "type": "string",
           "format": "uri"
+        },
+        "memberOf": {
+          "description": "An organization the organization is member of.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Organization"
+            }
         },
        "sameAs": {
           "type": "array",
