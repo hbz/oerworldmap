@@ -4,23 +4,22 @@ def migrate(resource):
     return isced_to_object(resource)
 
 def isced_to_object(resource):
-    if "audience" in resource:
-        print "Migrating audience for " + resource["@id"]
-        objects = []
-        for string in resource["audience"]:
-            object = string_to_object(string)
-            if object:
-                objects.append(object)
-        resource["audience"] = objects
 
-    if "about" in resource:
-        print "Migrating about for " + resource["@id"]
-        objects = []
-        for string in resource["about"]:
-            object = string_to_object(string)
-            if object:
-                objects.append(object)
-        resource["about"] = objects
+    for property in resource.keys():
+        if property in ["audience", "about"]:
+            print "Migrating " + property + " for " + resource["@id"]
+            objects = []
+            for string in resource[property]:
+                object = string_to_object(string)
+                if object:
+                    objects.append(object)
+            resource[property] = objects
+        elif isinstance(resource[property], list):
+            for i, val in enumerate(resource[property]):
+                if isinstance(val, dict):
+                    resource[property][i] = isced_to_object(val)
+        elif isinstance(resource[property], dict):
+            resource[property] = isced_to_object(resource[property])
 
     return resource
 
@@ -28,19 +27,22 @@ def string_to_object(string):
     pattern = re.compile('\(ISCED-(.+)\)')
     match = pattern.search(string)
     if match:
-        print match.group(1)
         try:
             classification, concept = match.group(1).split(":")
         except ValueError:
             print "Erroneous ISCED ID " + string + ", skipping"
             return None
+        id = None
         if classification == "2013":
-            id = "https://w3id.org/isced-extended/2013/n" + concept
+            id = "https://w3id.org/class/esc/n" + concept
         elif classification == "1997":
             id = "https://w3id.org/isced/1997/level" + concept
-        return {
-            "@id": id
-        }
+        if id:
+            return {
+                "@id": id
+            }
+        else:
+            return None
     else:
         print "No match for " + string
         return None

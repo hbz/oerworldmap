@@ -8,13 +8,29 @@
       "description": "A SKOS Concept Scheme",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The concept schemes's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
         "@type": {
           "type": "string",
           "enum": [
             "ConceptScheme"
           ]
+        },
+        "hasTopConcept": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "Concept": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -22,13 +38,53 @@
       "description": "A SKOS Concept",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The concepts's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
         "@type": {
           "type": "string",
           "enum": [
             "Concept"
           ]
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "scopeNote": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "inScheme": {
+          "$ref": "#/definitions/ConceptScheme"
+        },
+        "topConceptOf": {
+          "$ref": "#/definitions/ConceptScheme"
+        },
+        "narrower": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "broader": {
+          "$ref": "#/definitions/Concept"
+        },
+        "notation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "Article": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -115,8 +171,22 @@
               }
             ]
           }
+        },
+        "dateCreated": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
+          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "Action": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -364,7 +434,7 @@
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["https://w3id.org/isced-extended/2013/scheme"]
+                        "enum": ["https://w3id.org/class/esc/scheme"]
                       }
                     }
                   }
@@ -409,72 +479,106 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Person",
       "description": "A person serving or working with Open Educational Resources.",
-      "allOf": [
-        {
-          "type": "object",
-          "properties": {
-            "@context": {
-              "type": "string",
-              "format": "uri"
-            },
-            "@id": {
-              "description": "The person's unique identifier",
-              "type": "string",
-              "format": "uri"
-            },
-            "@type": {
-              "type": "string",
-              "enum": [
-                "Person"
-              ]
-            },
-            "name": {
-              "$ref": "#/definitions/LocalizedString"
-            },
-            "location": {
-              "$ref": "#/definitions/Place"
-            },
-            "url": {
-              "type": "string",
-              "format": "uri"
-            },
-            "sameAs": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "uri"
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The person's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Person"
+          ]
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "description": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "affiliation": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
               }
-            }
+            ]
           }
         },
-        {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "mbox_sha1sum": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "mbox_sha1sum"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "format": "email"
-                }
-              },
-              "required": [
-                "email"
-              ]
-            }
-          ]
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mbox_sha1sum": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "telephone": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/Place"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "provides": {
+          "description": "Services provided by this Person.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
+        },
+        "countryChampionFor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Country"
+          }
+        },
+        "agentIn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "participantIn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "created": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
         }
-      ]
+      },
+      "required": [
+        "email"
+      ],
+      "additionalProperties": false
     },
     "Organization": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -516,6 +620,9 @@
           "type": "string",
           "format": "email"
         },
+        "telephone": {
+          "type": "string"
+        },
         "description": {
           "description": "The description of the organization",
           "$ref": "#/definitions/LocalizedString"
@@ -546,11 +653,43 @@
           "items": {
             "type": "string"
           }
+        },
+        "provides": {
+          "description": "Services provided by this Organization.",
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/Service"
+          }
+        },
+        "countryChampionFor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Country"
+          }
+        },
+        "agentIn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "participantIn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "created": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
         }
       },
       "required": [
         "name"
-      ]
+      ],
+      "additionalProperties": false
     },
     "Place": {
       "$schema": "http://json-schema.org/draft-04/schema#",
