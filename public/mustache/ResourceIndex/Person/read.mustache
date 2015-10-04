@@ -4,7 +4,9 @@
     data-focus="{{#scope}}{{@id}}{{/scope}}"
     class="color-scheme-map column-medium"
 >
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    <div class="hidden">
+        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    </div>
 </div>
 
 <div role="main" class="column column-medium color-scheme-text bg-blue-palest">
@@ -29,10 +31,18 @@
                         <div class="resource-subline">
                             Country Champion for <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
                         </div>
-                    {{/countryChampionFor}}  
-                    
+                    {{/countryChampionFor}}
+
                 </div>
-                
+
+                {{#image}}
+                    <div class="paragraph-image">
+                        <a href="{{.}}" target="_blank">
+                            <img src="{{.}}" width="150" />
+                        </a>
+                    </div>
+                {{/image}}
+
                 {{#description}}
                     <p>{{{@value}}}</p>
                 {{/description}}
@@ -143,11 +153,11 @@
                             </td>
                         </tr>
                     {{/if}}
-                                        
-                </table>                  
-                
+
+                </table>
+
             </div>
-      
+
         {{/scope}}
     </div>
 </div>

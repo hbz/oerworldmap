@@ -1,75 +1,87 @@
-<div role="complementary" class="color-scheme-map column-large" data-view="map" data-focus="{{scope.alpha-2}}">
+<div role="complementary"
+     class="color-scheme-map column-large"
+     data-view="map"
+     data-focus="{{scope.alpha-2}}"
+>
+    <div class="hidden">
+        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    </div>
 </div>
 
 <div role="main" class="column column-small color-scheme-text bg-blue-palest">
-        
+
     {{#scope}}
-        
+
         <div class="column-section">
-        
+
             <div class="resource-header">
                 <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
             </div>
-    
+
             {{#champions.member}}
                 <div class="country-champion">
-                    
+
                     {{#image}}
                         <img src="{{.}}" class="img" />
                     {{/image}}
                     {{^image}}
                         <div class="img placeholder"></div>
                     {{/image}}
-                    
+
                     <div class="text">
                         <h4>Country Champion</h4>
-                        
+
                         <ul class="resource-list"><li>
                           {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                         </li></ul>
-                        
+
                         <p>
                           <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
                         </p>
-                        
+
                     </div>
-                    
+
                 </div>
             {{/champions.member}}
-            
+
             {{^champions.member}}
-                <div class="country-champion"> 
-                
+                <div class="country-champion">
+
                     <div class="img placeholder-qmark"></div>
-                    
+
                     <div class="text">
                         There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
                     </div>
-                    
+
                 </div>
             {{/champions.member}}
-            
+
         </div>
         <div class="column-section">
-            
+
             <h3>Statistics</h3>
-            
+
             {{#countryAggregation.[about.location.address.addressCountry].buckets}}
                 <table class="statistics-table">
                 {{#by_type.buckets}}
-                    <tr><td>{{doc_count}}</td><td>{{getIcon key}} {{i18n key}}</td></tr>
+                    <tr>
+                        <td>{{doc_count}}</td>
+                        <td>{{getIcon key}}
+                            <a href="/resource/?filter.about.location.address.addressCountry={{scope.alpha-2}}&filter.about.@type={{key}}">{{i18n key}}</a>
+                        </td>
+                    </tr>
                 {{/by_type.buckets}}
                 </table>
             {{/countryAggregation.[about.location.address.addressCountry].buckets}}
-            
+
         </div>
         <div class="column-section">
-            
+
             <p>
                 Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
             </p>
-            
-            <ul class="resource-list">
+
+            <ul class="resource-list" data-behaviour="populateMap">
                 <script type="application/ld+json">
                     {{{resources.member}}}
                 </script>

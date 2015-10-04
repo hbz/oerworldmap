@@ -32,7 +32,12 @@
             <table class="table resource-details-table">
                 <tbody>
                     {{#buckets}}
-                        <tr><td style="padding-left: 20%">{{doc_count}}</td><td>{{getIcon key}} {{i18n key}}</td></tr>
+                        <tr>
+                            <td style="padding-left: 20%">{{doc_count}}</td>
+                            <td>{{getIcon key}}
+                                <a href="/resource/?filter.about.@type={{key}}">{{i18n key}}</a>
+                            </td>
+                        </tr>
                     {{/buckets}}
                 </tbody>
             </table>

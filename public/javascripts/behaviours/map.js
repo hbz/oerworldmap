@@ -691,12 +691,7 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       // Populate map with pins from single resources
-      $('article.resource-story', context)
-        .add($('div.resource-organization', context))
-        .add($('div.resource-action', context))
-        .add($('div.resource-service', context))
-        .add($('div.resource-person', context))
-        .each(function() {
+      $('div.resource', context).each(function() {
           var json = JSON.parse( $(this).find('script').html() );
           var markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
           addPlacemarks( markers );
