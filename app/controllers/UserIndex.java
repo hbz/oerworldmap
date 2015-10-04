@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -30,6 +31,7 @@ import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import models.Resource;
+import play.Logger;
 import play.mvc.Result;
 import play.mvc.Security;
 import services.Account;
@@ -72,11 +74,6 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  @Security.Authenticated(Secured.class)
-  public static Result authControl() {
-    return ok(render("Log out", "Secured/token.mustache"));
-  }
-
   public static Result sendToken() {
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     ProcessingReport report = user.validate();
@@ -85,14 +82,23 @@ public class UserIndex extends OERWorldMap {
           JSONForm.generateErrorReport(report)));
     }
     String token = Account.createTokenFor(user);
-    sendTokenMail(user, token);
 
+    if (!StringUtils.isEmpty(token)) {
+      sendTokenMail(user, token);
+    }
+
+    // We fail silently with success message in order not to expose valid email addresses
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_registration_feedback"));
+    message.put("message", UserIndex.messages.getString("user_token_request_description"));
     messages.add(message);
     return ok(render("Request Token", "feedback.mustache", user, messages));
+  }
+
+  @Security.Authenticated(Secured.class)
+  public static Result manageToken() {
+    return ok(render("User", "Secured/token.mustache"));
   }
 
   @Security.Authenticated(Secured.class)
@@ -103,7 +109,7 @@ public class UserIndex extends OERWorldMap {
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_registration_feedback"));
+    message.put("message", UserIndex.messages.getString("user_token_delete_feedback"));
     messages.add(message);
     return ok(render("Delete Token", "feedback.mustache", user, messages));
   }
@@ -131,8 +137,8 @@ public class UserIndex extends OERWorldMap {
     String mailmanHost = mConf.getString("mailman.host");
     String mailmanList = mConf.getString("mailman.list");
     if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
-      System.out.println("No mailman configured, user ".concat(user.get("email").toString())
-          .concat(" not signed up for newsletter"));
+      Logger.warn("No mailman configured, user ".concat(user.get("email").toString())
+        .concat(" not signed up for newsletter"));
       return;
     }
 
@@ -145,12 +151,12 @@ public class UserIndex extends OERWorldMap {
       request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
       HttpResponse response = client.execute(request);
-      System.out.println(response.getStatusLine().getStatusCode());
+      Logger.info(Integer.toString(response.getStatusLine().getStatusCode()));
       BufferedReader rd = new BufferedReader(
           new InputStreamReader(response.getEntity().getContent()));
       String line = "";
       while ((line = rd.readLine()) != null) {
-        System.out.println(line);
+        Logger.info(line);
       }
 
     } catch (IOException e) {
@@ -171,14 +177,14 @@ public class UserIndex extends OERWorldMap {
       }
       confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
       confirmationMail.setFrom(mConf.getString("mail.smtp.from"),
-          mConf.getString("mail.smtp.sender"));
+        mConf.getString("mail.smtp.sender"));
       confirmationMail.setSubject(UserIndex.messages.getString("user_registration_feedback"));
       confirmationMail.addTo((String) aUser.get("email"));
       confirmationMail.send();
-      System.out.println(confirmationMail.toString());
+      Logger.info(confirmationMail.toString());
     } catch (EmailException e) {
       e.printStackTrace();
-      System.out.println("Failed to send " + aToken + " to " + aUser.get("email"));
+      Logger.error("Failed to send " + aToken + " to " + aUser.get("email"));
     }
   }
 
