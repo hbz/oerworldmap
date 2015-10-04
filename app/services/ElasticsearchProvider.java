@@ -33,6 +33,13 @@ public class ElasticsearchProvider {
 
   public static String user;
 
+  private static FilterBuilder excludeFilter = FilterBuilders.notFilter(
+      FilterBuilders.orFilter(
+          FilterBuilders.termFilter("about.@type", "Concept"),
+          FilterBuilders.termFilter("about.@type", "ConceptScheme")
+      )
+  );
+
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
    * 
@@ -150,8 +157,8 @@ public class ElasticsearchProvider {
    * @return a List of docs, each represented by a Map of String/Object.
    */
   public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder) {
-
     return mClient.prepareSearch(mConfig.getIndex()).addAggregation(aAggregationBuilder)
+        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), excludeFilter))
         .setSize(0).execute().actionGet();
   }
 
@@ -300,9 +307,12 @@ public class ElasticsearchProvider {
 
     // TODO: where should aggregations be added?
     searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
-    searchRequestBuilder.addAggregation(AggregationProvider.getLocationAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getByCountryAggregation());
     searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
     //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
+
+    // TODO: where should these filters be added?
+    globalAndFilter.add(excludeFilter);
 
     // TODO: Remove privacy filter when all persons are accounts?
     if (!Global.getConfig().getString("admin.user").equals(user)) {
