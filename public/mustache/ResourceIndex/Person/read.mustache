@@ -1,26 +1,153 @@
-<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}}" class="color-scheme-map column medium">
+<div
+    role="complementary"
+    data-view="map"
+    data-focus="{{#scope}}{{@id}}{{/scope}}"
+    class="color-scheme-map column-medium"
+>
     <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
 </div>
-<div role="main" class="color-scheme-text container column medium">
-  {{#scope}}
-      <div class="resource-person">
-        <script type="application/ld+json">
-          {{{.}}}
-        </script>
-        <h1><i class="fa fa-user"></i> {{#name}}{{@value}}{{/name}}</h1>
-        <p><a href="{{url}}">{{url}}</a></p>
-        {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
-        <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
-        {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
-        <p>{{#description}}{{{@value}}}{{/description}}</p>
-        {{#referencedBy.size}}
-        <h2>{{i18n "contributions"}}</h2>
-        <ul>
-        {{#referencedBy}}
-          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-        {{/referencedBy}}
-        </ul>
-        {{/referencedBy.size}}
-      </div>
-  {{/scope}}
+
+<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
+    <div class="column-container">
+    
+        {{#scope}}
+        
+            <div class="resource">
+            
+                <script type="application/ld+json">
+                    {{{.}}}
+                </script>
+                
+                <div class="resource-header">
+                
+                    <h1 class="resource-title">
+                        <i class="fa fa-user"></i>
+                        {{#name}}{{@value}}{{/name}}
+                    </h1>
+                    
+                    {{#countryChampionFor}}
+                        <div class="resource-subline">
+                            Country Champion for <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                        </div>
+                    {{/countryChampionFor}}  
+                    
+                </div>
+                
+                {{#description}}
+                    <p>{{{@value}}}</p>
+                {{/description}}
+                
+                <table class="table resource-details-table">
+                
+                    <tr>
+                        <td>Email Address</td>
+                        <td>
+                             <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                        </td>
+                    </tr>
+                    
+                    {{#url}}
+                        <tr>
+                            <td>Personal Website</td>
+                            <td>
+                                 <a href="{{url}}">{{url}}</a>
+                            </td>
+                        </tr>
+                    {{/url}}
+
+                    {{#location}}
+                        <tr>
+                            <td>Location</td>
+                            <td>
+                                {{#location}}
+                                    {{>ResourceIndex/Place/read.mustache}}
+                                {{/location}}
+                            </td>
+                        </tr>
+                    {{/location}}
+                                        
+                    {{#if created}}
+                        <tr>
+                            <td>Author of</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#created}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/created}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    
+                    {{#if mainEntityOf}}
+                        <tr>
+                            <td>Topic of</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mainEntityOf}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/mainEntityOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    
+                    {{#if mentionedIn}}
+                        <tr>
+                            <td>Mentioned in</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mentionedIn}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/mentionedIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    
+                    {{#if participantIn}}
+                        <tr>
+                            <td>Participant in</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#participantIn}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/participantIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    
+                    {{#if provides}}
+                        <tr>
+                            <td>Provides</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#provides}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/provides}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if agentIn}}
+                        <tr>
+                            <td>Agent in</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#agentIn}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/agentIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+                                        
+                </table>                  
+                
+            </div>
+      
+        {{/scope}}
+    </div>
 </div>

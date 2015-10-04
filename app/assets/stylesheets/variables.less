@@ -17,6 +17,11 @@
 @red: #e15636;
 @white: #fff;
 
+// alt ... mal los werden ...
+@hightlight-color: #f09711;
+@green: #a1cd3f;
+@red: #e15636;
+
 
 /* --- header --- */
 
@@ -28,10 +33,15 @@
 /* --- backgrounds --- */
 
 .bg(@color) {
-  .bg-@{color} {
+  .bg-@{color},
+  .color-scheme-text.bg-@{color} {
     background: @@color;
   }
 }
+
+.bg(blue-light);
+.bg(blue-lighter);
+.bg(blue-lightest);
 
 .bg(blue-pale);
 .bg(blue-paler);

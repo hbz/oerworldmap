@@ -104,6 +104,12 @@ public abstract class OERWorldMap extends Controller {
         }
       }
     });
+    
+    try {
+      handlebars.registerHelpers(new File("public/javascripts/helpers.js"));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
 
     handlebars.registerHelpers(new HandlebarsHelpers());
 

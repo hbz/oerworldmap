@@ -1,49 +1,46 @@
-<div role="complementary" class="color-scheme-map column large" data-view="map"></div>
-<div role="main" class="column small">
-  {{#scope.countryAggregation}}
-    <table class="table" about="#users-by-country">
-      <script type="application/ld+json">
-        {{json .}}
-      </script>
-      <thead>
-        <tr>
-          <th>Country</th>
-          <th>Users</th>
-          <th>Organizations</th>
-          <th>Stories</th>
-          <th>Champions</th>
-        </tr>
-      </thead>
-      <tbody>
-      {{#[about.location.address.addressCountry].buckets}}
-        <tr about="#{{key}}">
-          <td><a href="/country/{{key}}">{{key}}</a></td>
-          {{#by_type.buckets}}
-            <td>{{doc_count}}</td>
-          {{/by_type.buckets}}
-        </tr>
-      {{/[about.location.address.addressCountry].buckets}}
-      </tbody>
-    </table>
-  {{/scope.countryAggregation}}
+<div role="complementary" class="color-scheme-map column-large" data-view="map"></div>
+<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+
+    {{#scope.countryAggregation}}
+      <table class="table" about="#users-by-country">
+        <script type="application/ld+json">
+          {{json .}}
+        </script>
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Users</th>
+            <th>Organizations</th>
+            <th>Stories</th>
+            <th>Champions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#[about.location.address.addressCountry].buckets}}
+          <tr about="#{{key}}">
+            <td><a href="/country/{{key}}">{{key}}</a></td>
+            {{#by_type.buckets}}
+              <td>{{doc_count}}</td>
+            {{/by_type.buckets}}
+          </tr>
+        {{/[about.location.address.addressCountry].buckets}}
+        </tbody>
+      </table>
+    {{/scope.countryAggregation}}
+    
     <div class="row">
-        <div class="col-md-6">
-          <h2>Entries by type</h2>
-          {{pieChart scope.typeAggregation.[about.@type] width=200 height=200 href-template="/resource/?filter.about.@type={key}"}}
+        <div class="col-md-4">
+            <h4 class="text-center">Services by Topic</h4>
+            {{pieChart scope.fieldOfEducationAggregation.[about.about.@id] width=200 height=200 href-template="/resource/?filter.about.about.@id={key}"}}
         </div>
-        <div class="col-md-6">
-          <h2>Service by Topic</h2>
-          {{pieChart scope.fieldOfEducationAggregation.[about.about.@id] width=200 height=200 href-template="/resource/?filter.about.about.@id={key}"}}
+        <div class="col-md-4">
+            <h4 class="text-center">Services by Language</h4>
+            {{pieChart scope.languageAggregation.[about.availableChannel.availableLanguage] width=200 height=200 href-template="/resource/?filter.about.availableChannel.availableLanguage={key}"}}
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-center">Services by Grade Level</h4>
+            {{pieChart scope.gradeLevelAggregation.[about.audience.@id] width=200 height=200 href-template="/resource/?filter.about.audience.@id={key}"}}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Service by Language</h2>
-          {{pieChart scope.languageAggregation.[about.availableChannel.availableLanguage] width=200 height=200 href-template="/resource/?filter.about.availableChannel.availableLanguage={key}"}}
-        </div>
-        <div class="col-md-6">
-            <h2>Services by Grade Level</h2>
-          {{pieChart scope.gradeLevelAggregation.[about.audience.@id] width=200 height=200 href-template="/resource/?filter.about.audience.@id={key}"}}
-        </div>
-    </div>
+
 </div>

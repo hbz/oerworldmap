@@ -520,7 +520,7 @@ var Hijax = (function ($, Hijax) {
       $('div[data-view="map"]', context).each(function() {
 
         // move footer to map container
-        $('footer').appendTo(this);
+        $('#page-footer').appendTo(this);
 
         // switch style
         $(this).addClass("map-view");
@@ -652,7 +652,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // init popover
-        popoverElement = $('<div class="popover fade top in" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
+        popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
         popover = new ol.Overlay({
           element: popoverElement,
           positioning: 'bottom-center',
@@ -703,8 +703,7 @@ var Hijax = (function ($, Hijax) {
         });
 
       // Populate map with pins from resource listings
-      // FIXME: don't use class names for js actions -> reorganize behaviours
-      $('.populate-map', context).each(function(){
+      $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         var markers = [];
         for (i in json) {
@@ -714,7 +713,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Link list entries to pins
-      $('[data-behaviour="linkedListEntries"]', context).each(function(){
+      $('[data-behaviour~="linkedListEntries"]', context).each(function(){
         $( this ).on("mouseenter", "li", function() {
           var id = this.getAttribute("about");
           var script = $(this).closest("ul").children('script[type="application/ld+json"]');
@@ -749,7 +748,9 @@ var Hijax = (function ($, Hijax) {
       $('[about="#users-by-country"], form#search', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
-        $(this).find('tr').hide();
+        if( $(this).is('table') ) {
+          $(this).hide();
+        }
       });
 
       // Set zoom

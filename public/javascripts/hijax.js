@@ -40,6 +40,14 @@ var Hijax = (function (window) {
       }
       return context;
     },
+    
+    layout : function() {
+      for (var behaviour in my.behaviours) {
+        if(my.behaviours[behaviour].layout) {
+          my.behaviours[behaviour].layout();
+        }
+      }
+    },
 
     goto : function(url) {
       window.location = url;
