@@ -60,3 +60,7 @@ div.tab:last-child, div.tab:target {
 a.pager {
   float: right;
 }
+
+div.column-section.truncated>ul.resource-list>li + li + li + li +li +li {
+  display:none;
+}

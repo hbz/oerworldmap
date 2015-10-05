@@ -10,6 +10,8 @@ var Hijax = (function ($, Hijax) {
       countryVectorLayer = null,
       placemarksVectorSource = null,
       placemarksVectorLayer = null,
+      clusterSource = null,
+      clusterLayer = null,
       osmTileSource = null,
       osmTileLayer = null,
       hoveredCountriesOverlay = null,
@@ -563,6 +565,46 @@ var Hijax = (function ($, Hijax) {
            opacity: 1
          });
          osmTileLayer.setVisible(false);
+
+         // Cluster layer
+         /*
+         clusterSource = new ol.source.Cluster({
+           distance: 40,
+           source: placemarksVectorSource,
+           noWrap: true,
+           wrapX: false
+         });
+
+         var styleCache = {};
+         clusterLayer = new ol.layer.Vector({
+           source: clusterSource,
+           style: function(feature, resolution) {
+             var size = feature.get('features').length;
+             var style = styleCache[size];
+             if (!style) {
+               style = [new ol.style.Style({
+                 image: new ol.style.Circle({
+                   radius: 10,
+                   stroke: new ol.style.Stroke({
+                     color: '#fff'
+                   }),
+                   fill: new ol.style.Fill({
+                     color: '#3399CC'
+                   })
+                 }),
+                 text: new ol.style.Text({
+                   text: size.toString(),
+                   fill: new ol.style.Fill({
+                     color: '#fff'
+                   })
+                 })
+               })];
+               styleCache[size] = style;
+             }
+             return style;
+           }
+         });
+         */
 
         // Get zoom values adapted to map size
         var zoom_values = getZoomValues();
