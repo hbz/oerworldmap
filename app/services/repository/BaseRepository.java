@@ -91,7 +91,7 @@ public class BaseRepository extends Repository
 
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, String[]> aFilters) {
+      Map<String, ArrayList<String>> aFilters) {
     ResourceList resourceList;
     try {
       resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters);

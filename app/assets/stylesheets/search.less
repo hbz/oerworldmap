@@ -1,31 +1,18 @@
 @x: "empty";
 
-ul.filters:before {
-   content: attr(title);
-   background-color: #a9bbcb;
-   display: block;
-}
-
-ul.filters {
+ul.filters-applied {
   list-style: none;
-  float: left;
-  width: 33%;
-  background-color: #d5e4eb;
-  padding:0;
 }
 
-ul.filters:hover li,
-ul.filters li.active {
-  display: block
+ul.filters-applied>li {
+  display: inline;
 }
 
-ul.filters li {
-  display: none
-}
-
-/**
- * FIXME: this only works if whitespace is removed from html
- */
-ul.filters:empty {
-  display: none;
+ul.filters-applied>li>label>span {
+  display: block;
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: @blue-pale;
 }

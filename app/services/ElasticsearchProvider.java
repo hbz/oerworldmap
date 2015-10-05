@@ -72,7 +72,7 @@ public class ElasticsearchProvider {
       Logger.warn("Index " + aIndex + " already exists while trying to create it.");
     }
     else{
-      aClient.admin().indices().prepareCreate(aIndex).execute().actionGet();  
+      aClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
     }
   }
 
@@ -268,7 +268,7 @@ public class ElasticsearchProvider {
 
   // TODO: make this the only available method signature?
   public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                Map<String, String[]> aFilters) {
+                                Map<String, ArrayList<String>> aFilters) {
 
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(mConfig.getIndex());
@@ -287,7 +287,7 @@ public class ElasticsearchProvider {
 
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
-      for (Map.Entry<String, String[]> entry : aFilters.entrySet()) {
+      for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
         // This could also be an OrFilterBuilder allowing to expand the result list
         AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
         for (String filter : entry.getValue()) {

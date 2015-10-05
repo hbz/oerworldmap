@@ -24,42 +24,48 @@
 
         <h1>Welcome to the OER World Map</h1>
 
-        <p>
-            Our goal is to provide the most complete and comprehensive picture of the global OER movement and to develop a global network of partners and volunteers to guarantee ongoing data curation. We currently gather data about people, organizations, services, projects and events related to OER.
-        </p>
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    Our goal is to provide the most complete and comprehensive picture of the global OER movement and to develop a global network of partners and volunteers to guarantee ongoing data curation. We currently gather data about people, organizations, services, projects and events related to OER.
+                </p>
+            </div>
+            <div class="col-md-4">
+                {{#each scope.typeAggregation}}
+                    <table class="statistics-table">
+                        <tbody>
+                        {{#buckets}}
+                            <tr>
+                                <td>{{doc_count}}</td>
+                                <td>{{getIcon key}}
+                                    <a href="/resource/?filter.about.@type={{key}}">{{i18n key}}</a>
+                                </td>
+                            </tr>
+                        {{/buckets}}
+                        </tbody>
+                    </table>
+                {{/each}}
+            </div>
+        </div>
 
-        {{#each scope.typeAggregation}}
-            <table class="table resource-details-table">
-                <tbody>
-                    {{#buckets}}
-                        <tr>
-                            <td style="padding-left: 20%">{{doc_count}}</td>
-                            <td>{{getIcon key}}
-                                <a href="/resource/?filter.about.@type={{key}}">{{i18n key}}</a>
-                            </td>
-                        </tr>
-                    {{/buckets}}
-                </tbody>
-            </table>
-        {{/each}}
+    </div>
 
+    <div class="column-section">
         <p>
             At the moment, we are focusing on gathering qualified data about OER Services. They can be browsed by <a href="{{getResourceUrl "https://w3id.org/isced/1997/scheme"}}">grade level</a> and <a href="{{getResourceUrl "https://w3id.org/class/esc/scheme"}}">field of education</a>.
         </p>
-
         <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
-
+        <br>
         <p>
             If you have data you believe is relevant, please consider to <a href="/contribute">contribute</a>!
         </p>
-
-
     </div>
+
     <div class="column-section">
 
         <h2>Recent Additions</h2>
 
-        <a href="/resource/?size=3&list=true" class="hijax transclude" target="_self">Resources</a>
+        <a href="/resource/?size=5&list=true" class="hijax transclude" target="_self">Resources</a>
 
     </div>
 </div>

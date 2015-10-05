@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +25,12 @@ public class ResourceList {
 
   private int offset;
 
-  private Map<String, String[]> filters;
+  private Map<String, ArrayList<String>> filters;
 
   private Resource aggregations;
 
   public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset,
-                      int aSize, String aSortOrder, Map<String, String[]> aFilters, Resource aAggregations) {
+                      int aSize, String aSortOrder, Map<String, ArrayList<String>> aFilters, Resource aAggregations) {
     items = aResourceList;
     totalItems = aTotalItems;
     searchTerms = aSearchTerms;
@@ -69,7 +70,7 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
         for (String filter : entry.getValue()) {
           params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
         }
@@ -94,7 +95,7 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
         for (String filter : entry.getValue()) {
           params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
         }
@@ -120,7 +121,7 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
         for (String filter : entry.getValue()) {
           params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
         }
@@ -145,7 +146,7 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
         for (String filter : entry.getValue()) {
           params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
         }
@@ -174,7 +175,7 @@ public class ResourceList {
       params.add("sort=".concat(sortOrder));
     }
     if (!(null == filters)) {
-      for (Map.Entry<String, String[]> entry : filters.entrySet()) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
         for (String filter : entry.getValue()) {
           params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
         }
@@ -206,8 +207,8 @@ public class ResourceList {
     } else {
       return Long.toString(this.totalItems);
     }
-    
-  }  
+
+  }
 
   public Resource toResource() {
     Resource pagedCollection = new Resource("PagedCollection");

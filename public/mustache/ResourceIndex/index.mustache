@@ -4,58 +4,76 @@
 <div role="main" class="column column-small color-scheme-text bg-blue-palest">
 
     {{#if scope.list}}
-        
+
         {{> ResourceIndex/read.mustache}}
         <a href="/resource/">more</a>
-        
+
     {{else}}
 
         <div class="column-section">
-            
+
             <form method="get" action="/resource/" id="search">
-                
+
                 <script type="application/ld+json">
                     {{json scope.resources.aggregations}}
                 </script>
-                
+
+                <!--
+                <ul class="filters-available">
+                    {{#each scope.resources.aggregations}}
+                        <li>
+                            {{i18n (getField @key)}}
+                            <ul>
+                                {{#buckets}}
+                                    {{#unlessIn @key key scope.resources.filters}}
+                                        <li>
+                                            <label>
+                                                <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}">
+                                                <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
+                                            </label>
+                                        </li>
+                                    {{/unlessIn}}
+                                {{/buckets}}
+                            </ul>
+                        </li>
+                    {{/each}}
+                </ul>
+                -->
+
                 <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
                 <button class="btn" type="submit"><i class="fa fa-search"></i></button>
-                
-                {{#each scope.resources.aggregations}}
-                    <ul class="filters" title="{{i18n (getField @key)}}">
-                        {{#buckets}}
-                            {{! Why do I have to use the parent @key here? }}
-                            <li {{#ifIn ../@key key scope.resources.filters}}class="active"{{/ifIn}}>
+
+                <ul class="filters-applied">
+                    {{#each scope.resources.filters}}
+                        {{#this}}
+                            <li>
                                 <label>
-                                    <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}" {{#ifIn ../@key key scope.resources.filters}}checked{{/ifIn}}>
-                                    <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
+                                    <span>
+                                        {{.}}
+                                        <a href="{{removeFilterLink @key . scope.resources.currentPage}}">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </span>
+                                    <input type="hidden" name="filter.{{@key}}" value="{{.}}">
                                 </label>
                             </li>
-                        {{/buckets}}
-                    </ul>
-                {{/each}}
-                
+                        {{/this}}
+                    {{/each}}
+                </ul>
+
             </form>
-            
+
         </div>
-        
+
         <div class="column-section">
-            {{#if scope.resources.searchTerms}}
-                You searched for "{{scope.resources.searchTerms}}"
-            {{else}}
-                No filters set.
-            {{/if}}
-        </div>
-        
-        <div class="column-section">
-            
+
             <p>
                 Found <span class="badge">{{scope.resources.totalItems}}</span> entities
                 (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
             </p>
-            
+
             {{> ResourceIndex/read.mustache}}
-            
+
             {{#if scope.resources.firstPage}}
                 <a href="{{scope.resources.firstPage}}">first</a>
             {{/if}}
@@ -68,9 +86,9 @@
             {{#if scope.resources.lastPage}}
                 <a href="{{scope.resources.lastPage}}">last</a>
             {{/if}}
-    
+
         </div>
-    
+
     {{/if}}
-    
+
 </div>

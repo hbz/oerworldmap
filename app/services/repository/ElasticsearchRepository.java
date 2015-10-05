@@ -123,7 +123,7 @@ public class ElasticsearchRepository extends Repository
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, String[]> aFilters) throws IOException, ParseException {
+      Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
 
     SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder,
         aFilters);

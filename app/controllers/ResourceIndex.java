@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -30,12 +31,12 @@ public class ResourceIndex extends OERWorldMap {
   public static Result list(String q, int from, int size, String sort, boolean list) throws IOException, ParseException {
 
     // Extract filters directly from query params
-    Map<String, String[]> filters = new HashMap<>();
+    Map<String, ArrayList<String>> filters = new HashMap<>();
     Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
     for (Map.Entry<String, String[]> entry : request().queryString().entrySet()) {
       Matcher filterMatcher = filterPattern.matcher(entry.getKey());
       if (filterMatcher.find()) {
-        filters.put(filterMatcher.group(1), entry.getValue());
+        filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
     }
 

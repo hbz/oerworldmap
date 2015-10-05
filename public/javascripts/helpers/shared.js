@@ -221,6 +221,14 @@ Handlebars.registerHelper('getResourceUrl', function (url, options) {
   return new Handlebars.SafeString("/resource/" + encodeURIComponent(url));
 });
 
+Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
+  var matchFilter = new RegExp("[?&]filter." + filter + "=" + value, "g");
+  var matchFrom = new RegExp("from=\\d+", "g");
+  return new Handlebars.SafeString(
+    href.replace(matchFilter, '').replace(matchFrom, 'from=0')
+  );
+});
+
 /**
  * Adopted from http://stackoverflow.com/questions/7261318/svg-chart-generation-in-javascript
  */
