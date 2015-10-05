@@ -221,6 +221,26 @@ Handlebars.registerHelper('getResourceUrl', function (url, options) {
   return new Handlebars.SafeString("/resource/" + encodeURIComponent(url));
 });
 
+Handlebars.registerHelper('externalLink', function (url, options) {
+
+  var icon = 'fa-external-link-square';
+
+  if (url.indexOf('twitter.com') > -1) {
+    icon = 'fa-twitter-square';
+  } else if (url.indexOf('facebook.com') > -1) {
+    icon = 'fa-facebook-square';
+  } else if (url.indexOf('instagram.com') > -1) {
+    icon = 'fa-instagram';
+  } else if (url.indexOf('linkedin.com') > -1) {
+    icon = 'fa-linkedin-square';
+  } else if (url.indexOf('youtube.com') > -1) {
+    icon = 'fa-youtube-square';
+  }
+
+  return new Handlebars.SafeString('<i class="fa fa-fw ' + icon + '"></i><a href="' + url + '">' + url + '</a>');
+
+});
+
 Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
   var matchFilter = new RegExp("[?&]filter." + filter + "=" + value, "g");
   var matchFrom = new RegExp("from=\\d+", "g");

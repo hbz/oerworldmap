@@ -81,6 +81,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if sameAs}}
+                        <tr>
+                            <td>Links</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#sameAs}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if startTime}}
                         <tr>
                             <td>Duration</td>

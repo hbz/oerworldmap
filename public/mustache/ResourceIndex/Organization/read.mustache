@@ -11,24 +11,24 @@
 
 <div role="main" class="column column-medium color-scheme-text bg-blue-palest">
     <div class="column-container">
-    
+
         {{#scope}}
-        
+
             <div class="resource">
-            
+
                 <script type="application/ld+json">
                     {{{.}}}
                 </script>
-                
+
                 <div class="resource-header">
-                
+
                     <h1 class="resource-title">
                         <i class="fa fa-users"></i>
                         {{#name}}{{@value}}{{/name}}
                     </h1>
-                    
+
                 </div>
-                
+
                 {{#image}}
                     <div class="paragraph-image">
                         <a href="{{.}}" target="_blank">
@@ -36,11 +36,11 @@
                         </a>
                     </div>
                 {{/image}}
-                
+
                 {{#description}}
                     <p>{{{@value}}}</p>
                 {{/description}}
-                
+
                 {{#url}}
                     <p>
                         <a href="{{.}}" target="_blank" class="btn btn-default">
@@ -49,9 +49,9 @@
                         </a>
                     </p>
                 {{/url}}
-                
+
                 <table class="table resource-details-table">
-                    
+
                     {{#if email}}
                         <tr>
                             <td>Email Address</td>
@@ -60,7 +60,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                                    
+
                     <tr>
                         <td>Location</td>
                         <td>
@@ -69,7 +69,20 @@
                             {{/location}}
                         </td>
                     </tr>
-                    
+
+                    {{#if sameAs}}
+                        <tr>
+                            <td>Links</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#sameAs}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if countryChampionFor}}
                         <tr>
                             <td>Contact Person</td>
@@ -78,7 +91,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                                        
+
                     {{#if contactPoint}}
                         <tr>
                             <td>Contact Person</td>
@@ -91,7 +104,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if created}}
                         <tr>
                             <td>Author of</td>
@@ -104,7 +117,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if mainEntityOf}}
                         <tr>
                             <td>Topic of</td>
@@ -117,7 +130,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if mentionedIn}}
                         <tr>
                             <td>{{i18n "mentioned_in"}}</td>
@@ -130,7 +143,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if participantIn}}
                         <tr>
                             <td>Participant in</td>
@@ -143,7 +156,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if provides}}
                         <tr>
                             <td>Provides</td>
@@ -158,10 +171,10 @@
                     {{/if}}
 
                 </table>
-                
+
             </div>
-    
+
         {{/scope}}
-    
+
     </div>
 </div>

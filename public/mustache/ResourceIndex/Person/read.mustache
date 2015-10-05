@@ -11,22 +11,22 @@
 
 <div role="main" class="column column-medium color-scheme-text bg-blue-palest">
     <div class="column-container">
-    
+
         {{#scope}}
-        
+
             <div class="resource">
-            
+
                 <script type="application/ld+json">
                     {{{.}}}
                 </script>
-                
+
                 <div class="resource-header">
-                
+
                     <h1 class="resource-title">
                         <i class="fa fa-user"></i>
                         {{#name}}{{@value}}{{/name}}
                     </h1>
-                    
+
                     {{#countryChampionFor}}
                         <div class="resource-subline">
                             Country Champion for <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
@@ -46,16 +46,16 @@
                 {{#description}}
                     <p>{{{@value}}}</p>
                 {{/description}}
-                
+
                 <table class="table resource-details-table">
-                
+
                     <tr>
                         <td>Email Address</td>
                         <td>
                              <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
                         </td>
                     </tr>
-                    
+
                     {{#url}}
                         <tr>
                             <td>Personal Website</td>
@@ -75,7 +75,20 @@
                             </td>
                         </tr>
                     {{/location}}
-                                        
+
+                    {{#if sameAs}}
+                        <tr>
+                            <td>Links</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#sameAs}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if created}}
                         <tr>
                             <td>Author of</td>
@@ -88,7 +101,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if mainEntityOf}}
                         <tr>
                             <td>Topic of</td>
@@ -101,7 +114,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if mentionedIn}}
                         <tr>
                             <td>Mentioned in</td>
@@ -114,7 +127,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if participantIn}}
                         <tr>
                             <td>Participant in</td>
@@ -127,7 +140,7 @@
                             </td>
                         </tr>
                     {{/if}}
-                    
+
                     {{#if provides}}
                         <tr>
                             <td>Provides</td>
