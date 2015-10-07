@@ -28,7 +28,7 @@ import play.Logger;
 public class ElasticsearchProvider {
 
   private static ElasticsearchConfig mConfig;
-  
+
   private Client mClient;
 
   public static String user;
@@ -42,7 +42,7 @@ public class ElasticsearchProvider {
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
-   * 
+   *
    * @param aClient
    * @param aConfig
    */
@@ -83,7 +83,7 @@ public class ElasticsearchProvider {
 
   /**
    * Add a document consisting of a JSON String specified by a given UUID.
-   * 
+   *
    * @param aJsonString
    */
   public void addJson(@Nonnull final String aJsonString, @Nullable final UUID aUuid) {
@@ -119,7 +119,7 @@ public class ElasticsearchProvider {
 
   /**
    * Add a document consisting of a Map specified by a given UUID.
-   * 
+   *
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
@@ -129,7 +129,7 @@ public class ElasticsearchProvider {
 
   /**
    * Get all documents of a given document type
-   * 
+   *
    * @param aType
    * @return a List of docs, each represented by a Map of String/Object.
    */
@@ -157,9 +157,11 @@ public class ElasticsearchProvider {
    * @return a List of docs, each represented by a Map of String/Object.
    */
   public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder) {
-    return mClient.prepareSearch(mConfig.getIndex()).addAggregation(aAggregationBuilder)
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+    SearchResponse response = searchRequestBuilder.addAggregation(aAggregationBuilder)
         .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), excludeFilter))
         .setSize(0).execute().actionGet();
+    return response;
   }
 
   /**
@@ -178,7 +180,7 @@ public class ElasticsearchProvider {
 
   /**
    * Get a document of a specified type specified by a UUID.
-   * 
+   *
    * @param aType
    * @param aUuid
    * @return the document as Map of String/Object
@@ -195,7 +197,7 @@ public class ElasticsearchProvider {
 
   /**
    * Verify if the specified index exists on the internal Elasticsearch client.
-   * 
+   *
    * @param aIndex
    * @return true if the specified index exists.
    */
@@ -206,7 +208,7 @@ public class ElasticsearchProvider {
   /**
    * Deletes the specified index. If the specified index does not exist, the
    * resulting IndexMissingException is caught.
-   * 
+   *
    * @param aIndex
    */
   public void deleteIndex(String aIndex) {
@@ -221,7 +223,7 @@ public class ElasticsearchProvider {
   /**
    * Creates the specified index. If the specified index does already exist, the
    * resulting ElasticsearchException is caught.
-   * 
+   *
    * @param aIndex
    */
   public void createIndex(String aIndex) {
@@ -244,7 +246,7 @@ public class ElasticsearchProvider {
   /**
    * Refreshes the specified index. If the specified index does not exist, the
    * resulting IndexMissingException is caught.
-   * 
+   *
    * @param aIndex
    */
   public void refreshIndex(String aIndex) {

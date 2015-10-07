@@ -12,26 +12,26 @@ import models.Record;
 public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation() {
-    return AggregationBuilders.terms("about.@type").field("about.@type");
+    return AggregationBuilders.terms("about.@type").size(0).field("about.@type");
   }
 
   public static AggregationBuilder<?> getLocationAggregation() {
-    return AggregationBuilders.terms("about.location.address.addressCountry")
+    return AggregationBuilders.terms("about.location.address.addressCountry").size(0)
         .field("about.location.address.addressCountry");
   }
 
   public static AggregationBuilder<?> getServiceLanguageAggregation() {
-    return AggregationBuilders.terms("about.availableChannel.availableLanguage")
+    return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(0)
         .field("about.availableChannel.availableLanguage");
   }
 
   public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation() {
-    return AggregationBuilders.terms("about.about.@id")
-        .field("about.about.@id");
+    return AggregationBuilders.terms("about.about.@id").size(0)
+      .field("about.about.@id");
   }
 
   public static AggregationBuilder<?> getServiceByGradeLevelAggregation() {
-    return AggregationBuilders.terms("about.audience.@id")
+    return AggregationBuilders.terms("about.audience.@id").size(0)
         .field("about.audience.@id");
   }
 

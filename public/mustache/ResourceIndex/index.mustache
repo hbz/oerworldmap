@@ -18,7 +18,6 @@
                     {{json scope.resources.aggregations}}
                 </script>
 
-                <!--
                 <ul class="filters-available">
                     {{#each scope.resources.aggregations}}
                         <li>
@@ -38,7 +37,6 @@
                         </li>
                     {{/each}}
                 </ul>
-                -->
 
                 <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
                 <button class="btn" type="submit"><i class="fa fa-search"></i></button>
@@ -49,7 +47,7 @@
                             <li>
                                 <label>
                                     <span>
-                                        {{.}}
+                                        {{i18n . bundle="labels"}}
                                         <a href="{{removeFilterLink @key . scope.resources.currentPage}}">
                                             <i class="fa fa-times"></i>
                                         </a>

@@ -30,6 +30,7 @@ import helpers.HandlebarsHelpers;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
+import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 import play.Play;
@@ -74,6 +75,26 @@ public abstract class OERWorldMap extends Controller {
 
   protected static ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
 
+  //TODO: is this right here? how else to implement?
+  public static String getLabel(String aId) {
+    Resource resource = mBaseRepository.getResource(aId);
+    if (null == resource) {
+      return aId;
+    }
+    Object name = resource.get("name");
+    if (name instanceof ArrayList) {
+      for (Object n : ((ArrayList) name)) {
+        if (n instanceof Resource) {
+          String language = ((Resource) n).getAsString("@language");
+          if (language.equals(currentLocale.getLanguage())) {
+            return ((Resource) n).getAsString("@value");
+          }
+        }
+      }
+    }
+    return aId;
+  }
+
   protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
@@ -104,7 +125,7 @@ public abstract class OERWorldMap extends Controller {
         }
       }
     });
-    
+
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers.js"));
     } catch (Exception e) {
