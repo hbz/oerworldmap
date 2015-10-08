@@ -3,10 +3,7 @@ def migrate(resource):
 
 def localized_strings_to_array(resource):
     for property in resource.keys():
-        # FIXME: why on earth does the schema not accept affiliation arrays???
-        if property ==  "affiliation":
-            del resource[property]
-        elif property in [ "description", "alternateName"] and not isinstance(resource[property], list):
+        if property in [ "description", "alternateName"] and not isinstance(resource[property], list):
             print "Migrating " + property + " to list for " + resource['@id']
             if isinstance(resource[property], dict):
                 resource[property] = [resource[property]]

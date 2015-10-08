@@ -76,6 +76,19 @@
                         </tr>
                     {{/location}}
 
+                    {{#if affiliation}}
+                        <tr>
+                            <td>Affiliation</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliation}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/affiliation}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if sameAs}}
                         <tr>
                             <td>Links</td>
