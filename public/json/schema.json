@@ -575,9 +575,6 @@
           }
         }
       },
-      "required": [
-
-      ],
       "additionalProperties": false
     },
     "Organization": {
