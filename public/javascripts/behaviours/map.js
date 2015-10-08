@@ -366,39 +366,50 @@ var Hijax = (function ($, Hijax) {
   function setBoundingBox(element) {
 
     var dataFocus = element.getAttribute("data-focus");
-    var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
 
-    if (focusIds) {
+    var boundingBox;
 
-      // Init bounding box and transformation function
-      var boundingBox = ol.extent.createEmpty();
-      var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+    if ("fit" == dataFocus) {
 
-      // Look for features on all layers and extend bounding box
-      world.getLayers().forEach(function(layer) {
-        for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
-          var feature = layer.getSource().getFeatureById(focusIds[i]);
-          if (feature) {
-            ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
+      boundingBox = placemarksVectorSource.getExtent();
+
+    } else {
+
+      var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
+
+      if (focusIds) {
+
+        // Init bounding box and transformation function
+        var boundingBox = ol.extent.createEmpty();
+        var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+
+        // Look for features on all layers and extend bounding box
+        world.getLayers().forEach(function(layer) {
+          for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
+            var feature = layer.getSource().getFeatureById(focusIds[i]);
+            if (feature) {
+              ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
+            }
+
           }
+        });
 
+        // Special case single point
+        if (boundingBox[0] == boundingBox[2]) {
+          boundingBox[0] -= 1000000;
+          boundingBox[2] += 1000000;
         }
-      });
-
-      // Special case single point
-      if (boundingBox[0] == boundingBox[2]) {
-        boundingBox[0] -= 1000000;
-        boundingBox[2] += 1000000;
-      }
-      if (boundingBox[1] == boundingBox[3]) {
-        boundingBox[1] -= 1000000;
-        boundingBox[3] += 1000000;
+        if (boundingBox[1] == boundingBox[3]) {
+          boundingBox[1] -= 1000000;
+          boundingBox[3] += 1000000;
+        }
       }
 
+    }
+
+    if (boundingBox) {
       // Set extent of map view
       world.getView().fit(boundingBox, world.getSize());
-
-
     }
 
   }
