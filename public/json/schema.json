@@ -259,10 +259,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "description": {
           "$ref": "#/definitions/LocalizedString"
@@ -354,10 +351,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "serviceType": {
           "type": "string"
@@ -637,10 +631,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "$ref": "#/definitions/LocalizedString"
         },
         "image": {
           "type": "string",
