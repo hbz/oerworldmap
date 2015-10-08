@@ -24,6 +24,12 @@ def isced_to_object(resource):
     return resource
 
 def string_to_object(string):
+    esc_base_url = "https://w3id.org/class/esc/n"
+    isced_base_url = "https://w3id.org/isced/1997/level"
+    if string.startswith(esc_base_url) or string.startswith(isced_base_url):
+        return {
+            "@id": string
+        }
     pattern = re.compile('\(ISCED-(.+)\)')
     match = pattern.search(string)
     if match:
@@ -34,9 +40,9 @@ def string_to_object(string):
             return None
         id = None
         if classification == "2013":
-            id = "https://w3id.org/class/esc/n" + concept
+            id = esc_base_url + concept
         elif classification == "1997":
-            id = "https://w3id.org/isced/1997/level" + concept
+            id = isced_base_url + concept
         if id:
             return {
                 "@id": id
