@@ -218,7 +218,7 @@ Handlebars.registerHelper('getBundle', function (field, options) {
 });
 
 Handlebars.registerHelper('getResourceUrl', function (url, options) {
-  return new Handlebars.SafeString("/resource/" + encodeURIComponent(url));
+  return new Handlebars.SafeString("/resource/" + url);
 });
 
 Handlebars.registerHelper('externalLink', function (url, options) {
