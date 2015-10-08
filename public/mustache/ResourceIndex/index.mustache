@@ -46,13 +46,8 @@
                         {{#this}}
                             <li>
                                 <label>
-                                    <span>
-                                        {{i18n . bundle="labels"}}
-                                        <a href="{{removeFilterLink @key . scope.resources.currentPage}}">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </span>
-                                    <input type="hidden" name="filter.{{@key}}" value="{{.}}">
+                                    <input type="checkbox" class="filter" checked name="filter.{{@key}}" value="{{.}}">
+                                    {{i18n . bundle="labels"}}
                                 </label>
                             </li>
                         {{/this}}
