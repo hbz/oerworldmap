@@ -793,7 +793,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Add heat map data
-      $('[about="#users-by-country"], form#search', context).each(function(){
+      $('[about="#users-by-country"], form#resource-filter-form', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
         if( $(this).is('table') ) {

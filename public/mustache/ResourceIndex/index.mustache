@@ -10,55 +10,83 @@
 
     {{else}}
 
-        <div class="column-section">
+        <form method="get" action="/resource/" id="resource-filter-form">
 
-            <form method="get" action="/resource/" id="search">
+            <script type="application/ld+json">
+                {{json scope.resources.aggregations}}
+            </script>
 
-                <script type="application/ld+json">
-                    {{json scope.resources.aggregations}}
-                </script>
+            <div class="column-section">
+                <div id="search">
+                    <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
+                    <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
 
-                <ul class="filters-available">
-                    {{#each scope.resources.aggregations}}
-                        <li>
-                            {{i18n (getField @key)}}
-                            <ul>
+            <div class="column-section bg-blue-paler">
+
+                <span class="text-muted">Filter by:</span>
+
+                {{#each scope.resources.aggregations}}
+
+                    {{#ifShowFilter . @key scope.resources.filters}}
+
+                        <div class="dropdown resource-filter">
+                            <a href="#" data-toggle="dropdown">
+                                {{i18n (getField @key)}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu color-scheme-text layout-typo-small">
                                 {{#buckets}}
                                     {{#unlessIn @key key scope.resources.filters}}
+
                                         <li>
-                                            <label>
-                                                <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}">
-                                                <b>{{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})</b>
-                                            </label>
+                                            <input type="checkbox" class="hidden" name="filter.{{../@key}}" value="{{key}}">
+                                            <a href="#" data-action="set-filter">
+                                                {{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})
+                                            </a>
                                         </li>
+
                                     {{/unlessIn}}
                                 {{/buckets}}
                             </ul>
-                        </li>
-                    {{/each}}
-                </ul>
+                        </div>
 
-                <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
-                <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                    {{/ifShowFilter}}
 
-                <ul class="filters-applied">
-                    {{#each scope.resources.filters}}
-                        {{#this}}
-                            <li>
-                                <label>
-                                    <input type="checkbox" class="filter" checked name="filter.{{@key}}" value="{{.}}">
-                                    {{i18n . bundle="labels"}}
-                                </label>
-                            </li>
-                        {{/this}}
-                    {{/each}}
-                </ul>
+                {{/each}}
 
-            </form>
+                {{#ifObjectNotEmpty scope.resources.filters}}
 
-        </div>
+                    <hr class="narrow" />
 
-        <div class="column-section">
+                    <span class="text-muted">Current Filters:</span>
+
+                    <ul class="filters-applied">
+                        {{#each scope.resources.filters}}
+                            {{#this}}
+                                <li>
+                                    <label>
+                                        <span class="applied-filter">
+                                            {{i18n (getField @key)}}: {{.}}
+                                            <a href="{{removeFilterLink @key . scope.resources.currentPage}}">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </span>
+                                        <input type="hidden" name="filter.{{@key}}" value="{{.}}">
+                                    </label>
+                                </li>
+                            {{/this}}
+                        {{/each}}
+                    </ul>
+
+                {{/ifObjectNotEmpty}}
+
+            </div>
+
+        </form>
+
+        <div class="column-section last">
 
             <p>
                 Found <span class="badge">{{scope.resources.totalItems}}</span> entities
