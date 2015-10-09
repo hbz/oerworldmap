@@ -65,12 +65,16 @@ body.layout-fixed > .column-full {
   border-bottom: 1px solid @blue-light;
 }
 
-.column-section:last-child {
+.column-section.last {
   border-bottom: none;
 }
 
 .column-container {
   padding: @column-padding-vertical @column-padding-horizontal;
+}
+
+.column-section p:last-child {
+  margin-bottom: 0px;
 }
 
 

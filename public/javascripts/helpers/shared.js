@@ -328,3 +328,39 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
   }, arcs.join("")));
 
 });
+
+
+Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
+  /*
+
+  Here http://stackoverflow.com/a/679937/1060128 this is suggested to be compatible with Pre-ECMA 5 (IE 8)
+  But it doesn't work.
+
+  for(var prop in obj) {
+    if(obj.hasOwnProperty(prop)) {
+      return options.fn(this);
+    }
+  }
+  */
+
+  if(Object.keys(obj).length) {
+    return options.fn(this);
+  } else {
+    return "";
+  }
+
+});
+
+
+Handlebars.registerHelper('ifShowFilter', function (aggregation, key, filters, options) {
+
+  if(
+    aggregation.buckets.length &&
+    ! filters[ key ]
+  ) {
+    return options.fn(this);
+  } else {
+    return "";
+  }
+
+});

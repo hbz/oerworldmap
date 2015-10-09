@@ -49,17 +49,18 @@ var Hijax = (function ($, Hijax) {
       });
 
       // trigger search on facet select
-      $('form#search input.filter', context).click(function() {
-        $('form#search').submit();
+      $('[data-action="set-filter"]', context).click(function() {
+        $(this).prev()[0].checked = true;
+        $(this).closest("form").submit();
       });
 
       // hide empty filters
       $('form#search ul.filters:not(:has(*))', context).hide();
-      
+
       // resource details table
       $('.resource-details-table', context).each(function(){
         $(this).find('.resource-list').each(function(){
-          
+
           if(
             $(this).find('li').size() > 5
           ) {
@@ -67,10 +68,10 @@ var Hijax = (function ($, Hijax) {
             $(this).find('li:gt(4)').wrapAll('<div class="collapse" id="' + id + '"></div>');
             $(this).after('<a href="#' + id + '" class="resource-list-show-more collapsed" data-toggle="collapse"><span class="more">Show more <i class="fa fa-arrow-down"></i></span><span class="less">Show less <i class="fa fa-arrow-up"></i></span></a>');
           }
-          
+
         });
       });
-      
+
     }
   }
 

@@ -1,0 +1,84 @@
+/* --- search --- */
+
+#search {
+  margin: -(@column-padding-vertical) -(@column-padding-horizontal);
+  font-size: @font-size-base;
+  position: relative;
+}
+
+#search input[name="q"] {
+  border: none;
+  background: transparent;
+  padding: @column-padding-vertical 40px @column-padding-vertical @column-padding-horizontal;
+  margin: 0px;
+  color: @color-scheme-text-color;
+  box-shadow: none;
+  display: block;
+  width: 100%;
+}
+
+#search input[name="q"]:focus {
+  background: white;
+}
+
+#search button {
+  border: none;
+  background: none;
+  color: @color-scheme-text-color;
+  padding: @column-padding-vertical @column-padding-horizontal;
+  position: absolute;
+  top: -2px;
+  right: 0px;
+}
+
+
+/* --- filter --- */
+
+.resource-filter {
+  display: inline-block;
+  margin: 0px 0px 0px 12px;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.dropdown-menu li a {
+  padding: 3px 13px;
+}
+
+
+/* --- filters applied --- */
+
+ul.filters-applied {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  display: inline;
+}
+
+ul.filters-applied > li {
+  display: inline;
+  margin-left: 12px;
+}
+
+.applied-filter {
+  font-weight: normal;
+  padding: 3px 5px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-color: @blue-pale;
+}
+
+/*
+ul.filters-applied > li > label > span {
+  display: block;
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: @blue-pale;
+}
+*/
+
