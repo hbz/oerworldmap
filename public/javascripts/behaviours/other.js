@@ -49,8 +49,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // trigger search on facet select
-      $('[data-action="set-filter"]', context).click(function() {
-        $(this).prev()[0].checked = true;
+      $('input.filter', context).click(function() {
         $(this).closest("form").submit();
       });
 
