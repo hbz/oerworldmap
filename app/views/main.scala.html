@@ -1,25 +1,26 @@
-@(title: String)(content: Html)(templates: String)
+@import play.Configuration
+@(title: String)(content: Html)(templates: String)(config: Configuration)
 <!DOCTYPE html>
 <html class="no-js">
   <head>
-    
+
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1; user-scalable=0;" />
     <meta name="description" content="OER World Map shares information on behalf of the worldwide OER community, using local knowledge to describe the OER ecosystem." />
 
     <title>@title</title>
-    
+
     <link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Economica:400,700,400italic,700italic" />
     <link rel="stylesheet" type="text/css" href="/assets/vendor/ol-3.7/ol.css">
-    
+
     <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
     <link rel="stylesheet" type="text/css" href="/assets/form.css">
-    
+
     <script type="text/javascript" src="/assets/vendor/underscore.js"></script>
     <script type="text/javascript" src="/assets/vendor/jquery.min.js"></script>
-          
+
   </head>
   <body class="">
 
@@ -42,13 +43,13 @@
               <li><a href="https://github.com/hbz/oerworldmap" title="Github" target="_blank"><i class="fa fa-github-square"></i></a></li>
           </ul>
       </nav>
-      
+
       <h2>Join us in mapping the world of OER!</h2>
 
   </header>
-  
+
   @content
-  
+
   <div class="container container-static-page color-scheme-text">
     <footer id="page-footer">
       <nav class="footer">
@@ -59,7 +60,7 @@
       </nav>
     </footer>
   </div>
-  
+
   <script type="text/javascript" src="/assets/vendor/bootstrap.min.js"></script>
   <script type="text/javascript" src="/assets/vendor/handlebars.min.js"></script>
   <script type="text/javascript" src="/assets/vendor/jquery.placeholder.min.js"></script>
@@ -78,6 +79,24 @@
   <script type="text/javascript" src="/assets/javascripts/main.js"></script>
 
   @Html(templates)
+
+  @if(config.getString("piwik.url")) {
+      <!-- Piwik -->
+      <script type="text/javascript">
+          var _paq = _paq || [];
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u=@config.getString("piwik.url");
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', @config.getString("piwik.siteid")]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+      </script>
+      <noscript><p><img src="@(config.getString("piwik.url"))piwik.php?idsite=@(config.getString("piwik.siteid"))" style="border:0;" alt="" /></p></noscript>
+      <!-- End Piwik Code -->
+  }
 
   </body>
 </html>

@@ -149,7 +149,7 @@ public abstract class OERWorldMap extends Controller {
     try {
       Template template = handlebars.compile(templatePath);
       return views.html.main.render(pageTitle, Html.apply(template.apply(mustacheData)),
-          getClientTemplates());
+          getClientTemplates(), mConf);
     } catch (IOException e) {
       Logger.error(e.toString());
       return null;
