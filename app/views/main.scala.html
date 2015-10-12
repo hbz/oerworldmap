@@ -87,7 +87,7 @@
           _paq.push(['trackPageView']);
           _paq.push(['enableLinkTracking']);
           (function() {
-            var u=@config.getString("piwik.url");
+            var u='@config.getString("piwik.url")';
             _paq.push(['setTrackerUrl', u+'piwik.php']);
             _paq.push(['setSiteId', @config.getString("piwik.siteid")]);
             var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
