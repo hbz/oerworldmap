@@ -56,6 +56,7 @@ public class ResourceDenormalizer {
     mListValueEntries.add("about");
     mListValueEntries.add("audience");
     mListValueEntries.add("affiliation");
+    mListValueEntries.add("result");
   }
 
   //
@@ -64,14 +65,14 @@ public class ResourceDenormalizer {
   //
 
   /**
-   * 
+   *
    */
   private ResourceDenormalizer() { /* no instantiation */
   }
 
   /**
    * TODO
-   * 
+   *
    * @param aResource
    * @param aRepo
    * @return
