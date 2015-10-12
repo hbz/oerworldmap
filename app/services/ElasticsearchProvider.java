@@ -314,7 +314,7 @@ public class ElasticsearchProvider {
     //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
 
     // TODO: where should these filters be added?
-    globalAndFilter.add(excludeFilter);
+    // globalAndFilter.add(excludeFilter);
 
     // TODO: Remove privacy filter when all persons are accounts?
     if (!Global.getConfig().getString("admin.user").equals(user)) {

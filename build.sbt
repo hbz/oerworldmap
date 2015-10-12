@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "com.googlecode.json-simple" % "json-simple" % "1.1",
   "org.apache.commons" % "commons-email" % "1.3.3",
   "org.apache.commons" % "commons-io" % "1.3.2",
-  "org.elasticsearch" % "elasticsearch" % "1.3.6",
+  "org.elasticsearch" % "elasticsearch" % "1.7.2",
   "org.json" % "json" % "20141113",
   "org.pegdown" % "pegdown" % "1.5.0",
   "com.github.jknack" % "handlebars" % "2.2.2"
