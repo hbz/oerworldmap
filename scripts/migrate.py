@@ -1,6 +1,6 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2, base64, getpass, imp
+import sys, getopt, json, os, urllib2, base64, getpass, imp, urlparse
 
 def migrate(source, target, scripts):
     source_user = raw_input("Source user:")
@@ -20,10 +20,9 @@ def get_resources(source, source_user, source_pass):
         request.add_header("Authorization", "Basic %s" % base64string)
     response = json.loads(urllib2.urlopen(request).read())
     resources = response['member']
-    try:
-        resources += get_resources(source.partition('?')[0] + response['nextPage'], source_user, source_pass)
-    except TypeError:
-        pass
+    if response['nextPage']:
+        url = urlparse.urlparse(source)
+        resources += get_resources(url.scheme + '://' +  url.netloc + response['nextPage'], source_user, source_pass)
     return resources
 
 def migrate_resource(resource, scripts):

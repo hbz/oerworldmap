@@ -1,0 +1,97 @@
+<div
+    role="complementary"
+    data-view="map"
+    data-focus="{{#scope}}{{@id}}{{/scope}}"
+    class="color-scheme-map column-medium"
+>
+    <div class="hidden">
+        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    </div>
+</div>
+
+<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
+    <div class="column-container">
+
+        {{#scope}}
+
+            <div class="resource">
+
+                <script type="application/ld+json">
+                    {{json .}}
+                </script>
+
+                <div class="resource-header">
+
+                    <h1 class="resource-title">
+                        {{getIcon "Concept"}}
+                        {{#name}}{{@value}}{{/name}}
+                    </h1>
+
+                </div>
+
+                {{#description}}
+                    <p>{{{@value}}}</p>
+                {{/description}}
+
+                <table class="table resource-details-table">
+
+                    {{#if inScheme}}
+                        <tr>
+                            <td>In Scheme</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#inScheme}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/inScheme}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if broader}}
+                        <tr>
+                            <td>Broader</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#broader}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/broader}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if narrower}}
+                        <tr>
+                            <td>Narrower</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#narrower}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/narrower}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if related}}
+                        <tr>
+                            <td>Related Services</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#related}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/related}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                </table>
+
+            </div>
+
+        {{/scope}}
+
+    </div>
+</div>
