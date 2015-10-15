@@ -58,7 +58,7 @@ var Hijax = (function ($, Hijax) {
 
       // resource details table
       $('.resource-details-table', context).each(function(){
-        $(this).find('.resource-list').each(function(){
+        $(this).find('.resource-list.truncated').each(function(){
 
           if(
             $(this).find('li').size() > 5
@@ -68,6 +68,18 @@ var Hijax = (function ($, Hijax) {
             $(this).after('<a href="#' + id + '" class="resource-list-show-more collapsed" data-toggle="collapse"><span class="more">Show more <i class="fa fa-arrow-down"></i></span><span class="less">Show less <i class="fa fa-arrow-up"></i></span></a>');
           }
 
+        });
+      });
+
+      // sort ul
+      $('ul[data-behaviour="sort"]', context).each(function() {
+        var list = $(this);
+        var listitems = list.children('li').get();
+        listitems.sort(function(a, b) {
+           return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+        })
+        $.each(listitems, function(idx, itm) {
+          list.append(itm);
         });
       });
 

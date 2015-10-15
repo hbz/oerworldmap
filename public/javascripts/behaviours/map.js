@@ -407,7 +407,7 @@ var Hijax = (function ($, Hijax) {
 
     }
 
-    if (boundingBox) {
+    if (boundingBox && (boundingBox[0] != Infinity)) {
       // Set extent of map view
       world.getView().fit(boundingBox, world.getSize());
     }

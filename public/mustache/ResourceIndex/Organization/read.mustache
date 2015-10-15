@@ -74,7 +74,7 @@
                         <tr>
                             <td>Links</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#sameAs}}
                                         <li>{{externalLink .}}</li>
                                     {{/sameAs}}
@@ -96,7 +96,7 @@
                         <tr>
                             <td>Contact Person</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#contactPoint}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/contactPoint}}
@@ -109,7 +109,7 @@
                         <tr>
                             <td>Author of</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#created}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/created}}
@@ -122,7 +122,7 @@
                         <tr>
                             <td>Topic of</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#mainEntityOf}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/mainEntityOf}}
@@ -135,7 +135,7 @@
                         <tr>
                             <td>{{i18n "mentioned_in"}}</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#mentionedIn}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/mentionedIn}}
@@ -148,7 +148,7 @@
                         <tr>
                             <td>Participant in</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#participantIn}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/participantIn}}
@@ -161,7 +161,7 @@
                         <tr>
                             <td>Provides</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#provides}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/provides}}

@@ -1,9 +1,9 @@
 <div
-        role="complementary"
-        data-view="map"
-        data-focus="{{#scope}}{{@id}}{{/scope}}"
-        class="color-scheme-map column-medium"
-        >
+    role="complementary"
+    data-view="map"
+    data-focus="{{#scope}}{{@id}}{{/scope}}"
+    class="color-scheme-map column-medium"
+>
     <div class="hidden">
         <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
     </div>
@@ -14,7 +14,7 @@
 
         {{#scope}}
 
-            <div class="resource">
+            <div>
 
                 <script type="application/ld+json">
                     {{json .}}
@@ -24,7 +24,7 @@
 
                     <h1 class="resource-title">
                         {{getIcon "ConceptScheme"}}
-                        {{@id}}
+                        {{i18n @id}}
                     </h1>
 
                 </div>
@@ -39,7 +39,7 @@
                         <tr>
                             <td>Top Concepts</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list" data-behaviour="sort">
                                     {{#hasTopConcept}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/hasTopConcept}}
