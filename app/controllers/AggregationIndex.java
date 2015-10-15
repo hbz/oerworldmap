@@ -14,6 +14,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import play.mvc.Result;
 import services.AggregationProvider;
+import services.ElasticsearchProvider;
 
 /**
  * @author fo
@@ -26,6 +27,7 @@ public class AggregationIndex extends OERWorldMap {
     Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation());
     Resource languageAggregation = mBaseRepository.aggregate(AggregationProvider.getServiceLanguageAggregation());
 
+    ElasticsearchProvider.excludeConcepts = false;
     ResourceList topLevelISCEDConcepts = mBaseRepository.query(
       "about.topConceptOf.@id:\"https://w3id.org/isced/1997/scheme\"", 0, Integer.MAX_VALUE, null, null);
     ArrayList<String> topLevelISCEDConceptIds = new ArrayList<>();
@@ -34,6 +36,7 @@ public class AggregationIndex extends OERWorldMap {
     }
     Resource gradeLevelAggregation = mBaseRepository.aggregate(AggregationProvider.getServiceByGradeLevelAggregation(topLevelISCEDConceptIds));
 
+    ElasticsearchProvider.excludeConcepts = false;
     ResourceList topLevelESCConcepts = mBaseRepository.query(
       "about.topConceptOf.@id:\"https://w3id.org/class/esc/scheme\"", 0, Integer.MAX_VALUE, null, null);
     ArrayList<String> topLevelESCConceptIds = new ArrayList<>();

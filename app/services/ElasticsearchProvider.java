@@ -33,6 +33,8 @@ public class ElasticsearchProvider {
 
   public static String user;
 
+  public static boolean excludeConcepts = true;
+
   private static FilterBuilder excludeFilter = FilterBuilders.notFilter(
       FilterBuilders.orFilter(
           FilterBuilders.termFilter("about.@type", "Concept"),
@@ -314,7 +316,11 @@ public class ElasticsearchProvider {
     //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
 
     // TODO: where should these filters be added?
-    // globalAndFilter.add(excludeFilter);
+    if (excludeConcepts) {
+      globalAndFilter.add(excludeFilter);
+    } else {
+      excludeConcepts = true;
+    }
 
     // TODO: Remove privacy filter when all persons are accounts?
     if (!Global.getConfig().getString("admin.user").equals(user)) {
