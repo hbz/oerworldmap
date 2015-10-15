@@ -149,7 +149,7 @@ var console = console || {
 
     return {
       expand: function (context) {
-        return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
+        return decodeURIComponent(template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
           if (expression) {
             var operator = null,
                 values = [];
@@ -179,7 +179,7 @@ var console = console || {
           } else {
             return that.encodeReserved(literal);
           }
-        });
+        }));
       }
     };
   };
