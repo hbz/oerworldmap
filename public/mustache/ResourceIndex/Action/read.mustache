@@ -85,7 +85,7 @@
                         <tr>
                             <td>Links</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#sameAs}}
                                         <li>{{externalLink .}}</li>
                                     {{/sameAs}}
@@ -114,7 +114,7 @@
                         <tr>
                             <td>{{i18n "mentioned_in"}}</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#mentionedIn}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/mentionedIn}}
@@ -127,7 +127,7 @@
                         <tr>
                             <td>Agent</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#agent}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/agent}}
@@ -140,7 +140,7 @@
                         <tr>
                             <td>Participant</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#participant}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/participant}}
@@ -153,7 +153,7 @@
                         <tr>
                             <td>Instrument</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#instrument}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/instrument}}
@@ -166,7 +166,7 @@
                         <tr>
                             <td>Result</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#result}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/result}}

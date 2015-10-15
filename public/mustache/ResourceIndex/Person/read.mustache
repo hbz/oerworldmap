@@ -80,7 +80,7 @@
                         <tr>
                             <td>Affiliation</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#affiliation}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/affiliation}}
@@ -93,7 +93,7 @@
                         <tr>
                             <td>Links</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#sameAs}}
                                         <li>{{externalLink .}}</li>
                                     {{/sameAs}}
@@ -106,7 +106,7 @@
                         <tr>
                             <td>Author of</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#created}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/created}}
@@ -119,7 +119,7 @@
                         <tr>
                             <td>Topic of</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#mainEntityOf}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/mainEntityOf}}
@@ -132,7 +132,7 @@
                         <tr>
                             <td>Mentioned in</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#mentionedIn}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/mentionedIn}}
@@ -145,7 +145,7 @@
                         <tr>
                             <td>Participant in</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#participantIn}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/participantIn}}
@@ -158,7 +158,7 @@
                         <tr>
                             <td>Provides</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#provides}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/provides}}
@@ -171,7 +171,7 @@
                         <tr>
                             <td>Agent in</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#agentIn}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/agentIn}}

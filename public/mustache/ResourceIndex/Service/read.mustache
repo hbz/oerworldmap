@@ -75,7 +75,7 @@
                     <tr>
                         <td>Audience</td>
                         <td>
-                            <ul class="resource-list">
+                            <ul class="resource-list truncated">
                                 {{#audience}}
                                     <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                 {{/audience}}
@@ -87,7 +87,7 @@
                         <tr>
                             <td>Provider</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#provider}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/provider}}
@@ -100,7 +100,7 @@
                         <tr>
                             <td>Topics</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#about}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/about}}
@@ -113,7 +113,7 @@
                         <tr>
                             <td>Links</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list truncated">
                                     {{#sameAs}}
                                         <li>{{externalLink .}}</li>
                                     {{/sameAs}}

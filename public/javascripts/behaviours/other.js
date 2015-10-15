@@ -58,7 +58,7 @@ var Hijax = (function ($, Hijax) {
 
       // resource details table
       $('.resource-details-table', context).each(function(){
-        $(this).find('.resource-list').each(function(){
+        $(this).find('.resource-list.truncated').each(function(){
 
           if(
             $(this).find('li').size() > 5

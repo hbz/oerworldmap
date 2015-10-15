@@ -31,7 +31,7 @@
                     <div class="text">
                         <h4>Country Champion</h4>
 
-                        <ul class="resource-list"><li>
+                        <ul class="resource-list truncated"><li>
                           {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
                         </li></ul>
 
@@ -81,7 +81,7 @@
                 Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
             </p>
 
-            <ul class="resource-list" data-behaviour="populateMap">
+            <ul class="resource-list truncated" data-behaviour="populateMap">
                 <script type="application/ld+json">
                     {{{resources.member}}}
                 </script>
