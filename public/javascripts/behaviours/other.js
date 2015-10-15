@@ -71,6 +71,18 @@ var Hijax = (function ($, Hijax) {
         });
       });
 
+      // sort ul
+      $('ul[data-behaviour="sort"]', context).each(function() {
+        var list = $(this);
+        var listitems = list.children('li').get();
+        listitems.sort(function(a, b) {
+           return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+        })
+        $.each(listitems, function(idx, itm) {
+          list.append(itm);
+        });
+      });
+
     }
   }
 

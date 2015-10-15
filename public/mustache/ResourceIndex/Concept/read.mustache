@@ -65,7 +65,7 @@
                         <tr>
                             <td>Narrower</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="resource-list" data-behaviour="sort">
                                     {{#narrower}}
                                         <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
                                     {{/narrower}}
