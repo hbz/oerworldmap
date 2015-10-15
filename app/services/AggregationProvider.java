@@ -1,5 +1,6 @@
 package services;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -34,7 +35,7 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation(ArrayList<String> anIdList) {
     return AggregationBuilders.terms("about.about.@id").size(0)
         .field("about.about.@id")
-        .include(anIdList.toArray(new String[anIdList.size()]));
+        .include(StringUtils.join(anIdList, '|'));
   }
 
   public static AggregationBuilder<?> getServiceByGradeLevelAggregation() {
@@ -45,7 +46,7 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getServiceByGradeLevelAggregation(ArrayList<String> anIdList) {
     return AggregationBuilders.terms("about.audience.@id").size(0)
         .field("about.audience.@id")
-        .include(anIdList.toArray(new String[anIdList.size()]));
+        .include(StringUtils.join(anIdList, '|'));
   }
 
   public static AggregationBuilder<?> getByCountryAggregation() {
