@@ -22,6 +22,7 @@ import models.Resource;
 import models.ResourceList;
 import play.Logger;
 import services.ResourceDenormalizer;
+import services.ResourceEnricher;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
@@ -65,6 +66,7 @@ public class BaseRepository extends Repository
   }
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
+    ResourceEnricher.enrich(aResource, this);
     List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
     ProcessingReport processingReport = new ListProcessingReport();
     for (Resource dnr : denormalizedResources) {
