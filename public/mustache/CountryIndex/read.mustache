@@ -18,7 +18,7 @@
                 <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
             </div>
 
-            {{#champions.member}}
+            {{#champions}}
                 <div class="country-champion">
 
                     {{#image}}
@@ -42,9 +42,9 @@
                     </div>
 
                 </div>
-            {{/champions.member}}
+            {{/champions}}
 
-            {{^champions.member}}
+            {{^champions}}
                 <div class="country-champion">
 
                     <div class="img placeholder-qmark"></div>
@@ -54,7 +54,7 @@
                     </div>
 
                 </div>
-            {{/champions.member}}
+            {{/champions}}
 
         </div>
         <div class="column-section">
@@ -94,9 +94,9 @@
             {{^resources}}
                 <em>No related entities found</em>
             {{/resources}}
-        
+
         </div>
-            
+
     {{/scope}}
-    
+
 </div>

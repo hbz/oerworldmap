@@ -29,7 +29,7 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -6177433021348713601L;
 
@@ -192,6 +192,39 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return (result == null) ? null : result.toString();
   }
 
+  public List<Resource> getAsList(final Object aKey) {
+    List<Resource> list = new ArrayList<>();
+    Object result = get(aKey);
+    if (null == result || !(result instanceof List)) {
+      return list;
+    }
+    for (Object value : (List) result) {
+      if (value instanceof Resource) {
+        list.add((Resource) value);
+      }
+    }
+    return list;
+  }
+
+  public List<String> getIdList(final Object aKey) {
+    List<String> ids = new ArrayList<>();
+    Object result = get(aKey);
+    if (null == result || !(result instanceof List)) {
+      return ids;
+    }
+    for (Object value : (List) result) {
+      if (value instanceof Resource) {
+        ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
+      }
+    }
+    return ids;
+  }
+
+  public Resource getAsResource(final Object aKey) {
+    Object result = get(aKey);
+    return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
+  }
+
   public static Resource getLinkClone(final Resource aResource) {
     if (aResource == null) {
       return null;
@@ -323,7 +356,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return aList;
   }
 
-  private static Resource getIdClone(Resource value) {
+  public static Resource getIdClone(Resource value) {
     Resource result = new Resource();
     result.put(JsonLdConstants.ID, value.get(JsonLdConstants.ID));
     return result;

@@ -34,7 +34,7 @@ public class CountryIndex extends OERWorldMap {
 
     scope.put("alpha-2", id.toUpperCase());
     scope.put("name", Countries.getNameFor(id, currentLocale));
-    scope.put("champions", champions.toResource());
+    scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
 
