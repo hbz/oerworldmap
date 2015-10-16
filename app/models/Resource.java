@@ -5,6 +5,7 @@ import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +27,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import play.Play;
 
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
@@ -138,6 +141,12 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       Logger.error(e.toString());
       return null;
     }
+  }
+
+  public static Resource fromJsonFile(String aFile) throws IOException {
+    InputStream in = Play.application().classloader().getResourceAsStream(aFile);
+    String json = IOUtils.toString(in, "UTF-8");
+    return Resource.fromJson(json);
   }
 
   public ProcessingReport validate() {
