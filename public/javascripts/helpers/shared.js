@@ -344,12 +344,11 @@ Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
     }
   }
   */
-
-  if(Object.keys(obj).length) {
-    return options.fn(this);
-  } else {
+  if ((!(typeof obj == "object")) || (!Object.keys(obj).length)) {
     return options.inverse(this);
   }
+
+  return options.fn(this);
 
 });
 
@@ -381,3 +380,24 @@ Handlebars.registerHelper('ifShowFilters', function (aggregations, filters, opti
   }
 
 });
+
+Handlebars.registerHelper('nestedAggregation', function (aggregation) {
+  return nestedAggregation(aggregation);
+});
+
+function nestedAggregation(aggregation) {
+  var list = "<ul>";
+  for (var key in aggregation) {
+    if (typeof aggregation[key] == "object") {
+      list += "<li>"
+          + '<a href="/resource/' + key + '">'
+          + Packages.helpers.HandlebarsHelpers._i18n(key)
+          + " (" + aggregation[key]["doc_count"] + ")"
+          + '</a>'
+          + nestedAggregation(aggregation[key])
+          + "</li>";
+    }
+  }
+  list += "</ul>";
+  return Handlebars.SafeString(list);
+}
