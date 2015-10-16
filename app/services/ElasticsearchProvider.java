@@ -31,17 +31,6 @@ public class ElasticsearchProvider {
 
   private Client mClient;
 
-  public static String user;
-
-  public static boolean excludeConcepts = true;
-
-  private static FilterBuilder excludeFilter = FilterBuilders.notFilter(
-      FilterBuilders.orFilter(
-          FilterBuilders.termFilter("about.@type", "Concept"),
-          FilterBuilders.termFilter("about.@type", "ConceptScheme")
-      )
-  );
-
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
    *
@@ -159,11 +148,25 @@ public class ElasticsearchProvider {
    * @return a List of docs, each represented by a Map of String/Object.
    */
   public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder) {
+    return getAggregation(aAggregationBuilder, null);
+  }
+
+  public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
+
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+    if (!(null == aQueryContext)) {
+      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.add(contextFilter);
+      }
+    }
+
     SearchResponse response = searchRequestBuilder.addAggregation(aAggregationBuilder)
-        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), excludeFilter))
+        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
         .setSize(0).execute().actionGet();
     return response;
+
   }
 
   /**
@@ -273,9 +276,25 @@ public class ElasticsearchProvider {
   // TODO: make this the only available method signature?
   public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                                 Map<String, ArrayList<String>> aFilters) {
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+  }
+
+  public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                                Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(mConfig.getIndex());
+
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+
+    if (!(null == aQueryContext)) {
+      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.add(contextFilter);
+      }
+      for (AggregationBuilder contextAggregation : aQueryContext.getAggregations()) {
+        searchRequestBuilder.addAggregation(contextAggregation);
+      }
+    }
 
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
@@ -286,8 +305,6 @@ public class ElasticsearchProvider {
         Logger.error("Invalid sort string: " + aSortOrder);
       }
     }
-
-    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
 
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
@@ -307,25 +324,6 @@ public class ElasticsearchProvider {
       queryBuilder = QueryBuilders.queryString(aQueryString).defaultOperator(QueryStringQueryBuilder.Operator.AND);
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
-    }
-
-    // TODO: where should aggregations be added?
-    searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
-    searchRequestBuilder.addAggregation(AggregationProvider.getByCountryAggregation());
-    searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
-    //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
-
-    // TODO: where should these filters be added?
-    if (excludeConcepts) {
-      globalAndFilter.add(excludeFilter);
-    } else {
-      excludeConcepts = true;
-    }
-
-    // TODO: Remove privacy filter when all persons are accounts?
-    if (!Global.getConfig().getString("admin.user").equals(user)) {
-      globalAndFilter.add(FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
-          .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email")))));
     }
 
     searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));

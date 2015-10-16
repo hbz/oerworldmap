@@ -21,6 +21,7 @@ import models.ResourceList;
 import play.mvc.Result;
 import play.mvc.Security;
 import services.ElasticsearchProvider;
+import services.QueryContext;
 
 /**
  * @author fo
@@ -41,8 +42,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     Map<String, Object> scope = new HashMap<>();
-    ElasticsearchProvider.user = Secured.getHttpBasicAuthUser(ctx());
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, new QueryContext(ctx()));
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 
@@ -115,7 +115,7 @@ public class ResourceIndex extends OERWorldMap {
   /**
    * This method is designed to add information to existing resources. If the
    * resource doesn't exist yet, a bad request response is returned
-   * 
+   *
    * @param id
    *          The ID of the resource to update
    * @throws IOException

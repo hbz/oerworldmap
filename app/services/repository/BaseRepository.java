@@ -21,6 +21,7 @@ import models.Record;
 import models.Resource;
 import models.ResourceList;
 import play.Logger;
+import services.QueryContext;
 import services.ResourceDenormalizer;
 import services.ResourceEnricher;
 
@@ -93,16 +94,19 @@ public class BaseRepository extends Repository
 
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, ArrayList<String>> aFilters) {
+                            Map<String, ArrayList<String>> aFilters) {
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+  }
+
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
     ResourceList resourceList;
     try {
-      resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters);
+      resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
       return null;
     }
-    // set this manually so that the filteredQueryString does not become visible
-    resourceList.setSearchTerms(aQueryString);
     // members are Records, unwrap to plain Resources
     List<Resource> resources = new ArrayList<>();
     resources.addAll(getResources(resourceList.getItems()));
@@ -158,7 +162,12 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilder);
+    return aggregate(aAggregationBuilder, null);
+  }
+
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+      throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
   @Override

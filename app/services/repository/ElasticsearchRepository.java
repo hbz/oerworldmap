@@ -29,6 +29,7 @@ import models.ResourceList;
 import play.Logger;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
+import services.QueryContext;
 
 public class ElasticsearchRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
@@ -99,8 +100,13 @@ public class ElasticsearchRepository extends Repository
 
   @Override
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
+    return aggregate(aAggregationBuilder, null);
+  }
+
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+      throws IOException {
     Resource aggregations = Resource
-        .fromJson(elasticsearch.getAggregation(aAggregationBuilder).toString());
+        .fromJson(elasticsearch.getAggregation(aAggregationBuilder, aQueryContext).toString());
     if (null == aggregations) {
       return null;
     }
@@ -123,10 +129,15 @@ public class ElasticsearchRepository extends Repository
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+                            Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+  }
+
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
 
     SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder,
-        aFilters);
+        aFilters, aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
