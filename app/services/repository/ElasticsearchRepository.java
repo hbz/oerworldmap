@@ -68,6 +68,14 @@ public class ElasticsearchRepository extends Repository
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
   }
 
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
+    List<Resource> resources = new ArrayList<Resource>();
+    for (Map<String, Object> doc : elasticsearch.getResources(aField, aValue)) {
+      resources.add(Resource.fromMap(doc));
+    }
+    return resources;
+  }
+
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();

@@ -1,7 +1,9 @@
 package controllers;
 
+import controllers.OERWorldMap;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Security;
 import services.Account;
 
@@ -59,7 +61,7 @@ public class Secured extends Security.Authenticator {
   @Override
   public Result onUnauthorized(Http.Context ctx) {
     ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
-    return unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache"));
+    return Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache"));
   }
 
 }

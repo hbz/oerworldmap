@@ -109,7 +109,7 @@ public class BaseRepository extends Repository
     }
     // members are Records, unwrap to plain Resources
     List<Resource> resources = new ArrayList<>();
-    resources.addAll(getResources(resourceList.getItems()));
+    resources.addAll(unwrapRecords(resourceList.getItems()));
     resourceList.setItems(resources);
     return resourceList;
   }
@@ -125,6 +125,14 @@ public class BaseRepository extends Repository
       resource = (Resource) resource.get(Record.RESOURCEKEY);
     }
     return resource;
+  }
+
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
+    List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
+    if (records != null) {
+      return unwrapRecords(records);
+    }
+    return null;
   }
 
   private Resource getRecord(Resource aResource) {
@@ -152,7 +160,7 @@ public class BaseRepository extends Repository
     return record;
   }
 
-  private List<Resource> getResources(List<Resource> aRecords) {
+  private List<Resource> unwrapRecords(List<Resource> aRecords) {
     List<Resource> resources = new ArrayList<Resource>();
     for (Resource rec : aRecords) {
       resources.add((Resource) rec.get(Record.RESOURCEKEY));
