@@ -30,12 +30,12 @@ import helpers.HandlebarsHelpers;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
-import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Http;
+import play.mvc.With;
 import play.twirl.api.Html;
 import services.repository.BaseRepository;
 
@@ -163,6 +163,10 @@ public abstract class OERWorldMap extends Controller {
 
   protected static Html render(String pageTitle, String templatePath) {
     return render(pageTitle, templatePath, null, null);
+  }
+
+  protected static BaseRepository getRepository() {
+    return mBaseRepository;
   }
 
   private static String getClientTemplates() {

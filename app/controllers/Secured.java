@@ -1,11 +1,13 @@
 package controllers;
 
 import controllers.OERWorldMap;
+import play.libs.F;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
 import services.Account;
+import services.QueryContext;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -61,7 +63,7 @@ public class Secured extends Security.Authenticator {
   @Override
   public Result onUnauthorized(Http.Context ctx) {
     ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
-    return Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache"));
+    return unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache"));
   }
 
 }

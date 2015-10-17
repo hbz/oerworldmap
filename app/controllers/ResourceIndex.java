@@ -20,14 +20,13 @@ import models.Resource;
 import models.ResourceList;
 import play.mvc.Result;
 import play.mvc.Security;
-import services.ElasticsearchProvider;
+import play.mvc.With;
 import services.QueryContext;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
-
 
   public static Result list(String q, int from, int size, String sort, boolean list) throws IOException, ParseException {
 
@@ -42,7 +41,8 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     Map<String, Object> scope = new HashMap<>();
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, new QueryContext(ctx()));
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters,
+        (QueryContext) ctx().args.get("queryContext"));
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 

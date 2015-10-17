@@ -34,17 +34,18 @@ import models.Resource;
 import play.Logger;
 import play.mvc.Result;
 import play.mvc.Security;
+import play.mvc.With;
 import services.Account;
 
 public class UserIndex extends OERWorldMap {
 
-  public static Result get() throws IOException {
+  public static Result list() throws IOException {
     Map<String, Object> scope = new HashMap<>();
     scope.put("countries", Countries.list(currentLocale));
     return ok(render("Registration", "UserIndex/index.mustache", scope));
   }
 
-  public static Result post() throws IOException {
+  public static Result create() throws IOException {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     Map<String, Object> scope = new HashMap<>();
@@ -72,6 +73,19 @@ public class UserIndex extends OERWorldMap {
     messages.add(message);
     return ok(render("Registration", "feedback.mustache", scope, messages));
 
+  }
+
+  @With(Authorized.class)
+  public static Result read(String id) {
+    return ResourceIndex.read(id);
+  }
+
+  public static Result update(String id) throws IOException {
+    return ResourceIndex.update(id);
+  }
+
+  public static Result delete(String id) {
+    return ResourceIndex.delete(id);
   }
 
   public static Result sendToken() {
