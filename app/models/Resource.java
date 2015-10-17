@@ -309,6 +309,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return containsKey(JsonLdConstants.ID);
   }
 
+  public String getId() {
+    return getAsString(JsonLdConstants.ID);
+  }
+
   public void merge(Resource aOther) {
     for (Entry<String, Object> entry : aOther.entrySet()) {
       put(entry.getKey(), entry.getValue());

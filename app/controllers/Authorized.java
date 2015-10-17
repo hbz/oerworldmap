@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.JsonLdConstants;
 import models.Resource;
 import play.Logger;
 import play.Play;
@@ -12,6 +13,8 @@ import services.QueryContext;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author fo
@@ -34,19 +37,39 @@ public class Authorized extends Action.Simple {
 
     String activity = ctx.args.get(Routes.ROUTE_CONTROLLER).toString()
         .concat(".").concat(ctx.args.get(Routes.ROUTE_ACTION_METHOD).toString());
-    String user = Secured.getHttpBasicAuthUser(ctx);
+    String username = Secured.getHttpBasicAuthUser(ctx);
+    Resource user = null;
 
-    if (user != null) {
-      List<Resource> users = OERWorldMap.getRepository().getResources("email", user);
+    if (username != null) {
+      List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
       if (users.size() == 1) {
-        ctx.args.put("user", users.get(0));
+        user = users.get(0);
+        ctx.args.put("user", user);
       }
     }
 
-    if (getUserActivities(user).contains(activity)) {
-      System.out.println("Authorized " + user);
+    Pattern routePattern = Pattern.compile("\\$([^<]+)<([^>]+)>");
+    Matcher routePatternMatcher = routePattern.matcher(ctx.args.get(Routes.ROUTE_PATTERN).toString());
+    List<String> parameterNames = new ArrayList<>();
+    while (routePatternMatcher.find()) {
+      parameterNames.add(routePatternMatcher.group(1));
+    }
+
+    Map<String, String> parameters = new HashMap<>();
+    if (!parameterNames.isEmpty()) {
+      String regex = routePatternMatcher.replaceAll("($2)");
+      Pattern path = Pattern.compile(regex);
+      Matcher parts = path.matcher(ctx.request().path());
+      int i = 0;
+      while (parts.find()) {
+        parameters.put(parameterNames.get(i), parts.group(1));
+      }
+    }
+
+    if (user != null && getUserActivities(user.getId(), parameters).contains(activity)) {
+      System.out.println("Authorized " + username + " for " + activity);
     } else {
-      System.out.println("Unuthorized");
+      System.out.println("Unuthorized " + username + " for " + activity);
     }
 
     ctx.args.put("queryContext", new QueryContext(ctx));
@@ -55,18 +78,21 @@ public class Authorized extends Action.Simple {
 
   }
 
-  public List<String> getUserActivities(String user) {
+  public List<String> getUserActivities(String user, Map<String, String> parameters) {
     List<String> activities = new ArrayList<>();
-    for (String role : getUserRoles(user)) {
+    for (String role : getUserRoles(user, parameters)) {
       List<String> roleActivities = getRoleActivities(role);
       activities.addAll(roleActivities);
     }
     return activities;
   }
 
-  public List<String> getUserRoles(String user) {
+  public List<String> getUserRoles(String user, Map<String, String> parameters) {
     List<String> roles = new ArrayList<>();
-    //roles.add("owner");
+    System.out.println(user);
+    if (parameters.get("id").equals(user)) {
+      roles.add("owner");
+    }
     return roles;
   }
 
