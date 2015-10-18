@@ -42,6 +42,7 @@ import services.repository.BaseRepository;
 /**
  * @author fo
  */
+@With(Authorized.class)
 public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Play.application().configuration();

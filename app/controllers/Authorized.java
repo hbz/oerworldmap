@@ -2,6 +2,7 @@ package controllers;
 
 import helpers.JsonLdConstants;
 import models.Resource;
+import org.elasticsearch.index.query.FilterBuilder;
 import play.Logger;
 import play.Play;
 import play.Routes;
@@ -9,6 +10,7 @@ import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
+import services.AggregationProvider;
 import services.QueryContext;
 
 import java.io.IOException;
@@ -66,13 +68,19 @@ public class Authorized extends Action.Simple {
       }
     }
 
+    QueryContext queryContext;
     if (user != null && getUserActivities(user.getId(), parameters).contains(activity)) {
+      queryContext = new QueryContext(user.getId(), getUserRoles(user.getId(), parameters));
       System.out.println("Authorized " + username + " for " + activity);
     } else {
+      if (null == user) {
+        queryContext = new QueryContext(null, getUserRoles(null, parameters));
+      } else {
+        queryContext = new QueryContext(user.getId(), getUserRoles(null, parameters));
+      }
       System.out.println("Unuthorized " + username + " for " + activity);
     }
-
-    ctx.args.put("queryContext", new QueryContext(ctx));
+    ctx.args.put("queryContext", queryContext);
 
     return delegate.call(ctx);
 
@@ -89,10 +97,15 @@ public class Authorized extends Action.Simple {
 
   public List<String> getUserRoles(String user, Map<String, String> parameters) {
     List<String> roles = new ArrayList<>();
-    System.out.println(user);
-    if (parameters.get("id").equals(user)) {
-      roles.add("owner");
+    if (user == null) {
+      roles.add("guest");
+    } else {
+      roles.add("authenticated");
+      if (user.equals(parameters.get("id"))) {
+        roles.add("owner");
+      }
     }
+    System.out.println(roles);
     return roles;
   }
 

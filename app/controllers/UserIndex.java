@@ -75,7 +75,6 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  @With(Authorized.class)
   public static Result read(String id) {
     return ResourceIndex.read(id);
   }
