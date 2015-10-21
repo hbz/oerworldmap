@@ -1,7 +1,5 @@
 package services;
 
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import helpers.JsonLdConstants;
 import models.DenormalizeResourceWrapper;
 import models.Resource;
-import services.repository.*;
 import services.repository.Readable;
 
 public class ResourceDenormalizer {
 
   final private static Map<String, String> mKnownInverseRelations = new HashMap<>();
+
   static {
     mKnownInverseRelations.put("author", "authorOf");
     mKnownInverseRelations.put("authorOf", "author");
@@ -29,12 +28,14 @@ public class ResourceDenormalizer {
     mKnownInverseRelations.put("created", "creator");
     mKnownInverseRelations.put("agent", "agentIn");
     mKnownInverseRelations.put("agentIn", "agent");
-    //mKnownInverseRelations.put("mentions", "mentionedIn");
-    //mKnownInverseRelations.put("mentionedIn", "mentions");
+    // mKnownInverseRelations.put("mentions", "mentionedIn");
+    // mKnownInverseRelations.put("mentionedIn", "mentions");
     mKnownInverseRelations.put("participant", "participantIn");
     mKnownInverseRelations.put("participantIn", "participant");
   }
+
   final private static List<String> mListValueEntries = new ArrayList<>();
+
   static {
     mListValueEntries.add("author");
     mListValueEntries.add("authorOf");
@@ -54,6 +55,8 @@ public class ResourceDenormalizer {
     mListValueEntries.add("hasTopConcept");
     mListValueEntries.add("about");
     mListValueEntries.add("audience");
+    mListValueEntries.add("affiliation");
+    mListValueEntries.add("result");
   }
 
   //
@@ -62,14 +65,14 @@ public class ResourceDenormalizer {
   //
 
   /**
-   * 
+   *
    */
   private ResourceDenormalizer() { /* no instantiation */
   }
 
   /**
    * TODO
-   * 
+   *
    * @param aResource
    * @param aRepo
    * @return
@@ -80,45 +83,45 @@ public class ResourceDenormalizer {
 
     Map<String, DenormalizeResourceWrapper> wrappedResources = new HashMap<>();
     split(aResource, wrappedResources, aRepo);
-    
+
     addInverseReferences(wrappedResources);
-    
+
     createLinkViews(wrappedResources);
     createEmbedViews(wrappedResources);
-    
+
     return export(wrappedResources);
   }
 
   private static void createEmbedViews(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
-    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()) {
       wrapperEntry.getValue().createEmbedView(aWrappedResources, mListValueEntries);
     }
   }
 
   private static void createLinkViews(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
-    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()) {
       wrapperEntry.getValue().createLinkView();
     }
   }
 
   private static void split(Resource aResource,
       Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo)
-      throws IOException {
+          throws IOException {
     String keyId = aResource.getAsString(JsonLdConstants.ID);
-    if (keyId == null || !aWrappedResources.containsKey(keyId)){
+    if (keyId == null || !aWrappedResources.containsKey(keyId)) {
       // we need a new wrapper
-      DenormalizeResourceWrapper wrapper = new DenormalizeResourceWrapper(aResource, aWrappedResources, aRepo);
+      DenormalizeResourceWrapper wrapper = new DenormalizeResourceWrapper(aResource,
+          aWrappedResources, aRepo);
       aWrappedResources.put(wrapper.getKeyId(), wrapper);
-    }
-    else{
+    } else {
       // take the existing wrapper
       aWrappedResources.get(keyId).addResource(aResource, aWrappedResources);
     }
-    
+
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
         Resource resource = (Resource) entry.getValue();
-        if (resource.hasId()){
+        if (resource.hasId()) {
           split(resource, aWrappedResources, aRepo);
         }
       } else if (entry.getValue() instanceof List) {
@@ -127,7 +130,7 @@ public class ResourceDenormalizer {
           Object next = iter.next();
           if (next instanceof Resource) {
             Resource resource = (Resource) next;
-            if (resource.hasId()){
+            if (resource.hasId()) {
               split(resource, aWrappedResources, aRepo);
             }
           }
@@ -137,15 +140,16 @@ public class ResourceDenormalizer {
 
   }
 
-  private static void addInverseReferences(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
-    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+  private static void addInverseReferences(
+      Map<String, DenormalizeResourceWrapper> aWrappedResources) {
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()) {
       wrapperEntry.getValue().createInverseReferences(aWrappedResources, mKnownInverseRelations);
     }
   }
 
   private static List<Resource> export(Map<String, DenormalizeResourceWrapper> aWrappedResources) {
     List<Resource> result = new ArrayList<>();
-    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()){
+    for (Entry<String, DenormalizeResourceWrapper> wrapperEntry : aWrappedResources.entrySet()) {
       result.add(wrapperEntry.getValue().export(aWrappedResources, mListValueEntries));
     }
     return result;

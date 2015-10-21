@@ -1,10 +1,7 @@
 package models;
 
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
-import controllers.routes.ref;
+import helpers.JsonLdConstants;
 import services.ResourceDenormalizer;
-import services.repository.*;
 import services.repository.Readable;
 
 /**
@@ -67,8 +62,8 @@ public class DenormalizeResourceWrapper {
   }
 
   private DenormalizeResourceWrapper(final Resource aResource,
-      final Map<String, DenormalizeResourceWrapper> aWrappedResources,
-      final Readable aRepo, final int aSubLevels) throws IOException {
+      final Map<String, DenormalizeResourceWrapper> aWrappedResources, final Readable aRepo,
+      final int aSubLevels) throws IOException {
     mReferences = new HashMap<>();
     mKeyId = aResource.getAsString(JsonLdConstants.ID);
     mResource = aRepo.getResource(mKeyId);
@@ -93,7 +88,7 @@ public class DenormalizeResourceWrapper {
           putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (isResourceList(entry.getValue())) {
         Set<String> ids = new HashSet<>();
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
@@ -106,7 +101,9 @@ public class DenormalizeResourceWrapper {
             }
           }
         }
-        putReference(entry.getKey(), ids);
+        if (!ids.isEmpty()) {
+          putReference(entry.getKey(), ids);
+        }
       }
     }
   }
@@ -125,12 +122,12 @@ public class DenormalizeResourceWrapper {
    * 
    */
   private static void putResourceToWrapperList(
-      final Map<String, DenormalizeResourceWrapper> aWrappedResources,
-      final Readable aRepo, final int aSubLevels, Resource resource) throws IOException {
+      final Map<String, DenormalizeResourceWrapper> aWrappedResources, final Readable aRepo,
+      final int aSubLevels, Resource resource) throws IOException {
     String id = resource.getAsString(JsonLdConstants.ID);
     if (id != null && !aWrappedResources.containsKey(id)) {
-      aWrappedResources.put(id, new DenormalizeResourceWrapper(resource, aWrappedResources, aRepo,
-          aSubLevels - 1));
+      aWrappedResources.put(id,
+          new DenormalizeResourceWrapper(resource, aWrappedResources, aRepo, aSubLevels - 1));
     }
   }
 
@@ -161,7 +158,7 @@ public class DenormalizeResourceWrapper {
           oldReferences = putReference(entry.getKey(), resource.getAsString(JsonLdConstants.ID));
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (isResourceList(entry.getValue())) {
         Set<String> ids = new HashSet<>();
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
         while (iter.hasNext()) {
@@ -191,8 +188,8 @@ public class DenormalizeResourceWrapper {
       String next = iter.next();
       Set<String> newReferences = mReferences.get(aKey);
       if (!newReferences.contains(next)) {
-        aWrappedResources.get(next).removeReference(
-            ResourceDenormalizer.getKnownInverseRelations().get(aKey), mKeyId);
+        aWrappedResources.get(next)
+            .removeReference(ResourceDenormalizer.getKnownInverseRelations().get(aKey), mKeyId);
       }
     }
   }
@@ -224,6 +221,7 @@ public class DenormalizeResourceWrapper {
     mEmbedView = null;
   }
 
+  @SuppressWarnings("unused")
   private boolean hasReferenceTo(String aId) {
     for (Entry<String, Set<String>> referenceEntry : mReferences.entrySet()) {
       if (referenceEntry.getValue().contains(aId)) {
@@ -317,6 +315,18 @@ public class DenormalizeResourceWrapper {
 
   private Resource getEmbedView() {
     return mEmbedView;
+  }
+
+  private boolean isResourceList(Object aList) {
+    if (!(aList instanceof List)) {
+      return false;
+    }
+    for (Object value : (List) aList) {
+      if (!(value instanceof Resource)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public String toString() {

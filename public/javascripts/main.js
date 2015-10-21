@@ -7,8 +7,19 @@
   // --- document ready ---
 
   $(document).ready(function() {
-
-    $('body').addClass("layout-fixed");
+    
+    var page = window.location.pathname.substring(1);
+    
+    if(
+      page != "contribute" &&
+      page != "FAQ" &&
+      page != "about" &&
+      page != "contribute" &&
+      page != "imprint"
+    ) {
+      $('body').addClass("layout-fixed");
+    }
+    
     Hijax.initBehaviours(document);
 
   });

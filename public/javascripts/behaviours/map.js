@@ -10,6 +10,8 @@ var Hijax = (function ($, Hijax) {
       countryVectorLayer = null,
       placemarksVectorSource = null,
       placemarksVectorLayer = null,
+      clusterSource = null,
+      clusterLayer = null,
       osmTileSource = null,
       osmTileLayer = null,
       hoveredCountriesOverlay = null,
@@ -252,10 +254,7 @@ var Hijax = (function ($, Hijax) {
       }
 
       var country = properties.country;
-
-      // set name
-      country.name = i18n[ country.key.toUpperCase() ];
-
+      country.key = country.key.toUpperCase();
       var content = templates.popoverCountry(country);
     }
 
@@ -267,8 +266,8 @@ var Hijax = (function ($, Hijax) {
 
     // attach aggregations to country features
 
-    for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
-      var aggregation = aggregations["by_country"]["buckets"][j];
+    for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
+      var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
       var feature = countryVectorSource.getFeatureById(aggregation.key.toUpperCase());
       if (feature) {
         var properties = feature.getProperties();
@@ -302,8 +301,8 @@ var Hijax = (function ($, Hijax) {
 
     // build heat data hashmap
 
-    for(var j = 0; j < aggregations["by_country"]["buckets"].length; j++) {
-      var aggregation = aggregations["by_country"]["buckets"][j];
+    for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
+      var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
       heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
     }
 
@@ -367,39 +366,50 @@ var Hijax = (function ($, Hijax) {
   function setBoundingBox(element) {
 
     var dataFocus = element.getAttribute("data-focus");
-    var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
 
-    if (focusIds) {
+    var boundingBox;
 
-      // Init bounding box and transformation function
-      var boundingBox = ol.extent.createEmpty();
-      var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+    if ("fit" == dataFocus) {
 
-      // Look for features on all layers and extend bounding box
-      world.getLayers().forEach(function(layer) {
-        for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
-          var feature = layer.getSource().getFeatureById(focusIds[i]);
-          if (feature) {
-            ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
+      boundingBox = placemarksVectorSource.getExtent();
+
+    } else {
+
+      var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
+
+      if (focusIds) {
+
+        // Init bounding box and transformation function
+        var boundingBox = ol.extent.createEmpty();
+        var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+
+        // Look for features on all layers and extend bounding box
+        world.getLayers().forEach(function(layer) {
+          for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
+            var feature = layer.getSource().getFeatureById(focusIds[i]);
+            if (feature) {
+              ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
+            }
+
           }
+        });
 
+        // Special case single point
+        if (boundingBox[0] == boundingBox[2]) {
+          boundingBox[0] -= 1000000;
+          boundingBox[2] += 1000000;
         }
-      });
-
-      // Special case single point
-      if (boundingBox[0] == boundingBox[2]) {
-        boundingBox[0] -= 1000000;
-        boundingBox[2] += 1000000;
-      }
-      if (boundingBox[1] == boundingBox[3]) {
-        boundingBox[1] -= 1000000;
-        boundingBox[3] += 1000000;
+        if (boundingBox[1] == boundingBox[3]) {
+          boundingBox[1] -= 1000000;
+          boundingBox[3] += 1000000;
+        }
       }
 
+    }
+
+    if (boundingBox && (boundingBox[0] != Infinity)) {
       // Set extent of map view
       world.getView().fit(boundingBox, world.getSize());
-
-
     }
 
   }
@@ -523,7 +533,7 @@ var Hijax = (function ($, Hijax) {
       $('div[data-view="map"]', context).each(function() {
 
         // move footer to map container
-        $('footer').appendTo(this);
+        $('#page-footer').appendTo(this);
 
         // switch style
         $(this).addClass("map-view");
@@ -566,6 +576,46 @@ var Hijax = (function ($, Hijax) {
            opacity: 1
          });
          osmTileLayer.setVisible(false);
+
+         // Cluster layer
+         /*
+         clusterSource = new ol.source.Cluster({
+           distance: 40,
+           source: placemarksVectorSource,
+           noWrap: true,
+           wrapX: false
+         });
+
+         var styleCache = {};
+         clusterLayer = new ol.layer.Vector({
+           source: clusterSource,
+           style: function(feature, resolution) {
+             var size = feature.get('features').length;
+             var style = styleCache[size];
+             if (!style) {
+               style = [new ol.style.Style({
+                 image: new ol.style.Circle({
+                   radius: 10,
+                   stroke: new ol.style.Stroke({
+                     color: '#fff'
+                   }),
+                   fill: new ol.style.Fill({
+                     color: '#3399CC'
+                   })
+                 }),
+                 text: new ol.style.Text({
+                   text: size.toString(),
+                   fill: new ol.style.Fill({
+                     color: '#fff'
+                   })
+                 })
+               })];
+               styleCache[size] = style;
+             }
+             return style;
+           }
+         });
+         */
 
         // Get zoom values adapted to map size
         var zoom_values = getZoomValues();
@@ -655,7 +705,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // init popover
-        popoverElement = $('<div class="popover fade top in" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
+        popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
         popover = new ol.Overlay({
           element: popoverElement,
           positioning: 'bottom-center',
@@ -694,20 +744,14 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       // Populate map with pins from single resources
-      $('article.resource-story', context)
-        .add($('div.resource-organization', context))
-        .add($('div.resource-action', context))
-        .add($('div.resource-service', context))
-        .add($('div.resource-person', context))
-        .each(function() {
+      $('div.resource', context).each(function() {
           var json = JSON.parse( $(this).find('script').html() );
           var markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
           addPlacemarks( markers );
         });
 
       // Populate map with pins from resource listings
-      // FIXME: don't use class names for js actions -> reorganize behaviours
-      $('.populate-map', context).each(function(){
+      $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         var markers = [];
         for (i in json) {
@@ -717,7 +761,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Link list entries to pins
-      $('[data-behaviour="linkedListEntries"]', context).each(function(){
+      $('[data-behaviour~="linkedListEntries"]', context).each(function(){
         $( this ).on("mouseenter", "li", function() {
           var id = this.getAttribute("about");
           var script = $(this).closest("ul").children('script[type="application/ld+json"]');
@@ -749,10 +793,12 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Add heat map data
-      $('[about="#users-by-country"]', context).each(function(){
+      $('[about="#users-by-country"], form#resource-filter-form', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
-        $(this).find('tr').hide();
+        if( $(this).is('table') ) {
+          $(this).hide();
+        }
       });
 
       // Set zoom

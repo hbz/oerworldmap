@@ -1,6 +1,7 @@
 <span class="resource">
-    <i class="fa fa-li fa-users"></i>
-    <a href="/resource/{{@id}}">
-        {{#name}}{{@value}}{{/name}}
+    <i class="fa fa-fw fa-bars"></i>
+    <span class="hidden">{{this.notation}}</span>
+    <a href="{{getResourceUrl @id}}">
+        {{#this.name}}{{@value}}{{/this.name}}
     </a>
 </span>

@@ -1,12 +1,12 @@
-<div role="main" class="color-scheme-text container">
-    {{#scope}}
-        <div class="resource">
-            <script type="application/ld+json">
-                {{{.}}}
-            </script>
-            <pre>
-{{{.}}}
-            </pre>
-        </div>
-    {{/scope}}
-</div>
+<ul class="resource-list truncated" data-behaviour="linkedListEntries populateMap">
+
+    <script type="application/ld+json">
+        {{{scope.resources.member}}}
+    </script>
+    {{#scope.resources.member}}
+        <li about="{{@id}}">
+          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+        </li>
+    {{/scope.resources.member}}
+    
+</ul>

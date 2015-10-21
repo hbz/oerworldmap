@@ -1,30 +1,186 @@
-<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}} {{#scope.agent}}{{@id}} {{/scope.agent}} {{#scope.participant}}{{@id}} {{/scope.participant}}" class="color-scheme-map column medium">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+<div
+        role="complementary"
+        data-view="map"
+        data-focus="{{#scope}}{{@id}}{{/scope}}"
+        class="color-scheme-map column-medium"
+        >
+    <div class="hidden">
+        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    </div>
 </div>
-<div role="main" class="color-scheme-text container column medium">
-  {{#scope}}
-      <div class="resource-action">
-          <script type="application/ld+json">
-                {{{.}}}
-            </script>
-          <h1><i class="fa fa-gears"></i> {{#name}}{{@value}}{{/name}}</h1>
-          <p><a href="{{url}}">{{url}}</a></p>
-          {{#startTime}}<p>Duration: {{.}}{{#endTime}} - {{.}}{{/endTime}}</p>{{/startTime}}
-          {{#image}}<img src="{{.}}" width="250" />{{/image}}
-          {{#description}}<p lang="{{@language}}">{{@value}}</p>{{/description}}
-          {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
-          <h2>Participants</h2>
-          {{#agent}}
-              <ul>
-                {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-              </ul>
-          {{/agent}}
-      </div>
-      <h2>{{i18n.mentioned_in}}</h2>
-      <ul>
-        {{#referencedBy}}
-          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-        {{/referencedBy}}
-      </ul>
-  {{/scope}}
+
+<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
+    <div class="column-container">
+
+        {{#scope}}
+
+            <div class="resource">
+
+                <script type="application/ld+json">
+                    {{{.}}}
+                </script>
+
+                <div class="resource-header">
+
+                    <h1 class="resource-title">
+                        {{getIcon "Action"}}
+                        {{#name}}{{@value}}{{/name}}
+                    </h1>
+
+                    {{#additionalType}}
+                        <div class="resource-subline">
+                            <div class="resource-subline-label">Additional Type</div>
+                            {{.}}
+                        </div>
+                    {{/additionalType}}
+
+                </div>
+
+                {{#image}}
+                    <div class="paragraph-image">
+                        <a href="{{.}}" target="_blank">
+                            <img src="{{.}}" width="150" />
+                        </a>
+                    </div>
+                {{/image}}
+
+                {{#description}}
+                    <p>{{{@value}}}</p>
+                {{/description}}
+
+                {{#url}}
+                    <p>
+                        <a href="{{.}}" target="_blank" class="btn btn-default">
+                            <i class="fa fa-external-link"></i>
+                            {{stripProtocol .}}
+                        </a>
+                    </p>
+                {{/url}}
+
+                <table class="table resource-details-table">
+
+                    {{#if email}}
+                        <tr>
+                            <td>Email Address</td>
+                            <td>
+                                <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if alternateName}}
+                        <tr>
+                            <td>Alternate Names</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#alternateName}}
+                                        <li>{{.}}</li>
+                                    {{/alternateName}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if sameAs}}
+                        <tr>
+                            <td>Links</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#sameAs}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if startTime}}
+                        <tr>
+                            <td>Duration</td>
+                            <td>{{startTime}} - {{endTime}}</td>
+                        </tr>
+                    {{/if}}
+
+                    <tr>
+                        <td>Location</td>
+                        <td>
+                            {{#location}}
+                                {{>ResourceIndex/Place/read.mustache}}
+                            {{/location}}
+                        </td>
+                    </tr>
+
+                    {{#if mentionedIn}}
+                        <tr>
+                            <td>{{i18n "mentioned_in"}}</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#mentionedIn}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/mentionedIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if agent}}
+                        <tr>
+                            <td>Agent</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#agent}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/agent}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if participant}}
+                        <tr>
+                            <td>Participant</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#participant}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/participant}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if instrument}}
+                        <tr>
+                            <td>Instrument</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#instrument}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/instrument}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if result}}
+                        <tr>
+                            <td>Result</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#result}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/result}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+
+                </table>
+
+            </div>
+
+        {{/scope}}
+
+    </div>
 </div>

@@ -1,644 +1,3679 @@
 {
   "mappings": {
-    "Article": {
+    "Concept": {
       "properties": {
-        "@id": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "@type": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
+        "dateModified": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }, 
         "about": {
           "properties": {
-            "@context": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "@id": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "@type": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "articleBody": {
+            "name": {
               "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
                 "@value": {
                   "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
                 }
               }
-            },
-            "creator": {
+            }, 
+            "notation": {
+              "type": "string"
+            }, 
+            "topConceptOf": {
               "properties": {
-                "@id": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@type": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "affiliation": {
+                "hasTopConcept": {
                   "properties": {
                     "@id": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
                     "@type": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
                     "name": {
                       "properties": {
-                        "@language": {
-                          "type": "string",
-                          "index": "not_analyzed"
-                        },
                         "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
                           "type": "string"
                         }
                       }
                     }
                   }
-                },
-                "email": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "narrower": {
+              "properties": {
                 "name": {
                   "properties": {
-                    "@language": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
                     "@value": {
                       "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "notation": {
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "narrower": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "broader": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "scopeNote": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
                     }
                   }
                 }
               }
-            },
-            "dateCreated": {
-              "type": "date",
-              "format": "dateOptionalTime"
-            },
-            "image": {
-              "type": "string"
-            },
-            "keywords": {
-              "type": "string"
-            },
-            "mentions": {
+            }, 
+            "broader": {
               "properties": {
-                "@id": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@type": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "about": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "additionalType": {
-                  "type": "string"
-                },
-                "alternateName": {
-                  "type": "string"
-                },
-                "audience": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "availableChannel": {
-                  "properties": {
-                    "availableLanguage": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "serviceUrl": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "contactPoint": {
-                  "type": "string"
-                },
-                "description": {
-                  "properties": {
-                    "@language": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "@value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "email": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "endTime": {
-                  "type": "string"
-                },
-                "image": {
-                  "type": "string"
-                },
                 "name": {
                   "properties": {
-                    "@language": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
                     "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
                       "type": "string"
                     }
                   }
-                },
-                "license": {
+                }, 
+                "notation": {
                   "type": "string"
-                },
-                "location": {
+                }, 
+                "topConceptOf": {
                   "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
                     "@type": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "address": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "narrower": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
                       "properties": {
-                        "@type": {
-                          "type": "string",
-                          "index": "not_analyzed"
-                        },
-                        "addressCountry": {
+                        "@value": {
                           "type": "string"
-                        },
-                        "addressLocality": {
-                          "type": "string"
-                        },
-                        "addressRegion": {
-                          "type": "string"
-                        },
-                        "postalCode": {
-                          "type": "string"
-                        },
-                        "streetAddress": {
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
                           "type": "string"
                         }
                       }
-                    },
+                    }
+                  }
+                }, 
+                "broader": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "scopeNote": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "scopeNote": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "alternateName": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "inScheme": {
+              "properties": {
+                "hasTopConcept": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }
+          }
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "dateCreated": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }
+      }
+    }, 
+    "Service": {
+      "properties": {
+        "dateModified": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }, 
+        "about": {
+          "properties": {
+            "license": {
+              "type": "string"
+            }, 
+            "about": {
+              "properties": {
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "notation": {
+                  "type": "string"
+                }, 
+                "topConceptOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "narrower": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "location": {
+                  "properties": {
                     "geo": {
                       "properties": {
                         "lat": {
-                          "type": "double"
-                        },
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
                         "lon": {
-                          "type": "double"
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
                         }
                       }
                     }
                   }
-                },
-                "logo": {
-                  "type": "string"
-                },
-                "name": {
+                }, 
+                "broader": {
                   "properties": {
-                    "@language": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "scopeNote": {
+                  "properties": {
                     "@value": {
                       "type": "string"
-                    }
-                  }
-                },
-                "serviceType": {
-                  "type": "string"
-                },
-                "startDate": {
-                  "type": "string"
-                },
-                "startTime": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                }
-              }
-            },
-            "name": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "dateCreated": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        },
-        "dateModified": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        }
-      }
-    },
-    "Person": {
-      "properties": {
-        "@id": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "@type": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "about": {
-          "properties": {
-            "@id": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "@type": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "affiliation": {
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@type": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "name": {
-                  "properties": {
+                    }, 
                     "@language": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "@value": {
+                      "index": "not_analyzed", 
                       "type": "string"
                     }
                   }
-                }
-              }
-            },
-            "email": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "name": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
+                }, 
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
                   "type": "string"
                 }
               }
-            }
-          }
-        },
-        "dateCreated": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        }
-      }
-    },
-    "Organization": {
-      "properties": {
-        "@id": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "@type": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "about": {
-          "properties": {
-            "@id": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "@type": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "additionalType": {
-              "type": "string"
-            },
-            "alternateName": {
-              "type": "string"
-            },
-            "contactPoint": {
-              "type": "string"
-            },
+            }, 
             "description": {
               "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
                 "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
                   "type": "string"
                 }
               }
-            },
-            "email": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "name": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
-                  "type": "string"
-                }
-              }
-            },
-            "location": {
-              "properties": {
-                "@type": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "address": {
-                  "properties": {
-                    "@type": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "addressCountry": {
-                      "type": "string"
-                    },
-                    "addressLocality": {
-                      "type": "string"
-                    },
-                    "addressRegion": {
-                      "type": "string"
-                    },
-                    "postalCode": {
-                      "type": "string"
-                    },
-                    "streetAddress": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "geo": {
-                  "properties": {
-                    "lat": {
-                      "type": "double"
-                    },
-                    "lon": {
-                      "type": "double"
-                    }
-                  }
-                }
-              }
-            },
-            "logo": {
-              "type": "string"
-            },
-            "url": {
-              "type": "string"
-            }
-          }
-        },
-        "dateCreated": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        },
-        "dateModified": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        }
-      }
-    },
-    "Action": {
-      "properties": {
-        "@id": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "@type": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "about": {
-          "properties": {
-            "@id": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "@type": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "alternateName": {
-              "type": "string"
-            },
-            "description": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
-                  "type": "string"
-                }
-              }
-            },
-            "email": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "endTime": {
-              "type": "string"
-            },
-            "image": {
-              "type": "string"
-            },
-            "location": {
-              "properties": {
-                "@type": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "address": {
-                  "properties": {
-                    "@type": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "addressCountry": {
-                      "type": "string"
-                    },
-                    "addressLocality": {
-                      "type": "string"
-                    },
-                    "addressRegion": {
-                      "type": "string"
-                    },
-                    "postalCode": {
-                      "type": "string"
-                    },
-                    "streetAddress": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "geo": {
-                  "properties": {
-                    "lat": {
-                      "type": "double"
-                    },
-                    "lon": {
-                      "type": "double"
-                    }
-                  }
-                }
-              }
-            },
-            "name": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
-                  "type": "string"
-                }
-              }
-            },
-            "startTime": {
-              "type": "string"
-            },
-            "url": {
-              "type": "string"
-            }
-          }
-        },
-        "dateCreated": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        },
-        "dateModified": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        }
-      }
-    },
-    "Service": {
-      "properties": {
-        "@id": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "@type": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "about": {
-          "properties": {
-            "@id": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "@type": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "about": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "alternateName": {
-              "type": "string"
-            },
-            "audience": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
+            }, 
             "availableChannel": {
               "properties": {
-                "availableLanguage": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
                 "serviceUrl": {
                   "type": "string"
-                }
-              }
-            },
-            "description": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
+                }, 
+                "availableLanguage": {
+                  "index": "not_analyzed", 
                   "type": "string"
                 }
               }
-            },
-            "email": {
-              "type": "string",
-              "index": "not_analyzed"
-            },
-            "license": {
+            }, 
+            "startDate": {
               "type": "string"
-            },
-            "name": {
-              "properties": {
-                "@language": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "@value": {
-                  "type": "string"
-                }
-              }
-            },
+            }, 
+            "sameAs": {
+              "type": "string"
+            }, 
+            "image": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
             "serviceType": {
               "type": "string"
-            },
-            "startDate": {
+            }, 
+            "email": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "audience": {
+              "properties": {
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "notation": {
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "topConceptOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
+                    }
+                  }
+                }
+              }
+            }, 
+            "provider": {
+              "properties": {
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "sameAs": {
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "agentIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provides": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "participantIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "alternateName": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "name": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "dateCreated": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }
+      }
+    }, 
+    "Person": {
+      "properties": {
+        "dateModified": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }, 
+        "about": {
+          "properties": {
+            "description": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "created": {
+              "properties": {
+                "articleBody": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "creator": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "mainEntity": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "dateCreated": {
+                  "type": "date", 
+                  "format": "dateOptionalTime"
+                }, 
+                "mentions": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "keywords": {
+                  "type": "string"
+                }, 
+                "@context": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "url": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "image": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "telephone": {
+              "type": "string"
+            }, 
+            "email": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "affiliation": {
+              "properties": {
+                "license": {
+                  "type": "string"
+                }, 
+                "about": {
+                  "properties": {
+                    "location": {
+                      "properties": {
+                        "geo": {
+                          "properties": {
+                            "lat": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lat"
+                            }, 
+                            "lon": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lon"
+                            }
+                          }
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.@type"
+                        }, 
+                        "address": {
+                          "properties": {
+                            "addressCountry": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressCountry"
+                            }, 
+                            "addressLocality": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressLocality"
+                            }, 
+                            "addressRegion": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressRegion"
+                            }, 
+                            "streetAddress": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.streetAddress"
+                            }, 
+                            "postalCode": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.postalCode"
+                            }, 
+                            "@type": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.@type"
+                            }
+                          }
+                        }
+                      }
+                    }, 
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "availableChannel": {
+                  "properties": {
+                    "serviceUrl": {
+                      "type": "string"
+                    }, 
+                    "availableLanguage": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "startDate": {
+                  "type": "date", 
+                  "format": "dateOptionalTime"
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "audience": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provides": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provider": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "countryChampionFor": {
+              "type": "string"
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
+                    }
+                  }
+                }
+              }
+            }, 
+            "@context": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "name": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "dateCreated": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }
+      }
+    }, 
+    "ConceptScheme": {
+      "properties": {
+        "dateModified": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }, 
+        "about": {
+          "properties": {
+            "hasTopConcept": {
+              "properties": {
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "notation": {
+                  "type": "string"
+                }, 
+                "topConceptOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "narrower": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "scopeNote": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "dateCreated": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }
+      }
+    }, 
+    "Organization": {
+      "properties": {
+        "dateModified": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }, 
+        "about": {
+          "properties": {
+            "description": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "created": {
+              "properties": {
+                "articleBody": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "creator": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "mainEntity": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "mentions": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "@context": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "contactPoint": {
+              "type": "string"
+            }, 
+            "image": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "telephone": {
+              "type": "string"
+            }, 
+            "sameAs": {
+              "type": "string"
+            }, 
+            "email": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "agentIn": {
+              "properties": {
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "agent": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "startTime": {
+                  "type": "string"
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "endTime": {
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "countryChampionFor": {
+              "type": "string"
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
+                    }
+                  }
+                }
+              }
+            }, 
+            "provides": {
+              "properties": {
+                "license": {
+                  "type": "string"
+                }, 
+                "about": {
+                  "properties": {
+                    "location": {
+                      "properties": {
+                        "geo": {
+                          "properties": {
+                            "lat": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lat"
+                            }, 
+                            "lon": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lon"
+                            }
+                          }
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.@type"
+                        }, 
+                        "address": {
+                          "properties": {
+                            "addressCountry": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressCountry"
+                            }, 
+                            "addressLocality": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressLocality"
+                            }, 
+                            "addressRegion": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressRegion"
+                            }, 
+                            "streetAddress": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.streetAddress"
+                            }, 
+                            "postalCode": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.postalCode"
+                            }, 
+                            "@type": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.@type"
+                            }
+                          }
+                        }
+                      }
+                    }, 
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "availableChannel": {
+                  "properties": {
+                    "serviceUrl": {
+                      "type": "string"
+                    }, 
+                    "availableLanguage": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "startDate": {
+                  "type": "string"
+                }, 
+                "sameAs": {
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "serviceType": {
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "audience": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provider": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "additionalType": {
+              "type": "string"
+            }, 
+            "url": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@context": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "alternateName": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "participantIn": {
+              "properties": {
+                "participant": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "location": {
+                  "properties": {
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "startTime": {
+                  "type": "string"
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "endTime": {
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "name": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "dateCreated": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }
+      }
+    }, 
+    "Action": {
+      "properties": {
+        "dateModified": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }, 
+        "about": {
+          "properties": {
+            "participant": {
+              "properties": {
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provides": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "participantIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "description": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "url": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "image": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "agent": {
+              "properties": {
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "sameAs": {
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "telephone": {
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "agentIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provides": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
+                    }
+                  }
+                }
+              }
+            }, 
+            "startTime": {
+              "type": "string"
+            }, 
+            "alternateName": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "endTime": {
+              "type": "string"
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "email": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "name": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "dateCreated": {
+          "type": "date", 
+          "format": "dateOptionalTime"
+        }
+      }
+    }, 
+    "Article": {
+      "properties": {
+        "about": {
+          "properties": {
+            "articleBody": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "name": {
+              "properties": {
+                "@value": {
+                  "type": "string"
+                }, 
+                "@language": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "creator": {
+              "properties": {
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "created": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "affiliation": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "countryChampionFor": {
+                  "type": "string"
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "mainEntity": {
+              "properties": {
+                "startDate": {
+                  "type": "string"
+                }, 
+                "about": {
+                  "properties": {
+                    "location": {
+                      "properties": {
+                        "geo": {
+                          "properties": {
+                            "lat": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lat"
+                            }, 
+                            "lon": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lon"
+                            }
+                          }
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.@type"
+                        }, 
+                        "address": {
+                          "properties": {
+                            "addressCountry": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressCountry"
+                            }, 
+                            "addressLocality": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressLocality"
+                            }, 
+                            "addressRegion": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressRegion"
+                            }, 
+                            "streetAddress": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.streetAddress"
+                            }, 
+                            "postalCode": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.postalCode"
+                            }, 
+                            "@type": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.@type"
+                            }
+                          }
+                        }
+                      }
+                    }, 
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "availableChannel": {
+                  "properties": {
+                    "serviceUrl": {
+                      "type": "string"
+                    }, 
+                    "availableLanguage": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "sameAs": {
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "serviceType": {
+                  "type": "string"
+                }, 
+                "agent": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "audience": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "startTime": {
+                  "type": "string"
+                }, 
+                "provider": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "endTime": {
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }, 
+            "image": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "dateCreated": {
+              "type": "date", 
+              "format": "dateOptionalTime"
+            }, 
+            "location": {
+              "properties": {
+                "geo": {
+                  "properties": {
+                    "lat": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lat"
+                    }, 
+                    "lon": {
+                      "type": "double", 
+                      "copy_to": "about.location.geo.lon"
+                    }
+                  }
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string", 
+                  "copy_to": "about.location.@type"
+                }, 
+                "address": {
+                  "properties": {
+                    "addressCountry": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressCountry"
+                    }, 
+                    "addressLocality": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressLocality"
+                    }, 
+                    "addressRegion": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.addressRegion"
+                    }, 
+                    "streetAddress": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.streetAddress"
+                    }, 
+                    "postalCode": {
+                      "type": "string", 
+                      "copy_to": "about.location.address.postalCode"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.address.@type"
+                    }
+                  }
+                }
+              }
+            }, 
+            "mentions": {
+              "properties": {
+                "startDate": {
+                  "type": "string"
+                }, 
+                "sameAs": {
+                  "type": "string"
+                }, 
+                "image": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "agent": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "agentIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "additionalType": {
+                  "type": "string"
+                }, 
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "participant": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "availableChannel": {
+                  "properties": {
+                    "serviceUrl": {
+                      "type": "string"
+                    }, 
+                    "availableLanguage": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "properties": {
+                        "lat": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lat"
+                        }, 
+                        "lon": {
+                          "type": "double", 
+                          "copy_to": "about.location.geo.lon"
+                        }
+                      }
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string", 
+                      "copy_to": "about.location.@type"
+                    }, 
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressLocality"
+                        }, 
+                        "addressCountry": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressCountry"
+                        }, 
+                        "addressRegion": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.addressRegion"
+                        }, 
+                        "streetAddress": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.streetAddress"
+                        }, 
+                        "postalCode": {
+                          "type": "string", 
+                          "copy_to": "about.location.address.postalCode"
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provides": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "provider": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "email": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "serviceType": {
+                  "type": "string"
+                }, 
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "countryChampionFor": {
+                  "type": "string"
+                }, 
+                "startTime": {
+                  "type": "string"
+                }, 
+                "contactPoint": {
+                  "type": "string"
+                }, 
+                "@id": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "about": {
+                  "properties": {
+                    "location": {
+                      "properties": {
+                        "geo": {
+                          "properties": {
+                            "lat": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lat"
+                            }, 
+                            "lon": {
+                              "type": "double", 
+                              "copy_to": "about.location.geo.lon"
+                            }
+                          }
+                        }, 
+                        "@type": {
+                          "index": "not_analyzed", 
+                          "type": "string", 
+                          "copy_to": "about.location.@type"
+                        }, 
+                        "address": {
+                          "properties": {
+                            "addressCountry": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressCountry"
+                            }, 
+                            "addressLocality": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressLocality"
+                            }, 
+                            "addressRegion": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.addressRegion"
+                            }, 
+                            "streetAddress": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.streetAddress"
+                            }, 
+                            "postalCode": {
+                              "type": "string", 
+                              "copy_to": "about.location.address.postalCode"
+                            }, 
+                            "@type": {
+                              "index": "not_analyzed", 
+                              "type": "string", 
+                              "copy_to": "about.location.address.@type"
+                            }
+                          }
+                        }
+                      }
+                    }, 
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "type": "string"
+                    }, 
+                    "@language": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }
+                  }
+                }, 
+                "license": {
+                  "type": "string"
+                }, 
+                "url": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }, 
+                "participantIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "audience": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "@type": {
+                      "index": "not_analyzed", 
+                      "type": "string"
+                    }, 
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "type": "string"
+                        }, 
+                        "@language": {
+                          "index": "not_analyzed", 
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }, 
+                "endTime": {
+                  "type": "string"
+                }, 
+                "@type": {
+                  "index": "not_analyzed", 
+                  "type": "string"
+                }
+              }
+            }, 
+            "keywords": {
+              "type": "string"
+            }, 
+            "@context": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@id": {
+              "index": "not_analyzed", 
+              "type": "string"
+            }, 
+            "@type": {
+              "index": "not_analyzed", 
               "type": "string"
             }
           }
-        },
+        }, 
+        "@id": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
+        "@type": {
+          "index": "not_analyzed", 
+          "type": "string"
+        }, 
         "dateCreated": {
-          "type": "date",
-          "format": "dateOptionalTime"
-        },
-        "dateModified": {
-          "type": "date",
+          "type": "date", 
           "format": "dateOptionalTime"
         }
       }

@@ -1,5 +1,15 @@
 package services.repository;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.json.simple.parser.ParseException;
+
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
@@ -7,29 +17,15 @@ import com.typesafe.config.Config;
 
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
 import models.Record;
 import models.Resource;
-
 import models.ResourceList;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.json.simple.parser.ParseException;
-
 import play.Logger;
-import services.ElasticsearchProvider;
 import services.ResourceDenormalizer;
-import services.repository.ElasticsearchRepository;
-import services.repository.FileRepository;
+import services.ResourceEnricher;
 
-import javax.annotation.Nonnull;
-
-public class BaseRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
+public class BaseRepository extends Repository
+    implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
   private static FileRepository mFileRepo;
@@ -54,7 +50,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
-        // Extract the type from the resource, otherwise everything will be typed WebPage!
+        // Extract the type from the resource, otherwise everything will be
+        // typed WebPage!
         String type = dnr.getAsString(JsonLdConstants.TYPE);
         addResource(rec, type);
       }
@@ -64,10 +61,12 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
   @Override
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     mElasticsearchRepo.addResource(aResource, aType);
-    mFileRepo.addResource(aResource, aType);
+    // FIXME: As is the case for getResource, this may result in too many open files
+    // mFileRepo.addResource(aResource, aType);
   }
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
+    ResourceEnricher.enrich(aResource, this);
     List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
     ProcessingReport processingReport = new ListProcessingReport();
     for (Resource dnr : denormalizedResources) {
@@ -83,7 +82,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
         Resource rec = getRecord(dnr);
-        // Extract the type from the resource, otherwise everything will be typed WebPage!
+        // Extract the type from the resource, otherwise everything will be
+        // typed WebPage!
         String type = dnr.getAsString(JsonLdConstants.TYPE);
         addResource(rec, type);
       }
@@ -92,15 +92,11 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
   }
 
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) {
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
-    // has no unencrypted email address
-    String filteredQueryString = aQueryString
-        .concat(" AND ((about.@type:Concept OR about.@type:Article OR about.@type:Organization OR about.@type:Action OR about.@type:Service)")
-        .concat(" OR (about.@type:Person AND about.email:*))");
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+      Map<String, ArrayList<String>> aFilters) {
     ResourceList resourceList;
     try {
-      resourceList = mElasticsearchRepo.query(filteredQueryString, aFrom, aSize, aSortOrder);
+      resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters);
     } catch (IOException | ParseException e) {
       Logger.error(e.toString());
       return null;
@@ -118,7 +114,8 @@ public class BaseRepository extends Repository implements Readable, Writable, Qu
   public Resource getResource(@Nonnull String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
-      resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+      // FIXME: This may lead to inconsistencies (too many open files) when ES and FS are out of sync
+      // resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
     if (resource != null) {
       resource = (Resource) resource.get(Record.RESOURCEKEY);
