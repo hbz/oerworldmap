@@ -1,11 +1,13 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2, time, uuid
+import sys, getopt, json, os, urllib2, time, uuid, socket, pycurl
+from StringIO import StringIO
 
 def convert(output_dir):
     print 'Output dir is ', output_dir
     members = list_members()
     feature_collection = get_feature_collection()
+    print 'Read feature collection'
     for key, value in members.iteritems():
         total = len (value)
         for idx, member in enumerate(value):
@@ -16,14 +18,18 @@ def convert(output_dir):
                 '@context': 'http://schema.org/',
                 '@id': oerwm_id,
                 '@type': 'Organization',
-                'legalName': {
-                    '@language': 'en',
-                    '@value': details['name']
-                },
-                'description': {
-                    '@language': 'en',
-                    '@value': details['description']
-                },
+                'name': [
+                    {
+                        '@language': 'en',
+                        '@value': details['name']
+                    }
+                ],
+                'description': [
+                    {
+                        '@language': 'en',
+                        '@value': details['description']
+                    }
+                ],
                 'url': details['main_website'],
             }
 
@@ -38,19 +44,19 @@ def convert(output_dir):
             print "Wrote data for " + oerwm_id
 
 def list_members():
-    url = "http://members.ocwconsortium.org/api/v1/organization/group_by/membership_type/list/?format=json"
-    response = urllib2.urlopen(url)
-    return json.loads(response.read())
+    url = "http://members.oeconsortium.org/api/v1/organization/group_by/membership_type/list/?format=json"
+    print "Got member list"
+    return json.loads(get_url(url))
 
 def get_details(member_id):
-    url = "http://members.ocwconsortium.org/api/v1/organization/view/" + str(member_id) + "/?format=json"
-    response = urllib2.urlopen(url)
-    return json.loads(response.read())
+    url = "http://members.oeconsortium.org/api/v1/organization/view/" + str(member_id) + "/?format=json"
+    print "Got member detail for " + str(member_id)
+    return json.loads(get_url(url))
 
 def get_feature_collection():
-    url = "http://members.ocwconsortium.org/api/v1/address/list/geo/?format=json"
-    response = urllib2.urlopen(url)
-    return json.loads(response.read())
+    url = "http://members.oeconsortium.org/api/v1/address/list/geo/?format=json"
+    print "Got feature collection"
+    return json.loads(get_url(url))
 
 def get_coordinates(member_id, feature_collection):
     for feature in feature_collection["features"]:
@@ -64,7 +70,7 @@ def get_location(coordinates):
     lon = coordinates[0]
     lat = coordinates[1]
     headers = { 'User-Agent' : 'Mozilla/5.0' }
-    url = "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + str(lat) + "&lon=" + str(lon) + "&addressdetails=1"
+    url = "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + str(lat) + "&lon=" + str(lon) + "&addressdetails=1&accept-language=en"
     req = urllib2.Request(url, None, headers)
     response = urllib2.urlopen(req)
     address = json.loads(response.read())['address']
@@ -74,7 +80,9 @@ def get_location(coordinates):
             'lat': lat,
             'lon': lon
         },
-        'address': {}
+        'address': {
+            '@type': 'PostalAddress'
+        }
     }
     if 'country_code' in address:
         data['address']['addressCountry'] = address['country_code'].upper()
@@ -87,6 +95,15 @@ def get_location(coordinates):
     if 'house' in address and 'road' in address:
         data['address']['streetAddress'] = address['house'] + ' ' + address['road']
     return data
+
+def get_url(url):
+    buffer = StringIO()
+    c = pycurl.Curl()
+    c.setopt(c.URL, url)
+    c.setopt(c.WRITEDATA, buffer)
+    c.perform()
+    c.close()
+    return buffer.getvalue()
 
 if __name__ == "__main__":
     output_dir = ''
