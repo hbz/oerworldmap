@@ -12,7 +12,7 @@ def convert(output_dir):
         total = len (value)
         for idx, member in enumerate(value):
             print "Processing " + str(idx+1) + " of " + str(total) + " entries in " + key
-            oerwm_id = 'urn:uuid:' + str(uuid.uuid1())
+            oerwm_id = get_uri(member["id"])
             details = get_details(member["id"])
             data = {
                 '@context': 'http://schema.org/',
@@ -42,6 +42,11 @@ def convert(output_dir):
             with open(output_path, 'w') as file:
                 json.dump(data, file)
             print "Wrote data for " + oerwm_id
+
+def get_uri(oec_id):
+    with open("id_map.json", 'r') as file:
+        ids = json.loads(file.read())
+        return ids[str(oec_id)]
 
 def list_members():
     url = "http://members.oeconsortium.org/api/v1/organization/group_by/membership_type/list/?format=json"
