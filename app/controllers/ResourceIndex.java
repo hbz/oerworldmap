@@ -75,7 +75,11 @@ public class ResourceIndex extends OERWorldMap {
     }
     response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request())
         .concat(resource.getAsString(JsonLdConstants.ID)));
-    return created(render("Created", "created.mustache", scope));
+    if (isJsonRequest) {
+      return created(resource.getAsString(JsonLdConstants.ID));
+    } else {
+      return created(render("Created", "created.mustache", scope));
+    }
   }
 
   public static Result read(String id) {
@@ -115,7 +119,7 @@ public class ResourceIndex extends OERWorldMap {
   /**
    * This method is designed to add information to existing resources. If the
    * resource doesn't exist yet, a bad request response is returned
-   * 
+   *
    * @param id
    *          The ID of the resource to update
    * @throws IOException
@@ -145,7 +149,11 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(resource + report.toString());
       }
     }
-    return ok(render("Updated", "updated.mustache", scope));
+    if (isJsonRequest) {
+      return ok(resource.getAsString(JsonLdConstants.ID));
+    } else {
+      return ok(render("Updated", "updated.mustache", scope));
+    }
   }
 
   @Security.Authenticated(Secured.class)
