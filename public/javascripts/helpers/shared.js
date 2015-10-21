@@ -199,8 +199,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'organization': 'users',
     'article': 'comment',
     'action': 'gears',
-    'concept': 'bars',
-    'conceptscheme': 'envelope'
+    'concept': 'tag',
+    'conceptscheme': 'sitemap'
   };
   return new Handlebars.SafeString('<i class="fa fa-fw fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
 });
