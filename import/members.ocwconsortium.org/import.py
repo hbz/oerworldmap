@@ -1,6 +1,6 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2, time, uuid, socket, pycurl
+import sys, getopt, json, os, urllib2, time, uuid, socket, pycurl, urllib
 from StringIO import StringIO
 
 def convert(output_dir):
@@ -31,7 +31,13 @@ def convert(output_dir):
                     }
                 ],
                 'url': details['main_website'],
+                'sameAs': ["http://www.oeconsortium.org/members/view/" + str(member["id"]) + "/"]
             }
+
+            try:
+                data['image'] = 'http://www.oeconsortium.org/media/' + urllib.quote(details['logo_small'])
+            except KeyError:
+                pass
 
             coordinates = get_coordinates(member["id"], feature_collection)
             location = get_location(coordinates)
