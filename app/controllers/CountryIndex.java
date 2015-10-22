@@ -14,6 +14,7 @@ import models.ResourceList;
 
 import play.mvc.Result;
 import services.AggregationProvider;
+import services.QueryContext;
 
 /**
  * @author fo
@@ -29,7 +30,8 @@ public class CountryIndex extends OERWorldMap {
     ResourceList champions = mBaseRepository.query(
         Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null, null);
     ResourceList resources = mBaseRepository.query(
-        Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), 0, 9999, null, null);
+        Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), 0, 9999, null, null,
+        (QueryContext) ctx().args.get("queryContext"));
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());

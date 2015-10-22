@@ -17,6 +17,8 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -33,6 +35,7 @@ import models.Resource;
 import play.Configuration;
 import play.Logger;
 import play.Play;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.With;

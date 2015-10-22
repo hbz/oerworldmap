@@ -31,12 +31,15 @@ public class QueryContext {
     filters.put("authenticated", authenticated);
 
     // TODO: Remove privacy filter when all persons are accounts?
-    FilterBuilder admin = FilterBuilders.notFilter(FilterBuilders.andFilter(FilterBuilders
-      .termFilter("about.@type", "Person"), FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email"))));
+    FilterBuilder admin = FilterBuilders.notFilter(FilterBuilders.andFilter(
+      FilterBuilders.termFilter("about.@type", "Person"),
+      FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email"))));
     filters.put("admin", admin);
 
     if (userId != null) {
-      FilterBuilder owner = FilterBuilders.termFilter("about." + JsonLdConstants.ID, userId);
+      FilterBuilder owner = FilterBuilders.notFilter(FilterBuilders.andFilter(
+        FilterBuilders.termFilter("about.@type", "Person"),
+        FilterBuilders.notFilter(FilterBuilders.termFilter("about." + JsonLdConstants.ID, userId))));
       filters.put("owner", owner);
     }
 

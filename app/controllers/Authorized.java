@@ -71,14 +71,14 @@ public class Authorized extends Action.Simple {
     QueryContext queryContext;
     if (user != null && getUserActivities(user.getId(), parameters).contains(activity)) {
       queryContext = new QueryContext(user.getId(), getUserRoles(user.getId(), parameters));
-      System.out.println("Authorized " + username + " for " + activity);
+      System.out.println("Authorized " + username + " for " + activity + " with " + parameters);
     } else {
       if (null == user) {
         queryContext = new QueryContext(null, getUserRoles(null, parameters));
       } else {
         queryContext = new QueryContext(user.getId(), getUserRoles(null, parameters));
       }
-      System.out.println("Unuthorized " + username + " for " + activity);
+      System.out.println("Unuthorized " + username + " for " + activity + " with " + parameters);
     }
     ctx.args.put("queryContext", queryContext);
 
