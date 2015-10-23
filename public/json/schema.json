@@ -1,6 +1,29 @@
 {
-  "id": "#root",
+  "id": "#",
   "$schema": "http://json-schema.org/draft-04/schema#",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/Person"
+    },
+    {
+      "$ref": "#/definitions/Organization"
+    },
+    {
+      "$ref": "#/definitions/Service"
+    },
+    {
+      "$ref": "#/definitions/Action"
+    },
+    {
+      "$ref": "#/definitions/Concept"
+    },
+    {
+      "$ref": "#/definitions/ConceptScheme"
+    },
+    {
+      "$ref": "#/definitions/Article"
+    }
+  ],
   "definitions": {
     "ConceptScheme": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -179,7 +202,7 @@
           }
         },
         "dateCreated": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -280,7 +303,7 @@
           }
         },
         "startTime": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -293,7 +316,7 @@
           ]
         },
         "endTime": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -404,7 +427,7 @@
           }
         },
         "startDate": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
