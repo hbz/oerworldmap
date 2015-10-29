@@ -49,19 +49,14 @@
 
 /* --- popover --- */
 
-#popover {
-  // padding-bottom: 20px;
-/*
-  width: 30px;
-  height: 30px;
-  background: red;
-*/
-  overflow: hidden;
+.ol-overlay-container {
+  position: fixed !important;
+  z-index: 10000;
 }
 
 .popover hr {
   margin-top: (@line-height-computed / 3);
-  margin-bottom: (@line-height-computed / 3);  
+  margin-bottom: (@line-height-computed / 3);
 }
 
 .popover {
@@ -113,7 +108,7 @@
 .map-view .call-for-actions-row {
   display: table-row;
 }
-  
+
 .call-for-action {
   display: table-cell;
   vertical-align: middle;
@@ -188,7 +183,7 @@ a[data-action="close"] {
   transform: scale(1.1);
   transform-origin: 200% 200%;
 */
-  opacity: 0.8;  
+  opacity: 0.8;
 }
 
 svg a {

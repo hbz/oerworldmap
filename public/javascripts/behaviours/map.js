@@ -794,6 +794,14 @@ var Hijax = (function ($, Hijax) {
           wrapX: true
         });
         world.addOverlay(popover);
+        $(container).mouseleave(function(){
+          if(hoverState.feature) {
+            $(popoverElement).hide();
+            resetFeatureStyle( hoverState.feature );
+            hoverState.id = false;
+            hoverState.feature = false;
+          }
+        });
 
         // precompile handlebar templates
         templates = {
