@@ -55,14 +55,34 @@ public class CsvExporter {
     }
   }
 
-  private String toExportString(Object value) {
+  private static String toExportString(Object value) {
+    StringBuilder result = new StringBuilder();
     if (value instanceof Resource) {
-      // only export IDs of nested resources
-      return ((Resource) value).get(JsonLdConstants.ID).toString();
+      Resource resource = (Resource) value;
+      if (resource.get(JsonLdConstants.ID) != null) {
+        String id = resource.get(JsonLdConstants.ID).toString();
+        // only export IDs of nested Resources
+        result.append(id.toString());
+      } //
+      else {
+        // Resource without ID (e. g. "location"): export all sub fields flatly
+        // Presumes that all sub fields of a non-ID Resource are of String type,
+        // will export nonsense otherwise.
+        // The order of exported subfields is not predicted as sub Resources do
+        // not necessarily contain the same fields.
+        TreeSet<Object> values = new TreeSet<>(resource.values());
+        for (int i = 0; i < values.size();) {
+          result.append(values.pollFirst());
+          if (i < values.size()) {
+            result.append(", ");
+          }
+        }
+      }
     } //
     else {
-      return value.toString();
+      result.append(value.toString());
     }
+    return result.toString();
   }
 
   public void defineHeaderColumns(List<Resource> aResourceList) {

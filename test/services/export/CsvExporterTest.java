@@ -30,15 +30,16 @@ public class CsvExporterTest implements JsonTest {
 
   @Test
   public void testHeader() throws IOException {
-    assertEquals("@id;@type;authorOf;email;name", mCsvExporter.headerKeysToCsvString());
+    assertEquals("@id;@type;address;authorOf;email;name", mCsvExporter.headerKeysToCsvString());
   }
 
   @Test
   public void testPlainExport() throws IOException {
     String csv1 = mCsvExporter.exportResourceAsCsvLine(in1);
     String csv2 = mCsvExporter.exportResourceAsCsvLine(in2);
-    assertEquals("456;Person;123;null;Hans Dampf", csv1);
-    assertEquals("345;Person;123;foo@bar.com;Hans Wurst", csv2);
+    assertEquals("456;Person;123456, Countrycountry, Place, Streetstreet 1;123;null;Hans Dampf",
+        csv1);
+    assertEquals("345;Person;null;123;foo@bar.com;Hans Wurst", csv2);
   }
 
 }
