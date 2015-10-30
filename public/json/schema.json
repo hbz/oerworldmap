@@ -538,6 +538,13 @@
             ]
           }
         },
+        "memberOf": {
+          "description": "An organization the person is member of.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Organization"
+          }
+        },
         "image": {
           "type": "string",
           "format": "uri"
@@ -700,6 +707,27 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
+          }
+        },
+        "member": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
+            ]
+          }
+        },
+        "memberOf": {
+          "description": "An organization the organization is member of.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Organization"
           }
         }
       },

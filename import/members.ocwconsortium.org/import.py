@@ -31,7 +31,12 @@ def convert(output_dir):
                     }
                 ],
                 'url': details['main_website'],
-                'sameAs': ["http://www.oeconsortium.org/members/view/" + str(member["id"]) + "/"]
+                'sameAs': ["http://www.oeconsortium.org/members/view/" + str(member["id"]) + "/"],
+                'memberOf': [
+                    {
+                        "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f"
+                    }
+                ]
             }
 
             try:
