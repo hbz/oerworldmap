@@ -66,7 +66,6 @@ public class BaseRepository extends Repository
   }
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
-    ResourceEnricher.enrich(aResource, this);
     List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
     ProcessingReport processingReport = new ListProcessingReport();
     for (Resource dnr : denormalizedResources) {
