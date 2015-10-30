@@ -19,7 +19,7 @@ var Hijax = (function ($, Hijax) {
       standartMapSize = [896, 655],
       standartInitialZoom = 1.85,
       standartMinZoom = 1.85,
-      standartMaxZoom = 8,
+      standartMaxZoom = 15,
 
       defaultCenter = [0, 5000000],
 
@@ -724,7 +724,7 @@ var Hijax = (function ($, Hijax) {
         view.on('propertychange', function(e) {
           switch (e.key) {
             case 'resolution':
-              if (4 < view.getZoom()) {
+              if (4 < view.getZoom() && view.getZoom() < 8) {
                 osmTileLayer.setVisible(true);
               } else {
                 osmTileLayer.setVisible(false);
