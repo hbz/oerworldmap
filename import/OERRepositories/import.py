@@ -11,10 +11,7 @@ def convert(input_path, output_path):
             oerwm_id = 'urn:uuid:' + str(uuid.uuid1())
             if not row[0].strip():
                 continue
-            try:
-                country = pycountry.countries.get(name=row[8].strip()).alpha2
-            except KeyError:
-                country = None
+
             service = {
                 "@context": "http://schema.org/",
                 "@id": oerwm_id,
@@ -116,13 +113,16 @@ def convert(input_path, output_path):
                         "@type": "Place",
                         "address": {
                             "@type": "PostalAddress",
-                            "addressCountry": row[20].strip(),
-                            "addressLocality": row[21].strip(),
-                            "addressRegion": row[22].strip(),
-                            "streetAddress": row[23].strip(),
-                            "postalCode": row[24].strip()
+                            "addressCountry": row[20].strip().replace('\n', ' ').replace('\r', ''),
+                            "addressLocality": row[21].strip().replace('\n', ' ').replace('\r', ''),
+                            "addressRegion": row[22].strip().replace('\n', ' ').replace('\r', ''),
+                            "streetAddress": row[23].strip().replace('\n', ' ').replace('\r', ''),
+                            "postalCode": row[24].strip().replace('\n', ' ').replace('\r', '')
                         }
                     }
+                    coords = get_coordinates(service["provider"][0]["location"]['address'])
+                    if coords:
+                        service["provider"][0]["location"]["geo"] = coords
                 except KeyError:
                     pass
 
@@ -138,6 +138,27 @@ def convert(input_path, output_path):
             except jsonschema.ValidationError as validation_error:
                 print "Validation failed for " + oerwm_id
                 print validation_error.message
+
+def get_coordinates(address):
+    time.sleep(1)
+    url = "http://nominatim.openstreetmap.org/search?accept-language=en&format=json"
+    if address['addressCountry']:
+        url += "&countrycodes=" + address['addressCountry'] + "&country=" + address['addressCountry']
+    if address['addressLocality']:
+        url += "&city=" + address['addressLocality']
+    if address['postalCode']:
+        url += "&postalcode=" + address['postalCode']
+    if address['streetAddress']:
+        url += "&street=" + address['streetAddress']
+    headers = { 'User-Agent' : 'Mozilla/5.0' }
+    req = urllib2.Request(url, None, headers)
+    response = urllib2.urlopen(req)
+    data = json.loads(response.read())
+    if len(data):
+        return {
+            'lat': float(data[0]['lat']),
+            'lon': float(data[0]['lon'])
+        }
 
 if __name__ == "__main__":
     input_path = ''
