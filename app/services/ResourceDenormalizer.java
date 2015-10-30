@@ -107,6 +107,9 @@ public class ResourceDenormalizer {
   private static void split(Resource aResource,
       Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo)
           throws IOException {
+
+    ResourceEnricher.enrich(aResource, aRepo);
+
     String keyId = aResource.getAsString(JsonLdConstants.ID);
     if (keyId == null || !aWrappedResources.containsKey(keyId)) {
       // we need a new wrapper

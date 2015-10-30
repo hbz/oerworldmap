@@ -66,20 +66,24 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+    String id = resource.getAsString(JsonLdConstants.ID);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       }
     }
-    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request())
-        .concat(resource.getAsString(JsonLdConstants.ID)));
-    return created(render("Created", "created.mustache", scope));
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
+    if (isJsonRequest) {
+      return created("Created " + id + "\n");
+    } else {
+      return created(render("Created", "created.mustache", scope));
+    }
   }
 
   public static Result read(String id) throws IOException {
@@ -166,12 +170,16 @@ public class ResourceIndex extends OERWorldMap {
     if (!report.isSuccess()) {
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       }
     }
-    return ok(render("Updated", "updated.mustache", scope));
+    if (isJsonRequest) {
+      return ok("Updated " + id + "\n");
+    } else {
+      return ok(render("Updated", "updated.mustache", scope));
+    }
   }
 
   @Security.Authenticated(Secured.class)
