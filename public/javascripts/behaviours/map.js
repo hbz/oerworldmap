@@ -158,18 +158,18 @@ var Hijax = (function ($, Hijax) {
       standartMapSize[0] / standartMapSize[1]
     ) {
       // current aspect ratio is more landscape then standart, so take height as constraint
-      var size_vactor = $('#map').height() / standartMapSize[1];
+      var size_factor = $('#map').height() / standartMapSize[1];
     } else {
       // it's more portrait, so take width
-      var size_vactor = $('#map').width() / standartMapSize[0];
+      var size_factor = $('#map').width() / standartMapSize[0];
     }
 
-    size_vactor = Math.pow(size_vactor, 0.5);
+    size_factor = Math.pow(size_factor, 0.5);
 
     return {
-      initialZoom: standartInitialZoom * size_vactor,
-      minZoom: standartMinZoom * size_vactor,
-      maxZoom: standartMaxZoom * size_vactor
+      initialZoom: standartInitialZoom * size_factor,
+      minZoom: standartMinZoom * size_factor,
+      maxZoom: standartMaxZoom * size_factor
     };
   }
 
@@ -495,7 +495,6 @@ var Hijax = (function ($, Hijax) {
             if (feature) {
               ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
             }
-
           }
         });
 
@@ -514,9 +513,21 @@ var Hijax = (function ($, Hijax) {
 
     if (boundingBox && (boundingBox[0] != Infinity)) {
       // Set extent of map view
-      world.getView().fit(boundingBox, world.getSize());
+      world.getView().fit(boundingBox, world.getSize(), {
+        padding: [50, 50, 50, 50]
+      });
     }
 
+  }
+
+  function zoomToFeatures(features) {
+    var extent = ol.extent.createEmpty();
+    for(var i = 0; i < features.length; i++) {
+      ol.extent.extend(extent, features[i].getGeometry().getExtent());
+    }
+    world.getView().fit(extent, world.getSize(), {
+      padding: [50, 50, 50, 50]
+    });
   }
 
   function getMarkers(resource, labelCallback, origin) {
@@ -776,11 +787,13 @@ var Hijax = (function ($, Hijax) {
             return feature;
           });
           if (feature) {
-            var properties = feature.getProperties();
-            if (properties.url) {
-              window.location = properties.url;
-            } else {
+            var type = getFeatureType(feature)
+            if (type == "placemark") {
+              window.location = feature.get("features")[0].getProperties().url;
+            } else if(type == "country") {
               window.location = "/country/" + feature.getId().toLowerCase();
+            } else if(type == "cluster") {
+              zoomToFeatures(feature.get("features"));
             }
           }
         });
