@@ -28,21 +28,18 @@ public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
-  private static FileRepository mFileRepo;
+  //private static FileRepository mFileRepo;
 
   public BaseRepository(Config aConfiguration) {
     super(aConfiguration);
     mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
-    mFileRepo = new FileRepository(aConfiguration);
+    //mFileRepo = new FileRepository(aConfiguration);
   }
 
   @Override
   public Resource deleteResource(@Nonnull String aId) {
-    if (null == mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY)) {
-      return null;
-    } else {
-      return mFileRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
-    }
+    return mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+    //return mFileRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
   }
 
   public void addResource(Resource aResource) throws IOException {
@@ -140,11 +137,11 @@ public class BaseRepository extends Repository
   }
 
   private Resource getRecordFromRepo(String aId) {
-    Resource record = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    if (record == null || record.isEmpty()) {
-      record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    }
-    return record;
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    //if (record == null || record.isEmpty()) {
+      //record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    //}
+    //return record;
   }
 
   private List<Resource> getResources(List<Resource> aRecords) {
