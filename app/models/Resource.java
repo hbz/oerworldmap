@@ -5,6 +5,7 @@ import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +27,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import play.Play;
 
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
@@ -37,7 +40,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
 
-  public static final String REFERENCEKEY = "referencedBy";
+  private static JsonSchema mSchema = null;
+
+  static {
+    try {
+      mSchema = JsonSchemaFactory.byDefault().getJsonSchema(
+        new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
+    } catch (IOException | ProcessingException e) {
+      Logger.error(e.toString());
+    }
+  }
 
   public Resource() {
   }
@@ -66,10 +78,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     }
     if (null != aId) {
       this.put(JsonLdConstants.ID, aId);
-    } else {
-      if (mIdentifiedTypes.contains(aType)) {
-        this.put(JsonLdConstants.ID, generateId());
-      }
+    } else if (mIdentifiedTypes.contains(aType)) {
+      this.put(JsonLdConstants.ID, generateId());
     }
   }
 
@@ -140,21 +150,25 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     }
   }
 
+  public static Resource fromJsonFile(String aFile) throws IOException {
+    InputStream in = Play.application().classloader().getResourceAsStream(aFile);
+    String json = IOUtils.toString(in, "UTF-8");
+    return Resource.fromJson(json);
+  }
+
   public ProcessingReport validate() {
-    JsonSchema schema;
     ProcessingReport report = new ListProcessingReport();
     try {
       String type = this.getAsString(JsonLdConstants.TYPE);
       if (null == type) {
         report.error(new ProcessingMessage().setMessage("No type found for ".concat(this.toString())
             .concat(", cannot validate")));
+      } else if (null != mSchema) {
+        report = mSchema.validate(toJson());
       } else {
-        schema = JsonSchemaFactory.byDefault().getJsonSchema(
-            new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()),
-            "/definitions/".concat(type));
-        report = schema.validate(toJson());
+        Logger.warn("No JSON schema present, validation disabled.");
       }
-    } catch (ProcessingException | IOException e) {
+    } catch (ProcessingException e) {
       e.printStackTrace();
     }
     return report;

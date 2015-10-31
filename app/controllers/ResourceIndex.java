@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,6 +23,7 @@ import models.Resource;
 import models.ResourceList;
 import play.mvc.Result;
 import play.mvc.Security;
+import services.AggregationProvider;
 import services.ElasticsearchProvider;
 
 /**
@@ -62,23 +66,27 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+    String id = resource.getAsString(JsonLdConstants.ID);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       }
     }
-    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request())
-        .concat(resource.getAsString(JsonLdConstants.ID)));
-    return created(render("Created", "created.mustache", scope));
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
+    if (isJsonRequest) {
+      return created("Created " + id + "\n");
+    } else {
+      return created(render("Created", "created.mustache", scope));
+    }
   }
 
-  public static Result read(String id) {
+  public static Result read(String id) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id);
     if (null == resource) {
@@ -98,6 +106,28 @@ public class ResourceIndex extends OERWorldMap {
       resource.put("related", relatedList.getItems());
     }
 
+    if (type.equals("ConceptScheme")) {
+      Resource conceptScheme = null;
+      String field = null;
+      if ("https://w3id.org/class/esc/scheme".equals(id)) {
+        conceptScheme = Resource.fromJsonFile("public/json/esc.json");
+        field = "about.about.@id";
+      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
+        field = "about.audience.@id";
+        conceptScheme = Resource.fromJsonFile("public/json/isced-1997.json");
+      }
+      if (!(null == conceptScheme)) {
+        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services").filter(
+          FilterBuilders.termFilter("about.@type", "Service")
+        );
+        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
+          conceptAggregation.subAggregation(AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
+        }
+        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
+        resource.put("aggregation", nestedConceptAggregation);
+      }
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -115,7 +145,7 @@ public class ResourceIndex extends OERWorldMap {
   /**
    * This method is designed to add information to existing resources. If the
    * resource doesn't exist yet, a bad request response is returned
-   * 
+   *
    * @param id
    *          The ID of the resource to update
    * @throws IOException
@@ -140,12 +170,16 @@ public class ResourceIndex extends OERWorldMap {
     if (!report.isSuccess()) {
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       }
     }
-    return ok(render("Updated", "updated.mustache", scope));
+    if (isJsonRequest) {
+      return ok("Updated " + id + "\n");
+    } else {
+      return ok(render("Updated", "updated.mustache", scope));
+    }
   }
 
   @Security.Authenticated(Secured.class)

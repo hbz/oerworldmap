@@ -1,0 +1,188 @@
+{
+  "hasTopConcept": [
+    {
+      "name": [
+        {
+          "@value": "Lower secondary education or second stage of basic education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:2"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level2", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 2", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": [
+        {
+          "@value": "Upper secondary education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:3"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level3", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 3", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": [
+        {
+          "@value": "Primary education or first stage of basic education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:1"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level1", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 1", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": [
+        {
+          "@value": "Post-secondary non-tertiary education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:4"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level4", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 4", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": [
+        {
+          "@value": "First stage of tertiary education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:5"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level5", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 5", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": [
+        {
+          "@value": "Pre-Primary Education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:0"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level0", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 0", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": [
+        {
+          "@value": "Second stage of tertiary education", 
+          "@language": "en"
+        }
+      ], 
+      "notation": [
+        "ISCED-1997:6"
+      ], 
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@id": "https://w3id.org/isced/1997/level6", 
+      "narrower": [], 
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 6", 
+          "@language": "en"
+        }
+      ], 
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      }, 
+      "@type": "Concept"
+    }
+  ], 
+  "@id": "https://w3id.org/isced/1997/scheme", 
+  "@type": "ConceptScheme"
+}
