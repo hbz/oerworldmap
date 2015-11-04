@@ -37,4 +37,15 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(expected, mBaseRepo.getResource("id002"));
   }
 
+  @Test
+  public void testGetResourcesWithWildcard() throws IOException {
+    Resource in1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
+    Resource in2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
+    mBaseRepo.addResource(in1);
+    mBaseRepo.addResource(in2);
+    System.out.println(mBaseRepo.getResources("about.@id", "123"));
+  }
+
 }

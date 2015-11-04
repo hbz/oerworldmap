@@ -46,14 +46,15 @@ public class ElasticsearchTestGrid {
             Integer.valueOf(mEsConfig.getJavaPort())));
     mEsProvider = new ElasticsearchProvider(mClient, mEsConfig);
 
-    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(),
-        mConfig.getString("es.index.name"));
+    // FIXME: Uncomment & run tests to create clean index, comment out for following test-runs.
+    //ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(),
+        //mConfig.getString("es.index.name"));
 
   }
 
   @AfterClass
   public static void tearDown() {
-    mEsProvider.deleteIndex(mConfig.getString("es.index.name"));
+    //mEsProvider.deleteIndex(mConfig.getString("es.index.name"));
     mClient.close();
   }
 }
