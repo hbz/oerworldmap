@@ -62,11 +62,11 @@ public class ElasticsearchProvider {
     return mClient;
   }
 
-  public static String getIndex() {
+  public String getIndex() {
     return mConfig.getIndex();
   }
 
-  public static String getType() {
+  public String getType() {
     return mConfig.getType();
   }
 
@@ -162,9 +162,9 @@ public class ElasticsearchProvider {
     SearchResponse response = null;
     final List<Map<String, Object>> docs = new ArrayList<>();
     while (response == null || response.getHits().hits().length != 0) {
-      response = mClient.prepareSearch(mConfig.getIndex()).setQuery(
-        QueryBuilders.queryString(aField.concat(":").concat(aValue.toString())))
-        .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
+      response = mClient.prepareSearch(mConfig.getIndex())
+          .setQuery(QueryBuilders.queryString(aField.concat(":").concat(aValue.toString())))
+          .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
       }

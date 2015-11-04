@@ -56,7 +56,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
     Resource toBeDeleted = mBaseRepo.getResource("9m8n7b");
-    Thread.sleep(1000); // test fails without this interruption
     mBaseRepo.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID));
     Resource result1 = mBaseRepo.getResource("4g5h6j");
     Resource result2 = mBaseRepo.getResource("1a2s3d");
@@ -66,7 +65,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testGetResourcesWithWildcard() throws IOException {
+  public void testGetResourcesWithWildcard() throws IOException, InterruptedException {
     Resource in1 = getResourceFromJsonFile(
         "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(
