@@ -22,24 +22,36 @@ import models.Resource;
 import models.ResourceList;
 import play.Logger;
 import services.ResourceDenormalizer;
-import services.ResourceEnricher;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
-  //private static FileRepository mFileRepo;
+  // private static FileRepository mFileRepo;
 
   public BaseRepository(Config aConfiguration) {
     super(aConfiguration);
     mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
-    //mFileRepo = new FileRepository(aConfiguration);
+    // mFileRepo = new FileRepository(aConfiguration);
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId) {
-    return mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
-    //return mFileRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+  public Resource deleteResource(@Nonnull String aId) throws IOException {
+    // query Resources that mention this Resource and delete the references
+    List<Resource> resources = getResources("_all", aId);
+    // TODO: find better performing query
+    for (Resource resource : resources) {
+      if (resource.getAsString(JsonLdConstants.ID).equals(aId)) {
+        continue;
+      }
+      String type = resource.getAsString(JsonLdConstants.TYPE);
+      resource = resource.deleteReferencesTo(aId);
+      addResource(getRecord(resource), type);
+    }
+
+    // delete the resource itself
+    Resource result = mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+    return result;
   }
 
   public void addResource(Resource aResource) throws IOException {
@@ -58,7 +70,8 @@ public class BaseRepository extends Repository
   @Override
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     mElasticsearchRepo.addResource(aResource, aType);
-    // FIXME: As is the case for getResource, this may result in too many open files
+    // FIXME: As is the case for getResource, this may result in too many open
+    // files
     // mFileRepo.addResource(aResource, aType);
   }
 
@@ -101,7 +114,7 @@ public class BaseRepository extends Repository
     resourceList.setSearchTerms(aQueryString);
     // members are Records, unwrap to plain Resources
     List<Resource> resources = new ArrayList<>();
-    resources.addAll(getResources(resourceList.getItems()));
+    resources.addAll(unwrapRecords(resourceList.getItems()));
     resourceList.setItems(resources);
     return resourceList;
   }
@@ -110,7 +123,8 @@ public class BaseRepository extends Repository
   public Resource getResource(@Nonnull String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
-      // FIXME: This may lead to inconsistencies (too many open files) when ES and FS are out of sync
+      // FIXME: This may lead to inconsistencies (too many open files) when ES
+      // and FS are out of sync
       // resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
     if (resource != null) {
@@ -138,13 +152,21 @@ public class BaseRepository extends Repository
 
   private Resource getRecordFromRepo(String aId) {
     return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    //if (record == null || record.isEmpty()) {
-      //record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    //}
-    //return record;
+    // if (record == null || record.isEmpty()) {
+    // record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    // }
+    // return record;
   }
 
-  private List<Resource> getResources(List<Resource> aRecords) {
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
+    List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
+    if (records != null) {
+      return unwrapRecords(records);
+    }
+    return null;
+  }
+
+  private List<Resource> unwrapRecords(List<Resource> aRecords) {
     List<Resource> resources = new ArrayList<Resource>();
     for (Resource rec : aRecords) {
       resources.add((Resource) rec.get(Record.RESOURCEKEY));

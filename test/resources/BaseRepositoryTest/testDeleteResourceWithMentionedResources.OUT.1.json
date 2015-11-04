@@ -1,0 +1,17 @@
+{
+	"@type": "Person", 
+	"@id": "4g5h6j", 
+	"givenName": "Hans",
+	"familyName": "Wurst", 
+	"affiliation": [
+		{
+			"legalName": "Oh Yeah Company", 
+			"@type": "Organization", 
+			"@id": "1a2s3d", 
+			"employee": {
+				"@type": "Person", 
+				"@id": "4g5h6j"
+			}
+		}
+	]
+}
