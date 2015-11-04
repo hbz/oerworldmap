@@ -155,8 +155,7 @@ public class ElasticsearchProvider {
   public List<Map<String, Object>> getResources(final String aField, final Object aValue) {
 
     SearchResponse response = mClient.prepareSearch(mConfig.getIndex()).setQuery(
-      QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
-        FilterBuilders.termFilter(aField, aValue))).execute().actionGet();
+      QueryBuilders.queryString(aField.concat(":").concat(aValue.toString()))).execute().actionGet();
 
     final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
     for (SearchHit hit : response.getHits()) {
