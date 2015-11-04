@@ -153,17 +153,20 @@ public class ElasticsearchProvider {
   }
 
   public List<Map<String, Object>> getResources(final String aField, final Object aValue) {
-
-    SearchResponse response = mClient.prepareSearch(mConfig.getIndex()).setQuery(
-      QueryBuilders.queryString(aField.concat(":").concat(aValue.toString()))).execute().actionGet();
-
-    final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
-    for (SearchHit hit : response.getHits()) {
-      docs.add(hit.getSource());
+    final int docsPerPage = 1024;
+    int count = 0;
+    SearchResponse response = null;
+    final List<Map<String, Object>> docs = new ArrayList<>();
+    while (response == null || response.getHits().hits().length != 0) {
+      response = mClient.prepareSearch(mConfig.getIndex()).setQuery(
+        QueryBuilders.queryString(aField.concat(":").concat(aValue.toString())))
+        .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
+      for (SearchHit hit : response.getHits()) {
+        docs.add(hit.getSource());
+      }
+      count++;
     }
-
     return docs;
-
   }
 
   /**
