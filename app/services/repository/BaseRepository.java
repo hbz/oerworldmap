@@ -133,6 +133,14 @@ public class BaseRepository extends Repository
     return resource;
   }
 
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
+    List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
+    if (records != null) {
+      return unwrapRecords(records);
+    }
+    return null;
+  }
+
   private Resource getRecord(Resource aResource) {
     String id = (String) aResource.get(JsonLdConstants.ID);
     Resource record;
@@ -156,14 +164,6 @@ public class BaseRepository extends Repository
     // record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     // }
     // return record;
-  }
-
-  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
-    if (records != null) {
-      return unwrapRecords(records);
-    }
-    return null;
   }
 
   private List<Resource> unwrapRecords(List<Resource> aRecords) {

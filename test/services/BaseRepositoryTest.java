@@ -65,4 +65,15 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertNull(mBaseRepo.getResource("9m8n7b"));
   }
 
+  @Test
+  public void testGetResourcesWithWildcard() throws IOException {
+    Resource in1 = getResourceFromJsonFile(
+        "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
+    Resource in2 = getResourceFromJsonFile(
+        "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
+    mBaseRepo.addResource(in1);
+    mBaseRepo.addResource(in2);
+    Assert.assertEquals(2, mBaseRepo.getResources("\\*.@id", "123").size());
+  }
+
 }
