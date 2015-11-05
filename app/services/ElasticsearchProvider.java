@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -163,7 +164,7 @@ public class ElasticsearchProvider {
     final List<Map<String, Object>> docs = new ArrayList<>();
     while (response == null || response.getHits().hits().length != 0) {
       response = mClient.prepareSearch(mConfig.getIndex())
-          .setQuery(QueryBuilders.queryString(aField.concat(":").concat(aValue.toString())))
+          .setQuery(QueryBuilders.queryString(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
           .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
