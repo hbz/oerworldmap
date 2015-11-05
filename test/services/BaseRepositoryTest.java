@@ -80,6 +80,27 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
+  public void testDeleteResourceFromList() throws IOException {
+    Resource db1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceFromList.DB.1.json");
+    Resource db2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceFromList.DB.2.json");
+    Resource db3 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceFromList.DB.2.json");
+    Resource out1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceFromList.OUT.1.json");
+    Resource out2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceFromList.OUT.2.json");
+    mBaseRepo.addResource(db1);
+    mBaseRepo.addResource(db2);
+    mBaseRepo.addResource(db3);
+    mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665");
+    Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
+    Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
+    Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
+  }
+
+  @Test
   public void testGetResourcesWithWildcard() throws IOException {
     Resource in1 = getResourceFromJsonFile(
         "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
