@@ -395,11 +395,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       } //
       else if (entry.getValue() instanceof List<?>) {
         List<?> list = (List<?>) entry.getValue();
-        for (Object item : list) {
+        for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
+          Object item = itn.next();
           if (item instanceof Resource) {
             Resource innerResource = (Resource) item;
-            if (innerResource.getAsString(JsonLdConstants.ID).equals(aId)) {
-              list.remove(item);
+            String innerId = innerResource.getAsString(JsonLdConstants.ID);
+            if (innerId != null && innerId.equals(aId)) {
+              itn.remove();
               if (list.isEmpty()) {
                 it.remove();
               }
