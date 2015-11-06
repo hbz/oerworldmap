@@ -279,7 +279,7 @@ public class ElasticsearchProvider {
 
     // TODO: define query fields somewhere else
     searchRequestBuilder.setFetchSource(new String[]{
-      "about.@id", "about.@type", "about.name", "about.location",
+      "about.@id", "about.@type", "about.name", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
