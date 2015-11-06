@@ -17,10 +17,14 @@ The OER World Map shares information on behalf of the worldwide OER community, u
 - to connect institutions and foster inter institutional cooperation
 - in many other ways.
 
+---
+
 # Institutions
 OER World Map is built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) with funding from [The William and Flora Hewlett Foundation](http://www.hewlett.org/).
 
 ![hbz](/assets/images/image06.gif) ![graphthinkingGmbH](/assets/images/image10.png) ![The Open University](/assets/images/image07.png) ![The William and Flora Hewlett Foundation](/assets/images/image04.jpg)
+
+---
 
 # Team
 

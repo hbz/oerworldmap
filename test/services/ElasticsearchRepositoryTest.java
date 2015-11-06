@@ -1,46 +1,29 @@
 package services;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import helpers.ElasticsearchHelpers;
-import helpers.JsonLdConstants;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import models.Resource;
-
-import models.ResourceList;
 import org.json.simple.parser.ParseException;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import services.repository.ElasticsearchRepository;
+import helpers.ElasticsearchTestGrid;
+import helpers.JsonLdConstants;
+import models.Resource;
+import models.ResourceList;
 
-public class ElasticsearchRepositoryTest {
+public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
 
   private static Resource mResource1;
   private static Resource mResource2;
   private static Resource mResource3;
-  private static ElasticsearchRepository mRepo;
-  private static Config mConfig;
 
-  @SuppressWarnings("resource")
   @BeforeClass
-  public static void setup() throws IOException {
-    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    mRepo = new ElasticsearchRepository(mConfig);
-    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(), mConfig.getString("es.index.name"));
-    setupResources();
-  }
-
-  private static void setupResources() throws IOException {
+  public static void setupResources() throws IOException {
     mResource1 = new Resource("Person");
     mResource1.put("name", "oeruser1");
     mResource1.put("worksFor", "oerknowledgecloud.org");
@@ -76,7 +59,7 @@ public class ElasticsearchRepositoryTest {
       // instance. Otherwise it will fail. This restriction can be overturned
       // when a parallel method
       // for the use of POST is introduced in ElasticsearchRepository.
-      result = mRepo.query(aQueryString, 0, 10, null);
+      result = mRepo.query(aQueryString, 0, 10, null, null);
     } catch (IOException | ParseException e) {
       e.printStackTrace();
     } finally {
@@ -93,7 +76,7 @@ public class ElasticsearchRepositoryTest {
     Set<String> employers = new HashSet<String>();
 
     for (Resource r : resourcesGotBack) {
-      ids.add(r.get(JsonLdConstants.ID).toString());
+      ids.add(r.getAsString(JsonLdConstants.ID));
       names.add(r.get("name").toString());
       employers.add(r.get("worksFor").toString());
     }
@@ -103,10 +86,5 @@ public class ElasticsearchRepositoryTest {
     Assert.assertTrue(resourcesGotBack.size() == ids.size() && ids.size() == names.size());
     // non-unique fields : some "persons" work for the same employer:
     Assert.assertTrue(resourcesGotBack.size() > employers.size());
-  }
-  
-  @AfterClass
-  public static void clean() throws IOException {
-    mRepo.getElasticsearchProvider().deleteIndex(mConfig.getString("es.index.name"));
   }
 }

@@ -1,6 +1,6 @@
 <div role="main">
     <section>
-        {{#messages.size}}
+        {{#if messages}}
             <ul id="messages">
               {{#messages}}
                   <li class="message {{level}}">
@@ -8,9 +8,9 @@
                   </li>
               {{/messages}}
             </ul>
-        {{/messages.size}}
+        {{/if}}
         {{#continue}}
-            <a href="{{continue}}">{{i18n.feedback_link_continue}}</a>
+            <a href="{{continue}}">{{i18n "feedback_link_continue"}}</a>
         {{/continue}}
     </section>
 </div>

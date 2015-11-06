@@ -1,46 +1,132 @@
-<div role="complementary" data-view="map" data-focus="{{#scope}}{{@id}}{{/scope}} {{#scope.provider}}{{@id}} {{/scope.provider}}" class="color-scheme-map column medium">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+<div
+    role="complementary"
+    data-view="map"
+    data-focus="{{#scope}}{{@id}}{{/scope}} {{#scope.provider}}{{@id}} {{/scope.provider}}"
+    class="color-scheme-map column-medium"
+>
+    <div class="hidden">
+        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    </div>
 </div>
-<div role="main" class="color-scheme-text container column medium">
-  {{#scope}}
-      <div class="resource-service">
-          <script type="application/ld+json">
-                {{{.}}}
-            </script>
-          <h1><i class="fa fa-desktop"></i> {{#name}}{{@value}}{{/name}}</h1>
-          {{#image}}<img src="{{.}}" width="250" />{{/image}}
-          {{#description}}<p>{{{@value}}}</p>{{/description}}
-          {{#serviceType}}<h2>Service type</h2><p>{{.}}</p>{{/serviceType}}
-          {{#availableChannel}}
-          <div>
-              <h2>Available at</h2>
-              {{#serviceUrl}}<a href="{{.}}">{{.}}</a>{{/serviceUrl}}
-              <h2>Available languages</h2>
-              <ul>
-                  {{#availableLanguage}}<li>{{.}}</li>{{/availableLanguage}}
-              </ul>
-              <h2>Audience</h2>
-              <ul>
-                  {{#audience}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/audience}}
-              </ul>
-              <h2>Topics</h2>
-              <ul>
-                  {{#about}}<li><a href='/resource/?q="{{.}}"'>{{.}}</a></li>{{/about}}
-              </ul>
-          </div>
-          {{/availableChannel}}
-          <h2>Provider</h2>
-          {{#provider}}
-            <ul>
-              {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-            </ul>
-          {{/provider}}
-      </div>
-      <h2>{{i18n.mentioned_in}}</h2>
-      <ul>
-        {{#referencedBy}}
-            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-        {{/referencedBy}}
-      </ul>
-  {{/scope}}
+
+<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
+    <div class="column-container">
+
+        {{#scope}}
+
+            <div class="resource">
+
+                <script type="application/ld+json">
+                    {{{.}}}
+                </script>
+
+                <div class="resource-header">
+
+                    <h1 class="resource-title">
+                        <i class="fa fa-desktop"></i>
+                        {{#name}}{{@value}}{{/name}}
+                    </h1>
+
+                    {{#serviceType}}
+                        <div class="resource-subline">
+                            <div class="resource-subline-label">Service Type</div>
+                            {{.}}
+                        </div>
+                    {{/serviceType}}
+
+                </div>
+
+                {{#image}}
+                    <div class="paragraph-image">
+                        <a href="{{.}}" target="_blank">
+                            <img src="{{.}}" width="250" />
+                        </a>
+                    </div>
+                {{/image}}
+
+                {{#description}}
+                    <p>{{{@value}}}</p>
+                {{/description}}
+
+                {{#availableChannel}}{{#serviceUrl}}
+                    <p>
+                        <a href="{{.}}" target="_blank" class="btn btn-default">
+                            <i class="fa fa-external-link"></i>
+                            {{stripProtocol .}}
+                        </a>
+                    </p>
+                {{/serviceUrl}}{{/availableChannel}}
+
+                <table class="table resource-details-table">
+
+                    <tr>
+                        <td>Languages</td>
+                        <td>
+                            <ul class="comma-seperated-list">
+                                {{#availableChannel}}
+                                    {{#availableLanguage}}
+                                        <li>{{i18n . bundle = "languages"}}</li>
+                                    {{/availableLanguage}}
+                                {{/availableChannel}}
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Audience</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#audience}}
+                                    <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                {{/audience}}
+                            </ul>
+                        </td>
+                    </tr>
+
+                    {{#if provider}}
+                        <tr>
+                            <td>Provider</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#provider}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/provider}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if about}}
+                        <tr>
+                            <td>Topics</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#about}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/about}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if sameAs}}
+                        <tr>
+                            <td>Links</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#sameAs}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                </table>
+
+            </div>
+
+        {{/scope}}
+
+    </div>
 </div>
