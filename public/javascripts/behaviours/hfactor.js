@@ -29,6 +29,8 @@ var Hijax = (function ($, Hijax) {
         parent.replaceWith(html);
         break;
     }
+    
+    Hijax.layout();
 
   }
 

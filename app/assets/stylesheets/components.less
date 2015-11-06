@@ -1,3 +1,10 @@
+/* --- table statistics --- */
+
+.table-statistics {
+  width: auto;
+  .paragraph-image();
+}
+
 /* --- placeholder --- */
 
 .placeholder:before,
@@ -41,6 +48,36 @@
 }
 
 
+/* --- country champion --- */
+
+.country-champion {
+  .clearfix();
+}
+
+.country-champion .img {
+  width: 130px;
+  float: left;
+}
+
+.country-champion .text {
+  margin-left: 150px;
+}
+
+.country-champion .placeholder-qmark:before,
+.country-champion .placeholder:before {
+  width: 130px;
+  height: 130px;
+  font-size: 130px;
+  line-height: 130px;
+}
+
+.country-champion h4 {
+  font-size: (@typo-small-font-size-base * 0.9);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+}
+
 /* --- statistics table --- */
 
 .statistics-table td {
@@ -54,9 +91,26 @@
 .related-list {
   .list-unstyled();
 }
-  
+
+hr.dirty {
+  border-top: 1px solid @blue-paler;
+  margin: 0px 0px 5px 0px;
+}
+
 .related-list li {
   padding-bottom: 5px;
+  border-bottom: 1px solid @blue-paler;
+  margin-bottom: 5px;
+  margin-left: -32px;
+  padding-left: 32px;
+}
+
+.related-list .fa-li {
+  left: 0px;
+}
+
+.related-list li a {
+  text-decoration: none;
 }
 
 

@@ -29,7 +29,7 @@ def process_mapping(mapping):
 
 def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
-                    'availableLanguage']
+                    'availableLanguage', 'prefLabel']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])

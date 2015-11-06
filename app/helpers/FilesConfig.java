@@ -8,10 +8,6 @@ public class FilesConfig {
     return "public/json/schema.json";
   }
 
-  public static String getOrganizationJsonld() {
-    return "public/json/ld/organization.jsonld";
-  }
-
   public static String getRepo() {
     return Global.getConfig().getString("filerepo.dir");
   }

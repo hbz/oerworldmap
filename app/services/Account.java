@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 import models.Resource;
 
@@ -24,6 +25,11 @@ public class Account {
   private static final SecureRandom mRandom = new SecureRandom();
 
   public static String createTokenFor(Resource user) {
+
+    if (! Arrays.asList(Global.getConfig().getString("users.valid").split(",")).contains(user.get("email").toString())) {
+      return null;
+    }
+
     String token = new BigInteger(130, mRandom).toString(32);
     Path tokenFile = Paths.get(mTokenDir, getEncryptedEmailAddress(user));
     try {
@@ -45,14 +51,23 @@ public class Account {
   }
 
   public static boolean authenticate(String username, String password) {
-    return username.equals(Global.getConfig().getString("admin.user"))
-        && password.equals(Global.getConfig().getString("admin.pass"));
-    /*
-     * Path tokenFile = Paths.get(mTokenDir,
-     * getEncryptedEmailAddress(username)); try { if (new
-     * String(Files.readAllBytes(tokenFile)).equals(password)) { return true; }
-     * } catch (IOException e) { return false; } return false;
-     */
+
+    if (username.equals(Global.getConfig().getString("admin.user"))
+        && password.equals(Global.getConfig().getString("admin.pass"))) {
+      return true;
+    }
+
+    Path tokenFile = Paths.get(mTokenDir, getEncryptedEmailAddress(username));
+    try {
+      if (new String(Files.readAllBytes(tokenFile)).equals(password)) {
+        return true;
+      }
+    } catch (IOException e) {
+      return false;
+    }
+
+    return false;
+
   }
 
   public static String getEncryptedEmailAddress(Resource user) {

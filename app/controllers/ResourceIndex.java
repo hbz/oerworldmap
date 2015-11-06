@@ -1,43 +1,53 @@
 package controllers;
 
-import helpers.Countries;
-import helpers.JSONForm;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import models.Resource;
-
-import models.ResourceList;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.json.simple.parser.ParseException;
-
-import play.mvc.Result;
-import play.mvc.Security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+
+import helpers.Countries;
+import helpers.JSONForm;
+import helpers.JsonLdConstants;
+import models.Resource;
+import models.ResourceList;
+import play.mvc.Result;
+import play.mvc.Security;
 import services.AggregationProvider;
+import services.ElasticsearchProvider;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort) throws IOException, ParseException {
 
-    Map<String, Object> scope = new HashMap<>();
+  public static Result list(String q, int from, int size, String sort, boolean list) throws IOException, ParseException {
 
-    scope.put("q", q);
-
-    // Empty query string matches everything
-    if (q.equals("")) {
-      q = "*";
+    // Extract filters directly from query params
+    Map<String, ArrayList<String>> filters = new HashMap<>();
+    Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
+    for (Map.Entry<String, String[]> entry : request().queryString().entrySet()) {
+      Matcher filterMatcher = filterPattern.matcher(entry.getKey());
+      if (filterMatcher.find()) {
+        filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
+      }
     }
 
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort);
+    Map<String, Object> scope = new HashMap<>();
+    ElasticsearchProvider.user = Secured.getHttpBasicAuthUser(ctx());
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
+    scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {
@@ -52,27 +62,31 @@ public class ResourceIndex extends OERWorldMap {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = resource.validate();
+    String id = resource.getAsString(JsonLdConstants.ID);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
     if (!report.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
-      scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-            JSONForm.generateErrorReport(report)));
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       }
     }
-    mBaseRepository.addResource(resource);
-    return created("created resource " + resource.toString());
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
+    if (isJsonRequest) {
+      return created("Created " + id + "\n");
+    } else {
+      return created(render("Created", "created.mustache", scope));
+    }
   }
 
-  public static Result read(String id) {
+  public static Result read(String id) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id);
     if (null == resource) {
@@ -84,6 +98,34 @@ public class ResourceIndex extends OERWorldMap {
     // has no unencrypted email address
     if (type.equals("Person") && null == resource.get("email")) {
       return notFound("Not found");
+    }
+
+    if (type.equals("Concept")) {
+      ResourceList relatedList = mBaseRepository
+          .query("about.about.@id:\"".concat(id).concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
+      resource.put("related", relatedList.getItems());
+    }
+
+    if (type.equals("ConceptScheme")) {
+      Resource conceptScheme = null;
+      String field = null;
+      if ("https://w3id.org/class/esc/scheme".equals(id)) {
+        conceptScheme = Resource.fromJsonFile("public/json/esc.json");
+        field = "about.about.@id";
+      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
+        field = "about.audience.@id";
+        conceptScheme = Resource.fromJsonFile("public/json/isced-1997.json");
+      }
+      if (!(null == conceptScheme)) {
+        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services").filter(
+          FilterBuilders.termFilter("about.@type", "Service")
+        );
+        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
+          conceptAggregation.subAggregation(AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
+        }
+        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
+        resource.put("aggregation", nestedConceptAggregation);
+      }
     }
 
     String title;
@@ -103,7 +145,7 @@ public class ResourceIndex extends OERWorldMap {
   /**
    * This method is designed to add information to existing resources. If the
    * resource doesn't exist yet, a bad request response is returned
-   * 
+   *
    * @param id
    *          The ID of the resource to update
    * @throws IOException
@@ -118,24 +160,26 @@ public class ResourceIndex extends OERWorldMap {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = resource.validate();
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
     if (!report.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
-      scope.put("resource", resource);
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(render("Resources", "ResourceIndex/index.mustache", scope,
-            JSONForm.generateErrorReport(report)));
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       }
     }
-    mBaseRepository.addResource(resource);
-    return created("updated resource " + resource.toString());
+    if (isJsonRequest) {
+      return ok("Updated " + id + "\n");
+    } else {
+      return ok(render("Updated", "updated.mustache", scope));
+    }
   }
 
   @Security.Authenticated(Secured.class)

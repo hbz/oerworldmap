@@ -1,17 +1,14 @@
 package services.repository;
 
-import com.typesafe.config.Config;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import models.Record;
-import models.Resource;
-
-import models.ResourceList;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -22,11 +19,19 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
+
+import com.typesafe.config.Config;
+
+import helpers.JsonLdConstants;
+import models.Record;
+import models.Resource;
+import models.ResourceList;
 import play.Logger;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
 
-public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
+public class ElasticsearchRepository extends Repository
+    implements Readable, Writable, Queryable, Aggregatable {
 
   final private ElasticsearchProvider elasticsearch;
 
@@ -37,6 +42,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(aConfiguration);
     Settings settings = ImmutableSettings.settingsBuilder()
         .put(elasticsearchConfig.getClientSettings()).build();
+    @SuppressWarnings("resource")
     Client client = new TransportClient(settings)
         .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
     elasticsearch = new ElasticsearchProvider(client, elasticsearchConfig);
@@ -70,7 +76,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return resources;
   }
 
-
   @Override
   public Resource deleteResource(@Nonnull String aId) {
     // TODO: delete mentioned resources?
@@ -94,8 +99,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    Resource aggregations = Resource.fromJson(elasticsearch.getAggregation(aAggregationBuilder)
-        .toString());
+    Resource aggregations = Resource
+        .fromJson(elasticsearch.getAggregation(aAggregationBuilder).toString());
     if (null == aggregations) {
       return null;
     }
@@ -108,20 +113,30 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * http://www.elasticsearch.org/guide
    * /en/elasticsearch/reference/current/search-uri-request.html .
    *
-   * @param  aQueryString A string describing the query
-   * @return A resource resembling the result set of resources matching the criteria given in the query string
+   * @param aQueryString
+   *          A string describing the query
+   * @param aFilters
+   * @return A resource resembling the result set of resources matching the
+   *         criteria given in the query string
    * @throws IOException
    * @throws ParseException
    */
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder) throws IOException, ParseException {
-    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder);
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+      Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+
+    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder,
+        aFilters);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder);
+    // FIXME: response.toString returns string serializations of scripted keys
+    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize,
+        aSortOrder, aFilters, aAggregations);
+
   }
 }
