@@ -1,0 +1,22 @@
+{{#property}}
+<fieldset>
+
+  <legend>Address</legend>
+  {{input (stringFormat "%s[streetAddress]" key) streetAddress}}
+  {{input (stringFormat "%s[addressLocality]" key) addressLocality}}
+  {{input (stringFormat "%s[postalCode]" key) postalCode}}
+  {{input (stringFormat "%s[addressCountry]" key) addressCountry}}
+
+</fieldset>
+{{/property}}
+{{^property}}
+    <fieldset>
+
+        <legend>Address</legend>
+        {{input (stringFormat "%s[streetAddress]" key) streetAddress}}
+        {{input (stringFormat "%s[addressLocality]" key) addressLocality}}
+        {{input (stringFormat "%s[postalCode]" key) postalCode}}
+        {{input (stringFormat "%s[addressCountry]" key) addressCountry}}
+
+    </fieldset>
+{{/property}}
