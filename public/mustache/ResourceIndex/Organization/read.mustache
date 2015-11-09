@@ -27,6 +27,12 @@
                         {{#name}}{{@value}}{{/name}}
                     </h1>
 
+                    {{#countryChampionFor}}
+                        <div class="resource-subline">
+                            Country Champion for <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                        </div>
+                    {{/countryChampionFor}}
+
                 </div>
 
                 {{#image}}
@@ -79,15 +85,6 @@
                                         <li>{{externalLink .}}</li>
                                     {{/sameAs}}
                                 </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if countryChampionFor}}
-                        <tr>
-                            <td>Contact Person</td>
-                            <td>
-                                {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
                             </td>
                         </tr>
                     {{/if}}
