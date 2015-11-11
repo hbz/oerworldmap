@@ -11,7 +11,6 @@ public class BaseExporter extends OERWorldMap {
   public static void exportQueryAsCsv(String aQuery, int aFrom, int aSize, String aSortOrder) {
 
     StringBuffer result = new StringBuffer();
-
     AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
 
     List<Resource> queryResult = mBaseRepository.query(aQuery, aFrom, aSize, aSortOrder).getItems();
