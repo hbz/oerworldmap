@@ -14,7 +14,7 @@ import models.Resource;
 
 public class CsvExporterTest implements JsonTest {
 
-  private final static CsvExporter mCsvExporter = new CsvExporter();
+  private final static CsvWithNestedIdsExporter mCsvExporter = new CsvWithNestedIdsExporter();
   private Resource in1;
   private Resource in2;
 

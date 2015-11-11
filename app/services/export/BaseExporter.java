@@ -12,7 +12,7 @@ public class BaseExporter extends OERWorldMap {
 
     StringBuffer result = new StringBuffer();
 
-    CsvExporter csvExporter = new CsvExporter();
+    AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
 
     List<Resource> queryResult = mBaseRepository.query(aQuery, aFrom, aSize, aSortOrder).getItems();
     csvExporter.defineHeaderColumns(queryResult);

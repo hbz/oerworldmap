@@ -9,13 +9,14 @@ import java.util.TreeSet;
 import helpers.JsonLdConstants;
 import models.Resource;
 
-public class CsvExporter {
+public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
 
   private static String mPathSeparator = ">";
 
   private TreeSet<String> mKeys = new TreeSet<>();
   private String[] mValues = new String[0];
 
+  @Override
   public String exportResourceAsCsvLine(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
@@ -85,6 +86,7 @@ public class CsvExporter {
     return result.toString();
   }
 
+  @Override
   public void defineHeaderColumns(List<Resource> aResourceList) {
     mKeys.clear();
     for (Resource resource : aResourceList) {
@@ -114,6 +116,7 @@ public class CsvExporter {
     return csv.toString();
   }
 
+  @Override
   public String headerKeysToCsvString() {
     StringBuffer header = new StringBuffer("");
     if (mKeys.size() > 0) {
