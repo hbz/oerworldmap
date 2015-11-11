@@ -37,7 +37,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
+  private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
 
   private static JsonSchema mSchema = null;
@@ -209,10 +209,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List)) {
+    if (null == result || !(result instanceof List<?>)) {
       return list;
     }
-    for (Object value : (List) result) {
+    for (Object value : (List<?>) result) {
       if (value instanceof Resource) {
         list.add((Resource) value);
       }
@@ -223,10 +223,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   public List<String> getIdList(final Object aKey) {
     List<String> ids = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List)) {
+    if (null == result || !(result instanceof List<?>)) {
       return ids;
     }
-    for (Object value : (List) result) {
+    for (Object value : (List<?>) result) {
       if (value instanceof Resource) {
         ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
       }
@@ -264,7 +264,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
       Map.Entry<String, Object> entry = it.next();
       // remove entries of type List if they only contain ID entries
-      if (entry.getValue() instanceof List) {
+      if (entry.getValue() instanceof List<?>) {
         List<?> list = (List<?>) (entry.getValue());
         List<Object> truncatedList = new ArrayList<>();
         for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
@@ -303,13 +303,13 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List) {
-        if (!(other.get(pair.getKey()) instanceof List)) {
+      if (pair.getValue() instanceof List<?>) {
+        if (!(other.get(pair.getKey()) instanceof List<?>)) {
           return false;
         }
         List<Object> list = (List<Object>) pair.getValue();
         List<Object> otherList = (List<Object>) other.get(pair.getKey());
-        if (list.size() != otherList.size() || !list.containsAll(otherList)) {
+        if (list.size() != otherList.size() || !list.containsAll(otherList) || !otherList.containsAll(list)) {
           return false;
         }
       } else if (!pair.getValue().equals(other.get(pair.getKey()))) {
@@ -349,7 +349,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
           result.put(entry.getKey(), entry.getValue());
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (entry.getValue() instanceof List<?>) {
         result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
       } else {
         result.put(entry.getKey(), entry.getValue());
@@ -363,7 +363,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (object instanceof Resource) {
         object = getIdClone((Resource) object);
       } //
-      else if (object instanceof List) {
+      else if (object instanceof List<?>) {
         object = getAsIdTree((List<?>) object);
       }
     }
