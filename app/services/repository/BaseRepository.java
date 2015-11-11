@@ -22,7 +22,7 @@ import models.Resource;
 import models.ResourceList;
 import play.Logger;
 import services.ResourceDenormalizer;
-import services.ResourceEnricher;
+import services.BroaderConceptEnricher;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {

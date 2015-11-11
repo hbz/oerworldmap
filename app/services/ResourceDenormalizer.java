@@ -15,6 +15,7 @@ import services.repository.Readable;
 
 public class ResourceDenormalizer {
 
+  final private static BroaderConceptEnricher mBroaderConceptEnricher = new BroaderConceptEnricher();
   final private static Map<String, String> mKnownInverseRelations = new HashMap<>();
 
   static {
@@ -109,7 +110,7 @@ public class ResourceDenormalizer {
       Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo)
           throws IOException {
 
-    ResourceEnricher.enrich(aResource, aRepo);
+    mBroaderConceptEnricher.enrich(aResource, aRepo);
 
     String keyId = aResource.getAsString(JsonLdConstants.ID);
     if (keyId == null || !aWrappedResources.containsKey(keyId)) {
