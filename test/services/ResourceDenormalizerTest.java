@@ -227,14 +227,13 @@ public class ResourceDenormalizerTest implements JsonTest {
     }
   }
 
-  @Test
+  @Test(expected = NullPointerException.class)
   public void testEmbeddedUnresolvableId() throws IOException {
     Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testEmbeddedUnresolvableId.DB.1.json");
     MockResourceRepository repo = new MockResourceRepository();
     repo.addResource(db);
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testEmbeddedUnresolvableId.IN.json");
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
-    assertEquals(denormalized.get(0), repo.getResource("urn:uuid:f0abcd2e-8221-11e5-80a3-5fd569efa68f"));
   }
 
 }
