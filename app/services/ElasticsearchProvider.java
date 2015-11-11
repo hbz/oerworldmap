@@ -323,7 +323,7 @@ public class ElasticsearchProvider {
     searchRequestBuilder.addAggregation(AggregationProvider.getTypeAggregation());
     searchRequestBuilder.addAggregation(AggregationProvider.getByCountryAggregation());
     searchRequestBuilder.addAggregation(AggregationProvider.getServiceLanguageAggregation());
-    //searchRequestBuilder.addAggregation(AggregationProvider.getFieldOfEducationAggregation());
+    searchRequestBuilder.addAggregation(AggregationProvider.getServiceByGradeLevelAggregation());
 
     // TODO: where should these filters be added?
     if (excludeConcepts) {
