@@ -231,7 +231,11 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('getField', function (string, options) {
   var parts = string.split('.');
-  return parts[parts.length -1];
+    var field = parts[parts.length -1];
+    if (field == "@id") {
+      field = parts[parts.length -2];
+    }
+    return field;
 });
 
 Handlebars.registerHelper('getIcon', function (string, options) {
