@@ -8,10 +8,16 @@ import models.Resource;
 public class BaseExporter extends OERWorldMap {
 
   // TODO: store in File
-  public static void exportQueryAsCsv(String aQuery, int aFrom, int aSize, String aSortOrder) {
+  public static void exportQueryAsCsv(String aQuery, int aFrom, int aSize, String aSortOrder,
+      boolean aDetailedCsv) {
 
     StringBuffer result = new StringBuffer();
-    AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
+    AbstractCsvExporter csvExporter;
+    if (aDetailedCsv) {
+      csvExporter = new CsvDetailedExporter();
+    } else {
+      csvExporter = new CsvWithNestedIdsExporter();
+    }
 
     List<Resource> queryResult = mBaseRepository.query(aQuery, aFrom, aSize, aSortOrder).getItems();
     csvExporter.defineHeaderColumns(queryResult);
