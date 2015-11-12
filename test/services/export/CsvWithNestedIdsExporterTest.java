@@ -12,7 +12,7 @@ import org.junit.Test;
 import helpers.JsonTest;
 import models.Resource;
 
-public class CsvExporterTest implements JsonTest {
+public class CsvWithNestedIdsExporterTest implements JsonTest {
 
   private final static CsvWithNestedIdsExporter mCsvExporter = new CsvWithNestedIdsExporter();
   private Resource in1;
@@ -20,8 +20,8 @@ public class CsvExporterTest implements JsonTest {
 
   @Before
   public void setup() throws IOException {
-    in1 = getResourceFromJsonFile("CsvExporterTest/testPlainExport.IN.1.json");
-    in2 = getResourceFromJsonFile("CsvExporterTest/testPlainExport.IN.2.json");
+    in1 = getResourceFromJsonFile("CsvWithNestedIdsExporterTest/testPlainExport.IN.1.json");
+    in2 = getResourceFromJsonFile("CsvWithNestedIdsExporterTest/testPlainExport.IN.2.json");
     List<Resource> mockSearchResultItems = new ArrayList<>();
     mockSearchResultItems.add(in1);
     mockSearchResultItems.add(in2);

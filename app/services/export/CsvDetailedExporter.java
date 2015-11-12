@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 import models.Resource;
 
-public class CsvExporter {
+public class CsvDetailedExporter extends AbstractCsvExporter {
 
   private static String mPathSeparator = ">";
 
