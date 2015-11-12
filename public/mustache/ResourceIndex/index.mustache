@@ -1,32 +1,34 @@
 <div role="complementary" class="color-scheme-map column-large" data-view="map" data-focus="fit">
 
-    <div class="call-for-actions">
-        <div class="call-for-actions-table">
-            <div class="call-for-actions-row">
-                <a href="#resource-add-article" class="call-for-action" data-toggle="modal">Add<br/>Article</a>
+    {{#if user}}
+        <div class="call-for-actions">
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-article" class="call-for-action" data-toggle="modal">Add<br/>Article</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-action" class="call-for-action" data-toggle="modal">Add<br/>Project</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-person" class="call-for-action" data-toggle="modal">Add<br/>Person</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-service" class="call-for-action" data-toggle="modal">Add<br/>Service</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-organization" class="call-for-action" data-toggle="modal">Add<br/>Organisa&shy;tion</a>
+                </div>
             </div>
         </div>
-        <div class="call-for-actions-table">
-            <div class="call-for-actions-row">
-                <a href="#resource-add-action" class="call-for-action" data-toggle="modal">Add<br/>Project</a>
-            </div>
-        </div>
-        <div class="call-for-actions-table">
-            <div class="call-for-actions-row">
-                <a href="#resource-add-person" class="call-for-action" data-toggle="modal">Add<br/>Person</a>
-            </div>
-        </div>
-        <div class="call-for-actions-table">
-            <div class="call-for-actions-row">
-                <a href="#resource-add-service" class="call-for-action" data-toggle="modal">Add<br/>Service</a>
-            </div>
-        </div>
-        <div class="call-for-actions-table">
-            <div class="call-for-actions-row">
-                <a href="#resource-add-organization" class="call-for-action" data-toggle="modal">Add<br/>Organisa&shy;tion</a>
-            </div>
-        </div>
-    </div>
+    {{/if}}
 
 </div>
 
