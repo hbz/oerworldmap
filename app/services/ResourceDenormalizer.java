@@ -57,6 +57,7 @@ public class ResourceDenormalizer {
     mListValueEntries.add("audience");
     mListValueEntries.add("affiliation");
     mListValueEntries.add("result");
+    mListValueEntries.add("contactPoint");
   }
 
   //
