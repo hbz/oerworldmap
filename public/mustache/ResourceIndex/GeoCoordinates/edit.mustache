@@ -1,0 +1,18 @@
+{{#property}}
+<fieldset>
+
+  <legend>Geo Coordinates</legend>
+  {{input (stringFormat "%s[lat]" key) lat}}
+  {{input (stringFormat "%s[lon]" key) lon}}
+
+</fieldset>
+{{/property}}
+{{^property}}
+    <fieldset>
+
+        <legend>Geo Coordinates</legend>
+        {{input (stringFormat "%s[lat]" key) lat}}
+        {{input (stringFormat "%s[lon]" key) lon}}
+
+    </fieldset>
+{{/property}}

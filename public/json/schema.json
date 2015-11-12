@@ -342,6 +342,20 @@
           "items": {
             "$ref": "#/definitions/Service"
           }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the project.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that mentions the project.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
         }
       },
       "required": [
@@ -450,14 +464,18 @@
           "type": "array",
           "items": {
             "allOf": [
-              {"$ref": "#/definitions/Concept"},
+              {
+                "$ref": "#/definitions/Concept"
+              },
               {
                 "properties": {
                   "inScheme": {
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["https://w3id.org/class/esc/scheme"]
+                        "enum": [
+                          "https://w3id.org/class/esc/scheme"
+                        ]
                       }
                     }
                   }
@@ -476,20 +494,52 @@
           "type": "array",
           "items": {
             "allOf": [
-              {"$ref": "#/definitions/Concept"},
+              {
+                "$ref": "#/definitions/Concept"
+              },
               {
                 "properties": {
                   "inScheme": {
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["https://w3id.org/isced/1997/scheme"]
+                        "enum": [
+                          "https://w3id.org/isced/1997/scheme"
+                        ]
                       }
                     }
                   }
                 }
               }
             ]
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that has the service as its main entity.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the service.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "instrumentIn": {
+          "description": "A project that has the service as an instrument.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "resultOf": {
+          "description": "A project that has the service as its result.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
           }
         }
       },
@@ -603,6 +653,13 @@
           "items": {
             "$ref": "#/definitions/Article"
           }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the service.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
         }
       },
       "additionalProperties": false
@@ -672,7 +729,7 @@
           }
         },
         "additionalType": {
-          "description": "An additonal type for the Organization",
+          "description": "An additional type for the Organization",
           "type": "array",
           "items": {
             "type": "string"
@@ -682,7 +739,7 @@
           "description": "Services provided by this Organization.",
           "type": "array",
           "items": {
-              "$ref": "#/definitions/Service"
+            "$ref": "#/definitions/Service"
           }
         },
         "countryChampionFor": {
@@ -729,6 +786,20 @@
           "items": {
             "$ref": "#/definitions/Organization"
           }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the organization.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that has the organization as its main entity.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
         }
       },
       "required": [
@@ -764,9 +835,6 @@
           "$ref": "#/definitions/PostalAddress"
         }
       },
-      "required": [
-        "address"
-      ],
       "additionalProperties": false
     },
     "GeoCoordinates": {
@@ -822,7 +890,14 @@
           "type": "string"
         },
         "postalCode": {
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
         },
         "addressLocality": {
           "type": "string"

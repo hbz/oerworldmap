@@ -28,9 +28,12 @@ form.edit p {
   clear: left;
   margin: 10px 0 0;
 }
+
+/*
 form.edit input[type="submit"], form button[type="submit"] {
   margin-left: 100px;
 }
+*/
 
 form.edit fieldset {
   clear: both;

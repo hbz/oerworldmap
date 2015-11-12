@@ -1,0 +1,23 @@
+{{#if property}}
+
+    {{#with property}}
+        <fieldset>
+
+          <legend>Place</legend>
+          {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
+          {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
+
+        </fieldset>
+    {{/with}}
+
+{{else}}
+
+    <fieldset>
+
+        <legend>Place</legend>
+        {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
+        {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
+
+    </fieldset>
+
+{{/if}}
