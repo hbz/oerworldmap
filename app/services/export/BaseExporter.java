@@ -19,7 +19,7 @@ public class BaseExporter extends OERWorldMap {
       csvExporter = new CsvWithNestedIdsExporter();
     }
 
-    List<Resource> queryResult = mBaseRepository.query(aQuery, aFrom, aSize, aSortOrder).getItems();
+    List<Resource> queryResult = mBaseRepository.query(aQuery, aFrom, aSize, aSortOrder, null).getItems();
     csvExporter.defineHeaderColumns(queryResult);
     result.append(csvExporter.headerKeysToCsvString());
 

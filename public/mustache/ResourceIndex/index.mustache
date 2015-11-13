@@ -1,43 +1,116 @@
-<div role="complementary" class="color-scheme-map column large" data-view="map">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+<div role="complementary" class="color-scheme-map column-large" data-view="map" data-focus="fit">
 </div>
-<div role="main" class="color-scheme-text list-view column small">
-    <section>
-        <form method="get" action="/resource/" id="search">
-            
-            <div class="input-group">
-              <input type="text" name="q" class="form-control input-lg" value="{{scope.q}}" placeholder="Search for ...">
-              <span class="input-group-btn">
-                <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-            
-        </form>
-    </section>
-    
-    <div class="hits">{{scope.resources.totalItems}} found ...</div>
-    <section>
-        <ul class="populate-map resource-list" data-behaviour="linkedListEntries">
+
+<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+
+    {{#if scope.list}}
+
+        {{> ResourceIndex/read.mustache}}
+        <a href="/resource/?sort=dateCreated:desc">more</a>
+
+    {{else}}
+
+        <form method="get" action="/resource/" id="resource-filter-form">
+
             <script type="application/ld+json">
-                {{{scope.resources.member}}}
+                {{json scope.resources.aggregations}}
             </script>
-            {{#scope.resources.member}}
-                <li about="{{@id}}">
-                  {{> (stringFormat "ResourceIndex/%s/list.mustache" @type) }}
-                </li>
-            {{/scope.resources.member}}
-        </ul>
-        {{#if scope.resources.firstPage}}
-            <a href="/resource/{{scope.resources.firstPage}}">first</a>
-        {{/if}}
-        {{#if scope.resources.previousPage}}
-            <a href="/resource/{{scope.resources.previousPage}}">prev</a>
-        {{/if}}
-        {{#if scope.resources.nextPage}}
-            <a href="/resource/{{scope.resources.nextPage}}">next</a>
-        {{/if}}
-        {{#if scope.resources.lastPage}}
-            <a href="/resource/{{scope.resources.lastPage}}">last</a>
-        {{/if}}
-    </section>
+
+            <div class="column-section">
+                <div id="search">
+                    <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
+                    <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="column-section bg-blue-paler">
+
+                {{#ifShowFilters scope.resources.aggregations scope.resources.filters}}
+
+                    <span class="text-muted">Filter by:</span>
+
+                    {{#each scope.resources.aggregations}}
+
+                        {{#ifShowFilter . @key scope.resources.filters}}
+
+                            <div class="dropdown resource-filter">
+                                <a href="#" data-toggle="dropdown">
+                                    {{i18n (getField @key)}}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu color-scheme-text layout-typo-small">
+                                    {{#buckets}}
+                                        {{#unlessIn @key key scope.resources.filters}}
+
+                                            <li>
+                                                <label class="resource-filter">
+                                                    <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}">
+                                                    {{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})
+                                                </label>
+                                            </li>
+
+                                        {{/unlessIn}}
+                                    {{/buckets}}
+                                </ul>
+                            </div>
+
+                        {{/ifShowFilter}}
+
+                    {{/each}}
+
+                {{/ifShowFilters}}
+
+                {{#ifObjectNotEmpty scope.resources.filters}}
+
+                    {{#ifShowFilters scope.resources.aggregations scope.resources.filters}}
+                        <hr class="narrow" />
+                    {{/ifShowFilters}}
+
+                    <span class="text-muted">Current Filters:</span>
+
+                    <ul class="filters-applied">
+                        {{#each scope.resources.filters}}
+                            {{#this}}
+                                <li>
+                                    <label class="applied-filter">
+                                        <input type="checkbox" checked class="filter" name="filter.{{@key}}" value="{{.}}">
+                                        {{i18n (getField @key)}}: {{i18n . bundle="labels"}}
+                                    </label>
+                                </li>
+                            {{/this}}
+                        {{/each}}
+                    </ul>
+
+                  {{/ifObjectNotEmpty}}
+
+            </div>
+
+        </form>
+
+        <div class="column-section last">
+
+            <p>
+                Found <span class="badge">{{scope.resources.totalItems}}</span> entities
+                (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
+            </p>
+
+            {{> ResourceIndex/read.mustache}}
+
+            {{#if scope.resources.firstPage}}
+                <a href="{{scope.resources.firstPage}}">first</a>
+            {{/if}}
+            {{#if scope.resources.previousPage}}
+                <a href="{{scope.resources.previousPage}}">prev</a>
+            {{/if}}
+            {{#if scope.resources.nextPage}}
+                <a href="{{scope.resources.nextPage}}">next</a>
+            {{/if}}
+            {{#if scope.resources.lastPage}}
+                <a href="{{scope.resources.lastPage}}">last</a>
+            {{/if}}
+
+        </div>
+
+    {{/if}}
+
 </div>

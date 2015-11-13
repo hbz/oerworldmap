@@ -1,78 +1,102 @@
-<div role="complementary" class="color-scheme-map column large" data-view="map" data-focus="{{scope.alpha-2}}">
-    <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+<div role="complementary"
+     class="color-scheme-map column-large"
+     data-view="map"
+     data-focus="{{scope.alpha-2}}"
+>
+    <div class="hidden">
+        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    </div>
 </div>
 
-<div role="main" class="color-scheme-text list-view column small">
-    <section>
-    
-        <h1>{{scope.name}}</h1>
-        
-        <hr/>
-        
-        <h2>Country Champion</h2>
-        
-        {{#scope.champions}}
-            <div class="img130text">
-                
-                {{#image}}
-                    <img src="{{.}}" class="img" />
-                {{/image}}
-                {{^image}}
-                    <div class="img placeholder"></div>
-                {{/image}}
-                
-                <div class="text">
-                    <h3><a href="/resource/{{@id}}">{{#name}}{{@value}}{{/name}}</a></h3>
-                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a><br />
-                    {{#location}}{{>ResourceIndex/Place/read.mustache}}{{/location}}
-                </div>
-                
+<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+
+    {{#scope}}
+
+        <div class="column-section">
+
+            <div class="resource-header">
+                <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
             </div>
-        {{/scope.champions}}
-        
-        {{^scope.champions}}
-            <div class="img130text"> 
-            
-                <div class="img placeholder-qmark"></div>
-                
-                <div class="text">
-                    There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
+
+            {{#champions}}
+                <div class="country-champion">
+
+                    {{#image}}
+                        <img src="{{.}}" class="img" />
+                    {{/image}}
+                    {{^image}}
+                        <div class="img placeholder"></div>
+                    {{/image}}
+
+                    <div class="text">
+                        <h4>Country Champion</h4>
+
+                        <ul class="resource-list truncated"><li>
+                          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                        </li></ul>
+
+                        <p>
+                          <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                        </p>
+
+                    </div>
+
                 </div>
-                
-            </div>
-        {{/scope.champions}}
-        
-        <hr/>
-        
-        <h2>Statistics</h2>
-        
-        {{#scope.countryAggregation.by_country.buckets}}
-            <table class="statistics-table">
-                <tr><td>{{users.doc_count}}</td><td><i class="fa fa-fw fa-user"></i> Users</td></tr>
-                <tr><td>{{organizations.doc_count}}</td><td><i class="fa fa-fw fa-users"></i> Organizations</td></tr>
-                <tr><td>{{articles.doc_count}}</td><td><i class="fa fa-fw fa-comment"></i> Stories</td></tr>
-                <tr><td>{{services.doc_count}}</td><td><i class="fa fa-fw fa-desktop"></i> Services</td></tr>
-                <tr><td>{{projects.doc_count}}</td><td><i class="fa fa-fw fa-gears"></i> Projects</td></tr>
-            </table>
-        {{/scope.countryAggregation.by_country.buckets}}
-        
-        <hr/>
-        
-        <h2>Related</h2>
-        
-        <ul class="fa-ul related-list populate-map">
-            <script type="application/ld+json">
-                {{{scope.resources.member}}}
-            </script>
-            {{#scope.resources.member}}
-                <li about="{{@id}}">
-                    {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
-                </li>
-            {{/scope.resources.member}}
-        </ul>
-        {{^scope.resources}}
-            <em>No related entities found</em>
-        {{/scope.resources}}
-        
-    </section>
+            {{/champions}}
+
+            {{^champions}}
+                <div class="country-champion">
+
+                    <div class="img placeholder-qmark"></div>
+
+                    <div class="text">
+                        There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
+                    </div>
+
+                </div>
+            {{/champions}}
+
+        </div>
+        <div class="column-section">
+
+            <h3>Statistics</h3>
+
+            {{#countryAggregation.[about.location.address.addressCountry].buckets}}
+                <table class="statistics-table">
+                {{#by_type.buckets}}
+                    <tr>
+                        <td>{{doc_count}}</td>
+                        <td>{{getIcon key}}
+                            <a href="/resource/?filter.about.location.address.addressCountry={{scope.alpha-2}}&filter.about.@type={{key}}">{{i18n key}}</a>
+                        </td>
+                    </tr>
+                {{/by_type.buckets}}
+                </table>
+            {{/countryAggregation.[about.location.address.addressCountry].buckets}}
+
+        </div>
+        <div class="column-section">
+
+            <p>
+                Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
+            </p>
+
+            <ul class="resource-list truncated" data-behaviour="populateMap">
+                <script type="application/ld+json">
+                    {{{resources.member}}}
+                </script>
+                {{#resources.member}}
+                    <li about="{{@id}}">
+                        {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                    </li>
+                {{/resources.member}}
+            </ul>
+            {{^resources}}
+                <em>No related entities found</em>
+            {{/resources}}
+
+        </div>
+
+    {{/scope}}
+
 </div>

@@ -1,0 +1,37 @@
+{
+  "@type": "Article",
+  "@id": "123",
+  "name": "Ganz spannend!",
+  "articleBody": "Super toll",
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "456",
+      "name": "Hans Dampf-Walze",
+      "authorOf": [
+        {
+          "@type": "Article",
+          "@id": "123",
+          "name": "Ganz spannend!"
+        },
+        {
+          "@type": "Article",
+          "@id": "987",
+          "name": "Noch spannenderen!"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "345",
+      "name": "Hans Wurst",
+      "authorOf": [
+        {
+          "@type": "Article",
+          "@id": "123",
+          "name": "Ganz spannend!"
+        }
+      ]
+    }
+  ]
+}

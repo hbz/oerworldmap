@@ -1,0 +1,11 @@
+{
+  "@type" : "Service",
+  "about" : [ {
+    "@id" : "narrowConcept"
+  }, {
+    "@id" : "broaderConcept"
+  }, {
+    "@id" : "broadestConcept"
+  } ],
+  "@id" : "service"
+}

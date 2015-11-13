@@ -1,0 +1,8 @@
+{
+  "attended" : {
+    "@type" : "Foo"
+  },
+  "@type" : "Person",
+  "@id" : "id002"
+}
+

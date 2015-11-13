@@ -1,0 +1,19 @@
+{
+  "@context": "http://schema.org/",
+  "@id": "urn:uuid:3e03a7a8-472c-11e5-aee9-3c970e4a9cbf",
+  "@type": "Person",
+  "name": [
+    {
+      "@language": "de",
+      "@value": "John Doe"
+    }
+  ],
+  "email": "john.doe@foobar.com",
+  "location": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "DE"
+    }
+  }
+}

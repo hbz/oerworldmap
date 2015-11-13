@@ -1,3 +1,13 @@
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for( var i=0; i < 5; i++ )
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 // --- other ---
 var Hijax = (function ($, Hijax) {
 
@@ -35,6 +45,41 @@ var Hijax = (function ($, Hijax) {
       $('[data-behaviour="linkedListEntries"]', context).each(function(){
         $( this ).on("click", "li", function(){
           window.location = $( this ).find("h1 a").attr("href");
+        });
+      });
+
+      // trigger search on facet select
+      $('input.filter', context).click(function() {
+        $(this).closest("form").submit();
+      });
+
+      // hide empty filters
+      $('form#search ul.filters:not(:has(*))', context).hide();
+
+      // resource details table
+      $('.resource-details-table', context).each(function(){
+        $(this).find('.resource-list.truncated').each(function(){
+
+          if(
+            $(this).find('li').size() > 5
+          ) {
+            var id = "resource-list-collapsed-" + makeid();
+            $(this).find('li:gt(4)').wrapAll('<div class="collapse" id="' + id + '"></div>');
+            $(this).after('<a href="#' + id + '" class="resource-list-show-more collapsed" data-toggle="collapse"><span class="more">Show more <i class="fa fa-arrow-down"></i></span><span class="less">Show less <i class="fa fa-arrow-up"></i></span></a>');
+          }
+
+        });
+      });
+
+      // sort ul
+      $('ul[data-behaviour="sort"]', context).each(function() {
+        var list = $(this);
+        var listitems = list.children('li').get();
+        listitems.sort(function(a, b) {
+           return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+        })
+        $.each(listitems, function(idx, itm) {
+          list.append(itm);
         });
       });
 

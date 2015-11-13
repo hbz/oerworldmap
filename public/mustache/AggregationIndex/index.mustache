@@ -1,28 +1,46 @@
-<div role="complementary" class="color-scheme-map column large" data-view="map"></div>
-<div role="main" class="column small">
-    <table class="table" about="#users-by-country">
+<div role="complementary" class="color-scheme-map column-large" data-view="map"></div>
+<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+
+    {{#scope.countryAggregation}}
+      <table class="table" about="#users-by-country">
         <script type="application/ld+json">
-            {{{scope.countryAggregation}}}
+          {{json .}}
         </script>
-      <thead>
+        <thead>
           <tr>
-              <th>Country</th>
-              <th>Users</th>
-              <th>Organizations</th>
-              <th>Stories</th>
-              <th>Champions</th>
+            <th>Country</th>
+            <th>Users</th>
+            <th>Organizations</th>
+            <th>Stories</th>
+            <th>Champions</th>
           </tr>
-      </thead>
-      <tbody>
-          {{#scope.countryAggregation.by_country.buckets}}
+        </thead>
+        <tbody>
+        {{#[about.location.address.addressCountry].buckets}}
           <tr about="#{{key}}">
-              <td><a href="/resource/?q=about.\*.addressCountry:{{key}}">{{key}}</a></td>
-              <td>{{users.doc_count}}</td>
-              <td>{{organizations.doc_count}}</td>
-              <td>{{articles.doc_count}}</td>
-              <td>{{champions.doc_count}}</td>
+            <td><a href="/country/{{key}}">{{key}}</a></td>
+            {{#by_type.buckets}}
+              <td>{{doc_count}}</td>
+            {{/by_type.buckets}}
           </tr>
-          {{/scope.countryAggregation.by_country.buckets}}
-      </tbody>
-    </table>
+        {{/[about.location.address.addressCountry].buckets}}
+        </tbody>
+      </table>
+    {{/scope.countryAggregation}}
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="text-center">Services by Topic</h4>
+            {{pieChart scope.fieldOfEducationAggregation.[about.about.@id] width=200 height=200 href-template="/resource/{key}"}}
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-center">Services by Language</h4>
+            {{pieChart scope.languageAggregation.[about.availableChannel.availableLanguage] width=200 height=200 href-template="/resource/?filter.about.availableChannel.availableLanguage={key}"}}
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-center">Services by Grade Level</h4>
+            {{pieChart scope.gradeLevelAggregation.[about.audience.@id] width=200 height=200 href-template="/resource/{key}"}}
+        </div>
+    </div>
+
 </div>

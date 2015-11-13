@@ -1,10 +1,13 @@
 #page-footer {
   ul {
+    .list-unstyled();
+    margin: 0px;
     float: right;
     font-size: 14px;
     line-height: 14px;
     li {
       margin-left: 20px;
+      float: left;
       a {
         text-decoration: none;
         &:hover {
@@ -14,4 +17,11 @@
       }
     }
   }
+}
+
+.container-static-page #page-footer {
+  padding: 10px 0px;
+  border-top: 1px solid @blue-darker;
+  .clearfix();
+  
 }

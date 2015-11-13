@@ -1,3 +1,10 @@
+nav ul, ul.resource-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
 @list-view-padding: 20px;
 
 .list-view {
@@ -14,31 +21,6 @@
 }
 
 
-/* --- search --- */
-
-#search {
-  //padding-bottom: @list-view-padding;
-  margin: -(@list-view-padding) -(@list-view-padding) 0px -(@list-view-padding);
-  font-size: @font-size-large;
-}
-
-#search input[name="q"] {
-  border: none;
-  background: @input-bg;
-  padding: @list-view-padding;
-  height: 62px;
-  color: @color-scheme-text-color;
-  box-shadow: none;
-}
-
-#search button {
-  border: none;
-  background: none;
-  color: @color-scheme-text-color;
-  height: 62px;
-  padding-top: @list-view-padding;
-  padding-bottom: @list-view-padding;
-}
 
 
 /* --- query filter --- */

@@ -4,7 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo
@@ -23,13 +25,20 @@ public class ResourceList {
 
   private int offset;
 
-  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset, int aSize, String aSortOrder) {
+  private Map<String, ArrayList<String>> filters;
+
+  private Resource aggregations;
+
+  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aSearchTerms, int aOffset,
+                      int aSize, String aSortOrder, Map<String, ArrayList<String>> aFilters, Resource aAggregations) {
     items = aResourceList;
     totalItems = aTotalItems;
     searchTerms = aSearchTerms;
     offset = aOffset;
     itemsPerPage = aSize;
     sortOrder = aSortOrder;
+    filters = aFilters;
+    aggregations = aAggregations;
   }
 
   public List<Resource> getItems() {
@@ -49,6 +58,27 @@ public class ResourceList {
     return this.itemsPerPage;
   }
 
+  public String getCurrentPage() {
+
+    ArrayList<String> params = new ArrayList<>();
+    if (!StringUtils.isEmpty(searchTerms)) {
+      params.add("q=".concat(searchTerms));
+    }
+    params.add("from=".concat(Long.toString(offset)));
+    params.add("size=".concat(Long.toString(itemsPerPage)));
+    if (!StringUtils.isEmpty(sortOrder)) {
+      params.add("sort=".concat(sortOrder));
+    }
+    if (!(null == filters)) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
+      }
+    }
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
+  }
+
   public String getNextPage() {
 
     if (offset + itemsPerPage >= totalItems) {
@@ -64,7 +94,14 @@ public class ResourceList {
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    if (!(null == filters)) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
+      }
+    }
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
 
@@ -83,7 +120,14 @@ public class ResourceList {
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    if (!(null == filters)) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
+      }
+    }
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getFirstPage() {
@@ -101,7 +145,14 @@ public class ResourceList {
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    if (!(null == filters)) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
+      }
+    }
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getLastPage() {
@@ -123,7 +174,14 @@ public class ResourceList {
     if (!StringUtils.isEmpty(sortOrder)) {
       params.add("sort=".concat(sortOrder));
     }
-    return params.isEmpty() ? null : "?".concat(StringUtils.join(params, "&"));
+    if (!(null == filters)) {
+      for (Map.Entry<String, ArrayList<String>> entry : filters.entrySet()) {
+        for (String filter : entry.getValue()) {
+          params.add("filter.".concat(entry.getKey()).concat("=").concat(filter));
+        }
+      }
+    }
+    return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
   public String getSortOrder() {
@@ -139,15 +197,34 @@ public class ResourceList {
     return this.searchTerms;
   }
 
+  public String getFrom() {
+    return Integer.toString(this.offset + 1);
+  }
+
+  public String getUntil() {
+    if(this.offset + this.itemsPerPage < this.totalItems) {
+      return Long.toString(this.offset + this.itemsPerPage);
+    } else {
+      return Long.toString(this.totalItems);
+    }
+
+  }
+
   public Resource toResource() {
     Resource pagedCollection = new Resource("PagedCollection");
     pagedCollection.put("totalItems", totalItems);
     pagedCollection.put("itemsPerPage", itemsPerPage);
+    pagedCollection.put("currentPage", getCurrentPage());
     pagedCollection.put("nextPage", getNextPage());
     pagedCollection.put("previousPage", getPreviousPage());
     pagedCollection.put("lastPage", getLastPage());
     pagedCollection.put("firstPage", getFirstPage());
+    pagedCollection.put("from", getFrom());
+    pagedCollection.put("until", getUntil());
     pagedCollection.put("member", items);
+    pagedCollection.put("filters", filters);
+    pagedCollection.put("searchTerms", searchTerms);
+    pagedCollection.put("aggregations", aggregations);
     return pagedCollection;
   }
 
