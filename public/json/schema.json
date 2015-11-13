@@ -655,7 +655,14 @@
           }
         },
         "mentionedIn": {
-          "description": "An article that mentions the service.",
+          "description": "An article that mentions the person.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that mentions the person.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
