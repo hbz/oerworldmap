@@ -41,7 +41,7 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
       }
     } //
     else if (aResourceEntry.getValue() instanceof Resource) {
-      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry).entrySet().iterator();
+      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet().iterator();
       while (it.hasNext()) {
         flattenResourceElement(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -85,7 +85,7 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
       mKeys.add(aKeyPath + aResourceEntry.getKey());
     } //
     else if (aResourceEntry.getValue() instanceof Resource) {
-      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry).entrySet().iterator();
+      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet().iterator();
       while (it.hasNext()) {
         flattenKeys(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }

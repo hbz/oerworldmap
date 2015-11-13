@@ -25,6 +25,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import services.AggregationProvider;
 import services.ElasticsearchProvider;
+import services.export.AbstractCsvExporter;
+import services.export.CsvDetailedExporter;
 
 /**
  * @author fo
@@ -52,6 +54,15 @@ public class ResourceIndex extends OERWorldMap {
 
     if (request().accepts("text/html")) {
       return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+    } else if (request().accepts("text/csv")) {
+      StringBuffer result = new StringBuffer();
+      AbstractCsvExporter csvExporter = new CsvDetailedExporter();
+      csvExporter.defineHeaderColumns(resourceList.getItems());
+      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
+      for (Resource resource : resourceList.getItems()) {
+        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+      }
+      return ok(result.toString()).as("text/csv");
     } else {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
