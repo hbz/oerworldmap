@@ -1,6 +1,7 @@
 <span class="resource">
     <i class="fa fa-fw fa-user"></i>
     <a href="/resource/{{@id}}">
-        {{#name}}{{this.@value}}{{/name}}
+        {{#this.name}}{{this.@value}}{{/this.name}}
+        {{^this.name}}{{this.[@id]}}{{/this.name}}
     </a>
 </span>

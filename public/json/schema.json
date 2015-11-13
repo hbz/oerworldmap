@@ -541,6 +541,20 @@
           "items": {
             "$ref": "#/definitions/Action"
           }
+        },
+        "member": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
+            ]
+          }
         }
       },
       "required": [
@@ -589,10 +603,17 @@
           }
         },
         "memberOf": {
-          "description": "An organization the person is member of.",
+          "description": "An organization or service the person is member of.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
+              }
+            ]
           }
         },
         "image": {
@@ -788,10 +809,17 @@
           }
         },
         "memberOf": {
-          "description": "An organization the organization is member of.",
+          "description": "An organization or service the organization is member of.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
+              }
+            ]
           }
         },
         "mentionedIn": {
