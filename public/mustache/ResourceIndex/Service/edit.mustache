@@ -40,6 +40,8 @@
 
     {{> FormElements/Id.mustache property=resultOf key="resultOf" title="Result of" multiple=true lookup="/resource/?filter.about.@type=Action"}}
 
+    {{> FormElements/Id.mustache property=member key="member" title="Member" multiple=true lookup="/resource/"}}
+
     {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
 
 </fieldset>
