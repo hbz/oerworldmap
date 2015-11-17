@@ -345,7 +345,10 @@
         }
       },
       "tag": {
-        "type": "string"
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       },
       "required": [
         "name"
@@ -497,7 +500,10 @@
         }
       },
       "tag": {
-        "type": "string"
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       },
       "required": [
         "name"
@@ -612,7 +618,10 @@
         }
       },
       "tag": {
-        "type": "string"
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
@@ -741,7 +750,10 @@
         }
       },
       "tag": {
-        "type": "string"
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       },
       "required": [
         "name"
