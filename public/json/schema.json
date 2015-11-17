@@ -344,6 +344,9 @@
           }
         }
       },
+      "tag": {
+        "type": "string"
+      },
       "required": [
         "name"
       ],
@@ -493,6 +496,9 @@
           }
         }
       },
+      "tag": {
+        "type": "string"
+      },
       "required": [
         "name"
       ],
@@ -604,6 +610,9 @@
             "$ref": "#/definitions/Article"
           }
         }
+      },
+      "tag": {
+        "type": "string"
       },
       "additionalProperties": false
     },
@@ -730,6 +739,9 @@
             "$ref": "#/definitions/Organization"
           }
         }
+      },
+      "tag": {
+        "type": "string"
       },
       "required": [
         "name"
