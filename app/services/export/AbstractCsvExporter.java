@@ -17,6 +17,17 @@ public abstract class AbstractCsvExporter {
   public abstract void defineHeaderColumns(List<Resource> aResourceList);
 
   /**
+   * Specify which information is to be dropped from the CSV export by a List of
+   * field names.
+   * 
+   * @param aDropFields
+   *          a List<String> containing fields names to be dropped from the
+   *          export. This is useful especially for static information like JSON
+   *          "type".
+   */
+  public abstract void setDropFields(List<String> aDropFields);
+
+  /**
    * Export the argument Resource as a CSV string.
    * 
    * @param aResource

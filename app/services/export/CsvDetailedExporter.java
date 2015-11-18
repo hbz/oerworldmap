@@ -14,6 +14,7 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
 
   private TreeSet<String> mKeys = new TreeSet<>();
   private String[] mValues = new String[0];
+  private List<String> mDropFields = new ArrayList<>();
 
   public String exportResourceAsCsvLine(Resource aResource) {
     if (mKeys.isEmpty()) {
@@ -41,7 +42,8 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
       }
     } //
     else if (aResourceEntry.getValue() instanceof Resource) {
-      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet().iterator();
+      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
+          .iterator();
       while (it.hasNext()) {
         flattenResourceElement(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -85,7 +87,8 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
       mKeys.add(aKeyPath + aResourceEntry.getKey());
     } //
     else if (aResourceEntry.getValue() instanceof Resource) {
-      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet().iterator();
+      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
+          .iterator();
       while (it.hasNext()) {
         flattenKeys(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -131,6 +134,12 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
       }
     }
     return header.toString();
+  }
+
+  @Override
+  public void setDropFields(List<String> aDropFields) {
+    mDropFields.clear();
+    mDropFields.addAll(aDropFields);
   }
 
 }

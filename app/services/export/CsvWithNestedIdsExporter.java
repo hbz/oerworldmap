@@ -15,6 +15,7 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
 
   private TreeSet<String> mKeys = new TreeSet<>();
   private String[] mValues = new String[0];
+  private List<String> mDropFields = new ArrayList<>();
 
   @Override
   public String exportResourceAsCsvLine(Resource aResource) {
@@ -56,7 +57,7 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
     }
   }
 
-  private static String toExportString(Object value) {
+  private String toExportString(Object value) {
     StringBuilder result = new StringBuilder();
     if (value instanceof Resource) {
       Resource resource = (Resource) value;
@@ -67,17 +68,9 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
       } //
       else {
         // Resource without ID (e. g. "location"): export all sub fields flatly
-        // Presumes that all sub fields of a non-ID Resource are of String type,
-        // will export nonsense otherwise.
         // The order of exported subfields is not predicted as sub Resources do
         // not necessarily contain the same fields.
-        TreeSet<Object> values = new TreeSet<>(resource.values());
-        for (int i = 0; i < values.size();) {
-          result.append(values.pollFirst());
-          if (i < values.size()) {
-            result.append(", ");
-          }
-        }
+        result.append(((Resource) value).getValuesAsFlatString(",", mDropFields));
       }
     } //
     else {
@@ -118,14 +111,22 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
 
   @Override
   public String headerKeysToCsvString() {
+    TreeSet<String> keys = new TreeSet<>();
+    keys.addAll(mKeys);
     StringBuffer header = new StringBuffer("");
-    if (mKeys.size() > 0) {
-      header.append(mKeys.pollFirst());
+    if (keys.size() > 0) {
+      header.append(keys.pollFirst());
     }
-    while (!mKeys.isEmpty()) {
-      header.append(";").append(mKeys.pollFirst());
+    while (!keys.isEmpty()) {
+      header.append(";").append(keys.pollFirst());
     }
     return header.toString();
+  }
+
+  @Override
+  public void setDropFields(List<String> aDropFields) {
+    mDropFields.clear();
+    mDropFields.addAll(aDropFields);
   }
 
 }
