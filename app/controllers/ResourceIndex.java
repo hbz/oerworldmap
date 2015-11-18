@@ -78,12 +78,14 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       }
     }
+    return redirect(routes.ResourceIndex.read(id));
+    /*
     response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
     if (isJsonRequest) {
       return created("Created " + id + "\n");
     } else {
       return created(render("Created", "created.mustache", scope));
-    }
+    }*/
   }
 
   public static Result read(String id) throws IOException {
@@ -175,11 +177,12 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       }
     }
-    if (isJsonRequest) {
+    return read(id);
+    /*if (isJsonRequest) {
       return ok("Updated " + id + "\n");
     } else {
       return ok(render("Updated", "updated.mustache", scope));
-    }
+    }*/
   }
 
   @Security.Authenticated(Secured.class)
