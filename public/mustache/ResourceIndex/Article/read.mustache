@@ -6,37 +6,37 @@
 
 <div role="main" class="column column-medium color-scheme-text bg-blue-palest">
     <div class="column-container">
-    
+
         {{#scope}}
-        
+
             <article class="resource" data-behaviour="populateMap">
-            
+
                 <script type="application/ld+json">
                     {{{.}}}
                 </script>
-                
+
                 <div class="resource-header">
-                
+
                     <h1 class="resource-title">
                       <i class="fa fa-fw fa-comment"></i>
                       {{#name}}{{@value}}{{/name}}
                     </h1>
-                    
+
                     <div class="resource-subline">
-                        <div class="resource-subline-label">Contributed by</div>
+                        <div class="resource-subline-label">Contributed</div>{{#dateCreated}} on {{.}} {{/dateCreated}}by
                         <ul class="comma-seperated-list">
-                          {{#creator}}
-                              <li>
-                                  <a href="/resource/{{@id}}">
-                                    {{#name}}{{@value}}{{/name}}
-                                  </a>
-                              </li>
-                          {{/creator}}
+                            {{#creator}}
+                                <li>
+                                    <a href="/resource/{{@id}}">
+                                      {{#name}}{{@value}}{{/name}}
+                                    </a>
+                                </li>
+                            {{/creator}}
                         </ul>
                     </div>
-                    
+
                 </div>
-                
+
                 {{#image}}
                     <div class="paragraph-image">
                         <a href="{{.}}" target="_blank">
@@ -44,24 +44,24 @@
                         </a>
                     </div>
                 {{/image}}
-                
+
                 {{#articleBody}}{{{@value}}}{{/articleBody}}
-                
+
                 {{#keywords.size}}
                     <h2>Keywords</h2>
                     <ul>
                         {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
                     </ul>
                 {{/keywords.size}}
-                
+
             </article>
-            
+
             <hr/>
-            
+
             <aside>
-                            
+
                 <h2>Related</h2>
-                
+
                 <ul class="resource-list truncated">
                     <script type="application/ld+json">
                         {{{mentions}}}
