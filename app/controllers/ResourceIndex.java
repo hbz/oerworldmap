@@ -31,8 +31,8 @@ import services.ElasticsearchProvider;
  */
 public class ResourceIndex extends OERWorldMap {
 
-
-  public static Result list(String q, int from, int size, String sort, boolean list) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort, boolean list)
+      throws IOException, ParseException {
 
     // Extract filters directly from query params
     Map<String, ArrayList<String>> filters = new HashMap<>();
@@ -103,8 +103,8 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository
-          .query("about.about.@id:\"".concat(id).concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
+      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+          .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
       resource.put("related", relatedList.getItems());
     }
 
@@ -119,11 +119,11 @@ public class ResourceIndex extends OERWorldMap {
         conceptScheme = Resource.fromJsonFile("public/json/isced-1997.json");
       }
       if (!(null == conceptScheme)) {
-        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services").filter(
-          FilterBuilders.termFilter("about.@type", "Service")
-        );
+        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
+            .filter(FilterBuilders.termFilter("about.@type", "Service"));
         for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
-          conceptAggregation.subAggregation(AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
+          conceptAggregation.subAggregation(
+              AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
         Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
         resource.put("aggregation", nestedConceptAggregation);
@@ -186,7 +186,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @Security.Authenticated(Secured.class)
-  public static Result delete(String id) {
+  public static Result delete(String id) throws IOException {
     Resource resource = mBaseRepository.deleteResource(id);
     if (null != resource) {
       return ok("deleted resource " + resource.toString());

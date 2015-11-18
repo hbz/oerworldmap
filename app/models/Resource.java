@@ -1,9 +1,5 @@
 package models;
 
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import helpers.FilesConfig;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -16,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
-import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,12 +19,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+
+import helpers.FilesConfig;
+import helpers.JsonLdConstants;
+import play.Logger;
 import play.Play;
 
-public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
+public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
 
   /**
    *
@@ -37,15 +37,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
+  private static final List<String> mIdentifiedTypes = new ArrayList<String>(
+      Arrays.asList("Organization", "Event", "Person", "Action", "WebPage", "Article", "Service",
+          "ConceptScheme", "Concept"));
 
   private static JsonSchema mSchema = null;
 
   static {
     try {
-      mSchema = JsonSchemaFactory.byDefault().getJsonSchema(
-        new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
+      mSchema = JsonSchemaFactory.byDefault()
+          .getJsonSchema(new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
     } catch (IOException | ProcessingException e) {
       Logger.error(e.toString());
     }
@@ -161,8 +162,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     try {
       String type = this.getAsString(JsonLdConstants.TYPE);
       if (null == type) {
-        report.error(new ProcessingMessage().setMessage("No type found for ".concat(this.toString())
-            .concat(", cannot validate")));
+        report.error(new ProcessingMessage()
+            .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
       } else if (null != mSchema) {
         report = mSchema.validate(toJson());
       } else {
@@ -212,7 +213,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     if (null == result || !(result instanceof List)) {
       return list;
     }
-    for (Object value : (List) result) {
+    for (Object value : (List<?>) result) {
       if (value instanceof Resource) {
         list.add((Resource) value);
       }
@@ -226,7 +227,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     if (null == result || !(result instanceof List)) {
       return ids;
     }
-    for (Object value : (List) result) {
+    for (Object value : (List<?>) result) {
       if (value instanceof Resource) {
         ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
       }
@@ -379,6 +380,40 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   @Override
   public int compareTo(Resource aOther) {
     return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+  }
+
+  public Resource deleteReferencesTo(String aId) {
+    for (Iterator<Map.Entry<String, Object>> it = entrySet().iterator(); it.hasNext();) {
+      Entry<String, Object> entry = it.next();
+      if (entry.getValue() instanceof Resource) {
+        Resource innerResource = (Resource) entry.getValue();
+        if (innerResource.hasId() && innerResource.getAsString(JsonLdConstants.ID).equals(aId)) {
+          it.remove();
+        } //
+        else
+          innerResource.deleteReferencesTo(aId);
+      } //
+      else if (entry.getValue() instanceof List<?>) {
+        List<?> list = (List<?>) entry.getValue();
+        for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
+          Object item = itn.next();
+          if (item instanceof Resource) {
+            Resource innerResource = (Resource) item;
+            String innerId = innerResource.getAsString(JsonLdConstants.ID);
+            if (innerId != null && innerId.equals(aId)) {
+              itn.remove();
+              if (list.isEmpty()) {
+                it.remove();
+              }
+            } //
+            else {
+              innerResource.deleteReferencesTo(aId);
+            }
+          }
+        }
+      }
+    }
+    return this;
   }
 
 }
