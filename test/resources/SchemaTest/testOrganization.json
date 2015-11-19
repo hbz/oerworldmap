@@ -11,5 +11,7 @@
     "foo",
     "bar",
     "baz"
-  ]
+  ],
+  "mainEntityOf": [],
+  "mentionedIn": []
 }

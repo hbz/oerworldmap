@@ -72,7 +72,7 @@ public class ResourceIndexTest {
         data.put("email", "foo1@bar.com");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withFormUrlEncodedBody(data));
-        assertEquals(201, status(result));
+        assertEquals(303, status(result));
       }
     });
   }
@@ -95,7 +95,7 @@ public class ResourceIndexTest {
         data.put("email", "foo2@bar.com");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
-        assertEquals(201, status(result));
+        assertEquals(303, status(result));
       }
     });
   }
@@ -119,7 +119,7 @@ public class ResourceIndexTest {
         data.put("email", "foo2@bar.com");
         Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
-        assertEquals(201, status(createResult));
+        assertEquals(303, status(createResult));
         Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
         assertEquals(200, status(updateResult));

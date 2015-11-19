@@ -60,11 +60,20 @@ public class ElasticsearchRepository extends Repository
       id = UUID.randomUUID().toString();
     }
     elasticsearch.addJson(aResource.toString(), id, aType);
+    elasticsearch.refreshIndex(elasticsearch.getIndex());
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
     return Resource.fromMap(elasticsearch.getDocument("_all", aId));
+  }
+
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
+    List<Resource> resources = new ArrayList<Resource>();
+    for (Map<String, Object> doc : elasticsearch.getResources(aField, aValue)) {
+      resources.add(Resource.fromMap(doc));
+    }
+    return resources;
   }
 
   @Override
@@ -78,7 +87,6 @@ public class ElasticsearchRepository extends Repository
 
   @Override
   public Resource deleteResource(@Nonnull String aId) {
-    // TODO: delete mentioned resources?
     Resource resource = getResource(aId);
     if (null == resource) {
       return null;
@@ -90,7 +98,9 @@ public class ElasticsearchRepository extends Repository
         .toString();
     Logger.info("DELETING " + type + aId);
 
-    if (elasticsearch.deleteDocument(type, aId)) {
+    boolean found = elasticsearch.deleteDocument(type, aId);
+    elasticsearch.refreshIndex(elasticsearch.getIndex());
+    if (found) {
       return resource;
     } else {
       return null;

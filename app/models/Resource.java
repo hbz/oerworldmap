@@ -1,9 +1,5 @@
 package models;
 
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import helpers.FilesConfig;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -16,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
-import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,12 +19,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+
+import helpers.FilesConfig;
+import helpers.JsonLdConstants;
+import play.Logger;
 import play.Play;
 
-public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
+public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
 
   /**
    *
@@ -37,15 +37,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<String>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
+  private static final List<String> mIdentifiedTypes = new ArrayList<String>(
+      Arrays.asList("Organization", "Event", "Person", "Action", "WebPage", "Article", "Service",
+          "ConceptScheme", "Concept"));
 
   private static JsonSchema mSchema = null;
 
   static {
     try {
-      mSchema = JsonSchemaFactory.byDefault().getJsonSchema(
-        new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
+      mSchema = JsonSchemaFactory.byDefault()
+          .getJsonSchema(new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
     } catch (IOException | ProcessingException e) {
       Logger.error(e.toString());
     }
@@ -161,8 +162,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     try {
       String type = this.getAsString(JsonLdConstants.TYPE);
       if (null == type) {
-        report.error(new ProcessingMessage().setMessage("No type found for ".concat(this.toString())
-            .concat(", cannot validate")));
+        report.error(new ProcessingMessage()
+            .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
       } else if (null != mSchema) {
         report = mSchema.validate(toJson());
       } else {
@@ -209,10 +210,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List)) {
+    if (null == result || !(result instanceof List<?>)) {
       return list;
     }
-    for (Object value : (List) result) {
+    for (Object value : (List<?>) result) {
       if (value instanceof Resource) {
         list.add((Resource) value);
       }
@@ -223,10 +224,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   public List<String> getIdList(final Object aKey) {
     List<String> ids = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List)) {
+    if (null == result || !(result instanceof List<?>)) {
       return ids;
     }
-    for (Object value : (List) result) {
+    for (Object value : (List<?>) result) {
       if (value instanceof Resource) {
         ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
       }
@@ -264,7 +265,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
       Map.Entry<String, Object> entry = it.next();
       // remove entries of type List if they only contain ID entries
-      if (entry.getValue() instanceof List) {
+      if (entry.getValue() instanceof List<?>) {
         List<?> list = (List<?>) (entry.getValue());
         List<Object> truncatedList = new ArrayList<>();
         for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
@@ -303,8 +304,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List) {
-        if (!(other.get(pair.getKey()) instanceof List)) {
+      if (pair.getValue() instanceof List<?>) {
+        if (!(other.get(pair.getKey()) instanceof List<?>)) {
           return false;
         }
         List<Object> list = (List<Object>) pair.getValue();
@@ -349,7 +350,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
           result.put(entry.getKey(), entry.getValue());
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (entry.getValue() instanceof List<?>) {
         result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
       } else {
         result.put(entry.getKey(), entry.getValue());
@@ -363,7 +364,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (object instanceof Resource) {
         object = getIdClone((Resource) object);
       } //
-      else if (object instanceof List) {
+      else if (object instanceof List<?>) {
         object = getAsIdTree((List<?>) object);
       }
     }
@@ -378,7 +379,103 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   @Override
   public int compareTo(Resource aOther) {
-    return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+    if (hasId() && aOther.hasId()) {
+      return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+    }
+    return toString().compareTo(aOther.toString());
+  }
+
+  /**
+   * Get a flat String representation of this Resource, whereby any keys are
+   * dismissed. Furthermore, value information can be dropped by specifying its
+   * fields respectively keys names. This is useful for "static" values like e.
+   * g. of the field "type".
+   * 
+   * @param aFieldSeparator
+   *          a String indicating the beginning of new information, resulting
+   *          from a new Resource's field. Note, that this separator might also
+   *          appear within the Resource's fields themselves.
+   * @param aDropFields
+   *          a List<String> specifying, which field's values should be excluded
+   *          from the resulting String representation
+   * @return a flat String representation of this Resource. In case there is no
+   *         information to be returned, the result is an empty String.
+   */
+  public String getValuesAsFlatString(String aFieldSeparator, List<String> aDropFields) {
+    String fieldSeparator = null == aFieldSeparator ? "" : aFieldSeparator;
+
+    StringBuffer result = new StringBuffer();
+
+    for (Entry<String, Object> entry : entrySet()) {
+      if (!aDropFields.contains(entry.getKey())) {
+        Object value = entry.getValue();
+        if (value instanceof String) {
+          if (!"".equals(value)) {
+            result.append(value).append(fieldSeparator).append(" ");
+          }
+        } //
+        else if (value instanceof Resource) {
+          result.append(((Resource) value).getValuesAsFlatString(fieldSeparator, aDropFields));
+        } //
+        else if (value instanceof List<?>) {
+          result.append("[");
+          for (Object innerValue : (List<?>) value) {
+            if (innerValue instanceof String) {
+              if (!"".equals(innerValue)) {
+                result.append(innerValue).append(fieldSeparator).append(" ");
+              }
+            } //
+            else if (innerValue instanceof Resource) {
+              result.append(
+                  ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
+            }
+          }
+          if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
+            result.delete(result.length() - 2, result.length());
+          }
+          result.append("]").append(fieldSeparator).append(" ");
+        }
+      }
+    }
+    // delete last separator
+    if (result.length() > 1) {
+      result.delete(result.length() - 2, result.length());
+    }
+    return result.toString();
+  }
+
+  public Resource deleteReferencesTo(String aId) {
+    for (Iterator<Map.Entry<String, Object>> it = entrySet().iterator(); it.hasNext();) {
+      Entry<String, Object> entry = it.next();
+      if (entry.getValue() instanceof Resource) {
+        Resource innerResource = (Resource) entry.getValue();
+        if (innerResource.hasId() && innerResource.getAsString(JsonLdConstants.ID).equals(aId)) {
+          it.remove();
+        } //
+        else
+          innerResource.deleteReferencesTo(aId);
+      } //
+      else if (entry.getValue() instanceof List<?>) {
+        List<?> list = (List<?>) entry.getValue();
+        for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
+          Object item = itn.next();
+          if (item instanceof Resource) {
+            Resource innerResource = (Resource) item;
+            String innerId = innerResource.getAsString(JsonLdConstants.ID);
+            if (innerId != null && innerId.equals(aId)) {
+              itn.remove();
+              if (list.isEmpty()) {
+                it.remove();
+              }
+            } //
+            else {
+              innerResource.deleteReferencesTo(aId);
+            }
+          }
+        }
+      }
+    }
+    return this;
   }
 
 }

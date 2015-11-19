@@ -11,6 +11,7 @@
 
 .resource-header {
   margin-bottom: @resource-vertical-distance;
+  .clearfix();
 }
 
 
@@ -18,9 +19,14 @@
 
 @resource-icon-width: 1.6em;
 
+.resource-edit-btn {
+  float: right;
+}
+
 .resource-title {
   padding: 0px 0px 0px @resource-icon-width;
   position: relative;
+  float: left;
 }
 
 .resource-title .fa {
@@ -32,6 +38,10 @@
 
 
 /* --- resource subline --- */
+
+.resource-subline {
+  clear: both;
+}
 
 .resource-subline-label {
   float: left;
