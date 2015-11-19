@@ -210,7 +210,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List)) {
+    if (null == result || !(result instanceof List<?>)) {
       return list;
     }
     for (Object value : (List<?>) result) {
@@ -224,7 +224,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public List<String> getIdList(final Object aKey) {
     List<String> ids = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List)) {
+    if (null == result || !(result instanceof List<?>)) {
       return ids;
     }
     for (Object value : (List<?>) result) {
@@ -265,7 +265,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
       Map.Entry<String, Object> entry = it.next();
       // remove entries of type List if they only contain ID entries
-      if (entry.getValue() instanceof List) {
+      if (entry.getValue() instanceof List<?>) {
         List<?> list = (List<?>) (entry.getValue());
         List<Object> truncatedList = new ArrayList<>();
         for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
@@ -304,8 +304,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     final Iterator<Map.Entry<String, Object>> thisIt = this.entrySet().iterator();
     while (thisIt.hasNext()) {
       final Map.Entry<String, Object> pair = thisIt.next();
-      if (pair.getValue() instanceof List) {
-        if (!(other.get(pair.getKey()) instanceof List)) {
+      if (pair.getValue() instanceof List<?>) {
+        if (!(other.get(pair.getKey()) instanceof List<?>)) {
           return false;
         }
         List<Object> list = (List<Object>) pair.getValue();
@@ -350,7 +350,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
           result.put(entry.getKey(), entry.getValue());
         }
       } //
-      else if (entry.getValue() instanceof List) {
+      else if (entry.getValue() instanceof List<?>) {
         result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
       } else {
         result.put(entry.getKey(), entry.getValue());
@@ -364,7 +364,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       if (object instanceof Resource) {
         object = getIdClone((Resource) object);
       } //
-      else if (object instanceof List) {
+      else if (object instanceof List<?>) {
         object = getAsIdTree((List<?>) object);
       }
     }
@@ -379,7 +379,69 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   @Override
   public int compareTo(Resource aOther) {
-    return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+    if (hasId() && aOther.hasId()) {
+      return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+    }
+    return toString().compareTo(aOther.toString());
+  }
+
+  /**
+   * Get a flat String representation of this Resource, whereby any keys are
+   * dismissed. Furthermore, value information can be dropped by specifying its
+   * fields respectively keys names. This is useful for "static" values like e.
+   * g. of the field "type".
+   * 
+   * @param aFieldSeparator
+   *          a String indicating the beginning of new information, resulting
+   *          from a new Resource's field. Note, that this separator might also
+   *          appear within the Resource's fields themselves.
+   * @param aDropFields
+   *          a List<String> specifying, which field's values should be excluded
+   *          from the resulting String representation
+   * @return a flat String representation of this Resource. In case there is no
+   *         information to be returned, the result is an empty String.
+   */
+  public String getValuesAsFlatString(String aFieldSeparator, List<String> aDropFields) {
+    String fieldSeparator = null == aFieldSeparator ? "" : aFieldSeparator;
+
+    StringBuffer result = new StringBuffer();
+
+    for (Entry<String, Object> entry : entrySet()) {
+      if (!aDropFields.contains(entry.getKey())) {
+        Object value = entry.getValue();
+        if (value instanceof String) {
+          if (!"".equals(value)) {
+            result.append(value).append(fieldSeparator).append(" ");
+          }
+        } //
+        else if (value instanceof Resource) {
+          result.append(((Resource) value).getValuesAsFlatString(fieldSeparator, aDropFields));
+        } //
+        else if (value instanceof List<?>) {
+          result.append("[");
+          for (Object innerValue : (List<?>) value) {
+            if (innerValue instanceof String) {
+              if (!"".equals(innerValue)) {
+                result.append(innerValue).append(fieldSeparator).append(" ");
+              }
+            } //
+            else if (innerValue instanceof Resource) {
+              result.append(
+                  ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
+            }
+          }
+          if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
+            result.delete(result.length() - 2, result.length());
+          }
+          result.append("]").append(fieldSeparator).append(" ");
+        }
+      }
+    }
+    // delete last separator
+    if (result.length() > 1) {
+      result.delete(result.length() - 2, result.length());
+    }
+    return result.toString();
   }
 
   public Resource deleteReferencesTo(String aId) {

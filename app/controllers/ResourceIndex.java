@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +26,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import services.AggregationProvider;
 import services.ElasticsearchProvider;
+import services.export.AbstractCsvExporter;
+import services.export.CsvWithNestedIdsExporter;
 
 /**
  * @author fo
@@ -52,6 +55,17 @@ public class ResourceIndex extends OERWorldMap {
 
     if (request().accepts("text/html")) {
       return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+    } else if (request().accepts("text/csv")) {
+      StringBuffer result = new StringBuffer();
+      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
+      csvExporter.defineHeaderColumns(resourceList.getItems());
+      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
+      csvExporter.setDropFields(dropFields);
+      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
+      for (Resource resource : resourceList.getItems()) {
+        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+      }
+      return ok(result.toString()).as("text/csv");
     } else {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
