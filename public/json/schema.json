@@ -342,12 +342,12 @@
           "items": {
             "$ref": "#/definitions/Service"
           }
-        }
-      },
-      "tag": {
-        "type": "array",
-        "items": {
-          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
@@ -497,12 +497,12 @@
               }
             ]
           }
-        }
-      },
-      "tag": {
-        "type": "array",
-        "items": {
-          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
@@ -615,12 +615,12 @@
           "items": {
             "$ref": "#/definitions/Article"
           }
-        }
-      },
-      "tag": {
-        "type": "array",
-        "items": {
-          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
@@ -747,12 +747,12 @@
           "items": {
             "$ref": "#/definitions/Organization"
           }
-        }
-      },
-      "tag": {
-        "type": "array",
-        "items": {
-          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
