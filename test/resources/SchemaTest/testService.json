@@ -33,5 +33,10 @@
       "addressCountry": "DE"
     }
   },
-  "image": "http://foo.bar.de"
+  "image": "http://foo.bar.de",
+  "tag": [
+    "foo",
+    "bar",
+    "baz"
+  ]
 }

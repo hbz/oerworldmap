@@ -1,10 +1,9 @@
 {
-	"@context": "http://schema.org",
-  "@type": "Organization",
+  "@type": "Action",
   "name": [
     {
       "@language": "en",
-      "@value": "Some organization"
+      "@value": "Some Action"
     }
   ],
   "tag": [
