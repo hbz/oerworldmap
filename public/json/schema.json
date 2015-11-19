@@ -936,7 +936,7 @@
         "startDate": {
               "$ref": "#/definitions/full-date"
         },
-        "endTime": {
+        "endDate": {
               "$ref": "#/definitions/full-date"
         },
         "location": {
