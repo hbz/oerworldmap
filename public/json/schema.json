@@ -343,6 +343,12 @@
             "$ref": "#/definitions/Service"
           }
         },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "mentionedIn": {
           "description": "An article that mentions the project.",
           "type": "array",
@@ -514,6 +520,12 @@
             ]
           }
         },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "mainEntityOf": {
           "description": "An article that has the service as its main entity.",
           "type": "array",
@@ -675,6 +687,12 @@
             "$ref": "#/definitions/Article"
           }
         },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "mentionedIn": {
           "description": "An article that mentions the person.",
           "type": "array",
@@ -834,6 +852,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
+          }
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       },
