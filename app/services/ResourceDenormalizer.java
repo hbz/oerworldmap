@@ -33,6 +33,10 @@ public class ResourceDenormalizer {
     // mKnownInverseRelations.put("mentionedIn", "mentions");
     mKnownInverseRelations.put("participant", "participantIn");
     mKnownInverseRelations.put("participantIn", "participant");
+    mKnownInverseRelations.put("organizer", "organizerFor");
+    mKnownInverseRelations.put("organizerFor", "organizer");
+    mKnownInverseRelations.put("performer", "performerIn");
+    mKnownInverseRelations.put("performerIn", "performer");
   }
 
   final private static List<String> mListValueEntries = new ArrayList<>();
@@ -59,6 +63,11 @@ public class ResourceDenormalizer {
     mListValueEntries.add("affiliation");
     mListValueEntries.add("result");
     mListValueEntries.add("contactPoint");
+    mListValueEntries.add("organizer");
+    mListValueEntries.add("organizerFor");
+    mListValueEntries.add("performer");
+    mListValueEntries.add("performerIn");
+    mListValueEntries.add("mainEntityOf");
   }
 
   //
