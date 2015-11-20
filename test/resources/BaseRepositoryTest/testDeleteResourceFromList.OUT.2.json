@@ -1,0 +1,31 @@
+{
+  "provider" : [ {
+    "image" : "http://graphthinking.com/img/logo.png",
+    "@type" : "Organization",
+    "provides" : [ {
+      "@type" : "Service",
+      "name" : [ {
+        "@value" : "Regal",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"
+    } ],
+    "name" : [ {
+      "@value" : "graphthinking GmbH",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503",
+    "url" : "http://graphthinking.com",
+    "email" : "foo@bar.de"
+  } ],
+  "availableChannel" : [ {
+    "serviceUrl" : "https://github.com/edoweb/regal-drupal",
+    "availableLanguage" : [ "en" ]
+  } ],
+  "@type" : "Service",
+  "name" : [ {
+    "@value" : "Regal",
+    "@language" : "en"
+  } ],
+  "@id" : "urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"
+}
