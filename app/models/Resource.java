@@ -1,9 +1,5 @@
 package models;
 
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import helpers.FilesConfig;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -16,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
-import play.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,12 +19,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+
+import helpers.FilesConfig;
+import helpers.JsonLdConstants;
+import play.Logger;
 import play.Play;
 
-public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
+public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
 
   /**
    *
@@ -44,8 +44,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   static {
     try {
-      mSchema = JsonSchemaFactory.byDefault().getJsonSchema(
-        new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
+      mSchema = JsonSchemaFactory.byDefault()
+          .getJsonSchema(new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
     } catch (IOException | ProcessingException e) {
       Logger.error(e.toString());
     }
@@ -161,8 +161,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     try {
       String type = this.getAsString(JsonLdConstants.TYPE);
       if (null == type) {
-        report.error(new ProcessingMessage().setMessage("No type found for ".concat(this.toString())
-            .concat(", cannot validate")));
+        report.error(new ProcessingMessage()
+            .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
       } else if (null != mSchema) {
         report = mSchema.validate(toJson());
       } else {
@@ -378,7 +378,103 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   @Override
   public int compareTo(Resource aOther) {
-    return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+    if (hasId() && aOther.hasId()) {
+      return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
+    }
+    return toString().compareTo(aOther.toString());
+  }
+
+  /**
+   * Get a flat String representation of this Resource, whereby any keys are
+   * dismissed. Furthermore, value information can be dropped by specifying its
+   * fields respectively keys names. This is useful for "static" values like e.
+   * g. of the field "type".
+   *
+   * @param aFieldSeparator
+   *          a String indicating the beginning of new information, resulting
+   *          from a new Resource's field. Note, that this separator might also
+   *          appear within the Resource's fields themselves.
+   * @param aDropFields
+   *          a List<String> specifying, which field's values should be excluded
+   *          from the resulting String representation
+   * @return a flat String representation of this Resource. In case there is no
+   *         information to be returned, the result is an empty String.
+   */
+  public String getValuesAsFlatString(String aFieldSeparator, List<String> aDropFields) {
+    String fieldSeparator = null == aFieldSeparator ? "" : aFieldSeparator;
+
+    StringBuffer result = new StringBuffer();
+
+    for (Entry<String, Object> entry : entrySet()) {
+      if (!aDropFields.contains(entry.getKey())) {
+        Object value = entry.getValue();
+        if (value instanceof String) {
+          if (!"".equals(value)) {
+            result.append(value).append(fieldSeparator).append(" ");
+          }
+        } //
+        else if (value instanceof Resource) {
+          result.append(((Resource) value).getValuesAsFlatString(fieldSeparator, aDropFields));
+        } //
+        else if (value instanceof List<?>) {
+          result.append("[");
+          for (Object innerValue : (List<?>) value) {
+            if (innerValue instanceof String) {
+              if (!"".equals(innerValue)) {
+                result.append(innerValue).append(fieldSeparator).append(" ");
+              }
+            } //
+            else if (innerValue instanceof Resource) {
+              result.append(
+                  ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
+            }
+          }
+          if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
+            result.delete(result.length() - 2, result.length());
+          }
+          result.append("]").append(fieldSeparator).append(" ");
+        }
+      }
+    }
+    // delete last separator
+    if (result.length() > 1) {
+      result.delete(result.length() - 2, result.length());
+    }
+    return result.toString();
+  }
+
+  public Resource deleteReferencesTo(String aId) {
+    for (Iterator<Map.Entry<String, Object>> it = entrySet().iterator(); it.hasNext();) {
+      Entry<String, Object> entry = it.next();
+      if (entry.getValue() instanceof Resource) {
+        Resource innerResource = (Resource) entry.getValue();
+        if (innerResource.hasId() && innerResource.getAsString(JsonLdConstants.ID).equals(aId)) {
+          it.remove();
+        } //
+        else
+          innerResource.deleteReferencesTo(aId);
+      } //
+      else if (entry.getValue() instanceof List<?>) {
+        List<?> list = (List<?>) entry.getValue();
+        for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
+          Object item = itn.next();
+          if (item instanceof Resource) {
+            Resource innerResource = (Resource) item;
+            String innerId = innerResource.getAsString(JsonLdConstants.ID);
+            if (innerId != null && innerId.equals(aId)) {
+              itn.remove();
+              if (list.isEmpty()) {
+                it.remove();
+              }
+            } //
+            else {
+              innerResource.deleteReferencesTo(aId);
+            }
+          }
+        }
+      }
+    }
+    return this;
   }
 
 }

@@ -1,0 +1,25 @@
+<fieldset>
+
+    <legend>Article</legend>
+
+    {{input "@type" "Article" readonly="readonly"}}
+
+    {{input "@id" [@id] readonly="readonly"}}
+
+    {{> FormElements/LocalizedInput.mustache property=name key="name" title="Name"}}
+
+    {{> FormElements/LocalizedTextarea.mustache property=description key="description" title="Description"}}
+
+    {{> FormElements/LocalizedTextarea.mustache property=articleBody key="articleBody" title="Article Body"}}
+
+    {{> FormElements/Input.mustache property=dateCreated key="dateCreated" title="Date created" multiple=false type="text"}}
+
+    {{> FormElements/Input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+
+    {{> FormElements/Id.mustache property=creator key="creator" title="Creator" multiple=true lookup="/resource/"}}
+
+    {{> FormElements/Id.mustache property=mainEntity key="mainEntity" title="Main Entity" multiple=false lookup="/resource/"}}
+
+    {{> FormElements/Id.mustache property=mentions key="mentions" title="Mentions" multiple=true lookup="/resource/"}}
+
+</fieldset>

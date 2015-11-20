@@ -6,5 +6,7 @@
       "@language": "en",
       "@value": "Some organization"
     }
-  ]
+  ],
+  "mainEntityOf": [],
+  "mentionedIn": []
 }

@@ -1,0 +1,10 @@
+{
+  "@type": "Person",
+  "@id": "123",
+  "name": [
+    {
+      "@language": "de",
+      "@value": "Foo"
+    }
+  ]
+}
