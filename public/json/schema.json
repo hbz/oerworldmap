@@ -177,6 +177,9 @@
             },
             {
               "$ref": "#/definitions/Action"
+            },
+            {
+              "$ref": "#/definitions/Event"
             }
           ]
         },
@@ -197,6 +200,9 @@
               },
               {
                 "$ref": "#/definitions/Action"
+              },
+              {
+                "$ref": "#/definitions/Event"
               }
             ]
           }
@@ -695,6 +701,13 @@
           "items": {
             "$ref": "#/definitions/Article"
           }
+        },
+        "organizerFor": {
+          "description": "An event the person is organizer for.",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Event"
+              }
         }
       },
       "additionalProperties": false
@@ -842,6 +855,13 @@
           "items": {
             "$ref": "#/definitions/Article"
           }
+        },
+        "organizerFor": {
+          "description": "An event the organization is organizer for.",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Event"
+              }
         }
       },
       "required": [
@@ -955,8 +975,7 @@
           "items": {
             "$ref": "#/definitions/Article"
           }
-        }
-      },
+        },
         "hashtag": {
           "type": "string"
         },
@@ -989,7 +1008,8 @@
               }
             ]
           }
-        },
+        }
+      },
       "required": [
         "name"
       ],
