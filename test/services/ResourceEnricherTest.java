@@ -13,6 +13,8 @@ import java.util.List;
  * @author fo
  */
 public class ResourceEnricherTest implements JsonTest {
+	
+  final private static BroaderConceptEnricher mBroaderConceptEnricher = new BroaderConceptEnricher();
 
   @Test
   public void testEnrichBroaderConcepts() throws IOException {
@@ -33,7 +35,7 @@ public class ResourceEnricherTest implements JsonTest {
     repo.addResource(db2);
     repo.addResource(db3);
 
-    ResourceEnricher.enrich(in, repo);
+    mBroaderConceptEnricher.enrich(in, repo);
     assertEquals(out, in);
 
   }
@@ -54,7 +56,7 @@ public class ResourceEnricherTest implements JsonTest {
       repo.addResource(resource);
     }
 
-    ResourceEnricher.enrich(in, repo);
+    mBroaderConceptEnricher.enrich(in, repo);
     assertEquals(out, in);
 
   }

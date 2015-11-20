@@ -37,9 +37,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<String>(
-      Arrays.asList("Organization", "Event", "Person", "Action", "WebPage", "Article", "Service",
-          "ConceptScheme", "Concept"));
+  private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
+      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
 
   private static JsonSchema mSchema = null;
 
@@ -310,7 +309,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
         }
         List<Object> list = (List<Object>) pair.getValue();
         List<Object> otherList = (List<Object>) other.get(pair.getKey());
-        if (list.size() != otherList.size() || !list.containsAll(otherList)) {
+        if (list.size() != otherList.size() || !list.containsAll(otherList) || !otherList.containsAll(list)) {
           return false;
         }
       } else if (!pair.getValue().equals(other.get(pair.getKey()))) {
@@ -390,7 +389,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
    * dismissed. Furthermore, value information can be dropped by specifying its
    * fields respectively keys names. This is useful for "static" values like e.
    * g. of the field "type".
-   * 
+   *
    * @param aFieldSeparator
    *          a String indicating the beginning of new information, resulting
    *          from a new Resource's field. Note, that this separator might also
