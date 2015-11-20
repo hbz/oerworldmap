@@ -22,6 +22,9 @@
     },
     {
       "$ref": "#/definitions/Article"
+    },
+    {
+      "$ref": "#/definitions/Event"
     }
   ],
   "definitions": {
