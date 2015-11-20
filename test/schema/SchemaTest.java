@@ -44,4 +44,11 @@ public class SchemaTest implements JsonTest{
     assertTrue(organization.validate().isSuccess());
   }
 
+  @Test
+  public void testEvent() throws IOException {
+    Resource event = getResourceFromJsonFile("SchemaTest/testEvent.json");
+    assertNotNull(event);
+    assertTrue(event.validate().isSuccess());
+  }
+
 }
