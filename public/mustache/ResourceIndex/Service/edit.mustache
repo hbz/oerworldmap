@@ -1,10 +1,14 @@
 <fieldset>
 
-    <legend>Service</legend>
+    <div style="display: none;">
+        <legend>Service</legend>
+    </div>
 
-    {{input "@type" "Service" readonly="readonly"}}
+    <div style="display: none;">
+        {{input "@type" "Service" readonly="readonly"}}
 
-    {{input "@id" [@id] readonly="readonly"}}
+        {{input "@id" [@id] readonly="readonly"}}
+    </div>
 
     {{> FormElements/LocalizedInput.mustache property=name key="name" title="Name"}}
 

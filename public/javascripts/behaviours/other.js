@@ -15,7 +15,7 @@ var Hijax = (function ($, Hijax) {
     attach: function(context) {
 
       // placeholder polyfill
-      $('input, textarea', context).placeholder();
+      // $('input, textarea', context).placeholder();
 
       // call for actions
       $('a[href="#user-register"]', context).click(function(e){
@@ -82,6 +82,9 @@ var Hijax = (function ($, Hijax) {
           list.append(itm);
         });
       });
+
+      // bugfix for selects in modals see http://stackoverflow.com/questions/13649459/twitter-bootstrap-multiple-modal-error/15856139#15856139
+      $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 
     }
   }

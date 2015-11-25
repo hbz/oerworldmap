@@ -1,14 +1,20 @@
+// bootstrap
 @import "bootstrap.less";
 @import "bootstrap-override.less";
 
+// other third-party
+@import (inline) "../../../third-party/bower_components/select2/dist/css/select2.min.css";
+@import "../../../third-party/bower_components/select2-bootstrap-theme/src/select2-bootstrap.less";
+
+// oer wm variables
 @import "variables.less";
 
 // temporarly moved old stuff here ... should be ommitted
 @import "old.less";
 
+// the rest
 @import "basics.less";
 @import "general.less";
-
 @import "layouts.less";
 @import "typo.less";
 @import "components.less";
@@ -19,10 +25,10 @@
 @import "resource.less";
 @import "resource-list.less";
 @import "resource-filter.less";
+@import "resource-form.less";
 @import "schema-tree.less";
 // @import "filter.less";
 @import "forms.less";
 // @import "search.less";
 @import "charts.less";
-
 @import "responsive.less";

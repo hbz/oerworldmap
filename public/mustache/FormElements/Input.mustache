@@ -1,11 +1,14 @@
-{{#if multiple}}
-    <ul title="{{title}}">
-        {{#property}}
-            <li>{{input (stringFormat "%s[%s]" key @index) . type=type}}</li>
-        {{/property}}
-        <li>{{input (stringFormat "%s[%s]" key (size property)) "" type=type}}</li>
-    </ul>
-{{else}}
-    {{input key property type=type}}
-{{/if}}
+<div class="resource-form-widget">
 
+    {{#if multiple}}
+        <ul title="{{title}}">
+            {{#property}}
+                <li>{{input (stringFormat "%s[%s]" key @index) . type=type}}</li>
+            {{/property}}
+            <li>{{input (stringFormat "%s[%s]" key (size property)) "" type=type}}</li>
+        </ul>
+    {{else}}
+        {{input key property type=type}}
+    {{/if}}
+
+</div>
