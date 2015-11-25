@@ -1,14 +1,11 @@
-<div class="input-group select2-bootstrap-appended">
+<div class="input-group">
 
     {{{value_input}}}
 
     <div class="input-group-btn">
-        <select>
-            <option></option>
-            {{#each languages}}
-                <option>{{.}}</option>
-            {{/each}}
-        </select>
+        <button type="button" class="btn btn-default dropdown-toggle">
+            Language <span class="caret"></span>
+        </button>
     </div>
 
 </div>
