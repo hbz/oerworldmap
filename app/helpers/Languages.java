@@ -13,7 +13,7 @@ public class Languages {
     Map<String,String> languageMap = new HashMap<>();
     for (String languageCode : Locale.getISOLanguages()) {
       Locale language = new Locale(languageCode);
-      languageMap.put(language.getISO3Language(), language.getDisplayLanguage(aLocale));
+      languageMap.put(language.getLanguage(), language.getDisplayLanguage(aLocale));
     }
     return languageMap;
   }
