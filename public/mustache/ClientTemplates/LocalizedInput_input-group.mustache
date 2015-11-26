@@ -3,9 +3,12 @@
     {{{value_input}}}
 
     <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle">
-            Language <span class="caret"></span>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="text">Language</span> <i class="fa fa-chevron-down"></i>
         </button>
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-typeahead">
+            <input type="text" class="form-control typeahead" placeholder="..." />
+        </div>
     </div>
 
 </div>

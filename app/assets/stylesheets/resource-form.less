@@ -37,3 +37,67 @@ legend {
 }
 */
 
+
+
+
+
+/* - - - dropdown - - - */
+
+.resource-form-widget .dropdown-menu-typeahead {
+  padding: 0px;
+  width: 468px;
+  background: @blue-paler;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.input-group-btn button .text {
+  margin-right: 5px;
+}
+
+
+/* - - - twitter typeahead - - - */
+
+.twitter-typeahead {
+  width: 100%;
+  display: block !important;
+}
+
+.tt-input {
+  border: none;
+  border-radius: 0px;
+  float: none;
+  // border-bottom-left-radius: 0px;
+  // border-bottom-right-radius: 0px;
+}
+
+.input-group .form-control.tt-input {
+  float: none;
+  z-index: 0;
+}
+
+.tt-menu {
+  display: block !important;
+  // width: 100%;
+  position: static !important;
+  height: 373px;
+  overflow-y: scroll;
+  border-top: 1px solid @blue-darker;
+}
+
+.tt-suggestion {
+  padding: @padding-base-vertical @padding-base-horizontal;
+  border-top: 1px solid @blue-darker;
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.tt-selectable {
+  cursor: pointer;
+
+  &:hover {
+    background: @blue-pale;
+  }
+}
