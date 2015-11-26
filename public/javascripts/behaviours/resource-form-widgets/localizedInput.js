@@ -15,17 +15,38 @@ var Hijax = (function ($, Hijax) {
 
           var fieldset = this;
 
-          // enhance layout
+          // prepare languages array
 
-          var value_input = $(fieldset)
+          var languages_array = [];
+
+          for(i in i18nStrings.languages) {
+            languages_array.push({
+              id: i,
+              label: i18nStrings.languages[i]
+            });
+          }
+
+          languages_array.sort(function(a,b) {
+            if(a.label < b.label) return -1;
+            if(a.label == b.label) return 0;
+            if(a.label > b.label) return 1;
+          });
+
+          // reorganize layout
+
+          var value_input_html = $(fieldset)
             .find('[name*="@value"]')
             .addClass('form-control')
             .detach()[0].outerHTML;
 
+          var current_language_code = $(fieldset).find('[name*="@language"]').val();
+
+          var button_text = current_language_code ? i18nStrings.languages[ current_language_code ] : 'Language';
+          console.log(current_language_code, button_text);
           $(fieldset).append(
             templates['input-group']({
-              'value_input' : value_input,
-              'languages' : i18nStrings.countries
+              'value_input_html' : value_input_html,
+              'button_text' : button_text
             })
           );
 
@@ -42,16 +63,17 @@ var Hijax = (function ($, Hijax) {
             return false; // dirty
           });
 
-          var languages_array = [];
 
-          for(i in i18nStrings.countries) {
-            languages_array.push( i18nStrings.countries[i] );
-          }
 
           var languages = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            datumTokenizer: function(d){
+              return Bloodhound.tokenizers.whitespace(d.label);
+            },
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: languages_array
+            local: languages_array,
+            identify: function(result){
+              return result.id;
+            },
           });
 
           var typeahead = $(fieldset).find('.typeahead');
@@ -63,15 +85,17 @@ var Hijax = (function ($, Hijax) {
           },{
             name: 'languages',
             limit: 9999,
+            display: 'label',
             source: function(q, sync){
               if (q === '') {
                 sync(languages_array);
-              }
-              else {
+              } else {
                 languages.search(q, sync);
               }
             }
           });
+
+
 
           dropdown_parent.on('shown.bs.dropdown', function(){
             // hack to initially open the typeahead suggestion list
@@ -82,8 +106,8 @@ var Hijax = (function ($, Hijax) {
           typeahead.bind('typeahead:select', function(e, suggestion) {
             language_button.dropdown('toggle');
             typeahead.typeahead('val', '');
-            language_button.find('.text').text(suggestion);
-            language_input.val(suggestion);
+            language_button.find('.text').text(suggestion.label); console.log(suggestion.id,language_input);
+            language_input.val(suggestion.id);
           });
 
         });
@@ -92,7 +116,7 @@ var Hijax = (function ($, Hijax) {
     }
   };
 
-  //Hijax.behaviours.localizedInput = my;
+  Hijax.behaviours.localizedInput = my;
   return Hijax;
 
 })(jQuery, Hijax);
