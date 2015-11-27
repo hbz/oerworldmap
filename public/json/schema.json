@@ -577,6 +577,13 @@
               }
             ]
           }
+        },
+        "memberOf": {
+          "description": "An organization the service is member of.",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Organization"
+          }
         }
       },
       "required": [
