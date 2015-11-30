@@ -1,17 +1,19 @@
 <div class="resource-form-widget" data-behaviour="localizedInput">
 
-    <ul title="{{title}}">
+    <h4>{{title}}</h4>
+
+    <ul title="{{title}}" class="i18n-list">
         {{#property}}
-            <li>
-                <fieldset class="i18n">
+            <li class="i18n">
+                <fieldset>
                     <legend>{{title}}</legend>
                     {{input (stringFormat "%s[%s][@value]" key @index) [@value]}}
                     {{input (stringFormat "%s[%s][@language]" key @index) [@language]}}
                 </fieldset>
             </li>
         {{/property}}
-        <li>
-            <fieldset class="i18n">
+        <li class="i18n">
+            <fieldset>
                 <legend>{{title}}</legend>
                 {{input (stringFormat "%s[%s][@value]" key (size property)) ""}}
                 {{input (stringFormat "%s[%s][@language]" key (size property)) ""}}
