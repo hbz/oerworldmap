@@ -1,18 +1,24 @@
-<ul title="{{title}}">
-    {{#property}}
-        <li>
-            <fieldset class="i18n">
+<div class="resource-form-widget" data-behaviour="localizedTextarea">
+
+    <h4>{{title}}</h4>
+
+    <ul title="{{title}}" class="multiple-list">
+        {{#property}}
+            <li class="multiple-one">
+                <fieldset>
+                    <legend>{{title}}</legend>
+                    {{textarea (stringFormat "%s[%s][@value]" key @index) [@value]}}
+                    {{input (stringFormat "%s[%s][@language]" key @index) [@language]}}
+                </fieldset>
+            </li>
+        {{/property}}
+        <li class="multiple-one">
+            <fieldset>
                 <legend>{{title}}</legend>
-                {{textarea (stringFormat "%s[%s][@value]" key @index) [@value]}}
-                {{input (stringFormat "%s[%s][@language]" key @index) [@language]}}
+                {{textarea (stringFormat "%s[%s][@value]" key (size property)) ""}}
+                {{input (stringFormat "%s[%s][@language]" key (size property)) ""}}
             </fieldset>
         </li>
-    {{/property}}
-    <li>
-        <fieldset class="i18n">
-            <legend>{{title}}</legend>
-            {{textarea (stringFormat "%s[%s][@value]" key (size property)) ""}}
-            {{input (stringFormat "%s[%s][@language]" key (size property)) ""}}
-        </fieldset>
-    </li>
-</ul>
+    </ul>
+
+</div>

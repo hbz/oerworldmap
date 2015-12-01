@@ -9,7 +9,7 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       my.templates = {
-        'input-group' : Handlebars.compile($('#LocalizedInput_input-group\\.mustache').html())
+        'input-group' : Handlebars.compile($('#LocalizedTextarea_input-group\\.mustache').html())
       }
 
       // prepare languages array
@@ -44,7 +44,7 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-behaviour="localizedInput"]', context).each(function() {
+      $('[data-behaviour="localizedTextarea"]', context).each(function() {
 
         var widget = $(this);
 
@@ -157,7 +157,7 @@ var Hijax = (function ($, Hijax) {
     }
   };
 
-  Hijax.behaviours.localizedInput = my;
+  Hijax.behaviours.localizedTextarea = my;
   return Hijax;
 
 })(jQuery, Hijax);

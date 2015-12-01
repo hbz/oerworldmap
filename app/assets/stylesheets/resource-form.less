@@ -28,12 +28,15 @@ legend {
     padding: 0;
   }
 
-  &.behaving {
+  textarea {
+    height: 144px;
+    resize: vertical;
+  }
 
+  &.behaving {
     label {
       display: none;
     }
-
   }
 }
 
@@ -76,6 +79,26 @@ li.multiple-one {
 }
 
 
+/* - - - input group for textareas - - - */
+
+.input-group-textarea {
+  textarea {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .btn {
+    margin-top: -1px;
+    margin-left: 0px !important;
+    border-bottom-left-radius: @border-radius-base !important;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 100%;
+  }
+  .btn-group {
+    width: 100%;
+  }
+}
+
 
 /* - - - dropdown - - - */
 
@@ -87,7 +110,8 @@ li.multiple-one {
   overflow: hidden;
 }
 
-.typeahead-search-icon {
+.typeahead-search-icon,
+.dropdown-icon {
   position: absolute;
   right: 0px;
   top: 0px;
@@ -98,8 +122,9 @@ li.multiple-one {
   font-weight: bold;
   font-size: (@font-size-base * 0.9);
   // .small();
+  text-align: left;
   .text {
-    margin-right: 5px;
+    margin-right: 20px;
   }
 }
 
