@@ -50,25 +50,25 @@ var Hijax = (function ($, Hijax) {
 
         $(this).addClass('behaving');
 
-        // create langauge fieldset template
+        // create i18n template
 
-        var language_fieldset_template = Handlebars.compile(
-          widget.find('.i18n').last()[0].outerHTML.replace(
+        var multiple_one_template = Handlebars.compile(
+          widget.find('.multiple-one').last()[0].outerHTML.replace(
             /\[\d+\]/g,
             '[{{index}}]'
           )
         );
 
-        // if more than one language fieldset, remove the last one
+        // if more than one i18n, remove the last one
 
-        if( widget.find('.i18n').length > 1 ) {
-          widget.find('.i18n').last().remove();
+        if( widget.find('.multiple-one').length > 1 ) {
+          widget.find('.multiple-one').last().remove();
         }
 
-        // init language fieldsets
+        // init i18n
 
-        widget.find('.i18n').each(function(){
-          my.initLanguageFieldset(this);
+        widget.find('.multiple-one').each(function(){
+          my.initOne(this);
         });
 
         // append "add language" control
@@ -76,27 +76,27 @@ var Hijax = (function ($, Hijax) {
         $('<span class="add-link small">+ Add Language</span>')
           .appendTo(widget)
           .click(function(){
-            var new_i18n = $( language_fieldset_template({ index : widget.find('.i18n').length }) );
-            widget.find('.i18n-list').append( new_i18n );
-            my.initLanguageFieldset( new_i18n );
+            var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
+            widget.find('.multiple-list').append( multiple_one_new );
+            my.initOne( multiple_one_new );
           });
 
       });
 
     },
 
-    initLanguageFieldset : function(i18n) {
+    initOne : function(one) {
 
-      var fieldset = $(i18n).find('fieldset'); console.log(fieldset);
+      var fieldset = $(one).find('fieldset');
 
       // reorganize layout
 
-      var value_input_html = fieldset
+      var value_input_html = $(one)
         .find('[name*="@value"]')
         .addClass('form-control')
         .detach()[0].outerHTML;
 
-      var current_language_code = fieldset.find('[name*="@language"]').val();
+      var current_language_code = $(one).find('[name*="@language"]').val();
       var button_text = current_language_code ? i18nStrings.languages[ current_language_code ] : 'Language';
 
       fieldset.append(
@@ -108,11 +108,11 @@ var Hijax = (function ($, Hijax) {
 
       // save controls
 
-      var language_button = fieldset.find('button');
-      var dropdown = fieldset.find('.dropdown-menu')
+      var language_button = $(one).find('button');
+      var dropdown = $(one).find('.dropdown-menu')
       var dropdown_parent = dropdown.parent();
-      var language_input = fieldset.find('[name*="@language"]');
-      var typeahead = fieldset.find('.typeahead');
+      var language_input = $(one).find('[name*="@language"]');
+      var typeahead = $(one).find('.typeahead');
 
       // prevent dropdown from being closed on click
 
