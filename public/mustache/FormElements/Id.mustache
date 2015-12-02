@@ -1,13 +1,21 @@
-{{#if multiple}}
-    <ul title="{{title}}">
-        {{#property}}
-            <li>
-                {{input (stringFormat "%s[%s][@id]" key @index) [@id] type="url" data-lookup=lookup}}
-                <script type="application/ld+json">{{json .}}</script>
-            </li>
-        {{/property}}
-        <li>{{input (stringFormat "%s[%s][@id]" key (size property)) "" type="url" data-lookup=lookup}}</li>
-    </ul>
-{{else}}
-    {{input (stringFormat "%s[@id]" key) property type="url" data-lookup=lookup}}
-{{/if}}
+<div class="resource-form-widget" data-behaviour="resource" data-lookup="{{lookup}}">
+
+    <h4>{{title}}</h4>
+
+    {{#if multiple}}
+        <ul title="{{title}}" class="multiple-list">
+            {{#property}}
+                <li class="multiple-one">
+                    {{input (stringFormat "%s[%s][@id]" key @index) [@id] type="url" data-lookup=lookup}}
+                    <script type="application/ld+json">{{json .}}</script>
+                </li>
+            {{/property}}
+            <li class="multiple-one">{{input (stringFormat "%s[%s][@id]" key (size property)) "" type="url" data-lookup=lookup}}</li>
+        </ul>
+    {{else}}
+        <div class="single">
+            {{input (stringFormat "%s[@id]" key) property type="url" data-lookup=lookup}}
+        </div>
+    {{/if}}
+
+</div>

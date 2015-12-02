@@ -73,7 +73,7 @@ var Hijax = (function ($, Hijax) {
 
         // append "add language" control
 
-        $('<span class="add-link small">+ Add Language</span>')
+        $('<span class="small" data-action="add">+ Add Language</span>')
           .appendTo(widget)
           .click(function(){
             var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
@@ -157,7 +157,7 @@ var Hijax = (function ($, Hijax) {
     }
   };
 
-  Hijax.behaviours.localizedInput = my;
+  Hijax.behaviours.LocalizedInput = my;
   return Hijax;
 
 })(jQuery, Hijax);

@@ -1,9 +1,5 @@
 var Hijax = (function ($, Hijax) {
 
-  var templates;
-  var languages_array;
-  var languages_bloodhoud;
-
   var my = {
 
     attach : function(context) {
@@ -35,7 +31,7 @@ var Hijax = (function ($, Hijax) {
 
           // append "add language" control
 
-          $('<span class="add-link small">+ Add ' + widget.find('.multiple-list').attr('title') + '</span>')
+          $('<span class="small" data-action="add">+ Add ' + widget.find('.multiple-list').attr('title') + '</span>')
             .appendTo(widget)
             .click(function(){
               var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
@@ -60,7 +56,7 @@ var Hijax = (function ($, Hijax) {
       var value_input_html = $(one)
         .find('input')
         .addClass('form-control')
-        .detach()[0].outerHTML; console.log(value_input_html);
+        .detach()[0].outerHTML;
 
       $(one).append(value_input_html);
 
@@ -68,7 +64,7 @@ var Hijax = (function ($, Hijax) {
 
   };
 
-  Hijax.behaviours.input = my;
+  Hijax.behaviours.Input = my;
   return Hijax;
 
 })(jQuery, Hijax);

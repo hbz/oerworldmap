@@ -38,6 +38,19 @@ legend {
       display: none;
     }
   }
+
+  .btn {
+    font-weight: bold;
+    font-size: (@font-size-base * 0.9);
+    text-align: left;
+    .text {
+      margin-right: 20px;
+    }
+  }
+
+  .dropdown {
+    width: 100%;
+  }
 }
 
 /*
@@ -53,11 +66,18 @@ legend {
 */
 
 
-.add-link {
+[data-action] {
   cursor: pointer;
   &:hover {
     color: @orange;
   }
+}
+
+.input-icon {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: @padding-base-vertical @padding-base-horizontal;
 }
 
 /* - - - fixes - - - */
@@ -79,6 +99,13 @@ li.multiple-one {
 }
 
 
+/* - - - resource - - - */
+
+.list-group-item {
+  padding: @padding-base-vertical @padding-base-horizontal;
+}
+
+
 /* - - - input group for textareas - - - */
 
 .input-group-textarea {
@@ -94,9 +121,6 @@ li.multiple-one {
     border-top-right-radius: 0px;
     width: 100%;
   }
-  .btn-group {
-    width: 100%;
-  }
 }
 
 
@@ -108,24 +132,6 @@ li.multiple-one {
   background: @blue-paler;
   margin-top: 10px;
   overflow: hidden;
-}
-
-.typeahead-search-icon,
-.dropdown-icon {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  padding: @padding-base-vertical @padding-base-horizontal;
-}
-
-.input-group-btn button {
-  font-weight: bold;
-  font-size: (@font-size-base * 0.9);
-  // .small();
-  text-align: left;
-  .text {
-    margin-right: 20px;
-  }
 }
 
 
