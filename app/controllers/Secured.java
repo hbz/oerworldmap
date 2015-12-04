@@ -14,9 +14,9 @@ import java.util.Base64;
  */
 public class Secured extends Security.Authenticator {
 
-  private static final String REALM = "Basic realm=\"OER World Map\"";
-  private static final String AUTHORIZATION = "authorization";
-  private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
+  public static final String REALM = "Basic realm=\"OER World Map\"";
+  public static final String AUTHORIZATION = "authorization";
+  public static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 
   @Override
   public String getUsername(Http.Context ctx) {

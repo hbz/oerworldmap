@@ -7,9 +7,7 @@ import play.Logger;
 import play.Play;
 import play.Routes;
 import play.libs.F;
-import play.mvc.Action;
-import play.mvc.Http;
-import play.mvc.Result;
+import play.mvc.*;
 import services.AggregationProvider;
 import services.QueryContext;
 
@@ -23,12 +21,32 @@ import java.util.regex.Pattern;
  */
 public class Authorized extends Action.Simple {
 
-  private static Properties mPermissions;
+  private static Map<String, List<String>> mPermissions;
+
+  private static Map<String, List<String>> mRoles;
 
   static {
-    mPermissions = new Properties();
+    mPermissions = new HashMap<>();
     try {
-      mPermissions.load(Play.application().classloader().getResourceAsStream("permissions.properties"));
+      Properties permissions = new Properties();
+      permissions.load(Play.application().classloader().getResourceAsStream("permissions.properties"));
+      for(Map.Entry<Object, Object> permission : permissions.entrySet()) {
+        mPermissions.put(permission.getKey().toString(), new ArrayList<>(Arrays.asList(permission.getValue().toString()
+          .split(" +"))));
+      }
+    } catch (IOException e) {
+      Logger.error(e.toString());
+    }
+  }
+
+  static {
+    mRoles = new HashMap<>();
+    try {
+      Properties roles = new Properties();
+      roles.load(Play.application().classloader().getResourceAsStream("roles.properties"));
+      for(Map.Entry<Object, Object> role : roles.entrySet()) {
+        mRoles.put(role.getKey().toString(), new ArrayList<>(Arrays.asList(role.getValue().toString().split(" +"))));
+      }
     } catch (IOException e) {
       Logger.error(e.toString());
     }
@@ -40,16 +58,31 @@ public class Authorized extends Action.Simple {
     String activity = ctx.args.get(Routes.ROUTE_CONTROLLER).toString()
         .concat(".").concat(ctx.args.get(Routes.ROUTE_ACTION_METHOD).toString());
     String username = Secured.getHttpBasicAuthUser(ctx);
-    Resource user = null;
+
+    Resource user;
 
     if (username != null) {
       List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
       if (users.size() == 1) {
         user = users.get(0);
         ctx.args.put("user", user);
+      } else {
+        user = new Resource("Person", username);
       }
+    } else {
+      user = new Resource("Person");
     }
 
+    if (mPermissions.get(activity) != null) {
+      mPermissions.get(activity).add("admin");
+    } else {
+      List<String> permissions = new ArrayList<>();
+      permissions.add("guest");
+      permissions.add("admin");
+      mPermissions.put(activity, permissions);
+    }
+
+    // Extract parameters via route pattern
     Pattern routePattern = Pattern.compile("\\$([^<]+)<([^>]+)>");
     Matcher routePatternMatcher = routePattern.matcher(ctx.args.get(Routes.ROUTE_PATTERN).toString());
     List<String> parameterNames = new ArrayList<>();
@@ -69,16 +102,13 @@ public class Authorized extends Action.Simple {
     }
 
     QueryContext queryContext;
-    if (user != null && getUserActivities(user.getId(), parameters).contains(activity)) {
+    if (getUserActivities(user.getId(), parameters).contains(activity)) {
       queryContext = new QueryContext(user.getId(), getUserRoles(user.getId(), parameters));
-      System.out.println("Authorized " + username + " for " + activity + " with " + parameters);
+      Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
     } else {
-      if (null == user) {
-        queryContext = new QueryContext(null, getUserRoles(null, parameters));
-      } else {
-        queryContext = new QueryContext(user.getId(), getUserRoles(null, parameters));
-      }
-      System.out.println("Unuthorized " + username + " for " + activity + " with " + parameters);
+      Logger.warn("Unuthorized " + user.getId() + " for " + activity + " with " + parameters);
+      ctx.response().setHeader(Secured.WWW_AUTHENTICATE, Secured.REALM);
+      return F.Promise.pure(Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
     }
     ctx.args.put("queryContext", queryContext);
 
@@ -96,24 +126,33 @@ public class Authorized extends Action.Simple {
   }
 
   public List<String> getUserRoles(String user, Map<String, String> parameters) {
+
     List<String> roles = new ArrayList<>();
-    if (user == null) {
-      roles.add("guest");
-    } else {
+
+    for(Map.Entry<String, List<String>> role : mRoles.entrySet()) {
+      if (role.getValue().contains(user)) {
+        roles.add(role.getKey());
+      }
+    }
+
+    roles.add("guest");
+
+    if (user != null) {
       roles.add("authenticated");
       if (user.equals(parameters.get("id"))) {
         roles.add("owner");
       }
     }
-    System.out.println(roles);
+
     return roles;
+
   }
 
   public List<String> getRoleActivities(String role) {
     List<String> activities = new ArrayList<>();
-    for(Map.Entry<Object, Object> activity : mPermissions.entrySet()) {
-      if (Arrays.asList(activity.getValue().toString().split(" +")).contains(role)) {
-        activities.add(activity.getKey().toString());
+    for(Map.Entry<String, List<String>> activity : mPermissions.entrySet()) {
+      if (activity.getValue().contains(role)) {
+        activities.add(activity.getKey());
       }
     }
     return activities;
