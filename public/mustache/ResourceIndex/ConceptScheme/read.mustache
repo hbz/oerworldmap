@@ -33,22 +33,7 @@
                     <p>{{{@value}}}</p>
                 {{/description}}
 
-                <table class="table resource-details-table">
-
-                    {{#if hasTopConcept}}
-                        <tr>
-                            <td>Top Concepts</td>
-                            <td>
-                                <ul class="resource-list" data-behaviour="sort">
-                                    {{#hasTopConcept}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
-                                    {{/hasTopConcept}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                </table>
+                {{nestedAggregation aggregation.services}}
 
             </div>
 

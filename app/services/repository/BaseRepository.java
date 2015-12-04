@@ -23,27 +23,36 @@ import models.ResourceList;
 import play.Logger;
 import services.QueryContext;
 import services.ResourceDenormalizer;
-import services.ResourceEnricher;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchRepository mElasticsearchRepo;
-  private static FileRepository mFileRepo;
+  // private static FileRepository mFileRepo;
 
   public BaseRepository(Config aConfiguration) {
     super(aConfiguration);
     mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
-    mFileRepo = new FileRepository(aConfiguration);
+    // mFileRepo = new FileRepository(aConfiguration);
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId) {
-    if (null == mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY)) {
-      return null;
-    } else {
-      return mFileRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+  public Resource deleteResource(@Nonnull String aId) throws IOException {
+    // query Resources that mention this Resource and delete the references
+    List<Resource> resources = getResources("_all", aId);
+    // TODO: find better performing query
+    for (Resource resource : resources) {
+      if (resource.getAsString(JsonLdConstants.ID).equals(aId)) {
+        continue;
+      }
+      String type = resource.getAsString(JsonLdConstants.TYPE);
+      resource = resource.deleteReferencesTo(aId);
+      addResource(getRecord(resource), type);
     }
+
+    // delete the resource itself
+    Resource result = mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+    return result;
   }
 
   public void addResource(Resource aResource) throws IOException {
@@ -62,12 +71,12 @@ public class BaseRepository extends Repository
   @Override
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
     mElasticsearchRepo.addResource(aResource, aType);
-    // FIXME: As is the case for getResource, this may result in too many open files
+    // FIXME: As is the case for getResource, this may result in too many open
+    // files
     // mFileRepo.addResource(aResource, aType);
   }
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
-    ResourceEnricher.enrich(aResource, this);
     List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
     ProcessingReport processingReport = new ListProcessingReport();
     for (Resource dnr : denormalizedResources) {
@@ -118,7 +127,8 @@ public class BaseRepository extends Repository
   public Resource getResource(@Nonnull String aId) {
     Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
     if (resource == null || resource.isEmpty()) {
-      // FIXME: This may lead to inconsistencies (too many open files) when ES and FS are out of sync
+      // FIXME: This may lead to inconsistencies (too many open files) when ES
+      // and FS are out of sync
       // resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
     }
     if (resource != null) {
@@ -153,11 +163,11 @@ public class BaseRepository extends Repository
   }
 
   private Resource getRecordFromRepo(String aId) {
-    Resource record = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    if (record == null || record.isEmpty()) {
-      record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    }
-    return record;
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    // if (record == null || record.isEmpty()) {
+    // record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    // }
+    // return record;
   }
 
   private List<Resource> unwrapRecords(List<Resource> aRecords) {

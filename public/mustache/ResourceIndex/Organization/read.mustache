@@ -20,12 +20,24 @@
                     {{{.}}}
                 </script>
 
+                {{#if user}}
+                    <button class="btn btn-inverted resource-edit-btn" data-toggle="modal" data-target="#resource-edit">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                {{/if}}
+
                 <div class="resource-header">
 
                     <h1 class="resource-title">
                         <i class="fa fa-users"></i>
                         {{#name}}{{@value}}{{/name}}
                     </h1>
+
+                    {{#countryChampionFor}}
+                        <div class="resource-subline">
+                            Country Champion for <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                        </div>
+                    {{/countryChampionFor}}
 
                 </div>
 
@@ -79,15 +91,6 @@
                                         <li>{{externalLink .}}</li>
                                     {{/sameAs}}
                                 </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if countryChampionFor}}
-                        <tr>
-                            <td>Contact Person</td>
-                            <td>
-                                {{#countryChampionFor}}<p>Country Champion for <a href="/country/{{.}}">{{.}}</a></p>{{/countryChampionFor}}
                             </td>
                         </tr>
                     {{/if}}
@@ -170,6 +173,32 @@
                         </tr>
                     {{/if}}
 
+                    {{#if memberOf}}
+                        <tr>
+                            <td>Member of</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#memberOf}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/memberOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if member}}
+                        <tr>
+                            <td>Member</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#member}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/member}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                 </table>
 
             </div>
@@ -177,4 +206,27 @@
         {{/scope}}
 
     </div>
+</div>
+
+<div class="modal fade" id="resource-edit">
+  <div class="modal-dialog">
+    <div class="modal-content bg-blue-palest color-scheme-text">
+      <div class="modal-body clearfix">
+
+        <h1>Edit Organization</h1>
+
+        <hr/>
+
+        <form method="post" class="edit">
+          {{> ResourceIndex/Organization/edit.mustache scope}}
+          <hr/>
+          <div class="pull-right">
+            <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
 </div>

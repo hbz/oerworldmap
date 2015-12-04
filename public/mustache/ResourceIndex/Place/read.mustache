@@ -2,5 +2,6 @@
   {{#streetAddress}}{{.}} <br />{{/streetAddress}}
   {{#addressLocality}}{{.}} <br />{{/addressLocality}}
   {{#postalCode}}{{.}} <br />{{/postalCode}}
+  {{#addressRegion}}{{.}} <br />{{/addressRegion}}
   {{#addressCountry}}{{i18n . bundle = "countries"}}{{/addressCountry}}
 {{/location.address}}

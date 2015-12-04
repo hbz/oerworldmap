@@ -4,6 +4,48 @@ var console = console || {
   }
 };
 
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+if (!Object.keys) {
+  Object.keys = (function() {
+    'use strict';
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString'),
+        dontEnums = [
+          'toString',
+          'toLocaleString',
+          'valueOf',
+          'hasOwnProperty',
+          'isPrototypeOf',
+          'propertyIsEnumerable',
+          'constructor'
+        ],
+        dontEnumsLength = dontEnums.length;
+
+    return function(obj) {
+      if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+        throw new TypeError('Object.keys called on non-object');
+      }
+
+      var result = [], prop, i;
+
+      for (prop in obj) {
+        if (hasOwnProperty.call(obj, prop)) {
+          result.push(prop);
+        }
+      }
+
+      if (hasDontEnumBug) {
+        for (i = 0; i < dontEnumsLength; i++) {
+          if (hasOwnProperty.call(obj, dontEnums[i])) {
+            result.push(dontEnums[i]);
+          }
+        }
+      }
+      return result;
+    };
+  }());
+}
+
 /**
  * https://github.com/bramstein/url-template
  */
@@ -189,7 +231,11 @@ var console = console || {
 
 Handlebars.registerHelper('getField', function (string, options) {
   var parts = string.split('.');
-  return parts[parts.length -1];
+  var field = parts[parts.length -1];
+  if (field == "@id") {
+    field = parts[parts.length -2];
+  }
+  return field;
 });
 
 Handlebars.registerHelper('getIcon', function (string, options) {
@@ -199,8 +245,9 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'organization': 'users',
     'article': 'comment',
     'action': 'gears',
-    'concept': 'bars',
-    'conceptscheme': 'envelope'
+    'concept': 'tag',
+    'conceptscheme': 'sitemap',
+    'event': 'calendar'
   };
   return new Handlebars.SafeString('<i class="fa fa-fw fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
 });
@@ -344,12 +391,11 @@ Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
     }
   }
   */
-
-  if(Object.keys(obj).length) {
-    return options.fn(this);
-  } else {
+  if ((!(typeof obj == "object")) || (!Object.keys(obj).length)) {
     return options.inverse(this);
   }
+
+  return options.fn(this);
 
 });
 
@@ -381,3 +427,39 @@ Handlebars.registerHelper('ifShowFilters', function (aggregations, filters, opti
   }
 
 });
+
+Handlebars.registerHelper('nestedAggregation', function (aggregation) {
+  return nestedAggregation(aggregation);
+});
+
+function nestedAggregation(aggregation, collapsed, id) {
+  collapsed = typeof collapsed !== 'undefined' ? collapsed : false;
+  id = typeof id !== 'undefined' ? id : false;
+
+  var list = '<ul class="schema-tree collapse' + (collapsed ? '' : '.in') + '" ' + (id ? 'id="' + id + '"' : '') + '>';
+  for (var key in aggregation) {
+    if (typeof aggregation[key] == "object") {
+      var class_id = key.split("/").slice(-1)[0];
+      list +=
+        '<li>' +
+          '<div class="schema-tree-item">' +
+            '<i class="fa fa-fw fa-tag schema-tree-icon"></i>' +
+            '<a href="/resource/' + key + '">' +
+              Packages.helpers.HandlebarsHelpers._i18n(key) + " (" + aggregation[key]["doc_count"] + ")" +
+            '</a>' +
+            (
+              Object.keys(aggregation[key]).length > 1 ?
+              '<a href="#' + class_id + '" class="schema-tree-plus collapsed" data-toggle="collapse">' +
+                '<i class="fa fa-plus"></i>' +
+                '<i class="fa fa-minus"></i>' +
+              '</a>' :
+              ''
+            ) +
+          '</div>' +
+          nestedAggregation(aggregation[key], true, class_id) +
+        '</li>';
+    }
+  }
+  list += "</ul>";
+  return Handlebars.SafeString(list);
+}

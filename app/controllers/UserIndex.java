@@ -75,7 +75,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result read(String id) {
+  public static Result read(String id) throws IOException {
     return ResourceIndex.read(id);
   }
 
@@ -83,7 +83,7 @@ public class UserIndex extends OERWorldMap {
     return ResourceIndex.update(id);
   }
 
-  public static Result delete(String id) {
+  public static Result delete(String id) throws IOException {
     return ResourceIndex.delete(id);
   }
 

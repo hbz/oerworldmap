@@ -1,6 +1,10 @@
-<ul title="{{title}}">
-    {{#property}}
-        <li>{{input (stringFormat "%s[%s][@id]" key @index) [@id] type="url" data-lookup=lookup}}</li>
-    {{/property}}
-    <li>{{input (stringFormat "%s[%s][@id]" key (size property)) "" type="url" data-lookup=lookup}}</li>
-</ul>
+{{#if multiple}}
+    <ul title="{{title}}">
+        {{#property}}
+            <li>{{input (stringFormat "%s[%s][@id]" key @index) [@id] type="url" data-lookup=lookup}}</li>
+        {{/property}}
+        <li>{{input (stringFormat "%s[%s][@id]" key (size property)) "" type="url" data-lookup=lookup}}</li>
+    </ul>
+{{else}}
+    {{input (stringFormat "%s[@id]" key) "" type="url" data-lookup=lookup}}
+{{/if}}

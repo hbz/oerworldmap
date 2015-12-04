@@ -1,5 +1,7 @@
 package services;
 
+import helpers.JsonLdConstants;
+import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -8,6 +10,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import models.Record;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author fo
@@ -32,7 +36,7 @@ public class AggregationProvider {
     return AggregationBuilders.terms("about.about.@id").size(0).field("about.about.@id");
   }
 
-  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation(ArrayList<String> anIdList) {
+  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation(List<String> anIdList) {
     return AggregationBuilders.terms("about.about.@id").size(0)
         .field("about.about.@id")
         .include(StringUtils.join(anIdList, '|'));
@@ -43,7 +47,7 @@ public class AggregationProvider {
         .field("about.audience.@id");
   }
 
-  public static AggregationBuilder<?> getServiceByGradeLevelAggregation(ArrayList<String> anIdList) {
+  public static AggregationBuilder<?> getServiceByGradeLevelAggregation(List<String> anIdList) {
     return AggregationBuilders.terms("about.audience.@id").size(0)
         .field("about.audience.@id")
         .include(StringUtils.join(anIdList, '|'));
@@ -65,6 +69,17 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders
             .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
+  }
+
+  public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
+    String id = aConcept.getAsString(JsonLdConstants.ID);
+    AggregationBuilder conceptAggregation = AggregationBuilders.filter(id).filter(
+      FilterBuilders.termFilter(aField, id)
+    );
+    for (Resource aNarrowerConcept : aConcept.getAsList("narrower")) {
+      conceptAggregation.subAggregation(getNestedConceptAggregation(aNarrowerConcept, aField));
+    }
+    return conceptAggregation;
   }
 
 }

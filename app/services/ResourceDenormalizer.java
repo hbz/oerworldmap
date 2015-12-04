@@ -15,6 +15,7 @@ import services.repository.Readable;
 
 public class ResourceDenormalizer {
 
+  final private static BroaderConceptEnricher mBroaderConceptEnricher = new BroaderConceptEnricher();
   final private static Map<String, String> mKnownInverseRelations = new HashMap<>();
 
   static {
@@ -32,6 +33,10 @@ public class ResourceDenormalizer {
     // mKnownInverseRelations.put("mentionedIn", "mentions");
     mKnownInverseRelations.put("participant", "participantIn");
     mKnownInverseRelations.put("participantIn", "participant");
+    mKnownInverseRelations.put("organizer", "organizerFor");
+    mKnownInverseRelations.put("organizerFor", "organizer");
+    mKnownInverseRelations.put("performer", "performerIn");
+    mKnownInverseRelations.put("performerIn", "performer");
   }
 
   final private static List<String> mListValueEntries = new ArrayList<>();
@@ -57,6 +62,12 @@ public class ResourceDenormalizer {
     mListValueEntries.add("audience");
     mListValueEntries.add("affiliation");
     mListValueEntries.add("result");
+    mListValueEntries.add("contactPoint");
+    mListValueEntries.add("organizer");
+    mListValueEntries.add("organizerFor");
+    mListValueEntries.add("performer");
+    mListValueEntries.add("performerIn");
+    mListValueEntries.add("mainEntityOf");
   }
 
   //
@@ -107,6 +118,9 @@ public class ResourceDenormalizer {
   private static void split(Resource aResource,
       Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo)
           throws IOException {
+
+    mBroaderConceptEnricher.enrich(aResource, aRepo);
+
     String keyId = aResource.getAsString(JsonLdConstants.ID);
     if (keyId == null || !aWrappedResources.containsKey(keyId)) {
       // we need a new wrapper

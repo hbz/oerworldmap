@@ -19,7 +19,7 @@ var Hijax = (function ($, Hijax) {
       standartMapSize = [896, 655],
       standartInitialZoom = 1.85,
       standartMinZoom = 1.85,
-      standartMaxZoom = 8,
+      standartMaxZoom = 15,
 
       defaultCenter = [0, 5000000],
 
@@ -52,10 +52,10 @@ var Hijax = (function ($, Hijax) {
                 }),
                 stroke: new ol.style.Stroke({
                   color: 'white',
-                  width: 3
+                  width: 4
                 })
               })
-            })
+            });
           },
 
           hover : function() {
@@ -69,10 +69,80 @@ var Hijax = (function ($, Hijax) {
                 }),
                 stroke: new ol.style.Stroke({
                   color: 'white',
-                  width: 3
+                  width: 4
                 })
               })
-            })
+            });
+          }
+
+        },
+        cluster : {
+
+          base : function(count) {
+            return new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 13,
+                stroke: new ol.style.Stroke({
+                  color: '#fff',
+                  width: 2
+                }),
+                fill: new ol.style.Fill({
+                  color: '#244267'
+                })
+              }),
+              text: new ol.style.Text({
+                text: count.toString(),
+                textAlign: 'center',
+                font: 'normal 13px "Source Sans Pro"',
+                fill: new ol.style.Fill({
+                  color: '#fff'
+                })
+              })
+            });
+          },
+
+          hover : function(count) {
+            return new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 13,
+                stroke: new ol.style.Stroke({
+                  color: '#fff',
+                  width: 2
+                }),
+                fill: new ol.style.Fill({
+                  color: '#fe8a00'
+                })
+              }),
+              text: new ol.style.Text({
+                text: count.toString(),
+                textAlign: 'center',
+                font: 'normal 13px "Source Sans Pro"',
+                fill: new ol.style.Fill({
+                  color: '#fff'
+                })
+              })
+            });
+          }
+
+        },
+        placemark_cluster : {
+
+          base : function(feature) {
+            var count = feature.get('features').length;
+            if(count > 1) {
+              return styles.cluster.base(count);
+            } else {
+              return styles.placemark.base();
+            }
+          },
+
+          hover : function(feature) {
+            var count = feature.get('features').length;
+            if(count > 1) {
+              return styles.cluster.hover(count);
+            } else {
+              return styles.placemark.hover();
+            }
           }
         }
       },
@@ -88,32 +158,36 @@ var Hijax = (function ($, Hijax) {
       standartMapSize[0] / standartMapSize[1]
     ) {
       // current aspect ratio is more landscape then standart, so take height as constraint
-      var size_vactor = $('#map').height() / standartMapSize[1];
+      var size_factor = $('#map').height() / standartMapSize[1];
     } else {
       // it's more portrait, so take width
-      var size_vactor = $('#map').width() / standartMapSize[0];
+      var size_factor = $('#map').width() / standartMapSize[0];
     }
 
-    size_vactor = Math.pow(size_vactor, 0.5);
+    size_factor = Math.pow(size_factor, 0.5);
 
     return {
-      initialZoom: standartInitialZoom * size_vactor,
-      minZoom: standartMinZoom * size_vactor,
-      maxZoom: standartMaxZoom * size_vactor
+      initialZoom: standartInitialZoom * size_factor,
+      minZoom: standartMinZoom * size_factor,
+      maxZoom: standartMaxZoom * size_factor
     };
   }
 
   function getFeatureType(feature) {
-    if( typeof feature == 'object' ) {
-      var id = feature.getId();
+    if(feature.getId()) {
+      return 'country';
+    } else if(feature.get('features').length > 1) {
+      return "cluster";
     } else {
-      var id = feature;
-    }
-
-    if( id.length !== 2 ) {
       return "placemark";
-    } else {
+    }
+  }
+
+  function getFeatureTypeById(id) {
+    if(id.length == 2) {
       return "country";
+    } else {
+      return "placemark";
     }
   }
 
@@ -124,9 +198,19 @@ var Hijax = (function ($, Hijax) {
       return feature;
     });
 
-    // get feature type
+    // get feature type and so on
     if(feature) {
       var type = getFeatureType( feature );
+
+      if(type == 'country' || type == 'placemark') {
+        var show_popover = true;
+      }
+
+      if(feature.getId()) {
+        var id = feature.getId();
+      } else {
+        var id = feature.get('features')[0].getId();
+      }
     }
 
     // the statemachine ...
@@ -134,47 +218,59 @@ var Hijax = (function ($, Hijax) {
       ! hoverState.id &&
       feature
     ) {
-      // ... no popover yet, but now. show it, update position, content and state
+      // ... nothing hovered yet, but now
 
-      $(popoverElement).show();
-      setPopoverContent( feature, type );
-      setPopoverPosition( feature, type, pixel );
+      if(show_popover) {
+        $(popoverElement).show();
+        setPopoverContent( feature, type );
+        setPopoverPosition( feature, type, pixel );
+      }
       setFeatureStyle( feature, 'hover' );
-      hoverState.id = feature.getId();
+      hoverState.id = id;
+      hoverState.feature = feature;
       world.getTarget().style.cursor = 'pointer';
 
     } else if(
       hoverState.id &&
       feature &&
-      feature.getId() == hoverState.id
+      id == hoverState.id
     ) {
-      // ... popover was active for the same feature, just update position
+      // ... same feature was hovered
 
-      setPopoverPosition( feature, type, pixel );
+      if(show_popover) {
+        setPopoverPosition( feature, type, pixel );
+      }
 
     } else if(
       hoverState.id &&
       feature &&
-      feature.getId() != hoverState.id
+      id != hoverState.id
     ) {
-      // ... popover was active for another feature, update position, content and state
+      // ... another feature was hovered
 
-      setPopoverContent( feature, type )
-      setPopoverPosition( feature, type, pixel );
+      if(show_popover) {
+        $(popoverElement).show();
+        setPopoverContent( feature, type )
+        setPopoverPosition( feature, type, pixel );
+      } else {
+        $(popoverElement).hide();
+      }
       setFeatureStyle( feature, 'hover' );
-      resetFeatureStyle( hoverState.id );
+      resetFeatureStyle( hoverState.feature );
 
-      hoverState.id = feature.getId();
+      hoverState.id = id;
+      hoverState.feature = feature;
 
     } else if(
       hoverState.id &&
       ! feature
     ) {
-      // ... popover was active, but now no feature is hovered. hide popover and update state
+      // ... a feature was hovered but now noone is
 
       $(popoverElement).hide();
-      resetFeatureStyle( hoverState.id );
+      resetFeatureStyle( hoverState.feature );
       hoverState.id = false;
+      hoverState.feature = false;
       world.getTarget().style.cursor = '';
 
     } else {
@@ -194,22 +290,23 @@ var Hijax = (function ($, Hijax) {
     }
 
     feature.setStyle(
-      styles[ feature_type ][ style ]()
+      styles[ "placemark_cluster" ][ style ](feature)
     );
   }
 
-  function resetFeatureStyle( feature_id ) {
+  function resetFeatureStyle( feature ) {
+    var feature_type = getFeatureType( feature );
 
-    if( getFeatureType(feature_id) == 'placemark' ) {
+    if( feature_type == 'placemark' || feature_type == 'cluster' ) {
       setFeatureStyle(
-        placemarksVectorSource.getFeatureById( feature_id ),
+        feature,
         'base'
       );
     }
 
-    if( getFeatureType(feature_id) == 'country' ) {
+    if( feature_type == 'country' ) {
       hoveredCountriesOverlay.getSource().removeFeature(
-        countryVectorSource.getFeatureById( feature_id )
+        feature
       );
     }
 
@@ -224,7 +321,7 @@ var Hijax = (function ($, Hijax) {
       popover.setOffset([0, -20]);
     }
 
-    if( type == 'placemark' ) {
+    if( type == 'placemark' || type == 'cluster' ) {
       // calculate offset first
       // ... see http://gis.stackexchange.com/questions/151305/get-correct-coordinates-of-feature-when-projection-is-wrapped-around-dateline
       // ... old offest code until commit ae99f9886bdef1c3c517cd8ea91c28ad23126551
@@ -238,10 +335,18 @@ var Hijax = (function ($, Hijax) {
   }
 
   function setPopoverContent(feature, type) {
-    var properties = feature.getProperties();
+    if( type == "placemark" ) {
+      var properties = feature.get('features')[0].getProperties();
+    } else {
+      var properties = feature.getProperties();
+    }
 
     if( type == "placemark" ) {
       var content = templates['popover' + properties.type](properties);
+    }
+
+    if( type == "cluster" ) {
+      var content = "cluster ...";
     }
 
     if( type == "country") {
@@ -292,7 +397,7 @@ var Hijax = (function ($, Hijax) {
 
     if(
       focusId &&
-      getFeatureType(focusId) == "country"
+      getFeatureTypeById(focusId) == "country"
     ) {
       var focused_country = focusId;
     } else {
@@ -390,7 +495,6 @@ var Hijax = (function ($, Hijax) {
             if (feature) {
               ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
             }
-
           }
         });
 
@@ -409,9 +513,21 @@ var Hijax = (function ($, Hijax) {
 
     if (boundingBox && (boundingBox[0] != Infinity)) {
       // Set extent of map view
-      world.getView().fit(boundingBox, world.getSize());
+      world.getView().fit(boundingBox, world.getSize(), {
+        padding: [50, 50, 50, 50]
+      });
     }
 
+  }
+
+  function zoomToFeatures(features) {
+    var extent = ol.extent.createEmpty();
+    for(var i = 0; i < features.length; i++) {
+      ol.extent.extend(extent, features[i].getGeometry().getExtent());
+    }
+    world.getView().fit(extent, world.getSize(), {
+      padding: [50, 50, 50, 50]
+    });
   }
 
   function getMarkers(resource, labelCallback, origin) {
@@ -465,9 +581,11 @@ var Hijax = (function ($, Hijax) {
       }
     }
 
+    var traverse = [ "mainEntity", "mentions", "member", "agent", "participant", "provider" ]
+
     if (!markers.length) {
       for (var key in resource) {
-        if ('referencedBy' == key) {
+        if (traverse.indexOf(key) == -1) {
           continue;
         }
         var value = resource[key];
@@ -556,66 +674,41 @@ var Hijax = (function ($, Hijax) {
           source: countryVectorSource
         });
 
-        placemarksVectorSource = new ol.source.Vector({
-          wrapX: true
-        });
-
-        placemarksVectorLayer = new ol.layer.Vector({
-          source: placemarksVectorSource
-        });
-
         // OSM tile source
         osmTileSource = new ol.source.OSM({
           url: 'https://{a-c}.tiles.mapbox.com/v4/johjoh.oer_worldmap/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiam9oam9oIiwiYSI6Imd3bnowY3MifQ.fk6HYuu3q5LzDi3dyip0Bw'
         });
 
-         // OSM tile layer
-         osmTileLayer = new ol.layer.Tile({
-           source: osmTileSource,
-           preload: Infinity,
-           opacity: 1
-         });
-         osmTileLayer.setVisible(false);
+        // OSM tile layer
+        osmTileLayer = new ol.layer.Tile({
+          source: osmTileSource,
+          preload: Infinity,
+          opacity: 1
+        });
+        osmTileLayer.setVisible(false);
 
-         // Cluster layer
-         /*
-         clusterSource = new ol.source.Cluster({
-           distance: 40,
-           source: placemarksVectorSource,
-           noWrap: true,
-           wrapX: false
-         });
+        // Placemark Layer
+        placemarksVectorSource = new ol.source.Vector({
+          wrapX: true
+        });
+        placemarksVectorLayer = new ol.layer.Vector({
+          source: placemarksVectorSource
+        });
 
-         var styleCache = {};
-         clusterLayer = new ol.layer.Vector({
-           source: clusterSource,
-           style: function(feature, resolution) {
-             var size = feature.get('features').length;
-             var style = styleCache[size];
-             if (!style) {
-               style = [new ol.style.Style({
-                 image: new ol.style.Circle({
-                   radius: 10,
-                   stroke: new ol.style.Stroke({
-                     color: '#fff'
-                   }),
-                   fill: new ol.style.Fill({
-                     color: '#3399CC'
-                   })
-                 }),
-                 text: new ol.style.Text({
-                   text: size.toString(),
-                   fill: new ol.style.Fill({
-                     color: '#fff'
-                   })
-                 })
-               })];
-               styleCache[size] = style;
-             }
-             return style;
-           }
-         });
-         */
+        // Cluster layer
+        clusterSource = new ol.source.Cluster({
+          distance: 40,
+          source: placemarksVectorSource,
+          noWrap: true,
+          wrapX: false
+        });
+
+        clusterLayer = new ol.layer.Vector({
+          source: clusterSource,
+          style: function(feature, resolution) {
+            return [styles.placemark_cluster.base(feature)];
+          }
+        });
 
         // Get zoom values adapted to map size
         var zoom_values = getZoomValues();
@@ -633,7 +726,7 @@ var Hijax = (function ($, Hijax) {
         view.on('propertychange', function(e) {
           switch (e.key) {
             case 'resolution':
-              if (4 < view.getZoom()) {
+              if (4 < view.getZoom() && view.getZoom() < 8) {
                 osmTileLayer.setVisible(true);
               } else {
                 osmTileLayer.setVisible(false);
@@ -663,7 +756,8 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
+          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
+          layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
@@ -695,11 +789,13 @@ var Hijax = (function ($, Hijax) {
             return feature;
           });
           if (feature) {
-            var properties = feature.getProperties();
-            if (properties.url) {
-              window.location = properties.url;
-            } else {
+            var type = getFeatureType(feature)
+            if (type == "placemark") {
+              window.location = feature.get("features")[0].getProperties().url;
+            } else if(type == "country") {
               window.location = "/country/" + feature.getId().toLowerCase();
+            } else if(type == "cluster") {
+              zoomToFeatures(feature.get("features"));
             }
           }
         });
@@ -713,6 +809,14 @@ var Hijax = (function ($, Hijax) {
           wrapX: true
         });
         world.addOverlay(popover);
+        $(container).mouseleave(function(){
+          if(hoverState.feature) {
+            $(popoverElement).hide();
+            resetFeatureStyle( hoverState.feature );
+            hoverState.id = false;
+            hoverState.feature = false;
+          }
+        });
 
         // precompile handlebar templates
         templates = {

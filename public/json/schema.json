@@ -1,6 +1,32 @@
 {
-  "id": "#root",
+  "id": "#",
   "$schema": "http://json-schema.org/draft-04/schema#",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/Person"
+    },
+    {
+      "$ref": "#/definitions/Organization"
+    },
+    {
+      "$ref": "#/definitions/Service"
+    },
+    {
+      "$ref": "#/definitions/Action"
+    },
+    {
+      "$ref": "#/definitions/Concept"
+    },
+    {
+      "$ref": "#/definitions/ConceptScheme"
+    },
+    {
+      "$ref": "#/definitions/Article"
+    },
+    {
+      "$ref": "#/definitions/Event"
+    }
+  ],
   "definitions": {
     "ConceptScheme": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -154,6 +180,9 @@
             },
             {
               "$ref": "#/definitions/Action"
+            },
+            {
+              "$ref": "#/definitions/Event"
             }
           ]
         },
@@ -174,12 +203,15 @@
               },
               {
                 "$ref": "#/definitions/Action"
+              },
+              {
+                "$ref": "#/definitions/Event"
               }
             ]
           }
         },
         "dateCreated": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -223,7 +255,8 @@
           }
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "format": "email"
         },
         "agent": {
           "description": "The direct performer or driver of the action (i.e. also primary contact)",
@@ -280,7 +313,7 @@
           }
         },
         "startTime": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -293,7 +326,7 @@
           ]
         },
         "endTime": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -318,6 +351,26 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Service"
+          }
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the project.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that mentions the project.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
           }
         }
       },
@@ -404,7 +457,7 @@
           }
         },
         "startDate": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/date-fullyear"
             },
@@ -427,14 +480,18 @@
           "type": "array",
           "items": {
             "allOf": [
-              {"$ref": "#/definitions/Concept"},
+              {
+                "$ref": "#/definitions/Concept"
+              },
               {
                 "properties": {
                   "inScheme": {
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["https://w3id.org/class/esc/scheme"]
+                        "enum": [
+                          "https://w3id.org/class/esc/scheme"
+                        ]
                       }
                     }
                   }
@@ -453,20 +510,79 @@
           "type": "array",
           "items": {
             "allOf": [
-              {"$ref": "#/definitions/Concept"},
+              {
+                "$ref": "#/definitions/Concept"
+              },
               {
                 "properties": {
                   "inScheme": {
                     "type": "object",
                     "properties": {
                       "@id": {
-                        "enum": ["https://w3id.org/isced/1997/scheme"]
+                        "enum": [
+                          "https://w3id.org/isced/1997/scheme"
+                        ]
                       }
                     }
                   }
                 }
               }
             ]
+          }
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that has the service as its main entity.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the service.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "instrumentIn": {
+          "description": "A project that has the service as an instrument.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "resultOf": {
+          "description": "A project that has the service as its result.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "member": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
+            ]
+          }
+        },
+        "memberOf": {
+          "description": "An organization the service is member of.",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Organization"
           }
         }
       },
@@ -513,6 +629,26 @@
                 "$ref": "#/definitions/Service"
               }
             ]
+          }
+        },
+        "memberOf": {
+          "description": "An organization or service the person is member of.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
+              }
+            ]
+          }
+        },
+        "performerIn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Event"
           }
         },
         "image": {
@@ -573,6 +709,33 @@
           "items": {
             "$ref": "#/definitions/Article"
           }
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the person.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that mentions the person.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "organizerFor": {
+          "description": "An event the person is organizer for.",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Event"
+              }
         }
       },
       "additionalProperties": false
@@ -635,14 +798,14 @@
           "format": "uri"
         },
         "contactPoint": {
-          "description": "A contact point",
+          "description": "A contact person",
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/Person"
           }
         },
         "additionalType": {
-          "description": "An additonal type for the Organization",
+          "description": "An additional type for the Organization",
           "type": "array",
           "items": {
             "type": "string"
@@ -652,7 +815,7 @@
           "description": "Services provided by this Organization.",
           "type": "array",
           "items": {
-              "$ref": "#/definitions/Service"
+            "$ref": "#/definitions/Service"
           }
         },
         "countryChampionFor": {
@@ -677,6 +840,210 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
+          }
+        },
+        "member": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
+              }
+            ]
+          }
+        },
+        "memberOf": {
+          "description": "An organization or service the organization is member of.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
+              }
+            ]
+          }
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the organization.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that has the organization as its main entity.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "organizerFor": {
+          "description": "An event the organization is organizer for.",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Event"
+              }
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "Event": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Event",
+      "description": "An event that is being held for/by members of the OER community.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The event's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Event"
+          ]
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "organizer": {
+          "description": "The event's organizer ",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Person"
+              },
+              {
+                "$ref": "#/definitions/Organization"
+              }
+            ]
+          }
+        },
+        "performer": {
+          "description": "People presenting, leading a workshop etc. at the event",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/Person"
+          }
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "description": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "recordedIn": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "inLanguage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "startDate": {
+              "$ref": "#/definitions/full-date"
+        },
+        "endDate": {
+              "$ref": "#/definitions/full-date"
+        },
+        "location": {
+          "$ref": "#/definitions/Place"
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the event.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that mentions the event as main topic.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "hashtag": {
+          "type": "string"
+        },
+      "tag": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+        "about": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/Concept"
+              },
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": [
+                          "https://w3id.org/class/esc/scheme"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       },
@@ -713,9 +1080,6 @@
           "$ref": "#/definitions/PostalAddress"
         }
       },
-      "required": [
-        "address"
-      ],
       "additionalProperties": false
     },
     "GeoCoordinates": {
@@ -771,7 +1135,14 @@
           "type": "string"
         },
         "postalCode": {
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
         },
         "addressLocality": {
           "type": "string"

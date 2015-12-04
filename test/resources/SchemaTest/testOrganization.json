@@ -1,0 +1,17 @@
+{
+	"@context": "http://schema.org",
+  "@type": "Organization",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Some organization"
+    }
+  ],
+  "tag": [
+    "foo",
+    "bar",
+    "baz"
+  ],
+  "mainEntityOf": [],
+  "mentionedIn": []
+}

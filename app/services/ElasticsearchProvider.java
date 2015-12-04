@@ -1,13 +1,16 @@
 package services;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import controllers.Global;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -16,13 +19,19 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.AndFilterBuilder;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
 
+import controllers.Global;
 import play.Logger;
 
 public class ElasticsearchProvider {
@@ -30,6 +39,7 @@ public class ElasticsearchProvider {
   private static ElasticsearchConfig mConfig;
 
   private Client mClient;
+
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
@@ -46,11 +56,11 @@ public class ElasticsearchProvider {
     return mClient;
   }
 
-  public static String getIndex() {
+  public String getIndex() {
     return mConfig.getIndex();
   }
 
-  public static String getType() {
+  public String getType() {
     return mConfig.getType();
   }
 
@@ -61,8 +71,7 @@ public class ElasticsearchProvider {
     }
     if (indexExists(aClient, aIndex)) {
       Logger.warn("Index " + aIndex + " already exists while trying to create it.");
-    }
-    else{
+    } else {
       aClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
     }
   }
@@ -114,8 +123,8 @@ public class ElasticsearchProvider {
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
-    mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid.toString())
-        .setSource(aMap).execute().actionGet();
+    mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid.toString()).setSource(aMap)
+        .execute().actionGet();
   }
 
   /**
@@ -131,8 +140,8 @@ public class ElasticsearchProvider {
     final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
     while (response == null || response.getHits().hits().length != 0) {
       response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
-          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage)
-          .setFrom(count * docsPerPage).execute().actionGet();
+          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage).setFrom(count * docsPerPage)
+          .execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
       }
@@ -142,18 +151,20 @@ public class ElasticsearchProvider {
   }
 
   public List<Map<String, Object>> getResources(final String aField, final Object aValue) {
-
-    SearchResponse response = mClient.prepareSearch(mConfig.getIndex()).setQuery(
-      QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
-        FilterBuilders.termFilter(aField, aValue))).execute().actionGet();
-
-    final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
-    for (SearchHit hit : response.getHits()) {
-      docs.add(hit.getSource());
+    final int docsPerPage = 1024;
+    int count = 0;
+    SearchResponse response = null;
+    final List<Map<String, Object>> docs = new ArrayList<>();
+    while (response == null || response.getHits().hits().length != 0) {
+      response = mClient.prepareSearch(mConfig.getIndex())
+          .setQuery(QueryBuilders.queryString(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
+          .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
+      for (SearchHit hit : response.getHits()) {
+        docs.add(hit.getSource());
+      }
+      count++;
     }
-
     return docs;
-
   }
 
   /**
@@ -250,11 +261,10 @@ public class ElasticsearchProvider {
     try {
       mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString())
           .execute().actionGet();
-      mClient.admin().cluster().prepareHealth()
-          .setWaitForYellowStatus().execute().actionGet();
+      mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
-      Logger.error("Trying to create index \"" + aIndex
-          + "\" in Elasticsearch. Index already exists.");
+      Logger.error(
+          "Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
       indexAlreadyExists.printStackTrace();
     } catch (IOException ioException) {
       Logger.error("Trying to create index \"" + aIndex
@@ -278,8 +288,7 @@ public class ElasticsearchProvider {
     }
   }
 
-  public SearchResponse esQuery(@Nonnull String aEsQuery) throws IOException,
-      ParseException {
+  public SearchResponse esQuery(@Nonnull String aEsQuery) throws IOException, ParseException {
     return esQuery(aEsQuery, null, null);
   }
 
@@ -297,8 +306,17 @@ public class ElasticsearchProvider {
   public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                                 Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
 
-    SearchRequestBuilder searchRequestBuilder = mClient
-        .prepareSearch(mConfig.getIndex());
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    // TODO: define query fields somewhere else
+    searchRequestBuilder.setFetchSource(new String[]{
+      "about.@id", "about.@type", "about.name", "about.location", "about.image",
+      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
+      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
+      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
+      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
+      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
+    }, null);
 
     AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
 
@@ -314,8 +332,8 @@ public class ElasticsearchProvider {
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC
-            : SortOrder.DESC);
+        searchRequestBuilder.addSort(sort[0],
+            sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
       } else {
         Logger.error("Invalid sort string: " + aSortOrder);
       }
@@ -324,7 +342,8 @@ public class ElasticsearchProvider {
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
       for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
-        // This could also be an OrFilterBuilder allowing to expand the result list
+        // This could also be an OrFilterBuilder allowing to expand the result
+        // list
         AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
         for (String filter : entry.getValue()) {
           andTermFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
@@ -336,7 +355,8 @@ public class ElasticsearchProvider {
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+      queryBuilder = QueryBuilders.queryString(aQueryString)
+          .defaultOperator(QueryStringQueryBuilder.Operator.AND);
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
@@ -357,18 +377,17 @@ public class ElasticsearchProvider {
     if (!StringUtils.isEmpty(aSort)) {
       String[] sort = aSort.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC
-            : SortOrder.DESC);
+        searchRequestBuilder.addSort(sort[0],
+            sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
       } else {
         Logger.error("Invalid sort string: " + aSort);
       }
     }
 
     return searchRequestBuilder
-        .setQuery(
-            QueryBuilders.queryString(aEsQuery).defaultOperator(
-                QueryStringQueryBuilder.Operator.AND)).setFrom(0).setSize(1).execute()
-        .actionGet();
+        .setQuery(QueryBuilders.queryString(aEsQuery)
+            .defaultOperator(QueryStringQueryBuilder.Operator.AND))
+        .setFrom(0).setSize(1).execute().actionGet();
 
   }
 }

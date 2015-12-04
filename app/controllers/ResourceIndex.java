@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,15 +24,19 @@ import models.Resource;
 import models.ResourceList;
 import play.mvc.Result;
 import play.mvc.Security;
-import play.mvc.With;
 import services.QueryContext;
+
+import services.AggregationProvider;
+import services.export.AbstractCsvExporter;
+import services.export.CsvWithNestedIdsExporter;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort, boolean list) throws IOException, ParseException {
+  public static Result list(String q, int from, int size, String sort, boolean list)
+      throws IOException, ParseException {
 
     // Extract filters directly from query params
     Map<String, ArrayList<String>> filters = new HashMap<>();
@@ -48,6 +56,17 @@ public class ResourceIndex extends OERWorldMap {
 
     if (request().accepts("text/html")) {
       return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+    } else if (request().accepts("text/csv")) {
+      StringBuffer result = new StringBuffer();
+      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
+      csvExporter.defineHeaderColumns(resourceList.getItems());
+      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
+      csvExporter.setDropFields(dropFields);
+      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
+      for (Resource resource : resourceList.getItems()) {
+        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+      }
+      return ok(result.toString()).as("text/csv");
     } else {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
@@ -62,23 +81,29 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+    String id = resource.getAsString(JsonLdConstants.ID);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       }
     }
-    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request())
-        .concat(resource.getAsString(JsonLdConstants.ID)));
-    return created(render("Created", "created.mustache", scope));
+    return redirect(routes.ResourceIndex.read(id));
+    /*
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
+    if (isJsonRequest) {
+      return created("Created " + id + "\n");
+    } else {
+      return created(render("Created", "created.mustache", scope));
+    }*/
   }
 
-  public static Result read(String id) {
+  public static Result read(String id) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id);
     if (null == resource) {
@@ -93,9 +118,31 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository
-          .query("about.about.@id:\"".concat(id).concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
+      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+          .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
       resource.put("related", relatedList.getItems());
+    }
+
+    if (type.equals("ConceptScheme")) {
+      Resource conceptScheme = null;
+      String field = null;
+      if ("https://w3id.org/class/esc/scheme".equals(id)) {
+        conceptScheme = Resource.fromJsonFile("public/json/esc.json");
+        field = "about.about.@id";
+      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
+        field = "about.audience.@id";
+        conceptScheme = Resource.fromJsonFile("public/json/isced-1997.json");
+      }
+      if (!(null == conceptScheme)) {
+        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
+            .filter(FilterBuilders.termFilter("about.@type", "Service"));
+        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
+          conceptAggregation.subAggregation(
+              AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
+        }
+        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
+        resource.put("aggregation", nestedConceptAggregation);
+      }
     }
 
     String title;
@@ -140,16 +187,21 @@ public class ResourceIndex extends OERWorldMap {
     if (!report.isSuccess()) {
       scope.put("countries", Countries.list(currentLocale));
       if (isJsonRequest) {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest(resource + report.toString());
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       }
     }
-    return ok(render("Updated", "updated.mustache", scope));
+    return read(id);
+    /*if (isJsonRequest) {
+      return ok("Updated " + id + "\n");
+    } else {
+      return ok(render("Updated", "updated.mustache", scope));
+    }*/
   }
 
   @Security.Authenticated(Secured.class)
-  public static Result delete(String id) {
+  public static Result delete(String id) throws IOException {
     Resource resource = mBaseRepository.deleteResource(id);
     if (null != resource) {
       return ok("deleted resource " + resource.toString());

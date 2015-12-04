@@ -3,5 +3,10 @@
   "email": "foo@bar.de",
   "sameAs": [
     "urn:uuid:foo"
+  ],
+  "tag": [
+    "foo",
+    "bar",
+    "baz"
   ]
 }
