@@ -149,7 +149,7 @@ var Hijax = (function ($, Hijax) {
           })
         );
 
-        var dropdown = $(widget).find('.dropdown');
+        var dropdown = widget.find('.dropdown');
         var dropdown_button = dropdown.find('button');
         var dropdown_menu = dropdown.find('.dropdown-menu')
         var typeahead = dropdown.find('.typeahead');
@@ -196,7 +196,6 @@ var Hijax = (function ($, Hijax) {
         });
 
         // when selection is made ...
-        console.log(my.templates);
         typeahead.bind('typeahead:select', function(e, suggestion) {
           dropdown_button.dropdown('toggle');
           typeahead.typeahead('val', '');
@@ -205,13 +204,10 @@ var Hijax = (function ($, Hijax) {
             .find('.multiple-one').last().find('input').attr('name')
             .match(/\[\d+\]/);
 
-          console.log( suggestion );
-          // return;
-
           suggestion['key'] = key;
           suggestion['@index'] = highest_index + 1;
 
-          var one_new = my.templates[ 'multiple_one' ]( suggestion );
+          var one_new = $( my.templates[ 'multiple_one' ]( suggestion ) + '</script></li>' );
 
           widget.find('.multiple-list').append( one_new );
 
