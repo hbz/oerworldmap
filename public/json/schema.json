@@ -852,6 +852,9 @@
               },
               {
                 "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Service"
               }
             ]
           }
