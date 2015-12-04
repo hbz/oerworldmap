@@ -128,6 +128,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if memberOf}}
+                        <tr>
+                            <td>Member of</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#memberOf}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/memberOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                 </table>
 
             </div>
