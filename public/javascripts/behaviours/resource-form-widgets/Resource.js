@@ -2,18 +2,24 @@ var Hijax = (function ($, Hijax) {
 
   var my = {
 
+    templates : {},
     datasets : {},
     bloodhounds : {},
+    bloodhoundDefers : {},
 
     fillDatasetRecursive : function(dataset, scope, depth) {
       var property_name = scope.hasOwnProperty('hasTopConcept') ? 'hasTopConcept' : 'narrower';
 
       for(var i = 0; i < scope[ property_name ].length; i++) {
+        scope[ property_name ][ i ][ 'depth' ] = depth;
+/*
         dataset.push({
           id : scope[ property_name ][ i ]['@id'],
           name : scope[ property_name ][ i ].name[0]['@value'],
           depth : depth
         });
+*/
+        dataset.push( scope[ property_name ][ i ] );
         if( scope[ property_name ][ i ].hasOwnProperty('narrower') ) {
           my.fillDatasetRecursive(dataset, scope[ property_name ][ i ], depth + 1);
         }
@@ -21,12 +27,16 @@ var Hijax = (function ($, Hijax) {
 
     },
 
-    getDataset : function(lookup_url) { console.log('getDataset', lookup_url);
-      if( my.datasets[lookup_url] ) {
-        return my.datasets[lookup_url];
-      } else {
+    createDataset : function(lookup_url) {
+      var dfd = $.Deferred();
 
-  	    $.ajax({
+      if( my.datasets[ lookup_url ] ) {
+
+        dfd.resolve();
+
+      } else { console.log('ajax getting dataset', lookup_url);
+
+  	    return $.ajax({
     	    url: lookup_url,
     	    headers: {
       	    Accept: 'application/json'
@@ -35,7 +45,6 @@ var Hijax = (function ($, Hijax) {
             var dataset = [];
       	    my.fillDatasetRecursive(dataset, data, 0);
       	    my.datasets[ lookup_url ] = dataset;
-      	    return my.datasets[ lookup_url ];
       	  },
       	  error: function(jqXHR, status, error){
         	  console.log('error', jqXHR, status);
@@ -45,54 +54,80 @@ var Hijax = (function ($, Hijax) {
       }
     },
 
-    getBloodhound : function(lookup_url) { console.log('getBloodhound', lookup_url);
+    createBloodhound : function(lookup_url) { console.log('getBloodhound', lookup_url);
+      var dfd = $.Deferred();
+
       if( my.bloodhounds[lookup_url] ) {
-        return my.bloodhounds[lookup_url];
+
+        dfd.resolve();
+
       } else {
 
-          my.bloodhounds[ lookup_url ] = new Bloodhound({
-            datumTokenizer: function(d){
-              return Bloodhound.tokenizers.whitespace(d.name);
-            },
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: my.getDataset( lookup_url ),
-            identify: function(result){
-              return result.id;
-            },
-          });
+          $.when(
+            my.createDataset( lookup_url )
+          ).then(function(){
 
-          return my.bloodhounds[ lookup_url ];
+            my.bloodhounds[ lookup_url ] = new Bloodhound({
+              datumTokenizer: function(d){
+                return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+              },
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              local: my.datasets[ lookup_url ],
+              identify: function(result){
+                return result['@id'];
+              },
+            });
+
+            dfd.resolve();
+
+          });
       }
+
+      return dfd.promise();
+    },
+
+    gotBloodhound : function(lookup_url) {
+      if( ! my.bloodhoundDefers[ lookup_url ] ) {
+        my.bloodhoundDefers[ lookup_url ] = my.createBloodhound( lookup_url );
+      }
+      return my.bloodhoundDefers[ lookup_url ];
     },
 
     attach : function(context) {
 
       // my.getBloodhound('/assets/json/esc.json');
 
-      my.templates = {
-        'item' : Handlebars.compile($('#Resource_item\\.mustache').html()),
-        'select' : Handlebars.compile($('#Resource_select\\.mustache').html())
-      }
+      my.templates['item'] = Handlebars.compile($('#Resource_item\\.mustache').html());
+      my.templates['select'] = Handlebars.compile($('#Resource_select\\.mustache').html());
+      my.templates['multiple_one'] = Handlebars.compile($('#Resource_multiple-one\\.mustache').html());
 
       // iterate over widgets
 
       $('[data-behaviour="resource"]', context).each(function() {
 
         var widget = $(this);
-        var lookup_url = $(this).data('lookup'); console.log(lookup_url);
+        var lookup_url = $(this).data('lookup');
+        var key = $(this).data('key');
+
+        if( ! lookup_url.endsWith('json') ) { return; }
 
         $(this).addClass('behaving');
 
         // create template
 
-        var multiple_one_template = Handlebars.compile(
+/*
+        my.templates[ 'multiple_one' ] = Handlebars.compile(
           widget.find('.multiple-one').last().clone()
             .remove('script')[0].outerHTML
             .replace(
               /\[\d+\]/g,
               '[{{index}}]'
+            ).replace(
+              /<script\b[^>]*>([\s\S]*?)<\/script>/gm,
+              '[{{json}}]'
             )
-        );
+        ); console.log( my.templates );
+*/
 
         // if more than one remove the last one
 
@@ -108,7 +143,7 @@ var Hijax = (function ($, Hijax) {
 
         // append add control
 
-        $(widget).append(
+        widget.append(
           my.templates.select({
             subject : widget.find('h4').text()
           })
@@ -127,24 +162,30 @@ var Hijax = (function ($, Hijax) {
 
         // init typeahead
 
-        var dataset = my.getDataset( lookup_url );
-        var bloodhound = my.getBloodhound( lookup_url );
+        $.when(
+          my.gotBloodhound( lookup_url )
+        ).then(function(){
 
-        typeahead.typeahead({
-          hint: false,
-          highlight: true,
-          minLength: 0
-        },{
-          name: 'xyz',
-          limit: 9999,
-          display: 'name',
-          source: function(q, sync){
-            if (q === '') {
-              sync(dataset);
-            } else {
-              bloodhound.search(q, sync);
+          typeahead.typeahead({
+            hint: false,
+            highlight: true,
+            minLength: 0
+          },{
+            name: 'xyz',
+            limit: 9999,
+            // display: 'name',
+            source: function(q, sync){
+              if (q === '') {
+                sync(my.datasets[ lookup_url ]);
+              } else {
+                my.bloodhounds[ lookup_url ].search(q, sync);
+              }
+            },
+            templates: {
+              suggestion: Handlebars.compile('<div><div class="depth-{{depth}}"><i class="fa fa-fw fa-tag"></i> {{name.[0].[@value]}}</div></div>')
             }
-          }
+          });
+
         });
 
         // hack to initially open the typeahead suggestion list
@@ -155,15 +196,26 @@ var Hijax = (function ($, Hijax) {
         });
 
         // when selection is made ...
-
+        console.log(my.templates);
         typeahead.bind('typeahead:select', function(e, suggestion) {
-          console.log('selection made');
-/*
-          language_button.dropdown('toggle');
+          dropdown_button.dropdown('toggle');
           typeahead.typeahead('val', '');
-          language_button.find('.text').text(suggestion.label);
-          language_input.val(suggestion.id);
-*/
+
+          var highest_index = + widget
+            .find('.multiple-one').last().find('input').attr('name')
+            .match(/\[\d+\]/);
+
+          console.log( suggestion );
+          // return;
+
+          suggestion['key'] = key;
+          suggestion['@index'] = highest_index + 1;
+
+          var one_new = my.templates[ 'multiple_one' ]( suggestion );
+
+          widget.find('.multiple-list').append( one_new );
+
+          my.initOne( one_new );
         });
 
       });
