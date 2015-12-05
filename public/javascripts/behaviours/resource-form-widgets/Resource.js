@@ -63,24 +63,61 @@ var Hijax = (function ($, Hijax) {
 
       } else {
 
-          $.when(
-            my.createDataset( lookup_url )
-          ).then(function(){
+          if( lookup_url.endsWith('json') ) {
+
+            $.when(
+              my.createDataset( lookup_url )
+            ).then(function(){
+
+              my.bloodhounds[ lookup_url ] = new Bloodhound({
+                datumTokenizer: function(d){
+                  return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: my.datasets[ lookup_url ],
+                identify: function(result){
+                  return result['@id'];
+                }
+              });
+
+              dfd.resolve();
+
+            });
+
+          } else {
+
+            console.log('creating bloodhound for', lookup_url);
 
             my.bloodhounds[ lookup_url ] = new Bloodhound({
               datumTokenizer: function(d){
                 return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
               },
               queryTokenizer: Bloodhound.tokenizers.whitespace,
-              local: my.datasets[ lookup_url ],
+              initialize: false,
+              prefetch: {
+                url: lookup_url,
+                cache: false,
+                prepare: function(settings){
+                  settings.headers = {
+              	    Accept: 'application/json'
+            	    };
+                  return settings;
+                },
+                transform: function(response) { console.log('transforming ...', response);
+                  return response.member;
+                }
+              },
               identify: function(result){
                 return result['@id'];
               },
             });
 
+            my.bloodhounds[ lookup_url ].clearPrefetchCache()
+            my.bloodhounds[ lookup_url ].initialize();
+
             dfd.resolve();
 
-          });
+          }
       }
 
       return dfd.promise();
@@ -93,13 +130,36 @@ var Hijax = (function ($, Hijax) {
       return my.bloodhoundDefers[ lookup_url ];
     },
 
+    getAllowedTypes : function(lookup_url, title) {
+      if( my.isVocabulary(lookup_url) ) {
+        return [title];
+      } else {
+        return $.map(
+          lookup_url.match(/@type[=:](\w*)/g),
+          function(val){
+            return val.replace(/@type[:=]/, '');
+          }
+        );
+      }
+    },
+
+    isVocabulary : function(lookup_url) {
+      if( lookup_url.endsWith('json') ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     attach : function(context) {
 
       // my.getBloodhound('/assets/json/esc.json');
 
-      my.templates['item'] = Handlebars.compile($('#Resource_item\\.mustache').html());
-      my.templates['select'] = Handlebars.compile($('#Resource_select\\.mustache').html());
-      my.templates['multiple_one'] = Handlebars.compile($('#Resource_multiple-one\\.mustache').html());
+      my.templates['item'] = Handlebars.compile($('#resource_item\\.mustache').html());
+      my.templates['multiple-one'] = Handlebars.compile($('#resource_multiple-one\\.mustache').html());
+      my.templates['typeahead'] = Handlebars.compile($('#resource_typeahead\\.mustache').html());
+      my.templates['typeahead-dropdown'] = Handlebars.compile($('#resource_typeahead-dropdown\\.mustache').html());
+      my.templates['typeahead-suggestion'] = Handlebars.compile($('#resource_typeahead-suggestion\\.mustache').html());
 
       // iterate over widgets
 
@@ -108,32 +168,23 @@ var Hijax = (function ($, Hijax) {
         var widget = $(this);
         var lookup_url = $(this).data('lookup');
         var key = $(this).data('key');
+        var title = widget.find('h4').text();
+        var allowed_types = my.getAllowedTypes(lookup_url, title);
+        var is_vocabulary = my.isVocabulary(lookup_url);
 
-        if( ! lookup_url.endsWith('json') ) { return; }
+        // prevent paging
+
+        if( ! is_vocabulary ) {
+          lookup_url = lookup_url + '&size=9999';
+        }
+
+        // mark behaving for styling
 
         $(this).addClass('behaving');
 
-        // create template
+        // remove the last empty one
 
-/*
-        my.templates[ 'multiple_one' ] = Handlebars.compile(
-          widget.find('.multiple-one').last().clone()
-            .remove('script')[0].outerHTML
-            .replace(
-              /\[\d+\]/g,
-              '[{{index}}]'
-            ).replace(
-              /<script\b[^>]*>([\s\S]*?)<\/script>/gm,
-              '[{{json}}]'
-            )
-        ); console.log( my.templates );
-*/
-
-        // if more than one remove the last one
-
-        if( widget.find('.multiple-one').length > 1 ) {
-          widget.find('.multiple-one').last().remove();
-        }
+        widget.find('.multiple-one').last().remove();
 
         // init each
 
@@ -141,24 +192,29 @@ var Hijax = (function ($, Hijax) {
           my.initOne(this);
         });
 
-        // append add control
+        // append the add control
 
         widget.append(
-          my.templates.select({
-            subject : widget.find('h4').text()
+          my.templates[ is_vocabulary ? 'typeahead-dropdown' : 'typeahead' ]({
+            allowed_types : allowed_types.csOr()
           })
         );
 
-        var dropdown = widget.find('.dropdown');
-        var dropdown_button = dropdown.find('button');
-        var dropdown_menu = dropdown.find('.dropdown-menu')
-        var typeahead = dropdown.find('.typeahead');
+        var typeahead = widget.find('.typeahead');
+
+        if( is_vocabulary ) {
+          var dropdown = widget.find('.dropdown');
+          var dropdown_button = dropdown.find('button');
+          var dropdown_menu = dropdown.find('.dropdown-menu');
+        }
 
         // prevent dropdown from being closed on click
 
-        dropdown_menu.on('click', function(){
-          return false; // dirty
-        });
+        if( is_vocabulary ) {
+          dropdown_menu.on('click', function(){
+            return false; // dirty
+          });
+        }
 
         // init typeahead
 
@@ -174,15 +230,15 @@ var Hijax = (function ($, Hijax) {
             name: 'xyz',
             limit: 9999,
             // display: 'name',
-            source: function(q, sync){
+            source: function(q, sync, async){
               if (q === '') {
                 sync(my.datasets[ lookup_url ]);
-              } else {
-                my.bloodhounds[ lookup_url ].search(q, sync);
+              } else { console.log('searching', q);
+                my.bloodhounds[ lookup_url ].search(q, sync, async);
               }
             },
             templates: {
-              suggestion: Handlebars.compile('<div><div class="depth-{{depth}}"><i class="fa fa-fw fa-tag"></i> {{name.[0].[@value]}}</div></div>')
+              suggestion: my.templates['typeahead-suggestion']
             }
           });
 
@@ -190,24 +246,54 @@ var Hijax = (function ($, Hijax) {
 
         // hack to initially open the typeahead suggestion list
 
-        dropdown.on('shown.bs.dropdown', function(){
-          typeahead.typeahead('val', 'x');
-          typeahead.typeahead('val', '');
+        if( is_vocabulary ) {
+          dropdown.on('shown.bs.dropdown', function(){
+            typeahead.typeahead('val', 'x');
+            typeahead.typeahead('val', '');
+          });
+        }
+
+        // add and remove tt-open on input also, to make it stylable correspondingly
+
+        typeahead.bind('typeahead:open', function(e, suggestions) { console.log($(this).find('.tt-suggestion').length);
+          if($(this).parent().find('.tt-suggestion').length) {
+            $(this).addClass('tt-open');
+          }
+        });
+
+        typeahead.bind('typeahead:close', function() {
+          $(this).removeClass('tt-open');
+        });
+
+        typeahead.bind('typeahead:render', function(e, suggestions) {
+          if($(this).parent().find('.tt-suggestion').length) {
+            $(this).addClass('tt-open');
+          } else {
+            $(this).removeClass('tt-open');
+          }
         });
 
         // when selection is made ...
+
         typeahead.bind('typeahead:select', function(e, suggestion) {
-          dropdown_button.dropdown('toggle');
+          if( is_vocabulary ) {
+            dropdown_button.dropdown('toggle');
+          }
+
           typeahead.typeahead('val', '');
 
-          var highest_index = + widget
-            .find('.multiple-one').last().find('input').attr('name')
-            .match(/\[\d+\]/);
+          if( widget.find('.multiple-one').length ) {
+            var highest_index = + widget
+              .find('.multiple-one').last().find('input').attr('name')
+              .match(/\[\d+\]/);
+          } else {
+            var highest_index = 0;
+          }
 
           suggestion['key'] = key;
           suggestion['@index'] = highest_index + 1;
 
-          var one_new = $( my.templates[ 'multiple_one' ]( suggestion ) + '</script></li>' );
+          var one_new = $( my.templates['multiple-one']( suggestion ) + '</script></li>' );
 
           widget.find('.multiple-list').append( one_new );
 
@@ -225,10 +311,10 @@ var Hijax = (function ($, Hijax) {
       var raw_json = $(one).find('script').html();
 
       if(raw_json) {
-        var json_data = JSON.parse( raw_json );
+        var json_data = JSON.parse( raw_json ); console.log(json_data['@type']);
 
         $(one).append(
-          my.templates['item'](json_data)
+          my.templates['item']( json_data )
         );
 
         $(one).find('[data-action="delete"]').click(function(){

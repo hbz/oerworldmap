@@ -101,8 +101,8 @@ li.multiple-one {
 
 /* - - - resource - - - */
 
-.list-group-item {
-  padding: @padding-base-vertical @padding-base-horizontal;
+.resource-form-widget .list-group-item {
+  padding: @padding-base-vertical 30px @padding-base-vertical @padding-base-horizontal;
 }
 
 @depth-padding-base: 20px;
@@ -152,10 +152,9 @@ li.multiple-one {
 
 /* - - - dropdown - - - */
 
-.resource-form-widget .dropdown-menu-typeahead {
+.dropdown-menu-typeahead {
   padding: 0px;
   width: 458px;
-  background: @blue-paler;
   margin-top: 10px;
   overflow: hidden;
 }
@@ -163,17 +162,37 @@ li.multiple-one {
 
 /* - - - twitter typeahead - - - */
 
+.tt-menu {
+  background: @blue-paler;
+  max-height: 373px;
+  overflow-y: scroll;
+}
+
+.static-typeahead {
+  position: relative;
+
+  .tt-menu {
+    width: 100%;
+    border: 1px solid @blue-darker;
+    border-top: none;
+    border-bottom-left-radius: @border-radius-base;
+    border-bottom-right-radius: @border-radius-base;
+    .box-shadow(0 6px 12px rgba(0,0,0,.175));
+  }
+
+  .tt-input.tt-open {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
 .twitter-typeahead {
   width: 100%;
   display: block !important;
 }
 
 .tt-input {
-  border: none;
-  border-radius: 0px;
   float: none;
-  // border-bottom-left-radius: 0px;
-  // border-bottom-right-radius: 0px;
 }
 
 .input-group .form-control.tt-input {
@@ -181,14 +200,18 @@ li.multiple-one {
   z-index: 0;
 }
 
-.tt-menu {
-  display: block !important;
-  // width: 100%;
-  position: static !important;
-  max-height: 373px;
-  overflow-y: scroll;
-  border-top: 1px solid @blue-darker;
+.dropdown-menu-typeahead {
+  .tt-menu {
+    position: static !important;
+    display: block !important;
+    border-top: 1px solid @blue-darker;
+  }
+  .tt-input {
+    border: none;
+    border-radius: 0px;
+  }
 }
+
 
 .tt-suggestion {
   padding: @padding-base-vertical @padding-base-horizontal;

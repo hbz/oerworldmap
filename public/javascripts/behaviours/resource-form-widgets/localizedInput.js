@@ -9,7 +9,7 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       my.templates = {
-        'input-group' : Handlebars.compile($('#LocalizedInput_input-group\\.mustache').html())
+        'input-group' : Handlebars.compile($('#localizedInput_input-group\\.mustache').html())
       }
 
       // prepare languages array

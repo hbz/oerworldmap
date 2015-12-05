@@ -32,7 +32,7 @@
 
     {{> FormElements/Id.mustache property=audience key="audience" title="Audience" multiple=true lookup_url="/assets/json/isced-1997.json"}}
 
-    {{> FormElements/Id.mustache property=provider key="provider" title="Provider" multiple=true lookup_url=""}}
+    {{> FormElements/Id.mustache property=provider key="provider" title="Provider" multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> ResourceIndex/ServiceChannel/edit.mustache property=availableChannel key="availableChannel"}}
 
@@ -44,7 +44,7 @@
 
     {{> FormElements/Id.mustache property=resultOf key="resultOf" title="Result of" multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/Id.mustache property=member key="member" title="Member" multiple=true lookup_url="/resource/"}}
+    {{> FormElements/Id.mustache property=member key="member" title="Member" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
     {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
 

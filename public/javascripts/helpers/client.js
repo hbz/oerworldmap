@@ -18,3 +18,13 @@ Handlebars.registerHelper('stringFormat', function() {
   return new Handlebars.SafeString(format);
 
 });
+
+Handlebars.registerHelper('jsonscript', function(obj) {
+
+  return new Handlebars.SafeString(
+    '<script type="application/ld+json">' +
+      JSON.stringify(obj, null, 2) +
+    '</script>'
+  );
+
+});
