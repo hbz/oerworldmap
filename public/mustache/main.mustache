@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1; user-scalable=0;" />
+  <meta name="description" content="OER World Map shares information on behalf of the worldwide OER community, using local knowledge to describe the OER ecosystem." />
+
+  <title>{{title}}</title>
+
+  <link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Economica:400,700,400italic,700italic" />
+  <link rel="stylesheet" type="text/css" href="/assets/vendor/ol-3.7/ol.css">
+
+  <link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/form.css">
+
+  <script type="text/javascript" src="/assets/vendor/underscore.js"></script>
+  <script type="text/javascript" src="/assets/vendor/jquery.min.js"></script>
+
+</head>
+<body class="">
+
+<header class="clearfix" id="page-header">
+
+  <nav class="main">
+    <ul>
+      <li><h1><a href="/" title="Home">OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+      <li><a href="/contribute" title="Contribute">Contribute</a></li>
+      <li><a href="/FAQ" title="FAQ">FAQ</a></li>
+      <li><a href="/about" title="About">About</a></li>
+    </ul>
+  </nav>
+
+  <nav class="social">
+    <ul>
+      <li><a href="https://oerworldmap.wordpress.com/" title="Blog" target="_blank"><i class="fa fa-wordpress"></i></a></li>
+      <li><a href="https://www.facebook.com/oerworldmap" title="Facebook" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
+      <li><a href="https://twitter.com/oerworldmap" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="https://github.com/hbz/oerworldmap" title="Github" target="_blank"><i class="fa fa-github-square"></i></a></li>
+    </ul>
+  </nav>
+
+  <h2>Join us in mapping the world of OER!</h2>
+
+</header>
+
+{{> (lookup . 'template') }}
+
+<div class="container container-static-page color-scheme-text">
+  <footer id="page-footer">
+    <nav class="footer">
+      <ul>
+        <li><a href="/imprint" title="Imprint">Imprint & Privacy</a></li>
+        <li><a href="http://creativecommons.org/licenses/by/4.0/" title="License" target="_blank" rel="license"><img alt="Creative Commons License CC BY-SA 4.0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a></li>
+      </ul>
+    </nav>
+  </footer>
+</div>
+
+<script type="text/javascript" src="/assets/vendor/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/vendor/handlebars.min.js"></script>
+<script type="text/javascript" src="/assets/vendor/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="/assets/vendor/d3.v3.min.js"></script>
+<script type="text/javascript" src="/assets/vendor/ol-3.7/ol.js"></script>
+<script type="text/javascript" src="/assets/i18n.js"></script>
+
+<script type="text/javascript" src="/assets/javascripts/helpers/shared.js"></script>
+<script type="text/javascript" src="/assets/javascripts/helpers/client.js"></script>
+<script type="text/javascript" src="/assets/javascripts/hijax.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/hfactor.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/map.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/charts.js"></script>
+
+<script type="text/javascript" src="/assets/javascripts/main.js"></script>
+
+{{{templates}}}
+
+{{#if config.piwik.url}}
+<!-- Piwik -->
+<script type="text/javascript">
+          var _paq = _paq || [];
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u='@config.getString("piwik.url")';
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', @config.getString("piwik.siteid")]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+      </script>
+<noscript><p><img src="@(config.getString("piwik.url"))piwik.php?idsite=@(config.getString("piwik.siteid"))" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+{{/if}}
+
+</body>
+</html>

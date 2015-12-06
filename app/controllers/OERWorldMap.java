@@ -105,6 +105,10 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
     mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
+    mustacheData.put("title", pageTitle);
+    mustacheData.put("template", templatePath);
+    mustacheData.put("config", Play.application().configuration().asMap());
+    mustacheData.put("templates", getClientTemplates());
 
     TemplateLoader loader = new ResourceTemplateLoader();
     loader.setPrefix("public/mustache");
@@ -151,9 +155,8 @@ public abstract class OERWorldMap extends Controller {
     }
 
     try {
-      Template template = handlebars.compile(templatePath);
-      return views.html.main.render(pageTitle, Html.apply(template.apply(mustacheData)),
-          getClientTemplates(), mConf);
+      Template template = handlebars.compile("main.mustache");
+      return Html.apply(template.apply(mustacheData));
     } catch (IOException e) {
       Logger.error(e.toString());
       return null;
