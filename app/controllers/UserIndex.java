@@ -209,7 +209,7 @@ public class UserIndex extends OERWorldMap {
   private static void sendTokenMail(Resource aUser, String aToken) {
     Email confirmationMail = new SimpleEmail();
     try {
-      confirmationMail.setMsg("Your new token is " + aToken);
+      confirmationMail.setMsg(UserIndex.messages.getString("user_token_request_message").concat("\n\n").concat(aToken));
       confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
       confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
       String smtpUser = mConf.getString("mail.smtp.user");
@@ -218,14 +218,16 @@ public class UserIndex extends OERWorldMap {
         confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
       }
       confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
+      confirmationMail.setStartTLSEnabled(mConf.getBoolean("mail.smtp.tls"));
       confirmationMail.setFrom(mConf.getString("mail.smtp.from"),
         mConf.getString("mail.smtp.sender"));
-      confirmationMail.setSubject(UserIndex.messages.getString("user_registration_feedback"));
+      confirmationMail.setSubject(UserIndex.messages.getString("user_token_request_subject"));
       confirmationMail.addTo((String) aUser.get("email"));
       confirmationMail.send();
-      Logger.info(confirmationMail.toString());
+      Logger.debug(confirmationMail.toString());
+      Logger.info("Sent " + aToken + " to " + aUser.get("email"));
     } catch (EmailException e) {
-      e.printStackTrace();
+      Logger.debug(e.toString());
       Logger.error("Failed to send " + aToken + " to " + aUser.get("email"));
     }
   }
