@@ -88,17 +88,25 @@ public class UserIndex extends OERWorldMap {
   }
 
   public static Result sendToken() {
+
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     ProcessingReport report = user.validate();
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("user", user);
+
     if (!report.isSuccess()) {
-      return badRequest(render("Request Token", "Secured/token.mustache", user,
+      return badRequest(render("Request Token", "Secured/token.mustache", scope,
           JSONForm.generateErrorReport(report)));
     }
-    String token = Account.createTokenFor(user);
 
+    String token = Account.createTokenFor(user);
     if (!StringUtils.isEmpty(token)) {
       sendTokenMail(user, token);
     }
+
+    scope.put("continue", "<a class=\"hijax\" target=\"_self\" href=\"/.auth\">".concat(
+      messages.getString("feedback_link_continue")).concat("</a>"));
 
     // We fail silently with success message in order not to expose valid email addresses
     List<Map<String, Object>> messages = new ArrayList<>();
@@ -106,25 +114,46 @@ public class UserIndex extends OERWorldMap {
     message.put("level", "success");
     message.put("message", UserIndex.messages.getString("user_token_request_description"));
     messages.add(message);
-    return ok(render("Request Token", "feedback.mustache", user, messages));
+
+    return ok(render("Request Token", "feedback.mustache", scope, messages));
+
   }
 
   @Security.Authenticated(Secured.class)
   public static Result manageToken() {
-    return ok(render("User", "Secured/token.mustache"));
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
+
+    List<Map<String, Object>> messages = new ArrayList<>();
+    HashMap<String, Object> message = new HashMap<>();
+    message.put("level", "success");
+    message.put("message", UserIndex.messages.getString("user_status_logged_in"));
+    messages.add(message);
+
+    return ok(render("Manage Token", "feedback.mustache", scope, messages));
+
   }
 
   @Security.Authenticated(Secured.class)
   public static Result deleteToken() {
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
+
     Resource user = new Resource("Person");
     user.put("email", request().username());
     Account.removeTokenFor(user);
+    scope.put("user", user);
+
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_token_delete_feedback"));
+    message.put("message", UserIndex.messages.getString("user_status_logged_out"));
     messages.add(message);
-    return ok(render("Delete Token", "feedback.mustache", user, messages));
+
+    return ok(render("Delete Token", "feedback.mustache", scope, messages));
+
   }
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {

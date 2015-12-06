@@ -42,11 +42,33 @@
     </ul>
   </nav>
 
-  <h2>Join us in mapping the world of OER!</h2>
+  <nav class="user">
+    <ul>
+      {{#if user}}
+        <li><a href="#" title="{{user}}"><i class="fa fa-user"></i></a></li>
+        <li><a href="#user-login" data-toggle="modal">Log out</a></li>
+      {{else}}
+        <li><h2><a href="/contribute">Join us in mapping the world of OER!</a></h2></li>
+        <li><a href="#user-login" data-toggle="modal">Log in</a></li>
+      {{/if}}
+    </ul>
+  </nav>
 
 </header>
 
 {{> (lookup . 'template') }}
+
+<div class="modal fade" id="user-login">
+  <div class="modal-dialog">
+    <div class="modal-content bg-blue-palest color-scheme-text">
+      <div class="modal-body clearfix">
+
+        {{> Secured/token.mustache}}
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container container-static-page color-scheme-text">
   <footer id="page-footer">
