@@ -9,6 +9,7 @@ function makeid() {
 }
 
 // --- other ---
+
 var Hijax = (function ($, Hijax) {
 
   var my = {
@@ -86,6 +87,12 @@ var Hijax = (function ($, Hijax) {
       // bugfix for selects in modals see http://stackoverflow.com/questions/13649459/twitter-bootstrap-multiple-modal-error/15856139#15856139
       $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 
+      // prevent resource forms to submit on enter
+      $('.resource-form-modal form').on("keypress", ":input:not(textarea)", function(event) {
+        if (event.keyCode == 13) {
+          event.preventDefault();
+        }
+      });
     }
   }
 

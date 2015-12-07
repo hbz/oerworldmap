@@ -127,9 +127,6 @@ var Hijax = (function ($, Hijax) {
                   .match(/\[(\d+)\]/)
               ).last()
             , 10);
-
-            console.log(
-highest_index            );
           } else {
             var highest_index = 0;
           }

@@ -12,13 +12,6 @@ var Hijax = (function ($, Hijax) {
 
       for(var i = 0; i < scope[ property_name ].length; i++) {
         scope[ property_name ][ i ][ 'depth' ] = depth;
-/*
-        dataset.push({
-          id : scope[ property_name ][ i ]['@id'],
-          name : scope[ property_name ][ i ].name[0]['@value'],
-          depth : depth
-        });
-*/
         dataset.push( scope[ property_name ][ i ] );
         if( scope[ property_name ][ i ].hasOwnProperty('narrower') ) {
           my.fillDatasetRecursive(dataset, scope[ property_name ][ i ], depth + 1);
@@ -252,7 +245,7 @@ var Hijax = (function ($, Hijax) {
 
         // add and remove tt-open on input also, to make it stylable correspondingly
 
-        typeahead.bind('typeahead:open', function(e, suggestions) { console.log($(this).find('.tt-suggestion').length);
+        typeahead.bind('typeahead:open', function(e, suggestions) {
           if($(this).parent().find('.tt-suggestion').length) {
             $(this).addClass('tt-open');
           }
@@ -308,7 +301,7 @@ var Hijax = (function ($, Hijax) {
       var raw_json = $(one).find('script').html();
 
       if(raw_json) {
-        var json_data = JSON.parse( raw_json ); console.log(json_data['@type']);
+        var json_data = JSON.parse( raw_json );
 
         $(one).append(
           my.templates['item']( json_data )

@@ -1,10 +1,10 @@
 <fieldset>
 
-    <legend>Project</legend>
-
-    {{input "@type" "Action" readonly="readonly"}}
-
-    {{input "@id" [@id] readonly="readonly"}}
+    <div class="hidden">
+        <legend>Project</legend>
+        {{input "@type" "Action" readonly="readonly"}}
+        {{input "@id" [@id] readonly="readonly"}}
+    </div>
 
     {{> FormElements/Input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
 
@@ -26,17 +26,17 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
 
-    {{> FormElements/Id.mustache property=instrument key="instrument" title="Instrument" multiple=true lookup="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/Id.mustache property=instrument key="instrument" title="Instrument" multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/Id.mustache property=result key="result" title="Result" multiple=true lookup="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/Id.mustache property=result key="result" title="Result" multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/Id.mustache property=agent key="agent" title="Agent" multiple=true lookup="/resource/"}}
+    {{> FormElements/Id.mustache property=agent key="agent" title="Agent" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/Id.mustache property=participant key="participant" title="Participant" multiple=true lookup="/resource/"}}
+    {{> FormElements/Id.mustache property=participant key="participant" title="Participant" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/Id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/Id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/Id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/Id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
 
