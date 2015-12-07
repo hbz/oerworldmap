@@ -16,7 +16,7 @@ public class LandingPage extends OERWorldMap {
 
     Map<String, Object> scope = new HashMap<>();
     Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(),
-        (QueryContext) ctx().args.get("queryContext"));
+      (QueryContext) ctx().args.get("queryContext"));
     scope.put("typeAggregation", typeAggregation);
     return ok(render("OER World Map", "LandingPage/index.mustache", scope));
 

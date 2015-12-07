@@ -31,7 +31,7 @@ public class CountryIndex extends OERWorldMap {
         Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null, null);
     ResourceList resources = mBaseRepository.query(
         Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), 0, 9999, null, null,
-        (QueryContext) ctx().args.get("queryContext"));
+      (QueryContext) ctx().args.get("queryContext"));
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());

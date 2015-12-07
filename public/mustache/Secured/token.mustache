@@ -1,6 +1,6 @@
 <div role="main" class="column column-medium color-scheme-text bg-blue-palest">
     <div class="column-container">
-        {{^user}}
+        {{^user.email}}
             <h1>Login for country champions</h1>
 
             <form class="hijax" target="_self" method="post" action="/.token">
@@ -17,13 +17,13 @@
                   Interested to become a country champion? Check our <a href="/contribute">constribute</a> page.
                 </p>
             </form>
-        {{/user}}
-        {{#user}}
-            <h1>{{user}}</h1>
+        {{/user.email}}
+        {{#user.email}}
+            <h1>{{user.email}}</h1>
             <form class="hijax" target="_self" method="post" action="/.auth">
                 <input type="hidden" name="@type" value="Person">
                 <button type="submit">Log out</button>
             </form>
-        {{/user}}
+        {{/user.email}}
     </div>
 </div>

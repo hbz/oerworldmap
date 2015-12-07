@@ -51,7 +51,12 @@ public class QueryContext {
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);
 
-    this.roles = roles;
+    if (roles != null) {
+      this.roles = roles;
+    } else {
+      this.roles.add("guest");
+    }
+
   }
 
   public String[] getFetchSource() {

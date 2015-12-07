@@ -1,14 +1,12 @@
 package controllers;
 
-import helpers.JsonLdConstants;
 import models.Resource;
-import org.elasticsearch.index.query.FilterBuilder;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.Play;
 import play.Routes;
 import play.libs.F;
 import play.mvc.*;
-import services.AggregationProvider;
 import services.QueryContext;
 
 import java.io.IOException;
@@ -65,13 +63,15 @@ public class Authorized extends Action.Simple {
       List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
       if (users.size() == 1) {
         user = users.get(0);
-        ctx.args.put("user", user);
       } else {
         user = new Resource("Person", username);
+        user.put("email", username);
       }
     } else {
       user = new Resource("Person");
     }
+
+    ctx.args.put("user", user);
 
     if (mPermissions.get(activity) != null) {
       mPermissions.get(activity).add("admin");
@@ -102,8 +102,8 @@ public class Authorized extends Action.Simple {
     }
 
     QueryContext queryContext;
-    if (getUserActivities(user.getId(), parameters).contains(activity)) {
-      queryContext = new QueryContext(user.getId(), getUserRoles(user.getId(), parameters));
+    if (getUserActivities(user, parameters).contains(activity)) {
+      queryContext = new QueryContext(user.getId(), getUserRoles(user, parameters));
       Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
     } else {
       Logger.warn("Unuthorized " + user.getId() + " for " + activity + " with " + parameters);
@@ -116,7 +116,7 @@ public class Authorized extends Action.Simple {
 
   }
 
-  public List<String> getUserActivities(String user, Map<String, String> parameters) {
+  public List<String> getUserActivities(Resource user, Map<String, String> parameters) {
     List<String> activities = new ArrayList<>();
     for (String role : getUserRoles(user, parameters)) {
       List<String> roleActivities = getRoleActivities(role);
@@ -125,12 +125,12 @@ public class Authorized extends Action.Simple {
     return activities;
   }
 
-  public List<String> getUserRoles(String user, Map<String, String> parameters) {
+  public List<String> getUserRoles(Resource user, Map<String, String> parameters) {
 
     List<String> roles = new ArrayList<>();
 
     for(Map.Entry<String, List<String>> role : mRoles.entrySet()) {
-      if (role.getValue().contains(user)) {
+      if (role.getValue().contains(user.getId())) {
         roles.add(role.getKey());
       }
     }
@@ -138,8 +138,10 @@ public class Authorized extends Action.Simple {
     roles.add("guest");
 
     if (user != null) {
-      roles.add("authenticated");
-      if (user.equals(parameters.get("id"))) {
+      if (!StringUtils.isEmpty(user.getAsString("email"))) {
+        roles.add("authenticated");
+      }
+      if (user.getId().equals(parameters.get("id"))) {
         roles.add("owner");
       }
     }

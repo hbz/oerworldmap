@@ -17,8 +17,6 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -35,11 +33,10 @@ import models.Resource;
 import play.Configuration;
 import play.Logger;
 import play.Play;
-import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.With;
 import play.twirl.api.Html;
+import services.QueryContext;
 import services.repository.BaseRepository;
 
 /**
@@ -104,7 +101,7 @@ public abstract class OERWorldMap extends Controller {
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
-    mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
+    mustacheData.put("user", ctx().args.get("user"));
     mustacheData.put("title", pageTitle);
     mustacheData.put("template", templatePath);
     mustacheData.put("config", Play.application().configuration().asMap());
