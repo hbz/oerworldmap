@@ -38,10 +38,8 @@ var Hijax = (function ($, Hijax) {
             .find('[name$="' + name + '"]')
             .addClass('form-control')
             .attr('placeholder', placeholders[ name ])
-            .detach()[0].outerHTML; console.log(inputs[ dashed_name ]);
+            .detach()[0].outerHTML;
         }
-
-        console.log(my.templates['widget']( inputs ));
 
         widget.append(
           $(my.templates['widget']( inputs ))

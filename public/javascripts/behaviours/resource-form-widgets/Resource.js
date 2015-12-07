@@ -34,7 +34,7 @@ var Hijax = (function ($, Hijax) {
 
         dfd.resolve();
 
-      } else { console.log('ajax getting dataset', lookup_url);
+      } else {
 
   	    return $.ajax({
     	    url: lookup_url,
@@ -54,7 +54,7 @@ var Hijax = (function ($, Hijax) {
       }
     },
 
-    createBloodhound : function(lookup_url) { console.log('getBloodhound', lookup_url);
+    createBloodhound : function(lookup_url) {
       var dfd = $.Deferred();
 
       if( my.bloodhounds[lookup_url] ) {
@@ -86,8 +86,6 @@ var Hijax = (function ($, Hijax) {
 
           } else {
 
-            console.log('creating bloodhound for', lookup_url);
-
             my.bloodhounds[ lookup_url ] = new Bloodhound({
               datumTokenizer: function(d){
                 return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
@@ -103,7 +101,7 @@ var Hijax = (function ($, Hijax) {
             	    };
                   return settings;
                 },
-                transform: function(response) { console.log('transforming ...', response);
+                transform: function(response) {
                   return response.member;
                 }
               },
@@ -229,11 +227,10 @@ var Hijax = (function ($, Hijax) {
           },{
             name: 'xyz',
             limit: 9999,
-            // display: 'name',
             source: function(q, sync, async){
               if (q === '') {
                 sync(my.datasets[ lookup_url ]);
-              } else { console.log('searching', q);
+              } else {
                 my.bloodhounds[ lookup_url ].search(q, sync, async);
               }
             },
@@ -293,7 +290,7 @@ var Hijax = (function ($, Hijax) {
           suggestion['key'] = key;
           suggestion['@index'] = highest_index + 1;
 
-          var one_new = $( my.templates['multiple-one']( suggestion ) + '</script></li>' );
+          var one_new = $( my.templates['multiple-one']( suggestion ) );
 
           widget.find('.multiple-list').append( one_new );
 
