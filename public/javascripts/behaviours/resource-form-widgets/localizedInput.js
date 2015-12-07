@@ -157,7 +157,7 @@ var Hijax = (function ($, Hijax) {
     }
   };
 
-  Hijax.behaviours.LocalizedInput = my;
+  Hijax.behaviours.localizedInput = my;
   return Hijax;
 
 })(jQuery, Hijax);

@@ -64,7 +64,7 @@ var Hijax = (function ($, Hijax) {
 
   };
 
-  Hijax.behaviours.Input = my;
+  Hijax.behaviours.input = my;
   return Hijax;
 
 })(jQuery, Hijax);

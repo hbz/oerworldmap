@@ -6,42 +6,42 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-    {{> FormElements/LocalizedInput.mustache property=name key="name" title="Name"}}
+    {{> FormElements/localizedinput.mustache property=name key="name" title="Name"}}
 
-    {{> FormElements/Input.mustache property=url key="url" title="URL" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title="URL" multiple=false type="url"}}
 
-    {{> FormElements/Input.mustache property=email key="email" title="Email" multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title="Email" multiple=false type="email"}}
 
-    {{> FormElements/LocalizedTextarea.mustache property=description key="description" title="Description"}}
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title="Description"}}
 
-    {{> FormElements/Input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
+    {{> FormElements/input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
 
-    {{> FormElements/Input.mustache property=countryChampionFor key="countryChampionFor" title="Country champion for" multiple=true type="text"}}
+    {{> FormElements/input.mustache property=countryChampionFor key="countryChampionFor" title="Country champion for" multiple=true type="text"}}
 
-    {{> FormElements/LocalizedInput.mustache property=alternateName key="alternateName" title="Alternate Name"}}
+    {{> FormElements/localizedinput.mustache property=alternateName key="alternateName" title="Alternate Name"}}
 
-    {{> FormElements/Input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title="Image" multiple=false type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
 
-    {{> FormElements/Id.mustache property=contactPoint key="contactPoint" title="Contact Point" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=contactPoint key="contactPoint" title="Contact Point" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/Id.mustache property=created key="created" title="Created" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=created key="created" title="Created" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/Id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/Id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/Id.mustache property=participantIn key="participantIn" title="Participant in" multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=participantIn key="participantIn" title="Participant in" multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/Id.mustache property=provides key="provides" title="Provides" multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=provides key="provides" title="Provides" multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/Id.mustache property=agentIn key="agentIn" title="Agent in" multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=agentIn key="agentIn" title="Agent in" multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/Id.mustache property=member key="member" title="Member" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=member key="member" title="Member" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/Id.mustache property=memberOf key="memberOf" title="Member of" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Service)"}}
+    {{> FormElements/id.mustache property=memberOf key="memberOf" title="Member of" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Service)"}}
 
-    {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
 
 </fieldset>

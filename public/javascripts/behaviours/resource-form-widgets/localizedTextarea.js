@@ -157,7 +157,7 @@ var Hijax = (function ($, Hijax) {
     }
   };
 
-  Hijax.behaviours.LocalizedTextarea = my;
+  Hijax.behaviours.localizedTextarea = my;
   return Hijax;
 
 })(jQuery, Hijax);

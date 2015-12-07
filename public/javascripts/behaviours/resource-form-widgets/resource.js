@@ -317,7 +317,7 @@ var Hijax = (function ($, Hijax) {
     }
   };
 
-  Hijax.behaviours.Resource = my;
+  Hijax.behaviours.resource = my;
   return Hijax;
 
 })(jQuery, Hijax);
