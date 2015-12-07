@@ -1,13 +1,8 @@
 package services;
 
-import controllers.Global;
-import controllers.Secured;
-import helpers.JsonLdConstants;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import play.mvc.Http.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +17,7 @@ public class QueryContext {
   private Map<String, FilterBuilder> filters = new HashMap<>();
   private Map<String, List<AggregationBuilder>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
+  private String[] fetchSource = new String[]{};
 
   public QueryContext(String userId, List<String> roles) {
 
@@ -56,6 +52,14 @@ public class QueryContext {
     aggregations.put("authenticated", guestAggregations);
 
     this.roles = roles;
+  }
+
+  public String[] getFetchSource() {
+    return this.fetchSource;
+  }
+
+  public void setFetchSource(String[] fetchSource) {
+    this.fetchSource = fetchSource;
   }
 
   public List<FilterBuilder> getFilters() {

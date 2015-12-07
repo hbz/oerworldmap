@@ -308,19 +308,10 @@ public class ElasticsearchProvider {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
-    // TODO: define query fields somewhere else
-    searchRequestBuilder.setFetchSource(new String[]{
-      "about.@id", "about.@type", "about.name", "about.location", "about.image",
-      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
-      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
-      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
-      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
-    }, null);
-
     AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
 
     if (!(null == aQueryContext)) {
+      searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
       for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
         globalAndFilter.add(contextFilter);
       }
