@@ -27,7 +27,7 @@ var Hijax = (function ($, Hijax) {
           'location[address][streetAddress]' : 'Address',
           'location[address][addressLocality]' : 'City',
           'location[address][postalCode]' : 'ZIP',
-          'location[address][addressCountry]' : 'Country',
+          'location[address][addressCountry]' : 'Country Code (DE, US, GB, ... to be replaced by dropdown)',
           'location[geo][lat]' : 'Latitude',
           'location[geo][lon]' : 'Longitude'
         }
