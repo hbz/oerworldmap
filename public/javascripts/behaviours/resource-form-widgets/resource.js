@@ -277,9 +277,13 @@ var Hijax = (function ($, Hijax) {
           typeahead.typeahead('val', '');
 
           if( widget.find('.multiple-one').length ) {
-            var highest_index = + widget
-              .find('.multiple-one').last().find('input').attr('name')
-              .match(/\[\d+\]/);
+            var highest_index = parseInt(
+              _(
+                widget
+                  .find('.multiple-one').last().find('input').attr('name')
+                  .match(/\[(\d+)\]/)
+              ).last()
+            , 10); console.log( highest_index );
           } else {
             var highest_index = 0;
           }
