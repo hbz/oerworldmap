@@ -6,6 +6,7 @@ var Hijax = (function ($, Hijax) {
     datasets : {},
     bloodhounds : {},
     bloodhoundDefers : {},
+    bloodhoundTimestamps : {},
 
     fillDatasetRecursive : function(dataset, scope, depth) {
       var property_name = scope.hasOwnProperty('hasTopConcept') ? 'hasTopConcept' : 'narrower';
@@ -110,9 +111,10 @@ var Hijax = (function ($, Hijax) {
             my.bloodhounds[ lookup_url ].clearPrefetchCache()
             my.bloodhounds[ lookup_url ].initialize();
 
-            $(window).focus(function(){ console.log('focus');
-              my.bloodhounds[ lookup_url ].clearPrefetchCache()
-              my.bloodhounds[ lookup_url ].initialize(true);
+            my.bloodhoundTimestamps[ lookup_url ] = new Date().getTime();
+
+            $(window).focus(function(){
+              my.reinitBloodhound(lookup_url, new Date().getTime());
             });
 
             dfd.resolve();
@@ -121,6 +123,16 @@ var Hijax = (function ($, Hijax) {
       }
 
       return dfd.promise();
+    },
+
+    reinitBloodhound : function(lookup_url, timeStamp) {
+      if(
+        timeStamp - my.bloodhoundTimestamps[ lookup_url ] > 1000
+      ) {
+        my.bloodhounds[ lookup_url ].clearPrefetchCache()
+        my.bloodhounds[ lookup_url ].initialize(true);
+        my.bloodhoundTimestamps[ lookup_url ] = timeStamp;
+      }
     },
 
     gotBloodhound : function(lookup_url) {

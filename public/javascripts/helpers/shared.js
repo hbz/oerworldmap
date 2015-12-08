@@ -263,7 +263,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'article': 'comment',
     'action': 'gears',
     'concept': 'tag',
-    'conceptscheme': 'sitemap'
+    'conceptscheme': 'sitemap',
+    'event': 'calendar'
   };
   return new Handlebars.SafeString('<i class="fa fa-fw fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
 });

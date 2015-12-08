@@ -581,9 +581,11 @@ var Hijax = (function ($, Hijax) {
       }
     }
 
+    var traverse = [ "mainEntity", "mentions", "member", "agent", "participant", "provider" ]
+
     if (!markers.length) {
       for (var key in resource) {
-        if ('referencedBy' == key) {
+        if (traverse.indexOf(key) == -1) {
           continue;
         }
         var value = resource[key];

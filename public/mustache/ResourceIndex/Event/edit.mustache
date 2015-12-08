@@ -1,0 +1,47 @@
+<fieldset>
+
+    <legend>Event</legend>
+
+    {{input "@type" "Event" readonly="readonly"}}
+
+    {{input "@id" [@id] readonly="readonly"}}
+
+    {{> FormElements/localizedInput.mustache property=name key="name" title="Name"}}
+
+    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title="Alternate name"}}
+
+    {{> FormElements/input.mustache property=url key="url" title="URL" multiple=false type="url"}}
+
+    {{> FormElements/input.mustache property=email key="email" title="Email" multiple=false type="email"}}
+
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title="Description"}}
+
+    {{> FormElements/input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+
+    {{> FormElements/input.mustache property=startDate key="startDate" title="Start Date" multiple=false type="text"}}
+
+    {{> FormElements/input.mustache property=endDate key="endDate" title="End Date" multiple=false type="text"}}
+
+    {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
+
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+
+    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title="Recorded in" multiple=true type="url"}}
+
+    {{> FormElements/input.mustache property=inLanguage key="inLanguage" title="In language" multiple=true type="text"}}
+
+    {{> FormElements/id.mustache property=organizer key="organizer" title="Organizer" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+
+    {{> FormElements/id.mustache property=performer key="performer" title="Performer" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+
+    {{> FormElements/id.mustache property=about key="about" title="Subject" multiple=true lookup_url="/resource/?filter.about.@type=Concept"}}
+
+    {{> FormElements/input.mustache property=hashtag key="hashtag" title="Hashtag" multiple=false type="text"}}
+
+    {{> FormElements/input.mustache property=tag key="tag" title="Tag" multiple=true type="text"}}
+
+</fieldset>
