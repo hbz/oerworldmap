@@ -81,7 +81,11 @@ var Hijax = (function ($, Hijax) {
 
             my.bloodhounds[ lookup_url ] = new Bloodhound({
               datumTokenizer: function(d){
-                return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+                if( typeof d.name !== 'undefined' ) {
+                  return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+                } else {
+                  return Bloodhound.tokenizers.whitespace( d['@id'] );
+                }
               },
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               initialize: false,
@@ -273,9 +277,13 @@ var Hijax = (function ($, Hijax) {
           typeahead.typeahead('val', '');
 
           if( widget.find('.multiple-one').length ) {
-            var highest_index = + widget
-              .find('.multiple-one').last().find('input').attr('name')
-              .match(/\[\d+\]/);
+            var highest_index = parseInt(
+              _(
+                widget
+                  .find('.multiple-one').last().find('input').attr('name')
+                  .match(/\[(\d+)\]/)
+              ).last()
+            , 10); console.log( highest_index );
           } else {
             var highest_index = 0;
           }
