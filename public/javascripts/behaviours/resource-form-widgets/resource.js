@@ -81,7 +81,11 @@ var Hijax = (function ($, Hijax) {
 
             my.bloodhounds[ lookup_url ] = new Bloodhound({
               datumTokenizer: function(d){
-                return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+                if( typeof d.name !== 'undefined' ) {
+                  return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+                } else {
+                  return Bloodhound.tokenizers.whitespace( d['@id'] );
+                }
               },
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               initialize: false,
