@@ -49,16 +49,16 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
-    if (list) {
-      queryContext.setFetchSource(new String[]{
-        "about.@id", "about.@type", "about.name", "about.location", "about.image",
-        "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
-        "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
-        "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
-        "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-        "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
-      });
-    }
+
+    queryContext.setFetchSource(new String[]{
+      "about.@id", "about.@type", "about.name", "about.location", "about.image",
+      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
+      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
+      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
+      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
+      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
+    });
+
 
     Map<String, Object> scope = new HashMap<>();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
@@ -101,7 +101,13 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Create failed", "feedback.mustache", scope, messages));
       }
     }
     return redirect(routes.ResourceIndex.read(id));
@@ -200,7 +206,13 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Update failed", "feedback.mustache", scope, messages));
       }
     }
     return read(id);
