@@ -33,5 +33,33 @@
       "addressCountry": "DE"
     }
   },
-  "image": "http://foo.bar.de"
+  "member": [
+    {
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Some person"
+        }
+      ],
+      "email": "foo@bar.de"
+    }
+  ],
+  "memberOf": [
+    {
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Some organization"
+        }
+      ]
+    }
+  ],
+  "image": "http://foo.bar.de",
+  "tag": [
+    "foo",
+    "bar",
+    "baz"
+  ]
 }

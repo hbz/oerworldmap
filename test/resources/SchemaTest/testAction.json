@@ -1,0 +1,14 @@
+{
+  "@type": "Action",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Some Action"
+    }
+  ],
+  "tag": [
+    "foo",
+    "bar",
+    "baz"
+  ]
+}
