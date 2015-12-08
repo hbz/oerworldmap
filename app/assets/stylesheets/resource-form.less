@@ -1,0 +1,240 @@
+.resource-form-modal {
+  .modal-dialog {
+    width: 500px;
+  }
+
+  h1 {
+    margin: 0px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid @blue-darker;
+  }
+}
+
+legend {
+  display: none;
+}
+
+.resource-form-widget {
+  border-bottom: 1px solid @blue-darker;
+  padding: 10px 0px;
+
+  h4 {
+    margin: 5px 0 15px 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  textarea {
+    height: 144px;
+    resize: vertical;
+  }
+
+  &.behaving {
+    label {
+      display: none;
+    }
+  }
+
+  .btn {
+    font-weight: bold;
+    font-size: (@font-size-base * 0.9);
+    text-align: left;
+    .text {
+      margin-right: 20px;
+    }
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .form-row {
+    margin-bottom: 10px;
+  }
+}
+
+.resource-form-top-padding {
+  margin-top: 10px;
+}
+
+/*
+.language-select {
+  display: none;
+}
+*/
+
+/*
+.language-select .select2 .selection {
+  display: none;
+}
+*/
+
+
+[data-action] {
+  cursor: pointer;
+  &:hover {
+    color: @orange;
+  }
+}
+
+.input-icon {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: @padding-base-vertical @padding-base-horizontal;
+}
+
+/* - - - fixes - - - */
+
+// .btn was *sometimes* 1px to high in FF
+.input-group-btn .btn,
+.btn-group .btn {
+  height: @input-height-base;
+}
+
+
+/* - - - multiple / single - - - */
+
+li.multiple-one {
+  margin-bottom: 10px;
+}
+
+.single {
+  margin-bottom: 8px;
+}
+
+
+/* - - - resource - - - */
+
+.resource-form-widget .list-group-item {
+  padding: @padding-base-vertical 30px @padding-base-vertical @padding-base-horizontal;
+}
+
+@depth-padding-base: 20px;
+
+.depth-1 {
+  padding-left: @depth-padding-base;
+}
+
+.depth-2 {
+  padding-left: (2 * @depth-padding-base);
+}
+
+.depth-3 {
+  padding-left: (3 * @depth-padding-base);
+}
+
+.depth-4 {
+  padding-left: (4 * @depth-padding-base);
+}
+
+.depth-5 {
+  padding-left: (5 * @depth-padding-base);
+}
+
+.depth-6 {
+  padding-left: (6 * @depth-padding-base);
+}
+
+
+/* - - - input group for textareas - - - */
+
+.input-group-textarea {
+  textarea {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .btn {
+    margin-top: -1px;
+    margin-left: 0px !important;
+    border-bottom-left-radius: @border-radius-base !important;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 100%;
+  }
+}
+
+
+/* - - - dropdown - - - */
+
+.dropdown-menu-typeahead {
+  padding: 0px;
+  width: 458px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+
+/* - - - twitter typeahead - - - */
+
+.tt-menu {
+  background: @blue-paler;
+  max-height: 373px;
+  overflow-y: scroll;
+}
+
+.static-typeahead {
+  position: relative;
+
+  .tt-menu {
+    width: 100%;
+    border: 1px solid @blue-darker;
+    border-top: none;
+    border-bottom-left-radius: @border-radius-base;
+    border-bottom-right-radius: @border-radius-base;
+    .box-shadow(0 6px 12px rgba(0,0,0,.175));
+  }
+
+  .tt-input.tt-open {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
+.twitter-typeahead {
+  width: 100%;
+  display: block !important;
+}
+
+.tt-input {
+  float: none;
+}
+
+.input-group .form-control.tt-input {
+  float: none;
+  z-index: 0;
+}
+
+.dropdown-menu-typeahead {
+  .tt-menu {
+    position: static !important;
+    display: block !important;
+    border-top: 1px solid @blue-darker;
+  }
+  .tt-input {
+    border: none;
+    border-radius: 0px;
+  }
+}
+
+
+.tt-suggestion {
+  padding: @padding-base-vertical @padding-base-horizontal;
+  border-top: 1px solid @blue-darker;
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.tt-selectable {
+  cursor: pointer;
+
+  &:hover {
+    background: @blue-pale;
+  }
+}
