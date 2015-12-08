@@ -24,8 +24,9 @@ import models.Resource;
 import models.ResourceList;
 import play.mvc.Result;
 import play.mvc.Security;
+import services.QueryContext;
+
 import services.AggregationProvider;
-import services.ElasticsearchProvider;
 import services.export.AbstractCsvExporter;
 import services.export.CsvWithNestedIdsExporter;
 
@@ -47,9 +48,20 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    if (list) {
+      queryContext.setFetchSource(new String[]{
+        "about.@id", "about.@type", "about.name", "about.location", "about.image",
+        "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
+        "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
+        "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
+        "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
+        "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
+      });
+    }
+
     Map<String, Object> scope = new HashMap<>();
-    ElasticsearchProvider.user = Secured.getHttpBasicAuthUser(ctx());
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 

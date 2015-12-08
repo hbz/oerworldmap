@@ -34,17 +34,18 @@ import models.Resource;
 import play.Logger;
 import play.mvc.Result;
 import play.mvc.Security;
+import play.mvc.With;
 import services.Account;
 
 public class UserIndex extends OERWorldMap {
 
-  public static Result get() throws IOException {
+  public static Result list() throws IOException {
     Map<String, Object> scope = new HashMap<>();
     scope.put("countries", Countries.list(currentLocale));
     return ok(render("Registration", "UserIndex/index.mustache", scope));
   }
 
-  public static Result post() throws IOException {
+  public static Result create() throws IOException {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     Map<String, Object> scope = new HashMap<>();
@@ -74,18 +75,41 @@ public class UserIndex extends OERWorldMap {
 
   }
 
+  public static Result read(String id) throws IOException {
+    return ResourceIndex.read(id);
+  }
+
+  public static Result update(String id) throws IOException {
+    return ResourceIndex.update(id);
+  }
+
+  public static Result delete(String id) throws IOException {
+    return ResourceIndex.delete(id);
+  }
+
   public static Result sendToken() {
+
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     ProcessingReport report = user.validate();
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("user", user);
+
     if (!report.isSuccess()) {
-      return badRequest(render("Request Token", "Secured/token.mustache", user,
+      return badRequest(render("Request Token", "Secured/token.mustache", scope,
           JSONForm.generateErrorReport(report)));
     }
-    String token = Account.createTokenFor(user);
 
-    if (!StringUtils.isEmpty(token)) {
+    String token = Account.createTokenFor(user);
+    if (!StringUtils.isEmpty(token) && !StringUtils.isEmpty(mConf.getString("mail.smtp.host"))) {
       sendTokenMail(user, token);
+    } else {
+      Logger.info("No mailserver specified, cannot send ".concat(token).concat( " to "
+        .concat(user.getAsString("email"))));
     }
+
+    scope.put("continue", "<a class=\"hijax\" target=\"_self\" href=\"/.auth\">".concat(
+      messages.getString("feedback_link_continue")).concat("</a>"));
 
     // We fail silently with success message in order not to expose valid email addresses
     List<Map<String, Object>> messages = new ArrayList<>();
@@ -93,25 +117,46 @@ public class UserIndex extends OERWorldMap {
     message.put("level", "success");
     message.put("message", UserIndex.messages.getString("user_token_request_description"));
     messages.add(message);
-    return ok(render("Request Token", "feedback.mustache", user, messages));
+
+    return ok(render("Request Token", "feedback.mustache", scope, messages));
+
   }
 
   @Security.Authenticated(Secured.class)
   public static Result manageToken() {
-    return ok(render("User", "Secured/token.mustache"));
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
+
+    List<Map<String, Object>> messages = new ArrayList<>();
+    HashMap<String, Object> message = new HashMap<>();
+    message.put("level", "success");
+    message.put("message", UserIndex.messages.getString("user_status_logged_in"));
+    messages.add(message);
+
+    return ok(render("Manage Token", "feedback.mustache", scope, messages));
+
   }
 
   @Security.Authenticated(Secured.class)
   public static Result deleteToken() {
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
+
     Resource user = new Resource("Person");
     user.put("email", request().username());
     Account.removeTokenFor(user);
+    scope.put("user", user);
+
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String, Object> message = new HashMap<>();
     message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_token_delete_feedback"));
+    message.put("message", UserIndex.messages.getString("user_status_logged_out"));
     messages.add(message);
-    return ok(render("Delete Token", "feedback.mustache", user, messages));
+
+    return ok(render("Delete Token", "feedback.mustache", scope, messages));
+
   }
 
   private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
@@ -167,7 +212,7 @@ public class UserIndex extends OERWorldMap {
   private static void sendTokenMail(Resource aUser, String aToken) {
     Email confirmationMail = new SimpleEmail();
     try {
-      confirmationMail.setMsg("Your new token is " + aToken);
+      confirmationMail.setMsg(UserIndex.messages.getString("user_token_request_message").concat("\n\n").concat(aToken));
       confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
       confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
       String smtpUser = mConf.getString("mail.smtp.user");
@@ -176,14 +221,16 @@ public class UserIndex extends OERWorldMap {
         confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
       }
       confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
+      confirmationMail.setStartTLSEnabled(mConf.getBoolean("mail.smtp.tls"));
       confirmationMail.setFrom(mConf.getString("mail.smtp.from"),
         mConf.getString("mail.smtp.sender"));
-      confirmationMail.setSubject(UserIndex.messages.getString("user_registration_feedback"));
+      confirmationMail.setSubject(UserIndex.messages.getString("user_token_request_subject"));
       confirmationMail.addTo((String) aUser.get("email"));
       confirmationMail.send();
-      Logger.info(confirmationMail.toString());
+      Logger.debug(confirmationMail.toString());
+      Logger.info("Sent " + aToken + " to " + aUser.get("email"));
     } catch (EmailException e) {
-      e.printStackTrace();
+      Logger.debug(e.toString());
       Logger.error("Failed to send " + aToken + " to " + aUser.get("email"));
     }
   }
