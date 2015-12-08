@@ -1,5 +1,12 @@
 {
+  "@context": "http://schema.org/",
+  "@id": "urn:uuid:35b71b56-9dcc-11e5-bb97-54ee7558c81f",
   "@type": "Article",
+  "creator": [
+    {
+      "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+    }
+  ],
   "mainEntity": {
     "@type": "Organization",
     "name": [
