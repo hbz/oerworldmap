@@ -4,6 +4,23 @@ var console = console || {
   }
 };
 
+if (typeof String.prototype.endsWith !== 'function') {
+  String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+  };
+}
+
+if (typeof Array.prototype.csOr !== 'function') {
+  Array.prototype.csOr = function() {
+    if(this.length > 1) {
+      return this.slice(0, -1).join(', ') + ' or ' + this[this.length - 1];
+    } else {
+      return this[0];
+    }
+  };
+}
+
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 if (!Object.keys) {
   Object.keys = (function() {

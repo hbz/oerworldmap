@@ -1,0 +1,24 @@
+<div class="resource-form-widget" data-behaviour="localizedInput">
+
+    <h4>{{title}}</h4>
+
+    <ul title="{{title}}" class="multiple-list">
+        {{#property}}
+            <li class="multiple-one">
+                <fieldset>
+                    <legend>{{title}}</legend>
+                    {{input (stringFormat "%s[%s][@value]" key @index) [@value]}}
+                    {{input (stringFormat "%s[%s][@language]" key @index) [@language]}}
+                </fieldset>
+            </li>
+        {{/property}}
+        <li class="multiple-one">
+            <fieldset>
+                <legend>{{title}}</legend>
+                {{input (stringFormat "%s[%s][@value]" key (size property)) ""}}
+                {{input (stringFormat "%s[%s][@language]" key (size property)) ""}}
+            </fieldset>
+        </li>
+    </ul>
+
+</div>
