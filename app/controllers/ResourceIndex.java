@@ -89,7 +89,13 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Create failed", "feedback.mustache", scope, messages));
       }
     }
     return redirect(routes.ResourceIndex.read(id));
@@ -188,7 +194,13 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Update failed", "feedback.mustache", scope, messages));
       }
     }
     return read(id);
