@@ -1073,6 +1073,9 @@
             "Place"
           ]
         },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
         "geo": {
           "$ref": "#/definitions/GeoCoordinates"
         },
