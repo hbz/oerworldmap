@@ -1,10 +1,10 @@
 <fieldset>
 
-    <legend>Event</legend>
-
-    {{input "@type" "Event" readonly="readonly"}}
-
-    {{input "@id" [@id] readonly="readonly"}}
+    <div class="hidden">
+        <legend>Event</legend>
+        {{input "@type" "Event" readonly="readonly"}}
+        {{input "@id" [@id] readonly="readonly"}}
+    </div>
 
     {{> FormElements/localizedInput.mustache property=name key="name" title="Name"}}
 
