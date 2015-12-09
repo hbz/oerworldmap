@@ -83,12 +83,15 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  @Security.Authenticated(Secured.class)
   public static Result create() throws IOException {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
+      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
+      if (null == formUrlEncoded) {
+        return badRequest("Empty request body");
+      }
+      json = JSONForm.parseFormData(formUrlEncoded, true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
