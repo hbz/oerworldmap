@@ -71,6 +71,18 @@ var Hijax = (function ($, Hijax) {
           my.initOne(this);
         });
 
+        // set first to english
+
+        if(
+          widget.find('.multiple-one').length == 1 &&
+          widget.find('.multiple-one').first().find('[name*="@language"]').val() == ""
+        ) {
+          my.setLanguage(
+            widget.find('.multiple-one').first(),
+            "en"
+          );
+        }
+
         // append "add language" control
 
         $('<span class="small" data-action="add">+ Add Language</span>')
@@ -80,6 +92,33 @@ var Hijax = (function ($, Hijax) {
             widget.find('.multiple-list').append( multiple_one_new );
             my.initOne( multiple_one_new );
           });
+
+        // when form is submitted ...
+
+        widget.closest('form').submit(function(e){
+          widget.find('.multiple-one').each(function(){
+
+            // clear language if value is empty to avoid empty values being saved
+            if(
+              $(this).find('[name*="@value"]').val() == ""
+            ) {
+              $(this).find('[name*="@language"]').val("");
+            }
+
+            // throw error, for values without language
+            if(
+              $(this).find('[name*="@value"]').val() != "" &&
+              $(this).find('[name*="@language"]').val() == ""
+            ) {
+              $(this).addClass('has-error');
+              $(this).find('.btn').addClass('btn-danger');
+
+              scroll_to_element('.resource-form-modal', this);
+              e.preventDefault();
+              alert("Please chose a language ...");
+            }
+          });
+        });
 
       });
 
@@ -151,9 +190,18 @@ var Hijax = (function ($, Hijax) {
       typeahead.bind('typeahead:select', function(e, suggestion) {
         language_button.dropdown('toggle');
         typeahead.typeahead('val', '');
-        language_button.find('.text').text(suggestion.label);
-        language_input.val(suggestion.id);
+        my.setLanguage(one, suggestion.id);
       });
+    },
+
+    setLanguage : function(multiple_one, language_code) {
+      $( multiple_one ).find('[name*="@language"]').val( language_code );
+      $( multiple_one ).find('.dropdown-toggle .text').text(
+        i18nStrings.languages[ language_code ]
+      );
+      $( multiple_one )
+        .removeClass('has-error')
+        .find('.btn').removeClass('btn-danger');
     }
   };
 
