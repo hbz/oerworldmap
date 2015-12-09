@@ -102,7 +102,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
     mustacheData.put("user", ctx().args.get("user"));
-    mustacheData.put("title", pageTitle);
+    mustacheData.put("pageTitle", pageTitle);
     mustacheData.put("template", templatePath);
     mustacheData.put("config", Play.application().configuration().asMap());
     mustacheData.put("templates", getClientTemplates());
