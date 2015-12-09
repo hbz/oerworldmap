@@ -13,7 +13,6 @@ import models.Resource;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import play.Logger;
-import play.Play;
 import controllers.Global;
 
 /**
@@ -21,8 +20,7 @@ import controllers.Global;
  */
 public class Account {
 
-  private static final String mTokenDir = Play.application().configuration()
-      .getString("user.token.dir");
+  private static final String mTokenDir = Global.getConfig().getString("user.token.dir");
   private static final SecureRandom mRandom = new SecureRandom();
 
   public static String createTokenFor(Resource user) {

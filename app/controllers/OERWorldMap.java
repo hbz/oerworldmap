@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.typesafe.config.Config;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -45,14 +46,14 @@ import services.repository.BaseRepository;
 @With(Authorized.class)
 public abstract class OERWorldMap extends Controller {
 
-  final protected static Configuration mConf = Play.application().configuration();
+  final protected static Configuration mConf = Global.getConfig();
   protected static BaseRepository mBaseRepository = null;
 
   // TODO final protected static FileRepository
   // mUnconfirmedUserRepository;
   static {
     try {
-      mBaseRepository = new BaseRepository(Global.getConfig());
+      mBaseRepository = new BaseRepository(Global.getConfig().underlying());
     } catch (final Exception ex) {
       throw new RuntimeException("Failed to create Respository", ex);
     }
@@ -104,7 +105,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("user", ctx().args.get("user"));
     mustacheData.put("pageTitle", pageTitle);
     mustacheData.put("template", templatePath);
-    mustacheData.put("config", Play.application().configuration().asMap());
+    mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
 
     TemplateLoader loader = new ResourceTemplateLoader();
