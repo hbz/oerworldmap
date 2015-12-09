@@ -45,8 +45,7 @@
     <nav class="user">
         <ul>
             {{#if user.email}}
-                <li><a href="#" title="{{user.email}}"><i class="fa fa-user"></i></a></li>
-                <li><a href="#user-login" data-toggle="modal">Log out</a></li>
+                <li><a href="#user-login" data-toggle="modal" title="{{user.email}}"><i class="fa fa-user"></i></a></li>
             {{else}}
                 <li><h2><a href="/contribute">Join us in mapping the world of OER!</a></h2></li>
                 <li><a href="#user-login" data-toggle="modal">Log in</a></li>
