@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import helpers.ElasticsearchTestGrid;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -36,23 +37,7 @@ import services.ElasticsearchProvider;
 /**
  * @author fo
  */
-public class ResourceIndexTest {
-
-  private static Config mConfig;
-  private static ElasticsearchProvider mEsClient;
-
-  @BeforeClass
-  public static void setup() {
-    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(mConfig);
-    Settings settings = ImmutableSettings.settingsBuilder()
-        .put(elasticsearchConfig.getClientSettings()).build();
-    @SuppressWarnings("resource")
-    Client client = new TransportClient(settings)
-        .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
-    mEsClient = new ElasticsearchProvider(client, elasticsearchConfig);
-    mEsClient.createIndex(mConfig.getString("es.index.name"));
-  }
+public class ResourceIndexTest extends ElasticsearchTestGrid {
 
   @Test
   public void createResourceFromFormUrlEncoded() {
@@ -149,11 +134,6 @@ public class ResourceIndexTest {
         assertEquals(400, status(updateResult));
       }
     });
-  }
-
-  @AfterClass
-  public static void tearDown() {
-    mEsClient.deleteIndex(mConfig.getString("es.index.name"));
   }
 
 }

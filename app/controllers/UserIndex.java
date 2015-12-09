@@ -122,7 +122,6 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  @Security.Authenticated(Secured.class)
   public static Result manageToken() {
 
     Map<String, Object> scope = new HashMap<>();
@@ -138,7 +137,6 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  @Security.Authenticated(Secured.class)
   public static Result deleteToken() {
 
     Map<String, Object> scope = new HashMap<>();

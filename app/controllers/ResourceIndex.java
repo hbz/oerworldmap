@@ -23,7 +23,6 @@ import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
 import play.mvc.Result;
-import play.mvc.Security;
 import services.QueryContext;
 
 import services.AggregationProvider;
@@ -187,7 +186,6 @@ public class ResourceIndex extends OERWorldMap {
    *          The ID of the resource to update
    * @throws IOException
    */
-  @Security.Authenticated(Secured.class)
   public static Result update(String id) throws IOException {
     Resource originalResource = mBaseRepository.getResource(id);
     if (originalResource == null) {
@@ -226,7 +224,6 @@ public class ResourceIndex extends OERWorldMap {
     }*/
   }
 
-  @Security.Authenticated(Secured.class)
   public static Result delete(String id) throws IOException {
     Resource resource = mBaseRepository.deleteResource(id);
     if (null != resource) {

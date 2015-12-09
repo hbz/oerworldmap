@@ -7,9 +7,11 @@ import play.Play;
 import play.Routes;
 import play.libs.F;
 import play.mvc.*;
+import services.Account;
 import services.QueryContext;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +20,10 @@ import java.util.regex.Pattern;
  * @author fo
  */
 public class Authorized extends Action.Simple {
+
+  public static final String REALM = "Basic realm=\"OER World Map\"";
+  public static final String AUTHORIZATION = "authorization";
+  public static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 
   private static Map<String, List<String>> mPermissions;
 
@@ -55,11 +61,12 @@ public class Authorized extends Action.Simple {
 
     String activity = ctx.args.get(Routes.ROUTE_CONTROLLER).toString()
         .concat(".").concat(ctx.args.get(Routes.ROUTE_ACTION_METHOD).toString());
-    String username = Secured.getHttpBasicAuthUser(ctx);
+    String username = getHttpBasicAuthUser(ctx);
 
     Resource user;
 
     if (username != null) {
+      ctx.request().setUsername(username);
       List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
       if (users.size() == 1) {
         user = users.get(0);
@@ -107,7 +114,7 @@ public class Authorized extends Action.Simple {
       Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
     } else {
       Logger.warn("Unuthorized " + user.getId() + " for " + activity + " with " + parameters);
-      ctx.response().setHeader(Secured.WWW_AUTHENTICATE, Secured.REALM);
+      ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
       return F.Promise.pure(Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
     }
     ctx.args.put("queryContext", queryContext);
@@ -158,6 +165,40 @@ public class Authorized extends Action.Simple {
       }
     }
     return activities;
+  }
+
+  private static String getHttpBasicAuthUser(Http.Context ctx) {
+
+    String authHeader = ctx.request().getHeader(AUTHORIZATION);
+
+    if (null == authHeader) {
+      return null;
+    }
+
+    String auth = authHeader.substring(6);
+    byte[] decoded = Base64.getDecoder().decode(auth);
+
+    String[] credentials;
+    try {
+      credentials = new String(decoded, "UTF-8").split(":");
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+      return null;
+    }
+
+    if (credentials.length != 2) {
+      return null;
+    }
+
+    String username = credentials[0];
+    String password = credentials[1];
+
+    if (!Account.authenticate(username, password)) {
+      return null;
+    }
+
+    return username;
+
   }
 
 }
