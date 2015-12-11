@@ -2,9 +2,9 @@
   "@context": "http://schema.org/",
   "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
   "@type": "Action",
-  "additionalType": "Repository development",
+  "additionalType": ["Repository development"],
   "email": "action@example.com",
-  "agent": [ 
+  "agent": [
     {
       "@id": "urn:uuid:1a8efa2e-3b7f-11e5-a24e-54ee7558c81f",
       "@type": "Organization",
@@ -36,7 +36,7 @@
           "@value": "African Virtual University"
         }
       ]
-    }, 
+    },
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
@@ -54,13 +54,13 @@
       "@value": "An OER repository for our Institution"
     }
   ],
-  "alternateName": [ 
+  "alternateName": [
     {
       "@language": "en",
       "@value": "OERP"
     }
   ],
-  "description": [ 
+  "description": [
     {
       "@language": "en",
       "@value": "In our project we will develop a repository for our institution in Xland. Joining forces with blabla and doing foo, we will be successful by 20018. Watch out for the big announcement!"
@@ -69,8 +69,8 @@
   "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Example.jpg",
   "url": "http://example.com/action",
   "sameAs": [ "http://twitter.com/exempelst", "http://facebook.com/exempelst" ],
-  "startTime": "2016-01",
-  "endTime": "2018-01",
+  "startTime": "2016-01-01",
+  "endTime": "2018-01-01",
   "location": {
       "geo" : {
         "lon" : 18.5,

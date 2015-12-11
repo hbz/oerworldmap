@@ -12,7 +12,7 @@
       "@value": "Henry Steam"
     }
   ],
-  "description": [ 
+  "description": [
     {
       "@language": "en",
       "@value": "As Henry Steam i feel obliged to be active in as many alleys, ahem: OER project, as possible."
@@ -43,7 +43,7 @@
   "performerIn": [
     {
       "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
-      "@type": "Action",
+      "@type": "Event",
       "name": [
         {
           "@language": "en",
@@ -173,7 +173,7 @@
   "organizerFor": [
     {
       "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
-      "@type": "",
+      "@type": "Event",
       "name": [
         {
           "@language": "en",
