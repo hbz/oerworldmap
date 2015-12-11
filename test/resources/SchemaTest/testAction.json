@@ -7,35 +7,45 @@
   "agent": [ 
     {
       "@id": "urn:uuid:1a8efa2e-3b7f-11e5-a24e-54ee7558c81f",
-+     "@type": "Organization",
-+     "name": [
-+       {
-+         "@language": "en",
-+         "@value": "Massachusetts Institute of Technology"
-+       }
-+     ]
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Massachusetts Institute of Technology"
+        }
+      ]
     },
     {
-      "@id": "urn:uuid:ca037478-15b2-11e5-9331-001999ac7930"
-+     "@type": "Person",
-+     "name": [
-+       {
-+         "@language": "en",
-+         "@value": "Tel Amiel"
-+       }
-+     ]
+      "@id": "urn:uuid:ca037478-15b2-11e5-9331-001999ac7930",
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Tel Amiel"
+        }
+      ]
     }
   ],
   "participant": [
     {
       "@id": "urn:uuid:7067ff60-77eb-11e5-9f9f-c48e8ff4ea31",
       "@type": "Organization",
-      "name": "African Virtual University"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "African Virtual University"
+        }
+      ]
     }, 
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
-      "name": "Jan Neumann"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Jan Neumann"
+        }
+      ]
     }
   ],
   "name": [
@@ -80,14 +90,24 @@
     {
       "@id": "urn:uuid:9d1167f4-3c81-4626-b187-2160c4da0c7d",
       "@type": "Service",
-      "name": "School of Open"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "School of Open"
+        }
+      ]
     }
   ],
   "result": [
     {
       "@id": "urn:uuid:c50abaf0-7f00-11e5-a636-c48e8ff4ea31",
       "@type": "Service",
-      "name": "Open Michigan"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Open Michigan"
+        }
+      ]
     }
   ],
   "tag": [
@@ -98,15 +118,24 @@
     {
       "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927",
       "@type": "Article",
-      "name": "OER Research Hub"
+      "name": [
+        {
+          "@language": "en",
+          "@value": "OER Research Hub"
+        }
+      ]
     }
   ],
   "mainEntityOf": [
     {
       "@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927",
       "@type": "Article",
-      "name": "School of Open's \"Open Research\" course"
-
+      "name": [
+        {
+          "@language": "en",
+          "@value": "School of Open's \"Open Research\" course"
+        }
+      ]
     }
   ]
 }
