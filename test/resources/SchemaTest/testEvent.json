@@ -1,6 +1,6 @@
 {
   "@context": "http://schema.org/",
-  "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
+  "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
   "@type": "Event",
   "email": "test@example.org",
   "organizer": [
