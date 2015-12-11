@@ -20,15 +20,36 @@
   ],
   "memberOf": [
     {
-      "@id": "urn:uuid:822b87fc-2963-11e5-8198-001999ac7927"
+      "@id": "urn:uuid:822b87fc-2963-11e5-8198-001999ac7927",
+      "@type": "Service",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Librivox"
+        }
+      ]
     },
     {
-      "@id": "urn:uuid:df04cbe2-39f2-11e5-8263-001999ac7927"
+      "@id": "urn:uuid:df04cbe2-39f2-11e5-8263-001999ac7927",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Rice University"
+        }
+      ]
     }
   ],
   "performerIn": [
     {
-      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f"
+      "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Example Event"
+        }
+      ]
     }
   ],
   "image": "https://pixabay.com/static/uploads/photo/2015/06/14/21/17/person-809598_960_720.jpg",
@@ -53,26 +74,61 @@
   "sameAs": [ "https://twitter.com/hansdampf117", "https://facebook.com/hansdampf1117" ],
   "provides": [
     {
-      "@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927"
+      "@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927",
+      "@type": "Service",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "baz"
+        }
+      ]
     }
   ],
   "countryChampionFor": [ "VA" ],
   "agentIn": [
     {
-      "@id": "urn:uuid:3773439c-3b76-11e5-aa68-54ee7558c81f"
+      "@id": "urn:uuid:3773439c-3b76-11e5-aa68-54ee7558c81f",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "TESS-India"
+        }
+      ]
     }
   ],
   "participantIn": [
     {
-      "@id": "urn:uuid:da6d890e-2faa-11e5-ba96-001999ac7927"
+      "@id": "urn:uuid:da6d890e-2faa-11e5-ba96-001999ac7927",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "OER Research Hub"
+        }
+      ]
     },
     {
-      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f"
+      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "OpenUCT Initiative"
+        }
+      ]
     }
   ],
   "created": [
     {
-      "@id": "urn:uuid:35b71b56-9dcc-11e5-bb97-54ee7558c81f"
+      "@id": "urn:uuid:35b71b56-9dcc-11e5-bb97-54ee7558c81f",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "foo"
+        }
+      ]
     }
   ],
   "tag": [
@@ -82,20 +138,48 @@
   ],
   "mentionedIn": [
     {
-      "@id": "urn:uuid:af4b9930-360a-11e5-aeb3-eb256dea4251"
+      "@id": "urn:uuid:af4b9930-360a-11e5-aeb3-eb256dea4251",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Making-of"
+        }
+      ]
     },
     {
-      "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de"
+      "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Folhas: Public Textbook Project"
+        }
+      ]
     }
   ],
   "mainEntityOf":  [
     {
-      "@id": "urn:uuid:f3416c40-2c79-11e5-8a52-0f1d4e5d4d98"
+      "@id": "urn:uuid:f3416c40-2c79-11e5-8a52-0f1d4e5d4d98",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "ÍndoEduca"
+        }
+      ]
     }
   ],
   "organizerFor": [
     {
-      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f"
+      "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
+      "@type": "",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Example Event"
+        }
+      ]
     }
   ]
 }
