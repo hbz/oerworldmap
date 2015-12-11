@@ -42,39 +42,88 @@
   "image": "https://pixabay.com/static/uploads/photo/2014/08/16/11/17/dog-feces-419260_960_720.jpg",
   "contactPoint": [
     {
-      "@id": "urn:uuid:54e6d150-9f49-11e5-b0ff-001999ac7927"
+      "@id": "urn:uuid:54e6d150-9f49-11e5-b0ff-001999ac7927",
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "additionalType": [ "enterprise" ],
   "provides": [
     {
-      "@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927"
+      "@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927",
+      "@type": "Service",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "countryChampionFor": [ "CX" ],
   "agentIn": [
     {
-      "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f"
+      "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "participantIn": [
     {
-      "@id": "urn:uuid:e8cd9900-3b79-11e5-bd3d-54ee7558c81f"
+      "@id": "urn:uuid:e8cd9900-3b79-11e5-bd3d-54ee7558c81f",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "created": [
     {
-      "@id": "urn:uuid:967fca4e-15cf-11e5-abe2-4785fa5f5d27"
+      "@id": "urn:uuid:967fca4e-15cf-11e5-abe2-4785fa5f5d27",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "member": [
     {
-      "@id": "urn:uuid:f3662ed2-15d0-11e5-a98c-dfd0cff00d2f"
+      "@id": "urn:uuid:f3662ed2-15d0-11e5-a98c-dfd0cff00d2f",
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "memberOf":  [
     {
-      "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f"
+      "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "tag": [
@@ -84,17 +133,38 @@
   ],
   "mentionedIn": [
     {
-      "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927"
+      "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "mainEntityOf": [
     {
-      "@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927"
+      "@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
   "organizerFor": [
     {
-      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f"
+      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
+      "@type": "Event",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ]
 }
