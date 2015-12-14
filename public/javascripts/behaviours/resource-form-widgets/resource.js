@@ -110,7 +110,7 @@ var Hijax = (function ($, Hijax) {
             my.bloodhounds[ lookup_url ].clearPrefetchCache()
             my.bloodhounds[ lookup_url ].initialize();
 
-            $(window).focus(function(){ console.log('focus');
+            $(window).focus(function(){
               my.bloodhounds[ lookup_url ].clearPrefetchCache()
               my.bloodhounds[ lookup_url ].initialize(true);
             });

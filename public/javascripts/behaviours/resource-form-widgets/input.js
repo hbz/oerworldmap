@@ -23,13 +23,13 @@ var Hijax = (function ($, Hijax) {
             )
           );
 
-          // if more than one language fieldset, remove the last one
+          // if more than one, remove the last one
 
           if( widget.find('.multiple-one').length > 1 ) {
             widget.find('.multiple-one').last().remove();
           }
 
-          // append "add language" control
+          // append add control
 
           $('<span class="small" data-action="add">+ Add ' + widget.find('.multiple-list').attr('title') + '</span>')
             .appendTo(widget)
