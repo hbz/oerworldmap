@@ -40,13 +40,12 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
 
-  private static JsonSchema mSchema = null;
+  private static JsonNode mSchemaNode = null;
 
   static {
     try {
-      mSchema = JsonSchemaFactory.byDefault()
-          .getJsonSchema(new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile()));
-    } catch (IOException | ProcessingException e) {
+      mSchemaNode = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
+    } catch (IOException e) {
       Logger.error(e.toString());
     }
   }
@@ -163,8 +162,9 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       if (null == type) {
         report.error(new ProcessingMessage()
             .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
-      } else if (null != mSchema) {
-        report = mSchema.validate(toJson());
+      } else if (null != mSchemaNode) {
+        JsonSchema schema = JsonSchemaFactory.byDefault().getJsonSchema(mSchemaNode, "/definitions/".concat(type));
+        report = schema.validate(toJson());
       } else {
         Logger.warn("No JSON schema present, validation disabled.");
       }
