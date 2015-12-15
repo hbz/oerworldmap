@@ -69,8 +69,8 @@
   "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Example.jpg",
   "url": "http://example.com/action",
   "sameAs": [ "http://twitter.com/exempelst", "http://facebook.com/exempelst" ],
-  "startTime": "2016-01-01",
-  "endTime": "2018-01-01",
+  "startTime": "2016-01",
+  "endTime": "2018-01",
   "location": {
       "geo" : {
         "lon" : 18.5,
