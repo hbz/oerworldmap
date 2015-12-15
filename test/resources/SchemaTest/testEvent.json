@@ -1,19 +1,40 @@
 {
   "@context": "http://schema.org/",
-  "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
+  "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
   "@type": "Event",
   "email": "test@example.org",
   "organizer": [
     {
-      "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f"
+      "@id": "urn:uuid:7f565a1a-360c-11e5-af13-cf937ed6e25a",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Siemens Stiftung"
+        }
+      ]
     },
     {
-      "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+      "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Jan Neuman"
+        }
+      ]
     }
   ],
   "performer": [
     {
-      "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+      "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Jan Neumann"
+        }
+      ]
     }
   ],
   "name": [
@@ -66,12 +87,26 @@
   },
   "mentionedIn": [
     {
-      "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927"
+      "@id": "urn:uuid:632bd214-ef41-11e4-878e-bfb252324d1d",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar story"
+        }
+      ]
     }
   ],
   "mainEntityOf": [
     {
-      "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927"
+      "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de",
+      "@type": "Article",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "His Story"
+        }
+      ]
     }
   ],
   "hashtag": "#exe2015",
@@ -80,10 +115,24 @@
   ],
   "about": [
     {
-      "@id": "https://w3id.org/class/esc/n052"
+      "@id": "https://w3id.org/class/esc/n052",
+      "@type" : "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Natural sciences, mathematics and statistics"
+        }
+      ]
     },
     {
-      "@id": "https://w3id.org/class/esc/n051"
+      "@id": "https://w3id.org/class/esc/n051",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Biological and related sciences"
+        }
+      ]
     }
   ]
 }
