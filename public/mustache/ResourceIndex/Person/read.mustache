@@ -214,7 +214,9 @@
 
                 <h1>Edit Person</h1>
 
-                <form method="post" class="edit">
+                <form method="post" class="edit hijax" target="edit-person-feedback">
+
+                    <div id="edit-person-feedback"></div>
 
                     {{> ResourceIndex/Person/edit.mustache scope}}
 

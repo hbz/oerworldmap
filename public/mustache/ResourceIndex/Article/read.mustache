@@ -103,9 +103,11 @@
         <div class="modal-content bg-blue-palest color-scheme-text">
             <div class="modal-body clearfix">
 
-                <h1>Edit Article</h1>
+                <h1>Edit Story</h1>
 
-                <form method="post" class="edit">
+                <form method="post" class="edit hijax" target="edit-article-feedback">
+
+                    <div id="edit-article-feedback"></div>
 
                     {{> ResourceIndex/Article/edit.mustache scope}}
 

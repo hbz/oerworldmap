@@ -112,14 +112,12 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(render("Create failed", "feedback.mustache", scope, messages));
       }
     }
-    return redirect(routes.ResourceIndex.read(id));
-    /*
     response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
     if (isJsonRequest) {
       return created("Created " + id + "\n");
     } else {
       return created(render("Created", "created.mustache", scope));
-    }*/
+    }
   }
 
   public static Result read(String id) throws IOException {
@@ -216,12 +214,11 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(render("Update failed", "feedback.mustache", scope, messages));
       }
     }
-    return read(id);
-    /*if (isJsonRequest) {
+    if (isJsonRequest) {
       return ok("Updated " + id + "\n");
     } else {
       return ok(render("Updated", "updated.mustache", scope));
-    }*/
+    }
   }
 
   public static Result delete(String id) throws IOException {

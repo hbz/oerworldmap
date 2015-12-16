@@ -71,18 +71,6 @@ var Hijax = (function ($, Hijax) {
           my.initOne(this);
         });
 
-        // set first to english
-
-        if(
-          widget.find('.multiple-one').length == 1 &&
-          widget.find('.multiple-one').first().find('[name*="@language"]').val() == ""
-        ) {
-          my.setLanguage(
-            widget.find('.multiple-one').first(),
-            "en"
-          );
-        }
-
         // append "add language" control
 
         $('<span class="small" data-action="add">+ Add Language</span>')
@@ -92,33 +80,6 @@ var Hijax = (function ($, Hijax) {
             widget.find('.multiple-list').append( multiple_one_new );
             my.initOne( multiple_one_new );
           });
-
-        // when form is submitted ...
-
-        widget.closest('form').submit(function(e){
-          widget.find('.multiple-one').each(function(){
-
-            // clear language if value is empty to avoid empty values being saved
-            if(
-              $(this).find('[name*="@value"]').val() == ""
-            ) {
-              $(this).find('[name*="@language"]').val("");
-            }
-
-            // throw error, for values without language
-            if(
-              $(this).find('[name*="@value"]').val() != "" &&
-              $(this).find('[name*="@language"]').val() == ""
-            ) {
-              $(this).addClass('has-error');
-              $(this).find('.btn').addClass('btn-danger');
-
-              scroll_to_element('.resource-form-modal', this);
-              e.preventDefault();
-              alert("Please chose a language ...");
-            }
-          });
-        });
 
       });
 
@@ -144,6 +105,16 @@ var Hijax = (function ($, Hijax) {
           'button_text' : button_text
         })
       );
+
+      // set / unset @language based on @value
+
+      $(one).find('[name*="@value"]').keyup(function() {
+        if ($(this).val() == "") {
+          my.setLanguage(one, "");
+        } else if ( $(one).find('[name*="@language"]').val() == "" ) {
+          my.setLanguage(one, "en");
+        }
+      });
 
       // save controls
 
@@ -198,11 +169,8 @@ var Hijax = (function ($, Hijax) {
     setLanguage : function(multiple_one, language_code) {
       $( multiple_one ).find('[name*="@language"]').val( language_code );
       $( multiple_one ).find('.dropdown-toggle .text').text(
-        i18nStrings.languages[ language_code ]
+        language_code ? i18nStrings.languages[ language_code ] : 'Language'
       );
-      $( multiple_one )
-        .removeClass('has-error')
-        .find('.btn').removeClass('btn-danger');
     }
   };
 
