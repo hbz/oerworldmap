@@ -181,6 +181,7 @@ var Hijax = (function ($, Hijax) {
       // hack to initially open the typeahead suggestion list
 
       dropdown_parent.on('shown.bs.dropdown', function(){
+        typeahead.focus();
         typeahead.typeahead('val', 'x');
         typeahead.typeahead('val', '');
       });

@@ -247,6 +247,7 @@ var Hijax = (function ($, Hijax) {
 
         if( is_vocabulary ) {
           dropdown.on('shown.bs.dropdown', function(){
+            typeahead.focus();
             typeahead.typeahead('val', 'x');
             typeahead.typeahead('val', '');
           });
