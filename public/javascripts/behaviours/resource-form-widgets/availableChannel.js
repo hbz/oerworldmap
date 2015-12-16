@@ -163,7 +163,8 @@ var Hijax = (function ($, Hijax) {
         $(one).fadeOut(function(){
           $(this).remove();
         });
-      })
+      });
+
     }
   };
 

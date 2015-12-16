@@ -32,7 +32,7 @@
 
     {{> FormElements/input.mustache property=recordedIn key="recordedIn" title="Recorded in" multiple=true type="url"}}
 
-    {{> FormElements/input.mustache property=inLanguage key="inLanguage" title="In language" multiple=true type="text"}}
+    {{> FormElements/select.mustache property=inLanguage key="inLanguage" title="In Language" multiple=true type="text" options="languages"}}
 
     {{> FormElements/id.mustache property=organizer key="organizer" title="Organizer" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
