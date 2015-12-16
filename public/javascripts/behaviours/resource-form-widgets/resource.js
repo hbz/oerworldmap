@@ -81,11 +81,21 @@ var Hijax = (function ($, Hijax) {
 
             my.bloodhounds[ lookup_url ] = new Bloodhound({
               datumTokenizer: function(d){
+                var token_parts = [];
+
                 if( typeof d.name !== 'undefined' ) {
-                  return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
-                } else {
-                  return Bloodhound.tokenizers.whitespace( d['@id'] );
+                  token_parts.push( d.name[0]['@value'] );
                 }
+
+                if( typeof d.alternateName !== 'undefined' ) {
+                  token_parts.push( d.alternateName[0]['@value'] );
+                }
+
+                if( token_parts.length == 0 ) {
+                  token_parts.push( d['@id'] );
+                }
+
+                return Bloodhound.tokenizers.whitespace( token_parts.join(' ') );
               },
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               initialize: false,
