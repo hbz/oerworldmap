@@ -108,7 +108,7 @@ var Hijax = (function ($, Hijax) {
 
       // set / unset @language based on @value
 
-      $(one).find('[name*="@value"]').keyup(function() {
+      $(one).find('[name*="@value"]').bind("input propertychange", function() {
         if ($(this).val() == "") {
           my.setLanguage(one, "");
         } else if ( $(one).find('[name*="@language"]').val() == "" ) {
