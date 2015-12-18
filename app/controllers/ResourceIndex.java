@@ -128,12 +128,6 @@ public class ResourceIndex extends OERWorldMap {
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
 
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
-    // has no unencrypted email address
-    if (type.equals("Person") && null == resource.get("email")) {
-      return notFound("Not found");
-    }
-
     if (type.equals("Concept")) {
       ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
           .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
@@ -197,6 +191,17 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+
+    // Person update through UserIndex, which is restricted to owner
+    if ("Person".equals(resource.getAsString(JsonLdConstants.TYPE))) {
+      List<Map<String, Object>> messages = new ArrayList<>();
+      HashMap<String, Object> message = new HashMap<>();
+      message.put("level", "warning");
+      message.put("message", "Forbidden");
+      messages.add(message);
+      return forbidden(render("Update failed", "feedback.mustache", resource, messages));
+    }
+
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);

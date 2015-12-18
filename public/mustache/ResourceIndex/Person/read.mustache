@@ -20,11 +20,11 @@
                     {{{.}}}
                 </script>
 
-                {{#if user}}
+                {{#ifCond user.[@id] '==' [@id]}}
                     <button class="btn btn-inverted resource-edit-btn" data-toggle="modal" data-target="#resource-edit">
                         <i class="fa fa-pencil"></i>
                     </button>
-                {{/if}}
+                {{/ifCond}}
 
                 <div class="resource-header">
 
@@ -214,7 +214,7 @@
 
                 <h1>Edit Person</h1>
 
-                <form method="post" class="edit hijax" target="edit-person-feedback">
+                <form method="post" class="edit hijax" target="edit-person-feedback" action="/user/{{scope.[@id]}}">
 
                     <div id="edit-person-feedback"></div>
 

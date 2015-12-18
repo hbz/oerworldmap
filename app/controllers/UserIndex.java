@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -80,7 +81,40 @@ public class UserIndex extends OERWorldMap {
   }
 
   public static Result update(String id) throws IOException {
-    return ResourceIndex.update(id);
+    Resource originalResource = mBaseRepository.getResource(id);
+    if (originalResource == null) {
+      return badRequest("missing resource " + id);
+    }
+
+    boolean isJsonRequest = true;
+    JsonNode json = request().body().asJson();
+    if (null == json) {
+      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
+      isJsonRequest = false;
+    }
+    Resource resource = Resource.fromJson(json);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
+    if (!report.isSuccess()) {
+      scope.put("countries", Countries.list(currentLocale));
+      if (isJsonRequest) {
+        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
+      } else {
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Update failed", "feedback.mustache", scope, messages));
+      }
+    }
+    if (isJsonRequest) {
+      return ok("Updated " + id + "\n");
+    } else {
+      return ok(render("Updated", "updated.mustache", scope));
+    }
   }
 
   public static Result delete(String id) throws IOException {

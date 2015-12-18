@@ -114,8 +114,14 @@ public class Authorized extends Action.Simple {
       Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
     } else {
       Logger.warn("Unuthorized " + user.getId() + " for " + activity + " with " + parameters);
-      ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
-      return F.Promise.pure(Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
+      // Show prompt for users that are not logged in.
+      if (StringUtils.isEmpty(user.getAsString("email"))) {
+        ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
+        return F.Promise.pure(Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
+      } else {
+        return F.Promise.pure(Results.forbidden(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
+      }
+
     }
     ctx.args.put("queryContext", queryContext);
 
