@@ -67,7 +67,7 @@
 
                     {{#if email}}
                         <tr>
-                            <td>Email Address</td>
+                            <td>{{i18n "Action.email"}}</td>
                             <td>
                                 <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
                             </td>
@@ -76,7 +76,7 @@
 
                     {{#if alternateName}}
                         <tr>
-                            <td>Alternate Names</td>
+                            <td>{{i18n "Action.email"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
                                     {{#alternateName}}
@@ -89,7 +89,7 @@
 
                     {{#if sameAs}}
                         <tr>
-                            <td>Links</td>
+                            <td>{{i18n "Action.sameAs"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#sameAs}}
@@ -102,13 +102,13 @@
 
                     {{#if startTime}}
                         <tr>
-                            <td>Duration</td>
+                            <td>{{i18n "Action.startTime"}} - {{i18n "Action.endTime"}}</td>
                             <td>{{startTime}} - {{endTime}}</td>
                         </tr>
                     {{/if}}
 
                     <tr>
-                        <td>Location</td>
+                        <td>{{i18n "Action.location"}}</td>
                         <td>
                             {{#location}}
                                 {{>ResourceIndex/Place/read.mustache}}
@@ -118,7 +118,7 @@
 
                     {{#if mentionedIn}}
                         <tr>
-                            <td>{{i18n "mentioned_in"}}</td>
+                            <td>{{i18n "Action.mentionedIn"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mentionedIn}}
@@ -131,7 +131,7 @@
 
                     {{#if agent}}
                         <tr>
-                            <td>Agent</td>
+                            <td>{{i18n "Action.agent"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#agent}}
@@ -144,7 +144,7 @@
 
                     {{#if participant}}
                         <tr>
-                            <td>Participant</td>
+                            <td>{{i18n "Action.participant"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#participant}}
@@ -157,7 +157,7 @@
 
                     {{#if instrument}}
                         <tr>
-                            <td>Instrument</td>
+                            <td>{{i18n "Action.instrument"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#instrument}}
@@ -170,7 +170,7 @@
 
                     {{#if result}}
                         <tr>
-                            <td>Result</td>
+                            <td>{{i18n "Action.result"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#result}}

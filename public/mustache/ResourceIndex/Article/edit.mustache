@@ -6,20 +6,20 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-    {{> FormElements/localizedInput.mustache property=name key="name" title="Name"}}
+    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Article.name")}}
 
-    {{> FormElements/localizedTextarea.mustache property=description key="description" title="Description"}}
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Article.description")}}
 
-    {{> FormElements/localizedTextarea.mustache property=articleBody key="articleBody" title="Article Body"}}
+    {{> FormElements/localizedTextarea.mustache property=articleBody key="articleBody" title=(i18n "Article.articleBody")}}
 
-    {{> FormElements/input.mustache property=dateCreated key="dateCreated" title="Date created" multiple=false type="text"}}
+    {{> FormElements/input.mustache property=dateCreated key="dateCreated" title=(i18n "Article.dateCreated") multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Article.image") multiple=false type="url"}}
 
-    {{> FormElements/id.mustache property=creator key="creator" title="Creator" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=creator key="creator" title=(i18n "Article.creator") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=mainEntity key="mainEntity" title="Main Entity" multiple=false lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action)"}}
+    {{> FormElements/id.mustache property=mainEntity key="mainEntity" title=(i18n "Article.mainEntity") multiple=false lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action)"}}
 
-    {{> FormElements/id.mustache property=mentions key="mentions" title="Mentions" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action)"}}
+    {{> FormElements/id.mustache property=mentions key="mentions" title=(i18n "Article.mentions") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action)"}}
 
 </fieldset>

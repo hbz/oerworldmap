@@ -6,42 +6,42 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-    {{> FormElements/localizedInput.mustache property=name key="name" title="Name"}}
+    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Event.name")}}
 
-    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title="Alternate name"}}
+    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Event.alternateName")}}
 
-    {{> FormElements/input.mustache property=url key="url" title="URL" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Event.url") multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=email key="email" title="Email" multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Event.email") multiple=false type="email"}}
 
-    {{> FormElements/localizedTextarea.mustache property=description key="description" title="Description"}}
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Event.description")}}
 
-    {{> FormElements/input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Event.image") multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=startDate key="startDate" title="Start Date" multiple=false type="text"}}
+    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Event.startDate") multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=endDate key="endDate" title="End Date" multiple=false type="text"}}
+    {{> FormElements/input.mustache property=endDate key="endDate" title=(i18n "Event.endDate") multiple=false type="text"}}
 
-    {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
+    {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Event.location")}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Event.mainEntityOf") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Event.mentionedIn") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Event.sameAs") multiple=true type="url"}}
 
-    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title="Recorded in" multiple=true type="url"}}
+    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title=(i18n "Event.recordedIn") multiple=true type="url"}}
 
-    {{> FormElements/select.mustache property=inLanguage key="inLanguage" title="In Language" multiple=true type="text" options="languages"}}
+    {{> FormElements/select.mustache property=inLanguage key="inLanguage" title=(i18n "Event.inLanguage") multiple=true type="text" options="languages"}}
 
-    {{> FormElements/id.mustache property=organizer key="organizer" title="Organizer" multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=organizer key="organizer" title=(i18n "Event.organizer") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=performer key="performer" title="Performer" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=performer key="performer" title=(i18n "Event.performer") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=about key="about" title="Subject" multiple=true lookup_url="/assets/json/esc.json"}}
+    {{> FormElements/id.mustache property=about key="about" title=(i18n "Event.about") multiple=true lookup_url="/assets/json/esc.json"}}
 
-    {{> FormElements/input.mustache property=hashtag key="hashtag" title="Hashtag" multiple=false type="text"}}
+    {{> FormElements/input.mustache property=hashtag key="hashtag" title=(i18n "Event.hashtag") multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=tag key="tag" title="Tag" multiple=true type="text"}}
+    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Event.tag") multiple=true type="text"}}
 
 </fieldset>

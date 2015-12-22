@@ -1,11 +1,11 @@
 <article class="entity-teaser">
 
     <header>
-        
+
         <div class="header-icon">
-            <i class="fa fa-comment"></i>
+            {{getIcon @type}}
         </div>
-        
+
         <div class="header-text">
 
             <h1>
@@ -13,7 +13,7 @@
                     {{#name}}{{@value}}{{/name}}
                 </a>
             </h1>
-    
+
             <div class="contributed-by">
                 <strong>Contributed by</strong>
                 <ul class="csl">
@@ -23,9 +23,9 @@
                 </ul>
               {{#dateCreated}}<span> on {{.}}</span>{{/dateCreated}}
             </div>
-          
+
         </div>
-        
+
     </header>
 
     <div class="article-body">
