@@ -20,7 +20,7 @@
                     {{{.}}}
                 </script>
 
-                {{#if user}}
+                {{#if user.email}}
                     <button class="btn btn-inverted resource-edit-btn" data-toggle="modal" data-target="#resource-edit">
                         <i class="fa fa-pencil"></i>
                     </button>
@@ -208,25 +208,26 @@
     </div>
 </div>
 
-<div class="modal fade" id="resource-edit">
-  <div class="modal-dialog">
-    <div class="modal-content bg-blue-palest color-scheme-text">
-      <div class="modal-body clearfix">
+<div class="modal fade resource-form-modal" id="resource-edit">
+    <div class="modal-dialog">
+        <div class="modal-content bg-blue-palest color-scheme-text">
+            <div class="modal-body clearfix">
 
-        <h1>Edit Organization</h1>
+                <h1>Edit Organization</h1>
 
-        <hr/>
+                <form method="post" class="edit hijax" target="edit-organization-feedback">
 
-        <form method="post" class="edit">
-          {{> ResourceIndex/Organization/edit.mustache scope}}
-          <hr/>
-          <div class="pull-right">
-            <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
-            <button type="submit" class="btn btn-inverted">Save Changes</button>
-          </div>
-        </form>
+                    <div id="edit-organization-feedback"></div>
 
-      </div>
+                    {{> ResourceIndex/Organization/edit.mustache scope}}
+
+                    <div class="pull-right resource-form-top-padding">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                        <button type="submit" class="btn btn-inverted">Save Changes</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
