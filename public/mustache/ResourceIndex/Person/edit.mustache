@@ -12,13 +12,17 @@
 
     {{> FormElements/Input.mustache property=email key="email" title="Email" multiple=false type="email"}}
 
+    {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+
+    {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
+
     {{> FormElements/LocalizedTextarea.mustache property=description key="description" title="Description"}}
+
+    {{> FormElements/Id.mustache property=memberOf key="memberOf" title="Member of" multiple=true lookup="/resource/"}}
 
     {{> FormElements/Input.mustache property=countryChampionFor key="countryChampionFor" title="Country champion for" multiple=true type="text"}}
 
     {{> FormElements/Input.mustache property=image key="image" title="Image" multiple=false type="url"}}
-
-    {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
 
     {{> FormElements/Id.mustache property=created key="created" title="Created" multiple=true lookup="/resource/?filter.about.@type=Article"}}
 
@@ -31,9 +35,5 @@
     {{> FormElements/Id.mustache property=provides key="provides" title="Provides" multiple=true lookup="/resource/?filter.about.@type=Service"}}
 
     {{> FormElements/Id.mustache property=agentIn key="agentIn" title="Agent in" multiple=true lookup="/resource/?filter.about.@type=Action"}}
-
-    {{> FormElements/Id.mustache property=memberOf key="memberOf" title="Member of" multiple=true lookup="/resource/"}}
-
-    {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
 
 </fieldset>
