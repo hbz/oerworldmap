@@ -93,7 +93,7 @@ public class ResourceDenormalizer {
       throws IOException {
 
     Map<String, DenormalizeResourceWrapper> wrappedResources = new HashMap<>();
-    split(aResource, wrappedResources, aRepo);
+    split(aResource, wrappedResources, aRepo, true);
 
     addInverseReferences(wrappedResources);
 
@@ -116,7 +116,7 @@ public class ResourceDenormalizer {
   }
 
   private static void split(Resource aResource,
-      Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo)
+      Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo, boolean aOverwriteOnMerge)
           throws IOException {
 
     mBroaderConceptEnricher.enrich(aResource, aRepo);
@@ -125,18 +125,17 @@ public class ResourceDenormalizer {
     if (keyId == null || !aWrappedResources.containsKey(keyId)) {
       // we need a new wrapper
       DenormalizeResourceWrapper wrapper = new DenormalizeResourceWrapper(aResource,
-          aWrappedResources, aRepo);
+          aWrappedResources, aRepo, aOverwriteOnMerge);
       aWrappedResources.put(wrapper.getKeyId(), wrapper);
     } else {
       // take the existing wrapper
-      aWrappedResources.get(keyId).addResource(aResource, aWrappedResources);
+      aWrappedResources.get(keyId).addResource(aResource, aWrappedResources, aOverwriteOnMerge);
     }
-
     for (Entry<String, Object> entry : aResource.entrySet()) {
       if (entry.getValue() instanceof Resource) {
         Resource resource = (Resource) entry.getValue();
         if (resource.hasId()) {
-          split(resource, aWrappedResources, aRepo);
+          split(resource, aWrappedResources, aRepo, false);
         }
       } else if (entry.getValue() instanceof List) {
         Iterator<?> iter = ((List<?>) entry.getValue()).iterator();
@@ -145,7 +144,7 @@ public class ResourceDenormalizer {
           if (next instanceof Resource) {
             Resource resource = (Resource) next;
             if (resource.hasId()) {
-              split(resource, aWrappedResources, aRepo);
+              split(resource, aWrappedResources, aRepo, false);
             }
           }
         }

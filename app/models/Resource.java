@@ -329,6 +329,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
+  public void replaceBy(Resource aOther) {
+    clear();
+    for (Entry<String, Object> otherEntry : aOther.entrySet()){
+      put(otherEntry.getKey(), otherEntry.getValue());
+    }
+  }
+
   public boolean hasIdOnly() {
     if (size() == 1 && hasId()) {
       return true;
@@ -336,6 +343,14 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return false;
   }
 
+  /**
+   * Clone the given Resource, whereby all nested Resources having an
+   * ID are reduced to that ID so that only non-ID nested Resources
+   * are comprised with deep structures.
+   * @param aResource a Resource to be cloned.
+   * @return a clone of the given Resource whose nested resources are
+   *         either of ID-only type or kept "as is".
+   */
   public static Resource getFlatClone(Resource aResource) {
     Resource result = Resource.fromMap(aResource);
 

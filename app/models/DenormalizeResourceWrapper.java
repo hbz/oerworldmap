@@ -40,9 +40,11 @@ public class DenormalizeResourceWrapper {
   /*
    * 
    */
-  public DenormalizeResourceWrapper(final Resource aResource,
-      final Map<String, DenormalizeResourceWrapper> aWrappedResources,
-      final services.repository.Readable aRepo) throws IOException {
+  public DenormalizeResourceWrapper( //
+      final Resource aResource, //
+      final Map<String, DenormalizeResourceWrapper> aWrappedResources, //
+      final services.repository.Readable aRepo, //
+      final boolean aOverwriteOnMerge) throws IOException {
     mReferences = new HashMap<>();
     mKeyId = aResource.getAsString(JsonLdConstants.ID);
     if (mKeyId != null) {
@@ -56,7 +58,7 @@ public class DenormalizeResourceWrapper {
       // this Resource (wrapper), so add them to the wrappers map.
       getMentionedResources(aWrappedResources, mResource, aRepo, 2);
     }
-    addResource(aResource, aWrappedResources);
+    addResource(aResource, aWrappedResources, aOverwriteOnMerge);
     mLinkView = null;
     mEmbedView = null;
   }
@@ -132,15 +134,16 @@ public class DenormalizeResourceWrapper {
   }
 
   /**
-   * TODO
    * 
-   * @param aResource
-   * @param aWrappedResources
    */
   public void addResource(Resource aResource,
-      Map<String, DenormalizeResourceWrapper> aWrappedResources) {
+      Map<String, DenormalizeResourceWrapper> aWrappedResources, boolean aOverwriteOnMerge) {
     extractFirstLevelReferences(aResource, aWrappedResources);
-    mResource.merge(Resource.getFlatClone(aResource));
+    if (aOverwriteOnMerge){
+      mResource.replaceBy(Resource.getFlatClone(aResource));
+    } else{
+      mResource.merge(Resource.getFlatClone(aResource));
+    }
     mLinkView = null;
     mEmbedView = null;
   }
