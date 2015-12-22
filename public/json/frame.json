@@ -1,0 +1,12 @@
+{
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "knows": {
+      "@container": "@set"
+    },
+    "name": {
+      "@container": "@set"
+    }
+  },
+  "@type": "Person"
+}
