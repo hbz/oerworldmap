@@ -6,38 +6,38 @@
 
     {{input "@id" [@id] readonly="readonly"}}
 
-    {{> FormElements/Input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
-
-    {{> FormElements/Input.mustache property=email key="email" title="Email" multiple=false type="email"}}
-
     {{> FormElements/LocalizedInput.mustache property=name key="name" title="Name"}}
 
     {{> FormElements/LocalizedInput.mustache property=alternateName key="alternateName" title="Alternate Name"}}
 
     {{> FormElements/LocalizedTextarea.mustache property=description key="description" title="Description"}}
 
-    {{> FormElements/Input.mustache property=image key="image" title="Image" multiple=false type="url"}}
-
-    {{> FormElements/Input.mustache property=url key="url" title="URL" multiple=false type="url"}}
-
     {{> FormElements/Input.mustache property=startTime key="startTime" title="Start time" multiple=false type="text"}}
 
     {{> FormElements/Input.mustache property=endTime key="endTime" title="End time" multiple=false type="text"}}
 
+    {{> FormElements/Input.mustache property=url key="url" title="URL" multiple=false type="url"}}
+
+    {{> FormElements/Input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+
+    {{> FormElements/Input.mustache property=email key="email" title="Email" multiple=false type="email"}}
+
+    {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+
     {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
-
-    {{> FormElements/Id.mustache property=instrument key="instrument" title="Instrument" multiple=true lookup="/resource/?filter.about.@type=Service"}}
-
-    {{> FormElements/Id.mustache property=result key="result" title="Result" multiple=true lookup="/resource/?filter.about.@type=Service"}}
 
     {{> FormElements/Id.mustache property=agent key="agent" title="Agent" multiple=true lookup="/resource/"}}
 
     {{> FormElements/Id.mustache property=participant key="participant" title="Participant" multiple=true lookup="/resource/"}}
 
+    {{> FormElements/Id.mustache property=instrument key="instrument" title="Instrument" multiple=true lookup="/resource/?filter.about.@type=Service"}}
+
+    {{> FormElements/Id.mustache property=result key="result" title="Result" multiple=true lookup="/resource/?filter.about.@type=Service"}}
+
+    {{> FormElements/Input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
+
     {{> FormElements/Id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/Id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup="/resource/?filter.about.@type=Article"}}
-
-    {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
 
 </fieldset>
