@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.typesafe.config.Config;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -30,28 +31,29 @@ import helpers.HandlebarsHelpers;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
-import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
-import play.mvc.Http;
+import play.mvc.With;
 import play.twirl.api.Html;
+import services.QueryContext;
 import services.repository.BaseRepository;
 
 /**
  * @author fo
  */
+@With(Authorized.class)
 public abstract class OERWorldMap extends Controller {
 
-  final protected static Configuration mConf = Play.application().configuration();
+  final protected static Configuration mConf = Global.getConfig();
   protected static BaseRepository mBaseRepository = null;
 
   // TODO final protected static FileRepository
   // mUnconfirmedUserRepository;
   static {
     try {
-      mBaseRepository = new BaseRepository(Global.getConfig());
+      mBaseRepository = new BaseRepository(Global.getConfig().underlying());
     } catch (final Exception ex) {
       throw new RuntimeException("Failed to create Respository", ex);
     }
@@ -100,7 +102,11 @@ public abstract class OERWorldMap extends Controller {
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
-    mustacheData.put("user", Secured.getHttpBasicAuthUser(Http.Context.current()));
+    mustacheData.put("user", ctx().args.get("user"));
+    mustacheData.put("pageTitle", pageTitle);
+    mustacheData.put("template", templatePath);
+    mustacheData.put("config", mConf.asMap());
+    mustacheData.put("templates", getClientTemplates());
 
     TemplateLoader loader = new ResourceTemplateLoader();
     loader.setPrefix("public/mustache");
@@ -147,9 +153,8 @@ public abstract class OERWorldMap extends Controller {
     }
 
     try {
-      Template template = handlebars.compile(templatePath);
-      return views.html.main.render(pageTitle, Html.apply(template.apply(mustacheData)),
-          getClientTemplates(), mConf);
+      Template template = handlebars.compile("main.mustache");
+      return Html.apply(template.apply(mustacheData));
     } catch (IOException e) {
       Logger.error(e.toString());
       return null;
@@ -163,6 +168,10 @@ public abstract class OERWorldMap extends Controller {
 
   protected static Html render(String pageTitle, String templatePath) {
     return render(pageTitle, templatePath, null, null);
+  }
+
+  protected static BaseRepository getRepository() {
+    return mBaseRepository;
   }
 
   private static String getClientTemplates() {

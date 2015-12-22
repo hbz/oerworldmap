@@ -23,9 +23,9 @@ import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
 import play.mvc.Result;
-import play.mvc.Security;
+import services.QueryContext;
+
 import services.AggregationProvider;
-import services.ElasticsearchProvider;
 import services.export.AbstractCsvExporter;
 import services.export.CsvWithNestedIdsExporter;
 
@@ -47,9 +47,20 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+
+    queryContext.setFetchSource(new String[]{
+      "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
+      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
+      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
+      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
+      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
+      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
+    });
+
+
     Map<String, Object> scope = new HashMap<>();
-    ElasticsearchProvider.user = Secured.getHttpBasicAuthUser(ctx());
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters);
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 
@@ -71,12 +82,15 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  @Security.Authenticated(Secured.class)
   public static Result create() throws IOException {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
     if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
+      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
+      if (null == formUrlEncoded) {
+        return badRequest("Empty request body");
+      }
+      json = JSONForm.parseFormData(formUrlEncoded, true);
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
@@ -89,17 +103,21 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Create failed", "feedback.mustache", scope, messages));
       }
     }
-    return redirect(routes.ResourceIndex.read(id));
-    /*
     response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
     if (isJsonRequest) {
       return created("Created " + id + "\n");
     } else {
       return created(render("Created", "created.mustache", scope));
-    }*/
+    }
   }
 
   public static Result read(String id) throws IOException {
@@ -109,12 +127,6 @@ public class ResourceIndex extends OERWorldMap {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
-
-    // FIXME: hardcoded access restriction to newsletter-only unsers, criteria:
-    // has no unencrypted email address
-    if (type.equals("Person") && null == resource.get("email")) {
-      return notFound("Not found");
-    }
 
     if (type.equals("Concept")) {
       ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
@@ -166,7 +178,6 @@ public class ResourceIndex extends OERWorldMap {
    *          The ID of the resource to update
    * @throws IOException
    */
-  @Security.Authenticated(Secured.class)
   public static Result update(String id) throws IOException {
     Resource originalResource = mBaseRepository.getResource(id);
     if (originalResource == null) {
@@ -180,6 +191,17 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+
+    // Person update through UserIndex, which is restricted to owner
+    if ("Person".equals(resource.getAsString(JsonLdConstants.TYPE))) {
+      List<Map<String, Object>> messages = new ArrayList<>();
+      HashMap<String, Object> message = new HashMap<>();
+      message.put("level", "warning");
+      message.put("message", "Forbidden");
+      messages.add(message);
+      return forbidden(render("Update failed", "feedback.mustache", resource, messages));
+    }
+
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
@@ -188,18 +210,22 @@ public class ResourceIndex extends OERWorldMap {
       if (isJsonRequest) {
         return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {
-        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Update failed", "feedback.mustache", scope, messages));
       }
     }
-    return read(id);
-    /*if (isJsonRequest) {
+    if (isJsonRequest) {
       return ok("Updated " + id + "\n");
     } else {
       return ok(render("Updated", "updated.mustache", scope));
-    }*/
+    }
   }
 
-  @Security.Authenticated(Secured.class)
   public static Result delete(String id) throws IOException {
     Resource resource = mBaseRepository.deleteResource(id);
     if (null != resource) {

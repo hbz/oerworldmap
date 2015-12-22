@@ -64,7 +64,11 @@ public class HandlebarsHelpers {
         try {
           return ResourceBundle.getBundle("countries").getString(key);
         } catch (MissingResourceException notCountry) {
-          return OERWorldMap.getLabel(key);
+          try {
+            return ResourceBundle.getBundle("labels").getString(key);
+          } catch (MissingResourceException notLabel) {
+            return OERWorldMap.getLabel(key);
+          }
         }
       }
     }

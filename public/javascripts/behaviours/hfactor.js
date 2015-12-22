@@ -24,12 +24,20 @@ var Hijax = (function ($, Hijax) {
         parent.after(html);
         break;
       case "_parent":
-      default:
         html.attr("role", role);
         parent.replaceWith(html);
         break;
+      case "_top":
+        var location = element.attr("href") || element.attr("action") || window.location;
+        window.location = location;
+        break;
+      default:
+        element.find('#' + element.attr("target")).html(html);
+        window.location.hash = "";
+        window.location.hash = element.attr("target");
+        break;
     }
-    
+
     Hijax.layout();
 
   }

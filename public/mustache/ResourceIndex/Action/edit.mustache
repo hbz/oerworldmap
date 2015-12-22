@@ -1,43 +1,43 @@
 <fieldset>
 
-    <legend>Project</legend>
+    <div class="hidden">
+        <legend>Project</legend>
+        {{input "@type" "Action" readonly="readonly"}}
+        {{input "@id" [@id] readonly="readonly"}}
+    </div>
 
-    {{input "@type" "Action" readonly="readonly"}}
+    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Action.additionalType") multiple=true type="text"}}
 
-    {{input "@id" [@id] readonly="readonly"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Action.email") multiple=false type="email"}}
 
-    {{> FormElements/Input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
+    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Action.name")}}
 
-    {{> FormElements/Input.mustache property=email key="email" title="Email" multiple=false type="email"}}
+    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Action.alternateName")}}
 
-    {{> FormElements/LocalizedInput.mustache property=name key="name" title="Name"}}
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Action.description")}}
 
-    {{> FormElements/LocalizedInput.mustache property=alternateName key="alternateName" title="Alternate Name"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Action.image") multiple=false type="url"}}
 
-    {{> FormElements/LocalizedTextarea.mustache property=description key="description" title="Description"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Action.url") multiple=false type="url"}}
 
-    {{> FormElements/Input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=startTime key="startTime" title=(i18n "Action.startTime") multiple=false type="text"}}
 
-    {{> FormElements/Input.mustache property=url key="url" title="URL" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=endTime key="endTime" title=(i18n "Action.endTime") multiple=false type="text"}}
 
-    {{> FormElements/Input.mustache property=startTime key="startTime" title="Start time" multiple=false type="text"}}
+    {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Action.location")}}
 
-    {{> FormElements/Input.mustache property=endTime key="endTime" title="End time" multiple=false type="text"}}
+    {{> FormElements/id.mustache property=instrument key="instrument" title=(i18n "Action.instrument") multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
+    {{> FormElements/id.mustache property=result key="result" title=(i18n "Action.result") multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/Id.mustache property=instrument key="instrument" title="Instrument" multiple=true lookup="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=agent key="agent" title=(i18n "Action.agent") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/Id.mustache property=result key="result" title="Result" multiple=true lookup="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=participant key="participant" title=(i18n "Action.participant") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/Id.mustache property=agent key="agent" title="Agent" multiple=true lookup="/resource/"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Action.mainEntityOf") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/Id.mustache property=participant key="participant" title="Participant" multiple=true lookup="/resource/"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Action.mentionedIn") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/Id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup="/resource/?filter.about.@type=Article"}}
-
-    {{> FormElements/Id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup="/resource/?filter.about.@type=Article"}}
-
-    {{> FormElements/Input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Action.sameAs") multiple=true type="url"}}
 
 </fieldset>

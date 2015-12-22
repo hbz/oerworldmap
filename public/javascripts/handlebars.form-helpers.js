@@ -53,6 +53,7 @@
       password_validation: helperPasswordValidation,
       textarea_validation: helperTextareaValidation,
       field_errors: helperFieldErrors
+
     };
 
   /* Markup helpers
@@ -126,7 +127,7 @@
     var label = options.hash.title || name;
     var lookup = options.hash['data-lookup']
         ? ' <a href="' + options.hash['data-lookup'] + '" target="_blank"><i class="fa fa-search"></i> </a>' : '';
-    return new Handlebars.SafeString('<label><b>' + label + '</b> '+ createElement('input', false, extend({
+    return new Handlebars.SafeString('<label><span class="label-text">' + label + '</span> '+ createElement('input', false, extend({
       name: name,
       id: name,
       value: value,

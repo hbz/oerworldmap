@@ -12,7 +12,7 @@ import models.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import play.Play;
+import play.Logger;
 import controllers.Global;
 
 /**
@@ -20,13 +20,14 @@ import controllers.Global;
  */
 public class Account {
 
-  private static final String mTokenDir = Play.application().configuration()
-      .getString("user.token.dir");
+  private static final String mTokenDir = Global.getConfig().getString("user.token.dir");
   private static final SecureRandom mRandom = new SecureRandom();
 
   public static String createTokenFor(Resource user) {
 
-    if (! Arrays.asList(Global.getConfig().getString("users.valid").split(",")).contains(user.get("email").toString())) {
+    if (! Arrays.asList(Global.getConfig().getString("users.valid").split(","))
+      .contains(user.get("email").toString())) {
+      Logger.warn("Token for invalid user ".concat(user.getAsString("email").concat(" requested.")));
       return null;
     }
 
