@@ -50,6 +50,7 @@
   } ],
   "sameAs": [ "https://twitter.com/oermachine", "https://facebook.com/oermachine" ],
   "startDate": "2011-11-11",
+  "endDate": "2012-12-12",
   "email": "oermachine@example.com",
   "location": {
     "geo": {
