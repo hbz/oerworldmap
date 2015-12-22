@@ -322,6 +322,9 @@
             },
             {
               "$ref": "#/definitions/date-time"
+            },
+            {
+              "$ref": "#/definitions/date-yearmonth"
             }
           ]
         },
@@ -335,6 +338,9 @@
             },
             {
               "$ref": "#/definitions/date-time"
+            },
+            {
+              "$ref": "#/definitions/date-yearmonth"
             }
           ]
         },
@@ -1073,6 +1079,9 @@
             "Place"
           ]
         },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
         "geo": {
           "$ref": "#/definitions/GeoCoordinates"
         },
@@ -1201,6 +1210,13 @@
       "description": "Full Date and Time",
       "type": "string",
       "format": "date-time"
+    },
+    "date-yearmonth": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Year and month",
+      "description": "Year and month",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}$"
     },
     "Country": {
       "$schema": "http://json-schema.org/draft-04/schema#",
