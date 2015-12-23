@@ -1,21 +1,27 @@
-{{#property}}
-    <fieldset>
-        <legend>Available Channel</legend>
-        {{input (stringFormat "%s[%s][serviceUrl]" key @index) serviceUrl type="url"}}
-        <ul title="Available language">
-            {{#availableLanguage}}
-                <li>{{input (stringFormat "%s[%s][availableLanguage][%s]" key ../@index @index) .}}</li>
-            {{/availableLanguage}}
-            <li>{{input (stringFormat "%s[%s][availableLanguage][%s]" key @index (size availableLanguage)) ""}}</li>
-        </ul>
-    </fieldset>
-{{/property}}
-{{^property}}
-    <fieldset>
-        <legend>Available Channel</legend>
-        {{input (stringFormat "%s[0][serviceUrl]" key)  "" type="url"}}
-        <ul title="Available language">
-            <li>{{input (stringFormat "%s[0][availableLanguage][0]" key) ""}}</li>
-        </ul>
-    </fieldset>
-{{/property}}
+<div class="resource-form-widget" data-behaviour="availableChannel" data-key="{{key}}">
+
+    <h4>Available Channel</h4>
+
+    {{#property}}
+        <fieldset>
+            <legend>Available Channel</legend>
+            {{input (stringFormat "%s[%s][serviceUrl]" key @index) serviceUrl type="url"}}
+            <ul title="Available language" class="multiple-list">
+                {{#availableLanguage}}
+                    <li class="multiple-one">{{input (stringFormat "%s[%s][availableLanguage][%s]" key ../@index @index) .}}</li>
+                {{/availableLanguage}}
+                <li class="multiple-one">{{input (stringFormat "%s[%s][availableLanguage][%s]" key @index (size availableLanguage)) ""}}</li>
+            </ul>
+        </fieldset>
+    {{/property}}
+    {{^property}}
+        <fieldset>
+            <legend>Available Channel</legend>
+            {{input (stringFormat "%s[0][serviceUrl]" key)  "" type="url"}}
+            <ul title="Available language" class="multiple-list">
+                <li class="multiple-one">{{input (stringFormat "%s[0][availableLanguage][0]" key) ""}}</li>
+            </ul>
+        </fieldset>
+    {{/property}}
+
+</div>

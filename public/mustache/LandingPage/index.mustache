@@ -1,21 +1,56 @@
 <div role="complementary" class="color-scheme-map column-large" data-view="map">
 
-    <div class="call-for-actions">
-      <div class="call-for-actions-table">
-        <div class="call-for-actions-row">
-          <a href="/contribute" class="call-for-action">Share<br>your<br>Story</a>
+    {{#if user.email}}
+        <div class="call-for-actions">
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-article" class="call-for-action" data-toggle="modal">Add<br/>Article</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-action" class="call-for-action" data-toggle="modal">Add<br/>Project</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-person" class="call-for-action" data-toggle="modal">Add<br/>Person</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-service" class="call-for-action" data-toggle="modal">Add<br/>Service</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-organization" class="call-for-action" data-toggle="modal">Add<br/>Organisa&shy;tion</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#resource-add-event" class="call-for-action" data-toggle="modal">Add<br/>Event</a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="call-for-actions-table">
-        <div class="call-for-actions-row">
-          <a href="#user-register" class="call-for-action">Register for News&shy;letter</a>
+    {{else}}
+        <div class="call-for-actions">
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="/contribute" class="call-for-action">Share<br>your<br>Story</a>
+                </div>
+            </div>
+            <div class="call-for-actions-table">
+                <div class="call-for-actions-row">
+                    <a href="#user-register" class="call-for-action">Register for News&shy;letter</a>
+                </div>
+            </div>
+            <section id="user-register" class="map-view-hidden">
+                <a href="#" data-action="close"><i class="fa fa-lg fa-times"></i></a>
+                <a href="/user/" class="hijax transclude" target="_self">{{i18n "register"}}</a>
+            </section>
         </div>
-      </div>
-      <section id="user-register" class="map-view-hidden">
-        <a href="#" data-action="close"><i class="fa fa-lg fa-times"></i></a>
-        <a href="/user/" class="hijax transclude" target="_self">{{i18n "register"}}</a>
-      </section>
-    </div>
+    {{/if}}
 
 </div>
 

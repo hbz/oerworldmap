@@ -1,0 +1,18 @@
+<div class="resource-form-widget" data-behaviour="select" data-options="{{options}}" data-key="{{key}}">
+
+    <h4>{{title}}</h4>
+
+    {{#if multiple}}
+        <ul title="{{title}}" class="multiple-list">
+            {{#property}}
+                <li class="multiple-one">{{input (stringFormat "%s[%s]" key @index) . type=type}}</li>
+            {{/property}}
+            <li class="multiple-one">{{input (stringFormat "%s[%s]" key (size property)) "" type=type}}</li>
+        </ul>
+    {{else}}
+        <div class="single">
+            {{input key property type=type}}
+        </div>
+    {{/if}}
+
+</div>

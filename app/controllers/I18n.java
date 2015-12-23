@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import helpers.Countries;
+import helpers.Languages;
 import org.apache.commons.lang3.StringEscapeUtils;
 import play.mvc.Result;
 
@@ -32,6 +33,7 @@ public class I18n extends OERWorldMap {
     }
     i18n.put("messages", messages);
     i18n.put("countries", Countries.map(currentLocale));
+    i18n.put("languages", Languages.map(currentLocale));
 
     String countryMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
     return ok("i18nStrings = ".concat(countryMap)).as("application/javascript");

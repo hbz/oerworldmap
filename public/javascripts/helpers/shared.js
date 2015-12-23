@@ -4,6 +4,23 @@ var console = console || {
   }
 };
 
+if (typeof String.prototype.endsWith !== 'function') {
+  String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+  };
+}
+
+if (typeof Array.prototype.csOr !== 'function') {
+  Array.prototype.csOr = function() {
+    if(this.length > 1) {
+      return this.slice(0, -1).join(', ') + ' or ' + this[this.length - 1];
+    } else {
+      return this[0];
+    }
+  };
+}
+
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 if (!Object.keys) {
   Object.keys = (function() {
@@ -463,3 +480,29 @@ function nestedAggregation(aggregation, collapsed, id) {
   list += "</ul>";
   return Handlebars.SafeString(list);
 }
+
+// http://stackoverflow.com/a/16315366
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+  switch (operator) {
+    case '==':
+      return (v1 == v2) ? options.fn(this) : options.inverse(this);
+    case '===':
+      return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case '<':
+      return (v1 < v2) ? options.fn(this) : options.inverse(this);
+    case '<=':
+      return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+    case '>':
+      return (v1 > v2) ? options.fn(this) : options.inverse(this);
+    case '>=':
+      return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+    case '&&':
+      return (v1 && v2) ? options.fn(this) : options.inverse(this);
+    case '||':
+      return (v1 || v2) ? options.fn(this) : options.inverse(this);
+    default:
+      return options.inverse(this);
+  }
+
+});
