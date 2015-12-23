@@ -6,12 +6,14 @@ import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.typesafe.config.Config;
-import controllers.Global;
 import models.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -25,7 +27,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import play.Logger;
-import play.Play;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedWriter;
@@ -39,6 +40,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +54,7 @@ public class TriplestoreRepository extends Repository
 
     private List<Line> lines = new ArrayList<>();
 
-    private class Line {
+    public class Line {
 
       public final boolean add;
       public final boolean remove;
@@ -64,6 +66,10 @@ public class TriplestoreRepository extends Repository
         this.stmt = stmt;
       }
 
+    }
+
+    public List<Line> getLines() {
+      return this.lines;
     }
 
     public void addStatement(Statement stmt) {
@@ -117,7 +123,13 @@ public class TriplestoreRepository extends Repository
 
   public static final String DESCRIBE_RESOURCE =
     "DESCRIBE <%1$s> ?o ?oo WHERE {" +
-    "  <%1$s> ?p ?o OPTIONAL{?o ?pp ?oo}" +
+    "  <%1$s> ?p ?o FILTER isIRI(?o) OPTIONAL{?o ?pp ?oo FILTER isIRI(?oo)}" +
+    "}";
+
+  public static final String INDEX_SCOPE =
+    "SELECT ?o ?oo WHERE {" +
+    "  <%1$s> ?p ?o FILTER (isIRI(?o) && ?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>)" +
+    "  OPTIONAL{?o ?pp ?oo FILTER (isIRI(?oo) && ?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>)}" +
     "}";
 
   public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
@@ -238,6 +250,13 @@ public class TriplestoreRepository extends Repository
 
   }
 
+  private Model modelFromResource(Resource resource) {
+    Model model = ModelFactory.createDefaultModel();
+    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(resource.toString().getBytes());
+    RDFDataMgr.read(model, byteArrayInputStream, Lang.JSONLD);
+    return model;
+  }
+
   public TriplestoreRepository.Diff addResource(@Nonnull Resource aResource) throws IOException {
 
     TriplestoreRepository.Diff diff = getDiff(aResource);
@@ -253,6 +272,45 @@ public class TriplestoreRepository extends Repository
       }
     }
     return diff;
+
+  }
+
+  public List<String> index(TriplestoreRepository.Diff diff) {
+
+    List<String> resourceIds = new ArrayList<>();
+    for (TriplestoreRepository.Diff.Line line : diff.getLines()) {
+      String resourceId = line.stmt.getSubject().getURI();
+      if (!resourceIds.contains(resourceId)) {
+        resourceIds.add(resourceId);
+      }
+      String objectId = line.stmt.getSubject().getURI();
+      if (!resourceIds.contains(objectId)) {
+        resourceIds.add(objectId);
+      }
+    }
+
+    List<String> scopeResourceIds = new ArrayList<>();
+    scopeResourceIds.addAll(resourceIds);
+
+    // All resources directly modified by the diff
+    for (String resourceId : resourceIds) {
+      try {
+        Resource resource = getResource(resourceId);
+        Model model = modelFromResource(resource);
+        ResIterator it = model.listSubjects();
+        // Resources indirectly modified by the diff due to denormalization
+        while (it.hasNext()) {
+          String id = it.next().toString();
+          if (!scopeResourceIds.contains(id)) {
+            scopeResourceIds.add(id);
+          }
+        }
+      } catch (IOException e) {
+        Logger.error(e.toString());
+      }
+    }
+
+    return scopeResourceIds;
 
   }
 

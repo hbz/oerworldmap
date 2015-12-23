@@ -16,6 +16,7 @@ import services.repository.TriplestoreRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -183,6 +184,48 @@ public class TriplestoreRepositoryTest implements JsonTest {
     assertEquals(resource1, back);
 
   }
+
+  @Test
+  public void testIndexResource() throws IOException {
+
+    Resource resource1 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.1.json");
+    Resource resource2 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.2.json");
+    Resource update1 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.json");
+    Resource update2 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testUpdateResourceWithReferences.IN.1.json");
+
+    Model actual = ModelFactory.createDefaultModel();
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
+
+    TriplestoreRepository.Diff diff1 = triplestoreRepository.addResource(resource1);
+    List<String> index1 = triplestoreRepository.index(diff1);
+    assertEquals(1, index1.size());
+    assertTrue(index1.contains("info:alice"));
+
+    TriplestoreRepository.Diff diff2 = triplestoreRepository.addResource(resource2);
+    List<String> index2 = triplestoreRepository.index(diff2);
+    assertEquals(1, index2.size());
+    assertTrue(index2.contains("info:bob"));
+
+    TriplestoreRepository.Diff diff3 = triplestoreRepository.addResource(update1);
+    List<String> index3 = triplestoreRepository.index(diff3);
+    assertEquals(3, index3.size());
+    assertTrue(index3.contains("info:alice"));
+    assertTrue(index3.contains("info:carol"));
+    assertTrue(index3.contains("info:bob"));
+
+    TriplestoreRepository.Diff diff4 = triplestoreRepository.addResource(update2);
+    List<String> index4 = triplestoreRepository.index(diff4);
+    assertEquals(3, index4.size());
+    assertTrue(index4.contains("info:alice"));
+    assertTrue(index4.contains("info:carol"));
+    assertTrue(index4.contains("info:bob"));
+
+  }
+
 
   @Test
   public void testGetLog() throws IOException {
