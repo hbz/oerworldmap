@@ -475,6 +475,19 @@
             }
           ]
         },
+        "endDate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
+          ]
+        },
         "email": {
           "type": "string",
           "format": "email"

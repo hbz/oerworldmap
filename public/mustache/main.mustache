@@ -19,6 +19,21 @@
     <script type="text/javascript" src="/assets/vendor/underscore.js"></script>
     <script type="text/javascript" src="/assets/vendor/jquery.min.js"></script>
 
+    {{#if scope.embed}}
+        <style>
+            div[data-view="map"].column-large {
+                width: 100%;
+            }
+            body.layout-fixed > div[role="complementary"] {
+                top: 0;
+            }
+            div[data-view="map"] ~ div,
+            header {
+                display: none;
+            }
+        </style>
+    {{/if}}
+
 </head>
 <body class="">
 
@@ -240,6 +255,10 @@
 <script type="text/javascript" src="/assets/javascripts/behaviours/map.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/charts.js"></script>
+
+{{#if scope.embed}}
+    <script type="text/javascript" src="/assets/javascripts/behaviours/embed.js"></script>
+{{/if}}
 
 <script type="text/javascript" src="/assets/javascripts/behaviours/resource-form-widgets/input.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/resource-form-widgets/localizedInput.js"></script>
