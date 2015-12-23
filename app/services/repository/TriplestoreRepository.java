@@ -17,6 +17,12 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StopWalkException;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import play.Logger;
 import play.Play;
@@ -161,6 +167,30 @@ public class TriplestoreRepository extends Repository
 
   }
 
+  public void getLog(String aId) {
+    RevWalk walk = new RevWalk(git.getRepository());
+    walk.setRevFilter(new RevFilter() {
+      @Override
+      public boolean include(RevWalk revWalk, RevCommit revCommit) throws StopWalkException, MissingObjectException, IncorrectObjectTypeException, IOException {
+        return true;
+      }
+
+      @Override
+      public RevFilter clone() {
+        return null;
+      }
+    });
+    try {
+      walk.markStart(walk.parseCommit(git.getRepository().resolve("HEAD")));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
+
+    for (RevCommit commit : walk) {
+      System.out.print(commit.getFullMessage());
+    }
+  }
+
 
   public Resource checkoutResource(@Nonnull String aId, TriplestoreRepository.Diff diff) throws IOException {
 
@@ -217,7 +247,7 @@ public class TriplestoreRepository extends Repository
     if (git != null) {
       try {
         git.add().addFilepattern(diffFile).call();
-        git.commit().setMessage("Updated ".concat(aResource.getId()).concat(" with\n").concat(diff.toString())).call();
+        git.commit().setMessage(diff.toString()).call();
       } catch (GitAPIException e) {
         Logger.error(e.toString());
       }

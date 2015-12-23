@@ -184,4 +184,23 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
+  @Test
+  public void testGetLog() throws IOException {
+
+    Resource resource1 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.1.json");
+    Resource resource2 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.2.json");
+    Resource update1 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testUpdateResource.IN.1.json");
+
+    Model actual = ModelFactory.createDefaultModel();
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
+    triplestoreRepository.addResource(resource1, "Person");
+    triplestoreRepository.addResource(resource2, "Person");
+
+    triplestoreRepository.getLog(resource1.getId());
+
+  }
+
 }
