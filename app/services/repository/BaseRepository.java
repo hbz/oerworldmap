@@ -46,7 +46,7 @@ public class BaseRepository extends Repository
         continue;
       }
       String type = resource.getAsString(JsonLdConstants.TYPE);
-      resource = resource.deleteReferencesTo(aId);
+      resource = resource.removeAllReferencesTo(aId);
       addResource(getRecord(resource), type);
     }
 

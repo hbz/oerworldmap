@@ -54,6 +54,11 @@ public class DenormalizeResourceWrapper {
       // this is NOT a modification of an existing data set, build new data set
       mResource = new Resource(aResource.getAsString(JsonLdConstants.TYPE), mKeyId);
     } else {
+      if (aOverwriteOnMerge){
+        // We have a top level Resource which has existed in the repo before.
+        // Remove all obsolete links to other Resources.
+        removeObsoleteReferences(aResource, aWrappedResources, aRepo);
+      }
       // other Resources contained in the repo will be affected by changes on
       // this Resource (wrapper), so add them to the wrappers map.
       getMentionedResources(aWrappedResources, mResource, aRepo, 2);
@@ -61,6 +66,53 @@ public class DenormalizeResourceWrapper {
     addResource(aResource, aWrappedResources, aOverwriteOnMerge);
     mLinkView = null;
     mEmbedView = null;
+  }
+
+  private void removeObsoleteReferences(Resource aResource, Map<String,
+      DenormalizeResourceWrapper> aWrappedResources, Readable aRepo) throws IOException {
+    for (Iterator<?> it = mResource.entrySet().iterator(); it.hasNext();){
+      Entry<?, ?> oldEntry = (Entry<?, ?>) it.next();
+      String key = (String) oldEntry.getKey();
+      if (!aResource.containsKey(key)){
+        Object value = oldEntry.getValue();
+        if (value instanceof Resource){
+          Resource resource = (Resource) value;
+          if (resource.hasId()){
+            Resource reference = getReferencedResource(resource, aWrappedResources, aRepo);
+            String inverseRelation = ResourceDenormalizer.getKnownInverseRelations().get(key);
+            reference.removeReference(inverseRelation, mResource.getId());
+          }
+          it.remove();
+        } //
+        else if (value instanceof List<?>){
+          List<?> list = (List<?>) value;
+          for (Object item : list){
+            if (item instanceof Resource){
+              Resource resource = (Resource) item;
+              if (resource.hasId()){
+                Resource reference = getReferencedResource(resource, aWrappedResources, aRepo);
+                String inverseRelation = ResourceDenormalizer.getKnownInverseRelations().get(key);
+                reference.removeReference(inverseRelation, mResource.getId());
+              }
+            }
+          }
+          it.remove();
+        }
+      }
+    }
+  }
+
+  /*
+   * Get the referenced Resource. If already contained in the DenormalizeResourceWrapper map, take it from there.
+   * Otherwise, take it from the repo. If even not contained in there, return null.
+   */
+  private Resource getReferencedResource(Resource aResource, //
+      Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo) throws IOException {
+	String id = aResource.getId();
+    if (aWrappedResources.containsKey(id)){
+      return aWrappedResources.get(id).mResource;
+    }
+    return aRepo.getResource(id);
   }
 
   private DenormalizeResourceWrapper(final Resource aResource,

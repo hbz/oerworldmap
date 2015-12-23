@@ -462,7 +462,10 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return result.toString();
   }
 
-  public Resource deleteReferencesTo(String aId) {
+  /*
+   * Remove all references to the given id.
+   */
+  public Resource removeAllReferencesTo(String aId) {
     for (Iterator<Map.Entry<String, Object>> it = entrySet().iterator(); it.hasNext();) {
       Entry<String, Object> entry = it.next();
       if (entry.getValue() instanceof Resource) {
@@ -471,7 +474,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
           it.remove();
         } //
         else
-          innerResource.deleteReferencesTo(aId);
+          innerResource.removeAllReferencesTo(aId);
       } //
       else if (entry.getValue() instanceof List<?>) {
         List<?> list = (List<?>) entry.getValue();
@@ -487,10 +490,39 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
               }
             } //
             else {
-              innerResource.deleteReferencesTo(aId);
+              innerResource.removeAllReferencesTo(aId);
             }
           }
         }
+      }
+    }
+    return this;
+  }
+
+  /*
+   * Remove a specified reference to the given id.
+   */
+  public Resource removeReference(String aReferenceKey, String aValueId) {
+    Object value = get(aReferenceKey);
+    if (value instanceof Resource){
+      Resource resource = (Resource) value;
+      if (aValueId.equals(resource.get(JsonLdConstants.ID))){
+        remove(aReferenceKey);
+      }
+    } //
+    else if (value instanceof List<?>){
+      List<?> list = (List<?>) value;
+      for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
+        Object item = itn.next();
+        if (item instanceof Resource){
+          Resource resource = (Resource) item;
+          if (aValueId.equals(resource.get(JsonLdConstants.ID))){
+            itn.remove();
+          }
+        }
+      }
+      if (list.isEmpty()){
+        remove(aReferenceKey);
       }
     }
     return this;
