@@ -10,14 +10,14 @@ import javax.annotation.Nonnull;
 
 import helpers.JsonLdConstants;
 import models.Resource;
+import services.repository.Readable;
 import services.repository.Repository;
 import services.repository.Writable;
 
 /**
  * @author fo
  */
-public class MockResourceRepository extends Repository
-    implements services.repository.Readable, Writable {
+public class MockResourceRepository extends Repository implements Readable, Writable {
 
   private Map<String, Resource> db = new HashMap<>();
 

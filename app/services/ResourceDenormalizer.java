@@ -89,8 +89,7 @@ public class ResourceDenormalizer {
    * @return
    * @throws IOException
    */
-  public static List<Resource> denormalize(Resource aResource, services.repository.Readable aRepo)
-      throws IOException {
+  public static List<Resource> denormalize(Resource aResource, Readable aRepo) throws IOException {
 
     Map<String, DenormalizeResourceWrapper> wrappedResources = new HashMap<>();
     split(aResource, wrappedResources, aRepo, true);
@@ -116,8 +115,8 @@ public class ResourceDenormalizer {
   }
 
   private static void split(Resource aResource,
-      Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo, boolean aOverwriteOnMerge)
-          throws IOException {
+      Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo,
+      boolean aOverwriteOnMerge) throws IOException {
 
     mBroaderConceptEnricher.enrich(aResource, aRepo);
 
