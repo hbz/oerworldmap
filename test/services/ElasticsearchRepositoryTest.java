@@ -39,7 +39,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
     mRepo.addResource(mResource1, "Person");
     mRepo.addResource(mResource2, "Person");
     mRepo.addResource(mResource3, "Person");
-    mRepo.getElasticsearchProvider().refreshIndex(mConfig.getString("es.index.name"));
+    mRepo.refreshIndex(mConfig.getString("es.index.name"));
   }
 
   @Test

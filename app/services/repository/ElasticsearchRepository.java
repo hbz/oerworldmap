@@ -10,14 +10,29 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.index.query.AndFilterBuilder;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
 
 import com.typesafe.config.Config;
@@ -28,29 +43,25 @@ import models.Resource;
 import models.ResourceList;
 import play.Logger;
 import services.ElasticsearchConfig;
-import services.ElasticsearchProvider;
 import services.QueryContext;
 
 public class ElasticsearchRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
 
-  final private ElasticsearchProvider elasticsearch;
+  private static ElasticsearchConfig mConfig;
+
+  private Client mClient;
 
   final public static String DEFAULT_TYPE = "Thing";
 
+  @SuppressWarnings("resource")
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
-    ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(aConfiguration);
-    Settings settings = ImmutableSettings.settingsBuilder()
-        .put(elasticsearchConfig.getClientSettings()).build();
-    @SuppressWarnings("resource")
-    Client client = new TransportClient(settings)
-        .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
-    elasticsearch = new ElasticsearchProvider(client, elasticsearchConfig);
-  }
-
-  public ElasticsearchProvider getElasticsearchProvider() {
-    return this.elasticsearch;
+    mConfig = new ElasticsearchConfig(aConfiguration);
+    Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings())
+        .build();
+    mClient = new TransportClient(settings)
+        .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
   }
 
   @Override
@@ -60,18 +71,48 @@ public class ElasticsearchRepository extends Repository
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
     }
-    elasticsearch.addJson(aResource.toString(), id, aType);
-    elasticsearch.refreshIndex(elasticsearch.getIndex());
+    addJson(aResource.toString(), id, aType);
+    refreshIndex(mConfig.getIndex());
+  }
+
+  public void refreshIndex(String aIndex) {
+    try {
+      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+    } catch (IndexMissingException e) {
+      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
+      e.printStackTrace();
+    }
+  }
+
+  private void addJson(final String aJsonString, final String aUuid, final String aType) {
+    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+        .actionGet();
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return Resource.fromMap(elasticsearch.getDocument("_all", aId));
+    return Resource.fromMap(getDocument("_all", aId));
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     List<Resource> resources = new ArrayList<Resource>();
-    for (Map<String, Object> doc : elasticsearch.getResources(aField, aValue)) {
+
+    final int docsPerPage = 1024;
+    int count = 0;
+    SearchResponse response = null;
+    final List<Map<String, Object>> docs = new ArrayList<>();
+    while (response == null || response.getHits().hits().length != 0) {
+      response = mClient.prepareSearch(mConfig.getIndex())
+          .setQuery(QueryBuilders
+              .queryString(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
+          .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
+      for (SearchHit hit : response.getHits()) {
+        docs.add(hit.getSource());
+      }
+      count++;
+    }
+
+    for (Map<String, Object> doc : docs) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
@@ -80,7 +121,7 @@ public class ElasticsearchRepository extends Repository
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
-    for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)) {
+    for (Map<String, Object> doc : getAllDocs(aType)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
@@ -92,15 +133,14 @@ public class ElasticsearchRepository extends Repository
     if (null == resource) {
       return null;
     }
-
     // FIXME: check why deleting from _all is not possible, remove dependency on
     // Record class
     String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE)
         .toString();
     Logger.info("DELETING " + type + aId);
 
-    boolean found = elasticsearch.deleteDocument(type, aId);
-    elasticsearch.refreshIndex(elasticsearch.getIndex());
+    boolean found = deleteDocument(type, aId);
+    refreshIndex(mConfig.getIndex());
     if (found) {
       return resource;
     } else {
@@ -113,10 +153,10 @@ public class ElasticsearchRepository extends Repository
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
-      throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+      QueryContext aQueryContext) throws IOException {
     Resource aggregations = Resource
-        .fromJson(elasticsearch.getAggregation(aAggregationBuilder, aQueryContext).toString());
+        .fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
     if (null == aggregations) {
       return null;
     }
@@ -139,15 +179,16 @@ public class ElasticsearchRepository extends Repository
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+      Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
+      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext)
+          throws IOException, ParseException {
 
-    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder,
-        aFilters, aQueryContext);
+    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters,
+        aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
@@ -158,6 +199,143 @@ public class ElasticsearchRepository extends Repository
     Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize,
         aSortOrder, aFilters, aAggregations);
+
+  }
+
+  private List<Map<String, Object>> getAllDocs(final String aType) {
+    final int docsPerPage = 1024;
+    int count = 0;
+    SearchResponse response = null;
+    final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
+    while (response == null || response.getHits().hits().length != 0) {
+      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
+          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage).setFrom(count * docsPerPage)
+          .execute().actionGet();
+      for (SearchHit hit : response.getHits()) {
+        docs.add(hit.getSource());
+      }
+      count++;
+    }
+    return docs;
+  }
+
+  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder,
+      QueryContext aQueryContext) {
+
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+    if (!(null == aQueryContext)) {
+      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.add(contextFilter);
+      }
+    }
+
+    SearchResponse response = searchRequestBuilder.addAggregation(aAggregationBuilder)
+        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
+        .setSize(0).execute().actionGet();
+    return response;
+
+  }
+
+  private Map<String, Object> getDocument(@Nonnull final String aType,
+      @Nonnull final String aIdentifier) {
+    final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier)
+        .execute().actionGet();
+    return response.getSource();
+  }
+
+  public Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final UUID aUuid) {
+    return getDocument(aType, aUuid.toString());
+  }
+
+  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+    final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
+        .execute().actionGet();
+    return response.isFound();
+  }
+
+  public boolean hasIndex(String aIndex) {
+    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
+  }
+
+  public void deleteIndex(String aIndex) {
+    try {
+      mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
+    } catch (IndexMissingException e) {
+      Logger.error("Trying to delete index \"" + aIndex + "\" from Elasticsearch.");
+      e.printStackTrace();
+    }
+  }
+
+  public void createIndex(String aIndex) {
+    try {
+      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString())
+          .execute().actionGet();
+      mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+    } catch (ElasticsearchException indexAlreadyExists) {
+      Logger.error(
+          "Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
+      indexAlreadyExists.printStackTrace();
+    } catch (IOException ioException) {
+      Logger.error("Trying to create index \"" + aIndex
+          + "\" in Elasticsearch. Couldn't read index config file.");
+      ioException.printStackTrace();
+    }
+  }
+
+  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize,
+      String aSortOrder, Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
+
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+
+    if (!(null == aQueryContext)) {
+      searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
+      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.add(contextFilter);
+      }
+      for (AggregationBuilder<?> contextAggregation : aQueryContext.getAggregations()) {
+        searchRequestBuilder.addAggregation(contextAggregation);
+      }
+    }
+
+    if (!StringUtils.isEmpty(aSortOrder)) {
+      String[] sort = aSortOrder.split(":");
+      if (2 == sort.length) {
+        searchRequestBuilder.addSort(sort[0],
+            sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+      } else {
+        Logger.error("Invalid sort string: " + aSortOrder);
+      }
+    }
+
+    if (!(null == aFilters)) {
+      AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
+      for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
+        // This could also be an OrFilterBuilder allowing to expand the result
+        // list
+        AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
+        for (String filter : entry.getValue()) {
+          andTermFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
+        }
+        aggregationAndFilter.add(andTermFilterBuilder);
+      }
+      globalAndFilter.add(aggregationAndFilter);
+    }
+
+    QueryBuilder queryBuilder;
+    if (!StringUtils.isEmpty(aQueryString)) {
+      queryBuilder = QueryBuilders.queryString(aQueryString)
+          .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+    } else {
+      queryBuilder = QueryBuilders.matchAllQuery();
+    }
+
+    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
+
+    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
 
   }
 }

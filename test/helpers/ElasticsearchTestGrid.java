@@ -15,7 +15,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import services.ElasticsearchConfig;
-import services.ElasticsearchProvider;
 import services.repository.BaseRepository;
 import services.repository.ElasticsearchRepository;
 
@@ -26,7 +25,6 @@ public class ElasticsearchTestGrid {
   protected static BaseRepository mBaseRepo;
   protected static Settings mClientSettings;
   protected static Client mClient;
-  protected static ElasticsearchProvider mEsProvider;
   protected static ElasticsearchConfig mEsConfig;
 
   @SuppressWarnings("resource")
@@ -44,16 +42,13 @@ public class ElasticsearchTestGrid {
     mClient = new TransportClient(mClientSettings)
         .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
             Integer.valueOf(mEsConfig.getJavaPort())));
-    mEsProvider = new ElasticsearchProvider(mClient, mEsConfig);
 
-    ElasticsearchHelpers.cleanIndex(mRepo.getElasticsearchProvider(),
-        mConfig.getString("es.index.name"));
-
+    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.name"));
   }
 
   @AfterClass
   public static void tearDown() {
-    mEsProvider.deleteIndex(mConfig.getString("es.index.name"));
+    mRepo.deleteIndex(mConfig.getString("es.index.name"));
     mClient.close();
   }
 }
