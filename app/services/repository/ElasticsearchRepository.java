@@ -49,10 +49,7 @@ public class ElasticsearchRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchConfig mConfig;
-
   private Client mClient;
-
-  final public static String DEFAULT_TYPE = "Thing";
 
   @SuppressWarnings("resource")
   public ElasticsearchRepository(Config aConfiguration) {
@@ -67,7 +64,7 @@ public class ElasticsearchRepository extends Repository
   @Override
   public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
       throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
+    String id = (String) aResource.getId();
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
     }
@@ -121,7 +118,20 @@ public class ElasticsearchRepository extends Repository
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
     List<Resource> resources = new ArrayList<Resource>();
-    for (Map<String, Object> doc : getAllDocs(aType)) {
+    final int docsPerPage = 1024;
+    int count = 0;
+    SearchResponse response = null;
+    final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
+    while (response == null || response.getHits().hits().length != 0) {
+      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
+          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage).setFrom(count * docsPerPage)
+          .execute().actionGet();
+      for (SearchHit hit : response.getHits()) {
+        docs.add(hit.getSource());
+      }
+      count++;
+    }
+    for (Map<String, Object> doc : docs) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
@@ -133,8 +143,6 @@ public class ElasticsearchRepository extends Repository
     if (null == resource) {
       return null;
     }
-    // FIXME: check why deleting from _all is not possible, remove dependency on
-    // Record class
     String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE)
         .toString();
     Logger.info("DELETING " + type + aId);
@@ -195,28 +203,10 @@ public class ElasticsearchRepository extends Repository
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
-    // FIXME: response.toString returns string serializations of scripted keys
     Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize,
         aSortOrder, aFilters, aAggregations);
 
-  }
-
-  private List<Map<String, Object>> getAllDocs(final String aType) {
-    final int docsPerPage = 1024;
-    int count = 0;
-    SearchResponse response = null;
-    final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
-    while (response == null || response.getHits().hits().length != 0) {
-      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
-          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage).setFrom(count * docsPerPage)
-          .execute().actionGet();
-      for (SearchHit hit : response.getHits()) {
-        docs.add(hit.getSource());
-      }
-      count++;
-    }
-    return docs;
   }
 
   private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder,
