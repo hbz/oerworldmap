@@ -333,6 +333,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
+  public void replaceBy(Resource aOther) {
+    clear();
+    for (Entry<String, Object> otherEntry : aOther.entrySet()){
+      put(otherEntry.getKey(), otherEntry.getValue());
+    }
+  }
+
   public boolean hasIdOnly() {
     if (size() == 1 && hasId()) {
       return true;
@@ -340,6 +347,14 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return false;
   }
 
+  /**
+   * Clone the given Resource, whereby all nested Resources having an
+   * ID are reduced to that ID so that only non-ID nested Resources
+   * are comprised with deep structures.
+   * @param aResource a Resource to be cloned.
+   * @return a clone of the given Resource whose nested resources are
+   *         either of ID-only type or kept "as is".
+   */
   public static Resource getFlatClone(Resource aResource) {
     Resource result = Resource.fromMap(aResource);
 
@@ -447,7 +462,10 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return result.toString();
   }
 
-  public Resource deleteReferencesTo(String aId) {
+  /*
+   * Remove all references to the given id.
+   */
+  public Resource removeAllReferencesTo(String aId) {
     for (Iterator<Map.Entry<String, Object>> it = entrySet().iterator(); it.hasNext();) {
       Entry<String, Object> entry = it.next();
       if (entry.getValue() instanceof Resource) {
@@ -456,7 +474,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
           it.remove();
         } //
         else
-          innerResource.deleteReferencesTo(aId);
+          innerResource.removeAllReferencesTo(aId);
       } //
       else if (entry.getValue() instanceof List<?>) {
         List<?> list = (List<?>) entry.getValue();
@@ -472,10 +490,39 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
               }
             } //
             else {
-              innerResource.deleteReferencesTo(aId);
+              innerResource.removeAllReferencesTo(aId);
             }
           }
         }
+      }
+    }
+    return this;
+  }
+
+  /*
+   * Remove a specified reference to the given id.
+   */
+  public Resource removeReference(String aReferenceKey, String aValueId) {
+    Object value = get(aReferenceKey);
+    if (value instanceof Resource){
+      Resource resource = (Resource) value;
+      if (aValueId.equals(resource.get(JsonLdConstants.ID))){
+        remove(aReferenceKey);
+      }
+    } //
+    else if (value instanceof List<?>){
+      List<?> list = (List<?>) value;
+      for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
+        Object item = itn.next();
+        if (item instanceof Resource){
+          Resource resource = (Resource) item;
+          if (aValueId.equals(resource.get(JsonLdConstants.ID))){
+            itn.remove();
+          }
+        }
+      }
+      if (list.isEmpty()){
+        remove(aReferenceKey);
       }
     }
     return this;
