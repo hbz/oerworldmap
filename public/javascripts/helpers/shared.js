@@ -380,7 +380,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
       "xlink:href": href,
       // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?),
       // we are accessing the Java handlebars helpers here for internationalization.
-      "xlink:title": Packages.helpers.HandlebarsHelpers._i18n(buckets[i]['key']) + " (" + buckets[i]['doc_count'] + ")"
+      "xlink:title": Packages.helpers.HandlebarsHelpers._i18n(buckets[i]['key'], null) + " (" + buckets[i]['doc_count'] + ")"
     }, path);
     arcs.push(arc);
   }
@@ -462,7 +462,7 @@ function nestedAggregation(aggregation, collapsed, id) {
           '<div class="schema-tree-item">' +
             '<i class="fa fa-fw fa-tag schema-tree-icon"></i>' +
             '<a href="/resource/' + key + '">' +
-              Packages.helpers.HandlebarsHelpers._i18n(key) + " (" + aggregation[key]["doc_count"] + ")" +
+              Packages.helpers.HandlebarsHelpers._i18n(key, null) + " (" + aggregation[key]["doc_count"] + ")" +
             '</a>' +
             (
               Object.keys(aggregation[key]).length > 1 ?
