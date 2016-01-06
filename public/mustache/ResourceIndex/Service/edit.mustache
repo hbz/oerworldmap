@@ -36,9 +36,9 @@
 
     {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Service.mentionedIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=instrumentIn key="instrumentIn" title=(i18n "Service.instrumentIn") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=instrumentIn key="instrumentIn" title=(i18n "Service.instrumentIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=resultOf key="resultOf" title=(i18n "Service.resultOf") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=resultOf key="resultOf" title=(i18n "Service.resultOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
     {{> FormElements/id.mustache property=member key="member" title=(i18n "Service.member") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
