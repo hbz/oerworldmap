@@ -24,25 +24,25 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Service.location")}}
 
-    {{> FormElements/id.mustache property=about key="about" title=(i18n "Service.about") multiple=true lookup_url="/assets/json/esc.json"}}
+    {{> FormElements/id.mustache property=about key="about" title=(i18n "Service.about") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 
-    {{> FormElements/id.mustache property=audience key="audience" title=(i18n "Service.audience") multiple=true lookup_url="/assets/json/isced-1997.json"}}
+    {{> FormElements/id.mustache property=audience key="audience" title=(i18n "Service.audience") hidden=false multiple=true lookup_url="/assets/json/isced-1997.json"}}
 
-    {{> FormElements/id.mustache property=provider key="provider" title=(i18n "Service.provider") multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{> FormElements/id.mustache property=provider key="provider" title=(i18n "Service.provider") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> ResourceIndex/ServiceChannel/edit.mustache property=availableChannel key="availableChannel" title=(i18n "Service.availableChannel")}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Service.mainEntityOf") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Service.mainEntityOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Service.mentionedIn") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Service.mentionedIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=instrumentIn key="instrumentIn" title=(i18n "Service.instrumentIn") multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=instrumentIn key="instrumentIn" title=(i18n "Service.instrumentIn") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=resultOf key="resultOf" title=(i18n "Service.resultOf") multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=resultOf key="resultOf" title=(i18n "Service.resultOf") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=member key="member" title=(i18n "Service.member") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=member key="member" title=(i18n "Service.member") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Service.memberOf") multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Service.memberOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Service.sameAs") multiple=true type="url"}}
 

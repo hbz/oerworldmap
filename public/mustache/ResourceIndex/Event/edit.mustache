@@ -24,9 +24,9 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Event.location")}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Event.mainEntityOf") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Event.mainEntityOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Event.mentionedIn") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Event.mentionedIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Event.sameAs") multiple=true type="url"}}
 
@@ -34,11 +34,11 @@
 
     {{> FormElements/select.mustache property=inLanguage key="inLanguage" title=(i18n "Event.inLanguage") multiple=true type="text" options="languages"}}
 
-    {{> FormElements/id.mustache property=organizer key="organizer" title=(i18n "Event.organizer") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=organizer key="organizer" title=(i18n "Event.organizer") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=performer key="performer" title=(i18n "Event.performer") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=performer key="performer" title=(i18n "Event.performer") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=about key="about" title=(i18n "Event.about") multiple=true lookup_url="/assets/json/esc.json"}}
+    {{> FormElements/id.mustache property=about key="about" title=(i18n "Event.about") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 
     {{> FormElements/input.mustache property=hashtag key="hashtag" title=(i18n "Event.hashtag") multiple=false type="text"}}
 

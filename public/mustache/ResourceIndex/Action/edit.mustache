@@ -26,17 +26,17 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Action.location")}}
 
-    {{> FormElements/id.mustache property=instrument key="instrument" title=(i18n "Action.instrument") multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=instrument key="instrument" title=(i18n "Action.instrument") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=result key="result" title=(i18n "Action.result") multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=result key="result" title=(i18n "Action.result") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=agent key="agent" title=(i18n "Action.agent") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=agent key="agent" title=(i18n "Action.agent") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=participant key="participant" title=(i18n "Action.participant") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=participant key="participant" title=(i18n "Action.participant") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Action.mainEntityOf") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Action.mainEntityOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Action.mentionedIn") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Action.mentionedIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Action.sameAs") multiple=true type="url"}}
 

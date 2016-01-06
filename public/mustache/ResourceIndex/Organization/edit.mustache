@@ -24,24 +24,24 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Organization.location")}}
 
-    {{> FormElements/id.mustache property=contactPoint key="contactPoint" title=(i18n "Organization.contactPoint") multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=contactPoint key="contactPoint" title=(i18n "Organization.contactPoint") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=created key="created" title=(i18n "Organization.created") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=created key="created" title=(i18n "Organization.created") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Organization.mainEntityOf") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Organization.mainEntityOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Organization.mentionedIn") multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Organization.mentionedIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=participantIn key="participantIn" title=(i18n "Organization.participantIn") multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=participantIn key="participantIn" title=(i18n "Organization.participantIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=provides key="provides" title=(i18n "Organization.provides") multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=provides key="provides" title=(i18n "Organization.provides") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=agentIn key="agentIn" title=(i18n "Organization.agentIn") multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=agentIn key="agentIn" title=(i18n "Organization.agentIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=member key="member" title=(i18n "Organization.member") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=member key="member" title=(i18n "Organization.member") hidden=true multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Organization.memberOf") multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Service)"}}
+    {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Organization.memberOf") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Service)"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Organization.sameAs") multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Organization.sameAs") hidden=false multiple=true type="url"}}
 
 </fieldset>
