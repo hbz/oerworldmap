@@ -21,7 +21,7 @@ import services.QueryContext;
  */
 public class CountryIndex extends OERWorldMap {
 
-  public static Result read(String id) throws IOException {
+  public static Result read(String id, boolean embed) throws IOException {
     if (!Arrays.asList(java.util.Locale.getISOCountries()).contains(id.toUpperCase())) {
       return notFound("Not found");
     }
@@ -30,8 +30,8 @@ public class CountryIndex extends OERWorldMap {
     ResourceList champions = mBaseRepository.query(
         Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null, null);
     ResourceList resources = mBaseRepository.query(
-        Record.RESOURCEKEY + ".\\*.addressCountry:".concat(id.toUpperCase()), 0, 9999, null, null,
-      (QueryContext) ctx().args.get("queryContext"));
+        Record.RESOURCEKEY + ".location.address.addressCountry:".concat(id.toUpperCase()), 0, 9999, null, null,
+            (QueryContext) ctx().args.get("queryContext"));
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
@@ -39,6 +39,7 @@ public class CountryIndex extends OERWorldMap {
     scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
+    scope.put("embed", embed);
 
     if (request().accepts("text/html")) {
       return ok(render(Countries.getNameFor(id, currentLocale), "CountryIndex/read.mustache", scope));

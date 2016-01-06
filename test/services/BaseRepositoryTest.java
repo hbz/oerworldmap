@@ -11,6 +11,8 @@ import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import models.Resource;
 
+import static org.junit.Assert.assertEquals;
+
 public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
   @Test
@@ -98,6 +100,26 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
     Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
+  }
+
+  @Test
+  public void testRemoveReference() throws IOException {
+    Resource in = getResourceFromJsonFile("BaseRepositoryTest/testRemoveReference.IN.json");
+    Resource db1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testRemoveReference.DB.1.json");
+    Resource db2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testRemoveReference.DB.2.json");
+    Resource out1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testRemoveReference.OUT.1.json");
+    Resource out2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testRemoveReference.OUT.2.json");
+    mBaseRepo.addResource(db1);
+    mBaseRepo.addResource(db2);
+    mBaseRepo.addResource(in);
+    Resource get1 = mBaseRepo.getResource(out1.getAsString(JsonLdConstants.ID));
+    Resource get2 = mBaseRepo.getResource(out2.getAsString(JsonLdConstants.ID));
+    assertEquals(out1, get1);
+    assertEquals(out2, get2);
   }
 
   @Test

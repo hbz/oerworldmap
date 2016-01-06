@@ -235,5 +235,24 @@ public class ResourceDenormalizerTest implements JsonTest {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testEmbeddedUnresolvableId.IN.json");
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
   }
+  
+  @Test
+  public void testUpdateDeletingOneEntry() throws IOException {
+    MockResourceRepository repo = new MockResourceRepository();
+    Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testUpdateDeletingOneEntry.DB.1.json");
+    List<Resource> denormalizedDb = ResourceDenormalizer.denormalize(db, repo);
+    for (Resource resourceDb : denormalizedDb) {
+      repo.addResource(resourceDb);
+    }
+    Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testUpdateDeletingOneEntry.IN.1.json");
+    List<Resource> denormalizedIn = ResourceDenormalizer.denormalize(in, repo);
+    for (Resource resourceIn : denormalizedIn) {
+      repo.addResource(resourceIn);
+    }
+    String id = in.getAsString(JsonLdConstants.ID);
+    Resource fromRepo = repo.getResource(id);
+    Resource out = getResourceFromJsonFile("ResourceDenormalizerTest/testUpdateDeletingOneEntry.OUT.1.json");
+    assertEquals(out, fromRepo);
+  }
 
 }

@@ -21,7 +21,7 @@ public interface JsonTest {
     return Resource.fromJson(json);
   }
 
-  default public Resource getResourceFromJsonFileUnsafe(String aFile) {
+  default Resource getResourceFromJsonFileUnsafe(String aFile) {
     InputStream in = ClassLoader.getSystemResourceAsStream(aFile);
     try {
       String json = IOUtils.toString(in, "UTF-8");
