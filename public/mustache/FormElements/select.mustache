@@ -1,6 +1,6 @@
 <div class="resource-form-widget" data-behaviour="select" data-options="{{options}}" data-key="{{key}}">
 
-    <h4>{{title}}</h4>
+    <h4>{{title}}{{#description}} <i class="fa fa-question-circle" title="{{.}}"></i>{{/description}}</h4>
 
     {{#if multiple}}
         <ul title="{{title}}" class="multiple-list">
