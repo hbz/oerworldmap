@@ -8,15 +8,15 @@
 
     {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Person.name")}}
 
-    {{> FormElements/input.mustache property=url key="url" title=(i18n "Person.url") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Person.url") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=email key="email" title=(i18n "Person.email") multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Person.email") hidden=false multiple=false type="email"}}
 
     {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Person.description")}}
 
     {{> FormElements/select.mustache property=countryChampionFor key="countryChampionFor" title=(i18n "Person.countryChampionFor") multiple=true type="text" options="countries"}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Person.image") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Person.image") hidden=false multiple=false type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Person.location")}}
 
@@ -34,6 +34,6 @@
 
     {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Person.memberOf") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Service)"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Person.sameAs") multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Person.sameAs") hidden=false multiple=true type="url"}}
 
 </fieldset>

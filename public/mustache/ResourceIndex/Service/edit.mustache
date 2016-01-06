@@ -10,17 +10,17 @@
 
     {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Service.alternateName")}}
 
-    {{> FormElements/input.mustache property=serviceType key="serviceType" title=(i18n "Service.serviceType") multiple=false type="text"}}
+    {{> FormElements/input.mustache property=serviceType key="serviceType" title=(i18n "Service.serviceType") hidden=true multiple=false type="text"}}
 
     {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Service.description")}}
 
-    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Service.startDate") multiple=false type="text"}}
+    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Service.startDate") hidden=false multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=email key="email" title=(i18n "Service.email") multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Service.email") hidden=false multiple=false type="email"}}
 
-    {{> FormElements/input.mustache property=license key="license" title=(i18n "Service.license") multiple=true type="text"}}
+    {{> FormElements/input.mustache property=license key="license" title=(i18n "Service.license") hidden=true multiple=true type="text"}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Service.image") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Service.image") hidden=false multiple=false type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Service.location")}}
 
@@ -44,6 +44,6 @@
 
     {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Service.memberOf") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Service.sameAs") multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Service.sameAs") hidden=false multiple=true type="url"}}
 
 </fieldset>

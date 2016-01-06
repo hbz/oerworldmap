@@ -10,17 +10,17 @@
 
     {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Event.alternateName")}}
 
-    {{> FormElements/input.mustache property=url key="url" title=(i18n "Event.url") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Event.url") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=email key="email" title=(i18n "Event.email") multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Event.email") hidden=false multiple=false type="email"}}
 
     {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Event.description")}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Event.image") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Event.image") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Event.startDate") multiple=false type="text"}}
+    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Event.startDate") hidden=false multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=endDate key="endDate" title=(i18n "Event.endDate") multiple=false type="text"}}
+    {{> FormElements/input.mustache property=endDate key="endDate" title=(i18n "Event.endDate") hidden=false multiple=false type="text"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Event.location")}}
 
@@ -28,9 +28,9 @@
 
     {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Event.mentionedIn") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Event.sameAs") multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Event.sameAs") hidden=false multiple=true type="url"}}
 
-    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title=(i18n "Event.recordedIn") multiple=true type="url"}}
+    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title=(i18n "Event.recordedIn") hidden=false multiple=true type="url"}}
 
     {{> FormElements/select.mustache property=inLanguage key="inLanguage" title=(i18n "Event.inLanguage") multiple=true type="text" options="languages"}}
 
@@ -40,8 +40,8 @@
 
     {{> FormElements/id.mustache property=about key="about" title=(i18n "Event.about") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 
-    {{> FormElements/input.mustache property=hashtag key="hashtag" title=(i18n "Event.hashtag") multiple=false type="text"}}
+    {{> FormElements/input.mustache property=hashtag key="hashtag" title=(i18n "Event.hashtag") hidden=false multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Event.tag") multiple=true type="text"}}
+    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Event.tag") hidden=false multiple=true type="text"}}
 
 </fieldset>

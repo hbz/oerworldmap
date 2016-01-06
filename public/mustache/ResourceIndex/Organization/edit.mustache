@@ -8,19 +8,19 @@
 
     {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Organization.name")}}
 
-    {{> FormElements/input.mustache property=url key="url" title=(i18n "Organization.url") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Organization.url") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=email key="email" title=(i18n "Organization.email") multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Organization.email") hidden=false multiple=false type="email"}}
 
     {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Organization.description")}}
 
-    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Organization.additionalType") multiple=true type="text"}}
+    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Organization.additionalType") hidden=true multiple=true type="text"}}
 
     {{> FormElements/select.mustache property=countryChampionFor key="countryChampionFor" title=(i18n "Organization.countryChampionFor") multiple=true type="text" options="countries"}}
 
     {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Organization.alternateName")}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Organization.image") multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Organization.image") hidden=false multiple=false type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Organization.location")}}
 
