@@ -1,0 +1,21 @@
+{
+  "@context": {
+    "@vocab": "http://schema.org/"
+  },
+  "@id": "info:carol",
+  "@type": "Person",
+  "name": [
+    {
+      "@value": "Carol",
+      "@language": "en"
+    }
+  ],
+  "knows": [
+    {
+      "@id": "info:alice"
+    },
+    {
+      "@id": "info:bob"
+    }
+  ]
+}
