@@ -6,42 +6,42 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Event.name") description=(i18n "Event.name" bundle="descriptions")}}
+    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Event.name") tooltip=(i18n "Event.name" bundle="descriptions")}}
 
-    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Event.alternateName") description=(i18n "Event.alternateName" bundle="descriptions")}}
+    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Event.alternateName") tooltip=(i18n "Event.alternateName" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=url key="url" title=(i18n "Event.url") description=(i18n "Event.url" bundle="descriptions") hidden=false multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Event.url") tooltip=(i18n "Event.url" bundle="descriptions") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=email key="email" title=(i18n "Event.email") description=(i18n "Event.email" bundle="descriptions") hidden=false multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Event.email") tooltip=(i18n "Event.email" bundle="descriptions") hidden=false multiple=false type="email"}}
 
-    {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Event.description") description=(i18n "Event.description" bundle="descriptions")}}
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Event.description") tooltip=(i18n "Event.description" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Event.image") description=(i18n "Event.image" bundle="descriptions") hidden=false multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Event.image") tooltip=(i18n "Event.image" bundle="descriptions") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Event.startDate") description=(i18n "Event.startDate" bundle="descriptions") hidden=false multiple=false type="text"}}
+    {{> FormElements/input.mustache property=startDate key="startDate" title=(i18n "Event.startDate") tooltip=(i18n "Event.startDate" bundle="descriptions") hidden=false multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=endDate key="endDate" title=(i18n "Event.endDate") description=(i18n "Event.endDate" bundle="descriptions") hidden=false multiple=false type="text"}}
+    {{> FormElements/input.mustache property=endDate key="endDate" title=(i18n "Event.endDate") tooltip=(i18n "Event.endDate" bundle="descriptions") hidden=false multiple=false type="text"}}
 
-    {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Event.location") description=(i18n "Event.location" bundle="descriptions")}}
+    {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Event.location") tooltip=(i18n "Event.location" bundle="descriptions")}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Event.mainEntityOf") description=(i18n "Event.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Event.mainEntityOf") tooltip=(i18n "Event.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Event.mentionedIn") description=(i18n "Event.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Event.mentionedIn") tooltip=(i18n "Event.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Event.sameAs") description=(i18n "Event.sameAs" bundle="descriptions") hidden=false multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Event.sameAs") tooltip=(i18n "Event.sameAs" bundle="descriptions") hidden=false multiple=true type="url"}}
 
-    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title=(i18n "Event.recordedIn") description=(i18n "Event.recordedIn" bundle="descriptions") hidden=false multiple=true type="url"}}
+    {{> FormElements/input.mustache property=recordedIn key="recordedIn" title=(i18n "Event.recordedIn") tooltip=(i18n "Event.recordedIn" bundle="descriptions") hidden=false multiple=true type="url"}}
 
-    {{> FormElements/select.mustache property=inLanguage key="inLanguage" title=(i18n "Event.inLanguage") description=(i18n "Event.inLanguage" bundle="descriptions") multiple=true type="text" options="languages"}}
+    {{> FormElements/select.mustache property=inLanguage key="inLanguage" title=(i18n "Event.inLanguage") tooltip=(i18n "Event.inLanguage" bundle="descriptions") multiple=true type="text" options="languages"}}
 
-    {{> FormElements/id.mustache property=organizer key="organizer" title=(i18n "Event.organizer") description=(i18n "Event.organizer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=organizer key="organizer" title=(i18n "Event.organizer") tooltip=(i18n "Event.organizer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=performer key="performer" title=(i18n "Event.performer") description=(i18n "Event.performer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=performer key="performer" title=(i18n "Event.performer") tooltip=(i18n "Event.performer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=about key="about" title=(i18n "Event.about") description=(i18n "Event.about" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
+    {{> FormElements/id.mustache property=about key="about" title=(i18n "Event.about") tooltip=(i18n "Event.about" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 
-    {{> FormElements/input.mustache property=hashtag key="hashtag" title=(i18n "Event.hashtag") description=(i18n "Event.hashtag" bundle="descriptions") hidden=false multiple=false type="text"}}
+    {{> FormElements/input.mustache property=hashtag key="hashtag" title=(i18n "Event.hashtag") tooltip=(i18n "Event.hashtag" bundle="descriptions") hidden=false multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Event.tag") description=(i18n "Event.tag" bundle="descriptions") hidden=false multiple=true type="text"}}
+    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Event.tag") tooltip=(i18n "Event.tag" bundle="descriptions") hidden=false multiple=true type="text"}}
 
 </fieldset>
