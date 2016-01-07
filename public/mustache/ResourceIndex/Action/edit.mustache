@@ -6,38 +6,38 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-    {{> FormElements/input.mustache property=additionalType key="additionalType" title="Additional Type" multiple=true type="text"}}
+    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true type="text"}}
 
-    {{> FormElements/input.mustache property=email key="email" title="Email" multiple=false type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Action.email") tooltip=(i18n "Action.email" bundle="descriptions") hidden=false multiple=false type="email"}}
 
-    {{> FormElements/localizedInput.mustache property=name key="name" title="Name"}}
+    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Action.name") tooltip=(i18n "Action.name" bundle="descriptions")}}
 
-    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title="Alternate Name"}}
+    {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Action.alternateName") tooltip=(i18n "Action.alternateName" bundle="descriptions")}}
 
-    {{> FormElements/localizedTextarea.mustache property=description key="description" title="Description"}}
+    {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Action.description") tooltip=(i18n "Action.description" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=image key="image" title="Image" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Action.image") tooltip=(i18n "Action.image" bundle="descriptions") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=url key="url" title="URL" multiple=false type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Action.url") tooltip=(i18n "Action.url" bundle="descriptions") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=startTime key="startTime" title="Start time" multiple=false type="text"}}
+    {{> FormElements/input.mustache property=startTime key="startTime" title=(i18n "Action.startTime") tooltip=(i18n "Action.startTime" bundle="descriptions") hidden=false multiple=false type="text"}}
 
-    {{> FormElements/input.mustache property=endTime key="endTime" title="End time" multiple=false type="text"}}
+    {{> FormElements/input.mustache property=endTime key="endTime" title=(i18n "Action.endTime") tooltip=(i18n "Action.endTime" bundle="descriptions") hidden=false multiple=false type="text"}}
 
-    {{> ResourceIndex/Place/edit.mustache property=location key="location"}}
+    {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Action.location") tooltip=(i18n "Action.location" bundle="descriptions")}}
 
-    {{> FormElements/id.mustache property=instrument key="instrument" title="Instrument" multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=instrument key="instrument" title=(i18n "Action.instrument") tooltip=(i18n "Action.instrument" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=result key="result" title="Result" multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=result key="result" title=(i18n "Action.result") tooltip=(i18n "Action.result" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=agent key="agent" title="Agent" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=agent key="agent" title=(i18n "Action.agent") tooltip=(i18n "Action.agent" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=participant key="participant" title="Participant" multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=participant key="participant" title=(i18n "Action.participant") tooltip=(i18n "Action.participant" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mainEntityOf key="mainEntityOf" title=(i18n "Action.mainEntityOf") tooltip=(i18n "Action.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Action.mentionedIn") tooltip=(i18n "Action.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title="Same as" multiple=true type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Action.sameAs") tooltip=(i18n "Action.sameAs" bundle="descriptions") hidden=false multiple=true type="url"}}
 
 </fieldset>

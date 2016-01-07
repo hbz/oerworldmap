@@ -35,7 +35,7 @@
 
                     {{#countryChampionFor}}
                         <div class="resource-subline">
-                            Country Champion for <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                            {{i18n "Person.countryChampionFor"}} <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
                         </div>
                     {{/countryChampionFor}}
 
@@ -56,7 +56,7 @@
                 <table class="table resource-details-table">
 
                     <tr>
-                        <td>Email Address</td>
+                        <td>{{i18n "Person.email"}}</td>
                         <td>
                              <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
                         </td>
@@ -64,7 +64,7 @@
 
                     {{#url}}
                         <tr>
-                            <td>Personal Website</td>
+                            <td>{{i18n "Person.url"}}</td>
                             <td>
                                  <a href="{{url}}">{{url}}</a>
                             </td>
@@ -73,7 +73,7 @@
 
                     {{#location}}
                         <tr>
-                            <td>Location</td>
+                            <td>{{i18n "Person.location"}}</td>
                             <td>
                                 {{#location}}
                                     {{>ResourceIndex/Place/read.mustache}}
@@ -84,7 +84,7 @@
 
                     {{#if affiliation}}
                         <tr>
-                            <td>Affiliation</td>
+                            <td>{{i18n "Person.affiliation"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#affiliation}}
@@ -97,7 +97,7 @@
 
                     {{#if sameAs}}
                         <tr>
-                            <td>Links</td>
+                            <td>{{i18n "Person.sameAs"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#sameAs}}
@@ -110,7 +110,7 @@
 
                     {{#if created}}
                         <tr>
-                            <td>Author of</td>
+                            <td>{{i18n "Person.created"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#created}}
@@ -123,7 +123,7 @@
 
                     {{#if mainEntityOf}}
                         <tr>
-                            <td>Topic of</td>
+                            <td>{{i18n "Person.mainEntityOf"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mainEntityOf}}
@@ -136,7 +136,7 @@
 
                     {{#if mentionedIn}}
                         <tr>
-                            <td>Mentioned in</td>
+                            <td>{{i18n "Person.mentionedIn"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mentionedIn}}
@@ -149,7 +149,7 @@
 
                     {{#if participantIn}}
                         <tr>
-                            <td>Participant in</td>
+                            <td>{{i18n "Person.participantIn"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#participantIn}}
@@ -162,7 +162,7 @@
 
                     {{#if provides}}
                         <tr>
-                            <td>Provides</td>
+                            <td>{{i18n "Person.provides"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#provides}}
@@ -175,7 +175,7 @@
 
                     {{#if agentIn}}
                         <tr>
-                            <td>Agent in</td>
+                            <td>{{i18n "Person.agentIn"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#agentIn}}
@@ -188,7 +188,7 @@
 
                     {{#if memberOf}}
                         <tr>
-                            <td>Member of</td>
+                            <td>{{i18n "Person.memberOf"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#memberOf}}

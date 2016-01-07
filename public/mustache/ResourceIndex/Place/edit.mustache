@@ -1,13 +1,13 @@
 <div class="resource-form-widget" data-behaviour="place">
 
-    <h4>Location</h4>
+    <h4>{{title}}{{#tooltip}} <i class="fa fa-question-circle" title="{{.}}"></i>{{/tooltip}}</h4>
 
     {{#if property}}
 
         {{#with property}}
             <fieldset>
 
-              <legend>Place</legend>
+              <legend>{{title}}</legend>
               {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
               {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
 
@@ -18,7 +18,7 @@
 
         <fieldset>
 
-            <legend>Place</legend>
+            <legend>{{title}}</legend>
             {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
             {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
 

@@ -1,10 +1,10 @@
 <div class="resource-form-widget" data-behaviour="availableChannel" data-key="{{key}}">
 
-    <h4>Available Channel</h4>
+    <h4>{{title}}</h4>
 
     {{#property}}
         <fieldset>
-            <legend>Available Channel</legend>
+            <legend>{{title}}</legend>
             {{input (stringFormat "%s[%s][serviceUrl]" key @index) serviceUrl type="url"}}
             <ul title="Available language" class="multiple-list">
                 {{#availableLanguage}}
@@ -16,7 +16,7 @@
     {{/property}}
     {{^property}}
         <fieldset>
-            <legend>Available Channel</legend>
+            <legend>{{title}}</legend>
             {{input (stringFormat "%s[0][serviceUrl]" key)  "" type="url"}}
             <ul title="Available language" class="multiple-list">
                 <li class="multiple-one">{{input (stringFormat "%s[0][availableLanguage][0]" key) ""}}</li>

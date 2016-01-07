@@ -1,5 +1,5 @@
 <div class="resource">
-    <h1><i class="fa fa-user"></i>
+    <h1>{{getIcon @type}}
         <a href="/resource/{{@id}}">
             {{#this.name}}{{this.@value}}{{/this.name}}
             {{^this.name}}{{this.[@id]}}{{/this.name}}

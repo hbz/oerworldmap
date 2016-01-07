@@ -50,7 +50,7 @@
                 <table class="table resource-details-table">
 
                     <tr>
-                        <td>Email Address</td>
+                        <td>{{i18n "Event.email"}}</td>
                         <td>
                              <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
                         </td>
@@ -58,7 +58,7 @@
 
                     {{#url}}
                         <tr>
-                            <td>Website</td>
+                            <td>{{i18n "Event.url"}}</td>
                             <td>
                                  <a href="{{url}}">{{url}}</a>
                             </td>
@@ -67,7 +67,7 @@
 
                     {{#hashtag}}
                         <tr>
-                            <td>Hashtag</td>
+                            <td>{{i18n "Event.hashtag"}}</td>
                             <td>
                                 {{hashtag}}
                             </td>
@@ -76,7 +76,7 @@
 
                     {{#location}}
                         <tr>
-                            <td>Location</td>
+                            <td>{{i18n "Event.location"}}</td>
                             <td>
                                 {{#location}}
                                     {{>ResourceIndex/Place/read.mustache}}
@@ -87,7 +87,7 @@
 
                     {{#if alternateName}}
                         <tr>
-                            <td>Alternate Names</td>
+                            <td>{{i18n "Event.alternateName"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
                                     {{#alternateName}}
@@ -100,14 +100,14 @@
 
                     {{#if startDate}}
                         <tr>
-                            <td>Date</td>
+                            <td>{{i18n "Event.startDate"}} - {{i18n "Event.endDate"}}</td>
                             <td>{{startDate}} - {{endDate}}</td>
                         </tr>
                     {{/if}}
 
                     {{#if organizer}}
                         <tr>
-                            <td>Organizer</td>
+                            <td>{{i18n "Event.organizer"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#organizer}}
@@ -120,7 +120,7 @@
 
                     {{#if performer}}
                         <tr>
-                            <td>Performer</td>
+                            <td>{{i18n "Event.performer"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#performer}}
@@ -133,7 +133,7 @@
 
                     {{#if about}}
                         <tr>
-                            <td>Subjects</td>
+                            <td>{{i18n "Event.about"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#about}}
@@ -146,7 +146,7 @@
 
                     {{#if tag}}
                         <tr>
-                            <td>Tags</td>
+                            <td>{{i18n "Event.tag"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
                                     {{#tag}}
@@ -159,7 +159,7 @@
 
                     {{#if inLanguage}}
                         <tr>
-                            <td>Languages</td>
+                            <td>{{i18n "Event.inLanguage"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
                                     {{#inLanguage}}
@@ -172,7 +172,7 @@
 
                     {{#if recordedIn}}
                         <tr>
-                            <td>Recorded in</td>
+                            <td>{{i18n "Event.recordedIn"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#recordedIn}}
@@ -185,7 +185,7 @@
 
                     {{#if sameAs}}
                         <tr>
-                            <td>Links</td>
+                            <td>{{i18n "Event.sameAs"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#sameAs}}
@@ -198,7 +198,7 @@
 
                     {{#if mainEntityOf}}
                         <tr>
-                            <td>Topic of</td>
+                            <td>{{i18n "Event.startDate"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mainEntityOf}}
@@ -211,7 +211,7 @@
 
                     {{#if mentionedIn}}
                         <tr>
-                            <td>Mentioned in</td>
+                            <td>{{i18n "Event.mentionedIn"}}</td>
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mentionedIn}}
