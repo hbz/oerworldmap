@@ -29,8 +29,8 @@ public class ResourceDenormalizer {
     mKnownInverseRelations.put("created", "creator");
     mKnownInverseRelations.put("agent", "agentIn");
     mKnownInverseRelations.put("agentIn", "agent");
-    // mKnownInverseRelations.put("mentions", "mentionedIn");
-    // mKnownInverseRelations.put("mentionedIn", "mentions");
+    mKnownInverseRelations.put("mentions", "mentionedIn");
+    mKnownInverseRelations.put("mentionedIn", "mentions");
     mKnownInverseRelations.put("participant", "participantIn");
     mKnownInverseRelations.put("participantIn", "participant");
     mKnownInverseRelations.put("organizer", "organizerFor");
