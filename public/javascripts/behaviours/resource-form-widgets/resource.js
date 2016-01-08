@@ -194,7 +194,9 @@ var Hijax = (function ($, Hijax) {
 
         // remove the last empty one
 
-        widget.find('.multiple-one').last().remove();
+        widget.find('.multiple-one').filter(function() {
+          return $(this).find('input').get(0).value == "";
+        }).last().remove();
 
         // init each
 
@@ -299,9 +301,14 @@ var Hijax = (function ($, Hijax) {
                   .find('.multiple-one').last().find('input').attr('name')
                   .match(/\[(\d+)\]/)
               ).last()
-            , 10); console.log( highest_index );
+            , 10); //console.log( highest_index );
           } else {
             var highest_index = 0;
+          }
+
+          var max_cardinality = parseInt(widget.find('.multiple-list').attr("data-max-cardinality"));
+          if (max_cardinality <= highest_index) {
+            return;
           }
 
           suggestion['key'] = key;
