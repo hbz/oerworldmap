@@ -12,11 +12,13 @@
                     <a href="#resource-add-action" class="call-for-action" data-toggle="modal">Add<br/>Project</a>
                 </div>
             </div>
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#resource-add-person" class="call-for-action" data-toggle="modal">Add<br/>Person</a>
+            {{#ifIn "admin" user.roles}}
+                <div class="call-for-actions-table">
+                    <div class="call-for-actions-row">
+                        <a href="#resource-add-person" class="call-for-action" data-toggle="modal">Add<br/>Person</a>
+                    </div>
                 </div>
-            </div>
+            {{/ifIn}}
             <div class="call-for-actions-table">
                 <div class="call-for-actions-row">
                     <a href="#resource-add-service" class="call-for-action" data-toggle="modal">Add<br/>Service</a>
