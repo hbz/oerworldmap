@@ -108,6 +108,10 @@ public class Authorized extends Action.Simple {
       }
     }
 
+    // FIXME: activity based auth should make this superfluous,
+    // but currently needed in front end templates
+    user.put("roles", getUserRoles(user, parameters));
+
     QueryContext queryContext;
     if (getUserActivities(user, parameters).contains(activity)) {
       queryContext = new QueryContext(user.getId(), getUserRoles(user, parameters));

@@ -20,11 +20,17 @@
                     {{{.}}}
                 </script>
 
-                {{#ifCond user.[@id] '==' [@id]}}
+                {{#ifIn "admin" user.roles}}
                     <button class="btn btn-inverted resource-edit-btn" data-toggle="modal" data-target="#resource-edit">
                         <i class="fa fa-pencil"></i>
                     </button>
-                {{/ifCond}}
+                {{else}}
+                    {{#ifIn "owner" user.roles}}
+                        <button class="btn btn-inverted resource-edit-btn" data-toggle="modal" data-target="#resource-edit">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    {{/ifIn}}
+                {{/ifIn}}
 
                 <div class="resource-header">
 

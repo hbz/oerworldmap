@@ -506,3 +506,12 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
   }
 
 });
+
+Handlebars.registerHelper('ifIn', function(item, list, options) {
+  for (i in list) {
+    if (list[i] == item) {
+      return options.fn(this);
+    }
+  }
+  return options.inverse(this);
+});
