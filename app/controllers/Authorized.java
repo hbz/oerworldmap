@@ -147,7 +147,7 @@ public class Authorized extends Action.Simple {
     List<String> roles = new ArrayList<>();
 
     for(Map.Entry<String, List<String>> role : mRoles.entrySet()) {
-      if (role.getValue().contains(user.getId())) {
+      if (role.getValue().contains(user.getId()) || role.getValue().contains(user.getAsString("email"))) {
         Logger.debug("Adding role " + role.getKey() + " for " + user.getId());
         roles.add(role.getKey());
       } else {
