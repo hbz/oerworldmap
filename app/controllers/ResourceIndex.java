@@ -94,6 +94,17 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+
+    // Person create through UserIndex, which is restricted to admin
+    if ("Person".equals(resource.getAsString(JsonLdConstants.TYPE))) {
+      List<Map<String, Object>> messages = new ArrayList<>();
+      HashMap<String, Object> message = new HashMap<>();
+      message.put("level", "warning");
+      message.put("message", "Forbidden");
+      messages.add(message);
+      return forbidden(render("Update failed", "feedback.mustache", resource, messages));
+    }
+
     String id = resource.getAsString(JsonLdConstants.ID);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource);
     Map<String, Object> scope = new HashMap<>();

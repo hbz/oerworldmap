@@ -46,7 +46,7 @@ public class UserIndex extends OERWorldMap {
     return ok(render("Registration", "UserIndex/index.mustache", scope));
   }
 
-  public static Result create() throws IOException {
+  public static Result register() throws IOException {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
     Map<String, Object> scope = new HashMap<>();
@@ -74,6 +74,44 @@ public class UserIndex extends OERWorldMap {
     messages.add(message);
     return ok(render("Registration", "feedback.mustache", scope, messages));
 
+  }
+
+  public static Result create() throws IOException {
+    boolean isJsonRequest = true;
+    JsonNode json = request().body().asJson();
+    if (null == json) {
+      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
+      if (null == formUrlEncoded) {
+        return badRequest("Empty request body");
+      }
+      json = JSONForm.parseFormData(formUrlEncoded, true);
+      isJsonRequest = false;
+    }
+    Resource resource = Resource.fromJson(json);
+    String id = resource.getAsString(JsonLdConstants.ID);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
+    if (!report.isSuccess()) {
+      scope.put("countries", Countries.list(currentLocale));
+      if (isJsonRequest) {
+        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
+      } else {
+        List<Map<String, Object>> messages = new ArrayList<>();
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("level", "warning");
+        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
+          + "<pre>" + resource + "</pre>");
+        messages.add(message);
+        return badRequest(render("Create failed", "feedback.mustache", scope, messages));
+      }
+    }
+    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
+    if (isJsonRequest) {
+      return created("Created " + id + "\n");
+    } else {
+      return created(render("Created", "created.mustache", scope));
+    }
   }
 
   public static Result read(String id) throws IOException {

@@ -32,9 +32,11 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
       public void run() {
         String auth = getAuthString();
         Map<String, String> data = new HashMap<>();
-        data.put(JsonLdConstants.TYPE, "Person");
+        data.put(JsonLdConstants.TYPE, "Organization");
         data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
         data.put("email", "foo1@bar.com");
+        data.put("name[0][@value]", "Foo");
+        data.put("name[0][@language]", "en");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withFormUrlEncodedBody(data));
         assertEquals(201, status(result));
@@ -74,19 +76,48 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   }
 
   @Test
+  public void createPersonFromJsonAuthorized() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        String auth = getAuthString();
+        Resource person = new Resource("Person", Global.getConfig().getString("admin.user"));
+        person.put("email", Global.getConfig().getString("admin.user"));
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
+        assertEquals(201, status(createResult));
+      }
+    });
+  }
+
+  @Test
   public void updatePersonFromJsonAuthorized() {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
         String auth = getAuthString();
-        Resource person = new Resource("Person");
+        Resource person = new Resource("Person", Global.getConfig().getString("admin.user"));
         person.put("email", Global.getConfig().getString("admin.user"));
-        Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
           .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
         assertEquals(201, status(createResult));
         Result updateResult = route(fakeRequest("POST", routes.UserIndex.update(person.getId()).url())
           .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
         assertEquals(200, status(updateResult));
+      }
+    });
+  }
+
+  @Test
+  public void createPersonFromJsonUnauthorized() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Resource person = new Resource("Person");
+        person.put("email", "foo@bar.de");
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
+          .withHeader("Authorization", "Basic ").withJsonBody(person.toJson()));
+        assertEquals(401, status(createResult));
       }
     });
   }
@@ -99,12 +130,12 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
         String auth = getAuthString();
         Resource person = new Resource("Person");
         person.put("email", "foo@bar.de");
-        Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
           .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
         assertEquals(201, status(createResult));
         Result updateResult = route(fakeRequest("POST", routes.UserIndex.update(person.getId()).url())
-          .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
-        assertEquals(403, status(updateResult));
+          .withHeader("Authorization", "Basic ").withJsonBody(person.toJson()));
+        assertEquals(401, status(updateResult));
       }
     });
   }

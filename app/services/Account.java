@@ -25,7 +25,7 @@ public class Account {
 
   public static String createTokenFor(Resource user) {
 
-    if (! Arrays.asList(Global.getConfig().getString("users.valid").split(","))
+    if (! Arrays.asList(Global.getConfig().getString("users.valid").split(" +"))
       .contains(user.get("email").toString())) {
       Logger.warn("Token for invalid user ".concat(user.getAsString("email").concat(" requested.")));
       return null;
