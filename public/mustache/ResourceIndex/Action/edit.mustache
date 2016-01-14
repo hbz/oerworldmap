@@ -34,6 +34,8 @@
 
     {{> FormElements/Id.mustache property=participant key="participant" title="Participant" multiple=true lookup="/resource/"}}
 
+    {{> FormElements/Id.mustache property=funder key="funder" title="Funded by" multiple=true lookup="/resource/"}}
+
     {{> FormElements/Id.mustache property=mainEntityOf key="mainEntityOf" title="Main Entity of" multiple=true lookup="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/Id.mustache property=mentionedIn key="mentionedIn" title="Mentioned in" multiple=true lookup="/resource/?filter.about.@type=Article"}}
