@@ -7,153 +7,159 @@ import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
-import java.io.File;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import helpers.ElasticsearchTestGrid;
+import helpers.JsonTest;
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 import helpers.JsonLdConstants;
 import models.Resource;
 import play.mvc.Result;
-import services.ElasticsearchConfig;
-import services.ElasticsearchProvider;
 
 /**
  * @author fo
  */
-public class ResourceIndexTest {
-
-  private static Config mConfig;
-  private static ElasticsearchProvider mEsClient;
-
-  @BeforeClass
-  public static void setup() {
-    mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(mConfig);
-    Settings settings = ImmutableSettings.settingsBuilder()
-        .put(elasticsearchConfig.getClientSettings()).build();
-    @SuppressWarnings("resource")
-    Client client = new TransportClient(settings)
-        .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
-    mEsClient = new ElasticsearchProvider(client, elasticsearchConfig);
-    mEsClient.createIndex(mConfig.getString("es.index.name"));
-  }
+public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest {
 
   @Test
   public void createResourceFromFormUrlEncoded() {
-    final Resource user = new Resource("Person");
-    final String email = "foo@bar.de";
-    user.put("email", email);
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        // String token = Account.createTokenFor(user);
-        // String authString = email + ":" + token;
-        String authString = "user:pass";
-        String auth = Base64.getEncoder().encodeToString(authString.getBytes());
+        String auth = getAuthString();
         Map<String, String> data = new HashMap<>();
-        data.put(JsonLdConstants.TYPE, "Person");
+        data.put(JsonLdConstants.TYPE, "Organization");
         data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
         data.put("email", "foo1@bar.com");
+        data.put("name[0][@value]", "Foo");
+        data.put("name[0][@language]", "en");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withFormUrlEncodedBody(data));
-        assertEquals(303, status(result));
+        assertEquals(201, status(result));
       }
     });
   }
 
   @Test
   public void createResourceFromJson() {
-    final Resource user = new Resource("Person");
-    final String email = "foo@bar.de";
-    user.put("email", email);
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        // String token = Account.createTokenFor(user);
-        // String authString = email + ":" + token;
-        String authString = "user:pass";
-        String auth = Base64.getEncoder().encodeToString(authString.getBytes());
-        ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
-        data.put(JsonLdConstants.TYPE, "Person");
-        data.put(JsonLdConstants.ID, UUID.randomUUID().toString());
-        data.put("email", "foo2@bar.com");
+        String auth = getAuthString();
+        Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
-        assertEquals(303, status(result));
+            .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
+        assertEquals(201, status(result));
       }
     });
   }
 
   @Test
   public void updateResourceFromJson() {
-    final Resource user = new Resource("Person");
-    final String email = "foo@bar.de";
-    user.put("email", email);
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        // String token = Account.createTokenFor(user);
-        // String authString = email + ":" + token;
-        String authString = "user:pass";
-        String auth = Base64.getEncoder().encodeToString(authString.getBytes());
-        String id = UUID.randomUUID().toString();
-        ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
-        data.put(JsonLdConstants.TYPE, "Person");
-        data.put(JsonLdConstants.ID, id);
-        data.put("email", "foo2@bar.com");
+        Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
+        String auth = getAuthString();
         Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
-        assertEquals(303, status(createResult));
-        Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
+        assertEquals(201, status(createResult));
+        Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(organization.getId()).url())
+            .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
         assertEquals(200, status(updateResult));
       }
     });
   }
 
   @Test
-  public void updateNonexistentResourceFromJson() {
-    final Resource user = new Resource("Person");
-    final String email = "foo@bar.de";
-    user.put("email", email);
+  public void createPersonFromJsonAuthorized() {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        // String token = Account.createTokenFor(user);
-        // String authString = email + ":" + token;
-        String authString = "user:pass";
-        String auth = Base64.getEncoder().encodeToString(authString.getBytes());
-        String id = UUID.randomUUID().toString();
-        ObjectNode data = new ObjectNode(JsonNodeFactory.instance);
-        data.put(JsonLdConstants.TYPE, "Person");
-        data.put(JsonLdConstants.ID, id);
-        data.put("email", "foo2@bar.com");
-        Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(id).url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(data));
+        String auth = getAuthString();
+        Resource person = new Resource("Person", Global.getConfig().getString("admin.user"));
+        person.put("email", Global.getConfig().getString("admin.user"));
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
+        assertEquals(201, status(createResult));
+      }
+    });
+  }
+
+  @Test
+  public void updatePersonFromJsonAuthorized() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        String auth = getAuthString();
+        Resource person = new Resource("Person", Global.getConfig().getString("admin.user"));
+        person.put("email", Global.getConfig().getString("admin.user"));
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
+        assertEquals(201, status(createResult));
+        Result updateResult = route(fakeRequest("POST", routes.UserIndex.update(person.getId()).url())
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
+        assertEquals(200, status(updateResult));
+      }
+    });
+  }
+
+  @Test
+  public void createPersonFromJsonUnauthorized() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Resource person = new Resource("Person");
+        person.put("email", "foo@bar.de");
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
+          .withHeader("Authorization", "Basic ").withJsonBody(person.toJson()));
+        assertEquals(401, status(createResult));
+      }
+    });
+  }
+
+  @Test
+  public void updatePersonFromJsonUnauthorized() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        String auth = getAuthString();
+        Resource person = new Resource("Person");
+        person.put("email", "foo@bar.de");
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
+        assertEquals(201, status(createResult));
+        Result updateResult = route(fakeRequest("POST", routes.UserIndex.update(person.getId()).url())
+          .withHeader("Authorization", "Basic ").withJsonBody(person.toJson()));
+        assertEquals(401, status(updateResult));
+      }
+    });
+  }
+
+  @Test
+  public void updateNonexistentResourceFromJson() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
+        String auth = getAuthString();
+        Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(organization.getId()).url())
+            .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
         assertEquals(400, status(updateResult));
       }
     });
   }
 
-  @AfterClass
-  public static void tearDown() {
-    mEsClient.deleteIndex(mConfig.getString("es.index.name"));
+
+  private String getAuthString() {
+    String email = Global.getConfig().getString("admin.user");
+    String pass = Global.getConfig().getString("admin.pass");
+    String authString = email.concat(":").concat(pass);
+    return Base64.getEncoder().encodeToString(authString.getBytes());
   }
 
 }

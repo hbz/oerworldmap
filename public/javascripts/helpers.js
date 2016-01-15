@@ -7,4 +7,5 @@ Handlebars.registerHelper('stripProtocol', function (context) {
   context = context.replace(/\/$/, "");
 
   return context;
+
 });

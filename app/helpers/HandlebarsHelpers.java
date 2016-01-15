@@ -51,10 +51,17 @@ public class HandlebarsHelpers {
   }
 
   public CharSequence i18n(String key, Options options) {
-    return _i18n(key);
+    return _i18n(key, (String) options.hash.get("bundle"));
   }
 
-  public static CharSequence _i18n(String key) {
+  public static CharSequence _i18n(String key, String bundle) {
+    if (bundle != null) {
+      try {
+        return ResourceBundle.getBundle(bundle).getString(key);
+      } catch (MissingResourceException notInBundle) {
+        return key;
+      }
+    }
     try {
       return ResourceBundle.getBundle("messages").getString(key);
     } catch (MissingResourceException notMessage) {
@@ -64,7 +71,11 @@ public class HandlebarsHelpers {
         try {
           return ResourceBundle.getBundle("countries").getString(key);
         } catch (MissingResourceException notCountry) {
-          return OERWorldMap.getLabel(key);
+          try {
+            return ResourceBundle.getBundle("labels").getString(key);
+          } catch (MissingResourceException notLabel) {
+            return OERWorldMap.getLabel(key);
+          }
         }
       }
     }

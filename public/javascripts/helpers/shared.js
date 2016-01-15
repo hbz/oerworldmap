@@ -4,6 +4,23 @@ var console = console || {
   }
 };
 
+if (typeof String.prototype.endsWith !== 'function') {
+  String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+  };
+}
+
+if (typeof Array.prototype.csOr !== 'function') {
+  Array.prototype.csOr = function() {
+    if(this.length > 1) {
+      return this.slice(0, -1).join(', ') + ' or ' + this[this.length - 1];
+    } else {
+      return this[0];
+    }
+  };
+}
+
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 if (!Object.keys) {
   Object.keys = (function() {
@@ -363,7 +380,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
       "xlink:href": href,
       // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?),
       // we are accessing the Java handlebars helpers here for internationalization.
-      "xlink:title": Packages.helpers.HandlebarsHelpers._i18n(buckets[i]['key']) + " (" + buckets[i]['doc_count'] + ")"
+      "xlink:title": Packages.helpers.HandlebarsHelpers._i18n(buckets[i]['key'], null) + " (" + buckets[i]['doc_count'] + ")"
     }, path);
     arcs.push(arc);
   }
@@ -445,7 +462,7 @@ function nestedAggregation(aggregation, collapsed, id) {
           '<div class="schema-tree-item">' +
             '<i class="fa fa-fw fa-tag schema-tree-icon"></i>' +
             '<a href="/resource/' + key + '">' +
-              Packages.helpers.HandlebarsHelpers._i18n(key) + " (" + aggregation[key]["doc_count"] + ")" +
+              Packages.helpers.HandlebarsHelpers._i18n(key, null) + " (" + aggregation[key]["doc_count"] + ")" +
             '</a>' +
             (
               Object.keys(aggregation[key]).length > 1 ?
@@ -463,3 +480,38 @@ function nestedAggregation(aggregation, collapsed, id) {
   list += "</ul>";
   return Handlebars.SafeString(list);
 }
+
+// http://stackoverflow.com/a/16315366
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+  switch (operator) {
+    case '==':
+      return (v1 == v2) ? options.fn(this) : options.inverse(this);
+    case '===':
+      return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case '<':
+      return (v1 < v2) ? options.fn(this) : options.inverse(this);
+    case '<=':
+      return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+    case '>':
+      return (v1 > v2) ? options.fn(this) : options.inverse(this);
+    case '>=':
+      return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+    case '&&':
+      return (v1 && v2) ? options.fn(this) : options.inverse(this);
+    case '||':
+      return (v1 || v2) ? options.fn(this) : options.inverse(this);
+    default:
+      return options.inverse(this);
+  }
+
+});
+
+Handlebars.registerHelper('ifIn', function(item, list, options) {
+  for (i in list) {
+    if (list[i] == item) {
+      return options.fn(this);
+    }
+  }
+  return options.inverse(this);
+});

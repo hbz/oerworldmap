@@ -7,9 +7,9 @@
   // --- document ready ---
 
   $(document).ready(function() {
-    
+
     var page = window.location.pathname.substring(1);
-    
+
     if(
       page != "contribute" &&
       page != "FAQ" &&
@@ -19,7 +19,7 @@
     ) {
       $('body').addClass("layout-fixed");
     }
-    
+
     Hijax.initBehaviours(document);
 
   });

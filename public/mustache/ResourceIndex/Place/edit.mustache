@@ -1,23 +1,29 @@
-{{#if property}}
+<div class="resource-form-widget" data-behaviour="place">
 
-    {{#with property}}
+    <h4>{{title}}{{#tooltip}} <i class="fa fa-question-circle" title="{{.}}"></i>{{/tooltip}}</h4>
+
+    {{#if property}}
+
+        {{#with property}}
+            <fieldset>
+
+              <legend>{{title}}</legend>
+              {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
+              {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
+
+            </fieldset>
+        {{/with}}
+
+    {{else}}
+
         <fieldset>
 
-          <legend>Place</legend>
-          {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
-          {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
+            <legend>{{title}}</legend>
+            {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
+            {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
 
         </fieldset>
-    {{/with}}
 
-{{else}}
+    {{/if}}
 
-    <fieldset>
-
-        <legend>Place</legend>
-        {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
-        {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
-
-    </fieldset>
-
-{{/if}}
+</div>
