@@ -90,6 +90,18 @@
       ]
     }
   ],
+  "funderOf" : [
+    {
+      "@id": "urn:uuid:da6d890e-2faa-11e5-ba96-001999ac7927",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "OER Research Hub"
+        }
+      ]
+    }
+  ],
   "created": [
     {
       "@id": "urn:uuid:967fca4e-15cf-11e5-abe2-4785fa5f5d27",
