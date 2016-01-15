@@ -110,6 +110,30 @@
       ]
     }
   ],
+  "funder": [
+    {
+      "@id": "urn:uuid:90aca1d2-bb8d-11e5-8644-54ee7558c81f",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Testacle Inc."
+        }
+      ]
+    },
+    {
+      "@id": "a9a5b926-bb8d-11e5-925f-54ee7558c81f",
+      "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Hans Dampf"
+        }
+      ]
+
+    }
+
+  ],
   "tag": [
     "Policy",
     "Open Xland"
