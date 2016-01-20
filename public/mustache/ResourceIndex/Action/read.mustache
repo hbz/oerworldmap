@@ -181,6 +181,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if funder}}
+                        <tr>
+                            <td>{{i18n "Action.funder"}}</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#funder}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/funder}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
 
                 </table>
 

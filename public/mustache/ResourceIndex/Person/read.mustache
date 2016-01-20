@@ -205,6 +205,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if funderOf}}
+                        <tr>
+                            <td>{{i18n "Person.funderOf"}}</td>
+                            <td>
+                                <ul class="resource-list truncated">
+                                    {{#funderOf}}
+                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    {{/funderOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                 </table>
 
             </div>

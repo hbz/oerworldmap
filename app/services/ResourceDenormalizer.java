@@ -39,6 +39,8 @@ public class ResourceDenormalizer {
     mKnownInverseRelations.put("organizerFor", "organizer");
     mKnownInverseRelations.put("performer", "performerIn");
     mKnownInverseRelations.put("performerIn", "performer");
+    mKnownInverseRelations.put("funder", "funderOf");
+    mKnownInverseRelations.put("funderOf", "funder");
   }
 
   final private static List<String> mListValueEntries = new ArrayList<>();
@@ -70,6 +72,8 @@ public class ResourceDenormalizer {
     mListValueEntries.add("performer");
     mListValueEntries.add("performerIn");
     mListValueEntries.add("mainEntityOf");
+    mListValueEntries.add("funder");
+    mListValueEntries.add("funderOf");
   }
 
   //
