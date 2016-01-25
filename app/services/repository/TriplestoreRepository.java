@@ -1,10 +1,6 @@
 package services.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.jsonldjava.core.JsonLdError;
-import com.github.jsonldjava.core.JsonLdOptions;
-import com.github.jsonldjava.core.JsonLdProcessor;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -12,21 +8,26 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
+import com.ning.http.client.AsyncHttpClientConfig;
 import com.typesafe.config.Config;
+import io.apigee.trireme.core.ScriptFuture;
 import models.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
+import play.libs.F;
+import play.libs.ws.ning.NingWSClient;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * Created by fo on 10.12.15.
@@ -114,6 +115,8 @@ public class TriplestoreRepository extends Repository
 
   private Model db;
 
+  private ScriptFuture framer;
+
   public TriplestoreRepository(Config aConfiguration) {
     this(aConfiguration, ModelFactory.createDefaultModel());
   }
@@ -131,7 +134,7 @@ public class TriplestoreRepository extends Repository
     Model dbstate = ModelFactory.createDefaultModel();
     QueryExecutionFactory.create(QueryFactory.create(describeStatement), db).execDescribe(dbstate);
     Logger.debug("DBSTATE: " + dbstate);
-    return resourceFromModel(dbstate);
+    return resourceFromModel(dbstate, aId);
 
   }
 
@@ -148,26 +151,27 @@ public class TriplestoreRepository extends Repository
 
   }
 
-  @SuppressWarnings("unchecked")
-  private Resource resourceFromModel(Model model) throws IOException {
 
-    // Create resource from framed jsonld via nquads
+  @SuppressWarnings("unchecked")
+  private Resource resourceFromModel(Model model, String id) throws IOException {
+
     ByteArrayOutputStream nquads = new ByteArrayOutputStream();
     RDFDataMgr.write(nquads, model, Lang.NQUADS);
-    try {
-      ObjectNode frame = (ObjectNode) new ObjectMapper().readTree(Thread.currentThread().getContextClassLoader()
-        .getResourceAsStream("public/json/context.json"));
-      frame.put("@type", model.listSubjects().nextResource().getProperty(RDF.type).getObject().toString());
-      Object jsonld = JsonLdProcessor.fromRDF(new String(nquads.toByteArray(), StandardCharsets.UTF_8));
-      Logger.debug(model.toString());
-      Map<String, Object> framed = JsonLdProcessor.frame(jsonld, new ObjectMapper().convertValue(frame, Map.class), new JsonLdOptions());
-      Map<String, Object> graph = (Map) ((List) framed.get("@graph")).get(0);
-      // FIXME: add proper @context
-      return Resource.fromMap(graph);
-    } catch (JsonLdError e) {
-      Logger.error(e.toString());
-      return null;
-    }
+
+    AsyncHttpClientConfig.Builder builder = new AsyncHttpClientConfig.Builder();
+    NingWSClient wsClient = new NingWSClient(builder.build());
+
+
+    String type = URLEncoder.encode(model.listObjectsOfProperty(model.createResource(id), RDF.type).next().toString(),
+      StandardCharsets.UTF_8.toString());
+
+    F.Promise<JsonNode> promise = wsClient.url("http://localhost:8080/".concat(type))
+      .setContentType("text/plain")
+      .post(new String(nquads.toByteArray(), StandardCharsets.UTF_8))
+      .map(response -> { return response.asJson(); });
+
+
+    return Resource.fromJson(promise.get(1000));
 
   }
 

@@ -20,7 +20,8 @@
       "@container": "@set"
     },
     "sameAs": {
-      "@container": "@set"
+      "@container": "@set",
+      "@type": "@id"
     },
     "tag": {
       "@container": "@set"
@@ -110,10 +111,17 @@
       "@container": "@set"
     },
     "performerIn": {
-      "@container": "@set"
+      "@container": "@set",
+      "@embed": "@always"
     },
     "mainEntityOf": {
       "@container": "@set"
+    },
+    "image": {
+      "@type": "@id"
+    },
+    "url": {
+      "@type": "@id"
     }
   }
 }

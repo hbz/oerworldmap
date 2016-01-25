@@ -8,12 +8,18 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import helpers.JsonTest;
+import io.apigee.trireme.core.NodeEnvironment;
+import io.apigee.trireme.core.NodeScript;
+import io.apigee.trireme.core.ScriptFuture;
 import models.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import services.repository.TriplestoreRepository;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -23,6 +29,23 @@ import java.io.IOException;
 public class TriplestoreRepositoryTest implements JsonTest {
 
   private Config config = ConfigFactory.load(ClassLoader.getSystemClassLoader(), "test.conf");
+
+  private static ScriptFuture framer;
+
+  @BeforeClass
+  public static void setUp() throws Exception {
+    NodeEnvironment env = new NodeEnvironment();
+    NodeScript script = env.createScript("frame.js",
+      new File("node/json-frame/frame.js"), null);
+    script.setNodeVersion("0.10");
+    framer = script.executeModule();
+    framer.getModuleResult();
+  }
+
+  @AfterClass
+  public static void tearDown() throws Exception {
+    framer.cancel(true);
+  }
 
   @Test
   public void testAddResource() throws IOException {
@@ -120,7 +143,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
   public void testGetResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
-      "TriplestoreRepositoryTest/testAddResource.IN.1.json");
+      "SchemaTest/testPerson.json");
 
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config);
     triplestoreRepository.addResource(resource1, "Person");

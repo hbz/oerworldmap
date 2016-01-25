@@ -13,7 +13,12 @@
     } ],
     "@id" : "info:carol",
     "knows" : [ {
-      "@id" : "info:alice"
+      "@id" : "info:alice",
+      "@type" : "Person",
+      "name" : [ {
+        "@value" : "Alice",
+        "@language" : "en"
+      } ]
     } ]
   } ]
 }
