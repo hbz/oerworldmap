@@ -52,6 +52,10 @@ Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java devel
 ![Johannes Schnettker](/assets/images/image01.jpg)
 Johannes will codevelop the frontend with Felix. He works as a freelance web developer since 2003 and implemented projects for a huge variety of clients. Lately he focussed on building UI functionalities and responsive Layouts. Johannes studied computer sience and communication sience and is pationated about the intersections between the technical and conceptional aspects of his work.
 
-## Ben Buschfeld (Design)
+## Felix Link (Design, since 2015)
+
+Felix joined the project in October 2015. tbc
+
+## Ben Buschfeld (Design, 2014-2015)
 ![Ben Buschfeld](/assets/images/image02.jpg)
-Ben is the frontend-designer of the project. He studied communication design from 1990-1994 and is working on the web and digital media since 1995, when he wrote the initial draft and subsequently acted as the art director and project manager of the B2B-platform Baunetz.de. After the launch 1997 he teached as a visiting professor for information design at UDLA in Mexico and founded his own studio [http://www.buschfeld.com](http://www.buschfeld.com) – graphic and interface design in Berlin. Since then he developed a number of publications, corporate identity programs, websites, information portals, and graphical user interfaces – working for clients from various industries, cultural and political institutions. His design work and public engagement was frequently awarded.
+Ben has been the frontend-designer of the project December 2015. He studied communication design from 1990-1994 and is working on the web and digital media since 1995, when he wrote the initial draft and subsequently acted as the art director and project manager of the B2B-platform Baunetz.de. After the launch 1997 he teached as a visiting professor for information design at UDLA in Mexico and founded his own studio [http://www.buschfeld.com](http://www.buschfeld.com) – graphic and interface design in Berlin. Since then he developed a number of publications, corporate identity programs, websites, information portals, and graphical user interfaces – working for clients from various industries, cultural and political institutions. His design work and public engagement was frequently awarded.
