@@ -175,9 +175,11 @@ public class UserIndex extends OERWorldMap {
     String token = Account.createTokenFor(user);
     if (!StringUtils.isEmpty(token) && !StringUtils.isEmpty(mConf.getString("mail.smtp.host"))) {
       sendTokenMail(user, token);
-    } else {
-      Logger.info("No mailserver specified, cannot send ".concat(token).concat( " to "
+    } else if (!StringUtils.isEmpty(token)) {
+      Logger.warn("No mailserver specified, cannot send ".concat(token).concat(" to "
         .concat(user.getAsString("email"))));
+    } else {
+      Logger.warn("Could not get token for ".concat(user.getAsString("email")));
     }
 
     scope.put("continue", "<a class=\"hijax\" target=\"_self\" href=\"/.auth\">".concat(
