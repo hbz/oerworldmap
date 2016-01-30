@@ -824,7 +824,8 @@ var Hijax = (function ($, Hijax) {
           popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
           popoverOrganization : Handlebars.compile($('#popoverOrganization\\.mustache').html()),
           popoverPerson : Handlebars.compile($('#popoverPerson\\.mustache').html()),
-          popoverService : Handlebars.compile($('#popoverService\\.mustache').html())
+          popoverService : Handlebars.compile($('#popoverService\\.mustache').html()),
+          popoverEvent : Handlebars.compile($('#popoverEvent\\.mustache').html())
         };
 
       });
