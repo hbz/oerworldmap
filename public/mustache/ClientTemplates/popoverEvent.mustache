@@ -1,0 +1,21 @@
+<div class="popover-section bg-blue-palest">
+    <div class="icon-indented">
+
+        <i class="fa fa-calendar"></i><strong>Event:</strong>
+      {{#resource.name}}{{[@value]}}{{/resource.name}}
+
+    </div>
+</div>
+
+{{#resource.referencedBy}}
+
+    <div class="popover-section bg-blue-paler">
+        <div class="icon-indented">
+
+            <i class="fa fa-link"></i><strong>{{[@type]}}:</strong>
+          {{#name}}{{[@value]}}{{/name}}
+
+        </div>
+    </div>
+
+{{/resource.referencedBy}}
