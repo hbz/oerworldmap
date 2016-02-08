@@ -289,6 +289,10 @@ var Hijax = (function ($, Hijax) {
       return;
     }
 
+    // console.log(clusterLayer, feature);
+
+    // clusterLayer.getSource().removeFeature(feature);
+
     feature.setStyle(
       styles[ "placemark_cluster" ][ style ](feature)
     );
@@ -867,17 +871,28 @@ var Hijax = (function ($, Hijax) {
       // Link list entries to pins
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
         $( this ).on("mouseenter", "li", function() {
+
           var id = this.getAttribute("about");
-          var script = $(this).closest("ul").children('script[type="application/ld+json"]');
-          if (script.length) {
-            var json = JSON.parse( script.html() );
-            var resource = json.filter(function(resource) {
-              return resource['@id'] == id;
-            })[0];
-            var markers = getMarkers(resource);
-            for (var i = 0; i < markers.length; i++) {
-              markers[i].setStyle(styles.placemark.hover());
+          //var script = $(this).closest("ul").children('script[type="application/ld+json"]');
+
+          if (true) {
+
+            // find cluster containing feature with given id
+            var cluster;
+            clusterLayer.getSource().forEachFeature(function(f){
+              var cfeatures = f.get('features');
+              for(var j = 0; j < cfeatures.length; j++) {
+                if(id == cfeatures[j].getId()) {
+                  cluster = f;
+                }
+              }
+            });
+
+            // set hover style
+            if(cluster) {
+              cluster.setStyle(styles.placemark_cluster.hover(cluster));
             }
+
           }
         });
         $( this ).on("mouseleave", "li", function() {
@@ -888,10 +903,12 @@ var Hijax = (function ($, Hijax) {
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];
-            var markers = getMarkers(resource);
+            //var markers = getMarkers(resource);
+/*
             for (var i = 0; i < markers.length; i++) {
               markers[i].setStyle(styles.placemark.base());
             }
+*/
           }
         });
       });
