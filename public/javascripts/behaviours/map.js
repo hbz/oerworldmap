@@ -847,19 +847,16 @@ var Hijax = (function ($, Hijax) {
 
     attach : function(context) {
 
-      // Populate map with pins from single resources
-      $('div.resource', context).each(function() {
-          var json = JSON.parse( $(this).find('script').html() );
-          var markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
-          addPlacemarks( markers );
-        });
-
       // Populate map with pins from resource listings
       $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
-        var markers = [];
-        for (i in json) {
-          var markers = markers.concat( getMarkers(json[i]) );
+        if(json instanceof Array) {
+          var markers = [];
+          for (i in json) {
+            var markers = markers.concat( getMarkers(json[i]) );
+          }
+        } else {
+          var markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
         }
         addPlacemarks( markers );
       });
