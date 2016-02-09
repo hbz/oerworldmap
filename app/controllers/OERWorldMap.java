@@ -85,12 +85,28 @@ public abstract class OERWorldMap extends Controller {
     }
     Object name = resource.get("name");
     if (name instanceof ArrayList) {
+      // Return requested language
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
           String language = ((Resource) n).getAsString("@language");
-          if (language.equals(currentLocale.getLanguage())) {
+          if (language.equals(Locale.getDefault().getLanguage())) {
             return ((Resource) n).getAsString("@value");
           }
+        }
+      }
+      // Return English if requested language is not available
+      for (Object n : ((ArrayList) name)) {
+        if (n instanceof Resource) {
+          String language = ((Resource) n).getAsString("@language");
+          if (language.equals("en")) {
+            return ((Resource) n).getAsString("@value");
+          }
+        }
+      }
+      // Return first available if English is not available
+      for (Object n : ((ArrayList) name)) {
+        if (n instanceof Resource) {
+          return ((Resource) n).getAsString("@value");
         }
       }
     }
@@ -118,17 +134,6 @@ public abstract class OERWorldMap extends Controller {
     handlebars.registerHelper("obfuscate", new Helper<String>() {
       public CharSequence apply(String string, Options options) {
         return UniversalFunctions.getHtmlEntities(string);
-      }
-    });
-
-    handlebars.registerHelper("@value", new Helper<Resource>() {
-      public CharSequence apply(Resource resource, Options options) {
-        if (resource.get("@language") != null
-            && resource.get("@language").toString().equals(Locale.getDefault().getLanguage())) {
-          return resource.get("@value").toString();
-        } else {
-          return "";
-        }
       }
     });
 

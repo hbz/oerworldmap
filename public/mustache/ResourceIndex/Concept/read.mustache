@@ -23,15 +23,19 @@
                 <div class="resource-header">
 
                     <h1 class="resource-title">
-                        {{getIcon "Concept"}}
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                 </div>
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 <table class="table resource-details-table">
 

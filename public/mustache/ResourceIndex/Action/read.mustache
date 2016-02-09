@@ -29,8 +29,12 @@
                 <div class="resource-header">
 
                     <h1 class="resource-title">
-                        {{getIcon "Action"}}
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                     {{#additionalType}}
@@ -50,9 +54,9 @@
                     </div>
                 {{/image}}
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 {{#url}}
                     <p>
@@ -79,9 +83,9 @@
                             <td>{{i18n "Action.email"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
-                                    {{#alternateName}}
-                                        <li>{{@value}}</li>
-                                    {{/alternateName}}
+                                    {{#localized alternateName}}
+                                        <li>{{[@value]}}</li>
+                                    {{/localized}}
                                 </ul>
                             </td>
                         </tr>

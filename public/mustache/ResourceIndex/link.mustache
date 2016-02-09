@@ -1,7 +1,10 @@
 <span class="resource">
     {{getIcon @type}}
     <a href="/resource/{{@id}}">
-        {{#this.name}}{{@value}}{{/this.name}}
-        {{^this.name}}{{[@id]}}{{/this.name}}
+        {{#localized this.name}}
+            {{[@value]}}
+        {{else}}
+            {{[@id]}}
+        {{/localized}}
     </a>
 </span>

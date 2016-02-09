@@ -29,8 +29,12 @@
                     {{/if}}
 
                     <h1 class="resource-title">
-                        <i class="fa fa-desktop"></i>
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                     {{#serviceType}}
@@ -50,9 +54,9 @@
                     </div>
                 {{/image}}
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 {{#availableChannel}}{{#serviceUrl}}
                     <p>

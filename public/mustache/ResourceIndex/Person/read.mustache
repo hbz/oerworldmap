@@ -35,8 +35,12 @@
                 <div class="resource-header">
 
                     <h1 class="resource-title">
-                        <i class="fa fa-user"></i>
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                     {{#countryChampionFor}}
@@ -55,9 +59,9 @@
                     </div>
                 {{/image}}
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 <table class="table resource-details-table">
 
