@@ -83,7 +83,7 @@
                         <td>
                             <ul class="resource-list truncated">
                                 {{#audience}}
-                                    <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
                                 {{/audience}}
                             </ul>
                         </td>
@@ -95,7 +95,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#provider}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/provider}}
                                 </ul>
                             </td>
@@ -108,7 +108,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#about}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/about}}
                                 </ul>
                             </td>
@@ -134,7 +134,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#memberOf}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/memberOf}}
                                 </ul>
                             </td>

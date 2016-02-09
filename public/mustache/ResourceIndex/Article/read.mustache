@@ -77,12 +77,12 @@
                     </script>
                     {{#mainEntity}}
                         <li about="{{@id}}">
-                            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                            {{>ResourceIndex/link.mustache}}
                         </li>
                     {{/mainEntity}}
                     {{#mentions}}
                         <li about="{{@id}}">
-                            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                            {{>ResourceIndex/link.mustache}}
                         </li>
                     {{/mentions}}
                 </ul>

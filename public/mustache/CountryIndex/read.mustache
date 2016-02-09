@@ -32,7 +32,7 @@
                         <h4>Country Champion</h4>
 
                         <ul class="resource-list truncated"><li>
-                          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                          {{>ResourceIndex/link.mustache}}
                         </li></ul>
 
                         <p>
@@ -87,7 +87,7 @@
                 </script>
                 {{#resources.member}}
                     <li about="{{@id}}">
-                        {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                        {{>ResourceIndex/link.mustache}}
                     </li>
                 {{/resources.member}}
             </ul>
