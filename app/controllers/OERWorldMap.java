@@ -59,23 +59,11 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  // Internationalization
-  protected static Locale currentLocale;
-
   static {
-    if (mConf.getBoolean("i18n.enabled")) {
-      try {
-        currentLocale = request().acceptLanguages().get(0).toLocale();
-      } catch (IndexOutOfBoundsException e) {
-        currentLocale = Locale.getDefault();
-      }
-    } else {
-      currentLocale = new Locale("en");
-    }
-    Locale.setDefault(currentLocale);
+
   }
 
-  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
+  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", Locale.getDefault());
 
   //TODO: is this right here? how else to implement?
   public static String getLabel(String aId) {

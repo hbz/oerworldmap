@@ -5,6 +5,7 @@ import helpers.Countries;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import models.Record;
@@ -46,14 +47,14 @@ public class CountryIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
-    scope.put("name", Countries.getNameFor(id, currentLocale));
+    scope.put("name", Countries.getNameFor(id, Locale.getDefault()));
     scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
     scope.put("embed", embed);
 
     if (request().accepts("text/html")) {
-      return ok(render(Countries.getNameFor(id, currentLocale), "CountryIndex/read.mustache", scope));
+      return ok(render(Countries.getNameFor(id, Locale.getDefault()), "CountryIndex/read.mustache", scope));
     } else {
       return ok(resources.toString()).as("application/json");
     }
