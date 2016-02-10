@@ -17,7 +17,11 @@ libraryDependencies ++= Seq(
   "org.json" % "json" % "20141113",
   "org.pegdown" % "pegdown" % "1.5.0",
   "com.github.jknack" % "handlebars" % "2.2.2",
-  "org.eclipse.jetty" % "jetty-util" % "8.1.12.v20130726"
+  "org.eclipse.jetty" % "jetty-util" % "8.1.12.v20130726",
+  "org.apache.jena" % "apache-jena-libs" % "2.13.0",
+  "io.apigee.trireme" % "trireme-kernel" % "0.8.8",
+  "io.apigee.trireme" % "trireme-core" % "0.8.8",
+  "io.apigee.trireme" % "trireme-node10src" % "0.8.8"
 )
 
 includeFilter in (Assets, LessKeys.less) := "main.less"

@@ -1,0 +1,13 @@
+{
+  "@context": {
+    "@vocab": "http://schema.org/"
+  },
+  "@id": "info:alice",
+  "@type": "Person",
+  "name": [
+    {
+      "@value": "Alice in Wonderland",
+      "@language": "en"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "@type" : "Person",
+  "name" : [ {
+    "@value" : "Alice",
+    "@language" : "en"
+  } ],
+  "@id" : "info:alice",
+  "knows" : [ {
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Carol Foo",
+      "@language" : "en"
+    } ],
+    "@id" : "info:carol",
+    "knows" : [ {
+      "@id" : "info:alice",
+      "@type" : "Person",
+      "name" : [ {
+        "@value" : "Alice",
+        "@language" : "en"
+      } ]
+    } ]
+  } ]
+}
