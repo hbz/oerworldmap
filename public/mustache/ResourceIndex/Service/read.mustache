@@ -29,8 +29,12 @@
                     {{/if}}
 
                     <h1 class="resource-title">
-                        <i class="fa fa-desktop"></i>
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                     {{#serviceType}}
@@ -50,9 +54,9 @@
                     </div>
                 {{/image}}
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 {{#availableChannel}}{{#serviceUrl}}
                     <p>
@@ -83,7 +87,7 @@
                         <td>
                             <ul class="resource-list truncated">
                                 {{#audience}}
-                                    <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
                                 {{/audience}}
                             </ul>
                         </td>
@@ -95,7 +99,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#provider}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/provider}}
                                 </ul>
                             </td>
@@ -108,7 +112,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#about}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/about}}
                                 </ul>
                             </td>
@@ -134,7 +138,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#memberOf}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/memberOf}}
                                 </ul>
                             </td>

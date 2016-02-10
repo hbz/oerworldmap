@@ -24,8 +24,12 @@
                 <div class="resource-header">
 
                     <h1 class="resource-title">
-                      <i class="fa fa-fw fa-comment"></i>
-                      {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                     <div class="resource-subline">
@@ -34,7 +38,11 @@
                             {{#creator}}
                                 <li>
                                     <a href="/resource/{{@id}}">
-                                      {{#name}}{{@value}}{{/name}}
+                                        {{#localized name}}
+                                            {{[@value]}}
+                                        {{else}}
+                                            {{[@id]}}
+                                        {{/localized}}
                                     </a>
                                 </li>
                             {{/creator}}
@@ -51,7 +59,7 @@
                     </div>
                 {{/image}}
 
-                {{#articleBody}}{{{@value}}}{{/articleBody}}
+                {{#localized articleBody}}{{{[@value]}}}{{/localized}}
 
                 {{#keywords.size}}
                     <h2>{{i18n "Article.keywords"}}</h2>
@@ -77,12 +85,12 @@
                     </script>
                     {{#mainEntity}}
                         <li about="{{@id}}">
-                            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                            {{>ResourceIndex/link.mustache}}
                         </li>
                     {{/mainEntity}}
                     {{#mentions}}
                         <li about="{{@id}}">
-                            {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+                            {{>ResourceIndex/link.mustache}}
                         </li>
                     {{/mentions}}
                 </ul>

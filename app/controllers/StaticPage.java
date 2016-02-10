@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -18,8 +19,8 @@ public class StaticPage extends OERWorldMap {
   public static Result get(String aPage) {
 
     String title = aPage.substring(0, 1).toUpperCase().concat(aPage.substring(1));
-    String language = currentLocale.getLanguage();
-    String country = currentLocale.getCountry();
+    String language = Locale.getDefault().getLanguage();
+    String country = Locale.getDefault().getCountry();
     String extension = ".md";
     String path = "public/pages/";
     ClassLoader classLoader = Play.application().classloader();

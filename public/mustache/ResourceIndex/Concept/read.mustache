@@ -23,15 +23,19 @@
                 <div class="resource-header">
 
                     <h1 class="resource-title">
-                        {{getIcon "Concept"}}
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                 </div>
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 <table class="table resource-details-table">
 
@@ -41,7 +45,7 @@
                             <td>
                                 <ul class="resource-list">
                                     {{#inScheme}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/inScheme}}
                                 </ul>
                             </td>
@@ -54,7 +58,7 @@
                             <td>
                                 <ul class="resource-list">
                                     {{#broader}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/broader}}
                                 </ul>
                             </td>
@@ -67,7 +71,7 @@
                             <td>
                                 <ul class="resource-list" data-behaviour="sort">
                                     {{#narrower}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/narrower}}
                                 </ul>
                             </td>
@@ -80,7 +84,7 @@
                             <td>
                                 <ul class="resource-list">
                                     {{#related}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/related}}
                                 </ul>
                             </td>

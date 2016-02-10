@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,7 +43,7 @@ public class UserIndex extends OERWorldMap {
 
   public static Result list() throws IOException {
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(currentLocale));
+    scope.put("countries", Countries.list(Locale.getDefault()));
     return ok(render("Registration", "UserIndex/index.mustache", scope));
   }
 
@@ -57,7 +58,7 @@ public class UserIndex extends OERWorldMap {
       ensureEmailUnique(user, report);
     }
     if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(currentLocale));
+      scope.put("countries", Countries.list(Locale.getDefault()));
       scope.put("user", user);
       return badRequest(render("Registration", "UserIndex/index.mustache", scope,
           JSONForm.generateErrorReport(report)));
@@ -93,7 +94,7 @@ public class UserIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(currentLocale));
+      scope.put("countries", Countries.list(Locale.getDefault()));
       if (isJsonRequest) {
         return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
@@ -135,7 +136,7 @@ public class UserIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(currentLocale));
+      scope.put("countries", Countries.list(Locale.getDefault()));
       if (isJsonRequest) {
         return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {

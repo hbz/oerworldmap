@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,7 +111,7 @@ public class ResourceIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(currentLocale));
+      scope.put("countries", Countries.list(Locale.getDefault()));
       if (isJsonRequest) {
         return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
       } else {
@@ -217,7 +218,7 @@ public class ResourceIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(currentLocale));
+      scope.put("countries", Countries.list(Locale.getDefault()));
       if (isJsonRequest) {
         return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
       } else {

@@ -10,6 +10,7 @@ import play.mvc.Result;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -21,8 +22,8 @@ public class I18n extends OERWorldMap {
   public static Result get() {
     Map<String, Object> i18n = new HashMap<>();
     Map<String, String> messages = new HashMap<>();
-    ResourceBundle messageBundle = ResourceBundle.getBundle("messages", currentLocale);
-    for (String key : Collections.list(ResourceBundle.getBundle("messages", currentLocale).getKeys())) {
+    ResourceBundle messageBundle = ResourceBundle.getBundle("messages", Locale.getDefault());
+    for (String key : Collections.list(ResourceBundle.getBundle("messages", Locale.getDefault()).getKeys())) {
       try {
         String message = StringEscapeUtils.unescapeJava(new String(messageBundle.getString(key)
             .getBytes("ISO-8859-1"), "UTF-8"));
@@ -32,8 +33,8 @@ public class I18n extends OERWorldMap {
       }
     }
     i18n.put("messages", messages);
-    i18n.put("countries", Countries.map(currentLocale));
-    i18n.put("languages", Languages.map(currentLocale));
+    i18n.put("countries", Countries.map(Locale.getDefault()));
+    i18n.put("languages", Languages.map(Locale.getDefault()));
 
     String countryMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
     return ok("i18nStrings = ".concat(countryMap)).as("application/javascript");

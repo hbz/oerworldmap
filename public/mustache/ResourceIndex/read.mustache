@@ -5,7 +5,7 @@
     </script>
     {{#scope.resources.member}}
         <li about="{{@id}}">
-          {{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}
+          {{>ResourceIndex/link.mustache}}
         </li>
     {{/scope.resources.member}}
     

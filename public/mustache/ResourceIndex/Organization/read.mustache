@@ -29,8 +29,12 @@
                 <div class="resource-header">
 
                     <h1 class="resource-title">
-                        <i class="fa fa-users"></i>
-                        {{#name}}{{@value}}{{/name}}
+                        {{getIcon @type}}
+                        {{#localized name}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
                     </h1>
 
                     {{#countryChampionFor}}
@@ -49,9 +53,9 @@
                     </div>
                 {{/image}}
 
-                {{#description}}
-                    <p>{{{@value}}}</p>
-                {{/description}}
+                {{#localized description}}
+                    <p>{{{[@value]}}}</p>
+                {{/localized}}
 
                 {{#url}}
                     <p>
@@ -101,7 +105,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#contactPoint}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/contactPoint}}
                                 </ul>
                             </td>
@@ -114,7 +118,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#created}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/created}}
                                 </ul>
                             </td>
@@ -127,7 +131,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mainEntityOf}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/mainEntityOf}}
                                 </ul>
                             </td>
@@ -140,7 +144,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#mentionedIn}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/mentionedIn}}
                                 </ul>
                             </td>
@@ -153,7 +157,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#participantIn}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/participantIn}}
                                 </ul>
                             </td>
@@ -166,7 +170,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#provides}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/provides}}
                                 </ul>
                             </td>
@@ -179,7 +183,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#memberOf}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/memberOf}}
                                 </ul>
                             </td>
@@ -192,7 +196,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#member}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/member}}
                                 </ul>
                             </td>
@@ -205,7 +209,7 @@
                             <td>
                                 <ul class="resource-list truncated">
                                     {{#funderOf}}
-                                        <li>{{> (stringFormat "ResourceIndex/%s/link.mustache" @type) }}</li>
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/funderOf}}
                                 </ul>
                             </td>
