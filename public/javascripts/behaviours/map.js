@@ -576,7 +576,7 @@ var Hijax = (function ($, Hijax) {
 
         var feature = new ol.Feature(featureProperties);
         feature.setId(resource['@id']);
-        feature.setStyle(styles['placemark']['base']());
+        feature.setStyle(styles['placemark']['base']()); // ... seems not to be necessary
         _markers.push(feature);
       }
     }
@@ -866,34 +866,75 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Link list entries to pins
+      // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
         $( this ).on("mouseenter", "li", function() {
+
           var id = this.getAttribute("about");
           var script = $(this).closest("ul").children('script[type="application/ld+json"]');
+
           if (script.length) {
+
+            // first get the markers that represent hovered resource
             var json = JSON.parse( script.html() );
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];
             var markers = getMarkers(resource);
-            for (var i = 0; i < markers.length; i++) {
-              markers[i].setStyle(styles.placemark.hover());
+
+            // iterate over markers and collect the clusters, they are in
+            var clusters = [];
+            for(var i = 0; i < markers.length; i++) {
+              clusterLayer.getSource().forEachFeature(function(f){
+                var cfeatures = f.get('features');
+                for(var j = 0; j < cfeatures.length; j++) {
+                  if(markers[i].getId() == cfeatures[j].getId()) {
+                    clusters.push(f);
+                  }
+                }
+              });
             }
+
+            // last but not least, change the style of the clusters, we found
+            for(var i = 0; i < clusters.length; i++) {
+              clusters[i].setStyle(styles.placemark_cluster.hover(clusters[i]));
+            }
+
           }
         });
         $( this ).on("mouseleave", "li", function() {
+
           var id = this.getAttribute("about");
           var script = $(this).closest("ul").children('script[type="application/ld+json"]');
+
           if (script.length) {
+
+            // first get the markers that represent hovered resource
             var json = JSON.parse( script.html() );
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];
             var markers = getMarkers(resource);
-            for (var i = 0; i < markers.length; i++) {
-              markers[i].setStyle(styles.placemark.base());
+
+            // iterate over markers and collect the clusters, they are in
+            var clusters = [];
+            for(var i = 0; i < markers.length; i++) {
+              clusterLayer.getSource().forEachFeature(function(f){
+                var cfeatures = f.get('features');
+                for(var j = 0; j < cfeatures.length; j++) {
+                  if(markers[i].getId() == cfeatures[j].getId()) {
+                    clusters.push(f);
+                  }
+                }
+              });
+            }
+
+            // last but not least, change the style of the clusters, we found
+            for(var i = 0; i < clusters.length; i++) {
+              clusters[i].setStyle(styles.placemark_cluster.base(clusters[i]));
             }
           }
+
         });
       });
 
