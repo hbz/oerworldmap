@@ -30,7 +30,12 @@ public class TripleDiffTest {
   public void testInvalidLiteral() {
     TripleDiff tripleDiff = new TripleDiff();
     tripleDiff.fromString(" + <http://example.org/show/218> <http://www.w3.org/2000/01/rdf-schema#label> \"That Seventies Show .");
-    System.out.println(tripleDiff);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidOp() {
+    TripleDiff tripleDiff = new TripleDiff();
+    tripleDiff.fromString(" | <http://example.org/show/218> <http://www.w3.org/2000/01/rdf-schema#label> \"That Seventies Show\" .");
   }
 
 }

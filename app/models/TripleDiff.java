@@ -82,7 +82,11 @@ public class TripleDiff {
     while (scanner.hasNextLine()) {
       String diffLine = scanner.nextLine().trim();
       mBuffer.read(new ByteArrayInputStream(diffLine.substring(1).getBytes(StandardCharsets.UTF_8)), null, mLang);
-      mLines.add(new Line(mBuffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
+      String op = diffLine.substring(0, 1);
+      if (!op.equals("+") && !op.equals("-")) {
+        throw new IllegalArgumentException("Diff Line malformed: " + diffLine);
+      }
+      mLines.add(new Line(mBuffer.listStatements().nextStatement(), op.equals("+")));
       mBuffer.removeAll();
     }
     scanner.close();
