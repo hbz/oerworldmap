@@ -8,12 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 /**
  * Created by fo on 10.12.15, modified by pvb
@@ -22,7 +19,8 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 public class TripleDiff {
 
   final private List<Line> mLines = new ArrayList<>();
-  final private static String PATTERN = " *[+-]( +([!#-ƒ]+|\"[ -ƒ]+\")){3}";
+  final private String mLang = Lang.NTRIPLES.getName();
+  final private Model mBuffer = ModelFactory.createDefaultModel();
 
   public class Line {
 
@@ -70,52 +68,25 @@ public class TripleDiff {
 
   public String toString() {
     String diffString = "";
-    Model model = ModelFactory.createDefaultModel();
+    StringWriter triple = new StringWriter();
     for (Line line : this.mLines) {
-      StringWriter triple = new StringWriter();
-      RDFDataMgr.write(triple, model.add(line.stmt), Lang.NTRIPLES);
-      model.removeAll();
-      if (line.add) {
-        diffString += "+ ".concat(triple.toString());
-      } else {
-        diffString += "- ".concat(triple.toString());
-      }
+      mBuffer.add(line.stmt).write(triple, mLang).removeAll();
+      diffString += (line.add ? "+ " : "- ").concat(triple.toString());
+      triple.getBuffer().setLength(0);
     }
     return diffString;
   }
 
   public void fromString(String aDiffString) {
     Scanner scanner = new Scanner(aDiffString);
-    Model model = ModelFactory.createDefaultModel();
     while (scanner.hasNextLine()) {
-      addLine(scanner.nextLine(), model);
-      model.removeAll();
+      String diffLine = scanner.nextLine().trim();
+      mBuffer.read(new ByteArrayInputStream(diffLine.substring(1).getBytes(StandardCharsets.UTF_8)), null, mLang);
+      mLines.add(new Line(mBuffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
+      mBuffer.removeAll();
     }
     scanner.close();
   }
 
-  private void addLine(final String aDiffLine, final Model aEmptyModel) {
-
-    // prepare
-    String diffline = aDiffLine.trim();
-
-    // check aDiffLine is well formed
-    if (!aDiffLine.matches(PATTERN)) {
-      throw new IllegalArgumentException("Diff Line malformatted: " + aDiffLine);
-    }
-
-    // read operator
-    boolean add = "+".equals(diffline.substring(0,1));
-
-    // read statement
-    RDFDataMgr.read(aEmptyModel,
-        new ByteArrayInputStream(diffline.substring(1).getBytes(StandardCharsets.UTF_8)),
-        Lang.NTRIPLES);
-    StmtIterator it = aEmptyModel.listStatements();
-    Statement statement = it.nextStatement();
-
-    // finally, add the line
-    mLines.add(new Line(statement, add));
-  }
 
 }
