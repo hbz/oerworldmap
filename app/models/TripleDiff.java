@@ -67,14 +67,14 @@ public class TripleDiff {
   }
 
   public String toString() {
-    String diffString = "";
+    StringBuilder diffString = new StringBuilder();
     StringWriter triple = new StringWriter();
     for (Line line : this.mLines) {
       mBuffer.add(line.stmt).write(triple, mLang).removeAll();
-      diffString += (line.add ? "+ " : "- ").concat(triple.toString());
+      diffString.append((line.add ? "+ " : "- ").concat(triple.toString()));
       triple.getBuffer().setLength(0);
     }
-    return diffString;
+    return diffString.toString();
   }
 
   public void fromString(String aDiffString) {
