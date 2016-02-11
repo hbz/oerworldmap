@@ -19,7 +19,7 @@ import com.hp.hpl.jena.rdf.model.Statement;
 public class TripleDiff {
 
   final private List<Line> mLines = new ArrayList<>();
-  final private String mLang = Lang.NTRIPLES.getName();
+  final private static String mLang = Lang.NTRIPLES.getName();
   final private Model mBuffer = ModelFactory.createDefaultModel();
 
   public class Line {
