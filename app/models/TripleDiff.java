@@ -105,12 +105,7 @@ public class TripleDiff {
     }
 
     // read operator
-    boolean add;
-    if ("+".equals(diffline.charAt(0))) {
-      add = true;
-    } else {
-      add = false;
-    }
+    boolean add = "+".equals(diffline.substring(0,1));
 
     // read statement
     RDFDataMgr.read(aEmptyModel,
