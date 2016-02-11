@@ -79,9 +79,13 @@ public class TripleDiff {
   }
 
   public void fromString(String aDiffString) {
+    @SuppressWarnings("resource")
     Scanner scanner = new Scanner(aDiffString);
     while (scanner.hasNextLine()) {
       String diffLine = scanner.nextLine().trim();
+      if (!diffLine.matches("^[+-] .*")) {
+        throw new IllegalArgumentException("Mal formed triple diff line: " + aDiffString);
+      }
       mBuffer.read(new ByteArrayInputStream(diffLine.substring(1).getBytes(StandardCharsets.UTF_8)), null, mLang);
       mLines.add(new Line(mBuffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
       mBuffer.removeAll();
