@@ -22,7 +22,6 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 public class TripleDiff {
 
   final private List<Line> mLines = new ArrayList<>();
-  final private static String PATTERN = " *[+-]( +([!#-ƒ]+|\"[ -ƒ]+\")){3}";
 
   public class Line {
 
@@ -96,11 +95,14 @@ public class TripleDiff {
 
   private void addLine(final String aDiffLine, final Model aEmptyModel) {
 
-    // prepare
     String diffline = aDiffLine.trim();
 
-    // check aDiffLine is well formed
-    if (!aDiffLine.matches(PATTERN)) {
+    // check aDiffLine is well formed - that means it has to start with:
+    // 1. 0 or more white spaces
+    // 2. a "+" or a "-"
+    // 3. 1 or more white spaces
+    // followed by the RDF statement
+    if (!aDiffLine.matches("^ *[+-] +")) {
       throw new IllegalArgumentException("Diff Line malformatted: " + aDiffLine);
     }
 
