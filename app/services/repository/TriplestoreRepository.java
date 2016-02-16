@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.hp.hpl.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -33,11 +34,15 @@ import play.libs.ws.ning.NingWSClient;
  */
 public class TriplestoreRepository extends Repository implements Readable, Writable {
 
-  public static final String CONSTRUCT_INVERSE = "CONSTRUCT {?r <http://schema.org/knows> <%1$s> } WHERE {"
-      + "  <%1$s> <http://schema.org/knows> ?r ." + "}";
+  public static final String CONSTRUCT_INVERSE =
+    "CONSTRUCT {?o <%1$s> ?s} WHERE {" +
+    "  ?s <%2$s> ?o ." +
+    "}";
 
-  public static final String DESCRIBE_RESOURCE = "DESCRIBE <%1$s> ?o ?oo WHERE {"
-      + "  <%1$s> ?p ?o FILTER isIRI(?o) OPTIONAL{?o ?pp ?oo FILTER isIRI(?oo)}" + "}";
+  public static final String DESCRIBE_RESOURCE =
+    "DESCRIBE <%1$s> ?o ?oo WHERE {" +
+    "  <%1$s> ?p ?o FILTER isIRI(?o) OPTIONAL{?o ?pp ?oo FILTER isIRI(?oo)}" +
+    "}";
 
   public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
 
@@ -108,16 +113,15 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     RDFDataMgr.read(model, byteArrayInputStream, Lang.JSONLD);
 
     // Add inferred (e.g. inverse) statements to incoming model
-    String inferConstruct = String.format(CONSTRUCT_INVERSE, aResource.getId());
-    QueryExecutionFactory.create(QueryFactory.create(inferConstruct), model).execConstruct(model);
+    addInverses(model);
 
     // Current data
     String describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
     Model dbstate = ModelFactory.createDefaultModel();
     QueryExecutionFactory.create(QueryFactory.create(describeStatement), db).execDescribe(dbstate);
+
     // Inverses in dbstate, or rather select them from DB?
-    QueryExecutionFactory.create(QueryFactory.create(inferConstruct), dbstate)
-        .execConstruct(dbstate);
+    addInverses(dbstate);
 
     Logger.debug(dbstate.toString());
     Logger.debug(model.toString());
@@ -146,6 +150,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource deleteResource(@Nonnull String aId) throws IOException {
     return null;
+  }
+
+  private void addInverses(Model model) {
+    Model inverses = ModelFactory.createDefaultModel();
+    Model relations = ModelFactory.createDefaultModel();
+    RDFDataMgr.read(relations, ClassLoader.getSystemResourceAsStream("inverses.ttl"), Lang.TURTLE);
+    for (Statement stmt : relations.listStatements().toList()) {
+      String inferConstruct = String.format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
+      QueryExecutionFactory.create(QueryFactory.create(inferConstruct), model).execConstruct(inverses);
+    }
+    model.add(inverses);
   }
 
 }

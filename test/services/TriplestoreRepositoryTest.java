@@ -143,7 +143,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
   public void testGetResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
-      "SchemaTest/testPerson.json");
+      "TriplestoreRepositoryTest/testAddResource.IN.1.json");
 
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config);
     triplestoreRepository.addResource(resource1, "Person");
