@@ -6,11 +6,11 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
+    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Action.name") tooltip=(i18n "Action.name" bundle="descriptions")}}
+
     {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true type="text"}}
 
     {{> FormElements/input.mustache property=email key="email" title=(i18n "Action.email") tooltip=(i18n "Action.email" bundle="descriptions") hidden=false multiple=false type="email"}}
-
-    {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Action.name") tooltip=(i18n "Action.name" bundle="descriptions")}}
 
     {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Action.alternateName") tooltip=(i18n "Action.alternateName" bundle="descriptions")}}
 
@@ -41,5 +41,7 @@
     {{> FormElements/id.mustache property=mentionedIn key="mentionedIn" title=(i18n "Action.mentionedIn") tooltip=(i18n "Action.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Action.sameAs") tooltip=(i18n "Action.sameAs" bundle="descriptions") hidden=false multiple=true type="url"}}
+
+    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Action.tag") tooltip=(i18n "Action.tag" bundle="descriptions") hidden=false multiple=true type="text"}}
 
 </fieldset>
