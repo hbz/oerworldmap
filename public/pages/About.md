@@ -53,7 +53,7 @@ Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java devel
 Johannes will codevelop the frontend with Felix. He works as a freelance web developer since 2003 and implemented projects for a huge variety of clients. Lately he focussed on building UI functionalities and responsive Layouts. Johannes studied computer sience and communication sience and is pationated about the intersections between the technical and conceptional aspects of his work.
 
 ## Felix Link (Design, since 2015)
-![Felix Link](/assets/images/felix-link.jpg)
+![Felix Link](/assets/images/felix-link.png)
 Felix joined the project in October 2015, being the UI- / frontend-designer of the OER World Map. He studied graphik and communication design from 2006 to 2012. Since 2008 he has been working as a freelance designer for both agencys and own clients, developing and implementing projects in corporate, editorial and web design.
 
 ## Ben Buschfeld (Design, 2014-2015)
