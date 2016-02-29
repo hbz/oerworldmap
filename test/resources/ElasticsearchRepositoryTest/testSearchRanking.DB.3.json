@@ -1,0 +1,83 @@
+{
+  "@type" : "Organization",
+  "provides" : [ {
+    "audience" : [ ],
+    "provider" : [ {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "OERWorldMap Provider 1",
+        "@language" : "en"
+      }],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00001"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "OERWorldMap Provider 2",
+        "@language" : "en"
+      }],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00002"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "OERWorldMap Provider 3",
+        "@language" : "en"
+      }],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00003"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "OERWorldMap Provider 4",
+        "@language" : "en"
+      }],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00004"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "A Good Provider 5",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00005"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "A Good Provider 6",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00006"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "A Good Provider 7",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00007"
+    },
+    {
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "A Good Provider 8",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00008"
+    } ],
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "OERWorldMap",
+      "@language" : "en"
+    } ],    
+    "@id" : "urn:uuid:3a25e950-a3c0-425d-946d-980666500001"
+  } ],
+  "name" : [ {
+    "@value" : "OERWorldMap Provider 3",
+    "@language" : "en"
+  } ],
+  "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00003",
+  "url" : "https://thiscouldbealinkingsitetotheworldmap.org",
+  "description" : ["Since this organization contains the magic word oerworldmap in the following two fields: name and description (but not url), it should be ranked third."]
+}

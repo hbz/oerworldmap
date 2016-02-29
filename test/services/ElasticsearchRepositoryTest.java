@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,10 +14,11 @@ import org.junit.Test;
 
 import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
+import helpers.JsonTest;
 import models.Resource;
 import models.ResourceList;
 
-public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
+public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
   private static Resource mResource1;
   private static Resource mResource2;
@@ -87,4 +89,52 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
     // non-unique fields : some "persons" work for the same employer:
     Assert.assertTrue(resourcesGotBack.size() > employers.size());
   }
+
+  @Test
+  public void testSearchRanking() throws IOException, ParseException {
+
+    Resource db1 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.2.json");
+    Resource db3 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.3.json");
+    Resource db4 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.4.json");
+    Resource db5 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.5.json");
+    Resource db6 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.6.json");
+    Resource db7 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.7.json");
+    Resource db8 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.8.json");
+
+    List<Resource> expectedList = new ArrayList<>();
+    expectedList.add(db1);
+    expectedList.add(db2);
+    expectedList.add(db3);
+    expectedList.add(db4);
+    expectedList.add(db5);
+    expectedList.add(db6);
+    expectedList.add(db7);
+    expectedList.add(db8);
+
+    mRepo.addResource(db7, "Organization");
+    mRepo.addResource(db2, "Organization");
+    mRepo.addResource(db6, "Organization");
+    mRepo.addResource(db3, "Organization");
+    mRepo.addResource(db4, "Organization");
+    mRepo.addResource(db1, "Organization");
+    mRepo.addResource(db5, "Organization");
+    mRepo.addResource(db8, "Organization");
+
+    List<Resource> actualList = mRepo.query("oerworldmap", 0, 10, null, null).getItems();
+
+    Assert.assertEquals(getNameList(expectedList), getNameList(actualList));
+
+  }
+
+  private List<String> getNameList(List<Resource> aResourceList) {
+    List<String> result = new ArrayList<>();
+    for (Resource r : aResourceList) {
+      List<?> nameList = (List<?>) r.get("name");
+      Resource name = (Resource) nameList.get(0);
+      result.add(name.getAsString("@value"));
+    }
+    return result;
+  }
+
 }

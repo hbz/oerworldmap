@@ -31,7 +31,6 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
 
-import controllers.Global;
 import play.Logger;
 
 public class ElasticsearchProvider {
@@ -39,7 +38,6 @@ public class ElasticsearchProvider {
   private static ElasticsearchConfig mConfig;
 
   private Client mClient;
-
 
   /**
    * Initialize an instance with a specified non null Elasticsearch client.
@@ -66,8 +64,7 @@ public class ElasticsearchProvider {
 
   public static void createIndex(Client aClient, String aIndex) {
     if (aClient == null) {
-      throw new java.lang.IllegalStateException(
-          "Trying to set Elasticsearch index with no existing client.");
+      throw new java.lang.IllegalStateException("Trying to set Elasticsearch index with no existing client.");
     }
     if (indexExists(aClient, aIndex)) {
       Logger.warn("Index " + aIndex + " already exists while trying to create it.");
@@ -88,11 +85,10 @@ public class ElasticsearchProvider {
    */
   public void addJson(@Nonnull final String aJsonString, @Nullable final UUID aUuid) {
     if (aUuid == null) {
-      mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), null).setSource(aJsonString)
-          .execute().actionGet();
+      mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), null).setSource(aJsonString).execute().actionGet();
     } else {
-      mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid.toString())
-          .setSource(aJsonString).execute().actionGet();
+      mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid.toString()).setSource(aJsonString).execute()
+          .actionGet();
     }
   }
 
@@ -102,8 +98,7 @@ public class ElasticsearchProvider {
    * @param aJsonString
    */
   public void addJson(@Nonnull final String aJsonString, @Nullable final String aUuid) {
-    mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid).setSource(aJsonString)
-        .execute().actionGet();
+    mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid).setSource(aJsonString).execute().actionGet();
   }
 
   /**
@@ -113,8 +108,7 @@ public class ElasticsearchProvider {
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
-        .actionGet();
+    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute().actionGet();
   }
 
   /**
@@ -123,8 +117,7 @@ public class ElasticsearchProvider {
    * @param aMap
    */
   public void addMap(final Map<String, Object> aMap, final UUID aUuid) {
-    mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid.toString()).setSource(aMap)
-        .execute().actionGet();
+    mClient.prepareIndex(mConfig.getIndex(), mConfig.getType(), aUuid.toString()).setSource(aMap).execute().actionGet();
   }
 
   /**
@@ -139,9 +132,8 @@ public class ElasticsearchProvider {
     SearchResponse response = null;
     final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
     while (response == null || response.getHits().hits().length != 0) {
-      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
-          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage).setFrom(count * docsPerPage)
-          .execute().actionGet();
+      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType).setQuery(QueryBuilders.matchAllQuery())
+          .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
       }
@@ -189,8 +181,8 @@ public class ElasticsearchProvider {
     }
 
     SearchResponse response = searchRequestBuilder.addAggregation(aAggregationBuilder)
-        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
-        .setSize(0).execute().actionGet();
+        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter)).setSize(0).execute()
+        .actionGet();
     return response;
 
   }
@@ -202,10 +194,8 @@ public class ElasticsearchProvider {
    * @param aIdentifier
    * @return the document as Map of String/Object
    */
-  public Map<String, Object> getDocument(@Nonnull final String aType,
-      @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier)
-        .execute().actionGet();
+  public Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+    final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier).execute().actionGet();
     return response.getSource();
   }
 
@@ -221,8 +211,7 @@ public class ElasticsearchProvider {
   }
 
   public boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
-    final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
-        .execute().actionGet();
+    final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier).execute().actionGet();
     return response.isFound();
   }
 
@@ -259,16 +248,13 @@ public class ElasticsearchProvider {
    */
   public void createIndex(String aIndex) {
     try {
-      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString())
-          .execute().actionGet();
+      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString()).execute().actionGet();
       mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
-      Logger.error(
-          "Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
+      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
       indexAlreadyExists.printStackTrace();
     } catch (IOException ioException) {
-      Logger.error("Trying to create index \"" + aIndex
-          + "\" in Elasticsearch. Couldn't read index config file.");
+      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Couldn't read index config file.");
       ioException.printStackTrace();
     }
   }
@@ -292,19 +278,19 @@ public class ElasticsearchProvider {
     return esQuery(aEsQuery, null, null);
   }
 
-  public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
-      @Nullable String sort) throws IOException, ParseException {
+  public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex, @Nullable String sort)
+      throws IOException, ParseException {
     return esQuery(aEsQuery, aIndex, null, sort);
   }
 
   // TODO: make this the only available method signature?
   public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                Map<String, ArrayList<String>> aFilters) {
+      Map<String, ArrayList<String>> aFilters) {
     return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
+      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
@@ -323,8 +309,7 @@ public class ElasticsearchProvider {
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0],
-            sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
       } else {
         Logger.error("Invalid sort string: " + aSortOrder);
       }
@@ -346,8 +331,7 @@ public class ElasticsearchProvider {
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString)
-          .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+      queryBuilder = QueryBuilders.multiMatchQuery(aQueryString, "name.@value^12", "url^9", "_all");
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
@@ -358,8 +342,8 @@ public class ElasticsearchProvider {
 
   }
 
-  public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex,
-      @Nullable String aType, @Nullable String aSort) throws IOException, ParseException {
+  public SearchResponse esQuery(@Nonnull String aEsQuery, @Nullable String aIndex, @Nullable String aType,
+      @Nullable String aSort) throws IOException, ParseException {
     SearchRequestBuilder searchRequestBuilder = mClient
         .prepareSearch(StringUtils.isEmpty(aIndex) ? mConfig.getIndex() : aIndex);
     if (!StringUtils.isEmpty(aType)) {
@@ -368,17 +352,15 @@ public class ElasticsearchProvider {
     if (!StringUtils.isEmpty(aSort)) {
       String[] sort = aSort.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0],
-            sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
       } else {
         Logger.error("Invalid sort string: " + aSort);
       }
     }
 
     return searchRequestBuilder
-        .setQuery(QueryBuilders.queryString(aEsQuery)
-            .defaultOperator(QueryStringQueryBuilder.Operator.AND))
-        .setFrom(0).setSize(1).execute().actionGet();
+        .setQuery(QueryBuilders.queryString(aEsQuery).defaultOperator(QueryStringQueryBuilder.Operator.AND)).setFrom(0)
+        .setSize(1).execute().actionGet();
 
   }
 }
