@@ -318,6 +318,9 @@ public class ElasticsearchRepository extends Repository
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
       queryBuilder = QueryBuilders.queryString(aQueryString)
+          .field("about.name.@value", 5)
+          .field("about.alternateName.@value", 5)
+          .field("_all")
           .defaultOperator(QueryStringQueryBuilder.Operator.AND);
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
