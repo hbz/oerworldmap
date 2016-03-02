@@ -1,110 +1,34 @@
-<div role="complementary" class="color-scheme-map column-large" data-view="map">
+<div data-behaviour="splash">
 
-    {{#if user.email}}
-        <div class="call-for-actions">
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#resource-add-article" class="call-for-action" data-toggle="modal">Add<br/>Article</a>
-                </div>
-            </div>
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#resource-add-action" class="call-for-action" data-toggle="modal">Add<br/>Project</a>
-                </div>
-            </div>
-            {{#ifIn "admin" user.roles}}
-                <div class="call-for-actions-table">
-                    <div class="call-for-actions-row">
-                        <a href="#resource-add-person" class="call-for-action" data-toggle="modal">Add<br/>Person</a>
-                    </div>
-                </div>
-            {{/ifIn}}
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#resource-add-service" class="call-for-action" data-toggle="modal">Add<br/>Service</a>
-                </div>
-            </div>
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#resource-add-organization" class="call-for-action" data-toggle="modal">Add<br/>Organisa&shy;tion</a>
-                </div>
-            </div>
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#resource-add-event" class="call-for-action" data-toggle="modal">Add<br/>Event</a>
-                </div>
-            </div>
-        </div>
-    {{else}}
-        <div class="call-for-actions">
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="/contribute" class="call-for-action">Share<br>your<br>Story</a>
-                </div>
-            </div>
-            <div class="call-for-actions-table">
-                <div class="call-for-actions-row">
-                    <a href="#user-register" class="call-for-action">Register for News&shy;letter</a>
-                </div>
-            </div>
-            <section id="user-register" class="map-view-hidden">
-                <a href="#" data-action="close"><i class="fa fa-lg fa-times"></i></a>
-                <a href="/user/" class="hijax transclude" target="_self">{{i18n "register"}}</a>
-            </section>
-        </div>
-    {{/if}}
+    <h1>Welcome to the OER World Map</h1>
+
+    <p>
+        Our goal is to provide the most complete and comprehensive picture of the global OER movement and to develop a global network of partners and volunteers to guarantee ongoing data curation. We currently gather data about people, organizations, services, projects and events related to OER.
+    </p>
+
+    <p>
+        You can search our database <a href="/resource/">here</a>.
+    </p>
+
+    <p>
+        If you have data you believe is relevant, please consider to <a href="/contribute">contribute</a>!
+    </p>
 
 </div>
 
-<div role="main" class="column column-small color-scheme-text bg-blue-palest">
-    <div class="column-section clearfix">
 
-        <h1>Welcome to the OER World Map</h1>
+<div class="call-for-actions">
 
-        {{#each scope.typeAggregation}}
-            <table class="table table-statistics pull-right">
-                <tbody>
-                {{#buckets}}
-                    <tr>
-                        <td>{{doc_count}}</td>
-                        <td>{{getIcon key}}
-                            <a href="/resource/?filter.about.@type={{key}}">{{i18n key}}</a>
-                        </td>
-                    </tr>
-                {{/buckets}}
-                </tbody>
-            </table>
-        {{/each}}
-
-        <p>
-            Our goal is to provide the most complete and comprehensive picture of the global OER movement and to develop a global network of partners and volunteers to guarantee ongoing data curation. We currently gather data about people, organizations, services, projects and events related to OER.
-        </p>
-
-        <p>
-            You can search our database <a href="/resource/">here</a>.
-        </p>
-
-        <p>
-            If you have data you believe is relevant, please consider to <a href="/contribute">contribute</a>!
-        </p>
-
+    <div class="call-for-actions-table">
+        <div class="call-for-actions-row">
+            <a href="/contribute" class="call-for-action">Share<br>your<br>Story</a>
+        </div>
     </div>
 
-    <div class="column-section">
-        <p>
-            At the moment, we are focusing on gathering qualified data about OER Services. They can be browsed by <a href="{{getResourceUrl "https://w3id.org/isced/1997/scheme"}}">grade level</a> and <a href="{{getResourceUrl "https://w3id.org/class/esc/scheme"}}">subject</a>.
-        </p>
-        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
+    <div class="call-for-actions-table">
+        <div class="call-for-actions-row">
+            <a href="/newsletter" class="call-for-action">Register for News&shy;letter</a>
+        </div>
     </div>
 
-    <div class="column-section truncated">
-
-        <h2>Recent Additions</h2>
-
-        <a href="/resource/?size=9999&list=true&sort=dateCreated:desc" class="hijax transclude" target="_self">Resources</a>
-
-    </div>
 </div>
-
-<footer>
-</footer>
