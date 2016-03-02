@@ -297,6 +297,8 @@ public class ElasticsearchProvider {
 
     AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
 
+    String[] fieldBoosts = new String[] { "_all^1" };
+
     if (!(null == aQueryContext)) {
       searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
       for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
@@ -304,6 +306,10 @@ public class ElasticsearchProvider {
       }
       for (AggregationBuilder contextAggregation : aQueryContext.getAggregations()) {
         searchRequestBuilder.addAggregation(contextAggregation);
+      }
+
+      if (aQueryContext.hasFieldBoosts()) {
+        fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }
     }
 
@@ -332,7 +338,7 @@ public class ElasticsearchProvider {
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.multiMatchQuery(aQueryString, "name.@value^12", "url^9", "_all");
+      queryBuilder = QueryBuilders.multiMatchQuery(aQueryString, fieldBoosts);
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }

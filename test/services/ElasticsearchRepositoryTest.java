@@ -120,7 +120,11 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mRepo.addResource(db5, "Organization");
     mRepo.addResource(db8, "Organization");
 
-    List<Resource> actualList = mRepo.query("oerworldmap", 0, 10, null, null).getItems();
+    QueryContext queryContext = new QueryContext(null, null);
+    // for Testing: try other boosts:
+    // queryContext.setElasticsearchFieldBoosts(new String[] { "name.@value^5",
+    // "description" });
+    List<Resource> actualList = mRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
     List<String> actualNameList = getNameList(actualList);
 
     // must provide 8 hits
@@ -130,7 +134,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     for (int i = 0; i < 4; i++) {
       Assert.assertTrue(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
     }
-    // hits 5 to 7 must not contain "oerworldmap" in field "name"
+    // hits 5 to 8 must not contain "oerworldmap" in field "name"
     for (int i = 4; i < 8; i++) {
       Assert.assertFalse(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
     }
