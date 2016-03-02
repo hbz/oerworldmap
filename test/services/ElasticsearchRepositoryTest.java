@@ -53,14 +53,13 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   @Test
   public void testAddAndEsQueryResources() throws IOException, ParseException {
-    final String aQueryString = "*";
+    final String aQueryString = "Person";
     ResourceList result = null;
     try {
       // TODO : this test currently presumes that there is some data existent in
-      // your elasticsearch
-      // instance. Otherwise it will fail. This restriction can be overturned
-      // when a parallel method
-      // for the use of POST is introduced in ElasticsearchRepository.
+      // your elasticsearch instance. Otherwise it will fail. This restriction
+      // can be overturned when a parallel method for the use of POST is
+      // introduced in ElasticsearchRepository.
       result = mRepo.query(aQueryString, 0, 10, null, null);
     } catch (IOException | ParseException e) {
       e.printStackTrace();
@@ -91,7 +90,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
   }
 
   @Test
-  public void testSearchRanking() throws IOException, ParseException {
+  public void testSearchRankingNameHitsFirst() throws IOException, ParseException {
 
     Resource db1 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.1.json");
     Resource db2 = getResourceFromJsonFile("ElasticsearchRepositoryTest/testSearchRanking.DB.2.json");
@@ -122,8 +121,19 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mRepo.addResource(db8, "Organization");
 
     List<Resource> actualList = mRepo.query("oerworldmap", 0, 10, null, null).getItems();
+    List<String> actualNameList = getNameList(actualList);
 
-    Assert.assertEquals(getNameList(expectedList), getNameList(actualList));
+    // must provide 8 hits
+    Assert.assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 8);
+
+    // hits 1 to 4 must contain "oerworldmap" in field "name"
+    for (int i = 0; i < 4; i++) {
+      Assert.assertTrue(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
+    }
+    // hits 5 to 7 must not contain "oerworldmap" in field "name"
+    for (int i = 4; i < 8; i++) {
+      Assert.assertFalse(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
+    }
 
   }
 

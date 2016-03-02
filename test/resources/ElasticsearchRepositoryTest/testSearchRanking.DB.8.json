@@ -79,5 +79,5 @@
   } ],
   "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00008",
   "url" : "https://thiscouldbealinkingsitetotheworldmap.org",
-  "description" : ["Since this organization contains the magic word oerworldmap in none of the following fields: description, url or name, it should always be ranked last."]
+  "description" : ["Since this organization contains the magic word in none of the following fields: description, url or name, it should always be ranked last."]
 }
