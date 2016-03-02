@@ -393,7 +393,7 @@ var Hijax = (function ($, Hijax) {
 
     // determine focused country
 
-    var focusId = $('[data-view="map"]').attr("data-focus");
+    var focusId = $('[data-behaviour="map"]').attr("data-focus");
 
     if(
       focusId &&
@@ -616,7 +616,7 @@ var Hijax = (function ($, Hijax) {
   var my = {
     init : function(context) {
 
-      if (!$('div[data-view="map"]', context).length) {
+      if (!$('div[data-behaviour="map"]', context).length) {
         return new $.Deferred();
       }
 
@@ -648,14 +648,11 @@ var Hijax = (function ($, Hijax) {
         }
       )();
 
-      $('div[data-view="map"]', context).each(function() {
-
-        // move footer to map container
-        $('#page-footer').appendTo(this);
+      $('div[data-behaviour="map"]', context).each(function() {
 
         // switch style
-        $(this).addClass("map-view");
-        $('body').removeClass("layout-scroll").addClass("layout-fixed");
+        // $(this).addClass("map-view");
+        // $('body').removeClass("layout-scroll").addClass("layout-fixed");
 
         // Map container
         container = $('<div id="map"></div>')[0];
@@ -945,7 +942,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Set zoom
-      $('[data-view="map"]', context).each(function() {
+      $('[data-behaviour="map"]', context).each(function() {
         // zoom to bounding box, if focus is set
         setBoundingBox(this);
       });
