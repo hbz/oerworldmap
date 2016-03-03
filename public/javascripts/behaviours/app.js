@@ -1,3 +1,13 @@
+/*
+
+  column names: map, index, detail
+  index modes: floating, list, statistic
+  detail modes: expanded, collapsed, hidden
+
+  TODO: check initialisation_source to avoid dedundant requests on init
+
+*/
+
 var Hijax = (function ($, Hijax, page) {
 
   Hijax.goto = function(url) {
@@ -9,22 +19,23 @@ var Hijax = (function ($, Hijax, page) {
   };
 
   var initialisation_source = '';
-  var map_index_source = '';
+  var map_and_index_source = '';
   var detail_source = '';
 
-  function set_map_index_source(url, index_mode) {
-    if(url != map_index_source) {
+  function set_map_and_index_source(url, index_mode) {
+    if(url != map_and_index_source) {
       $.get(
         url,
         function(data){
           $('#app-col-index').html(
             Hijax.attachBehaviours( $(data).filter('main').contents() )
           )
-          map_index_source = url;
+          map_and_index_source = url;
         }
       )
     }
     $('#app-col-index').attr('data-col-mode', index_mode);
+    Hijax.layout();
   }
 
   function set_detail_source(url) {
@@ -40,6 +51,7 @@ var Hijax = (function ($, Hijax, page) {
       );
     }
     $('#app-col-detail').attr('data-col-mode', 'expanded');
+    Hijax.layout();
   }
 
   function route_index(pagejs_ctx){
@@ -54,11 +66,11 @@ var Hijax = (function ($, Hijax, page) {
     }
 
     if( pagejs_ctx.pathname == "/aggregation/" ) {
-      index_mode = 'aggregation';
+      index_mode = 'statistic';
     }
 
     var url = '/resource/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : '');
-    set_map_index_source(url, index_mode);
+    set_map_and_index_source(url, index_mode);
 
     if(pagejs_ctx.hash) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
@@ -69,7 +81,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index_country(pagejs_ctx) {
-    set_map_index_source(pagejs_ctx.path, 'list');
+    set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
 
     if(pagejs_ctx.hash) {
@@ -80,13 +92,18 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_detail(pagejs_ctx){
+    /*
+      check if database for map and index are filtered
+      if so, redirect to current url and append id as fragment identifier
+      if not, set map and index to unfiltered and load detail
+    */
     if(
-      /\/resource\/\?.*/.test(map_index_source) ||
-      /\/country\/../.test(map_index_source)
+      /\/resource\/\?.*/.test(map_and_index_source) ||
+      /\/country\/../.test(map_and_index_source)
     ) {
-      page.redirect(map_index_source + '#' + pagejs_ctx.path.split('/')[2]);
+      page.redirect(map_and_index_source + '#' + pagejs_ctx.path.split('/')[2]);
     } else {
-      set_map_index_source('/resource/', 'floating');
+      set_map_and_index_source('/resource/', 'floating');
       set_detail_source(pagejs_ctx.path);
     }
   }

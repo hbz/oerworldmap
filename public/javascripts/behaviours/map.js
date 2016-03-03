@@ -843,6 +843,12 @@ var Hijax = (function ($, Hijax) {
 
     },
 
+    layout : function() {
+      if(world) { // without this condition -> error on loading single resource
+        world.updateSize();
+      }
+    },
+
     attach : function(context) {
 
       // Populate map with pins from resource listings
