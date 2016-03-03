@@ -120,6 +120,17 @@ var Hijax = (function ($, Hijax, page) {
 
     attach : function(context) {
 
+      $('#app', context).on('submit', 'form', function() {
+        var form = $(this);
+        if (
+          ! form.attr('method') ||
+          form.attr('method').toUpperCase() == 'GET'
+        ) {
+          page(form.attr("action") + "?" + form.serialize());
+          return false;
+        }
+      });
+
     }
 
   };
