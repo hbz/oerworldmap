@@ -4,14 +4,25 @@
 
     <div id="app-col-container">
 
-        <div id="app-col-map" data-app="col" data-behaviour="map">
-            {{{footer}}}
+        <div id="app-col-map" data-app="col">
+            <div data-app="col-content" data-behaviour="map">
+                {{{footer}}}
+            </div>
         </div>
 
     	<div id="app-col-index" data-app="col">
+    	    <div data-app="toggle-col">
+    	        <i class="fa fa-chevron-right"></i>
+            </div>
+    	    <div data-app="col-content" class="color-scheme-text"></div>
     	</div>
 
     	<div id="app-col-detail" data-app="col">
+        	<div data-app="toggle-col">
+        	    <i class="fa fa-chevron-right visible-expanded"></i>
+            	<i class="fa fa-chevron-left visible-collapsed"></i>
+        	</div>
+    	    <div data-app="col-content" class="color-scheme-text"></div>
     	</div>
 
     </div>

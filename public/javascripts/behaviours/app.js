@@ -27,7 +27,7 @@ var Hijax = (function ($, Hijax, page) {
       $.get(
         url,
         function(data){
-          $('#app-col-index').html(
+          $('#app-col-index [data-app="col-content"]').html(
             Hijax.attachBehaviours( $(data).filter('main').contents() )
           )
           map_and_index_source = url;
@@ -42,14 +42,17 @@ var Hijax = (function ($, Hijax, page) {
       $.get(
         url,
         function(data){
-          $('#app-col-detail').html(
+          $('#app-col-detail [data-app="col-content"]').html(
             Hijax.attachBehaviours( $(data).filter('main').contents() )
           )
           detail_source = url;
         }
       );
     }
-    $('#app-col-detail').attr('data-col-mode', 'expanded');
+    // preserve collapsed state / avoid auto expanding of collapsed detail when switching from floating to list
+    if($('#app-col-detail').attr('data-col-mode') != 'collapsed') {
+      $('#app-col-detail').attr('data-col-mode', 'expanded');
+    }
   }
 
   function route_index(pagejs_ctx, next){
@@ -111,19 +114,6 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-/*
-  function routing_before(pagejs_ctx, next) {
-    console.log(pagejs_ctx);
-    if( pagejs_ctx.hash == "statistic" ) {
-      page.redirect('/aggregation/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : ''));
-    } else if( pagejs_ctx.hash == "list" ) {
-      page.redirect('/resource/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : ''));
-    } else {
-      next();
-    }
-  }
-*/
-
   function routing_done() {
     Hijax.layout();
   }
@@ -132,6 +122,8 @@ var Hijax = (function ($, Hijax, page) {
 
     init : function(context) {
 
+      // render template
+
       $('body', context).append(
         templates.app({
           header : $('header', context)[0].outerHTML,
@@ -139,7 +131,8 @@ var Hijax = (function ($, Hijax, page) {
         })
       );
 
-      // page('*', routing_before);
+      // setup routes
+
       page('/', route_index);
       page('/resource/', route_index);
       page('/aggregation/', route_index);
@@ -147,19 +140,41 @@ var Hijax = (function ($, Hijax, page) {
       page('/country/:id', route_index_country);
       page('*', routing_done);
 
+      // start routing
+
       page();
+
+      // hide the rest
 
       $('body>header, body>main, body>footer', context).remove();
 
-      $('#app', context).on('click', '[data-app-index-switch] a', function(e) {
+      // bind index switch
+
+      $('#app', context).on('click', '[data-app-index-switch] a', function(e) { console.log(window.location.hash);
         var hash = this.href.split('#')[1];
         if( hash == 'list' ) {
-          page('/resource/' + window.location.search);
+          page('/resource/' + window.location.search + window.location.hash);
         } else if( hash == 'statistic' ) {
           page('/aggregation/' + window.location.search);
         }
         e.preventDefault();
-      })
+      });
+
+      // bind column toggle
+
+      $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
+        var col = $(this).closest('[data-app="col"]');
+        if(col.is('#app-col-index')) {
+          page('/' + window.location.search + window.location.hash);
+        } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'expanded') {
+          col.attr('data-col-mode', 'collapsed');
+        } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'collapsed') {
+          col.attr('data-col-mode', 'expanded');
+        }
+        Hijax.layout();
+      });
+
+      // deffer
 
       var deferred = new $.Deferred();
       deferred.resolve();

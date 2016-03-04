@@ -1,3 +1,5 @@
+@toggle-col-size: 38px;
+
 #app-col-container {
   position: fixed;
   display: flex;
@@ -15,13 +17,40 @@
     min-width: 33.333%;
     position: relative;
     height: 100%;
-    overflow-y: scroll;
+
+    [data-app="col-content"] {
+      position: relative;
+      height: 100%;
+      overflow-y: scroll;
+    }
+
+    [data-app="toggle-col"] {
+      position: absolute;
+      z-index: 99999;
+      left: -(@toggle-col-size / 2);
+      top: 50%;
+      width: @toggle-col-size;
+      height: @toggle-col-size;
+      margin-top: -(@toggle-col-size / 2);
+      border-radius: @toggle-col-size;
+      background: @blue-lightest;
+      line-height: @toggle-col-size;
+      padding: 0 (@toggle-col-size / 10);
+      text-align: center;
+      cursor: pointer;
+      // box-shadow: 0px 0px 2px fadeout(@blue-darker, 70%);
+      // border: 1px solid @blue-lighter;
+      box-shadow: 0px 0px 2px fadeout(@blue-lighter, 50%);
+    }
   }
 
-  [data-col-mode="hidden"],
-  [data-col-mode="collapsed"] {
-    flex-basis: 0%;
-    min-width: 0%;
+  #app-col-detail {
+    &[data-col-mode="hidden"],
+    &[data-col-mode="collapsed"] {
+      flex-basis: 0%;
+      min-width: 0%;
+      border-left: none;
+    }
   }
 
   #app-col-index,
@@ -32,6 +61,26 @@
   #app-col-index[data-col-mode="floating"] {
     margin-left: -33.333%;
     border-left: none;
+    [data-app="toggle-col"] {
+      display: none;
+    }
+  }
+
+  .visible-expanded,
+  .visible-collapsed {
+    display: none;
+  }
+
+  #app-col-detail {
+    &[data-col-mode="expanded"] .visible-expanded {
+      display: inline;
+    }
+    &[data-col-mode="collapsed"] .visible-collapsed {
+      display: inline;
+    }
+    &[data-col-mode="collapsed"] [data-app="toggle-col"] {
+      text-align: left;
+    }
   }
 
   #app-col-map {
@@ -63,6 +112,9 @@
       #statistic {
         display: none;
       }
+      [href="#list"] {
+        opacity: .4;
+      }
     }
 
     &[data-col-mode="statistic"] {
@@ -72,6 +124,9 @@
       #statistic {
         display: block;
       }
+      [href="#statistic"] {
+        opacity: .4;
+      }
     }
 
   }
@@ -79,6 +134,13 @@
   #app-col-detail {
     &[data-col-mode="hidden"] {
       visibility: hidden;
+    }
+  }
+
+  [data-app-index-switch] {
+    a {
+      text-decoration: none;
+      margin-left: 10px;
     }
   }
 }

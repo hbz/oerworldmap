@@ -173,20 +173,24 @@
 
 <div class="column-section last">
 
-    <p>
-        Found <span class="badge">{{scope.resources.totalItems}}</span> entities
-        (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
-    </p>
+    <div class="p clearfix">
 
-    <div data-app-index-switch>
-        <a href="#list">
-            <i class="fa fa-list" aria-hidden="true"></i>
-            <span class="sr-only">List</span>
-        </a>
-        <a href="#statistic">
-            <i class="fa fa-pie-chart" aria-hidden="true"></i>
-            <span class="sr-only">Statistic</span>
-        </a>
+        <div class="pull-left">
+            Found <span class="badge">{{scope.resources.totalItems}}</span> entities
+            (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
+        </div>
+
+        <div data-app-index-switch class="pull-right">
+            <a href="#list">
+                <i class="fa fa-list" aria-hidden="true"></i>
+                <span class="sr-only">List</span>
+            </a>
+            <a href="#statistic">
+                <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                <span class="sr-only">Statistic</span>
+            </a>
+        </div>
+
     </div>
 
     <div class="floating-hidden">
