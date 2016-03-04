@@ -10,6 +10,14 @@
 
 var Hijax = (function ($, Hijax, page) {
 
+  var static_pages = ["/contribute", "/FAQ", "/about"];
+
+  var init_app = true;
+
+  if( $.inArray(window.location.pathname, static_pages) !== -1) {
+    init_app = false;
+  };
+
   Hijax.goto = function(url) {
     page(url);
   };
@@ -55,7 +63,7 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
-  function route_index(pagejs_ctx, next){
+  function route_index(pagejs_ctx, next) {
     var index_mode;
 
     if( pagejs_ctx.pathname == "/" ) {
@@ -95,7 +103,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_detail(pagejs_ctx, next){
+  function route_detail(pagejs_ctx, next) {
     /*
       check if database for map and index are filtered
       if so, redirect to current url and append id as fragment identifier
@@ -114,6 +122,12 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
+  function route_static(pagejs_ctx) {
+    if(pagejs_ctx.path != initialisation_source.pathname) {
+      window.location = pagejs_ctx.path;
+    }
+  }
+
   function routing_done() {
     Hijax.layout();
   }
@@ -121,6 +135,12 @@ var Hijax = (function ($, Hijax, page) {
   Hijax.behaviours.hfactor = {
 
     init : function(context) {
+
+      if(!init_app) {
+        var deferred = new $.Deferred();
+        deferred.resolve();
+        return deferred;
+      }
 
       // render template
 
@@ -131,13 +151,20 @@ var Hijax = (function ($, Hijax, page) {
         })
       );
 
-      // setup routes
+      // setup app routes
 
       page('/', route_index);
       page('/resource/', route_index);
       page('/aggregation/', route_index);
       page('/resource/:id', route_detail);
       page('/country/:id', route_index_country);
+
+      // setup non-app (currently static) routes
+
+      page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_static);
+
+      // after all app routes ...
+
       page('*', routing_done);
 
       // start routing
@@ -150,7 +177,7 @@ var Hijax = (function ($, Hijax, page) {
 
       // bind index switch
 
-      $('#app', context).on('click', '[data-app-index-switch] a', function(e) { console.log(window.location.hash);
+      $('#app', context).on('click', '[data-app-index-switch] a', function(e) {
         var hash = this.href.split('#')[1];
         if( hash == 'list' ) {
           page('/resource/' + window.location.search + window.location.hash);
@@ -182,6 +209,10 @@ var Hijax = (function ($, Hijax, page) {
     },
 
     attach : function(context) {
+
+      if(!init_app) {
+        return;
+      }
 
       $('#app', context).on('submit', 'form', function() {
         var form = $(this);
