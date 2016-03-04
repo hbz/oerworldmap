@@ -51,25 +51,32 @@
   #app-col-index {
 
     &[data-col-mode="floating"] {
-      background: transparent;
-      .resource-list {
+      .floating-hidden {
         display: none;
       }
     }
 
-/*
     &[data-col-mode="list"] {
-      background: green;
+      #list {
+        display: block;
+      }
+      #statistic {
+        display: none;
+      }
     }
 
     &[data-col-mode="statistic"] {
-      background: red;
+      #list {
+        display: none;
+      }
+      #statistic {
+        display: block;
+      }
     }
-*/
+
   }
 
   #app-col-detail {
-
     &[data-col-mode="hidden"] {
       visibility: hidden;
     }

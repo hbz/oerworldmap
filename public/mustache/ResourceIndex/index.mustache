@@ -93,7 +93,7 @@
 
 
 
-<form id="form-resource-filter" method="get" action="/resource/">
+<form id="form-resource-filter">
 
     <script type="application/ld+json">
         {{json scope.resources.aggregations}}
@@ -178,42 +178,57 @@
         (showing {{scope.resources.from}} - {{scope.resources.until}}) ...
     </p>
 
-    <ul class="resource-list truncated" data-behaviour="linkedListEntries populateMap">
+    <div data-app-index-switch>
+        <a href="#list">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            <span class="sr-only">List</span>
+        </a>
+        <a href="#statistic">
+            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+            <span class="sr-only">Statistic</span>
+        </a>
+    </div>
 
-        <script type="application/ld+json">
-            {{{scope.resources.member}}}
-        </script>
-        {{#scope.resources.member}}
-            <li about="{{@id}}">
-              {{>ResourceIndex/link.mustache}}
-            </li>
-        {{/scope.resources.member}}
+    <div class="floating-hidden">
 
-    </ul>
+        <ul id="list" class="resource-list truncated" data-behaviour="linkedListEntries populateMap">
 
-    <ul class="aggregation-list">
-        {{#each scope.resources.aggregations}}
-            {{#if buckets}}
-                <li>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>{{@key}}</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {{#buckets}}
-                                <tr>
-                                    <td>{{key}}</td>
-                                    <td>{{doc_count}}</td>
-                                </tr>
-                            {{/buckets}}
-                        </tbody>
-                    </table>
+            <script type="application/ld+json">
+                {{{scope.resources.member}}}
+            </script>
+            {{#scope.resources.member}}
+                <li about="{{@id}}">
+                  {{>ResourceIndex/link.mustache}}
                 </li>
-            {{/if}}
-        {{/each}}
-    </ul>
+            {{/scope.resources.member}}
+
+        </ul>
+
+        <ul id="statistic" class="aggregation-list">
+            {{#each scope.resources.aggregations}}
+                {{#if buckets}}
+                    <li>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>{{@key}}</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {{#buckets}}
+                                    <tr>
+                                        <td>{{key}}</td>
+                                        <td>{{doc_count}}</td>
+                                    </tr>
+                                {{/buckets}}
+                            </tbody>
+                        </table>
+                    </li>
+                {{/if}}
+            {{/each}}
+        </ul>
+
+    </div>
 
 </div>

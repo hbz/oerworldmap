@@ -18,7 +18,7 @@ var Hijax = (function ($, Hijax, page) {
     'app' : Handlebars.compile($('#app\\.mustache').html())
   };
 
-  var initialisation_source = '';
+  var initialisation_source = window.location;
   var map_and_index_source = '';
   var detail_source = '';
 
@@ -111,6 +111,19 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
+/*
+  function routing_before(pagejs_ctx, next) {
+    console.log(pagejs_ctx);
+    if( pagejs_ctx.hash == "statistic" ) {
+      page.redirect('/aggregation/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : ''));
+    } else if( pagejs_ctx.hash == "list" ) {
+      page.redirect('/resource/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : ''));
+    } else {
+      next();
+    }
+  }
+*/
+
   function routing_done() {
     Hijax.layout();
   }
@@ -119,8 +132,6 @@ var Hijax = (function ($, Hijax, page) {
 
     init : function(context) {
 
-      initialisation_source = window.location;
-
       $('body', context).append(
         templates.app({
           header : $('header', context)[0].outerHTML,
@@ -128,8 +139,10 @@ var Hijax = (function ($, Hijax, page) {
         })
       );
 
+      // page('*', routing_before);
       page('/', route_index);
       page('/resource/', route_index);
+      page('/aggregation/', route_index);
       page('/resource/:id', route_detail);
       page('/country/:id', route_index_country);
       page('*', routing_done);
@@ -137,6 +150,16 @@ var Hijax = (function ($, Hijax, page) {
       page();
 
       $('body>header, body>main, body>footer', context).remove();
+
+      $('#app', context).on('click', '[data-app-index-switch] a', function(e) {
+        var hash = this.href.split('#')[1];
+        if( hash == 'list' ) {
+          page('/resource/' + window.location.search);
+        } else if( hash == 'statistic' ) {
+          page('/aggregation/' + window.location.search);
+        }
+        e.preventDefault();
+      })
 
       var deferred = new $.Deferred();
       deferred.resolve();
@@ -151,7 +174,8 @@ var Hijax = (function ($, Hijax, page) {
           ! form.attr('method') ||
           form.attr('method').toUpperCase() == 'GET'
         ) {
-          page(form.attr("action") + "?" + form.serialize());
+          var action = form.attr("action") || '';
+          page(action + "?" + form.serialize());
           return false;
         }
       });
