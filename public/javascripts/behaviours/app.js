@@ -35,7 +35,6 @@ var Hijax = (function ($, Hijax, page) {
       )
     }
     $('#app-col-index').attr('data-col-mode', index_mode);
-    Hijax.layout();
   }
 
   function set_detail_source(url) {
@@ -51,10 +50,9 @@ var Hijax = (function ($, Hijax, page) {
       );
     }
     $('#app-col-detail').attr('data-col-mode', 'expanded');
-    Hijax.layout();
   }
 
-  function route_index(pagejs_ctx){
+  function route_index(pagejs_ctx, next){
     var index_mode;
 
     if( pagejs_ctx.pathname == "/" ) {
@@ -78,9 +76,10 @@ var Hijax = (function ($, Hijax, page) {
       $('#app-col-detail').attr('data-col-mode', 'hidden');
     }
 
+    next();
   }
 
-  function route_index_country(pagejs_ctx) {
+  function route_index_country(pagejs_ctx, next) {
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
 
@@ -89,9 +88,11 @@ var Hijax = (function ($, Hijax, page) {
     } else {
       $('#app-col-detail').attr('data-col-mode', 'hidden');
     }
+
+    next();
   }
 
-  function route_detail(pagejs_ctx){
+  function route_detail(pagejs_ctx, next){
     /*
       check if database for map and index are filtered
       if so, redirect to current url and append id as fragment identifier
@@ -106,6 +107,12 @@ var Hijax = (function ($, Hijax, page) {
       set_map_and_index_source('/resource/', 'floating');
       set_detail_source(pagejs_ctx.path);
     }
+
+    next();
+  }
+
+  function routing_done() {
+    Hijax.layout();
   }
 
   Hijax.behaviours.hfactor = {
@@ -125,6 +132,7 @@ var Hijax = (function ($, Hijax, page) {
       page('/resource/', route_index);
       page('/resource/:id', route_detail);
       page('/country/:id', route_index_country);
+      page('*', routing_done);
 
       page();
 
