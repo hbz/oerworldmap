@@ -74,10 +74,13 @@
     "@id" : "urn:uuid:3a25e950-a3c0-425d-946d-980666500001"
   } ],
   "name" : [ {
-    "@value" : "OERWorldMap Provider 3",
+    "@value" : "A Good Provider 5",
     "@language" : "en"
   } ],
-  "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00003",
-  "url" : "https://thiscouldbealinkingsitetotheworldmap.org",
-  "description" : ["Since this organization contains the magic word oerworldmap in the following two fields: name and description (but not url), it should be ranked third."]
+  "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00005",
+  "url" : "https://oerworldmap.org",
+  "alternateName" : [{
+  	"@language" : "en",
+  	"@value" : "Since this organization contains the magic word oerworldmap in the following two fields: url and description (but not name), it should be ranked fifth."
+  }]
 }

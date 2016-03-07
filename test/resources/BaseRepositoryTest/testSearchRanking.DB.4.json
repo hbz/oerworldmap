@@ -79,5 +79,8 @@
   } ],
   "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00004",
   "url" : "https://thiscouldbealinkingsitetotheworldmap.org",
-  "description" : ["Since this organization contains the magic word only in the following field: name (but not url or description), it should be ranked fourth."]
+  "alternateName" : [{
+  	"@language" : "en",
+  	"@value" : "Since this organization contains the magic word only in the following field: name (but not url or description), it should be ranked fourth."
+  }]
 }
