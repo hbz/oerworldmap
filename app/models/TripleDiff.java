@@ -3,7 +3,11 @@ package models;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,6 +26,7 @@ public class TripleDiff {
   final private List<Line> mLines = new ArrayList<>();
   final private static String mLang = Lang.NTRIPLES.getName();
   final private Model mBuffer = ModelFactory.createDefaultModel();
+  private Header mHeader;
 
   public class Line {
 
@@ -35,8 +40,30 @@ public class TripleDiff {
 
   }
 
+  public class Header {
+
+    public final String author;
+    public final Date date;
+
+    public Header(final String aAuthor, final Date aDate) {
+      this.author = aAuthor;
+      this.date = aDate;
+    }
+
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("Author: ").append(author) //
+          .append("\nDate: ").append(date.toString()).append("\n\n");
+      return sb.toString();
+    }
+  }
+
   public List<Line> getLines() {
     return this.mLines;
+  }
+
+  public Header getHeader() {
+    return this.mHeader;
   }
 
   public void addStatement(Statement stmt) {
@@ -69,6 +96,11 @@ public class TripleDiff {
 
   public String toString() {
     StringBuilder diffString = new StringBuilder();
+
+    // write header
+    diffString.append(mHeader.toString());
+
+    // write triples
     StringWriter triple = new StringWriter();
     for (Line line : this.mLines) {
       mBuffer.add(line.stmt).write(triple, mLang).removeAll();
@@ -81,14 +113,35 @@ public class TripleDiff {
   public void fromString(String aDiffString) {
     @SuppressWarnings("resource")
     Scanner scanner = new Scanner(aDiffString);
+    String diffLine = null;
+
+    // read header
+    String author = null;
+    Date date = null;
+
+    // read triples
     while (scanner.hasNextLine()) {
-      String diffLine = scanner.nextLine().trim();
-      if (!diffLine.matches("^[+-] .*")) {
+      diffLine = scanner.nextLine().trim();
+      if (diffLine.matches("^[+-] .*")) {
+        mBuffer.read(new ByteArrayInputStream(diffLine.substring(1).getBytes(StandardCharsets.UTF_8)), null, mLang);
+        mLines.add(new Line(mBuffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
+        mBuffer.removeAll();
+      } //
+      else if (diffLine.startsWith("Author: ")) {
+        author = diffLine.substring(8);
+      } //
+      else if (diffLine.startsWith("Date: ")) {
+        LocalDate localDate = LocalDate.parse(diffLine.substring(6), DateTimeFormatter.RFC_1123_DATE_TIME);
+        date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+      } //
+      else if ("".equals(diffLine.trim())) {
+        continue;
+      } else {
         throw new IllegalArgumentException("Mal formed triple diff line: " + aDiffString);
       }
-      mBuffer.read(new ByteArrayInputStream(diffLine.substring(1).getBytes(StandardCharsets.UTF_8)), null, mLang);
-      mLines.add(new Line(mBuffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
-      mBuffer.removeAll();
+    }
+    if (null != author && null != date) {
+      mHeader = new Header(author, date);
     }
     scanner.close();
   }
