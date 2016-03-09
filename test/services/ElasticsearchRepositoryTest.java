@@ -13,10 +13,11 @@ import org.junit.Test;
 
 import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
+import helpers.JsonTest;
 import models.Resource;
 import models.ResourceList;
 
-public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
+public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
   private static Resource mResource1;
   private static Resource mResource2;
@@ -39,7 +40,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
     mRepo.addResource(mResource1, "Person");
     mRepo.addResource(mResource2, "Person");
     mRepo.addResource(mResource3, "Person");
-    mRepo.getElasticsearchProvider().refreshIndex(mConfig.getString("es.index.name"));
+    mRepo.refreshIndex(mConfig.getString("es.index.name"));
   }
 
   @Test
@@ -51,14 +52,13 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
 
   @Test
   public void testAddAndEsQueryResources() throws IOException, ParseException {
-    final String aQueryString = "*";
+    final String aQueryString = "Person";
     ResourceList result = null;
     try {
       // TODO : this test currently presumes that there is some data existent in
-      // your elasticsearch
-      // instance. Otherwise it will fail. This restriction can be overturned
-      // when a parallel method
-      // for the use of POST is introduced in ElasticsearchRepository.
+      // your elasticsearch instance. Otherwise it will fail. This restriction
+      // can be overturned when a parallel method for the use of POST is
+      // introduced in ElasticsearchRepository.
       result = mRepo.query(aQueryString, 0, 10, null, null);
     } catch (IOException | ParseException e) {
       e.printStackTrace();
@@ -87,4 +87,5 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid {
     // non-unique fields : some "persons" work for the same employer:
     Assert.assertTrue(resourcesGotBack.size() > employers.size());
   }
+
 }
