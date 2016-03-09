@@ -53,14 +53,17 @@ public class TripleDiff {
           .append("\nDate: ").append(timestamp.toString()).append("\n\n");
       return sb.toString();
     }
+
+    public String getAuthor() {
+      return this.author;
+    }
+
+    public ZonedDateTime getTimestamp() {
+      return this.timestamp;
+    }
   }
 
-  public List<Line> getLines() { // LocalDate localDate =
-                                 // LocalDate.parse(diffLine.substring(6),
-    // DateTimeFormatter.RFC_1123_DATE_TIME);
-    // date =
-    // Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
+  public List<Line> getLines() {
     return this.mLines;
   }
 
