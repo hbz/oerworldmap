@@ -10,6 +10,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import models.Record;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +41,23 @@ public class AggregationProvider {
     return AggregationBuilders.terms("about.about.@id").size(0)
         .field("about.about.@id")
         .include(StringUtils.join(anIdList, '|'));
+  }
+
+  public static AggregationBuilder<?> getServiceByTopLevelFieldOfEducationAggregation() {
+    String[] topLevelIds = new String[] {
+      "https://w3id.org/class/esc/n00",
+      "https://w3id.org/class/esc/n01",
+      "https://w3id.org/class/esc/n02",
+      "https://w3id.org/class/esc/n03",
+      "https://w3id.org/class/esc/n04",
+      "https://w3id.org/class/esc/n05",
+      "https://w3id.org/class/esc/n06",
+      "https://w3id.org/class/esc/n07",
+      "https://w3id.org/class/esc/n08",
+      "https://w3id.org/class/esc/n09",
+      "https://w3id.org/class/esc/n10"
+    };
+    return getServiceByFieldOfEducationAggregation(Arrays.asList(topLevelIds));
   }
 
   public static AggregationBuilder<?> getServiceByGradeLevelAggregation() {
