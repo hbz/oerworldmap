@@ -3,11 +3,8 @@ package models;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,22 +40,27 @@ public class TripleDiff {
   public class Header {
 
     public final String author;
-    public final Date date;
+    public final ZonedDateTime timestamp;
 
-    public Header(final String aAuthor, final Date aDate) {
+    public Header(final String aAuthor, final ZonedDateTime aTimestamp) {
       this.author = aAuthor;
-      this.date = aDate;
+      this.timestamp = aTimestamp;
     }
 
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("Author: ").append(author) //
-          .append("\nDate: ").append(date.toString()).append("\n\n");
+          .append("\nDate: ").append(timestamp.toString()).append("\n\n");
       return sb.toString();
     }
   }
 
-  public List<Line> getLines() {
+  public List<Line> getLines() { // LocalDate localDate =
+                                 // LocalDate.parse(diffLine.substring(6),
+    // DateTimeFormatter.RFC_1123_DATE_TIME);
+    // date =
+    // Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
     return this.mLines;
   }
 
@@ -117,7 +119,7 @@ public class TripleDiff {
 
     // read header
     String author = null;
-    Date date = null;
+    ZonedDateTime timestamp = null;
 
     // read triples
     while (scanner.hasNextLine()) {
@@ -131,8 +133,7 @@ public class TripleDiff {
         author = diffLine.substring(8);
       } //
       else if (diffLine.startsWith("Date: ")) {
-        LocalDate localDate = LocalDate.parse(diffLine.substring(6), DateTimeFormatter.RFC_1123_DATE_TIME);
-        date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        timestamp = ZonedDateTime.parse(diffLine.substring(6));
       } //
       else if ("".equals(diffLine.trim())) {
         continue;
@@ -140,8 +141,8 @@ public class TripleDiff {
         throw new IllegalArgumentException("Mal formed triple diff line: " + aDiffString);
       }
     }
-    if (null != author && null != date) {
-      mHeader = new Header(author, date);
+    if (null != author && null != timestamp) {
+      mHeader = new Header(author, timestamp);
     }
     scanner.close();
   }
