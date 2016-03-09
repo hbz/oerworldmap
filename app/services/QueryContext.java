@@ -59,7 +59,6 @@ public class QueryContext {
       this.roles.add("guest");
     }
 
-    mElasticsearchFieldBoosts = new SearchConfig().getBoostsForElasticsearch();
   }
 
   public String[] getElasticsearchFieldBoosts() {

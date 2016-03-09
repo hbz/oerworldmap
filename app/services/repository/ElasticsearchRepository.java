@@ -29,6 +29,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -264,7 +265,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
 
-    String[] fieldBoosts = new String[] { "_all^1" };
+    String[] fieldBoosts = null;
 
     if (!(null == aQueryContext)) {
       searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
@@ -303,8 +304,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
 
     QueryBuilder queryBuilder;
-    if (!StringUtils.isEmpty(aQueryString)) {
+    if (!StringUtils.isEmpty(aQueryString) && fieldBoosts != null) {
       queryBuilder = QueryBuilders.multiMatchQuery(aQueryString, fieldBoosts);
+    } else if (!StringUtils.isEmpty(aQueryString)) {
+      queryBuilder = QueryBuilders.queryString(aQueryString).defaultOperator(QueryStringQueryBuilder.Operator.AND).field("_all", 1);
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
