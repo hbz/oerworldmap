@@ -27,6 +27,7 @@ import play.mvc.Result;
 import services.QueryContext;
 
 import services.AggregationProvider;
+import services.SearchConfig;
 import services.export.AbstractCsvExporter;
 import services.export.CsvWithNestedIdsExporter;
 
@@ -59,6 +60,7 @@ public class ResourceIndex extends OERWorldMap {
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
     });
 
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     Map<String, Object> scope = new HashMap<>();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
