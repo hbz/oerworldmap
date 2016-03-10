@@ -150,9 +150,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     try {
       QueryContext queryContext = new QueryContext(null, null);
-      // for Testing: try other boosts:
-      // queryContext.setElasticsearchFieldBoosts(new String[] {
-      // "name.@value^5", "description" });
+      queryContext.setElasticsearchFieldBoosts( //
+          new String[] { //
+              "about.name.@value^9", //
+              "about.alternateName.@value^6" });
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
 
