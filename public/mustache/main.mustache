@@ -82,7 +82,7 @@
                 <li><a href="#user-login" data-toggle="modal" title="{{user.email}}"><i class="fa fa-user"></i></a></li>
             {{else}}
                 <li><h2><a href="/contribute">Join us in mapping the world of OER!</a></h2></li>
-                <li><a href="#user-login" data-toggle="modal">Log in</a></li>
+                <li><a href="/.login">Log in</a></li>
             {{/if}}
         </ul>
     </nav>
@@ -96,7 +96,13 @@
         <div class="modal-content bg-blue-palest color-scheme-text">
             <div class="modal-body clearfix">
 
-                {{> Secured/token.mustache}}
+                {{#if user.email}}
+                    <h1>{{user.email}}</h1>
+                    <form method="post" action="/.login" data-behaviour="logout">
+                        <button type="submit">Log out</button>
+                        <noscript>Press ESC in the popup to log out.</noscript>
+                    </form>
+                {{/if}}
 
             </div>
         </div>

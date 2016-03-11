@@ -93,6 +93,20 @@ var Hijax = (function ($, Hijax) {
           event.preventDefault();
         }
       });
+
+      // log out by providing wrong credentials to apache
+      // http://stackoverflow.com/a/32325848
+      $('form[data-behaviour="logout"]', context).submit(function(event) {
+        $.ajax({
+          async: false,
+          url: "/.login",
+          type: 'GET',
+          username: 'logout'
+        });
+        window.location = "/";
+        event.preventDefault();
+      });
+
     }
   }
 
