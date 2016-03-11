@@ -160,6 +160,10 @@ public class UserIndex extends OERWorldMap {
     return ResourceIndex.delete(id);
   }
 
+  public static Result requestToken() {
+    return ok(render("Password forgotten", "Secured/token.mustache"));
+  }
+
   public static Result sendToken() {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
@@ -194,41 +198,6 @@ public class UserIndex extends OERWorldMap {
     messages.add(message);
 
     return ok(render("Request Token", "feedback.mustache", scope, messages));
-
-  }
-
-  public static Result manageToken() {
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
-
-    List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String, Object> message = new HashMap<>();
-    message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_status_logged_in"));
-    messages.add(message);
-
-    return ok(render("Manage Token", "feedback.mustache", scope, messages));
-
-  }
-
-  public static Result deleteToken() {
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
-
-    Resource user = new Resource("Person");
-    user.put("email", request().username());
-    Account.removeTokenFor(user);
-    scope.put("user", user);
-
-    List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String, Object> message = new HashMap<>();
-    message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_status_logged_out"));
-    messages.add(message);
-
-    return ok(render("Delete Token", "feedback.mustache", scope, messages));
 
   }
 
