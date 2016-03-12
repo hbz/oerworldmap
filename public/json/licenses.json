@@ -1,0 +1,204 @@
+{
+  "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json", 
+  "@type": "ConceptScheme",
+  "hasTopConcept": [
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC-By", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution Share-Alike", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC-By-SA", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution Non-Commercial", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC-By-NC", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-sa", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution Non-Commercial Share-Alike", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC By-NC-SA", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc0", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Public Domain Dedication", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC0", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Unspecified", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "License not specified", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-by", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Other (Attribution)", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "Non-CC Attribution License", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-sa", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Other (Share-Alike)", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "Non-CC Share-Alike License", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nc", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Other (Non-Commercial)", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "Non-CC Non-Commercial License", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    }
+  ]
+}
