@@ -8,7 +8,7 @@
       "@value": "OER Machine"
     }
   ],
-  "alternateName":  [
+  "alternateName": [
     {
       "@language": "en",
       "@value": "OERMa"
@@ -44,11 +44,19 @@
       ]
     }
   ],
-  "availableChannel": [ {
-    "serviceUrl" : "http://example.com/oer-machine",
-    "availableLanguage" : [ "en", "de" ]
-  } ],
-  "sameAs": [ "https://twitter.com/oermachine", "https://facebook.com/oermachine" ],
+  "availableChannel": [
+    {
+      "serviceUrl": "http://example.com/oer-machine",
+      "availableLanguage": [
+        "en",
+        "de"
+      ]
+    }
+  ],
+  "sameAs": [
+    "https://twitter.com/oermachine",
+    "https://facebook.com/oermachine"
+  ],
   "startDate": "2011-11-11",
   "endDate": "2012-12-12",
   "email": "oermachine@example.com",
@@ -89,7 +97,18 @@
       ]
     }
   ],
-  "license": [ "http://www.wtfpl.net/txt/copying/", "https://creativecommons.org/licenses/by/3.0/de/" ],
+  "license": [
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution",
+          "@language": "en"
+        }
+      ]
+    }
+  ],
   "audience": [
     {
       "@id": "https://w3id.org/isced/1997/level1",
@@ -112,7 +131,7 @@
       ]
     }
   ],
-    "mentionedIn": [
+  "mentionedIn": [
     {
       "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927",
       "@type": "Article",
