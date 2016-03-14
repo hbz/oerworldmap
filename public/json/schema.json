@@ -537,7 +537,25 @@
         "license": {
           "type": "array",
           "items": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/definitions/Concept"
+              },
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": [
+                          "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         "audience": {

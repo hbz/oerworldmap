@@ -399,9 +399,6 @@
         },
         "about": {
           "properties": {
-            "license": {
-              "type": "string"
-            },
             "about": {
               "properties": {
                 "name": {
@@ -557,6 +554,62 @@
                 "@type": {
                   "index": "not_analyzed",
                   "type": "string"
+                }
+              }
+            },
+            "license": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "alternateName": {
+                  "properties": {
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@value": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "name": {
+                  "properties": {
+                    "@language": {
+                      "type": "string"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "topConceptOf": {
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    },
+                    "@type": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             },
@@ -1039,9 +1092,6 @@
             },
             "affiliation": {
               "properties": {
-                "license": {
-                  "type": "string"
-                },
                 "about": {
                   "properties": {
                     "@id": {
@@ -2646,9 +2696,6 @@
             },
             "provides": {
               "properties": {
-                "license": {
-                  "type": "string"
-                },
                 "about": {
                   "properties": {
                     "@id": {
@@ -4533,9 +4580,6 @@
                       "type": "string"
                     }
                   }
-                },
-                "license": {
-                  "type": "string"
                 },
                 "created": {
                   "properties": {

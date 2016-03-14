@@ -74,6 +74,7 @@ public class ResourceDenormalizer {
     mListValueEntries.add("mainEntityOf");
     mListValueEntries.add("funder");
     mListValueEntries.add("funderOf");
+    mListValueEntries.add("license");
   }
 
   //
