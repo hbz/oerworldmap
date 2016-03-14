@@ -113,28 +113,6 @@
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified", 
-      "@type": "Concept",
-      "name": [
-        {
-          "@value": "Unspecified", 
-          "@language": "en"
-        }
-      ], 
-      "alternateName": [
-        {
-          "@value": "License not specified", 
-          "@language": "en"
-        }
-      ], 
-      "topConceptOf": {
-        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-      },
-      "inScheme": { 
-        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-      }
-    },
-    {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-by", 
       "@type": "Concept",
       "name": [
@@ -190,6 +168,28 @@
       "alternateName": [
         {
           "@value": "Non-CC Non-Commercial License", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Unspecified", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "License not specified", 
           "@language": "en"
         }
       ], 
