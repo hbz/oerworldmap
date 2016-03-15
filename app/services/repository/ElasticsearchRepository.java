@@ -304,10 +304,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
 
     QueryBuilder queryBuilder;
-    if (!StringUtils.isEmpty(aQueryString) && fieldBoosts != null) {
-      queryBuilder = QueryBuilders.multiMatchQuery(aQueryString, fieldBoosts);
-    } else if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString).defaultOperator(QueryStringQueryBuilder.Operator.AND).field("_all", 1);
+    if (!StringUtils.isEmpty(aQueryString)) {
+      queryBuilder = QueryBuilders.queryString(aQueryString);
+      if (fieldBoosts != null) {
+        for (String fieldBoost : fieldBoosts) {
+          try {
+            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+              Float.parseFloat(fieldBoost.split("\\^")[1]));
+          } catch (ArrayIndexOutOfBoundsException e) {
+            Logger.error("Invalid field boost: " + fieldBoost);
+          }
+        }
+      }
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
