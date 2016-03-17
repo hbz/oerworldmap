@@ -1,0 +1,24 @@
+<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
+    <div class="column-container">
+        <h1>Register</h1>
+        <form action="/user/register" method="post">
+
+            <input type="hidden" name="@type" value="Person">
+
+            <label>
+                Email: <input name="email">
+            </label>
+
+            <label>
+                Password: <input name="password" type="password">
+            </label>
+
+            <label>
+                Repeat password: <input name="password-confirm" type="password">
+            </label>
+
+            <button type="submit">Register</button>
+
+        </form>
+    </div>
+</div>

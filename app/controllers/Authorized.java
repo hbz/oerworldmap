@@ -36,6 +36,7 @@ public class Authorized extends Action.Simple {
     }
 
     ctx.args.put("user", user);
+    ctx.args.put("username", username);
 
     // TODO: get roles? or allowed methods for this url?
     ctx.args.put("queryContext", new QueryContext(user.getId(), new ArrayList<>()));

@@ -1,16 +1,6 @@
 <div role="main">
     <section>
-        <form class="hijax" action="/user/register" method="post" target="_self">
-            <p class="lead">{{i18n "landingpage_call_to_register"}}<br /><small>{{{i18n "landingpage_call_to_register_priv"}}}</small></p>
-            {{#messages.size}}
-            <ul id="messages">
-            {{#messages}}
-                <li class="message {{level}}">
-                    <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
-                </li>
-            {{/messages}}
-            </ul>
-            {{/messages.size}}
+        <form action="/user/newsletter" method="post">
             <div class="form-inline register">
                 <input type="hidden" name="@type" value="Person" />
                 <div class="form-group">
