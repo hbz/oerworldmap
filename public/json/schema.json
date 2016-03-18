@@ -652,19 +652,6 @@
         "description": {
           "$ref": "#/definitions/LocalizedString"
         },
-        "affiliation": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Service"
-              }
-            ]
-          }
-        },
         "memberOf": {
           "description": "An organization or service the person is member of.",
           "type": "array",
