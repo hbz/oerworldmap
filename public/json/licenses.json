@@ -91,6 +91,50 @@
       }
     },
     {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nd", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution No-Derivatives", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC-By-ND", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-nd", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Attribution Non-Commercial No-Derivatives", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "CC By-NC-ND", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc0", 
       "@type": "Concept",
       "name": [
@@ -98,7 +142,7 @@
           "@value": "Creative Commons Public Domain Dedication", 
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
           "@value": "CC0", 
@@ -168,6 +212,28 @@
       "alternateName": [
         {
           "@value": "Non-CC Non-Commercial License", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nd", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Other (No-Derivatives)", 
+          "@language": "en"
+        }
+      ], 
+      "alternateName": [
+        {
+          "@value": "Non-CC No-Derivatives License", 
           "@language": "en"
         }
       ], 
