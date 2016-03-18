@@ -3,6 +3,28 @@
   "@type": "ConceptScheme",
   "hasTopConcept": [
     {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc0", 
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Creative Commons Public Domain Dedication", 
+          "@language": "en"
+        }
+      ],
+      "alternateName": [
+        {
+          "@value": "CC0", 
+          "@language": "en"
+        }
+      ], 
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": { 
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by", 
       "@type": "Concept",
       "name": [
@@ -124,28 +146,6 @@
       "alternateName": [
         {
           "@value": "CC By-NC-ND", 
-          "@language": "en"
-        }
-      ], 
-      "topConceptOf": {
-        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-      },
-      "inScheme": { 
-        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-      }
-    },
-    {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc0", 
-      "@type": "Concept",
-      "name": [
-        {
-          "@value": "Creative Commons Public Domain Dedication", 
-          "@language": "en"
-        }
-      ],
-      "alternateName": [
-        {
-          "@value": "CC0", 
           "@language": "en"
         }
       ], 
