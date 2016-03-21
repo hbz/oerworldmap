@@ -97,7 +97,7 @@
       ]
     }
   ],
-  "license": [
+  "licenseConcept": [
     {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by",
       "@type": "Concept",
