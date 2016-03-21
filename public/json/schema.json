@@ -1055,10 +1055,10 @@
           }
         },
         "startDate": {
-              "$ref": "#/definitions/full-date"
+            "$ref": "#/definitions/full-date"
         },
         "endDate": {
-              "$ref": "#/definitions/full-date"
+            "$ref": "#/definitions/full-date"
         },
         "location": {
           "$ref": "#/definitions/Place"
@@ -1252,8 +1252,17 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Year",
       "description": "4 digit year",
-      "type": "string",
-      "pattern": "^[0-9]{4}$"
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{4}$"
+        },
+        {
+          "type": "number",
+          "minimum": 1900,
+          "maximum": 2100
+        }
+      ]
     },
     "full-date": {
       "$schema": "http://json-schema.org/draft-04/schema#",
