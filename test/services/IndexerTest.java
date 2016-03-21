@@ -10,21 +10,17 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import helpers.JsonTest;
 import models.Resource;
-import models.TripleDiff;
+import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Test;
-import services.repository.TriplestoreRepository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,9 +45,9 @@ public class IndexerTest implements JsonTest {
       this.mDb = aDb;
     }
 
-    public Set<String> getScope(TripleDiff aDiff) {
+    public Set<String> getScope(TripleCommit.Diff aDiff) {
       Set<String> scope = new HashSet<>();
-      for (TripleDiff.Line line : aDiff.getLines()) {
+      for (TripleCommit.Diff.Line line : aDiff.getLines()) {
         RDFNode subject = line.stmt.getSubject();
         RDFNode object = line.stmt.getObject();
         if (subject.isURIResource()) {
@@ -96,8 +92,7 @@ public class IndexerTest implements JsonTest {
     String diffString = IOUtils.toString(
       ClassLoader.getSystemResourceAsStream("IndexerTest/testNewResourceWithNewReference.IN.ndiff"), "UTF-8");
     Indexer indexer = new Indexer(db);
-    TripleDiff diff = new TripleDiff();
-    diff.fromString(diffString);
+    TripleCommit.Diff diff = TripleCommit.Diff.fromString(diffString);
     Set<String> idsToIndex = indexer.getScope(diff);
     assertEquals(4, idsToIndex.size());
     // FIXME: limit scope of ids to those present in our database...

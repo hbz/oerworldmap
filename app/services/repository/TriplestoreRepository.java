@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import com.hp.hpl.jena.rdf.model.Statement;
+import models.TripleCommit;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -24,7 +25,6 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import com.typesafe.config.Config;
 
 import models.Resource;
-import models.TripleDiff;
 import play.Logger;
 import play.libs.F;
 import play.libs.ws.ning.NingWSClient;
@@ -77,7 +77,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
 
-    TripleDiff diff = getDiff(aResource);
+    TripleCommit.Diff diff = getDiff(aResource);
     diff.apply(db);
 
   }
@@ -104,7 +104,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   }
 
-  public TripleDiff getDiff(@Nonnull Resource aResource) {
+  public TripleCommit.Diff getDiff(@Nonnull Resource aResource) {
 
     // The incoming model
     Model model = ModelFactory.createDefaultModel();
@@ -127,7 +127,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     Logger.debug(model.toString());
 
     // Create diff
-    TripleDiff diff = new TripleDiff();
+    TripleCommit.Diff diff = new TripleCommit.Diff();
 
     // Add statements that are in model but not in db
     StmtIterator itAdd = model.difference(dbstate).listStatements();
