@@ -94,15 +94,17 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      // log out by providing wrong credentials to apache
+      // log out by clearing authentication cache or providing wrong credentials to apache
       // http://stackoverflow.com/a/32325848
       $('form[data-behaviour="logout"]', context).submit(function(event) {
-        $.ajax({
-          async: false,
-          url: "/.login",
-          type: 'GET',
-          username: 'logout'
-        });
+        if (!document.execCommand("ClearAuthenticationCache")) {
+          $.ajax({
+            async: false,
+            url: "/.login",
+            type: 'GET',
+            username: 'logout'
+          });
+        }
         window.location = "/";
         event.preventDefault();
       });
