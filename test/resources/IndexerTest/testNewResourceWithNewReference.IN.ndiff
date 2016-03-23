@@ -1,7 +1,11 @@
 + <info:456> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
 + <info:456> <http://schema.org/email> "foo@bar.de" .
-+ <info:456> <http://schema.org/name> "Hans Wurst" .
++ <info:456> <http://schema.org/name> "Hans Wurst"@en .
 + <info:456> <http://schema.org/authorOf> <info:123> .
++ <info:456> <http://schema.org/authorOf> <info:789> .
 + <info:123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Article> .
 + <info:123> <http://schema.org/author> <info:456> .
-+ <info:123> <http://schema.org/name> "Ganz spannend!" .
++ <info:123> <http://schema.org/name> "Ganz spannend!"@de .
++ <info:789> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Article> .
++ <info:789> <http://schema.org/author> <info:456> .
++ <info:789> <http://schema.org/name> "Noch spannender!"@de .
