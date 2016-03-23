@@ -2,10 +2,14 @@ package models;
 
 import static org.junit.Assert.*;
 
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RiotException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.time.ZonedDateTime;
 
 /**
@@ -28,7 +32,7 @@ public class TripleCommitTest {
   @Test
   public void testAddTypedLiteralLine() {
     TripleCommit.Diff.fromString(
-        "+ <http://en.wikipedia.org/wiki/Helium> <http://example.org/elements/specificGravity> \"1.663E-4\"^^<http://www.w3.org/2001/XMLSchema#double> .");
+      "+ <http://en.wikipedia.org/wiki/Helium> <http://example.org/elements/specificGravity> \"1.663E-4\"^^<http://www.w3.org/2001/XMLSchema#double> .");
   }
 
   @Test(expected = RiotException.class)
@@ -80,6 +84,28 @@ public class TripleCommitTest {
         "Date: 2007-12-03T10:15:30+01:00\n" +
         "+ <urn:uuid:foo> <urn:uuid:bar> <urn:uuid:baz> .");
     assertNotNull(commit);
+  }
+
+  @Test
+  public void testApplyDiff() {
+    String ntriple = "<info:subject> <info:predicate> <info:object> .";
+    Model actual = ModelFactory.createDefaultModel();
+    TripleCommit.Diff diff = TripleCommit.Diff.fromString("+ ".concat(ntriple));
+    diff.apply(actual);
+    Model expected = ModelFactory.createDefaultModel();
+    expected.read(new ByteArrayInputStream(ntriple.getBytes()), null, Lang.NTRIPLES.getName());
+    assertTrue(expected.isIsomorphicWith(actual));
+  }
+
+  @Test
+  public void testUnapplyDiff() {
+    String ntriple = "<info:subject> <info:predicate> <info:object> .";
+    Model actual = ModelFactory.createDefaultModel();
+    actual.read(new ByteArrayInputStream(ntriple.getBytes()), null, Lang.NTRIPLES.getName());
+    TripleCommit.Diff diff = TripleCommit.Diff.fromString("+ ".concat(ntriple));
+    diff.unapply(actual);
+    Model expected = ModelFactory.createDefaultModel();
+    assertTrue(expected.isIsomorphicWith(actual));
   }
 
 }
