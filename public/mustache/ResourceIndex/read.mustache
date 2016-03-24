@@ -11,9 +11,9 @@
             <div class="resource-header">
 
                 {{#if user.email}}
-                    <button class="btn btn-inverted resource-edit-btn" data-toggle="modal" data-target="#resource-edit">
+                    <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal">
                         <i class="fa fa-pencil"></i>
-                    </button>
+                    </a>
                 {{/if}}
 
                 <h1 class="resource-title">
@@ -150,19 +150,23 @@
 
         </article>
 
-        <form id="resource-edit" method="post" class="edit hijax app-hidden" target="edit-{{lower [@type]}}-feedback">
+        {{#if user.email}}
 
-            <h1>Edit {{[@type]}}</h1>
+            <form id="resource-edit" method="post" class="clearfix visible-modal" target="edit-{{lower [@type]}}-feedback">
 
-            <div id="edit-{{lower [@type]}}-feedback"></div>
+                <h1>Edit {{[@type]}}</h1>
 
-            {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
+                <div id="edit-{{lower [@type]}}-feedback"></div>
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
-            </div>
-        </form>
+                {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
+
+                <div class="pull-right resource-form-top-padding">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                    <button type="submit" class="btn btn-inverted">Save Changes</button>
+                </div>
+            </form>
+
+        {{/if}}
 
     {{/scope}}
 

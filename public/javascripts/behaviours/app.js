@@ -205,6 +205,17 @@ var Hijax = (function ($, Hijax, page) {
         e.stopPropagation();
       });
 
+      // bind modal links
+
+      $('#app', context).on('click', '[data-app="to-modal"]', function(e){
+        var content = $( this.hash ); console.log(content);
+        var modal = $('#app-modal');
+        modal.find('.modal-body').append(content);
+        modal.modal('show');
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
       // deffer
 
       var deferred = new $.Deferred();
