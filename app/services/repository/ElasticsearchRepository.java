@@ -18,6 +18,7 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -45,8 +46,7 @@ import play.Logger;
 import services.ElasticsearchConfig;
 import services.QueryContext;
 
-public class ElasticsearchRepository extends Repository
-    implements Readable, Writable, Queryable, Aggregatable {
+public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchConfig mConfig;
   private Client mClient;
@@ -55,15 +55,13 @@ public class ElasticsearchRepository extends Repository
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
     mConfig = new ElasticsearchConfig(aConfiguration);
-    Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings())
-        .build();
+    Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings()).build();
     mClient = new TransportClient(settings)
         .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
-      throws IOException {
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType) throws IOException {
     String id = (String) aResource.getId();
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
@@ -82,8 +80,7 @@ public class ElasticsearchRepository extends Repository
   }
 
   private void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
-        .actionGet();
+    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute().actionGet();
   }
 
   @Override
@@ -100,8 +97,7 @@ public class ElasticsearchRepository extends Repository
     final List<Map<String, Object>> docs = new ArrayList<>();
     while (response == null || response.getHits().hits().length != 0) {
       response = mClient.prepareSearch(mConfig.getIndex())
-          .setQuery(QueryBuilders
-              .queryString(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
+          .setQuery(QueryBuilders.queryString(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
           .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
@@ -123,9 +119,8 @@ public class ElasticsearchRepository extends Repository
     SearchResponse response = null;
     final List<Map<String, Object>> docs = new ArrayList<Map<String, Object>>();
     while (response == null || response.getHits().hits().length != 0) {
-      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType)
-          .setQuery(QueryBuilders.matchAllQuery()).setSize(docsPerPage).setFrom(count * docsPerPage)
-          .execute().actionGet();
+      response = mClient.prepareSearch(mConfig.getIndex()).setTypes(aType).setQuery(QueryBuilders.matchAllQuery())
+          .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
       }
@@ -143,8 +138,7 @@ public class ElasticsearchRepository extends Repository
     if (null == resource) {
       return null;
     }
-    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE)
-        .toString();
+    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE).toString();
     Logger.info("DELETING " + type + aId);
 
     boolean found = deleteDocument(type, aId);
@@ -161,10 +155,9 @@ public class ElasticsearchRepository extends Repository
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
-      QueryContext aQueryContext) throws IOException {
-    Resource aggregations = Resource
-        .fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+      throws IOException {
+    Resource aggregations = Resource.fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
     if (null == aggregations) {
       return null;
     }
@@ -192,11 +185,9 @@ public class ElasticsearchRepository extends Repository
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext)
-          throws IOException, ParseException {
+      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
 
-    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters,
-        aQueryContext);
+    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
@@ -204,13 +195,12 @@ public class ElasticsearchRepository extends Repository
       matches.add(match);
     }
     Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize,
-        aSortOrder, aFilters, aAggregations);
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+        aFilters, aAggregations);
 
   }
 
-  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder,
-      QueryContext aQueryContext) {
+  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
@@ -222,16 +212,14 @@ public class ElasticsearchRepository extends Repository
     }
 
     SearchResponse response = searchRequestBuilder.addAggregation(aAggregationBuilder)
-        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
-        .setSize(0).execute().actionGet();
+        .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter)).setSize(0).execute()
+        .actionGet();
     return response;
 
   }
 
-  private Map<String, Object> getDocument(@Nonnull final String aType,
-      @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier)
-        .execute().actionGet();
+  private Map<String, Object> getDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+    final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier).execute().actionGet();
     return response.getSource();
   }
 
@@ -240,8 +228,7 @@ public class ElasticsearchRepository extends Repository
   }
 
   private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
-    final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
-        .execute().actionGet();
+    final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier).execute().actionGet();
     return response.isFound();
   }
 
@@ -260,26 +247,25 @@ public class ElasticsearchRepository extends Repository
 
   public void createIndex(String aIndex) {
     try {
-      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString())
-          .execute().actionGet();
+      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString()).execute().actionGet();
       mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
-      Logger.error(
-          "Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
+      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
       indexAlreadyExists.printStackTrace();
     } catch (IOException ioException) {
-      Logger.error("Trying to create index \"" + aIndex
-          + "\" in Elasticsearch. Couldn't read index config file.");
+      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Couldn't read index config file.");
       ioException.printStackTrace();
     }
   }
 
-  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize,
-      String aSortOrder, Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
+  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+      Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
     AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+
+    String[] fieldBoosts = null;
 
     if (!(null == aQueryContext)) {
       searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
@@ -289,13 +275,15 @@ public class ElasticsearchRepository extends Repository
       for (AggregationBuilder<?> contextAggregation : aQueryContext.getAggregations()) {
         searchRequestBuilder.addAggregation(contextAggregation);
       }
+      if (aQueryContext.hasFieldBoosts()) {
+        fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
+      }
     }
 
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0],
-            sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
       } else {
         Logger.error("Invalid sort string: " + aSortOrder);
       }
@@ -317,13 +305,23 @@ public class ElasticsearchRepository extends Repository
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString)
-          .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+      queryBuilder = QueryBuilders.queryString(aQueryString);
+      if (fieldBoosts != null) {
+        for (String fieldBoost : fieldBoosts) {
+          try {
+            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+              Float.parseFloat(fieldBoost.split("\\^")[1]));
+          } catch (ArrayIndexOutOfBoundsException e) {
+            Logger.error("Invalid field boost: " + fieldBoost);
+          }
+        }
+      }
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
 
-    searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+        .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
 
