@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -72,9 +73,15 @@ public class TripleCommit {
       } catch (NoSuchElementException e) {
         throw new IllegalArgumentException("Header missing author line");
       }
-      ZonedDateTime timestamp = ZonedDateTime.parse(timestampHeader.substring(6));
-      if (!timestampHeader.startsWith("Date: ") || timestamp == null) {
-        throw new IllegalArgumentException("Header missing date line");
+
+      ZonedDateTime timestamp = null;
+      try {
+        timestamp = ZonedDateTime.parse(timestampHeader.substring(6));
+        if (!timestampHeader.startsWith("Date: ")) {
+          throw new IllegalArgumentException("Header missing date line");
+        }
+      } catch (DateTimeParseException e) {
+        throw new IllegalArgumentException("Header contains invalid date");
       }
 
       return new Header(author, timestamp);
