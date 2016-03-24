@@ -130,7 +130,7 @@ var Hijax = (function ($, Hijax, page) {
         return deferred;
       }
 
-      // render template
+      // render template / cleanup dom
 
       $('body', context).append(
         templates.app({
@@ -138,6 +138,10 @@ var Hijax = (function ($, Hijax, page) {
           footer : $('footer', context)[0].outerHTML
         })
       );
+
+      $('body>header, body>main, body>footer', context).remove();
+
+      $('footer', context).removeClass(); // to remove default (non app) styling
 
       // setup app routes
 
@@ -158,10 +162,6 @@ var Hijax = (function ($, Hijax, page) {
       // start routing
 
       page();
-
-      // hide the rest
-
-      $('body>header, body>main, body>footer', context).remove();
 
       // bind index switch
 
