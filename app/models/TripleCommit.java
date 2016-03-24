@@ -3,6 +3,7 @@ package models;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.riot.Lang;
 
@@ -211,12 +212,21 @@ public class TripleCommit {
     return mHeader.toString().concat("\n").concat(mDiff.toString());
   }
 
+  public boolean equals(Object aOther) {
+
+    return aOther instanceof TripleCommit
+      && DigestUtils.sha1Hex(this.toString()).equals(DigestUtils.sha1Hex(aOther.toString()));
+
+  }
+
   public static TripleCommit fromString(String aCommitString) {
+
     String[] parts = aCommitString.split("\\n\\n");
     if (!(parts.length == 2)) {
       throw new IllegalArgumentException("Malformed commit");
     }
     return new TripleCommit(Header.fromString(parts[0]), Diff.fromString(parts[1]));
+
   }
 
 }
