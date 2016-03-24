@@ -57,13 +57,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     String describeStatement = String.format(DESCRIBE_RESOURCE, aId);
     Model dbstate = ModelFactory.createDefaultModel();
     QueryExecutionFactory.create(QueryFactory.create(describeStatement), db).execDescribe(dbstate);
-    Logger.debug("DBSTATE: " + dbstate);
-    try {
-      return ResourceFramer.resourceFromModel(dbstate, aId);
-    } catch (IOException e) {
-      Logger.error(e.toString());
-      return null;
+
+    Resource resource = null;
+    if (!dbstate.isEmpty()) {
+      try {
+        resource = ResourceFramer.resourceFromModel(dbstate, aId);
+      } catch (IOException e) {
+        Logger.error(e.toString());
+      }
     }
+
+    return resource;
 
   }
 
