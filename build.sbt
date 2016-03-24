@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   "com.github.fge" % "json-schema-validator" % "2.2.6",
   "com.googlecode.json-simple" % "json-simple" % "1.1",
   "org.apache.commons" % "commons-email" % "1.3.3",
-  "org.apache.commons" % "commons-io" % "1.3.2",
+  "commons-io" % "commons-io" % "2.4",
   "org.elasticsearch" % "elasticsearch" % "1.3.6",
   "org.json" % "json" % "20141113",
   "org.pegdown" % "pegdown" % "1.5.0",

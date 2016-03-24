@@ -1,0 +1,7 @@
+Author: Foo Bar <foo@bar.de>
+Date: 2007-12-03T10:15:30+01:00
+
++ <info:123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Article> .
++ <info:123> <http://schema.org/author> <info:456> .
++ <info:123> <http://schema.org/name> "Ganz spannend!"@de .
++ <info:456> <http://schema.org/authorOf> <info:123> .
