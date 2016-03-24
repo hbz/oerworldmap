@@ -2,11 +2,14 @@ package services.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.hp.hpl.jena.rdf.model.Statement;
+import models.GraphHistory;
 import models.TripleCommit;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -39,15 +42,22 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
 
-  private Model db;
+  private final Model db;
+  private final GraphHistory mGraphHistory;
 
-  public TriplestoreRepository(Config aConfiguration) {
+  public TriplestoreRepository(Config aConfiguration) throws IOException {
     this(aConfiguration, ModelFactory.createDefaultModel());
   }
 
-  public TriplestoreRepository(Config aConfiguration, Model aModel) {
+  public TriplestoreRepository(Config aConfiguration, Model aModel) throws IOException {
+    this(aConfiguration, aModel, new GraphHistory(Files.createTempDirectory(null).toFile(),
+      Files.createTempFile(null, null).toFile()));
+  }
+
+  public TriplestoreRepository(Config aConfiguration, Model aModel, GraphHistory aGraphHistory) {
     super(aConfiguration);
     this.db = aModel;
+    this.mGraphHistory = aGraphHistory;
   }
 
   @Override
@@ -81,6 +91,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     TripleCommit.Diff diff = getDiff(aResource);
     diff.apply(db);
+    // FIXME: set proper commit author
+    TripleCommit commit = new TripleCommit(new TripleCommit.Header("Anonymous", ZonedDateTime.now()), diff);
+    mGraphHistory.add(commit);
 
   }
 
