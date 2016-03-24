@@ -104,20 +104,8 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_detail(pagejs_ctx, next) {
-    /*
-      check if database for map and index are filtered
-      if so, redirect to current url and append id as fragment identifier
-      if not, set map and index to unfiltered and load detail
-    */
-    if(
-      /\/resource\/\?.*/.test(map_and_index_source) ||
-      /\/country\/../.test(map_and_index_source)
-    ) {
-      page.redirect(map_and_index_source + '#' + pagejs_ctx.path.split('/')[2]);
-    } else {
-      set_map_and_index_source('/resource/', 'floating');
-      set_detail_source(pagejs_ctx.path);
-    }
+    set_map_and_index_source('/resource/', 'floating');
+    set_detail_source(pagejs_ctx.path);
 
     next();
   }
@@ -192,13 +180,29 @@ var Hijax = (function ($, Hijax, page) {
       $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
         var col = $(this).closest('[data-app="col"]');
         if(col.is('#app-col-index')) {
-          page('/' + window.location.search + window.location.hash);
+
+          if(window.location.search) {
+            page('/' + window.location.search + window.location.hash);
+          } else if(window.location.hash) {
+            page('/resource/' + window.location.hash.split('#')[1]);
+          } else {
+            page('/');
+          }
+
         } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'expanded') {
           col.attr('data-col-mode', 'collapsed');
         } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'collapsed') {
           col.attr('data-col-mode', 'expanded');
         }
         Hijax.layout();
+      });
+
+      // catch links to fragments
+
+      $('#app', context).on('click', '[data-app="link-to-fragment"] a', function(e){
+        page(map_and_index_source + '#' + this.href.split('/').pop());
+        e.preventDefault();
+        e.stopPropagation();
       });
 
       // deffer
