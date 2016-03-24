@@ -37,7 +37,7 @@ var Hijax = (function ($, Hijax, page) {
         function(data){
           $('#app-col-index [data-app="col-content"]').html(
             Hijax.attachBehaviours( $(data).filter('main').contents() )
-          )
+          );
           map_and_index_source = url;
         }
       )
@@ -52,7 +52,7 @@ var Hijax = (function ($, Hijax, page) {
         function(data){
           $('#app-col-detail [data-app="col-content"]').html(
             Hijax.attachBehaviours( $(data).filter('main').contents() )
-          )
+          );
           detail_source = url;
         }
       );
