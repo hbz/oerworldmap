@@ -35,7 +35,7 @@ public class IndexerTest implements JsonTest {
     diff.apply(db);
 
     // Calculate scope of resources to be (re-)indexed
-    ResourceIndexer indexer = new ResourceIndexer(db);
+    ResourceIndexer indexer = new ResourceIndexer(db, "info");
     Set<String> idsToIndex = indexer.getScope(diff);
 
     assertEquals(3, idsToIndex.size());
