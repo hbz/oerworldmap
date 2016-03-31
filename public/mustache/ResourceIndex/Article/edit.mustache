@@ -18,8 +18,8 @@
 
     {{> FormElements/id.mustache property=creator key="creator" title=(i18n "Article.creator") tooltip=(i18n "Article.creator" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 
-    {{> FormElements/id.mustache property=mainEntity key="mainEntity" title=(i18n "Article.mainEntity") tooltip=(i18n "Article.mainEntity" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action)"}}
+    {{> FormElements/id.mustache property=mainEntity key="mainEntity" title=(i18n "Article.mainEntity") tooltip=(i18n "Article.mainEntity" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action%20OR%20about.@type:Event)"}}
 
-    {{> FormElements/id.mustache property=mentions key="mentions" title=(i18n "Article.mentions") tooltip=(i18n "Article.mentions" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action)"}}
+    {{> FormElements/id.mustache property=mentions key="mentions" title=(i18n "Article.mentions") tooltip=(i18n "Article.mentions" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person%20OR%20about.@type:Service%20OR%20about.@type:Action%20OR%20about.@type:Event)"}}
 
 </fieldset>
