@@ -391,6 +391,73 @@
         }
       }
     },
+    "Event" : {
+      "properties" : {
+        "@id" : {
+          "type" : "string",
+          "index": "not_analyzed"
+        },
+        "@type" : {
+          "index": "not_analyzed",
+          "type" : "string"
+        },
+        "about" : {
+          "properties" : {
+            "@id" : {
+              "index": "not_analyzed",
+              "type" : "string"
+            },
+            "@type" : {
+              "index": "not_analyzed",
+              "type" : "string"
+            },
+            "endDate" : {
+              "type" : "date",
+              "format" : "dateOptionalTime"
+            },
+            "location" : {
+              "properties" : {
+                "address" : {
+                  "properties" : {
+                    "addressCountry" : {
+                      "index": "not_analyzed",
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "name" : {
+              "properties" : {
+                "@language" : {
+                  "index": "not_analyzed",
+                  "type" : "string"
+                },
+                "@value" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "startDate" : {
+              "type" : "date",
+              "format" : "dateOptionalTime"
+            },
+            "url" : {
+              "index": "not_analyzed",
+              "type" : "string"
+            }
+          }
+        },
+        "dateCreated" : {
+          "type" : "date",
+          "format" : "dateOptionalTime"
+        },
+        "dateModified": {
+          "type": "date",
+          "format": "dateOptionalTime"
+        }
+      }
+    },
     "Service": {
       "properties": {
         "dateModified": {
