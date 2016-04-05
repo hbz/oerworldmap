@@ -208,7 +208,9 @@ var Hijax = (function ($, Hijax, page) {
       // bind modal links
 
       $('#app', context).on('click', '[data-app="to-modal"]', function(e){
-        var content = $( this.hash ).replaceWith('<div data-placeholder="' + this.hash + '"></div>'); console.log(content);
+        var content = $( this.hash )
+          .after('<div data-placeholder="' + this.hash + '"></div>')
+          .detach();
         var modal = $('#app-modal');
         modal.find('.modal-body').append(content);
         modal.data('content', this.hash);
