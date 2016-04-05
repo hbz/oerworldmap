@@ -208,12 +208,23 @@ var Hijax = (function ($, Hijax, page) {
       // bind modal links
 
       $('#app', context).on('click', '[data-app="to-modal"]', function(e){
-        var content = $( this.hash ); console.log(content);
+        var content = $( this.hash ).replaceWith('<div data-placeholder="' + this.hash + '"></div>');
         var modal = $('#app-modal');
         modal.find('.modal-body').append(content);
+        modal.data('content', this.hash);
         modal.modal('show');
         e.preventDefault();
         e.stopPropagation();
+      });
+
+      // move modal content back to placeholder, when modal is closed
+
+      $('#app-modal').on('hidden.bs.modal', function(){
+        var modal = $(this);
+        $('[data-placeholder="' + modal.data('content') + '"]').replaceWith(
+          modal.find('.modal-body').contents()
+        );
+        modal.data('content', '');
       });
 
       // deffer
