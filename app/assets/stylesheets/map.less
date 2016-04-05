@@ -244,3 +244,56 @@ svg .placemark.active {
   margin: 0px 0 0 0px;
   // box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
 }
+
+
+/* --- ol controls --- */
+
+.ol-zoom {
+  left: @map-padding;
+  top: auto;
+  bottom: @map-padding;
+}
+
+
+/* --- nav map --- */
+
+@nav-map-button-size: 40px;
+
+.nav-map {
+  position: absolute;
+  left: @map-padding;
+  top: @map-padding;
+
+  > ul {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+
+    > li {
+      float: left;
+      margin-right: 10px;
+
+      > a,
+      > button {
+        padding: 0px;
+        display: block;
+        width: @nav-map-button-size;
+        height: @nav-map-button-size;
+        border-radius: @nav-map-button-size;
+        font-size: @font-size-large;
+        line-height: @nav-map-button-size;
+        text-align: center;
+        border: none;
+        background: @orange;
+        color: white;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    left: 70%;
+    top: 70%;
+    font-size: @font-size-small;
+  }
+
+}

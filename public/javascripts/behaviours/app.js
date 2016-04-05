@@ -208,13 +208,13 @@ var Hijax = (function ($, Hijax, page) {
       // bind modal links
 
       $('#app', context).on('click', '[data-app="to-modal"]', function(e){
-        var content = $( this.hash ).replaceWith('<div data-placeholder="' + this.hash + '"></div>');
+        var content = $( this.hash ).replaceWith('<div data-placeholder="' + this.hash + '"></div>'); console.log(content);
         var modal = $('#app-modal');
         modal.find('.modal-body').append(content);
         modal.data('content', this.hash);
         modal.modal('show');
         e.preventDefault();
-        e.stopPropagation();
+        // e.stopPropagation();
       });
 
       // move modal content back to placeholder, when modal is closed

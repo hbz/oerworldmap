@@ -31,3 +31,30 @@ h3:first-child {
   width: 900px;
 }
 */
+
+/* --- dropdown --- */
+
+.dropdown-menu {
+  border-radius: 0px;
+  padding: 0px;
+
+  li {
+    border-bottom: 1px solid @blue-darker;
+    &:last-child {
+      border-bottom: none;
+    }
+
+    a {
+      padding: 5px 30px 5px 8px;
+      text-decoration: none;
+      position: relative;
+
+      i {
+        display: block;
+        position: absolute;
+        right: 8px;
+        top: 8px;
+      }
+    }
+  }
+}
