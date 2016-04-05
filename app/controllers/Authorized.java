@@ -11,6 +11,7 @@ import services.Account;
 import services.QueryContext;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -31,9 +32,9 @@ public class Authorized extends Action.Simple {
 
   static {
     mPermissions = new HashMap<>();
-    try {
+    try (InputStream is = Play.application().classloader().getResourceAsStream("permissions.properties")) {
       Properties permissions = new Properties();
-      permissions.load(Play.application().classloader().getResourceAsStream("permissions.properties"));
+      permissions.load(is);
       for(Map.Entry<Object, Object> permission : permissions.entrySet()) {
         mPermissions.put(permission.getKey().toString(), new ArrayList<>(Arrays.asList(permission.getValue().toString()
           .split(" +"))));
@@ -45,9 +46,9 @@ public class Authorized extends Action.Simple {
 
   static {
     mRoles = new HashMap<>();
-    try {
+    try (InputStream is = Play.application().classloader().getResourceAsStream("roles.properties")) {
       Properties roles = new Properties();
-      roles.load(Play.application().classloader().getResourceAsStream("roles.properties"));
+      roles.load(is);
       for(Map.Entry<Object, Object> role : roles.entrySet()) {
         mRoles.put(role.getKey().toString(), new ArrayList<>(Arrays.asList(role.getValue().toString().split(" +"))));
       }

@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -183,7 +184,9 @@ public abstract class OERWorldMap extends Controller {
     for (String path : paths) {
       try {
         String template = "<script id=\"".concat(path).concat("\" type=\"text/mustache\">\n");
-        template = template.concat(IOUtils.toString(classLoader.getResourceAsStream(dir + path)));
+        InputStream templateStream = classLoader.getResourceAsStream(dir + path);
+        template = template.concat(IOUtils.toString(templateStream));
+        templateStream.close();
         template = template.concat("</script>\n\n");
         templates.add(template);
       } catch (IOException e) {

@@ -1,7 +1,10 @@
 package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.ning.http.client.AsyncHttpClientConfig;
@@ -16,6 +19,7 @@ import play.Logger;
 import play.libs.F;
 import play.libs.ws.WSResponse;
 import play.libs.ws.ning.NingWSClient;
+import services.repository.TriplestoreRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,6 +32,8 @@ import java.util.concurrent.ExecutionException;
  * Created by fo on 23.03.16.
  */
 public class ResourceFramer {
+
+  private static final NingWSClient mWSClient = new NingWSClient(new AsyncHttpClientConfig.Builder().build());
 
   static {
     NodeEnvironment env = new NodeEnvironment();
@@ -42,30 +48,31 @@ public class ResourceFramer {
     }
   }
 
-  public static Resource resourceFromModel(Model model, String id) throws IOException {
+  public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
 
-    Logger.debug("------------------model---------------------");
-    model.write(System.out, "TURTLE");
+    String describeStatement = String.format(TriplestoreRepository.DESCRIBE_RESOURCE, aId);
+    Model dbstate = ModelFactory.createDefaultModel();
+    QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel).execDescribe(dbstate);
 
-    ByteArrayOutputStream nquads = new ByteArrayOutputStream();
-    RDFDataMgr.write(nquads, model, Lang.NQUADS);
+    ByteArrayOutputStream unframed = new ByteArrayOutputStream();
+    RDFDataMgr.write(unframed, dbstate, Lang.NQUADS);
+    unframed.close();
 
-    AsyncHttpClientConfig.Builder builder = new AsyncHttpClientConfig.Builder();
-    NingWSClient wsClient = new NingWSClient(builder.build());
-
-    NodeIterator types = model.listObjectsOfProperty(model.createResource(id), RDF.type);
+    NodeIterator types = aModel.listObjectsOfProperty(aModel.createResource(aId), RDF.type);
 
     if (types.hasNext()) {
+      String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
       String type = URLEncoder.encode(
         types.next().toString(),
         StandardCharsets.UTF_8.toString());
-      F.Promise<JsonNode> promise = wsClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
-        .setContentType("text/plain").post(new String(nquads.toByteArray(), StandardCharsets.UTF_8))
-        .map(WSResponse::asJson);
+      Logger.debug(type);
+      F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
+        .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
 
-      return Resource.fromJson(promise.get(1000));
+      return Resource.fromJson(promise.get(1000000000));
     }
 
+    Logger.error("Not type found for " + aId);
     return null;
 
   }

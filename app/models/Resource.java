@@ -152,6 +152,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public static Resource fromJsonFile(String aFile) throws IOException {
     InputStream in = Play.application().classloader().getResourceAsStream(aFile);
     String json = IOUtils.toString(in, "UTF-8");
+    in.close();
     return Resource.fromJson(json);
   }
 

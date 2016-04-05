@@ -2,6 +2,7 @@ package services.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.annotation.Nonnull;
 import com.hp.hpl.jena.rdf.model.Statement;
 import models.GraphHistory;
 import models.TripleCommit;
+import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -40,10 +42,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     "  <%1$s> ?p ?o FILTER isIRI(?o) OPTIONAL{?o ?pp ?oo FILTER isIRI(?oo)}" +
     "}";
 
+
   public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
 
   private final Model db;
   private final GraphHistory mGraphHistory;
+  private final Model inverseRelations;
 
   public TriplestoreRepository(Config aConfiguration) throws IOException {
     this(aConfiguration, ModelFactory.createDefaultModel());
@@ -58,6 +62,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     super(aConfiguration);
     this.db = aModel;
     this.mGraphHistory = aGraphHistory;
+    this.inverseRelations = ModelFactory.createDefaultModel();
+    try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("inverses.ttl")) {
+      RDFDataMgr.read(inverseRelations, inputStream, Lang.TURTLE);
+    } catch (IOException e) {
+      throw new RuntimeIOException(e);
+    }
   }
 
   @Override
@@ -102,10 +112,11 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // The incoming model
     Model model = ModelFactory.createDefaultModel();
 
-    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-        aResource.toString().getBytes());
-
-    RDFDataMgr.read(model, byteArrayInputStream, Lang.JSONLD);
+    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.toString().getBytes())) {
+      RDFDataMgr.read(model, byteArrayInputStream, Lang.JSONLD);
+    } catch (IOException e) {
+      throw new RuntimeIOException(e);
+    }
 
     // Add inferred (e.g. inverse) statements to incoming model
     addInverses(model);
@@ -149,10 +160,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   private void addInverses(Model model) {
     Model inverses = ModelFactory.createDefaultModel();
-    Model relations = ModelFactory.createDefaultModel();
-    RDFDataMgr.read(relations, Thread.currentThread().getContextClassLoader().getResourceAsStream("inverses.ttl"),
-      Lang.TURTLE);
-    for (Statement stmt : relations.listStatements().toList()) {
+    for (Statement stmt : inverseRelations.listStatements().toList()) {
       String inferConstruct = String.format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
       QueryExecutionFactory.create(QueryFactory.create(inferConstruct), model).execConstruct(inverses);
     }

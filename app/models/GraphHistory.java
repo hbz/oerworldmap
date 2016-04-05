@@ -47,7 +47,7 @@ public class GraphHistory {
 
   public int size() {
 
-    try(InputStream in = new BufferedInputStream(new FileInputStream(mHistoryFile))){
+    try (InputStream in = new BufferedInputStream(new FileInputStream(mHistoryFile))) {
       byte[] buf = new byte[4096 * 16];
       int c;
       int lineCount = 0;

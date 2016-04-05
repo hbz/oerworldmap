@@ -5,9 +5,11 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
@@ -180,9 +182,14 @@ public class TripleCommit {
       while (scanner.hasNextLine()) {
         diffLine = scanner.nextLine().trim();
         if (diffLine.matches("^[+-] .*")) {
-          buffer.read(new ByteArrayInputStream(diffLine.substring(1).getBytes(StandardCharsets.UTF_8)), null, mLang);
-          lines.add(new Line(buffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
-          buffer.removeAll();
+          try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(diffLine.substring(1)
+              .getBytes(StandardCharsets.UTF_8))) {
+            buffer.read(byteArrayInputStream, null, mLang);
+            lines.add(new Line(buffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
+            buffer.removeAll();
+          } catch (IOException e) {
+            throw new RuntimeIOException(e);
+          }
         } else {
           throw new IllegalArgumentException("Mal formed triple diff line: " + aDiffString);
         }

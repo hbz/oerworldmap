@@ -17,6 +17,7 @@ import models.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.jena.atlas.RuntimeIOException;
 
 
 public class FileRepository extends Repository implements Writable, Readable {
@@ -51,7 +52,7 @@ public class FileRepository extends Repository implements Writable, Readable {
 
   /**
    * Get a Resource specified by the given identifier.
-   * 
+   *
    * @param aId
    * @return the Resource by the given identifier or null if no such Resource
    * exists.
@@ -79,23 +80,20 @@ public class FileRepository extends Repository implements Writable, Readable {
   public List<Resource> getAll(@Nonnull String aType) {
     ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(getPath().toString(), aType);
-    DirectoryStream<Path> resourceFiles;
-    try {
-      resourceFiles = Files.newDirectoryStream(typeDir);
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      return results;
-    }
-    ObjectMapper objectMapper = new ObjectMapper();
-    for (Path resourceFile : resourceFiles) {
-      Map<String, Object> resourceMap;
-      try {
-        resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
-      } catch (IOException ex) {
-        ex.printStackTrace();
-        continue;
+    try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir)) {
+      ObjectMapper objectMapper = new ObjectMapper();
+      for (Path resourceFile : resourceFiles) {
+        Map<String, Object> resourceMap;
+        try {
+          resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+          continue;
+        }
+        results.add(Resource.fromMap(resourceMap));
       }
-      results.add(Resource.fromMap(resourceMap));
+    } catch (IOException e) {
+      throw new RuntimeIOException(e);
     }
     return results;
   }
@@ -103,7 +101,7 @@ public class FileRepository extends Repository implements Writable, Readable {
 
   /**
    * Delete a Resource specified by the given identifier.
-   * 
+   *
    * @param aId
    * @return The resource that has been deleted.
    */
@@ -120,24 +118,26 @@ public class FileRepository extends Repository implements Writable, Readable {
 
   private Path getResourcePath(@Nonnull final String aId) throws IOException {
     String encodedId = DigestUtils.sha256Hex(aId);
-    DirectoryStream<Path> typeDirs = Files.newDirectoryStream(getPath(),
-        new DirectoryStream.Filter<Path>() {
+    DirectoryStream.Filter<Path> directoryFilter = new DirectoryStream.Filter<Path>() {
+      @Override
+      public boolean accept(Path entry) throws IOException {
+        return Files.isDirectory(entry);
+      }
+    };
+
+    try (DirectoryStream<Path> typeDirs = Files.newDirectoryStream(getPath(),directoryFilter)) {
+      for (Path typeDir : typeDirs) {
+        DirectoryStream.Filter<Path> fileFilter =  new DirectoryStream.Filter<Path>() {
           @Override
           public boolean accept(Path entry) throws IOException {
-            return Files.isDirectory(entry);
+            return (entry.getFileName().toString().equals(encodedId));
           }
-        });
-
-    for (Path typeDir : typeDirs) {
-      DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir,
-          new DirectoryStream.Filter<Path>() {
-            @Override
-            public boolean accept(Path entry) throws IOException {
-              return (entry.getFileName().toString().equals(encodedId));
-            }
-          });
-      for (Path resourceFile : resourceFiles) {
-        return resourceFile;
+        };
+        try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir, fileFilter)) {
+          if (resourceFiles.iterator().hasNext()) {
+            return resourceFiles.iterator().next();
+          }
+        }
       }
     }
 

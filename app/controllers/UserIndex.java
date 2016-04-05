@@ -270,11 +270,11 @@ public class UserIndex extends OERWorldMap {
 
       HttpResponse response = client.execute(request);
       Logger.info(Integer.toString(response.getStatusLine().getStatusCode()));
-      BufferedReader rd = new BufferedReader(
-          new InputStreamReader(response.getEntity().getContent()));
-      String line = "";
-      while ((line = rd.readLine()) != null) {
-        Logger.info(line);
+      try (BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()))) {
+        String line;
+        while ((line = rd.readLine()) != null) {
+          Logger.info(line);
+        }
       }
 
     } catch (IOException e) {
