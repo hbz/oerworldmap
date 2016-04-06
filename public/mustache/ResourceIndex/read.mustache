@@ -11,7 +11,7 @@
             <div class="resource-header">
 
                 {{#if user.email}}
-                    <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal">
+                    <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours">
                         <i class="fa fa-pencil"></i>
                     </a>
                 {{/if}}
@@ -152,11 +152,9 @@
 
         {{#if user.email}}
 
-            <form id="resource-edit" method="post" class="clearfix" target="edit-{{lower [@type]}}-feedback">
+            <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
                 <h1>Edit {{[@type]}}</h1>
-
-                <div id="edit-{{lower [@type]}}-feedback"></div>
 
                 {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
 

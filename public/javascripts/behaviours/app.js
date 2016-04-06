@@ -207,13 +207,12 @@ var Hijax = (function ($, Hijax, page) {
 
       // bind modal links
 
-      $('#app', context).on('click', '[data-app="to-modal"]', function(e){
-        var content = $( this.hash )
-          .after('<div data-placeholder="' + this.hash + '"></div>')
-          .detach();
+      $('#app', context).on('click', '[data-app="to-modal-and-attach-behaviours"]', function(e){
+        var id = this.hash.substring(1);
+        var content = $( this.hash ).clone().prop('id', id + '-clone');
         var modal = $('#app-modal');
-        modal.find('.modal-body').append(content);
-        modal.data('content', this.hash);
+        modal.find('.modal-body').append( content )
+        Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
         e.preventDefault();
         // e.stopPropagation();
@@ -223,13 +222,10 @@ var Hijax = (function ($, Hijax, page) {
 
       $('#app-modal').on('hidden.bs.modal', function(){
         var modal = $(this);
-        $('[data-placeholder="' + modal.data('content') + '"]').replaceWith(
-          modal.find('.modal-body').contents()
-        );
-        modal.data('content', '');
+        modal.find('.modal-body').empty();
       });
 
-      // catch form submition inside modals and handel it async
+      // catch form submition inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
         e.preventDefault();
@@ -240,19 +236,40 @@ var Hijax = (function ($, Hijax, page) {
           url : form.attr('action'),
           data : form.serialize(),
           success : function(data, textStatus, jqXHR){
-            console.log(jqXHR);
-            console.log(jqXHR.getAllResponseHeaders());
+            console.log('jqXHR', jqXHR);
+            //console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
+            console.log('status', jqXHR.status)
 
-            parser = document.createElement('a');
-            parser.href = jqXHR.getResponseHeader('Location');
-            page(parser.pathname);
+            var location = jqXHR.getResponseHeader('Location');
+            if(location) {
+              parser = document.createElement('a');
+              parser.href = jqXHR.getResponseHeader('Location');
+              page(parser.pathname);
+            } else {
+/*
+              page(
+                window.location.pathname +
+                window.location.search +
+                window.location.hash
+              );
+*/
+
+              if(form.attr('action') == detail_source) {
+                $('#app-col-detail [data-app="col-content"]').html(
+                  Hijax.attachBehaviours( $(data).filter('main').contents() )
+                );
+              }
+            }
+
             $('#app-modal').modal('hide');
           },
           error : function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR);
             console.log(jqXHR.getAllResponseHeaders());
 
-            $('#' + form.attr('target')).append(
+            console.log(form.first('fieldset'));
+
+            form.first('fieldset').prepend(
               $(jqXHR.responseText).find('#messages')
             );
           }
