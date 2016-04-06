@@ -27,6 +27,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.GeoBoundingBoxFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -278,6 +279,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       if (aQueryContext.hasFieldBoosts()) {
         fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }
+      if (null != aQueryContext.getZoomTopLeft() && null != aQueryContext.getZoomBottomRight()) {
+        GeoBoundingBoxFilterBuilder zoomFilter = FilterBuilders.geoBoundingBoxFilter("about.location.geo")//
+            .topLeft(aQueryContext.getZoomTopLeft())//
+            .bottomRight(aQueryContext.getZoomBottomRight());
+        globalAndFilter.add(zoomFilter);
+      }
     }
 
     if (!StringUtils.isEmpty(aSortOrder)) {
@@ -310,7 +317,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         for (String fieldBoost : fieldBoosts) {
           try {
             ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
-              Float.parseFloat(fieldBoost.split("\\^")[1]));
+                Float.parseFloat(fieldBoost.split("\\^")[1]));
           } catch (ArrayIndexOutOfBoundsException e) {
             Logger.error("Invalid field boost: " + fieldBoost);
           }

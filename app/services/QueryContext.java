@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -16,10 +17,12 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 public class QueryContext {
 
   private Map<String, FilterBuilder> filters = new HashMap<>();
-  private Map<String, List<AggregationBuilder>> aggregations = new HashMap<>();
+  private Map<String, List<AggregationBuilder<?>>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
   private String[] fetchSource = new String[] {};
   private String[] mElasticsearchFieldBoosts = new String[] {};
+  private GeoPoint mZoomTopLeft = null;
+  private GeoPoint mZoomBottomRight = null;
 
   public QueryContext(String userId, List<String> roles) {
 
@@ -42,7 +45,7 @@ public class QueryContext {
      * JsonLdConstants.ID, userId)))); filters.put("owner", owner); }
      */
 
-    List<AggregationBuilder> guestAggregations = new ArrayList<>();
+    List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation());
     guestAggregations.add(AggregationProvider.getByCountryAggregation());
     guestAggregations.add(AggregationProvider.getServiceLanguageAggregation());
@@ -91,11 +94,11 @@ public class QueryContext {
     return appliedFilters;
   }
 
-  public List<AggregationBuilder> getAggregations() {
-    List<AggregationBuilder> appliedAggregations = new ArrayList<>();
-    for (Map.Entry<String, List<AggregationBuilder>> entry : aggregations.entrySet()) {
+  public List<AggregationBuilder<?>> getAggregations() {
+    List<AggregationBuilder<?>> appliedAggregations = new ArrayList<>();
+    for (Map.Entry<String, List<AggregationBuilder<?>>> entry : aggregations.entrySet()) {
       if (roles.contains(entry.getKey())) {
-        for (AggregationBuilder aggregation : entry.getValue()) {
+        for (AggregationBuilder<?> aggregation : entry.getValue()) {
           if (!appliedAggregations.contains(aggregation)) {
             appliedAggregations.add(aggregation);
           }
@@ -103,6 +106,22 @@ public class QueryContext {
       }
     }
     return appliedAggregations;
+  }
+
+  public GeoPoint getZoomBottomRight() {
+    return mZoomBottomRight;
+  }
+
+  public void setZoomBottomRight(GeoPoint aZoomBottomRight) {
+    mZoomBottomRight = aZoomBottomRight;
+  }
+
+  public GeoPoint getZoomTopLeft() {
+    return mZoomTopLeft;
+  }
+
+  public void setZoomTopLeft(GeoPoint aZoomTopLeft) {
+    mZoomTopLeft = aZoomTopLeft;
   }
 
 }
