@@ -1,7 +1,5 @@
 {
-  "@context": {
-    "@vocab": "http://schema.org/"
-  },
+  "@context" : "http://schema.org",
   "@id": "info:alice",
   "@type": "Person",
   "name": [

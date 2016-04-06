@@ -31,7 +31,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
 
   /**
    * Add a new resource to the repository.
-   * 
+   *
    * @param aResource
    */
   public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
@@ -41,7 +41,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
 
   /**
    * Get a Resource specified by the given identifier.
-   * 
+   *
    * @param aId
    * @return the Resource
    */
@@ -64,6 +64,10 @@ public class MockResourceRepository extends Repository implements Readable, Writ
 
   public int size() {
     return db.size();
+  }
+
+  public String toString() {
+    return db.toString();
   }
 
 }

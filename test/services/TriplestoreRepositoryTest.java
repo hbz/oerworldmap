@@ -1,6 +1,8 @@
 package services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -8,19 +10,14 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import helpers.JsonTest;
-import io.apigee.trireme.core.NodeEnvironment;
-import io.apigee.trireme.core.NodeScript;
-import io.apigee.trireme.core.ScriptFuture;
 import models.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import services.repository.TriplestoreRepository;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -29,23 +26,6 @@ import java.io.IOException;
 public class TriplestoreRepositoryTest implements JsonTest {
 
   private Config config = ConfigFactory.load(ClassLoader.getSystemClassLoader(), "test.conf");
-
-  private static ScriptFuture framer;
-
-  @BeforeClass
-  public static void setUp() throws Exception {
-    NodeEnvironment env = new NodeEnvironment();
-    NodeScript script = env.createScript("frame.js",
-      new File("node/json-frame/frame.js"), null);
-    script.setNodeVersion("0.10");
-    framer = script.executeModule();
-    framer.getModuleResult();
-  }
-
-  @AfterClass
-  public static void tearDown() throws Exception {
-    framer.cancel(true);
-  }
 
   @Test
   public void testAddResource() throws IOException {
@@ -149,8 +129,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     triplestoreRepository.addResource(resource1, "Person");
 
     Resource back = triplestoreRepository.getResource(resource1.getId());
-    // FIXME: remove when proper @context is returned
-    resource1.remove("@context");
     assertEquals(resource1, back);
 
   }
@@ -179,6 +157,58 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Resource back = triplestoreRepository.getResource(resource1.getId());
 
     assertEquals(expected, back);
+
+  }
+
+  @Test
+  public void testDeleteResource() throws IOException {
+
+    Resource resource1 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.1.json");
+    Resource resource2 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.2.json");
+    Resource resource3 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.json");
+
+    Model actual = ModelFactory.createDefaultModel();
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
+    triplestoreRepository.addResource(resource1, "Person");
+    triplestoreRepository.addResource(resource2, "Person");
+    triplestoreRepository.addResource(resource3, "Person");
+
+    assertNotNull(triplestoreRepository.getResource("info:alice"));
+    assertNotNull(triplestoreRepository.getResource("info:bob"));
+    assertNotNull(triplestoreRepository.getResource("info:carol"));
+    assertEquals(10, actual.size());
+
+    triplestoreRepository.deleteResource("info:alice");
+
+    assertNull(triplestoreRepository.getResource("info:alice"));
+    assertNotNull(triplestoreRepository.getResource("info:bob"));
+    assertNotNull(triplestoreRepository.getResource("info:carol"));
+    assertEquals(6, actual.size());
+
+  }
+
+  @Test
+  public void testGetAll() throws IOException {
+
+    Resource resource1 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.1.json");
+    Resource resource2 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResource.IN.2.json");
+    Resource resource3 = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.json");
+
+    Model actual = ModelFactory.createDefaultModel();
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
+    triplestoreRepository.addResource(resource1, "Person");
+    triplestoreRepository.addResource(resource2, "Person");
+    triplestoreRepository.addResource(resource3, "Person");
+
+    List<Resource> resources = triplestoreRepository.getAll("http://schema.org/Person");
+
+    assertEquals(3, resources.size());
 
   }
 
