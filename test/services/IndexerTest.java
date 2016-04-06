@@ -1,6 +1,8 @@
 package services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import com.google.common.collect.Sets;
 
@@ -11,6 +13,7 @@ import helpers.JsonTest;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import services.repository.Repository;
 
 import java.io.IOException;
 import java.util.Set;
@@ -34,13 +37,17 @@ public class IndexerTest implements JsonTest {
     // Apply diff to populate DB
     diff.apply(db);
 
-    // Calculate scope of resources to be (re-)indexed
-    ResourceIndexer indexer = new ResourceIndexer(db, "info");
-    Set<String> idsToIndex = indexer.getScope(diff);
+    // Index diff to mock repo
+    MockResourceRepository mockResourceRepository = new MockResourceRepository();
+    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository);
+    indexer.index(diff);
 
-    assertEquals(3, idsToIndex.size());
-    Set expected = Sets.newHashSet("info:789", "info:456", "info:123");
-    assertEquals(expected, idsToIndex);
+    // Check presence of indexed resources
+    assertNull(mockResourceRepository.getResource("http://schema.org/Article"));
+    assertNull(mockResourceRepository.getResource("http://schema.org/Person"));
+    assertNotNull(mockResourceRepository.getResource("info:789.about"));
+    assertNotNull(mockResourceRepository.getResource("info:456.about"));
+    assertNotNull(mockResourceRepository.getResource("info:123.about"));
 
   }
 

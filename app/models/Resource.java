@@ -80,6 +80,9 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     } else if (mIdentifiedTypes.contains(aType)) {
       this.put(JsonLdConstants.ID, generateId());
     }
+    if (mIdentifiedTypes.contains(aType)) {
+      this.put(JsonLdConstants.CONTEXT, "http://schema.org");
+    }
   }
 
   private static String generateId() {
