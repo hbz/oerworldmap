@@ -229,7 +229,37 @@ var Hijax = (function ($, Hijax, page) {
         modal.data('content', '');
       });
 
-      // deffer
+      // catch form submition inside modals and handel it async
+
+      $('#app-modal').on('submit', 'form', function(e){
+        e.preventDefault();
+        var form = $(this);
+
+        $.ajax({
+          type : 'POST',
+          url : form.attr('action'),
+          data : form.serialize(),
+          success : function(data, textStatus, jqXHR){
+            console.log(jqXHR);
+            console.log(jqXHR.getAllResponseHeaders());
+
+            parser = document.createElement('a');
+            parser.href = jqXHR.getResponseHeader('Location');
+            page(parser.pathname);
+            $('#app-modal').modal('hide');
+          },
+          error : function(jqXHR, textStatus, errorThrown){
+            console.log(jqXHR);
+            console.log(jqXHR.getAllResponseHeaders());
+
+            $('#' + form.attr('target')).append(
+              $(jqXHR.responseText).find('#messages')
+            );
+          }
+        });
+      });
+
+      // deferr
 
       var deferred = new $.Deferred();
       deferred.resolve();
