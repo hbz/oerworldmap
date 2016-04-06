@@ -21,6 +21,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -28,6 +29,7 @@ import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.GeoBoundingBoxFilterBuilder;
+import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -284,6 +286,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
             .topLeft(aQueryContext.getZoomTopLeft())//
             .bottomRight(aQueryContext.getZoomBottomRight());
         globalAndFilter.add(zoomFilter);
+      }
+      if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()){
+    	GeoPolygonFilterBuilder polygonFilter = FilterBuilders.geoPolygonFilter("about.location.geo");
+        for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()){
+          polygonFilter.addPoint(geoPoint);
+        }
+    	globalAndFilter.add(polygonFilter);
       }
     }
 

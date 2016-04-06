@@ -23,6 +23,7 @@ public class QueryContext {
   private String[] mElasticsearchFieldBoosts = new String[] {};
   private GeoPoint mZoomTopLeft = null;
   private GeoPoint mZoomBottomRight = null;
+  private List<GeoPoint> mPolygonFilter = new ArrayList<>();
 
   public QueryContext(String userId, List<String> roles) {
 
@@ -122,6 +123,26 @@ public class QueryContext {
 
   public void setZoomTopLeft(GeoPoint aZoomTopLeft) {
     mZoomTopLeft = aZoomTopLeft;
+  }
+
+  public List<GeoPoint> getPolygonFilter() {
+	return mPolygonFilter;
+  }
+
+  /**
+   * Set a Geo Polygon Filter for search.
+   * The argument List<GeoPoint> may be empty in case of a filter reset but not null.
+   * @param aPolygonFilter The Polygon Filter to be set.
+   * @throws IllegalArgumentException if argument is null it consists of 1 or 2 GeoPoints.
+   */
+  public void setPolygonFilter(List<GeoPoint> aPolygonFilter) throws IllegalArgumentException {
+	if (aPolygonFilter == null){
+	  throw new IllegalArgumentException("Argument null given as Polygon Filter.");
+	}
+	if (!aPolygonFilter.isEmpty() && aPolygonFilter.size() < 3){
+	  throw new IllegalArgumentException("Polygon Filter consisting of " + aPolygonFilter.size() + " GeoPoints only.");
+	}
+	mPolygonFilter = aPolygonFilter;
   }
 
 }
