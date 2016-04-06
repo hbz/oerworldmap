@@ -233,11 +233,20 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(render("Update failed", "feedback.mustache", scope, messages));
       }
     }
-    if (isJsonRequest) {
-      return ok("Updated " + id + "\n");
-    } else {
-      return ok(render("Updated", "updated.mustache", scope));
+
+    String title;
+    try {
+      title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
+    } catch (NullPointerException e) {
+      title = id;
     }
+
+    if (request().accepts("text/html")) {
+      return ok(render(title, "ResourceIndex/read.mustache", resource));
+    } else {
+      return ok(resource.toString()).as("application/json");
+    }
+
   }
 
   public static Result delete(String id) throws IOException {
