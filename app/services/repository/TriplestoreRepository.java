@@ -7,12 +7,15 @@ import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.tdb.TDB;
 import models.GraphHistory;
 import models.TripleCommit;
@@ -102,13 +105,19 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
 
-    ResultSet resultSet = QueryExecutionFactory.create(QueryFactory.create(String.format(SELECT_RESOURCES, aType)), mDb)
-      .execSelect();
-
     List<Resource> resources = new ArrayList<>();
-    while (resultSet.hasNext()) {
-      QuerySolution querySolution = resultSet.next();
-      resources.add(getResource(querySolution.get("s").toString()));
+
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(String.format(SELECT_RESOURCES, aType)), mDb)) {
+        ResultSet resultSet = queryExecution.execSelect();
+        while (resultSet.hasNext()) {
+          QuerySolution querySolution = resultSet.next();
+          resources.add(getResource(querySolution.get("s").toString()));
+        }
+      }
+    } finally {
+      mDb.leaveCriticalSection();
     }
 
     return resources;
@@ -116,13 +125,28 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
+  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
 
+    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "foo");
+    }
+    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().toString());
+    }
+
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit.Diff diff = getDiff(aResource);
-    diff.apply(mDb);
-    TDB.sync(mDb);
-    // FIXME: set proper commit author
-    TripleCommit commit = new TripleCommit(new TripleCommit.Header("Anonymous", ZonedDateTime.now()), diff);
+
+    mDb.enterCriticalSection(Lock.WRITE);
+    try {
+      diff.apply(mDb);
+      TDB.sync(mDb);
+    } finally {
+      mDb.leaveCriticalSection();
+    }
+
+    TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 
   }

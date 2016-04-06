@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Assert;
@@ -25,7 +26,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
         "BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile(
         "BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.2.json");
-    mBaseRepo.addResource(resource);
+    mBaseRepo.addResource(resource, new HashMap<>());
     Assert.assertEquals(expected1, mBaseRepo.getResource("id001"));
     Assert.assertEquals(expected2, mBaseRepo.getResource("OER15"));
   }
@@ -37,7 +38,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     resource.put("attended", value);
     Resource expected = getResourceFromJsonFile(
         "BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
-    mBaseRepo.addResource(resource);
+    mBaseRepo.addResource(resource, new HashMap<>());
     Assert.assertEquals(expected, mBaseRepo.getResource("id002"));
   }
 
@@ -53,7 +54,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, mBaseRepo);
 
     for (Resource resource : denormalized) {
-      mBaseRepo.addResource(resource);
+      mBaseRepo.addResource(resource, new HashMap<>());
     }
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
@@ -74,8 +75,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       "BaseRepositoryTest/testDeleteLastResourceInList.DB.2.json");
     Resource out = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteLastResourceInList.OUT.1.json");
-    mBaseRepo.addResource(db1);
-    mBaseRepo.addResource(db2);
+    mBaseRepo.addResource(db1, new HashMap<>());
+    mBaseRepo.addResource(db2, new HashMap<>());
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665");
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
@@ -93,9 +94,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       "BaseRepositoryTest/testDeleteResourceFromList.OUT.1.json");
     Resource out2 = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteResourceFromList.OUT.2.json");
-    mBaseRepo.addResource(db1);
-    mBaseRepo.addResource(db2);
-    mBaseRepo.addResource(db3);
+    mBaseRepo.addResource(db1, new HashMap<>());
+    mBaseRepo.addResource(db2, new HashMap<>());
+    mBaseRepo.addResource(db3, new HashMap<>());
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665");
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
@@ -113,9 +114,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       "BaseRepositoryTest/testRemoveReference.OUT.1.json");
     Resource out2 = getResourceFromJsonFile(
       "BaseRepositoryTest/testRemoveReference.OUT.2.json");
-    mBaseRepo.addResource(db1);
-    mBaseRepo.addResource(db2);
-    mBaseRepo.addResource(in);
+    mBaseRepo.addResource(db1, new HashMap<>());
+    mBaseRepo.addResource(db2, new HashMap<>());
+    mBaseRepo.addResource(in, new HashMap<>());
     Resource get1 = mBaseRepo.getResource(out1.getAsString(JsonLdConstants.ID));
     Resource get2 = mBaseRepo.getResource(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
@@ -128,8 +129,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
         "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(
         "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
-    mBaseRepo.addResource(in1);
-    mBaseRepo.addResource(in2);
+    mBaseRepo.addResource(in1, new HashMap<>());
+    mBaseRepo.addResource(in2, new HashMap<>());
     Assert.assertEquals(2, mBaseRepo.getResources("\\*.@id", "123").size());
   }
 

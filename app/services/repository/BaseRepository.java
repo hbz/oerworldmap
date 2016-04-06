@@ -1,83 +1,101 @@
 package services.repository;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.tdb.TDBFactory;
+import models.GraphHistory;
+import models.TripleCommit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.typesafe.config.Config;
 
 import helpers.JsonLdConstants;
-import helpers.UniversalFunctions;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
 import play.Logger;
+import services.IndexQueue;
 import services.QueryContext;
-import services.ResourceDenormalizer;
+import services.ResourceIndexer;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable {
 
-  private static ElasticsearchRepository mElasticsearchRepo;
-  // private static FileRepository mFileRepo;
+  private ElasticsearchRepository mElasticsearchRepo;
+  private TriplestoreRepository mTriplestoreRepository;
+  private ResourceIndexer mResourceIndexer;
+  private ActorRef mIndexQueue;
 
-  public BaseRepository(Config aConfiguration) {
+  public BaseRepository(Config aConfiguration) throws IOException {
+
     super(aConfiguration);
+
     mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
-    // mFileRepo = new FileRepository(aConfiguration);
+    Dataset dataset = TDBFactory.createDataset(aConfiguration.getString("tdb.dir"));
+    mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo);
+    mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
+
+    File commitDir = new File(aConfiguration.getString("graph.history.dir"));
+    if (!commitDir.exists()) {
+      Logger.warn("Commit dir does not exist");
+      if (!commitDir.mkdir()) {
+        throw new IOException("Could not create commit dir");
+      }
+    }
+
+    File historyFile = new File(aConfiguration.getString("graph.history.file"));
+    if (!historyFile.exists()) {
+      Logger.warn("History file does not exist");
+      if (!historyFile.createNewFile()) {
+        throw new IOException("Could not create history file");
+      }
+    }
+    GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
+
+    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, dataset.getDefaultModel(), graphHistory);
+
   }
 
   @Override
   public Resource deleteResource(@Nonnull String aId) throws IOException {
-    // query Resources that mention this Resource and delete the references
-    List<Resource> resources = getResources("_all", aId);
-    // TODO: find better performing query
-    for (Resource resource : resources) {
-      if (resource.getAsString(JsonLdConstants.ID).equals(aId)) {
-        continue;
-      }
-      String type = resource.getAsString(JsonLdConstants.TYPE);
-      resource = resource.removeAllReferencesTo(aId);
-      addResource(getRecord(resource), type);
-    }
 
-    // delete the resource itself
-    Resource result = mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
-    return result;
-  }
+    Resource resource = mTriplestoreRepository.deleteResource(aId);
+    TripleCommit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
+    mElasticsearchRepo.deleteResource(aId);
+    mIndexQueue.tell(diff, mIndexQueue);
 
-  public void addResource(Resource aResource) throws IOException {
-    List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
-    for (Resource dnr : denormalizedResources) {
-      if (dnr.hasId()) {
-        Resource rec = getRecord(dnr);
-        // Extract the type from the resource, otherwise everything will be
-        // typed WebPage!
-        String type = dnr.getAsString(JsonLdConstants.TYPE);
-        addResource(rec, type);
-      }
-    }
+    return resource;
+
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
-    mElasticsearchRepo.addResource(aResource, aType);
-    // FIXME: As is the case for getResource, this may result in too many open
-    // files
-    // mFileRepo.addResource(aResource, aType);
+  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
+
+    TripleCommit.Diff diff = mTriplestoreRepository.getDiff(aResource);
+    mTriplestoreRepository.addResource(aResource, new HashMap<>());
+    mIndexQueue.tell(diff, mIndexQueue);
+
   }
 
   public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
-    List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
+    addResource(aResource, new HashMap<>());
+    return new ListProcessingReport();
+    /*
+    FIXME: add validation
+    Set<Resource> denormalizedResources = mResourceIndexer.getResources(diff);
     ProcessingReport processingReport = new ListProcessingReport();
     for (Resource dnr : denormalizedResources) {
       try {
@@ -98,7 +116,9 @@ public class BaseRepository extends Repository
         addResource(rec, type);
       }
     }
+
     return processingReport;
+    */
   }
 
   @Override
@@ -125,16 +145,7 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    if (resource == null || resource.isEmpty()) {
-      // FIXME: This may lead to inconsistencies (too many open files) when ES
-      // and FS are out of sync
-      // resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    }
-    if (resource != null) {
-      resource = (Resource) resource.get(Record.RESOURCEKEY);
-    }
-    return resource;
+    return mTriplestoreRepository.getResource(aId);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
@@ -143,31 +154,6 @@ public class BaseRepository extends Repository
       return unwrapRecords(records);
     }
     return null;
-  }
-
-  private Resource getRecord(Resource aResource) {
-    String id = (String) aResource.get(JsonLdConstants.ID);
-    Resource record;
-    if (null != id) {
-      record = getRecordFromRepo(id);
-      if (null == record) {
-        record = new Record(aResource);
-      } else {
-        record.put("dateModified", UniversalFunctions.getCurrentTime());
-        record.put(Record.RESOURCEKEY, aResource);
-      }
-    } else {
-      record = new Record(aResource);
-    }
-    return record;
-  }
-
-  private Resource getRecordFromRepo(String aId) {
-    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    // if (record == null || record.isEmpty()) {
-    // record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
-    // }
-    // return record;
   }
 
   private List<Resource> unwrapRecords(List<Resource> aRecords) {

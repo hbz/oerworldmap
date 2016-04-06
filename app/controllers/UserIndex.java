@@ -35,8 +35,6 @@ import helpers.JsonLdConstants;
 import models.Resource;
 import play.Logger;
 import play.mvc.Result;
-import play.mvc.Security;
-import play.mvc.With;
 import services.Account;
 
 public class UserIndex extends OERWorldMap {
@@ -66,7 +64,7 @@ public class UserIndex extends OERWorldMap {
 
     newsletterSignup(user);
     user.remove("email");
-    mBaseRepository.addResource(user);
+    mBaseRepository.addResource(user, new HashMap<>());
 
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String, Object> message = new HashMap<>();

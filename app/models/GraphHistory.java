@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -95,6 +96,7 @@ public class GraphHistory {
 
     try {
       commitIds = FileUtils.readLines(mHistoryFile);
+      Collections.reverse(commitIds);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }

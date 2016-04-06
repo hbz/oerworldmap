@@ -37,12 +37,13 @@ public class FileRepository extends Repository implements Writable, Readable {
    * Add a new resource to the repository.
    *
    * @param aResource
+   * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType) throws IOException {
+  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     String encodedId = DigestUtils.sha256Hex(id);
-    Path dir = Paths.get(getPath().toString(), aType);
+    Path dir = Paths.get(getPath().toString(), aResource.getAsString(JsonLdConstants.TYPE));
     Path file = Paths.get(dir.toString(), encodedId);
     if (!Files.exists(dir)) {
       Files.createDirectory(dir);
@@ -134,8 +135,9 @@ public class FileRepository extends Repository implements Writable, Readable {
           }
         };
         try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir, fileFilter)) {
-          if (resourceFiles.iterator().hasNext()) {
-            return resourceFiles.iterator().next();
+          Iterator<Path> iterator = resourceFiles.iterator();
+          if (iterator.hasNext()) {
+            return iterator.next();
           }
         }
       }

@@ -54,13 +54,13 @@ public class ElasticsearchRepository extends Repository
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType)
+  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata)
       throws IOException {
-    String id = (String) aResource.get(JsonLdConstants.ID);
+    String id = aResource.getAsString(JsonLdConstants.ID);
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
     }
-    elasticsearch.addJson(aResource.toString(), id, aType);
+    elasticsearch.addJson(aResource.toString(), id, aResource.getAsString(JsonLdConstants.TYPE));
     elasticsearch.refreshIndex(elasticsearch.getIndex());
   }
 

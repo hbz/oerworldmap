@@ -99,7 +99,7 @@ public class ResourceIndexer {
       if (dnr.hasId()) {
         String type = dnr.getAsString(JsonLdConstants.TYPE);
         try {
-          mTargetRepo.addResource(new Record(dnr), type);
+          mTargetRepo.addResource(new Record(dnr), new HashMap<>());
         } catch (IOException e) {
           Logger.error("Could not index commit", e);
         }

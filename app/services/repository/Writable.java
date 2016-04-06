@@ -1,6 +1,7 @@
 package services.repository;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -13,11 +14,13 @@ public interface Writable {
 
   /**
    * Add a new resource to the repository.
-   * 
+   *
    * @param aResource
    *          The resource to be added
+   * @param aMetadata
+   *          Map containing metadata such as author, timestamp etc
    */
-  void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException;
+  void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException;
 
   /**
    *
