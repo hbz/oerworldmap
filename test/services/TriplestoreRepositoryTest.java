@@ -17,6 +17,7 @@ import org.junit.Test;
 import services.repository.TriplestoreRepository;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -37,8 +38,8 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResource.IN.1.nt", Lang.NTRIPLES);
@@ -59,9 +60,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
-    triplestoreRepository.addResource(resource3, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
+    triplestoreRepository.addResource(resource3, new HashMap<>());
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.nt", Lang.NTRIPLES);
@@ -82,9 +83,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
-    triplestoreRepository.addResource(update1, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
+    triplestoreRepository.addResource(update1, new HashMap<>());
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResource.IN.1.nt", Lang.NTRIPLES);
@@ -107,10 +108,10 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
-    triplestoreRepository.addResource(resource3, "Person");
-    triplestoreRepository.addResource(update1, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
+    triplestoreRepository.addResource(resource3, new HashMap<>());
+    triplestoreRepository.addResource(update1, new HashMap<>());
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResourceWithReferences.IN.1.nt", Lang.NTRIPLES);
@@ -126,7 +127,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
       "TriplestoreRepositoryTest/testAddResource.IN.1.json");
 
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config);
-    triplestoreRepository.addResource(resource1, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
 
     Resource back = triplestoreRepository.getResource(resource1.getId());
     assertEquals(resource1, back);
@@ -147,10 +148,10 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
-    triplestoreRepository.addResource(resource3, "Person");
-    triplestoreRepository.addResource(update1, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
+    triplestoreRepository.addResource(resource3, new HashMap<>());
+    triplestoreRepository.addResource(update1, new HashMap<>());
 
     Resource expected = getResourceFromJsonFile(
       "TriplestoreRepositoryTest/testGetUpdatedResource.OUT.1.json");
@@ -172,9 +173,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
-    triplestoreRepository.addResource(resource3, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
+    triplestoreRepository.addResource(resource3, new HashMap<>());
 
     assertNotNull(triplestoreRepository.getResource("info:alice"));
     assertNotNull(triplestoreRepository.getResource("info:bob"));
@@ -202,9 +203,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(config, actual);
-    triplestoreRepository.addResource(resource1, "Person");
-    triplestoreRepository.addResource(resource2, "Person");
-    triplestoreRepository.addResource(resource3, "Person");
+    triplestoreRepository.addResource(resource1, new HashMap<>());
+    triplestoreRepository.addResource(resource2, new HashMap<>());
+    triplestoreRepository.addResource(resource3, new HashMap<>());
 
     List<Resource> resources = triplestoreRepository.getAll("http://schema.org/Person");
 

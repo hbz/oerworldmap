@@ -1,5 +1,5 @@
 {
-  "@context" : "http://schema.org",
+  "@context" : "http://schema.org/",
   "@type" : "Person",
   "name" : [ {
     "@value" : "Alice",

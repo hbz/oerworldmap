@@ -26,15 +26,16 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   public void addResource(@Nonnull Resource aResource) throws IOException {
-    addResource(aResource, "Thing");
+    addResource(aResource, new HashMap<>());
   }
 
   /**
    * Add a new resource to the repository.
    *
    * @param aResource
+   * @param aMetadata
    */
-  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
+  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }

@@ -96,7 +96,7 @@ public class GraphHistory {
 
     try {
       commitIds = FileUtils.readLines(mHistoryFile);
-      Collections.reverse(commitIds);
+      //Collections.reverse(commitIds);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }

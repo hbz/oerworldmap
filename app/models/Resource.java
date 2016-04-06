@@ -81,7 +81,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       this.put(JsonLdConstants.ID, generateId());
     }
     if (mIdentifiedTypes.contains(aType)) {
-      this.put(JsonLdConstants.CONTEXT, "http://schema.org");
+      this.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     }
   }
 
