@@ -12,7 +12,9 @@ import javax.annotation.Nonnull;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.tdb.TDBFactory;
+import com.typesafe.config.ConfigException;
 import models.GraphHistory;
 import models.TripleCommit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -22,7 +24,6 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.typesafe.config.Config;
 
-import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -44,7 +45,14 @@ public class BaseRepository extends Repository
     super(aConfiguration);
 
     mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
-    Dataset dataset = TDBFactory.createDataset(aConfiguration.getString("tdb.dir"));
+    Dataset dataset;
+
+    try {
+      dataset = TDBFactory.createDataset(aConfiguration.getString("tdb.dir"));
+    } catch (ConfigException e) {
+      Logger.warn("No persistent TDB configured", e);
+      dataset = DatasetFactory.createMem();
+    }
     mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo);
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
 

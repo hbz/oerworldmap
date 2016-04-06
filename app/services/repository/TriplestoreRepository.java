@@ -83,11 +83,19 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Current data
     String describeStatement = String.format(DESCRIBE_RESOURCE, aId);
-    Logger.debug(describeStatement);
     Model dbstate = ModelFactory.createDefaultModel();
-    Logger.debug("Begin query");
-    QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb).execDescribe(dbstate);
-    Logger.debug("End query");
+
+    dbstate.enterCriticalSection(Lock.WRITE);
+    mDb.enterCriticalSection(Lock.READ);
+
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
+        queryExecution.execDescribe(dbstate);
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+      dbstate.leaveCriticalSection();
+    }
 
     Resource resource = null;
     if (!dbstate.isEmpty()) {
@@ -168,7 +176,18 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // Current data
     String describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
     Model dbstate = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb).execDescribe(dbstate);
+
+    dbstate.enterCriticalSection(Lock.WRITE);
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
+        queryExecution.execDescribe(dbstate);
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+      dbstate.leaveCriticalSection();
+    }
+
 
     // Inverses in dbstate, or rather select them from DB?
     addInverses(dbstate);
@@ -198,7 +217,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // Current data
     String describeStatement = String.format(DESCRIBE_DBSTATE, aId);
     Model dbstate = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb).execDescribe(dbstate);
+
+    dbstate.enterCriticalSection(Lock.WRITE);
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
+        queryExecution.execDescribe(dbstate);
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+      dbstate.leaveCriticalSection();
+    }
 
     // Inverses in dbstate, or rather select them from DB?
     addInverses(dbstate);
@@ -211,8 +240,14 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     while (itRemove.hasNext()) {
       diff.removeStatement(itRemove.next());
     }
-    diff.apply(mDb);
-    TDB.sync(mDb);
+
+    mDb.enterCriticalSection(Lock.WRITE);
+    try {
+      diff.apply(mDb);
+      TDB.sync(mDb);
+    } finally {
+      mDb.leaveCriticalSection();
+    }
 
     // Record removal in history
     // FIXME: set proper commit author
@@ -227,11 +262,25 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // TODO: this could well be an enricher, such as the broader concept enricher
     Model inverses = ModelFactory.createDefaultModel();
-    for (Statement stmt : mInverseRelations.listStatements().toList()) {
-      String inferConstruct = String.format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
-      QueryExecutionFactory.create(QueryFactory.create(inferConstruct), model).execConstruct(inverses);
+
+    mInverseRelations.enterCriticalSection(Lock.READ);
+    model.enterCriticalSection(Lock.READ);
+    try {
+      for (Statement stmt : mInverseRelations.listStatements().toList()) {
+        String inferConstruct = String.format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
+        QueryExecutionFactory.create(QueryFactory.create(inferConstruct), model).execConstruct(inverses);
+      }
+    } finally {
+      model.leaveCriticalSection();
+      mInverseRelations.leaveCriticalSection();
     }
-    model.add(inverses);
+
+    model.enterCriticalSection(Lock.WRITE);
+    try {
+      model.add(inverses);
+    } finally {
+      model.leaveCriticalSection();
+    }
 
   }
 

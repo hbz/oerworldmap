@@ -1,11 +1,13 @@
 package services;
 
+import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.shared.Lock;
 import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
@@ -14,6 +16,7 @@ import play.Logger;
 import services.repository.Writable;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -57,17 +60,22 @@ public class ResourceIndexer {
     String filter = String.join(" || ", scope.stream().map(id -> "?s = <".concat(id).concat(">"))
       .collect(Collectors.toSet()));
 
-    ResultSet rs = QueryExecutionFactory.create(QueryFactory.create(String.format(SCOPE_QUERY_TEMPLATE, filter)), mDb)
-      .execSelect();
-
-    while (rs.hasNext()) {
-      QuerySolution qs = rs.next();
-      if (qs.contains("s1")) {
-        scope.add(qs.get("s1").toString());
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(String.format(SCOPE_QUERY_TEMPLATE, filter)), mDb)) {
+        ResultSet rs = queryExecution.execSelect();
+        while (rs.hasNext()) {
+          QuerySolution qs = rs.next();
+          if (qs.contains("s1")) {
+            scope.add(qs.get("s1").toString());
+          }
+          if (qs.contains("s2")) {
+            scope.add(qs.get("s2").toString());
+          }
+        }
       }
-      if (qs.contains("s2")) {
-        scope.add(qs.get("s2").toString());
-      }
+    } finally {
+      mDb.leaveCriticalSection();
     }
 
     return scope;

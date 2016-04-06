@@ -1,11 +1,13 @@
 package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
+import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.ning.http.client.AsyncHttpClientConfig;
 import io.apigee.trireme.core.NodeEnvironment;
@@ -52,24 +54,34 @@ public class ResourceFramer {
 
     String describeStatement = String.format(TriplestoreRepository.DESCRIBE_RESOURCE, aId);
     Model dbstate = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel).execDescribe(dbstate);
 
-    ByteArrayOutputStream unframed = new ByteArrayOutputStream();
-    RDFDataMgr.write(unframed, dbstate, Lang.NQUADS);
-    unframed.close();
+    aModel.enterCriticalSection(Lock.READ);
+    dbstate.enterCriticalSection(Lock.WRITE);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+        queryExecution.execDescribe(dbstate);
 
-    NodeIterator types = aModel.listObjectsOfProperty(aModel.createResource(aId), RDF.type);
+        ByteArrayOutputStream unframed = new ByteArrayOutputStream();
+        RDFDataMgr.write(unframed, dbstate, Lang.NQUADS);
+        unframed.close();
 
-    if (types.hasNext()) {
-      String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
-      String type = URLEncoder.encode(
-        types.next().toString(),
-        StandardCharsets.UTF_8.toString());
-      Logger.debug(type);
-      F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
-        .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
+        NodeIterator types = aModel.listObjectsOfProperty(aModel.createResource(aId), RDF.type);
 
-      return Resource.fromJson(promise.get(1000000000));
+        if (types.hasNext()) {
+          String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
+          String type = URLEncoder.encode(
+            types.next().toString(),
+            StandardCharsets.UTF_8.toString());
+          Logger.debug(type);
+          F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
+            .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
+
+          return Resource.fromJson(promise.get(1000000000));
+        }
+      }
+    } finally {
+      dbstate.leaveCriticalSection();
+      aModel.leaveCriticalSection();
     }
 
     Logger.error("Not type found for " + aId);
