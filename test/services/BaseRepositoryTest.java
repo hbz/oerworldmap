@@ -210,15 +210,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.3.json");
 
-    List<Resource> unzoomedExpectedList = new ArrayList<>();
-    unzoomedExpectedList.add(db1);
-    unzoomedExpectedList.add(db2);
-    unzoomedExpectedList.add(db3);
-
-    List<Resource> zoomedExpectedList = new ArrayList<>();
-    zoomedExpectedList.add(db1);
-    zoomedExpectedList.add(db2);
-
     mBaseRepo.addResource(db1);
     mBaseRepo.addResource(db2);
     mBaseRepo.addResource(db3);
@@ -256,22 +247,13 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.3.json");
 
-    List<Resource> unFilteredList = new ArrayList<>();
-    unFilteredList.add(db1);
-    unFilteredList.add(db2);
-    unFilteredList.add(db3);
-
-    List<Resource> filteredList = new ArrayList<>();
-    filteredList.add(db1);
-    filteredList.add(db2);
-
     mBaseRepo.addResource(db1);
     mBaseRepo.addResource(db2);
     mBaseRepo.addResource(db3);
 
     QueryContext queryContext = new QueryContext(null, null);
 
-    // query before zooming
+    // query before filtering
     List<Resource> beforeFilterList = mBaseRepo.query("Polygon", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(beforeFilterList.size() == 3);
     List<String> beforeFilterNames = getNameList(beforeFilterList);
@@ -289,13 +271,62 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     polygon.add(new GeoPoint(7.0, 3.0));
     queryContext.setPolygonFilter(polygon);
     
-    // query after zooming
+    // query after filtering
     List<Resource> afterFilterList = mBaseRepo.query("Polygon", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(afterFilterList.size() == 2);
     List<String> afterFilterNames = getNameList(afterFilterList);
     Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Organization 1"));
     Assert.assertTrue(afterFilterNames.contains("In Polygon Organization 2"));
     Assert.assertTrue(afterFilterNames.contains("In Polygon Organization 3"));
+
+    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001");
+    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002");
+    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003");
+  }
+  
+  @Test
+  public void testZoomedPolygonQueryResults() throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.2.json");
+    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.3.json");
+
+    mBaseRepo.addResource(db1);
+    mBaseRepo.addResource(db2);
+    mBaseRepo.addResource(db3);
+
+    QueryContext queryContext = new QueryContext(null, null);
+
+    // query before zooming
+    List<Resource> beforeFilterList = mBaseRepo.query("Polygon Zoom", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue(beforeFilterList.size() == 3);
+    List<String> beforeFilterNames = getNameList(beforeFilterList);
+    Assert.assertTrue(beforeFilterNames.contains("Out Of Polygon Zoom Organization 1"));
+    Assert.assertTrue(beforeFilterNames.contains("In Polygon Zoom Organization 2"));
+    Assert.assertTrue(beforeFilterNames.contains("Out Of Polygon Zoom Organization 3"));
+
+    // filter into polygon
+    List<GeoPoint> polygon = new ArrayList<>();
+    polygon.add(new GeoPoint(12.0, 13.0));
+    polygon.add(new GeoPoint(12.0, 14.0));
+    polygon.add(new GeoPoint(11.0, 14.0));
+    polygon.add(new GeoPoint(6.0, 4.0));
+    polygon.add(new GeoPoint(6.0, 3.0));
+    polygon.add(new GeoPoint(7.0, 3.0));
+    queryContext.setPolygonFilter(polygon);
+    
+    // and
+    
+    // "zoom"
+    queryContext.setZoomTopLeft(new GeoPoint(8.0, 2.5));
+    queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));
+
+    // query after zooming
+    List<Resource> afterFilterList = mBaseRepo.query("Polygon", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue(afterFilterList.size() == 1);
+    List<String> afterFilterNames = getNameList(afterFilterList);
+    Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Zoom Organization 1"));
+    Assert.assertTrue(afterFilterNames.contains("In Polygon Zoom Organization 2"));
+    Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Zoom Organization 3"));
 
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001");
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002");
