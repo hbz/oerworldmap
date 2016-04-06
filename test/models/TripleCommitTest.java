@@ -108,4 +108,12 @@ public class TripleCommitTest {
     assertTrue(expected.isIsomorphicWith(actual));
   }
 
+  @Test
+  public void testReverseDiff() {
+    String ntriple = "<info:subject> <info:predicate> <info:object> .";
+    TripleCommit.Diff diff = TripleCommit.Diff.fromString("+ ".concat(ntriple)).reverse();
+    assertEquals(1, diff.getLines().size());
+    assertFalse(diff.getLines().get(0).add);
+  }
+
 }

@@ -155,6 +155,21 @@ public class TripleCommit {
 
     }
 
+    public Diff reverse() {
+
+      TripleCommit.Diff reverse = new TripleCommit.Diff();
+      for (Line line : mLines) {
+        if (line.add) {
+          reverse.removeStatement(line.stmt);
+        } else {
+          reverse.addStatement(line.stmt);
+        }
+      }
+
+      return reverse;
+
+    }
+
     public String toString() {
 
       final Model buffer = ModelFactory.createDefaultModel();
