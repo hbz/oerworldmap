@@ -1,4 +1,11 @@
 {
+  "@context": {
+    "@vocab": "http://www.w3.org/2004/02/skos/core#",
+    "image": {
+      "@id": "http://schema.org/image",
+      "@type": "@id"
+    }
+  },
   "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json", 
   "@type": "ConceptScheme",
   "hasTopConcept": [
@@ -16,7 +23,8 @@
           "@value": "CC0", 
           "@language": "en"
         }
-      ], 
+      ],
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/cc-zero.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -39,6 +47,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -61,6 +70,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-sa.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -83,6 +93,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -105,6 +116,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -127,6 +139,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nd.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -149,6 +162,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -171,6 +185,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/icons/cc.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -193,6 +208,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/icons/sa.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -215,6 +231,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/icons/nc.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -237,6 +254,7 @@
           "@language": "en"
         }
       ], 
+      "image": "http://mirrors.creativecommons.org/presskit/icons/nd.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
@@ -259,6 +277,7 @@
           "@language": "en"
         }
       ], 
+      "image": "https://cdn0.iconfinder.com/data/icons/glyphpack/34/question-circle-64.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
