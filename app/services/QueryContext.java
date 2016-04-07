@@ -10,6 +10,7 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import play.Logger;
 
 /**
  * @author fo
@@ -136,13 +137,22 @@ public class QueryContext {
    * @throws IllegalArgumentException if argument is null it consists of 1 or 2 GeoPoints.
    */
   public void setPolygonFilter(List<GeoPoint> aPolygonFilter) throws IllegalArgumentException {
-	if (aPolygonFilter == null){
-	  throw new IllegalArgumentException("Argument null given as Polygon Filter.");
-	}
-	if (!aPolygonFilter.isEmpty() && aPolygonFilter.size() < 3){
-	  throw new IllegalArgumentException("Polygon Filter consisting of " + aPolygonFilter.size() + " GeoPoints only.");
-	}
-	mPolygonFilter = aPolygonFilter;
+    if (aPolygonFilter == null){
+      throw new IllegalArgumentException("Argument null given as Polygon Filter.");
+    }
+    if (!aPolygonFilter.isEmpty() && aPolygonFilter.size() < 3){
+      throw new IllegalArgumentException("Polygon Filter consisting of " + aPolygonFilter.size() + " GeoPoints only.");
+    }
+    mPolygonFilter = aPolygonFilter;
+  }
+
+  public void setBoundingBox(String aBoundingBox) throws NumberFormatException {
+    String[] coordinates = aBoundingBox.split(",");
+    if (coordinates.length == 4) {
+      mZoomTopLeft = new GeoPoint(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]));
+      mZoomBottomRight = new GeoPoint(Double.parseDouble(coordinates[2]), Double.parseDouble(coordinates[3]));
+    }
+    throw new NumberFormatException();
   }
 
 }
