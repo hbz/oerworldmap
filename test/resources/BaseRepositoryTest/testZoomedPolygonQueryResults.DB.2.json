@@ -1,0 +1,28 @@
+{
+	"@context": "http://schema.org", 
+	"@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", 
+	"@type": "Organization", 
+	"name": [
+		{
+			"@language": "en", 
+			"@value": "In Polygon Zoom Organization 2"
+		}
+	], 
+	"location": {
+		"geo": {
+			"lon": 3.37, 
+			"lat": 6.48
+		}, 
+		"address": {
+			"addressCountry": "NG", 
+			"streetAddress": "Second Example Street", 
+			"@type": "PostalAddress", 
+			"postalCode": "2345", 
+			"addressRegion": "Another Oeregion", 
+			"addressLocality": "AnotherBeautifulLocality"
+		}, 
+		"@type": "Place"
+	}, 
+	"url": "http://nigeriaisbeautiful2.ng", 
+	"email": "info@nigeriaisbeautiful2.ng"
+}

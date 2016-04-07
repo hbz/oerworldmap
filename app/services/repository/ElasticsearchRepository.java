@@ -21,12 +21,15 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.GeoBoundingBoxFilterBuilder;
+import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -278,6 +281,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       if (aQueryContext.hasFieldBoosts()) {
         fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }
+      if (null != aQueryContext.getZoomTopLeft() && null != aQueryContext.getZoomBottomRight()) {
+        GeoBoundingBoxFilterBuilder zoomFilter = FilterBuilders.geoBoundingBoxFilter("about.location.geo")//
+            .topLeft(aQueryContext.getZoomTopLeft())//
+            .bottomRight(aQueryContext.getZoomBottomRight());
+        globalAndFilter.add(zoomFilter);
+      }
+      if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()){
+    	GeoPolygonFilterBuilder polygonFilter = FilterBuilders.geoPolygonFilter("about.location.geo");
+        for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()){
+          polygonFilter.addPoint(geoPoint);
+        }
+    	globalAndFilter.add(polygonFilter);
+      }
     }
 
     if (!StringUtils.isEmpty(aSortOrder)) {
@@ -310,7 +326,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         for (String fieldBoost : fieldBoosts) {
           try {
             ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
-              Float.parseFloat(fieldBoost.split("\\^")[1]));
+                Float.parseFloat(fieldBoost.split("\\^")[1]));
           } catch (ArrayIndexOutOfBoundsException e) {
             Logger.error("Invalid field boost: " + fieldBoost);
           }

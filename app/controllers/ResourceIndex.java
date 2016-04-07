@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -23,6 +25,7 @@ import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
+import play.Logger;
 import play.mvc.Result;
 import services.QueryContext;
 
@@ -50,6 +53,19 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+
+    // Check for bounding box
+    String[] boundingBoxParam = request().queryString().get("boundingBox");
+    if (boundingBoxParam != null && boundingBoxParam.length > 0) {
+      String boundingBox = boundingBoxParam[0];
+      if (boundingBox != null) {
+        try {
+          queryContext.setBoundingBox(boundingBox);
+        } catch (NumberFormatException e) {
+          Logger.error("Invalid bounding box: ".concat(boundingBox), e);
+        }
+      }
+    }
 
     queryContext.setFetchSource(new String[]{
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
