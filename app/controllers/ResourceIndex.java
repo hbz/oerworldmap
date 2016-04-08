@@ -107,7 +107,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     String id = resource.getAsString(JsonLdConstants.ID);
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
@@ -214,7 +214,7 @@ public class ResourceIndex extends OERWorldMap {
       return forbidden(render("Update failed", "feedback.mustache", resource, messages));
     }
 
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {

@@ -145,7 +145,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     mGraphHistory.add(commit);
 
   }
-  
+  @Override
+  public Resource stage(Resource aResource) throws IOException {
+
+    Commit.Diff diff = getDiff(aResource);
+    Model dbstate = getResourceModel(aResource.getId());
+    diff.apply(dbstate);
+
+    return ResourceFramer.resourceFromModel(dbstate, aResource.getId());
+
+  }
+
   private Model getResourceModel(@Nonnull String aId) {
 
     // Current data

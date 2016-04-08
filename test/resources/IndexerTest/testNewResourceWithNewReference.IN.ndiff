@@ -1,3 +1,6 @@
+Author: Anonymous
+Date: 2016-04-07T19:07:18.447+02:00
+
 + <info:456> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
 + <info:456> <http://schema.org/email> "foo@bar.de" .
 + <info:456> <http://schema.org/name> "Hans Wurst"@en .

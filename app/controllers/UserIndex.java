@@ -88,7 +88,7 @@ public class UserIndex extends OERWorldMap {
     }
     Resource resource = Resource.fromJson(json);
     String id = resource.getAsString(JsonLdConstants.ID);
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {
@@ -130,7 +130,7 @@ public class UserIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource);
+    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     if (!report.isSuccess()) {

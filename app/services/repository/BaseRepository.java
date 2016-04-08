@@ -112,35 +112,15 @@ public class BaseRepository extends Repository
 
   }
 
-  public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
-    addResource(aResource, new HashMap<>());
-    return new ListProcessingReport();
-    /*
-    FIXME: add validation
-    Set<Resource> denormalizedResources = mResourceIndexer.getResources(diff);
-    ProcessingReport processingReport = new ListProcessingReport();
-    for (Resource dnr : denormalizedResources) {
-      try {
-        processingReport.mergeWith(dnr.validate());
-      } catch (ProcessingException e) {
-        Logger.error(e.toString());
-      }
-    }
-    if (!processingReport.isSuccess()) {
-      return processingReport;
-    }
-    for (Resource dnr : denormalizedResources) {
-      if (dnr.hasId()) {
-        Resource rec = getRecord(dnr);
-        // Extract the type from the resource, otherwise everything will be
-        // typed WebPage!
-        String type = dnr.getAsString(JsonLdConstants.TYPE);
-        addResource(rec, type);
-      }
-    }
+  public ProcessingReport validateAndAdd(Resource aResource, Map<String, String> aMetadata) throws IOException {
 
+    Resource staged = mTriplestoreRepository.stage(aResource);
+    ProcessingReport processingReport = staged.validate();
+    if (processingReport.isSuccess()) {
+      addResource(aResource, aMetadata);
+    }
     return processingReport;
-    */
+
   }
 
   @Override
