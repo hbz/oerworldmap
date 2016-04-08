@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -36,8 +37,6 @@ public class ElasticsearchRepository extends Repository
 
   final private ElasticsearchProvider elasticsearch;
 
-  final public static String DEFAULT_TYPE = "Thing";
-
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
     ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(aConfiguration);
@@ -60,30 +59,34 @@ public class ElasticsearchRepository extends Repository
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
     }
-    elasticsearch.addJson(aResource.toString(), id, aResource.getAsString(JsonLdConstants.TYPE));
+    id = id.concat(".").concat(Record.RESOURCE_KEY);
+    Record record = new Record(aResource);
+    record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
+    record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
+    elasticsearch.addJson(record.toString(), id, aResource.getAsString(JsonLdConstants.TYPE));
     elasticsearch.refreshIndex(elasticsearch.getIndex());
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return Resource.fromMap(elasticsearch.getDocument("_all", aId));
+    return unwrapRecord(Resource.fromMap(elasticsearch.getDocument("_all", aId)));
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    List<Resource> resources = new ArrayList<Resource>();
+    List<Resource> resources = new ArrayList<>();
     for (Map<String, Object> doc : elasticsearch.getResources(aField, aValue)) {
       resources.add(Resource.fromMap(doc));
     }
-    return resources;
+    return unwrapRecords(resources);
   }
 
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
-    List<Resource> resources = new ArrayList<Resource>();
+    List<Resource> resources = new ArrayList<>();
     for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)) {
       resources.add(Resource.fromMap(doc));
     }
-    return resources;
+    return unwrapRecords(resources);
   }
 
   @Override
@@ -95,7 +98,7 @@ public class ElasticsearchRepository extends Repository
 
     // FIXME: check why deleting from _all is not possible, remove dependency on
     // Record class
-    String type = ((Resource) resource.get(Record.RESOURCEKEY)).get(JsonLdConstants.TYPE)
+    String type = ((Resource) resource.get(Record.RESOURCE_KEY)).get(JsonLdConstants.TYPE)
         .toString();
     Logger.info("DELETING " + type + aId);
 
@@ -151,7 +154,7 @@ public class ElasticsearchRepository extends Repository
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
-      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
+      Resource match = unwrapRecord(Resource.fromMap(searchHits.next().sourceAsMap()));
       matches.add(match);
     }
     // FIXME: response.toString returns string serializations of scripted keys
@@ -160,4 +163,17 @@ public class ElasticsearchRepository extends Repository
         aSortOrder, aFilters, aAggregations);
 
   }
+
+  private List<Resource> unwrapRecords(List<Resource> aRecords) {
+    List<Resource> resources = new ArrayList<>();
+    for (Resource rec : aRecords) {
+      resources.add(unwrapRecord(rec));
+    }
+    return resources;
+  }
+
+  private Resource unwrapRecord(Resource aRecord) {
+    return (Resource) aRecord.get(Record.RESOURCE_KEY);
+  }
+
 }

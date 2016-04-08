@@ -24,7 +24,6 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.typesafe.config.Config;
 
-import models.Record;
 import models.Resource;
 import models.ResourceList;
 import play.Logger;
@@ -144,10 +143,6 @@ public class BaseRepository extends Repository
       Logger.error(e.toString());
       return null;
     }
-    // members are Records, unwrap to plain Resources
-    List<Resource> resources = new ArrayList<>();
-    resources.addAll(unwrapRecords(resourceList.getItems()));
-    resourceList.setItems(resources);
     return resourceList;
   }
 
@@ -157,19 +152,7 @@ public class BaseRepository extends Repository
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
-    if (records != null) {
-      return unwrapRecords(records);
-    }
-    return null;
-  }
-
-  private List<Resource> unwrapRecords(List<Resource> aRecords) {
-    List<Resource> resources = new ArrayList<Resource>();
-    for (Resource rec : aRecords) {
-      resources.add((Resource) rec.get(Record.RESOURCEKEY));
-    }
-    return resources;
+    return mElasticsearchRepo.getResources(aField, aValue);
   }
 
   @Override
