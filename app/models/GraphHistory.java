@@ -37,7 +37,7 @@ public class GraphHistory {
 
   }
 
-  public void add(TripleCommit aCommit) throws IOException {
+  public void add(Commit aCommit) throws IOException {
 
     String commitId = DigestUtils.sha1Hex(aCommit.toString());
     File commitFile = new File(mCommitDir, commitId);

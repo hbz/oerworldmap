@@ -2,8 +2,9 @@ package services.repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.tdb.TDBFactory;
 import com.typesafe.config.ConfigException;
+import models.Commit;
 import models.GraphHistory;
 import models.TripleCommit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -80,8 +82,9 @@ public class BaseRepository extends Repository
   public Resource deleteResource(@Nonnull String aId) throws IOException {
 
     Resource resource = mTriplestoreRepository.deleteResource(aId);
-    TripleCommit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
+    Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
     mElasticsearchRepo.deleteResource(aId);
+
     mIndexQueue.tell(diff, mIndexQueue);
 
     return resource;
@@ -91,9 +94,21 @@ public class BaseRepository extends Repository
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
 
-    TripleCommit.Diff diff = mTriplestoreRepository.getDiff(aResource);
-    mTriplestoreRepository.addResource(aResource, new HashMap<>());
-    mIndexQueue.tell(diff, mIndexQueue);
+    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
+    }
+    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    }
+
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+
+    Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
+    Commit commit = new TripleCommit(header, diff);
+
+    mTriplestoreRepository.commit(commit);
+    mIndexQueue.tell(commit, mIndexQueue);
 
   }
 

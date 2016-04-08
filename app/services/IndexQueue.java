@@ -3,6 +3,7 @@ package services;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
+import models.Commit;
 import models.TripleCommit;
 
 /**
@@ -30,9 +31,9 @@ public class IndexQueue extends UntypedActor {
   @Override
   public void onReceive(Object aMessage) {
 
-    if (aMessage instanceof TripleCommit.Diff) {
-      TripleCommit.Diff diff = (TripleCommit.Diff) aMessage;
-      mResourceIndexer.index(diff);
+    if (aMessage instanceof Commit) {
+      Commit commit = (Commit) aMessage;
+      mResourceIndexer.index(commit);
     } else {
       unhandled(aMessage);
     }

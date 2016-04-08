@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QuerySolution;
@@ -17,6 +18,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.tdb.TDB;
+import models.Commit;
 import models.GraphHistory;
 import models.TripleCommit;
 import org.apache.jena.atlas.RuntimeIOException;
@@ -37,7 +39,7 @@ import services.ResourceFramer;
 /**
  * Created by fo on 10.12.15.
  */
-public class TriplestoreRepository extends Repository implements Readable, Writable {
+public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
   public static final String CONSTRUCT_INVERSE =
     "CONSTRUCT {?o <%1$s> ?s} WHERE {" +
@@ -81,21 +83,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource getResource(@Nonnull String aId) {
 
-    // Current data
-    String describeStatement = String.format(DESCRIBE_RESOURCE, aId);
-    Model dbstate = ModelFactory.createDefaultModel();
-
-    dbstate.enterCriticalSection(Lock.WRITE);
-    mDb.enterCriticalSection(Lock.READ);
-
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
-        queryExecution.execDescribe(dbstate);
-      }
-    } finally {
-      mDb.leaveCriticalSection();
-      dbstate.leaveCriticalSection();
-    }
+    Model dbstate = getResourceModel(aId);
 
     Resource resource = null;
     if (!dbstate.isEmpty()) {
@@ -135,31 +123,53 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
 
-    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "foo");
-    }
-    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().toString());
-    }
-
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-    TripleCommit.Diff diff = getDiff(aResource);
+    Commit.Diff diff = getDiff(aResource);
+
+    commit(new TripleCommit(header, diff));
+
+  }
+
+  @Override
+  public void commit(Commit commit) throws IOException {
 
     mDb.enterCriticalSection(Lock.WRITE);
     try {
-      diff.apply(mDb);
+      commit.getDiff().apply(mDb);
       TDB.sync(mDb);
     } finally {
       mDb.leaveCriticalSection();
     }
 
-    TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 
   }
+  
+  private Model getResourceModel(@Nonnull String aId) {
 
-  public TripleCommit.Diff getDiff(@Nonnull Resource aResource) {
+    // Current data
+    String describeStatement = String.format(DESCRIBE_RESOURCE, aId);
+    Model dbstate = ModelFactory.createDefaultModel();
+
+    dbstate.enterCriticalSection(Lock.WRITE);
+    mDb.enterCriticalSection(Lock.READ);
+
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
+        queryExecution.execDescribe(dbstate);
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+      dbstate.leaveCriticalSection();
+    }
+
+    return dbstate;
+
+  }
+
+  @Override
+  public Commit.Diff getDiff(@Nonnull Resource aResource) {
 
     // The incoming model
     Model model = ModelFactory.createDefaultModel();

@@ -7,15 +7,19 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
+import play.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -23,12 +27,12 @@ import java.util.Scanner;
  * Created by fo on 10.12.15, modified by pvb
  */
 
-public class TripleCommit {
+public class TripleCommit implements Commit {
 
   private final Header mHeader;
-  private final Diff mDiff;
+  private final Commit.Diff mDiff;
 
-  public static class Header {
+  public static class Header implements Commit.Header {
 
     public static final String AUTHOR_HEADER = "Author";
     public static final String DATE_HEADER = "Date";
@@ -44,7 +48,14 @@ public class TripleCommit {
 
     public String toString() {
       return AUTHOR_HEADER.concat(HEADER_SEPARATOR).concat(author).concat("\n").concat(DATE_HEADER)
-        .concat(HEADER_SEPARATOR).concat(timestamp.toString()).concat("\n");
+        .concat(HEADER_SEPARATOR).concat(timestamp.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)).concat("\n");
+    }
+
+    public Map<String, String> toMap() {
+      Map<String, String> map = new HashMap<>();
+      map.put(AUTHOR_HEADER, author);
+      map.put(DATE_HEADER, timestamp.toString());
+      return map;
     }
 
     public String getAuthor() {
@@ -93,15 +104,15 @@ public class TripleCommit {
 
   }
 
-  public static class Diff {
+  public static class Diff implements Commit.Diff {
 
     final private static String mLang = Lang.NTRIPLES.getName();
 
-    final private List<Line> mLines;
+    final private List<Commit.Diff.Line> mLines;
 
-    public static class Line {
+    public static class Line extends Commit.Diff.Line {
 
-      public final boolean add;
+      //public final boolean add;
       public final Statement stmt;
 
       public Line(Statement stmt, boolean add) {
@@ -115,11 +126,11 @@ public class TripleCommit {
       mLines = new ArrayList<>();
     }
 
-    public Diff(ArrayList<Line> aLineList) {
+    public Diff(ArrayList<Commit.Diff.Line> aLineList) {
       mLines = aLineList;
     }
 
-    public List<Line> getLines() {
+    public List<Commit.Diff.Line> getLines() {
       return this.mLines;
     }
 
@@ -131,25 +142,35 @@ public class TripleCommit {
       this.mLines.add(new Line(stmt, false));
     }
 
+    @Override
+    public void apply(Object model) {
+      apply((Model) model);
+    }
+
     public void apply(Model model) {
 
-      for (Line line : this.mLines) {
+      for (Commit.Diff.Line line : this.mLines) {
         if (line.add) {
-          model.add(line.stmt);
+          model.add(((Line) line).stmt);
         } else {
-          model.remove(line.stmt);
+          model.remove(((Line) line).stmt);
         }
       }
 
     }
 
+    @Override
+    public void unapply(Object model) {
+      unapply((Model) model);
+    }
+
     public void unapply(Model model) {
 
-      for (Line line : this.mLines) {
+      for (Commit.Diff.Line line : this.mLines) {
         if (line.add) {
-          model.remove(line.stmt);
+          model.remove(((Line) line).stmt);
         } else {
-          model.add(line.stmt);
+          model.add(((Line) line).stmt);
         }
       }
 
@@ -158,11 +179,11 @@ public class TripleCommit {
     public Diff reverse() {
 
       TripleCommit.Diff reverse = new TripleCommit.Diff();
-      for (Line line : mLines) {
+      for (Commit.Diff.Line line : mLines) {
         if (line.add) {
-          reverse.removeStatement(line.stmt);
+          reverse.removeStatement(((Line) line).stmt);
         } else {
-          reverse.addStatement(line.stmt);
+          reverse.addStatement(((Line) line).stmt);
         }
       }
 
@@ -176,9 +197,9 @@ public class TripleCommit {
       StringBuilder diffString = new StringBuilder();
       StringWriter triple = new StringWriter();
 
-      for (Line line : this.mLines) {
-        buffer.add(line.stmt).write(triple, mLang).removeAll();
-        diffString.append((line.add ? "+ " : "- ").concat(triple.toString()));
+      for (Commit.Diff.Line line : this.mLines) {
+        buffer.add(((Line) line).stmt).write(triple, mLang).removeAll();
+        diffString.append((((Line) line).add ? "+ " : "- ").concat(triple.toString()));
         triple.getBuffer().setLength(0);
       }
 
@@ -190,7 +211,7 @@ public class TripleCommit {
 
       final Model buffer = ModelFactory.createDefaultModel();
 
-      ArrayList<Line> lines = new ArrayList<>();
+      ArrayList<Commit.Diff.Line> lines = new ArrayList<>();
 
       Scanner scanner = new Scanner(aDiffString);
       String diffLine;
@@ -217,12 +238,12 @@ public class TripleCommit {
 
   }
 
-  public TripleCommit(Header aHeader, Diff aDiff) {
+  public TripleCommit(Header aHeader, Commit.Diff aDiff) {
     mHeader = aHeader;
     mDiff = aDiff;
   }
 
-  public Diff getDiff() {
+  public Commit.Diff getDiff() {
     return this.mDiff;
   }
 

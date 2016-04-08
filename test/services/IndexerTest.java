@@ -29,25 +29,25 @@ public class IndexerTest implements JsonTest {
     // The model for the indexer to SPARQL against
     Model db = ModelFactory.createDefaultModel();
 
-    // Read diff
-    String diffString = IOUtils.toString(
+    // Read commit
+    String commitString = IOUtils.toString(
       ClassLoader.getSystemResourceAsStream("IndexerTest/testNewResourceWithNewReference.IN.ndiff"), "UTF-8");
-    TripleCommit.Diff diff = TripleCommit.Diff.fromString(diffString);
+    TripleCommit commit = TripleCommit.fromString(commitString);
 
     // Apply diff to populate DB
-    diff.apply(db);
+    commit.getDiff().apply(db);
 
     // Index diff to mock repo
     MockResourceRepository mockResourceRepository = new MockResourceRepository();
     ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository);
-    indexer.index(diff);
+    indexer.index(commit);
 
     // Check presence of indexed resources
     assertNull(mockResourceRepository.getResource("http://schema.org/Article"));
     assertNull(mockResourceRepository.getResource("http://schema.org/Person"));
-    assertNotNull(mockResourceRepository.getResource("info:789.about"));
-    assertNotNull(mockResourceRepository.getResource("info:456.about"));
-    assertNotNull(mockResourceRepository.getResource("info:123.about"));
+    assertNotNull(mockResourceRepository.getResource("info:789"));
+    assertNotNull(mockResourceRepository.getResource("info:456"));
+    assertNotNull(mockResourceRepository.getResource("info:123"));
 
   }
 

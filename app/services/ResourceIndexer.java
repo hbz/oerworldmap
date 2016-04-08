@@ -8,7 +8,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.shared.Lock;
-import helpers.JsonLdConstants;
+import models.Commit;
 import models.Record;
 import models.Resource;
 import models.TripleCommit;
@@ -18,6 +18,7 @@ import services.repository.Writable;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,12 +44,12 @@ public class ResourceIndexer {
 
   }
 
-  public Set<String> getScope(TripleCommit.Diff aDiff) {
+  public Set<String> getScope(Commit.Diff aDiff) {
 
     Set<String> scope = new HashSet<>();
-    for (TripleCommit.Diff.Line line : aDiff.getLines()) {
-      RDFNode subject = line.stmt.getSubject();
-      RDFNode object = line.stmt.getObject();
+    for (Commit.Diff.Line line : aDiff.getLines()) {
+      RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
+      RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
       if (subject.isURIResource()) {
         scope.add(subject.toString());
       }
@@ -82,7 +83,7 @@ public class ResourceIndexer {
 
   }
 
-  public Set<Resource> getResources(TripleCommit.Diff aDiff) {
+  public Set<Resource> getResources(Commit.Diff aDiff) {
 
     Set<Resource> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aDiff);
@@ -101,13 +102,14 @@ public class ResourceIndexer {
 
   }
 
-  public void index(TripleCommit.Diff diff) {
+  public void index(Commit commit) {
+    Commit.Diff diff = commit.getDiff();
     Set<Resource> denormalizedResources = getResources(diff);
+    Map<String, String> metadata = commit.getHeader().toMap();
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
-        String type = dnr.getAsString(JsonLdConstants.TYPE);
         try {
-          mTargetRepo.addResource(new Record(dnr), new HashMap<>());
+          mTargetRepo.addResource(dnr, metadata);
         } catch (IOException e) {
           Logger.error("Could not index commit", e);
         }
