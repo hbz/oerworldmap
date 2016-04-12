@@ -1,18 +1,19 @@
 package models;
 
-import static org.junit.Assert.*;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by fo on 24.03.16.
@@ -26,8 +27,7 @@ public class GraphHistoryTest {
 
   private static String loadCommit(String aFileName) throws IOException {
 
-    return IOUtils.toString(
-      ClassLoader.getSystemResourceAsStream(aFileName), StandardCharsets.UTF_8.name());
+    return IOUtils.toString(ClassLoader.getSystemResourceAsStream(aFileName), StandardCharsets.UTF_8.name());
 
   }
 
@@ -39,7 +39,6 @@ public class GraphHistoryTest {
     mGraphHistory = new GraphHistory(mHistoryDir, mHistoryFile);
 
   }
-
 
   @Test
   public void testAdd() throws IOException {
@@ -83,14 +82,14 @@ public class GraphHistoryTest {
     TripleCommit commit2 = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.2.ncommit"));
     mGraphHistory.add(commit1);
     mGraphHistory.add(commit2);
-    List<TripleCommit> resource456Commits = mGraphHistory.log("info:456");
+    List<TripleCommit> resource456Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456");
     assertEquals(2, resource456Commits.size());
     assertEquals(commit1, resource456Commits.get(0));
     assertEquals(commit2, resource456Commits.get(1));
-    List<TripleCommit> resource123Commits = mGraphHistory.log("info:123");
+    List<TripleCommit> resource123Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0123");
     assertEquals(1, resource123Commits.size());
     assertEquals(commit2, resource123Commits.get(0));
-    List<TripleCommit> resource789Commits = mGraphHistory.log("info:789");
+    List<TripleCommit> resource789Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0789");
     assertEquals(0, resource789Commits.size());
 
   }

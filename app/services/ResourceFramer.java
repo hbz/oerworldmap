@@ -1,5 +1,15 @@
 package services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
+
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -10,25 +20,17 @@ import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.ning.http.client.AsyncHttpClientConfig;
+
 import io.apigee.trireme.core.NodeEnvironment;
 import io.apigee.trireme.core.NodeException;
 import io.apigee.trireme.core.NodeScript;
 import io.apigee.trireme.core.ScriptFuture;
 import models.Resource;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
 import play.libs.F;
 import play.libs.ws.WSResponse;
 import play.libs.ws.ning.NingWSClient;
 import services.repository.TriplestoreRepository;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by fo on 23.03.16.
@@ -40,8 +42,7 @@ public class ResourceFramer {
   static {
     NodeEnvironment env = new NodeEnvironment();
     try {
-      NodeScript script = env.createScript("frame.js",
-        new File("node/json-frame/frame.js"), null);
+      NodeScript script = env.createScript("frame.js", new File("node/json-frame/frame.js"), null);
       script.setNodeVersion("0.10");
       ScriptFuture framer = script.executeModule();
       framer.getModuleResult();
@@ -58,7 +59,8 @@ public class ResourceFramer {
     aModel.enterCriticalSection(Lock.READ);
     dbstate.enterCriticalSection(Lock.WRITE);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement),
+          aModel)) {
         queryExecution.execDescribe(dbstate);
 
         ByteArrayOutputStream unframed = new ByteArrayOutputStream();
@@ -69,14 +71,12 @@ public class ResourceFramer {
 
         if (types.hasNext()) {
           String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
-          String type = URLEncoder.encode(
-            types.next().toString(),
-            StandardCharsets.UTF_8.toString());
+          String type = URLEncoder.encode(types.next().toString(), StandardCharsets.UTF_8.toString());
           Logger.debug(type);
           F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
-            .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
+              .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
 
-          return Resource.fromJson(promise.get(1000000000));
+          return Resource.fromJson(promise.get(Integer.MAX_VALUE));
         }
       }
     } finally {
@@ -84,7 +84,9 @@ public class ResourceFramer {
       aModel.leaveCriticalSection();
     }
 
-    Logger.error("Not type found for " + aId);
+    // Logger.debug("Not type found for " + aId);
+    // Logger.debug("Model " + aModel);
+
     return null;
 
   }

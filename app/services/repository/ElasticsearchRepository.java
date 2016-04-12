@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -27,21 +26,20 @@ import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
+import models.TripleCommit;
 import play.Logger;
 import services.ElasticsearchConfig;
 import services.ElasticsearchProvider;
 import services.QueryContext;
 
-public class ElasticsearchRepository extends Repository
-    implements Readable, Writable, Queryable, Aggregatable {
+public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   final private ElasticsearchProvider elasticsearch;
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
     ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig(aConfiguration);
-    Settings settings = ImmutableSettings.settingsBuilder()
-        .put(elasticsearchConfig.getClientSettings()).build();
+    Settings settings = ImmutableSettings.settingsBuilder().put(elasticsearchConfig.getClientSettings()).build();
     @SuppressWarnings("resource")
     Client client = new TransportClient(settings)
         .addTransportAddress(new InetSocketTransportAddress(elasticsearchConfig.getServer(), 9300));
@@ -53,8 +51,7 @@ public class ElasticsearchRepository extends Repository
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata)
-      throws IOException {
+  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     if (StringUtils.isEmpty(id)) {
       id = UUID.randomUUID().toString();
@@ -91,17 +88,12 @@ public class ElasticsearchRepository extends Repository
 
   @Override
   public Resource deleteResource(@Nonnull String aId) {
-    Resource resource = getResource(aId);
+    Resource resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;
     }
-
-    // FIXME: check why deleting from _all is not possible, remove dependency on
-    // Record class
-    String type = ((Resource) resource.get(Record.RESOURCE_KEY)).get(JsonLdConstants.TYPE)
-        .toString();
-    Logger.info("DELETING " + type + aId);
-
+    String type = resource.get(JsonLdConstants.TYPE).toString();
+    Logger.debug("DELETING " + type + ": " + aId);
     boolean found = elasticsearch.deleteDocument(type, aId);
     elasticsearch.refreshIndex(elasticsearch.getIndex());
     if (found) {
@@ -142,15 +134,14 @@ public class ElasticsearchRepository extends Repository
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+      Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
       Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
 
-    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder,
-        aFilters, aQueryContext);
+    SearchResponse response = elasticsearch.esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
@@ -159,8 +150,8 @@ public class ElasticsearchRepository extends Repository
     }
     // FIXME: response.toString returns string serializations of scripted keys
     Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize,
-        aSortOrder, aFilters, aAggregations);
+    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+        aFilters, aAggregations);
 
   }
 

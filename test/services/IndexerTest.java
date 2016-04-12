@@ -1,22 +1,18 @@
 package services;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import com.google.common.collect.Sets;
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+
 import helpers.JsonTest;
-
 import models.TripleCommit;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import services.repository.Repository;
-
-import java.io.IOException;
-import java.util.Set;
 
 /**
  * Created by fo on 11.02.16.
@@ -31,7 +27,7 @@ public class IndexerTest implements JsonTest {
 
     // Read commit
     String commitString = IOUtils.toString(
-      ClassLoader.getSystemResourceAsStream("IndexerTest/testNewResourceWithNewReference.IN.ndiff"), "UTF-8");
+        ClassLoader.getSystemResourceAsStream("IndexerTest/testNewResourceWithNewReference.IN.ndiff"), "UTF-8");
     TripleCommit commit = TripleCommit.fromString(commitString);
 
     // Apply diff to populate DB
@@ -45,9 +41,9 @@ public class IndexerTest implements JsonTest {
     // Check presence of indexed resources
     assertNull(mockResourceRepository.getResource("http://schema.org/Article"));
     assertNull(mockResourceRepository.getResource("http://schema.org/Person"));
-    assertNotNull(mockResourceRepository.getResource("info:789"));
-    assertNotNull(mockResourceRepository.getResource("info:456"));
-    assertNotNull(mockResourceRepository.getResource("info:123"));
+    assertNotNull(mockResourceRepository.getResource("info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0789"));
+    assertNotNull(mockResourceRepository.getResource("info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456"));
+    assertNotNull(mockResourceRepository.getResource("info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0123"));
 
   }
 

@@ -1,6 +1,6 @@
 Author: Foo Bar <foo@bar.de>
 Date: 2007-12-03T10:15:30+01:00
 
-+ <info:456> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
-+ <info:456> <http://schema.org/email> "foo@bar.de" .
-+ <info:456> <http://schema.org/name> "Hans Wurst"@en .
++ <info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <uri:http://schema.org/Person> .
++ <info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://schema.org/email> "foo@bar.de" .
++ <info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://schema.org/name> "Hans Wurst"@en .
