@@ -19,6 +19,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testResourceWithIdentifiedSubObject() throws IOException {
     Resource resource = new Resource("Person", "info:id001");
+    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     String property = "attended";
     resource.put(property, new Resource("Event", "info:OER15"));
     Resource expected1 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.1.json");
@@ -31,6 +32,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testResourceWithUnidentifiedSubObject() throws IOException {
     Resource resource = new Resource("Person", "info:id002");
+    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     Resource value = new Resource("Foo", null);
     resource.put("attended", value);
     Resource expected = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
@@ -46,11 +48,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
         "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile(
         "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.2.json");
-    List<Resource> denormalized = ResourceDenormalizer.denormalize(in, mBaseRepo);
 
-    for (Resource resource : denormalized) {
-      mBaseRepo.addResource(resource, new HashMap<>());
-    }
+    mBaseRepo.addResource(in, new HashMap<>());
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
     Resource toBeDeleted = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
