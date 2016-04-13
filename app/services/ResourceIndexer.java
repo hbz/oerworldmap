@@ -47,6 +47,11 @@ public class ResourceIndexer {
   public Set<String> getScope(Commit.Diff aDiff) {
 
     Set<String> scope = new HashSet<>();
+
+    if (aDiff.getLines().isEmpty()) {
+      return scope;
+    }
+
     for (Commit.Diff.Line line : aDiff.getLines()) {
       RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
       RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
