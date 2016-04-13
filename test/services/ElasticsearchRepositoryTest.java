@@ -5,16 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-import helpers.JsonTest;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
+import helpers.JsonTest;
 import models.Resource;
 import models.ResourceList;
 
@@ -77,7 +75,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   }
 
-  //@Test
+  @Test
   public void testGetResourcesWithWildcard() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
@@ -85,7 +83,6 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mRepo.addResource(in1, new HashMap<>());
     mRepo.addResource(in2, new HashMap<>());
-    //FIXME: why is in2 not found, it contains in1 and thus @id=123 as a nested resource?
     Assert.assertEquals(2, mRepo.getResources("\\*.@id", "123").size());
   }
 
