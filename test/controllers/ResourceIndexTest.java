@@ -94,31 +94,31 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     });
   }
 
-  // FIXME: authorization
-  // @Test
+  @Test
   public void createPersonFromJsonAuthorized() {
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         String auth = getAuthString();
         Resource person = new Resource("Person", "info:" + Global.getConfig().getString("admin.user"));
+        person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
         person.put("email", "foo@bar.com");
-        Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+        Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()), Integer.MAX_VALUE);
         assertEquals(201, status(createResult));
       }
     });
   }
 
-  // FIXME: authorization
-  // @Test
+  @Test
   public void updatePersonFromJsonAuthorized() {
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         String auth = getAuthString();
-        Resource person = new Resource("Person", Global.getConfig().getString("admin.user"));
+        Resource person = new Resource("Person", "info:" + Global.getConfig().getString("admin.user"));
         person.put("email", Global.getConfig().getString("admin.user"));
+        person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
         Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
         assertEquals(201, status(createResult));
@@ -143,8 +143,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     });
   }
 
-  // FIXME: authorization
-  // @Test
+  @Test
   public void updatePersonFromJsonUnauthorized() {
     running(fakeApplication, new Runnable() {
       @Override
@@ -152,6 +151,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
         String auth = getAuthString();
         Resource person = new Resource("Person");
         person.put("email", "foo@bar.de");
+        person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
         Result createResult = route(fakeRequest("POST", routes.UserIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
         assertEquals(201, status(createResult));
