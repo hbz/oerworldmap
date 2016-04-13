@@ -1,7 +1,6 @@
 {
   "@context": "http://schema.org/",
   "attended" : {
-    "@context": "http://schema.org/",
     "@type" : "Event",
     "@id" : "info:OER15"
   },
