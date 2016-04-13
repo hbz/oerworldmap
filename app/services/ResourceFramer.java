@@ -64,7 +64,7 @@ public class ResourceFramer {
         queryExecution.execDescribe(dbstate);
 
         ByteArrayOutputStream unframed = new ByteArrayOutputStream();
-        RDFDataMgr.write(unframed, dbstate, Lang.NQUADS);
+        RDFDataMgr.write(unframed, dbstate, Lang.JSONLD);
         unframed.close();
 
         NodeIterator types = aModel.listObjectsOfProperty(aModel.createResource(aId), RDF.type);
