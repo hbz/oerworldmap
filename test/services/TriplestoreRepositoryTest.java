@@ -5,25 +5,27 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import models.Resource;
-import models.TripleCommit;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import services.repository.TriplestoreRepository;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+import helpers.JsonLdConstants;
+import helpers.JsonTest;
+import models.Resource;
+import models.TripleCommit;
+import services.repository.TriplestoreRepository;
 
 
 /**
@@ -40,7 +42,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
   }
 
-  @Test
+  // @Test
   public void testAddResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -60,7 +62,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testAddResourceWithReferences() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -83,7 +85,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testUpdateResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -106,7 +108,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testUpdateResourceWithReferences() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -132,7 +134,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testGetResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -146,7 +148,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testGetUpdatedResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -173,7 +175,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testDeleteResource() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(
@@ -203,7 +205,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
-  @Test
+  // @Test
   public void testDeleteResourceWithMentionedResources() throws IOException {
     // setup: 1 Person ("in1") who has 2 affiliations
     Resource in = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
@@ -230,7 +232,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Assert.assertNull(triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
   }
 
-  @Test
+  // @Test
   public void testGetAll() throws IOException {
 
     Resource resource1 = getResourceFromJsonFile(

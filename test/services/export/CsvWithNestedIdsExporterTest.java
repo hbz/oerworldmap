@@ -28,14 +28,12 @@ public class CsvWithNestedIdsExporterTest implements JsonTest {
     mCsvExporter.defineHeaderColumns(mockSearchResultItems);
   }
 
-  // FIXME: Fix when @context being ingested is solved
-  //@Test
+  @Test
   public void testHeader() throws IOException {
     assertEquals("@id;@type;address;authorOf;email;name", mCsvExporter.headerKeysToCsvString());
   }
 
-  // FIXME: Fix when @context being ingested is solved
-  //@Test
+  @Test
   public void testPlainExport() throws IOException {
     String csv1 = mCsvExporter.exportResourceAsCsvLine(in1);
     String csv2 = mCsvExporter.exportResourceAsCsvLine(in2);
