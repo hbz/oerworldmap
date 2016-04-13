@@ -9,11 +9,13 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.repository.TriplestoreRepository;
@@ -199,6 +201,33 @@ public class TriplestoreRepositoryTest implements JsonTest {
     assertNotNull(triplestoreRepository.getResource("info:carol"));
     assertEquals(6, actual.size());
 
+  }
+
+  @Test
+  public void testDeleteResourceWithMentionedResources() throws IOException {
+    // setup: 1 Person ("in1") who has 2 affiliations
+    Resource in = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
+    Resource expected1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
+    Resource expected2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.2.json");
+
+    Model actual = ModelFactory.createDefaultModel();
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
+
+    triplestoreRepository.addResource(in, mMetadata);
+
+
+    // delete affiliation "Oh No Company" and check whether it has been removed
+    // from referencing resources
+    Resource toBeDeleted = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
+    triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID));
+
+    Resource result1 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
+    Resource result2 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
+    Assert.assertEquals(expected1, result1);
+    Assert.assertEquals(expected2, result2);
+    Assert.assertNull(triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
   }
 
   @Test
