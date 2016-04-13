@@ -53,6 +53,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
 
+  public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
+
   public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
 
   private final Model mDb;
@@ -234,11 +236,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource deleteResource(@Nonnull String aId) throws IOException {
 
-    // Current data
-    String describeStatement = String.format(DESCRIBE_DBSTATE, aId);
     Model dbstate = ModelFactory.createDefaultModel();
 
-    dbstate.enterCriticalSection(Lock.WRITE);
+    // Current data, outbound links
+    String describeStatement = String.format(DESCRIBE_DBSTATE, aId);
     mDb.enterCriticalSection(Lock.READ);
     try {
       try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
@@ -246,7 +247,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       }
     } finally {
       mDb.leaveCriticalSection();
-      dbstate.leaveCriticalSection();
+    }
+
+    // Current data, inbound links
+    String constructStatement = String.format(CONSTRUCT_BACKLINKS, aId);
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(constructStatement), mDb)) {
+        queryExecution.execConstruct(dbstate);
+      }
+    } finally {
+      mDb.leaveCriticalSection();
     }
 
     // Inverses in dbstate, or rather select them from DB?
