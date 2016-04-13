@@ -83,7 +83,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mRepo.addResource(in1, new HashMap<>());
     mRepo.addResource(in2, new HashMap<>());
-    Assert.assertEquals(2, mRepo.getResources("\\*.@id", "123").size());
+    Assert.assertEquals(2, mRepo.getResources("\\*.@id", "info:123").size());
   }
 
 }

@@ -1,8 +1,6 @@
 {
   "availableChannel" : [ {
-    "serviceUrl" : {
-      "@id" : "https://oerworldmap.org"
-    },
+    "serviceUrl" : "https://oerworldmap.org",
     "availableLanguage" : "en"
   } ],
   "@type" : "Service",
