@@ -289,6 +289,13 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   }
 
+  @Override
+  public List<Commit> log(String aId) {
+
+    return mGraphHistory.log(aId);
+
+  }
+
   private void addInverses(Model model) {
 
     // TODO: this could well be an enricher, such as the broader concept enricher

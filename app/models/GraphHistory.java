@@ -90,7 +90,7 @@ public class GraphHistory {
 
   }
 
-  public List<TripleCommit> log(String aURI) {
+  public List<Commit> log(String aURI) {
 
     List<String> commitIds;
 
@@ -101,7 +101,7 @@ public class GraphHistory {
       throw new RuntimeIOException(e);
     }
 
-    List<TripleCommit> commits = new ArrayList<>();
+    List<Commit> commits = new ArrayList<>();
 
     String regex = "^[+-] <".concat(aURI).concat(">|<").concat(aURI).concat("> \\.$");
     Pattern p = Pattern.compile(regex, Pattern.MULTILINE);

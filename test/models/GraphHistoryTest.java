@@ -82,14 +82,14 @@ public class GraphHistoryTest {
     TripleCommit commit2 = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.2.ncommit"));
     mGraphHistory.add(commit1);
     mGraphHistory.add(commit2);
-    List<TripleCommit> resource456Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456");
+    List<Commit> resource456Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456");
     assertEquals(2, resource456Commits.size());
     assertEquals(commit1, resource456Commits.get(0));
     assertEquals(commit2, resource456Commits.get(1));
-    List<TripleCommit> resource123Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0123");
+    List<Commit> resource123Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0123");
     assertEquals(1, resource123Commits.size());
     assertEquals(commit2, resource123Commits.get(0));
-    List<TripleCommit> resource789Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0789");
+    List<Commit> resource789Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0789");
     assertEquals(0, resource789Commits.size());
 
   }

@@ -34,7 +34,7 @@ import services.QueryContext;
 import services.ResourceIndexer;
 
 public class BaseRepository extends Repository
-    implements Readable, Writable, Queryable, Aggregatable {
+    implements Readable, Writable, Queryable, Aggregatable, Versionable {
 
   private ElasticsearchRepository mElasticsearchRepo;
   private TriplestoreRepository mTriplestoreRepository;
@@ -169,6 +169,26 @@ public class BaseRepository extends Repository
       Logger.error(e.toString());
     }
     return resources;
+  }
+
+  @Override
+  public Resource stage(Resource aResource) throws IOException {
+    return mTriplestoreRepository.stage(aResource);
+  }
+
+  @Override
+  public List<Commit> log(String aId) {
+    return mTriplestoreRepository.log(aId);
+  }
+
+  @Override
+  public void commit(Commit aCommit) throws IOException {
+    mTriplestoreRepository.commit(aCommit);
+  }
+
+  @Override
+  public Commit.Diff getDiff(Resource aResource) {
+    return mTriplestoreRepository.getDiff(aResource);
   }
 
 }

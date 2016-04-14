@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import models.Commit;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -245,6 +246,18 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       return badRequest("Failed to delete resource " + id);
     }
+  }
+
+  public static Result log(String id) {
+
+    StringBuilder stringBuilder = new StringBuilder();
+
+    for (Commit commit : mBaseRepository.log(id)) {
+      stringBuilder.append(commit);
+    }
+
+    return ok(stringBuilder.toString());
+
   }
 
 }
