@@ -20,10 +20,6 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -51,13 +47,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private static ElasticsearchConfig mConfig;
   private Client mClient;
 
-  @SuppressWarnings("resource")
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
     mConfig = new ElasticsearchConfig(aConfiguration);
-    Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings()).build();
-    mClient = new TransportClient(settings)
-        .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
+    mClient = mConfig.getClient();
   }
 
   @Override
@@ -310,7 +303,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         for (String fieldBoost : fieldBoosts) {
           try {
             ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
-              Float.parseFloat(fieldBoost.split("\\^")[1]));
+                Float.parseFloat(fieldBoost.split("\\^")[1]));
           } catch (ArrayIndexOutOfBoundsException e) {
             Logger.error("Invalid field boost: " + fieldBoost);
           }

@@ -14,8 +14,11 @@ import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import models.Resource;
+import services.repository.BaseRepository;
 
 public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
+  
+  private static BaseRepository mBaseRepo = new BaseRepository(mConfig);
 
   @Test
   public void testResourceWithIdentifiedSubObject() throws IOException {
