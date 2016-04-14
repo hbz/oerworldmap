@@ -31,7 +31,6 @@ public class ElasticsearchConfig {
   // HOST
   private String mServer;
   private String mJavaPort;
-  private String mHttpPort;
   private Node mInternalNode;
 
   // CLIENT
@@ -52,14 +51,13 @@ public class ElasticsearchConfig {
     // HOST
     mServer = mConfig.getString("es.host.server");
     mJavaPort = mConfig.getString("es.host.port.java");
-    mHttpPort = mConfig.getString("es.host.port.http");
 
     mIndex = mConfig.getString("es.index.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
     if (mConfig.getBoolean("es.node.inmemory")) {
-      mInternalNode = NodeBuilder.nodeBuilder().local(true).node();
+      mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
       mClient = mInternalNode.client();
     } //
     else {
@@ -116,10 +114,6 @@ public class ElasticsearchConfig {
 
   public String getJavaPort() {
     return mJavaPort;
-  }
-
-  public String getHttpPort() {
-    return mHttpPort;
   }
 
   public String toString() {
