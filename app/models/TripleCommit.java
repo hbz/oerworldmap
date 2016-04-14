@@ -4,9 +4,11 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RiotException;
 import play.Logger;
 
 import java.io.ByteArrayInputStream;
@@ -213,21 +215,21 @@ public class TripleCommit implements Commit {
 
       ArrayList<Commit.Diff.Line> lines = new ArrayList<>();
 
-      Scanner scanner = new Scanner(aDiffString);
+      Scanner scanner = new Scanner(aDiffString).useDelimiter("\\n");
       String diffLine;
-      while (scanner.hasNextLine()) {
-        diffLine = scanner.nextLine().trim();
-        if (diffLine.matches("^[+-] .*")) {
-          try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(diffLine.substring(1)
-              .getBytes(StandardCharsets.UTF_8))) {
-            buffer.read(byteArrayInputStream, null, mLang);
-            lines.add(new Line(buffer.listStatements().nextStatement(), "+".equals(diffLine.substring(0, 1))));
-            buffer.removeAll();
-          } catch (IOException e) {
-            throw new RuntimeIOException(e);
-          }
-        } else {
-          throw new IllegalArgumentException("Mal formed triple diff line: " + aDiffString);
+      while (scanner.hasNext()) {
+        diffLine = scanner.next().trim();
+        String op = diffLine.substring(0, 1);
+        if (!op.equals("+") && !op.equals("-")) {
+          throw new IllegalArgumentException("Diff Line malformed: " + diffLine);
+        }
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(diffLine.substring(1)
+            .getBytes(StandardCharsets.UTF_8))) {
+          buffer.read(byteArrayInputStream, null, mLang);
+          lines.add(new Line(buffer.listStatements().nextStatement(), op.equals("+")));
+          buffer.removeAll();
+        } catch (IOException e) {
+          throw new RuntimeIOException(e);
         }
       }
       scanner.close();

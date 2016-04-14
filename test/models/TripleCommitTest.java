@@ -116,4 +116,18 @@ public class TripleCommitTest {
     assertFalse(diff.getLines().get(0).add);
   }
 
+  @Test
+  public void testNewlinesInLiterals() {
+    String diffline = "+ <urn:uuid:706b2e06-77eb-11e5-9f9f-c48e8ff4ea31> <http://schema.org/description> \"UNIVERSITI" +
+      " KEBANGSAAN MALAYSIA:  Motto, Vision, Mission & Philosophy\\r\\n\\r\\nMotto\u2028\\r\\nInspiring futures, " +
+      "nurturing possibilities.\\r\\n\\r\\nPhilosophy\\r\\n\u2028UKM affirms the integration of faith in Allah and " +
+      "constructive knowledge; along with the amalgamation of theory and practice as the core fundamentals in the " +
+      "advancement of knowledge, the building of an educated society and the development of the university" +
+      ".\u2028\u2028\\r\\n\\r\\nVision\u2028\\r\\nUKM is committed to be ahead  of society and time in leading the " +
+      "development of  a learned, dynamic  and moral society.\\r\\n\\r\\nMission\u2028\\r\\n\\r\\nTo be the learning " +
+      "centre of choice that  promotes the sovereignty of  Bahasa Melayu and internationalises knowledge rooted in " +
+      "the national culture.\\r\\n\"@en .";
+    TripleCommit.Diff diff = TripleCommit.Diff.fromString(diffline);
+  }
+
 }
