@@ -16,6 +16,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 
+import com.google.common.base.Strings;
 import com.typesafe.config.Config;
 
 import helpers.UniversalFunctions;
@@ -56,7 +57,7 @@ public class ElasticsearchConfig {
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    if (mConfig.getBoolean("es.node.inmemory")) {
+    if (mConfig.getBoolean("es.node.inmemory") || Strings.isNullOrEmpty(mJavaPort) || Strings.isNullOrEmpty(mServer)) {
       mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
       mClient = mInternalNode.client();
     } //
