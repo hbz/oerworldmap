@@ -208,7 +208,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
   @Test
   public void testDeleteResourceWithMentionedResources() throws IOException {
     // setup: 1 Person ("in1") who has 2 affiliations
-    Resource in = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
+    Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
+    Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.2.json");
+    Resource in3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.3.json");
     Resource expected1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile(
@@ -217,7 +219,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
 
-    triplestoreRepository.addResource(in, mMetadata);
+    triplestoreRepository.addResource(in1, mMetadata);
+    triplestoreRepository.addResource(in2, mMetadata);
+    triplestoreRepository.addResource(in3, mMetadata);
 
 
     // delete affiliation "Oh No Company" and check whether it has been removed

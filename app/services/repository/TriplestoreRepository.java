@@ -53,6 +53,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
 
+  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> ?p  ?o FILTER isIRI(?o) }";
+
   public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
 
   public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
@@ -150,9 +152,30 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource stage(Resource aResource) throws IOException {
 
+    // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
     Model dbstate = getResourceModel(aResource.getId());
     diff.apply(dbstate);
+
+    // The incoming model
+    Model incoming = ModelFactory.createDefaultModel();
+    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.toString().getBytes())) {
+      RDFDataMgr.read(incoming, byteArrayInputStream, Lang.JSONLD);
+    } catch (IOException e) {
+      throw new RuntimeIOException(e);
+    }
+
+    // Select resources incoming model is referencing and add them to dbstate
+    try (QueryExecution queryExecution = QueryExecutionFactory.create(
+        QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), incoming)) {
+      ResultSet resultSet = queryExecution.execSelect();
+      while (resultSet.hasNext()) {
+        QuerySolution querySolution = resultSet.next();
+        String object = querySolution.get("o").toString();
+        Logger.debug(object);
+        dbstate.add(getResourceModel(object));
+      }
+    }
 
     return ResourceFramer.resourceFromModel(dbstate, aResource.getId());
 
@@ -184,19 +207,26 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   public Commit.Diff getDiff(@Nonnull Resource aResource) {
 
     // The incoming model
-    Model model = ModelFactory.createDefaultModel();
+    Model incoming = ModelFactory.createDefaultModel();
 
     try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.toString().getBytes())) {
-      RDFDataMgr.read(model, byteArrayInputStream, Lang.JSONLD);
+      RDFDataMgr.read(incoming, byteArrayInputStream, Lang.JSONLD);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
+    }
+
+    // Reduce incoming model to CBD
+    Model model = ModelFactory.createDefaultModel();
+    String describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
+    try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), incoming)) {
+      queryExecution.execDescribe(model);
     }
 
     // Add inferred (e.g. inverse) statements to incoming model
     addInverses(model);
 
     // Current data
-    String describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
+    describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
     Model dbstate = ModelFactory.createDefaultModel();
 
     dbstate.enterCriticalSection(Lock.WRITE);

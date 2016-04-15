@@ -69,9 +69,9 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
       @Override
       public void run() {
         String auth = getAuthString();
-        Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
+        Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.create().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
+            .withHeader("Authorization", "Basic " + auth).withJsonBody(event.toJson()));
         assertEquals(201, status(result));
       }
     });
@@ -82,11 +82,19 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
-        Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
         String auth = getAuthString();
-        Result createResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+
+        Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
+        Result createEventResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
+          .withHeader("Authorization", "Basic " + auth).withJsonBody(event.toJson()));
+        assertEquals(201, status(createEventResult));
+
+        Resource organization = getResourceFromJsonFileUnsafe("ResourceIndexTest/testOrganization.json");
+        Result createOrganizationResult = route(fakeRequest("POST", routes.ResourceIndex.create().url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
-        assertEquals(201, status(createResult));
+        assertEquals(201, status(createOrganizationResult));
+
+        organization.put("email", "foo@bar.de");
         Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.update(organization.getId()).url())
             .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
         assertEquals(200, status(updateResult));

@@ -17,13 +17,15 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   @Test
   public void testResourceWithIdentifiedSubObject() throws IOException {
-    Resource resource = new Resource("Person", "info:id001");
-    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-    String property = "attended";
-    resource.put(property, new Resource("Event", "info:OER15"));
+    Resource resource1 = new Resource("Person", "info:id001");
+    resource1.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    Resource resource2 = new Resource("Event", "info:OER15");
+    resource2.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    resource1.put("attended", resource2);
     Resource expected1 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.2.json");
-    mBaseRepo.addResource(resource, new HashMap<>());
+    mBaseRepo.addResource(resource1, new HashMap<>());
+    mBaseRepo.addResource(resource2, new HashMap<>());
     Assert.assertEquals(expected1, mBaseRepo.getResource("info:id001"));
     Assert.assertEquals(expected2, mBaseRepo.getResource("info:OER15"));
   }
@@ -42,13 +44,17 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testDeleteResourceWithMentionedResources() throws IOException, InterruptedException {
     // setup: 1 Person ("in1") who has 2 affiliations
-    Resource in = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
+    Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
+    Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.2.json");
+    Resource in3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.3.json");
     Resource expected1 = getResourceFromJsonFile(
         "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile(
         "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.2.json");
 
-    mBaseRepo.addResource(in, new HashMap<>());
+    mBaseRepo.addResource(in1, new HashMap<>());
+    mBaseRepo.addResource(in2, new HashMap<>());
+    mBaseRepo.addResource(in3, new HashMap<>());
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
     Resource toBeDeleted = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
@@ -82,7 +88,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testDeleteResourceFromList() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.2.json");
-    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.2.json");
+    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.3.json");
     Resource out1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.OUT.1.json");
     Resource out2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.OUT.2.json");
     mBaseRepo.addResource(db1, new HashMap<>());
