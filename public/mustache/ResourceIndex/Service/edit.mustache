@@ -18,7 +18,9 @@
 
     {{> FormElements/input.mustache property=email key="email" title=(i18n "Service.email") tooltip=(i18n "Service.email" bundle="descriptions") hidden=false multiple=false type="email"}}
 
-    {{> FormElements/input.mustache property=license key="license" title=(i18n "Service.license") tooltip=(i18n "Service.license" bundle="descriptions") hidden=true multiple=true type="text"}}
+    {{> FormElements/input.mustache property=license key="license" title=(i18n "Service.license") tooltip=(i18n "Service.license" bundle="descriptions") hidden=false multiple=true type="text"}}
+
+    {{> FormElements/id.mustache property=licenseConcept key="licenseConcept" title=(i18n "Service.license") tooltip=(i18n "Service.license" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/licenses.json"}}
 
     {{> FormElements/input.mustache property=image key="image" title=(i18n "Service.image") tooltip=(i18n "Service.image" bundle="descriptions") hidden=false multiple=false type="url"}}
 
