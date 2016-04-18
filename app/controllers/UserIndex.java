@@ -87,6 +87,8 @@ public class UserIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+
     String id = resource.getAsString(JsonLdConstants.ID);
     ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
     Map<String, Object> scope = new HashMap<>();
@@ -105,6 +107,7 @@ public class UserIndex extends OERWorldMap {
         return badRequest(render("Create failed", "feedback.mustache", scope, messages));
       }
     }
+
     response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
     if (isJsonRequest) {
       return created("Created " + id + "\n");
@@ -130,6 +133,7 @@ public class UserIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);

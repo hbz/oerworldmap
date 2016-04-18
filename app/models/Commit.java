@@ -19,6 +19,8 @@ public interface Commit {
 
     void unapply(Object model);
 
+    void append(Diff diff);
+
     Diff reverse();
 
     List<Line> getLines();

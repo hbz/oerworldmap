@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -112,12 +113,74 @@ public class BaseRepository extends Repository
 
   }
 
+  /**
+   * Add several resources, using a single commit.
+   * @param aResources  The resources to add
+   * @param aMetadata   The commit metadata
+   * @throws IOException
+   */
+  @Override
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+
+    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
+    }
+    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    }
+
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+
+    Commit.Diff diff = mTriplestoreRepository.getDiff(aResources);
+    Commit commit = new TripleCommit(header, diff);
+
+    mTriplestoreRepository.commit(commit);
+    mIndexQueue.tell(commit, mIndexQueue);
+
+  }
+
+  /**
+   * As opposed to {@link #addResources}, this method imports resources using individual commits with metadata
+   * extracted from a document surrounding the actual resource.
+   * @param aResources  The resources to import
+   * @throws IOException
+   */
+  public void importResources(@Nonnull List<Resource> aResources) throws IOException {
+
+    Map<String, String> aMetadata = new HashMap<>();
+
+    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
+    }
+    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
+      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    }
+
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+
+    List<Commit> commits = new ArrayList<>();
+    for (Resource resource : aResources) {
+      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
+      Commit commit = new TripleCommit(header, diff);
+      commits.add(commit);
+    }
+    mTriplestoreRepository.commit(commits);
+    for (Commit commit : commits) {
+      mIndexQueue.tell(commit, mIndexQueue);
+    }
+
+  }
+
   public ProcessingReport validateAndAdd(Resource aResource, Map<String, String> aMetadata) throws IOException {
 
     Resource staged = mTriplestoreRepository.stage(aResource);
     ProcessingReport processingReport = staged.validate();
     if (processingReport.isSuccess()) {
       addResource(aResource, aMetadata);
+    } else {
+      Logger.debug(staged.toString());
     }
     return processingReport;
 
@@ -189,6 +252,11 @@ public class BaseRepository extends Repository
   @Override
   public Commit.Diff getDiff(Resource aResource) {
     return mTriplestoreRepository.getDiff(aResource);
+  }
+
+  @Override
+  public Commit.Diff getDiff(List<Resource> aResources) {
+    return mTriplestoreRepository.getDiff(aResources);
   }
 
 }

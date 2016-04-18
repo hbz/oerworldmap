@@ -162,6 +162,11 @@ public class TripleCommit implements Commit {
     }
 
     @Override
+    public void append(Commit.Diff diff) {
+      mLines.addAll(diff.getLines());
+    }
+
+    @Override
     public void unapply(Object model) {
       unapply((Model) model);
     }

@@ -14,6 +14,8 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -115,6 +117,28 @@ public class ElasticsearchProvider {
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
     mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
         .actionGet();
+  }
+
+  /**
+   * Add documents consisting of JSON Strings specified by a given UUID and a
+   * given type.
+   *
+   * @param aJsonStringIdMap
+   */
+  public void addJson(final Map<String, String> aJsonStringIdMap, final String aType) {
+
+    BulkRequestBuilder bulkRequest = mClient.prepareBulk();
+    for (Map.Entry<String, String> entry : aJsonStringIdMap.entrySet()) {
+      String id = entry.getKey();
+      String json = entry.getValue();
+      bulkRequest.add(mClient.prepareIndex(mConfig.getIndex(), aType, id).setSource(json));
+    }
+
+    BulkResponse bulkResponse = bulkRequest.execute().actionGet();
+    if (bulkResponse.hasFailures()) {
+      Logger.error(bulkResponse.buildFailureMessage());
+    }
+
   }
 
   /**

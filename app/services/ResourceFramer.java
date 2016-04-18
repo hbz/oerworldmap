@@ -72,7 +72,6 @@ public class ResourceFramer {
         if (types.hasNext()) {
           String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
           String type = URLEncoder.encode(types.next().toString(), StandardCharsets.UTF_8.toString());
-          Logger.debug(type);
           F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
               .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
 
@@ -83,9 +82,6 @@ public class ResourceFramer {
       dbstate.leaveCriticalSection();
       aModel.leaveCriticalSection();
     }
-
-    // Logger.debug("Not type found for " + aId);
-    // Logger.debug("Model " + aModel);
 
     return null;
 

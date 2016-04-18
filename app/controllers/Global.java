@@ -48,7 +48,7 @@ public class Global extends GlobalSettings {
     } else {
       Locale.setDefault(new Locale("en"));
     }
-    Logger.info("Language is " + Locale.getDefault());
+    //Logger.info("Language is " + Locale.getDefault());
     return super.onRequest(request, actionMethod);
   }
 

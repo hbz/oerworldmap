@@ -3,6 +3,7 @@ package services;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QueryParseException;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -16,8 +17,10 @@ import play.Logger;
 import services.repository.Writable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,9 +69,11 @@ public class ResourceIndexer {
     String filter = String.join(" || ", scope.stream().map(id -> "?s = <".concat(id).concat(">"))
       .collect(Collectors.toSet()));
 
+    String query = String.format(SCOPE_QUERY_TEMPLATE, filter);
+
     mDb.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(String.format(SCOPE_QUERY_TEMPLATE, filter)), mDb)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
         ResultSet rs = queryExecution.execSelect();
         while (rs.hasNext()) {
           QuerySolution qs = rs.next();
@@ -79,10 +84,14 @@ public class ResourceIndexer {
             scope.add(qs.get("s2").toString());
           }
         }
+      } catch (QueryParseException e) {
+        Logger.error(query);
       }
     } finally {
       mDb.leaveCriticalSection();
     }
+
+    Logger.debug("Indexing scope is " + scope);
 
     return scope;
 
@@ -109,17 +118,23 @@ public class ResourceIndexer {
 
   public void index(Commit commit) {
     Commit.Diff diff = commit.getDiff();
+    Logger.debug("Indexing");
     Set<Resource> denormalizedResources = getResources(diff);
     Map<String, String> metadata = commit.getHeader().toMap();
+    List<Resource> resourcesToIndex = new ArrayList<>();
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
-        try {
-          mTargetRepo.addResource(dnr, metadata);
-        } catch (IOException e) {
-          Logger.error("Could not index commit", e);
-        }
+        resourcesToIndex.add(dnr);
       }
     }
+    if (!resourcesToIndex.isEmpty()) {
+      try {
+        mTargetRepo.addResources(resourcesToIndex, metadata);
+      } catch (IOException e) {
+        Logger.error("Could not index commit", e);
+      }
+    }
+    Logger.debug("Done indexing");
   }
 
 }

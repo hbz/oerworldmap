@@ -15,6 +15,8 @@ public interface Versionable {
 
   Commit.Diff getDiff(Resource aResource);
 
+  Commit.Diff getDiff(List<Resource> aResources);
+
   Resource stage(Resource aResource) throws IOException;
 
   List<Commit> log(String aId);

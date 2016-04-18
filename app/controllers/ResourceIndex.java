@@ -84,6 +84,18 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
+  public static Result bulkImport() throws IOException {
+    JsonNode json = request().body().asJson();
+    List<Resource> resources = new ArrayList<>();
+    if (json.isArray()) {
+      for (JsonNode node : json) {
+        resources.add(Resource.fromJson(node));
+      }
+    }
+    mBaseRepository.addResources(resources, new HashMap<>());
+    return ok("Bulk of ".concat(Integer.toString(resources.size())).concat(" imported."));
+  }
+
   public static Result create() throws IOException {
     boolean isJsonRequest = true;
     JsonNode json = request().body().asJson();
@@ -96,6 +108,7 @@ public class ResourceIndex extends OERWorldMap {
       isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
+    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
 
     // Person create through UserIndex, which is restricted to admin
     if ("Person".equals(resource.getAsString(JsonLdConstants.TYPE))) {
@@ -125,6 +138,7 @@ public class ResourceIndex extends OERWorldMap {
         return badRequest(render("Create failed", "feedback.mustache", scope, messages));
       }
     }
+
     response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
     if (isJsonRequest) {
       return created("Created " + id + "\n");

@@ -35,9 +35,23 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aResource
    * @param aMetadata
    */
+  @Override
   public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
+  }
+
+  /**
+   * Add a new resource to the repository.
+   *
+   * @param aResources
+   * @param aMetadata
+   */
+  @Override
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+    for (Resource resource : aResources) {
+      addResource(resource, aMetadata);
+    }
   }
 
   /**

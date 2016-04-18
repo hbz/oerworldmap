@@ -51,6 +51,11 @@ public class FileRepository extends Repository implements Writable, Readable {
     Files.write(file, aResource.toString().getBytes());
   }
 
+  @Override
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Get a Resource specified by the given identifier.
    *

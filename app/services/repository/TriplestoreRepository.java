@@ -136,6 +136,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    Commit.Diff diff = getDiff(aResources);
+
+    commit(new TripleCommit(header, diff));
+
+  }
+
+  @Override
   public void commit(Commit commit) throws IOException {
 
     mDb.enterCriticalSection(Lock.WRITE);
@@ -149,6 +160,22 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     mGraphHistory.add(commit);
 
   }
+
+  public void commit(List<Commit> commits) throws IOException {
+
+    mDb.enterCriticalSection(Lock.WRITE);
+    try {
+      for (Commit commit : commits) {
+        commit.getDiff().apply(mDb);
+        mGraphHistory.add(commit);
+      }
+      TDB.sync(mDb);
+    } finally {
+      mDb.leaveCriticalSection();
+    }
+
+  }
+
   @Override
   public Resource stage(Resource aResource) throws IOException {
 
@@ -200,6 +227,19 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return dbstate;
+
+  }
+
+  @Override
+  public Commit.Diff getDiff(@Nonnull List<Resource> aResources) {
+
+    Commit.Diff diff = new TripleCommit.Diff();
+
+    for (Resource resource : aResources) {
+      diff.append(getDiff(resource));
+    }
+
+    return diff;
 
   }
 

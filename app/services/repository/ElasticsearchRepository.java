@@ -2,14 +2,13 @@ package services.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -52,21 +51,29 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
-    String id = aResource.getAsString(JsonLdConstants.ID);
-    if (StringUtils.isEmpty(id)) {
-      id = UUID.randomUUID().toString();
-    }
-    id = id.concat(".").concat(Record.RESOURCE_KEY);
     Record record = new Record(aResource);
     record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
     record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
-    elasticsearch.addJson(record.toString(), id, aResource.getAsString(JsonLdConstants.TYPE));
+    elasticsearch.addJson(record.toString(), record.getId(), Record.TYPE);
+    elasticsearch.refreshIndex(elasticsearch.getIndex());
+  }
+
+  @Override
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+    Map<String, String> records = new HashMap<>();
+    for (Resource resource : aResources) {
+      Record record = new Record(resource);
+      record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
+      record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
+      records.put(record.getId(), record.toString());
+    }
+    elasticsearch.addJson(records, Record.TYPE);
     elasticsearch.refreshIndex(elasticsearch.getIndex());
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return unwrapRecord(Resource.fromMap(elasticsearch.getDocument("_all", aId)));
+    return unwrapRecord(Resource.fromMap(elasticsearch.getDocument(Record.TYPE, aId)));
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
@@ -80,7 +87,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
     List<Resource> resources = new ArrayList<>();
-    for (Map<String, Object> doc : elasticsearch.getAllDocs(aType)) {
+    for (Map<String, Object> doc : elasticsearch.getResources(Record.RESOURCE_KEY.concat(".")
+        .concat(JsonLdConstants.TYPE), aType)) {
       resources.add(Resource.fromMap(doc));
     }
     return unwrapRecords(resources);
@@ -92,9 +100,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (null == resource) {
       return null;
     }
-    String type = resource.get(JsonLdConstants.TYPE).toString();
-    Logger.debug("DELETING " + type + ": " + aId);
-    boolean found = elasticsearch.deleteDocument(type, aId);
+    Logger.debug("DELETING " + aId);
+    boolean found = elasticsearch.deleteDocument(Record.TYPE, resource.getId());
     elasticsearch.refreshIndex(elasticsearch.getIndex());
     if (found) {
       return resource;
