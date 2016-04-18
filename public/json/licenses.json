@@ -1,26 +1,20 @@
 {
-  "@context": {
-    "@vocab": "http://www.w3.org/2004/02/skos/core#",
-    "image": {
-      "@id": "http://schema.org/image",
-      "@type": "@id"
-    }
-  },
-  "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json", 
+  "@context": "http://www.w3.org/2004/02/skos/core#",
+  "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json",
   "@type": "ConceptScheme",
   "hasTopConcept": [
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc0", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc0",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Public Domain Dedication", 
+          "@value": "Creative Commons Public Domain Dedication",
           "@language": "en"
         }
       ],
       "alternateName": [
         {
-          "@value": "CC0", 
+          "@value": "CC0",
           "@language": "en"
         }
       ],
@@ -28,260 +22,260 @@
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Attribution", 
+          "@value": "Creative Commons Attribution",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "CC-By", 
+          "@value": "CC-By",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Attribution Share-Alike", 
+          "@value": "Creative Commons Attribution Share-Alike",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "CC-By-SA", 
+          "@value": "CC-By-SA",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-sa.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Attribution Non-Commercial", 
+          "@value": "Creative Commons Attribution Non-Commercial",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "CC-By-NC", 
+          "@value": "CC-By-NC",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-sa", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-sa",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Attribution Non-Commercial Share-Alike", 
+          "@value": "Creative Commons Attribution Non-Commercial Share-Alike",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "CC By-NC-SA", 
+          "@value": "CC By-NC-SA",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nd", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nd",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Attribution No-Derivatives", 
+          "@value": "Creative Commons Attribution No-Derivatives",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "CC-By-ND", 
+          "@value": "CC-By-ND",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nd.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-nd", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-nd",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Creative Commons Attribution Non-Commercial No-Derivatives", 
+          "@value": "Creative Commons Attribution Non-Commercial No-Derivatives",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "CC By-NC-ND", 
+          "@value": "CC By-NC-ND",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-by", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-by",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Other (Attribution)", 
+          "@value": "Other (Attribution)",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "Non-CC Attribution License", 
+          "@value": "Non-CC Attribution License",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/icons/cc.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-sa", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-sa",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Other (Share-Alike)", 
+          "@value": "Other (Share-Alike)",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "Non-CC Share-Alike License", 
+          "@value": "Non-CC Share-Alike License",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/icons/sa.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nc", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nc",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Other (Non-Commercial)", 
+          "@value": "Other (Non-Commercial)",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "Non-CC Non-Commercial License", 
+          "@value": "Non-CC Non-Commercial License",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/icons/nc.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nd", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nd",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Other (No-Derivatives)", 
+          "@value": "Other (No-Derivatives)",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "Non-CC No-Derivatives License", 
+          "@value": "Non-CC No-Derivatives License",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "http://mirrors.creativecommons.org/presskit/icons/nd.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified", 
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified",
       "@type": "Concept",
       "name": [
         {
-          "@value": "Unspecified", 
+          "@value": "Unspecified",
           "@language": "en"
         }
-      ], 
+      ],
       "alternateName": [
         {
-          "@value": "License not specified", 
+          "@value": "License not specified",
           "@language": "en"
         }
-      ], 
+      ],
       "image": "https://cdn0.iconfinder.com/data/icons/glyphpack/34/question-circle-64.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
-      "inScheme": { 
+      "inScheme": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       }
     }
