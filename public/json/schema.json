@@ -108,6 +108,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
         }
       },
       "additionalProperties": false
