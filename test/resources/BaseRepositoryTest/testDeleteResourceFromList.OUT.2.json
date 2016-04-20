@@ -20,7 +20,7 @@
   } ],
   "availableChannel" : [ {
     "serviceUrl" : "https://github.com/edoweb/regal-drupal",
-    "availableLanguage" : "en"
+    "availableLanguage" : [ "en" ]
   } ],
   "@type" : "Service",
   "name" : [ {
