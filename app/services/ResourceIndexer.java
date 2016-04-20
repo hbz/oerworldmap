@@ -35,8 +35,7 @@ public class ResourceIndexer {
 
   private final static String SCOPE_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s1 ?s2 WHERE {" +
-    "    ?s1 ?p1 ?s ." +
-    "    FILTER (%1$s) ." +
+    "    ?s1 ?p1 <%1$s> ." +
     "    OPTIONAL { ?s2 ?p2 ?s1 . } ." +
     "}";
 
@@ -49,51 +48,53 @@ public class ResourceIndexer {
 
   public Set<String> getScope(Commit.Diff aDiff) {
 
-    Set<String> scope = new HashSet<>();
+    Set<String> commitScope = new HashSet<>();
+    Set<String> indexScope = new HashSet<>();
 
     if (aDiff.getLines().isEmpty()) {
-      return scope;
+      return commitScope;
     }
 
     for (Commit.Diff.Line line : aDiff.getLines()) {
       RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
       RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
       if (subject.isURIResource()) {
-        scope.add(subject.toString());
+        commitScope.add(subject.toString());
       }
       if (object.isURIResource()) {
-        scope.add(object.toString());
+        commitScope.add(object.toString());
       }
     }
 
-    String filter = String.join(" || ", scope.stream().map(id -> "?s = <".concat(id).concat(">"))
-      .collect(Collectors.toSet()));
-
-    String query = String.format(SCOPE_QUERY_TEMPLATE, filter);
+    indexScope.addAll(commitScope);
 
     mDb.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
-        ResultSet rs = queryExecution.execSelect();
-        while (rs.hasNext()) {
-          QuerySolution qs = rs.next();
-          if (qs.contains("s1")) {
-            scope.add(qs.get("s1").toString());
+      for (String id : commitScope) {
+        String query = String.format(SCOPE_QUERY_TEMPLATE, id);
+        Logger.debug(query);
+        try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
+          ResultSet rs = queryExecution.execSelect();
+          while (rs.hasNext()) {
+            QuerySolution qs = rs.next();
+            if (qs.contains("s1")) {
+              indexScope.add(qs.get("s1").toString());
+            }
+            if (qs.contains("s2")) {
+              indexScope.add(qs.get("s2").toString());
+            }
           }
-          if (qs.contains("s2")) {
-            scope.add(qs.get("s2").toString());
-          }
+        } catch (QueryParseException e) {
+          Logger.error(query);
         }
-      } catch (QueryParseException e) {
-        Logger.error(query);
       }
     } finally {
       mDb.leaveCriticalSection();
     }
 
-    Logger.debug("Indexing scope is " + scope);
+    Logger.debug("Indexing scope is " + indexScope);
 
-    return scope;
+    return indexScope;
 
   }
 
@@ -119,6 +120,7 @@ public class ResourceIndexer {
   public void index(Commit commit) {
     Commit.Diff diff = commit.getDiff();
     Logger.debug("Indexing");
+    long startTime = System.nanoTime();
     Set<Resource> denormalizedResources = getResources(diff);
     Map<String, String> metadata = commit.getHeader().toMap();
     List<Resource> resourcesToIndex = new ArrayList<>();
@@ -134,7 +136,9 @@ public class ResourceIndexer {
         Logger.error("Could not index commit", e);
       }
     }
-    Logger.debug("Done indexing");
+    long endTime = System.nanoTime();
+    long duration = (endTime - startTime) / 1000000000;
+    Logger.debug("Done indexing, took ".concat(Long.toString(duration)).concat(" sec."));
   }
 
 }
