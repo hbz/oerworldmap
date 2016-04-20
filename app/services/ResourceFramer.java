@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.jena.riot.Lang;
@@ -84,6 +86,22 @@ public class ResourceFramer {
     }
 
     return null;
+
+  }
+
+  public static List<Resource> flatten(Resource resource) throws IOException {
+
+    F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/flatten/")
+      .post(resource.toJson()).map(WSResponse::asJson);
+
+    JsonNode results = promise.get(Integer.MAX_VALUE);
+
+    List<Resource> resources = new ArrayList<>();
+    for (JsonNode result : results) {
+      resources.add(Resource.fromJson(result));
+    }
+
+    return resources;
 
   }
 

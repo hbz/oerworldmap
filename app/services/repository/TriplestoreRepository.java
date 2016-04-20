@@ -303,6 +303,36 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   }
 
+  public Commit.Diff getDiffs(@Nonnull Resource aResource) {
+
+    List<Resource> resources = new ArrayList<>();
+    try {
+      resources = ResourceFramer.flatten(aResource);
+    } catch (IOException e) {
+      Logger.error("Failed to flatten resource", e);
+    }
+
+    TripleCommit.Diff diff = new TripleCommit.Diff();
+    for (Resource resource : resources) {
+      diff.append(getDiff(resource));
+    }
+
+    return diff;
+
+  }
+
+  public Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
+
+    Commit.Diff diff = new TripleCommit.Diff();
+
+    for (Resource resource : aResources) {
+      diff.append(getDiffs(resource));
+    }
+
+    return diff;
+
+  }
+
   @Override
   public Resource deleteResource(@Nonnull String aId) throws IOException {
 

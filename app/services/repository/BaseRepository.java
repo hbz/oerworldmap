@@ -105,6 +105,8 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
+    // TODO: decide if importing embedded resources should be default behavior, currently only the CBD is extracted
+    // Commit.Diff diff = mTriplestoreRepository.getDiffs(aResource);
     Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
 
@@ -132,6 +134,8 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
+    // TODO: decide if importing embedded resources should be default behavior, currently only the CBD is extracted
+    // Commit.Diff diff = mTriplestoreRepository.getDiffs(aResources);
     Commit.Diff diff = mTriplestoreRepository.getDiff(aResources);
     Commit commit = new TripleCommit(header, diff);
 
