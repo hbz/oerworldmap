@@ -5,7 +5,7 @@
     {{#property}}
         <fieldset>
             <legend>{{title}}</legend>
-            {{input (stringFormat "%s[%s][serviceUrl]" key @index) serviceUrl type="url"}}
+            {{input (stringFormat "%s[%s][serviceUrl]" key @index) serviceUrl input_type="url"}}
             <ul title="Available language" class="multiple-list">
                 {{#availableLanguage}}
                     <li class="multiple-one">{{input (stringFormat "%s[%s][availableLanguage][%s]" key ../@index @index) .}}</li>
@@ -17,7 +17,7 @@
     {{^property}}
         <fieldset>
             <legend>{{title}}</legend>
-            {{input (stringFormat "%s[0][serviceUrl]" key)  "" type="url"}}
+            {{input (stringFormat "%s[0][serviceUrl]" key)  "" input_type="url"}}
             <ul title="Available language" class="multiple-list">
                 <li class="multiple-one">{{input (stringFormat "%s[0][availableLanguage][0]" key) ""}}</li>
             </ul>
