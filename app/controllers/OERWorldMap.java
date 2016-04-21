@@ -18,7 +18,9 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.config.Config;
+import helpers.JSONForm;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -169,6 +171,24 @@ public abstract class OERWorldMap extends Controller {
   protected static BaseRepository getRepository() {
     return mBaseRepository;
   }
+
+  /**
+   * Get resource from JSON body or form data
+   * @return The JSON node
+   */
+  protected static JsonNode getJsonFromRequest() {
+
+    JsonNode jsonNode = request().body().asJson();
+    if (jsonNode == null) {
+      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
+      if (formUrlEncoded != null) {
+        jsonNode = JSONForm.parseFormData(formUrlEncoded, true);
+      }
+    }
+    return jsonNode;
+
+  }
+
 
   private static String getClientTemplates() {
 

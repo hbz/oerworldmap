@@ -16,10 +16,13 @@ import akka.actor.ActorSystem;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.tdb.TDBFactory;
+import com.sun.org.apache.regexp.internal.RE;
 import com.typesafe.config.ConfigException;
 import models.Commit;
 import models.GraphHistory;
+import models.Record;
 import models.TripleCommit;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
@@ -92,6 +95,14 @@ public class BaseRepository extends Repository
 
   }
 
+  /**
+   * Add CBD of a resource.
+   * @param aResource
+   *          The resource to be added
+   * @param aMetadata
+   *          The metadata to use
+   * @throws IOException
+   */
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
 
@@ -105,8 +116,6 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
-    // TODO: decide if importing embedded resources should be default behavior, currently only the CBD is extracted
-    // Commit.Diff diff = mTriplestoreRepository.getDiffs(aResource);
     Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
 
@@ -116,9 +125,11 @@ public class BaseRepository extends Repository
   }
 
   /**
-   * Add several resources, using a single commit.
-   * @param aResources  The resources to add
-   * @param aMetadata   The commit metadata
+   * Add several CBDs of resources, using individual commits.
+   * @param aResources
+   *          The resources to be added
+   * @param aMetadata
+   *          The metadata to use
    * @throws IOException
    */
   @Override
@@ -134,13 +145,16 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
-    // TODO: decide if importing embedded resources should be default behavior, currently only the CBD is extracted
-    // Commit.Diff diff = mTriplestoreRepository.getDiffs(aResources);
-    Commit.Diff diff = mTriplestoreRepository.getDiff(aResources);
-    Commit commit = new TripleCommit(header, diff);
+    List<Commit> commits = new ArrayList<>();
+    Commit.Diff indexDiff = new TripleCommit.Diff();
+    for (Resource resource : aResources) {
+      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
+      indexDiff.append(diff);
+      commits.add(new TripleCommit(header, diff));
+    }
 
-    mTriplestoreRepository.commit(commit);
-    mIndexQueue.tell(commit, mIndexQueue);
+    mTriplestoreRepository.commit(commits);
+    mIndexQueue.tell(new TripleCommit(header, indexDiff), mIndexQueue);
 
   }
 
@@ -174,19 +188,6 @@ public class BaseRepository extends Repository
     for (Commit commit : commits) {
       mIndexQueue.tell(commit, mIndexQueue);
     }
-
-  }
-
-  public ProcessingReport validateAndAdd(Resource aResource, Map<String, String> aMetadata) throws IOException {
-
-    Resource staged = mTriplestoreRepository.stage(aResource);
-    ProcessingReport processingReport = staged.validate();
-    if (processingReport.isSuccess()) {
-      addResource(aResource, aMetadata);
-    } else {
-      Logger.debug(staged.toString());
-    }
-    return processingReport;
 
   }
 

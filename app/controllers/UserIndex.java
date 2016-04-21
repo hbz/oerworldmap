@@ -75,8 +75,19 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result create() throws IOException {
-    boolean isJsonRequest = true;
+  private static Result upsertUser(String aId) throws IOException {
+
+    boolean update = StringUtils.isNotEmpty(aId);
+
+    // If updating a resource, check if it actually exists
+    if (update) {
+      Resource originalResource = mBaseRepository.getResource(aId);
+      if (originalResource == null) {
+        return notFound("Not found");
+      }
+    }
+
+    // Get resource from JSON body or form data
     JsonNode json = request().body().asJson();
     if (null == json) {
       Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
@@ -84,78 +95,50 @@ public class UserIndex extends OERWorldMap {
         return badRequest("Empty request body");
       }
       json = JSONForm.parseFormData(formUrlEncoded, true);
-      isJsonRequest = false;
     }
     Resource resource = Resource.fromJson(json);
     resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
 
-    String id = resource.getAsString(JsonLdConstants.ID);
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(Locale.getDefault()));
-      if (isJsonRequest) {
-        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
-      } else {
-        List<Map<String, Object>> messages = new ArrayList<>();
-        HashMap<String, Object> message = new HashMap<>();
-        message.put("level", "warning");
-        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
-          + "<pre>" + resource + "</pre>");
-        messages.add(message);
-        return badRequest(render("Create failed", "feedback.mustache", scope, messages));
-      }
+    // Check if id of updated resource matches URL parameter
+    if (update && !aId.equals(resource.getId())) {
+      return badRequest("Invalid ID");
     }
 
-    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
-    if (isJsonRequest) {
-      return created("Created " + id + "\n");
-    } else {
-      return created(render("Created", "created.mustache", scope));
+    // Only person create /update through UserIndex, which is restricted to admin
+    if (!"Person".equals(resource.getType())) {
+      return forbidden((update ? "Update" : "Create").concat(" ").concat(resource.getType()).concat(" forbidden."));
     }
+
+    ProcessingReport processingReport = mBaseRepository.stage(resource).validate();
+    if (!processingReport.isSuccess()) {
+      return badRequest("Failed to".concat((update ? " update " : " create ")).concat(resource.getId()).concat("\n")
+        .concat(processingReport.toString()).concat("\n"));
+    }
+
+    mBaseRepository.addResource(resource, new HashMap<>());
+    if (update) {
+      return ok("Updated " + resource.getId() + "\n");
+    } else {
+      response().setHeader(LOCATION, routes.UserIndex.read(resource.getId()).absoluteURL(request()));
+      return created("Created " + resource.getId() + "\n");
+    }
+
+  }
+
+  public static Result addUser() throws IOException {
+
+    return updateUser(null);
+
+  }
+
+  public static Result updateUser(String aId) throws IOException {
+
+    return upsertUser(aId);
+
   }
 
   public static Result read(String id) throws IOException {
     return ResourceIndex.read(id);
-  }
-
-  public static Result update(String id) throws IOException {
-    Resource originalResource = mBaseRepository.getResource(id);
-    if (originalResource == null) {
-      return badRequest("missing resource " + id);
-    }
-
-    boolean isJsonRequest = true;
-    JsonNode json = request().body().asJson();
-    if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
-      isJsonRequest = false;
-    }
-    Resource resource = Resource.fromJson(json);
-    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(Locale.getDefault()));
-      if (isJsonRequest) {
-        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
-      } else {
-        List<Map<String, Object>> messages = new ArrayList<>();
-        HashMap<String, Object> message = new HashMap<>();
-        message.put("level", "warning");
-        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
-          + "<pre>" + resource + "</pre>");
-        messages.add(message);
-        return badRequest(render("Update failed", "feedback.mustache", scope, messages));
-      }
-    }
-    if (isJsonRequest) {
-      return ok("Updated " + id + "\n");
-    } else {
-      return ok(render("Updated", "updated.mustache", scope));
-    }
   }
 
   public static Result delete(String id) throws IOException {

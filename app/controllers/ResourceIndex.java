@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.sun.org.apache.regexp.internal.RE;
 import models.Commit;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -19,12 +24,14 @@ import org.json.simple.parser.ParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 
-import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
+import play.Logger;
 import play.mvc.Result;
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 import services.QueryContext;
 
 import services.AggregationProvider;
@@ -96,56 +103,102 @@ public class ResourceIndex extends OERWorldMap {
     return ok("Bulk of ".concat(Integer.toString(resources.size())).concat(" imported."));
   }
 
-  public static Result create() throws IOException {
-    boolean isJsonRequest = true;
-    JsonNode json = request().body().asJson();
-    if (null == json) {
-      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
-      if (null == formUrlEncoded) {
-        return badRequest("Empty request body");
-      }
-      json = JSONForm.parseFormData(formUrlEncoded, true);
-      isJsonRequest = false;
+  public static Result addResource() throws IOException {
+
+    JsonNode jsonNode = getJsonFromRequest();
+
+    if (jsonNode == null || (!jsonNode.isArray() && !jsonNode.isObject())) {
+      return badRequest("Bad or empty JSON");
+    } else if (jsonNode.isArray()) {
+      return upsertResources();
+    } else {
+      return upsertResource(false);
     }
-    Resource resource = Resource.fromJson(json);
+
+  }
+
+  public static Result updateResource(String aId) throws IOException {
+
+    // If updating a resource, check if it actually exists
+    Resource originalResource = mBaseRepository.getResource(aId);
+    if (originalResource == null) {
+      return notFound("Not found: ".concat(aId));
+    }
+
+    return upsertResource(true);
+
+  }
+
+  private static Result upsertResource(boolean isUpdate) throws IOException {
+
+    // Extract resource
+    Resource resource = Resource.fromJson(getJsonFromRequest());
     resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
 
-    // Person create through UserIndex, which is restricted to admin
-    if ("Person".equals(resource.getAsString(JsonLdConstants.TYPE))) {
-      List<Map<String, Object>> messages = new ArrayList<>();
-      HashMap<String, Object> message = new HashMap<>();
-      message.put("level", "warning");
-      message.put("message", "Forbidden");
-      messages.add(message);
-      return forbidden(render("Update failed", "feedback.mustache", resource, messages));
+    // Person create /update only through UserIndex, which is restricted to admin
+    if ("Person".equals(resource.getType())) {
+      return forbidden("Upsert Person forbidden.");
     }
 
-    String id = resource.getAsString(JsonLdConstants.ID);
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(Locale.getDefault()));
-      if (isJsonRequest) {
-        return badRequest("Failed to create " + id + "\n" + report.toString() + "\n");
-      } else {
-        List<Map<String, Object>> messages = new ArrayList<>();
-        HashMap<String, Object> message = new HashMap<>();
-        message.put("level", "warning");
-        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
-          + "<pre>" + resource + "</pre>");
-        messages.add(message);
-        return badRequest(render("Create failed", "feedback.mustache", scope, messages));
+    // Validate
+    ProcessingReport processingReport = mBaseRepository.stage(resource).validate();
+    if (!processingReport.isSuccess()) {
+      return badRequest(processingReport.toString());
+    }
+
+    // Save
+    mBaseRepository.addResource(resource, new HashMap<>());
+
+    // Respond
+    if (isUpdate) {
+      return ok("Updated " + resource.getId() + "\n");
+    } else {
+      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId()).absoluteURL(request()));
+      return created("Created " + resource.getId() + "\n");
+    }
+
+  }
+
+  private static Result upsertResources() throws IOException {
+
+    // Extract resources
+    List<Resource> resources = new ArrayList<>();
+    for (JsonNode jsonNode : getJsonFromRequest()) {
+      Resource resource = Resource.fromJson(jsonNode);
+      resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+      resources.add(resource);
+    }
+
+    // Validate
+    ListProcessingReport listProcessingReport = new ListProcessingReport();
+    for (Resource resource : resources) {
+      // Person create /update only through UserIndex, which is restricted to admin
+      if ("Person".equals(resource.getType())) {
+        return forbidden("Upsert Person forbidden.");
+      }
+      // Stage and validate each resource
+      try {
+        ProcessingReport processingMessages = mBaseRepository.stage(resource).validate();
+        if (!processingMessages.isSuccess()) {
+          Logger.debug(mBaseRepository.stage(resource).toString());
+        }
+        listProcessingReport.mergeWith(processingMessages);
+      } catch (ProcessingException e) {
+        Logger.error("Validation error", e);
+        return badRequest();
       }
     }
 
-    response().setHeader(LOCATION, routes.ResourceIndex.create().absoluteURL(request()).concat(id));
-    if (isJsonRequest) {
-      return created("Created " + id + "\n");
-    } else {
-      return created(render("Created", "created.mustache", scope));
+    if (!listProcessingReport.isSuccess()) {
+      return badRequest(listProcessingReport.toString());
     }
+
+    mBaseRepository.addResources(resources, new HashMap<>());
+
+    return ok("Added resources");
+
   }
+
 
   public static Result read(String id) throws IOException {
     Resource resource;
@@ -194,62 +247,6 @@ public class ResourceIndex extends OERWorldMap {
       return ok(render(title, "ResourceIndex/" + type + "/read.mustache", resource));
     } else {
       return ok(resource.toString()).as("application/json");
-    }
-  }
-
-  /**
-   * This method is designed to add information to existing resources. If the
-   * resource doesn't exist yet, a bad request response is returned
-   *
-   * @param id
-   *          The ID of the resource to update
-   * @throws IOException
-   */
-  public static Result update(String id) throws IOException {
-    Resource originalResource = mBaseRepository.getResource(id);
-    if (originalResource == null) {
-      return badRequest("missing resource " + id);
-    }
-
-    boolean isJsonRequest = true;
-    JsonNode json = request().body().asJson();
-    if (null == json) {
-      json = JSONForm.parseFormData(request().body().asFormUrlEncoded(), true);
-      isJsonRequest = false;
-    }
-    Resource resource = Resource.fromJson(json);
-
-    // Person update through UserIndex, which is restricted to owner
-    if ("Person".equals(resource.getAsString(JsonLdConstants.TYPE))) {
-      List<Map<String, Object>> messages = new ArrayList<>();
-      HashMap<String, Object> message = new HashMap<>();
-      message.put("level", "warning");
-      message.put("message", "Forbidden");
-      messages.add(message);
-      return forbidden(render("Update failed", "feedback.mustache", resource, messages));
-    }
-
-    ProcessingReport report = mBaseRepository.validateAndAdd(resource, new HashMap<>());
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(Locale.getDefault()));
-      if (isJsonRequest) {
-        return badRequest("Failed to update " + id + "\n" + report.toString() + "\n");
-      } else {
-        List<Map<String, Object>> messages = new ArrayList<>();
-        HashMap<String, Object> message = new HashMap<>();
-        message.put("level", "warning");
-        message.put("message", OERWorldMap.messages.getString("schema_error")  + "<pre>" + report.toString() + "</pre>"
-          + "<pre>" + resource + "</pre>");
-        messages.add(message);
-        return badRequest(render("Update failed", "feedback.mustache", scope, messages));
-      }
-    }
-    if (isJsonRequest) {
-      return ok("Updated " + id + "\n");
-    } else {
-      return ok(render("Updated", "updated.mustache", scope));
     }
   }
 
