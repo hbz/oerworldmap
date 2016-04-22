@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.elasticsearch.common.geo.GeoPoint;
+import models.Record;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -198,6 +197,14 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       return ok(resource.toString()).as("application/json");
     }
+  }
+
+  public static Result export(String aId) {
+    Resource record = mBaseRepository.getRecord(aId);
+    if (null == record) {
+      return notFound("Not found");
+    }
+    return ok(record.toString()).as("application/json");
   }
 
   /**

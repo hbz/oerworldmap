@@ -137,6 +137,10 @@ public class BaseRepository extends Repository
     return resource;
   }
 
+  public Resource getRecord(@Nonnull String aId) {
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
+  }
+
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
     if (records != null) {
