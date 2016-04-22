@@ -284,4 +284,20 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
   }
 
+  @Test
+  public void testStageWithBnodeInSelfReference() throws IOException {
+
+    Resource resource = getResourceFromJsonFile(
+      "TriplestoreRepositoryTest/testStageWithSelfReference.IN.1.json");
+
+    Model actual = ModelFactory.createDefaultModel();
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
+    triplestoreRepository.addResource(resource, mMetadata);
+
+    Resource staged = triplestoreRepository.stage(resource);
+
+    assertEquals(resource, staged);
+
+  }
+
 }

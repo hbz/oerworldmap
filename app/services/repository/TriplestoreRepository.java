@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -199,8 +200,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
         String object = querySolution.get("o").toString();
-        Logger.debug(object);
-        dbstate.add(getResourceModel(object));
+        // Only add statements that don't have the original resource as their subject.
+        // dbstate.add(getResourceModel(object)) would be simpler, but mistakenly
+        // duplicates bnodes under certain circumstances.
+        // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
+        StmtIterator it = getResourceModel(object).listStatements();
+        while (it.hasNext()) {
+          Statement statement = it.next();
+          if (!statement.getSubject().toString().equals(aResource.getId())) {
+            dbstate.add(statement);
+          }
+        }
       }
     }
 
