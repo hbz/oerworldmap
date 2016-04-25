@@ -68,7 +68,7 @@ public class GraphHistoryTest {
     TripleCommit commit2 = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.2.ncommit"));
     mGraphHistory.add(commit1);
     mGraphHistory.add(commit2);
-    List<TripleCommit> commits = mGraphHistory.log();
+    List<Commit> commits = mGraphHistory.log();
     assertEquals(2, commits.size());
     assertEquals(commit1, commits.get(0));
     assertEquals(commit2, commits.get(1));

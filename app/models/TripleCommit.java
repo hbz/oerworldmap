@@ -2,14 +2,15 @@ package models;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RiotException;
-import play.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -205,7 +206,18 @@ public class TripleCommit implements Commit {
       StringWriter triple = new StringWriter();
 
       for (Commit.Diff.Line line : this.mLines) {
-        buffer.add(((Line) line).stmt).write(triple, mLang).removeAll();
+        Statement statement = ((Line) line).stmt;
+        Resource subject = statement.getSubject();
+        Property predicate = statement.getPredicate();
+        RDFNode object = statement.getObject();
+        if (subject.isAnon()) {
+          subject = ResourceFactory.createResource("_:".concat(subject.toString()));
+        }
+        if (object.isAnon()) {
+          object = ResourceFactory.createResource("_:".concat(object.toString()));
+        }
+        Statement skolemized = ResourceFactory.createStatement(subject, predicate, object);
+        buffer.add(skolemized).write(triple, mLang).removeAll();
         diffString.append((((Line) line).add ? "+ " : "- ").concat(triple.toString()));
         triple.getBuffer().setLength(0);
       }

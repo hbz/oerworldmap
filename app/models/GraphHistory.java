@@ -64,7 +64,7 @@ public class GraphHistory {
 
   }
 
-  public List<TripleCommit> log() {
+  public List<Commit> log() {
 
     List<String> commitIds;
 
@@ -74,7 +74,7 @@ public class GraphHistory {
       throw new RuntimeIOException(e);
     }
 
-    List<TripleCommit> commits = new ArrayList<>();
+    List<Commit> commits = new ArrayList<>();
 
     for (String commitId : commitIds) {
       File commitFile = new File(mCommitDir, commitId);

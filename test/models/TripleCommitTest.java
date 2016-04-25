@@ -4,12 +4,15 @@ import static org.junit.Assert.*;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RiotException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.ZonedDateTime;
 
 /**
@@ -128,6 +131,28 @@ public class TripleCommitTest {
       "centre of choice that  promotes the sovereignty of  Bahasa Melayu and internationalises knowledge rooted in " +
       "the national culture.\\r\\n\"@en .";
     TripleCommit.Diff diff = TripleCommit.Diff.fromString(diffline);
+  }
+
+  @Test
+  public void testBnodeRoundtrip() throws IOException {
+
+    Model in = ModelFactory.createDefaultModel();
+    RDFDataMgr.read(in, "TripleCommitTest/testBnodeRoundtrip.IN.1.nt", Lang.NTRIPLES);
+
+    StmtIterator it = in.listStatements();
+    TripleCommit.Diff diff = new TripleCommit.Diff();
+    while (it.hasNext()) {
+      diff.addStatement(it.next());
+    }
+
+    // Round trip
+    String diffString = diff.toString();
+    diff = TripleCommit.Diff.fromString(diffString);
+
+    Model actual = ModelFactory.createDefaultModel();
+    diff.apply(actual);
+    assertTrue(actual.isIsomorphicWith(in));
+
   }
 
 }
