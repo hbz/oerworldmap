@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import akka.actor.ActorSystem;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.tdb.TDBFactory;
-import com.sun.org.apache.regexp.internal.RE;
 import com.typesafe.config.ConfigException;
 import models.Commit;
 import models.GraphHistory;
@@ -26,8 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.typesafe.config.Config;
 
 import models.Resource;
@@ -58,8 +54,6 @@ public class BaseRepository extends Repository
       Logger.warn("No persistent TDB configured", e);
       dataset = DatasetFactory.createMem();
     }
-    mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo);
-    mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
 
     File commitDir = new File(aConfiguration.getString("graph.history.dir"));
     if (!commitDir.exists()) {
@@ -78,6 +72,8 @@ public class BaseRepository extends Repository
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
+    mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo, graphHistory);
+    mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
     mTriplestoreRepository = new TriplestoreRepository(aConfiguration, dataset.getDefaultModel(), graphHistory);
 
   }
@@ -160,34 +156,34 @@ public class BaseRepository extends Repository
 
   /**
    * As opposed to {@link #addResources}, this method imports resources using individual commits with metadata
-   * extracted from a document surrounding the actual resource.
-   * @param aResources  The resources to import
+   * extracted from a document surrounding the actual resource (a "record").
+   * @param aRecords
+   *          The resources to import
    * @throws IOException
    */
-  public void importResources(@Nonnull List<Resource> aResources) throws IOException {
-
-    Map<String, String> aMetadata = new HashMap<>();
-
-    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
-    }
-    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    }
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+  public void addRecords(@Nonnull List<Resource> aRecords) throws IOException {
 
     List<Commit> commits = new ArrayList<>();
-    for (Resource resource : aResources) {
+    Commit.Diff indexDiff = new TripleCommit.Diff();
+    for (Resource record : aRecords) {
+      String author = record.getAsString(Record.AUTHOR);
+      if (StringUtils.isEmpty(author)) {
+        author = "Anonymous";
+      }
+      ZonedDateTime date = ZonedDateTime.parse(record.getAsString(Record.DATE_CREATED));
+      if (date == null) {
+        date = ZonedDateTime.now();
+      }
+      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
+      resource.put("@context", "http://schema.org/");
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
-      Commit commit = new TripleCommit(header, diff);
+      Commit commit = new TripleCommit(new TripleCommit.Header(author, date), diff);
+      indexDiff.append(diff);
       commits.add(commit);
     }
+
     mTriplestoreRepository.commit(commits);
-    for (Commit commit : commits) {
-      mIndexQueue.tell(commit, mIndexQueue);
-    }
+    mIndexQueue.tell(indexDiff, mIndexQueue);
 
   }
 

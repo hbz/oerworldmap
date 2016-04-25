@@ -41,6 +41,7 @@ public class ResourceFramer {
 
   private static final NingWSClient mWSClient = new NingWSClient(new AsyncHttpClientConfig.Builder().build());
 
+  /*
   static {
     NodeEnvironment env = new NodeEnvironment();
     try {
@@ -52,6 +53,7 @@ public class ResourceFramer {
       Logger.error(e.toString());
     }
   }
+  */
 
   public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
 
@@ -68,6 +70,7 @@ public class ResourceFramer {
         ByteArrayOutputStream unframed = new ByteArrayOutputStream();
         RDFDataMgr.write(unframed, dbstate, Lang.JSONLD);
         unframed.close();
+        //aModel.write(System.out, "TURTLE");
 
         NodeIterator types = aModel.listObjectsOfProperty(aModel.createResource(aId), RDF.type);
 

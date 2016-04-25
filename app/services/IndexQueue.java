@@ -34,6 +34,9 @@ public class IndexQueue extends UntypedActor {
     if (aMessage instanceof Commit) {
       Commit commit = (Commit) aMessage;
       mResourceIndexer.index(commit);
+    } else if (aMessage instanceof Commit.Diff) {
+      Commit.Diff diff = (Commit.Diff) aMessage;
+      mResourceIndexer.index(diff);
     } else {
       unhandled(aMessage);
     }

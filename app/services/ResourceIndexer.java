@@ -10,20 +10,17 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.shared.Lock;
 import models.Commit;
-import models.Record;
+import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
 import play.Logger;
 import services.repository.Writable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by fo on 23.03.16.
@@ -32,6 +29,7 @@ public class ResourceIndexer {
 
   Model mDb;
   Writable mTargetRepo;
+  GraphHistory mGraphHistory;
 
   private final static String SCOPE_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s1 ?s2 WHERE {" +
@@ -39,10 +37,11 @@ public class ResourceIndexer {
     "    OPTIONAL { ?s2 ?p2 ?s1 . } ." +
     "}";
 
-  public ResourceIndexer(Model aDb, Writable aTargetRepo) {
+  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
 
     this.mDb = aDb;
     this.mTargetRepo = aTargetRepo;
+    this.mGraphHistory = aGraphHistory;
 
   }
 
@@ -72,7 +71,6 @@ public class ResourceIndexer {
     try {
       for (String id : commitScope) {
         String query = String.format(SCOPE_QUERY_TEMPLATE, id);
-        Logger.debug(query);
         try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
           ResultSet rs = queryExecution.execSelect();
           while (rs.hasNext()) {
@@ -104,7 +102,7 @@ public class ResourceIndexer {
     Set<String> idsToIndex = this.getScope(aDiff);
     for (String id : idsToIndex) {
       try {
-        Resource resource  = ResourceFramer.resourceFromModel(mDb, id);
+        Resource resource = ResourceFramer.resourceFromModel(mDb, id);
         if (resource != null) {
           resourcesToIndex.add(resource);
         }
@@ -119,21 +117,25 @@ public class ResourceIndexer {
 
   public void index(Commit commit) {
     Commit.Diff diff = commit.getDiff();
-    Logger.debug("Indexing");
+    index(diff);
+  }
+
+  public void index(Commit.Diff diff) {
     long startTime = System.nanoTime();
     Set<Resource> denormalizedResources = getResources(diff);
-    Map<String, String> metadata = commit.getHeader().toMap();
-    List<Resource> resourcesToIndex = new ArrayList<>();
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
-        resourcesToIndex.add(dnr);
-      }
-    }
-    if (!resourcesToIndex.isEmpty()) {
-      try {
-        mTargetRepo.addResources(resourcesToIndex, metadata);
-      } catch (IOException e) {
-        Logger.error("Could not index commit", e);
+        try {
+          Map<String, String> metadata;
+          if (mGraphHistory != null) {
+            metadata = mGraphHistory.log(dnr.getId()).get(0).getHeader().toMap();
+          } else {
+            metadata = new HashMap<>();
+          }
+          mTargetRepo.addResource(dnr, metadata);
+        } catch (IndexOutOfBoundsException | IOException e) {
+          Logger.error("Could not index commit", e);
+        }
       }
     }
     long endTime = System.nanoTime();

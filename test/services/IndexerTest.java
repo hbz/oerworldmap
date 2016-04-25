@@ -35,7 +35,7 @@ public class IndexerTest implements JsonTest {
 
     // Index diff to mock repo
     MockResourceRepository mockResourceRepository = new MockResourceRepository();
-    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository);
+    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository, null);
     indexer.index(commit);
 
     // Check presence of indexed resources

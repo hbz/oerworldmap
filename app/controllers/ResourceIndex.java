@@ -9,13 +9,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.sun.org.apache.regexp.internal.RE;
 import models.Commit;
-import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -24,14 +20,11 @@ import org.json.simple.parser.ParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 
-import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
 import play.Logger;
 import play.mvc.Result;
-import scala.concurrent.Await;
-import scala.concurrent.duration.Duration;
 import services.QueryContext;
 
 import services.AggregationProvider;
@@ -91,16 +84,20 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result bulkImport() throws IOException {
+  public static Result addRecord() throws IOException {
     JsonNode json = request().body().asJson();
-    List<Resource> resources = new ArrayList<>();
+    List<Resource> records = new ArrayList<>();
     if (json.isArray()) {
       for (JsonNode node : json) {
-        resources.add(Resource.fromJson(node));
+        records.add(Resource.fromJson(node));
       }
+    } else if (json.isObject()) {
+      records.add(Resource.fromJson(json));
+    } else {
+      return badRequest();
     }
-    mBaseRepository.addResources(resources, new HashMap<>());
-    return ok("Bulk of ".concat(Integer.toString(resources.size())).concat(" imported."));
+    mBaseRepository.addRecords(records);
+    return ok(Integer.toString(records.size()).concat(" records imported."));
   }
 
   public static Result addResource() throws IOException {
@@ -178,9 +175,11 @@ public class ResourceIndex extends OERWorldMap {
       }
       // Stage and validate each resource
       try {
-        ProcessingReport processingMessages = mBaseRepository.stage(resource).validate();
+        Resource staged = mBaseRepository.stage(resource);
+        ProcessingReport processingMessages = staged.validate();
         if (!processingMessages.isSuccess()) {
-          Logger.debug(mBaseRepository.stage(resource).toString());
+          Logger.debug(processingMessages.toString());
+          Logger.debug(staged.toString());
         }
         listProcessingReport.mergeWith(processingMessages);
       } catch (ProcessingException e) {
