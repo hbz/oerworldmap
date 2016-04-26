@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -145,22 +147,26 @@ public class BaseRepository extends Repository
   /**
    * As opposed to {@link #addResources}, this method imports resources using individual commits with metadata
    * extracted from a document surrounding the actual resource (a "record").
+   *
    * @param aRecords
    *          The resources to import
    * @throws IOException
    */
-  public void importRecords(@Nonnull List<Resource> aRecords) throws IOException {
+  public void importRecords(@Nonnull List<Resource> aRecords, Map<String, String> aDefaultMetadata) throws IOException {
+
+    aRecords.sort(((o1, o2) -> ZonedDateTime.parse(o1.getAsString(Record.DATE_CREATED))
+      .compareTo(ZonedDateTime.parse(o2.getAsString(Record.DATE_CREATED)))));
 
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
     for (Resource record : aRecords) {
       String author = record.getAsString(Record.AUTHOR);
       if (StringUtils.isEmpty(author)) {
-        author = "Anonymous";
+        author = aDefaultMetadata.get(TripleCommit.Header.AUTHOR_HEADER);
       }
       ZonedDateTime date = ZonedDateTime.parse(record.getAsString(Record.DATE_CREATED));
       if (date == null) {
-        date = ZonedDateTime.now();
+        date = ZonedDateTime.parse(aDefaultMetadata.get(TripleCommit.Header.DATE_HEADER));
       }
       Resource resource = record.getAsResource(Record.RESOURCE_KEY);
       resource.put("@context", "http://schema.org/");

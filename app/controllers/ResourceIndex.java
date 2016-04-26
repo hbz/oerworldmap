@@ -96,7 +96,7 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       return badRequest();
     }
-    mBaseRepository.importRecords(records);
+    mBaseRepository.importRecords(records, getMetadata());
     return ok(Integer.toString(records.size()).concat(" records imported."));
   }
 
@@ -287,7 +287,7 @@ public class ResourceIndex extends OERWorldMap {
     StringBuilder stringBuilder = new StringBuilder();
 
     for (Commit commit : mBaseRepository.log(id)) {
-      stringBuilder.append(commit);
+      stringBuilder.append(commit).append("\n\n");
     }
 
     return ok(stringBuilder.toString());
