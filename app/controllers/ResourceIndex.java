@@ -164,10 +164,18 @@ public class ResourceIndex extends OERWorldMap {
 
     // Respond
     if (isUpdate) {
-      return ok("Updated " + resource.getId() + "\n");
+      if (request().accepts("text/html")) {
+        return ok(render("Updated", "updated.mustache", resource));
+      } else {
+        return ok("Updated " + resource.getId());
+      }
     } else {
       response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId()).absoluteURL(request()));
-      return created("Created " + resource.getId() + "\n");
+      if (request().accepts("text/html")) {
+        return created(render("Created", "created.mustache", resource));
+      } else {
+        return created("Created " + resource.getId());
+      }
     }
 
   }
