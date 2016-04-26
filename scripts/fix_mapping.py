@@ -29,13 +29,10 @@ def process_mapping(mapping):
 
 def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
-                    'availableLanguage', 'prefLabel', 'postalCode']
-    string_values = ['startDate', 'endDate', 'startTime', 'endTime']
+                    'availableLanguage', 'prefLabel', 'postalCode', 'startDate', 'endDate', 'startTime', 'endTime']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])
-        elif property in string_values:
-            properties[property]['properties']['@value'] = set_not_analyzed(properties[property]['properties']['@value'])
         elif 'properties' in properties[property]:
             # Add a location field to all top-level types, populated by copy_to
             if 'about' == property and not 'location' in properties[property]:
@@ -99,9 +96,10 @@ def build_location_properties():
     }
 
 def set_not_analyzed(field):
-    field['type'] = 'string'
-    field['index'] = 'not_analyzed'
-    return field
+    return {
+        'type' : 'string',
+        'index' : 'not_analyzed'
+    }
 
 
 def get_mapping(endpoint, index):
