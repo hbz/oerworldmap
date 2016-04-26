@@ -111,7 +111,7 @@ public class BaseRepository extends Repository
     Commit commit = new TripleCommit(header, diff);
 
     mTriplestoreRepository.commit(commit);
-    mIndexQueue.tell(commit, mIndexQueue);
+    mIndexQueue.tell(diff, mIndexQueue);
 
   }
 
@@ -138,7 +138,7 @@ public class BaseRepository extends Repository
     }
 
     mTriplestoreRepository.commit(commits);
-    mIndexQueue.tell(new TripleCommit(header, indexDiff), mIndexQueue);
+    mIndexQueue.tell(indexDiff, mIndexQueue);
 
   }
 

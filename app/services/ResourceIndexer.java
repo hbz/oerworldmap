@@ -115,11 +115,6 @@ public class ResourceIndexer {
 
   }
 
-  public void index(Commit commit) {
-    Commit.Diff diff = commit.getDiff();
-    index(diff);
-  }
-
   public void index(Commit.Diff diff) {
     long startTime = System.nanoTime();
     Set<Resource> denormalizedResources = getResources(diff);
