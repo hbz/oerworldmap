@@ -7,8 +7,11 @@ import com.hp.hpl.jena.query.QueryParseException;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.shared.Lock;
+import com.hp.hpl.jena.vocabulary.RDF;
 import models.Commit;
 import models.GraphHistory;
 import models.Resource;
@@ -56,12 +59,16 @@ public class ResourceIndexer {
 
     for (Commit.Diff.Line line : aDiff.getLines()) {
       RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
+      Property property = ((TripleCommit.Diff.Line)line).stmt.getPredicate();
       RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
-      if (subject.isURIResource()) {
-        commitScope.add(subject.toString());
-      }
-      if (object.isURIResource()) {
-        commitScope.add(object.toString());
+      // TODO: evaluate if there are other properties to exclude from triggering indexing
+      if (!property.equals(RDF.type)) {
+        if (subject.isURIResource()) {
+          commitScope.add(subject.toString());
+        }
+        if (object.isURIResource()) {
+          commitScope.add(object.toString());
+        }
       }
     }
 
