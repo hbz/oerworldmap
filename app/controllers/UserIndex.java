@@ -64,7 +64,7 @@ public class UserIndex extends OERWorldMap {
 
     newsletterSignup(user);
     user.remove("email");
-    mBaseRepository.addResource(user, new HashMap<>());
+    mBaseRepository.addResource(user, getMetadata());
 
     List<Map<String, Object>> messages = new ArrayList<>();
     HashMap<String, Object> message = new HashMap<>();
@@ -115,7 +115,7 @@ public class UserIndex extends OERWorldMap {
         .concat(processingReport.toString()).concat("\n"));
     }
 
-    mBaseRepository.addResource(resource, new HashMap<>());
+    mBaseRepository.addResource(resource, getMetadata());
     if (update) {
       return ok("Updated " + resource.getId() + "\n");
     } else {

@@ -196,7 +196,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
     assertNotNull(triplestoreRepository.getResource("info:carol"));
     assertEquals(10, actual.size());
 
-    triplestoreRepository.deleteResource("info:alice");
+    triplestoreRepository.deleteResource("info:alice", mMetadata);
 
     assertNull(triplestoreRepository.getResource("info:alice"));
     assertNotNull(triplestoreRepository.getResource("info:bob"));
@@ -227,7 +227,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
     Resource toBeDeleted = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
-    triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID));
+    triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), mMetadata);
 
     Resource result1 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
     Resource result2 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");

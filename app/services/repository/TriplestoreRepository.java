@@ -6,12 +6,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QuerySolution;
@@ -344,7 +342,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId) throws IOException {
+  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
 
     Model dbstate = ModelFactory.createDefaultModel();
 
@@ -391,8 +389,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Record removal in history
-    // FIXME: set proper commit author
-    TripleCommit commit = new TripleCommit(new TripleCommit.Header("Anonymous", ZonedDateTime.now()), diff);
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 
     return ResourceFramer.resourceFromModel(dbstate, aId);

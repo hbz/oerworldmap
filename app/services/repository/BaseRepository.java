@@ -3,7 +3,6 @@ package services.repository;
 import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,20 +78,23 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId) throws IOException {
+  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
 
-    Resource resource = mTriplestoreRepository.deleteResource(aId);
-    Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
-    mElasticsearchRepo.deleteResource(aId);
+    Resource resource = mTriplestoreRepository.deleteResource(aId, aMetadata);
 
-    mIndexQueue.tell(diff, mIndexQueue);
+    if (resource != null) {
+      mElasticsearchRepo.deleteResource(aId, aMetadata);
+      Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
+      mIndexQueue.tell(diff, mIndexQueue);
+
+    }
 
     return resource;
 
   }
 
   /**
-   * Add CBD of a resource.
+   * Add CBD of a resource with metadata provided in Map
    * @param aResource
    *          The resource to be added
    * @param aMetadata
@@ -101,13 +103,6 @@ public class BaseRepository extends Repository
    */
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
-
-    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
-    }
-    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    }
 
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
@@ -121,7 +116,7 @@ public class BaseRepository extends Repository
   }
 
   /**
-   * Add several CBDs of resources, using individual commits.
+   * Add several CBDs of resources, using individual commits with metadata provided in Map
    * @param aResources
    *          The resources to be added
    * @param aMetadata
@@ -130,13 +125,6 @@ public class BaseRepository extends Repository
    */
   @Override
   public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
-
-    if (aMetadata.get(TripleCommit.Header.AUTHOR_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
-    }
-    if (aMetadata.get(TripleCommit.Header.DATE_HEADER) == null) {
-      aMetadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    }
 
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));

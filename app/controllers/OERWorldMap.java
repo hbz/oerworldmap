@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import java.util.jar.JarFile;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.config.Config;
 import helpers.JSONForm;
+import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -186,6 +189,20 @@ public abstract class OERWorldMap extends Controller {
       }
     }
     return jsonNode;
+
+  }
+
+  /**
+   * Get metadata suitable for record provinence
+   *
+   * @return Map containing current user in author and current time in date field.
+   */
+  protected static Map<String, String> getMetadata() {
+
+    Map<String, String> metadata = new HashMap<>();
+    metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    metadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    return metadata;
 
   }
 

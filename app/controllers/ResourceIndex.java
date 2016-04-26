@@ -144,7 +144,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     // Save
-    mBaseRepository.addResource(resource, new HashMap<>());
+    mBaseRepository.addResource(resource, getMetadata());
 
     // Respond
     if (isUpdate) {
@@ -192,7 +192,7 @@ public class ResourceIndex extends OERWorldMap {
       return badRequest(listProcessingReport.toString());
     }
 
-    mBaseRepository.addResources(resources, new HashMap<>());
+    mBaseRepository.addResources(resources, getMetadata());
 
     return ok("Added resources");
 
@@ -250,7 +250,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public static Result delete(String id) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(id);
+    Resource resource = mBaseRepository.deleteResource(id, getMetadata());
     if (null != resource) {
       return ok("deleted resource " + resource.toString());
     } else {

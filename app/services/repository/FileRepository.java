@@ -109,10 +109,11 @@ public class FileRepository extends Repository implements Writable, Readable {
    * Delete a Resource specified by the given identifier.
    *
    * @param aId
+   * @param aMetadata
    * @return The resource that has been deleted.
    */
   @Override
-  public Resource deleteResource(@Nonnull String aId) {
+  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
     Resource resource = this.getResource(aId);
     try {
       Files.delete(getResourcePath(aId));

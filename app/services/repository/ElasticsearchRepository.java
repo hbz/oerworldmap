@@ -95,7 +95,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId) {
+  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
     Resource resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;
