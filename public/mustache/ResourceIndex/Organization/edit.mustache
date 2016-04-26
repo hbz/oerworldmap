@@ -44,6 +44,8 @@
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Organization.sameAs") tooltip=(i18n "Organization.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
-    {{> FormElements/id.mustache property=funderOf key="funderOf" title=(i18n "Action.funderOf") tooltip=(i18n "Action.funderOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=funderOf key="funderOf" title=(i18n "Organization.funderOf") tooltip=(i18n "Organization.funderOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+
+    {{> FormElements/id.mustache property=organizerFor key="organizerFor" title=(i18n "Organization.organizerFor") tooltip=(i18n "Organization.organizerFor" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
 
 </fieldset>
