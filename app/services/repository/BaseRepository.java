@@ -149,7 +149,7 @@ public class BaseRepository extends Repository
    *          The resources to import
    * @throws IOException
    */
-  public void addRecords(@Nonnull List<Resource> aRecords) throws IOException {
+  public void importRecords(@Nonnull List<Resource> aRecords) throws IOException {
 
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
@@ -172,6 +172,23 @@ public class BaseRepository extends Repository
 
     mTriplestoreRepository.commit(commits);
     mIndexQueue.tell(indexDiff, mIndexQueue);
+
+  }
+
+  /**
+   * Import resources, extracting any embedded resources and adding those too, in the same commit
+   * @param aResources
+   *          The resources to flatten and import
+   * @throws IOException
+   */
+  public void importResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+
+    Commit.Diff diff = mTriplestoreRepository.getDiffs(aResources);
+
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    mTriplestoreRepository.commit(new TripleCommit(header, diff));
+    mIndexQueue.tell(diff, mIndexQueue);
 
   }
 

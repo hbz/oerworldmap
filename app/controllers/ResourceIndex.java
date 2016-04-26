@@ -84,7 +84,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result addRecord() throws IOException {
+  public static Result importRecords() throws IOException {
     JsonNode json = request().body().asJson();
     List<Resource> records = new ArrayList<>();
     if (json.isArray()) {
@@ -96,8 +96,24 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       return badRequest();
     }
-    mBaseRepository.addRecords(records);
+    mBaseRepository.importRecords(records);
     return ok(Integer.toString(records.size()).concat(" records imported."));
+  }
+
+  public static Result importResources() throws IOException {
+    JsonNode json = request().body().asJson();
+    List<Resource> resources = new ArrayList<>();
+    if (json.isArray()) {
+      for (JsonNode node : json) {
+        resources.add(Resource.fromJson(node));
+      }
+    } else if (json.isObject()) {
+      resources.add(Resource.fromJson(json));
+    } else {
+      return badRequest();
+    }
+    mBaseRepository.importResources(resources, getMetadata());
+    return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
   public static Result addResource() throws IOException {
