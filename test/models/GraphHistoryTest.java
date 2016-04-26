@@ -70,8 +70,8 @@ public class GraphHistoryTest {
     mGraphHistory.add(commit2);
     List<Commit> commits = mGraphHistory.log();
     assertEquals(2, commits.size());
-    assertEquals(commit1, commits.get(0));
-    assertEquals(commit2, commits.get(1));
+    assertEquals(commit1, commits.get(1));
+    assertEquals(commit2, commits.get(0));
 
   }
 
@@ -84,8 +84,8 @@ public class GraphHistoryTest {
     mGraphHistory.add(commit2);
     List<Commit> resource456Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456");
     assertEquals(2, resource456Commits.size());
-    assertEquals(commit1, resource456Commits.get(0));
-    assertEquals(commit2, resource456Commits.get(1));
+    assertEquals(commit1, resource456Commits.get(1));
+    assertEquals(commit2, resource456Commits.get(0));
     List<Commit> resource123Commits = mGraphHistory.log("info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0123");
     assertEquals(1, resource123Commits.size());
     assertEquals(commit2, resource123Commits.get(0));
