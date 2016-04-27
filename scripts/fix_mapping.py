@@ -6,7 +6,7 @@ import sys, getopt, json, os, urllib2
 def fix(endpoint_url, index_name, output_file):
     mapping = fix_mappings(get_mapping(endpoint_url, index_name))
     with open(output_file, 'w') as fixed_mapping:
-        json.dump(mapping[index_name], fixed_mapping, indent=2)
+        json.dump(mapping[index_name], fixed_mapping, indent=2, separators=(',', ': '))
 
 
 def fix_mappings(json):
@@ -96,10 +96,9 @@ def build_location_properties():
     }
 
 def set_not_analyzed(field):
-    return {
-        'type' : 'string',
-        'index' : 'not_analyzed'
-    }
+    field['type'] = 'string'
+    field['index'] = 'not_analyzed'
+    return field
 
 
 def get_mapping(endpoint, index):
