@@ -33,17 +33,15 @@ import com.typesafe.config.Config;
 
 import models.Resource;
 import play.Logger;
+import services.BroaderConceptEnricher;
+import services.InverseEnricher;
+import services.ResourceEnricher;
 import services.ResourceFramer;
 
 /**
  * Created by fo on 10.12.15.
  */
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
-
-  public static final String CONSTRUCT_INVERSE =
-    "CONSTRUCT {?o <%1$s> ?s} WHERE {" +
-    "  ?s <%2$s> ?o ." +
-    "}";
 
   public static final String DESCRIBE_RESOURCE =
     "DESCRIBE <%1$s> ?o ?oo WHERE {" +
@@ -60,7 +58,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
-  private final Model mInverseRelations;
+  private final InverseEnricher mInverseEnricher = new InverseEnricher();
+  private final ResourceEnricher mBroaderConceptEnricher = new BroaderConceptEnricher();
 
   public TriplestoreRepository(Config aConfiguration) throws IOException {
     this(aConfiguration, ModelFactory.createDefaultModel());
@@ -75,12 +74,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     super(aConfiguration);
     this.mDb = aModel;
     this.mGraphHistory = aGraphHistory;
-    this.mInverseRelations = ModelFactory.createDefaultModel();
-    try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("inverses.ttl")) {
-      RDFDataMgr.read(mInverseRelations, inputStream, Lang.TURTLE);
-    } catch (IOException e) {
-      throw new RuntimeIOException(e);
-    }
   }
 
   @Override
@@ -254,6 +247,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Commit.Diff getDiff(@Nonnull Resource aResource) {
 
+    aResource = mBroaderConceptEnricher.enrich(aResource, this);
+
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
 
@@ -271,7 +266,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Add inferred (e.g. inverse) statements to incoming model
-    addInverses(model);
+    mInverseEnricher.enrich(model);
 
     // Current data
     describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
@@ -290,7 +285,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
 
     // Inverses in dbstate, or rather select them from DB?
-    addInverses(dbstate);
+    mInverseEnricher.enrich(dbstate);
 
     // Create diff
     TripleCommit.Diff diff = new TripleCommit.Diff();
@@ -369,7 +364,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Inverses in dbstate, or rather select them from DB?
-    addInverses(dbstate);
+    mInverseEnricher.enrich(dbstate);
 
     // Create diff
     TripleCommit.Diff diff = new TripleCommit.Diff();
@@ -402,32 +397,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   public List<Commit> log(String aId) {
 
     return mGraphHistory.log(aId);
-
-  }
-
-  private void addInverses(Model model) {
-
-    // TODO: this could well be an enricher, such as the broader concept enricher
-    Model inverses = ModelFactory.createDefaultModel();
-
-    mInverseRelations.enterCriticalSection(Lock.READ);
-    model.enterCriticalSection(Lock.READ);
-    try {
-      for (Statement stmt : mInverseRelations.listStatements().toList()) {
-        String inferConstruct = String.format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
-        QueryExecutionFactory.create(QueryFactory.create(inferConstruct), model).execConstruct(inverses);
-      }
-    } finally {
-      model.leaveCriticalSection();
-      mInverseRelations.leaveCriticalSection();
-    }
-
-    model.enterCriticalSection(Lock.WRITE);
-    try {
-      model.add(inverses);
-    } finally {
-      model.leaveCriticalSection();
-    }
 
   }
 
