@@ -52,6 +52,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
     Record record = new Record(aResource);
+    record.put(Record.DATE_CREATED, aMetadata.get(Record.DATE_CREATED));
     record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
     record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
     elasticsearch.addJson(record.toString(), record.getId(), Record.TYPE);
@@ -63,6 +64,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Map<String, String> records = new HashMap<>();
     for (Resource resource : aResources) {
       Record record = new Record(resource);
+      record.put(Record.DATE_CREATED, aMetadata.get(Record.DATE_CREATED));
       record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
       record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
       records.put(record.getId(), record.toString());

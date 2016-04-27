@@ -14,14 +14,17 @@ import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.vocabulary.RDF;
 import models.Commit;
 import models.GraphHistory;
+import models.Record;
 import models.Resource;
 import models.TripleCommit;
 import play.Logger;
 import services.repository.Writable;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -128,11 +131,12 @@ public class ResourceIndexer {
     for (Resource dnr : denormalizedResources) {
       if (dnr.hasId()) {
         try {
-          Map<String, String> metadata;
+          Map<String, String> metadata = new HashMap<>();
           if (mGraphHistory != null) {
-            metadata = mGraphHistory.log(dnr.getId()).get(0).getHeader().toMap();
-          } else {
-            metadata = new HashMap<>();
+            List<Commit> history = mGraphHistory.log(dnr.getId());
+            metadata = history.get(0).getHeader().toMap();
+            metadata.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+              .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
           }
           mTargetRepo.addResource(dnr, metadata);
         } catch (IndexOutOfBoundsException | IOException e) {

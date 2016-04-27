@@ -157,7 +157,6 @@ public class BaseRepository extends Repository
     aRecords.sort(((o1, o2) -> ZonedDateTime.parse(o1.getAsString(Record.DATE_CREATED))
       .compareTo(ZonedDateTime.parse(o2.getAsString(Record.DATE_CREATED)))));
 
-    List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
     for (Resource record : aRecords) {
       String author = record.getAsString(Record.AUTHOR);
@@ -173,10 +172,9 @@ public class BaseRepository extends Repository
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
       Commit commit = new TripleCommit(new TripleCommit.Header(author, date), diff);
       indexDiff.append(diff);
-      commits.add(commit);
+      mTriplestoreRepository.commit(commit);
     }
 
-    mTriplestoreRepository.commit(commits);
     mIndexQueue.tell(indexDiff, mIndexQueue);
 
   }
