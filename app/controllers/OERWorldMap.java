@@ -73,7 +73,7 @@ public abstract class OERWorldMap extends Controller {
 
   //TODO: is this right here? how else to implement?
   public static String getLabel(String aId) {
-    /*
+
     Resource resource = mBaseRepository.getResource(aId);
     if (null == resource) {
       return aId;
@@ -105,7 +105,7 @@ public abstract class OERWorldMap extends Controller {
         }
       }
     }
-    */
+
     return aId;
   }
 
