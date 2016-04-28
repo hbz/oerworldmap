@@ -14,6 +14,8 @@ var Hijax = (function ($, Hijax) {
       clusterLayer = null,
       osmTileSource = null,
       osmTileLayer = null,
+      mapboxTileSource = null,
+      mapboxTileLayer = null,
       hoveredCountriesOverlay = null,
 
       standartMapSize = [896, 655],
@@ -755,7 +757,8 @@ var Hijax = (function ($, Hijax) {
         // Country vector layer
         countryVectorLayer = new ol.layer.Vector({
           title: 'country',
-          source: countryVectorSource
+          source: countryVectorSource,
+          opacity: 0.5
         });
 
         // OSM tile source
@@ -771,6 +774,21 @@ var Hijax = (function ($, Hijax) {
           opacity: 1
         });
         osmTileLayer.setVisible(false);
+
+        // Mapbox tile source
+        var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
+        mapboxTileSource = new ol.source.XYZ({
+          attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
+            '© <a href="http://www.openstreetmap.org/copyright">' +
+            'OpenStreetMap contributors</a>',
+          tileSize: [512, 512],
+          url: 'https://api.mapbox.com/styles/v1/literarymachine/cink8jyda022wd5m3q1ao9i7m/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
+        });
+
+        // Mapbox tile layer
+        mapboxTileLayer = new ol.layer.Tile({
+          source: mapboxTileSource
+        });
 
         // Placemark Layer
         placemarksVectorSource = new ol.source.Vector({
@@ -843,7 +861,9 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
+          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
+          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
+          layers: [mapboxTileLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
