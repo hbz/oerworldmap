@@ -83,7 +83,7 @@
 
                     {{#if alternateName}}
                         <tr>
-                            <td>{{i18n "Action.email"}}</td>
+                            <td>{{i18n "Action.alternateName"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
                                     {{#localized alternateName}}
@@ -199,6 +199,19 @@
                                 </ul>
                             </td>
                         </tr>
+                    {{/if}}
+
+                    {{#if tag}}
+                        <tr>
+                            <td>{{i18n "Action.tag"}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#tag}}
+                                        <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
+                                    {{/tag}}
+                              </ul>
+                          </td>
+                      </tr>
                     {{/if}}
 
 

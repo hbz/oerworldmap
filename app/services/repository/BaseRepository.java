@@ -4,31 +4,29 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.tdb.TDBFactory;
-import com.typesafe.config.ConfigException;
-import models.Commit;
-import models.GraphHistory;
-import models.Record;
-import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.query.DatasetFactory;
+import com.hp.hpl.jena.tdb.TDBFactory;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import models.Commit;
+import models.GraphHistory;
+import models.Record;
 import models.Resource;
 import models.ResourceList;
+import models.TripleCommit;
 import play.Logger;
 import services.IndexQueue;
 import services.QueryContext;
@@ -95,14 +93,6 @@ public class BaseRepository extends Repository
 
   }
 
-  /**
-   * Add CBD of a resource with metadata provided in Map
-   * @param aResource
-   *          The resource to be added
-   * @param aMetadata
-   *          The metadata to use
-   * @throws IOException
-   */
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
 
@@ -217,6 +207,10 @@ public class BaseRepository extends Repository
   @Override
   public Resource getResource(@Nonnull String aId) {
     return mTriplestoreRepository.getResource(aId);
+  }
+
+  public Resource getRecord(@Nonnull String aId) {
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCE_KEY);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {

@@ -59,7 +59,7 @@ public class HandlebarsHelpers {
       try {
         return ResourceBundle.getBundle(bundle).getString(key);
       } catch (MissingResourceException notInBundle) {
-        return key;
+        return OERWorldMap.getLabel(key);
       }
     }
     try {

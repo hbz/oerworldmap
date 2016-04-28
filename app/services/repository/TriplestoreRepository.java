@@ -11,27 +11,27 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.shared.Lock;
-import com.hp.hpl.jena.tdb.TDB;
-import models.Commit;
-import models.GraphHistory;
-import models.TripleCommit;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
+import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.shared.Lock;
+import com.hp.hpl.jena.tdb.TDB;
 import com.typesafe.config.Config;
 
+import models.Commit;
+import models.GraphHistory;
 import models.Resource;
+import models.TripleCommit;
 import play.Logger;
 import services.BroaderConceptEnricher;
 import services.InverseEnricher;

@@ -1,26 +1,36 @@
 package services.repository;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.typesafe.config.Config;
-import helpers.JsonLdConstants;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import models.Resource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.indices.IndexMissingException;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
+
+import helpers.JsonLdConstants;
+import models.Resource;
+import play.Logger;
 
 
 public class FileRepository extends Repository implements Writable, Readable {
+
+  private Client mClient;
 
   private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>() {
   };
@@ -49,6 +59,15 @@ public class FileRepository extends Repository implements Writable, Readable {
       Files.createDirectory(dir);
     }
     Files.write(file, aResource.toString().getBytes());
+  }
+
+  public void refreshIndex(String aIndex) {
+    try {
+      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+    } catch (IndexMissingException e) {
+      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
+      e.printStackTrace();
+    }
   }
 
   @Override
