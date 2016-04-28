@@ -2,12 +2,12 @@ package services.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -43,14 +43,16 @@ import services.ResourceFramer;
  */
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
-  public static final String DESCRIBE_RESOURCE =
+  public static final String EXTENDED_DESCRIPTION =
     "DESCRIBE <%1$s> ?o ?oo WHERE {" +
     "  <%1$s> ?p ?o FILTER isIRI(?o) OPTIONAL { ?o ?pp ?oo FILTER isIRI(?oo) }" +
     "}";
 
-  public static final String DESCRIBE_DBSTATE = "DESCRIBE <%s>";
+  public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
-  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> ?p  ?o FILTER isIRI(?o) }";
+  public static final String CONCISE_BOUNDED_DESCRIPTIONS = "DESCRIBE ?s WHERE { ?s a ?o . FILTER (%1$s) }";
+
+  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> ?p ?o FILTER isIRI(?o) }";
 
   public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
 
@@ -79,7 +81,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource getResource(@Nonnull String aId) {
 
-    Model dbstate = getResourceModel(aId);
+    Model dbstate = getExtendedDescription(aId, mDb);
 
     Resource resource = null;
     if (!dbstate.isEmpty()) {
@@ -173,8 +175,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
-    Model dbstate = getResourceModel(aResource.getId());
-    diff.apply(dbstate);
+    Model staged = getExtendedDescription(aResource.getId(), mDb);
+    diff.apply(staged);
 
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
@@ -184,50 +186,93 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       throw new RuntimeIOException(e);
     }
 
-    // Select resources incoming model is referencing and add them to dbstate
+    // Select resources incoming model is referencing and add them to staged
     try (QueryExecution queryExecution = QueryExecutionFactory.create(
         QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), incoming)) {
       ResultSet resultSet = queryExecution.execSelect();
+      List<String> links = new ArrayList<>();
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
-        String object = querySolution.get("o").toString();
-        // Only add statements that don't have the original resource as their subject.
-        // dbstate.add(getResourceModel(object)) would be simpler, but mistakenly
-        // duplicates bnodes under certain circumstances.
-        // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
-        StmtIterator it = getResourceModel(object).listStatements();
-        while (it.hasNext()) {
-          Statement statement = it.next();
-          if (!statement.getSubject().toString().equals(aResource.getId())) {
-            dbstate.add(statement);
-          }
+        links.add(querySolution.get("o").toString());
+      }
+      // Only add statements that don't have the original resource as their subject.
+      // staged.add(getConciseBoundedDescriptions(links)) would be simpler, but mistakenly
+      // duplicates bnodes under certain circumstances.
+      // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
+      StmtIterator it = getConciseBoundedDescriptions(links, mDb).listStatements();
+      while (it.hasNext()) {
+        Statement statement = it.next();
+        if (!statement.getSubject().toString().equals(aResource.getId())) {
+          staged.add(statement);
         }
       }
     }
 
-    return ResourceFramer.resourceFromModel(dbstate, aResource.getId());
+    return ResourceFramer.resourceFromModel(staged, aResource.getId());
 
   }
 
-  private Model getResourceModel(@Nonnull String aId) {
+  private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
 
     // Current data
-    String describeStatement = String.format(DESCRIBE_RESOURCE, aId);
-    Model dbstate = ModelFactory.createDefaultModel();
+    String describeStatement = String.format(EXTENDED_DESCRIPTION, aId);
+    Model extendedDescription = ModelFactory.createDefaultModel();
 
-    dbstate.enterCriticalSection(Lock.WRITE);
-    mDb.enterCriticalSection(Lock.READ);
+    extendedDescription.enterCriticalSection(Lock.WRITE);
+    aModel.enterCriticalSection(Lock.READ);
 
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
-        queryExecution.execDescribe(dbstate);
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+        queryExecution.execDescribe(extendedDescription);
       }
     } finally {
-      mDb.leaveCriticalSection();
-      dbstate.leaveCriticalSection();
+      aModel.leaveCriticalSection();
+      extendedDescription.leaveCriticalSection();
     }
 
-    return dbstate;
+    return extendedDescription;
+
+  }
+
+  private Model getConciseBoundedDescriptions(@Nonnull List<String> aIds, @Nonnull Model aModel) {
+
+    String filter = String.join(" || ", aIds.stream().map(id -> "?s = <".concat(id).concat(">"))
+        .collect(Collectors.toSet()));
+
+    String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTIONS, filter);
+    Model conciseBoundedDescriptions = ModelFactory.createDefaultModel();
+
+    conciseBoundedDescriptions.enterCriticalSection(Lock.WRITE);
+    aModel.enterCriticalSection(Lock.READ);
+
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+        queryExecution.execDescribe(conciseBoundedDescriptions);
+      }
+    } finally {
+      aModel.leaveCriticalSection();
+      conciseBoundedDescriptions.leaveCriticalSection();
+    }
+
+    return conciseBoundedDescriptions;
+
+  }
+
+  private Model getConciseBoundedDescription(String aId, Model aModel) {
+
+    String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTION, aId);
+    Model conciseBoundedDescription = ModelFactory.createDefaultModel();
+
+    aModel.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+        queryExecution.execDescribe(conciseBoundedDescription);
+      }
+    } finally {
+      aModel.leaveCriticalSection();
+    }
+
+    return conciseBoundedDescription;
 
   }
 
@@ -259,30 +304,13 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Reduce incoming model to CBD
-    Model model = ModelFactory.createDefaultModel();
-    String describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
-    try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), incoming)) {
-      queryExecution.execDescribe(model);
-    }
+    Model model = getConciseBoundedDescription(aResource.getId(), incoming);
 
     // Add inferred (e.g. inverse) statements to incoming model
     mInverseEnricher.enrich(model);
 
     // Current data
-    describeStatement = String.format(DESCRIBE_DBSTATE, aResource.getId());
-    Model dbstate = ModelFactory.createDefaultModel();
-
-    dbstate.enterCriticalSection(Lock.WRITE);
-    mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
-        queryExecution.execDescribe(dbstate);
-      }
-    } finally {
-      mDb.leaveCriticalSection();
-      dbstate.leaveCriticalSection();
-    }
-
+    Model dbstate = getConciseBoundedDescription(aResource.getId(), mDb);
 
     // Inverses in dbstate, or rather select them from DB?
     mInverseEnricher.enrich(dbstate);
@@ -339,18 +367,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
 
-    Model dbstate = ModelFactory.createDefaultModel();
-
     // Current data, outbound links
-    String describeStatement = String.format(DESCRIBE_DBSTATE, aId);
-    mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), mDb)) {
-        queryExecution.execDescribe(dbstate);
-      }
-    } finally {
-      mDb.leaveCriticalSection();
-    }
+    Model dbstate = getConciseBoundedDescription(aId, mDb);
 
     // Current data, inbound links
     String constructStatement = String.format(CONSTRUCT_BACKLINKS, aId);

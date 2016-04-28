@@ -41,7 +41,6 @@ public class ResourceFramer {
 
   private static final NingWSClient mWSClient = new NingWSClient(new AsyncHttpClientConfig.Builder().build());
 
-  /*
   static {
     NodeEnvironment env = new NodeEnvironment();
     try {
@@ -53,11 +52,10 @@ public class ResourceFramer {
       Logger.error(e.toString());
     }
   }
-  */
 
   public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
 
-    String describeStatement = String.format(TriplestoreRepository.DESCRIBE_RESOURCE, aId);
+    String describeStatement = String.format(TriplestoreRepository.EXTENDED_DESCRIPTION, aId);
     Model dbstate = ModelFactory.createDefaultModel();
 
     aModel.enterCriticalSection(Lock.READ);
