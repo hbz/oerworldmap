@@ -138,18 +138,21 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
 
   @Test
-  public void testGetResourcesWithWildcard() throws IOException {
+  public void testGetResourcesWithWildcard() throws IOException, InterruptedException {
     Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mBaseRepo.addResource(in1, mMetadata);
     mBaseRepo.addResource(in2, mMetadata);
-    Assert.assertEquals(2, mBaseRepo.getResources("\\*.@id", "123").size());
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(2000);
+    Assert.assertEquals(2, mBaseRepo.getResources("\\*.@id", "info:123").size());
     mBaseRepo.deleteResource(in1.getAsString(JsonLdConstants.ID), mMetadata);
     mBaseRepo.deleteResource(in2.getAsString(JsonLdConstants.ID), mMetadata);
   }
 
   @Test
-  public void testSearchRankingNameHitsFirst() throws IOException, ParseException {
+  public void testSearchRankingNameHitsFirst() throws IOException, ParseException, InterruptedException {
 
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.2.json");
@@ -160,16 +163,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db7 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.7.json");
     Resource db8 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.8.json");
 
-    List<Resource> expectedList = new ArrayList<>();
-    expectedList.add(db1);
-    expectedList.add(db2);
-    expectedList.add(db3);
-    expectedList.add(db4);
-    expectedList.add(db5);
-    expectedList.add(db6);
-    expectedList.add(db7);
-    expectedList.add(db8);
-
     mBaseRepo.addResource(db7, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db6, mMetadata);
@@ -178,6 +171,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db5, mMetadata);
     mBaseRepo.addResource(db8, mMetadata);
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(10000);
 
     try {
       QueryContext queryContext = new QueryContext(null, null);
@@ -223,7 +220,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testZoomedQueryResults() throws IOException {
+  public void testZoomedQueryResults() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.3.json");
@@ -231,6 +228,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(2000);
 
     QueryContext queryContext = new QueryContext(null, null);
 
@@ -260,7 +261,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testPolygonFilteredSearch() throws IOException {
+  public void testPolygonFilteredSearch() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.3.json");
@@ -268,6 +269,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(2000);
 
     QueryContext queryContext = new QueryContext(null, null);
 
@@ -303,7 +308,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testZoomedPolygonQueryResults() throws IOException {
+  public void testZoomedPolygonQueryResults() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.3.json");
@@ -311,6 +316,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(2000);
 
     QueryContext queryContext = new QueryContext(null, null);
 
