@@ -94,7 +94,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return unwrapRecord(Resource.fromMap(getDocument(Record.TYPE, aId)));
+    Map<String, Object> resourceMap = getDocument(Record.TYPE, aId);
+    if (resourceMap != null) {
+      return unwrapRecord(Resource.fromMap(resourceMap));
+    }
+    return null;
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
@@ -192,7 +196,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   private Resource unwrapRecord(Resource aRecord) {
-    return (Resource) aRecord.get(Record.RESOURCE_KEY);
+    return aRecord.getAsResource(Record.RESOURCE_KEY);
   }
 
   /**
