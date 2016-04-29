@@ -261,7 +261,7 @@ Handlebars.registerHelper('localized', function(list, options) {
     }
   }
   // Requested language not available, default to en
-  if (result == '') {
+  if (result.trim() == '') {
     for (var i = 0; i < list.length; i++) {
       if (list[i]['@language'] == 'en') {
         result = result + options.fn(list[i]);
@@ -269,14 +269,20 @@ Handlebars.registerHelper('localized', function(list, options) {
     }
   }
   // Neither requested language nor en available, return all of first available
-  if (result == '') {
+  if (result.trim() == '') {
     for (var i = 0; i < list.length; i++) {
       if (list[i]['@language'] == list[0]['@language']) {
         result = result + options.fn(list[i]);
       }
     }
   }
-  return result;
+
+  if (result.trim() != '') {
+    return result;
+  } else {
+    return options.inverse(this);
+  }
+
 });
 
 Handlebars.registerHelper('getField', function (string, options) {

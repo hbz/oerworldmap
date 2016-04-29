@@ -219,6 +219,10 @@ public class BaseRepository extends Repository
     return mTriplestoreRepository.getResource(aId);
   }
 
+  public Resource getRecord(@Nonnull String aId) {
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCE_KEY);
+  }
+
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     return mElasticsearchRepo.getResources(aField, aValue);
   }

@@ -225,6 +225,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if tag}}
+                        <tr>
+                            <td>{{i18n "Person.tag"}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#tag}}
+                                        <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
+                                    {{/tag}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                 </table>
 
             </article>

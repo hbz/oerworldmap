@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import models.Commit;
+
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -28,6 +29,7 @@ import play.mvc.Result;
 import services.QueryContext;
 
 import services.AggregationProvider;
+import services.SearchConfig;
 import services.export.AbstractCsvExporter;
 import services.export.CsvWithNestedIdsExporter;
 
@@ -51,6 +53,19 @@ public class ResourceIndex extends OERWorldMap {
 
     QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
 
+    // Check for bounding box
+    String[] boundingBoxParam = request().queryString().get("boundingBox");
+    if (boundingBoxParam != null && boundingBoxParam.length > 0) {
+      String boundingBox = boundingBoxParam[0];
+      if (boundingBox != null) {
+        try {
+          queryContext.setBoundingBox(boundingBox);
+        } catch (NumberFormatException e) {
+          Logger.error("Invalid bounding box: ".concat(boundingBox), e);
+        }
+      }
+    }
+
     queryContext.setFetchSource(new String[]{
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
@@ -60,6 +75,7 @@ public class ResourceIndex extends OERWorldMap {
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
     });
 
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     Map<String, Object> scope = new HashMap<>();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
@@ -271,6 +287,14 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       return ok(resource.toString()).as("application/json");
     }
+  }
+
+  public static Result export(String aId) {
+    Resource record = mBaseRepository.getRecord(aId);
+    if (null == record) {
+      return notFound("Not found");
+    }
+    return ok(record.toString()).as("application/json");
   }
 
   public static Result delete(String id) throws IOException {

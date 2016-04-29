@@ -70,6 +70,10 @@
                     </p>
                 {{/serviceUrl}}{{/availableChannel}}
 
+                {{#licenseConcept}}
+                  <img src="{{image}}" width="75" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
+                {{/licenseConcept}}
+
                 <table class="table resource-details-table">
 
                     <tr>
@@ -143,6 +147,19 @@
                                     {{#memberOf}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/memberOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if tag}}
+                        <tr>
+                            <td>{{i18n "Service.tag"}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#tag}}
+                                        <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
+                                    {{/tag}}
                                 </ul>
                             </td>
                         </tr>

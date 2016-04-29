@@ -1,14 +1,14 @@
 package helpers;
 
-import services.ElasticsearchProvider;
+import services.repository.ElasticsearchRepository;
 
 public class ElasticsearchHelpers {
-  
+
   // create a new clean ElasticsearchIndex for this Test class
-  public static void cleanIndex(ElasticsearchProvider aEsClient, String aIndex) {
-    if (aEsClient.hasIndex(aIndex)) {
-      aEsClient.deleteIndex(aIndex);
+  public static void cleanIndex(ElasticsearchRepository aEsRepo, String aIndex) {
+    if (aEsRepo.hasIndex(aIndex)) {
+      aEsRepo.deleteIndex(aIndex);
     }
-    aEsClient.createIndex(aIndex);
+    aEsRepo.createIndex(aIndex);
   }
 }

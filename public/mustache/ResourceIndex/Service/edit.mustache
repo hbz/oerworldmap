@@ -20,6 +20,8 @@
 
     {{> FormElements/input.mustache property=license key="license" title=(i18n "Service.license") tooltip=(i18n "Service.license" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
+    {{> FormElements/id.mustache property=licenseConcept key="licenseConcept" title=(i18n "Service.license") tooltip=(i18n "Service.license" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/licenses.json"}}
+
     {{> FormElements/input.mustache property=image key="image" title=(i18n "Service.image") tooltip=(i18n "Service.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Service.location") tooltip=(i18n "Service.location" bundle="descriptions")}}
@@ -45,5 +47,7 @@
     {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Service.memberOf") tooltip=(i18n "Service.memberOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Service.sameAs") tooltip=(i18n "Service.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
+
+    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Service.tag") tooltip=(i18n "Service.tag" bundle="descriptions") hidden=false multiple=true type="text"}}
 
 </fieldset>
