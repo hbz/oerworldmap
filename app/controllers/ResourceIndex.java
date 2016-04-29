@@ -262,7 +262,7 @@ public class ResourceIndex extends OERWorldMap {
         conceptScheme = Resource.fromJsonFile("public/json/isced-1997.json");
       }
       if (!(null == conceptScheme)) {
-        AggregationBuilder<?> conceptAggregation = AggregationBuilders.filter("services")
+        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
             .filter(FilterBuilders.termFilter("about.@type", "Service"));
         for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(

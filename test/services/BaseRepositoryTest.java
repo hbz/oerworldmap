@@ -32,7 +32,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   @Test
   public void testResourceWithIdentifiedSubObject() throws IOException {
-
     Resource resource1 = new Resource("Person", "info:id001");
     resource1.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     Resource resource2 = new Resource("Event", "info:OER15");
@@ -44,8 +43,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(resource2, mMetadata);
     Assert.assertEquals(expected1, mBaseRepo.getResource("info:id001"));
     Assert.assertEquals(expected2, mBaseRepo.getResource("info:OER15"));
-    mBaseRepo.deleteResource("info:id001", mMetadata);
-    mBaseRepo.deleteResource("info:OER15", mMetadata);
   }
 
   @Test
@@ -57,7 +54,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource expected = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
     mBaseRepo.addResource(resource, mMetadata);
     Assert.assertEquals(expected, mBaseRepo.getResource("info:id002"));
-    mBaseRepo.deleteResource("info:id002", mMetadata);
   }
 
   @Test
@@ -101,7 +97,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665", mMetadata);
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
-    mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503", mMetadata);
   }
 
   @Test
@@ -121,8 +116,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
     Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
-    mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503", mMetadata);
-    mBaseRepo.deleteResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c", mMetadata);
+
   }
 
   @Test
@@ -139,9 +133,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource get2 = mBaseRepo.getResource(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
     assertEquals(out2, get2);
-    mBaseRepo.deleteResource(out1.getAsString(JsonLdConstants.ID), mMetadata);
-    mBaseRepo.deleteResource(out2.getAsString(JsonLdConstants.ID), mMetadata);
   }
+
 
   @Test
   public void testGetResourcesWithWildcard() throws IOException {
@@ -264,7 +257,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
-  
+
   @Test
   public void testPolygonFilteredSearch() throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.1.json");
@@ -294,7 +287,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     polygon.add(new GeoPoint(6.0, 3.0));
     polygon.add(new GeoPoint(7.0, 3.0));
     queryContext.setPolygonFilter(polygon);
-    
+
     // query after filtering
     List<Resource> afterFilterList = mBaseRepo.query("Polygon", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(afterFilterList.size() == 2);
@@ -307,7 +300,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
-  
+
   @Test
   public void testZoomedPolygonQueryResults() throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.1.json");
@@ -337,9 +330,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     polygon.add(new GeoPoint(6.0, 3.0));
     polygon.add(new GeoPoint(7.0, 3.0));
     queryContext.setPolygonFilter(polygon);
-    
+
     // and
-    
+
     // "zoom"
     queryContext.setZoomTopLeft(new GeoPoint(8.0, 2.5));
     queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));

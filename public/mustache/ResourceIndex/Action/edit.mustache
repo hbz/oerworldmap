@@ -6,13 +6,9 @@
         {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-<<<<<<< HEAD
-    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
-=======
     {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Action.name") tooltip=(i18n "Action.name" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true type="text"}}
->>>>>>> 0d65bdf2a5cec6107a5e7c234754e64f39924155
+    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
     {{> FormElements/input.mustache property=email key="email" title=(i18n "Action.email") tooltip=(i18n "Action.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
 
