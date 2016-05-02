@@ -183,17 +183,19 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
               "about.alternateName.@value^6" });
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
-
-      // must provide 7 hits
-      Assert.assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 7);
+      
+      // must provide 6 hits when search is reduced on "about.name.@value" and
+      // "about.alternateName.@value"
+      Assert.assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 6);
 
       // hits 1 to 5 must contain "oerworldmap" in field "name".
       // hit 1 should be the Service named "OERWorldMap"
-      for (int i = 0; i < 5; i++) {
+
+      for (int i = 0; i < 4; i++) {
         Assert.assertTrue(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
       }
       // hits 5 and 6 must not contain "oerworldmap" in field "name"
-      for (int i = 5; i < 7; i++) {
+      for (int i = 4; i < 6; i++) {
         Assert.assertFalse(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
       }
       // Resources db6 must not be found, since it only contains "oerworldmap"
