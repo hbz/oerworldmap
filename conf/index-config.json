@@ -159,6 +159,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -399,9 +400,6 @@
         },
         "about": {
           "properties": {
-            "license": {
-              "type": "string"
-            },
             "about": {
               "properties": {
                 "name": {
@@ -460,6 +458,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                    "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -557,6 +556,62 @@
                 "@type": {
                   "index": "not_analyzed",
                   "type": "string"
+                }
+              }
+            },
+            "licenseConcept": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "alternateName": {
+                  "properties": {
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@value": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "inScheme": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "name": {
+                  "properties": {
+                    "@language": {
+                      "type": "string"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "topConceptOf": {
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    },
+                    "@type": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             },
@@ -667,6 +722,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -834,6 +890,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                    "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -1039,9 +1096,6 @@
             },
             "affiliation": {
               "properties": {
-                "license": {
-                  "type": "string"
-                },
                 "about": {
                   "properties": {
                     "@id": {
@@ -1066,6 +1120,7 @@
                     "location": {
                       "properties": {
                         "geo": {
+                          "type": "geo_point",
                           "properties": {
                             "lat": {
                               "type": "double",
@@ -1180,6 +1235,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -1515,6 +1571,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -1574,6 +1631,7 @@
                     "location": {
                       "properties": {
                         "geo": {
+                          "type": "geo_point",
                           "properties": {
                             "lat": {
                               "type": "double",
@@ -1889,6 +1947,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -2160,6 +2219,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -2327,6 +2387,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -2508,6 +2569,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -2596,6 +2658,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -2646,9 +2709,6 @@
             },
             "provides": {
               "properties": {
-                "license": {
-                  "type": "string"
-                },
                 "about": {
                   "properties": {
                     "@id": {
@@ -2673,6 +2733,7 @@
                     "location": {
                       "properties": {
                         "geo": {
+                          "type": "geo_point",
                           "properties": {
                             "lat": {
                               "type": "double",
@@ -2792,6 +2853,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -3095,6 +3157,7 @@
                     "location": {
                       "properties": {
                         "geo": {
+                          "type": "geo_point",
                           "properties": {
                             "lat": {
                               "type": "double",
@@ -3280,6 +3343,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -3490,6 +3554,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -3608,6 +3673,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -3814,6 +3880,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -3939,6 +4006,7 @@
                     "location": {
                       "properties": {
                         "geo": {
+                          "type": "geo_point",
                           "properties": {
                             "lat": {
                               "type": "double",
@@ -4143,6 +4211,7 @@
             "location": {
               "properties": {
                 "geo": {
+                  "type": "geo_point",
                   "properties": {
                     "lat": {
                       "type": "double",
@@ -4300,6 +4369,7 @@
                 "location": {
                   "properties": {
                     "geo": {
+                      "type": "geo_point",
                       "properties": {
                         "lat": {
                           "type": "double",
@@ -4473,6 +4543,7 @@
                     "location": {
                       "properties": {
                         "geo": {
+                          "type": "geo_point",
                           "properties": {
                             "lat": {
                               "type": "double",
@@ -4533,9 +4604,6 @@
                       "type": "string"
                     }
                   }
-                },
-                "license": {
-                  "type": "string"
                 },
                 "created": {
                   "properties": {
