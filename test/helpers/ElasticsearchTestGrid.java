@@ -32,6 +32,9 @@ public class ElasticsearchTestGrid {
 
   @AfterClass
   public static void tearDown() throws Exception {
+    if (mConfig.getBoolean("es.node.inmemory")) {
+      mEsConfig.deleteIndex(mConfig.getString("es.index.name"));
+    }
     mEsConfig.tearDown();
   }
 }

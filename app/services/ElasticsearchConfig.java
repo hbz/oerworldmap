@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -138,11 +140,11 @@ public class ElasticsearchConfig {
   }
 
   private CreateIndexResponse createIndex(String aIndex) {
-    CreateIndexResponse response = mClient.admin().indices().prepareCreate(mIndex).execute().actionGet();
-    // mClient.admin().cluster().health(new
-    // ClusterHealthRequest(aIndex).waitForActiveShards(1)).actionGet();
-    mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet(5000);
-    return response;
+    return mClient.admin().indices().prepareCreate(mIndex).execute().actionGet();
+  }
+
+  public DeleteIndexResponse deleteIndex(String aIndex) {
+    return mClient.admin().indices().delete(new DeleteIndexRequest(mIndex)).actionGet();
   }
 
   private void refreshElasticsearch(String aIndex) {
