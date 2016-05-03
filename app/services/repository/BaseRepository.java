@@ -42,7 +42,7 @@ public class BaseRepository extends Repository
     List<Resource> resources = getResources("_all", aId);
     // TODO: find better performing query
     for (Resource resource : resources) {
-      if (resource.getAsString(JsonLdConstants.ID).equals(aId)) {
+      if (resource == null || resource.getAsString(JsonLdConstants.ID).equals(aId)) {
         continue;
       }
       String type = resource.getAsString(JsonLdConstants.TYPE);
