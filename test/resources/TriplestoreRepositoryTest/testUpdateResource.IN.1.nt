@@ -1,0 +1,4 @@
+<info:alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<info:alice> <http://schema.org/name> "Alice in Wonderland"@en .
+<info:bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<info:bob> <http://schema.org/name> "Bob"@de .

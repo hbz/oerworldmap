@@ -1,10 +1,10 @@
 {
   "@type": "Article",
-  "@id": "456",
+  "@id": "info:456",
   "creator": [
     {
       "@type": "Person",
-      "@id": "123",
+      "@id": "info:123",
       "name": [
         {
           "@language": "de",
@@ -12,5 +12,6 @@
         }
       ]
     }
-  ]
+  ],
+  "@context": "http://schema.org/"
 }

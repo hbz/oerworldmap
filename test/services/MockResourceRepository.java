@@ -26,22 +26,37 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   public void addResource(@Nonnull Resource aResource) throws IOException {
-    addResource(aResource, "Thing");
+    addResource(aResource, new HashMap<>());
   }
 
   /**
    * Add a new resource to the repository.
-   * 
+   *
    * @param aResource
+   * @param aMetadata
    */
-  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
+  @Override
+  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }
 
   /**
+   * Add a new resource to the repository.
+   *
+   * @param aResources
+   * @param aMetadata
+   */
+  @Override
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+    for (Resource resource : aResources) {
+      addResource(resource, aMetadata);
+    }
+  }
+
+  /**
    * Get a Resource specified by the given identifier.
-   * 
+   *
    * @param aId
    * @return the Resource
    */
@@ -51,7 +66,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId) {
+  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
     Resource resource = db.get(aId);
     db.remove(aId);
     return resource;
@@ -64,6 +79,10 @@ public class MockResourceRepository extends Repository implements Readable, Writ
 
   public int size() {
     return db.size();
+  }
+
+  public String toString() {
+    return db.toString();
   }
 
 }

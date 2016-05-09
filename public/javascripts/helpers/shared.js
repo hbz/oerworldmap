@@ -295,6 +295,7 @@ Handlebars.registerHelper('getField', function (string, options) {
 });
 
 Handlebars.registerHelper('getIcon', function (string, options) {
+  var type = string || "";
   var icons = {
     'service': 'desktop',
     'person': 'user',
@@ -305,7 +306,9 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'conceptscheme': 'sitemap',
     'event': 'calendar'
   };
-  return new Handlebars.SafeString('<i class="fa fa-fw fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
+  return new Handlebars.SafeString(
+    '<i class="fa fa-fw fa-' + (icons[type.toLowerCase()] || 'question') + '"></i>'
+  );
 });
 
 Handlebars.registerHelper('json', function (obj, options) {
