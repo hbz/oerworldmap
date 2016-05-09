@@ -6,6 +6,8 @@ cache:
   - $HOME/.ivy2/cache
 services:
   - elasticsearch
+install:
+  - cd node/json-frame/ && npm install && cd ../..
 before_script:
   - cp conf/travis.conf conf/test.conf
 branches:
