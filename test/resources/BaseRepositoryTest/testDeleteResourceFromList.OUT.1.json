@@ -27,5 +27,6 @@
   } ],
   "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503",
   "url" : "http://graphthinking.com",
-  "email" : "foo@bar.de"
+  "email" : "foo@bar.de",
+  "@context" : "http://schema.org/"
 }

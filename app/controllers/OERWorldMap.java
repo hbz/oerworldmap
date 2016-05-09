@@ -2,9 +2,12 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -17,7 +20,10 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.config.Config;
+import helpers.JSONForm;
+import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -67,6 +73,7 @@ public abstract class OERWorldMap extends Controller {
 
   //TODO: is this right here? how else to implement?
   public static String getLabel(String aId) {
+
     Resource resource = mBaseRepository.getResource(aId);
     if (null == resource) {
       return aId;
@@ -98,6 +105,7 @@ public abstract class OERWorldMap extends Controller {
         }
       }
     }
+
     return aId;
   }
 
@@ -167,6 +175,38 @@ public abstract class OERWorldMap extends Controller {
     return mBaseRepository;
   }
 
+  /**
+   * Get resource from JSON body or form data
+   * @return The JSON node
+   */
+  protected static JsonNode getJsonFromRequest() {
+
+    JsonNode jsonNode = request().body().asJson();
+    if (jsonNode == null) {
+      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
+      if (formUrlEncoded != null) {
+        jsonNode = JSONForm.parseFormData(formUrlEncoded, true);
+      }
+    }
+    return jsonNode;
+
+  }
+
+  /**
+   * Get metadata suitable for record provinence
+   *
+   * @return Map containing current user in author and current time in date field.
+   */
+  protected static Map<String, String> getMetadata() {
+
+    Map<String, String> metadata = new HashMap<>();
+    metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    metadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    return metadata;
+
+  }
+
+
   private static String getClientTemplates() {
 
     final List<String> templates = new ArrayList<>();
@@ -183,7 +223,9 @@ public abstract class OERWorldMap extends Controller {
     for (String path : paths) {
       try {
         String template = "<script id=\"".concat(path).concat("\" type=\"text/mustache\">\n");
-        template = template.concat(IOUtils.toString(classLoader.getResourceAsStream(dir + path)));
+        InputStream templateStream = classLoader.getResourceAsStream(dir + path);
+        template = template.concat(IOUtils.toString(templateStream));
+        templateStream.close();
         template = template.concat("</script>\n\n");
         templates.add(template);
       } catch (IOException e) {

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -30,14 +31,21 @@ public class StaticPage extends OERWorldMap {
     String titlePath = path.concat(title).concat(extension);
     String body;
 
+    InputStream inputStream;
     try {
-      body = IOUtils.toString(classLoader.getResourceAsStream(titleLocalePath));
+      inputStream = classLoader.getResourceAsStream(titleLocalePath);
+      body = IOUtils.toString(inputStream);
+      inputStream.close();
     } catch (NullPointerException | IOException noLocale) {
       try {
-        body = IOUtils.toString(classLoader.getResourceAsStream(titleLanguagePath));
+        inputStream = classLoader.getResourceAsStream(titleLanguagePath);
+        body = IOUtils.toString(inputStream);
+        inputStream.close();
       } catch (NullPointerException | IOException noLanguage) {
         try {
-          body = IOUtils.toString(classLoader.getResourceAsStream(titlePath));
+          inputStream = classLoader.getResourceAsStream(titlePath);
+          body = IOUtils.toString(inputStream);
+          inputStream.close();
         } catch (NullPointerException | IOException noPage) {
           return notFound("Page not found");
         }

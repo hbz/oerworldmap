@@ -1,10 +1,10 @@
 package services;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
@@ -22,49 +22,37 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   private static ElasticsearchRepository mElasticsearchRepo = new ElasticsearchRepository(mConfig);
 
-  private static Resource mResource1;
-  private static Resource mResource2;
-  private static Resource mResource3;
-
   @BeforeClass
   public static void setupResources() throws IOException {
     mElasticsearchRepo.deleteIndex(mConfig.getString("es.index.name"));
     mElasticsearchRepo.createIndex(mConfig.getString("es.index.name"));
-
-    mResource1 = new Resource("Person");
-    mResource1.put("name", "oeruser1");
-    mResource1.put("worksFor", "oerknowledgecloud.org");
-
-    mResource2 = new Resource("Person", UUID.randomUUID().toString());
-    mResource2.put("name", "oeruser2");
-    mResource2.put("worksFor", "unesco.org");
-
-    mResource3 = new Resource("Person", UUID.randomUUID().toString());
-    mResource3.put("name", "oeruser3");
-    mResource3.put("worksFor", "unesco.org");
-
-    mElasticsearchRepo.addResource(mResource1, "Person");
-    mElasticsearchRepo.addResource(mResource2, "Person");
-    mElasticsearchRepo.addResource(mResource3, "Person");
-    mElasticsearchRepo.refreshIndex(mConfig.getString("es.index.name"));
   }
 
   @Test
   public void testAddAndQueryResources() throws IOException, ParseException {
+    Resource in1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
+    Resource in2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
+    mElasticsearchRepo.addResource(in1, new HashMap<>());
+    mElasticsearchRepo.addResource(in2, new HashMap<>());
+
     List<Resource> resourcesGotBack = mElasticsearchRepo.getAll("Person");
-    Assert.assertTrue(resourcesGotBack.contains(mResource1));
-    Assert.assertTrue(resourcesGotBack.contains(mResource2));
+    Assert.assertTrue(resourcesGotBack.contains(in1));
+    Assert.assertFalse(resourcesGotBack.contains(in2));
   }
 
   @Test
   public void testAddAndEsQueryResources() throws IOException, ParseException {
-    final String aQueryString = "Person";
+    Resource in1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
+    Resource in2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
+    mElasticsearchRepo.addResource(in1, new HashMap<>());
+    mElasticsearchRepo.addResource(in2, new HashMap<>());
+    final String aQueryString = "*";
     ResourceList result = null;
     try {
-      // TODO : this test currently presumes that there is some data existent in
-      // your elasticsearch instance. Otherwise it will fail. This restriction
-      // can be overturned when a parallel method for the use of POST is
-      // introduced in ElasticsearchRepository.
       result = mElasticsearchRepo.query(aQueryString, 0, 10, null, null);
     } catch (IOException | ParseException e) {
       e.printStackTrace();
@@ -76,6 +64,12 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   @Test
   public void testUniqueFields() throws IOException, ParseException {
+    Resource in1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
+    Resource in2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
+    mElasticsearchRepo.addResource(in1, new HashMap<>());
+    mElasticsearchRepo.addResource(in2, new HashMap<>());
     List<Resource> resourcesGotBack = mElasticsearchRepo.getAll("Person");
     Set<String> ids = new HashSet<String>();
     Set<String> names = new HashSet<String>();
@@ -94,8 +88,18 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     // unique fields: ids and names (in this case shall be unique, i. e.
     // appearing exactly one time per Resource
     Assert.assertTrue(resourcesGotBack.size() == ids.size() && ids.size() == names.size());
-    // non-unique fields : some "persons" work for the same employer:
-    Assert.assertTrue(resourcesGotBack.size() > employers.size());
+
+  }
+
+  @Test
+  public void testGetResourcesWithWildcard() throws IOException {
+    Resource in1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
+    Resource in2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
+    mElasticsearchRepo.addResource(in1, new HashMap<>());
+    mElasticsearchRepo.addResource(in2, new HashMap<>());
+    Assert.assertEquals(2, mElasticsearchRepo.getResources("\\*.@id", "info:123").size());
   }
 
 }

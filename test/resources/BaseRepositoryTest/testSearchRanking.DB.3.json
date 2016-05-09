@@ -1,5 +1,6 @@
 {
   "@type" : "Organization",
+  "@context" : "http://schema.org/",
   "provides" : [ {
     "audience" : [ ],
     "provider" : [ {
@@ -70,7 +71,7 @@
     "name" : [ {
       "@value" : "OERWorldMap",
       "@language" : "en"
-    } ],    
+    } ],
     "@id" : "urn:uuid:3a25e950-a3c0-425d-946d-980666500001"
   } ],
   "name" : [ {
