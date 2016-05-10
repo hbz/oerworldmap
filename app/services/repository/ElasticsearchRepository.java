@@ -27,6 +27,7 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -56,6 +57,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   private static ElasticsearchConfig mConfig;
   private Client mClient;
+  private Fuzziness mFuzziness;
 
   //final private ElasticsearchProvider elasticsearch;
 
@@ -66,6 +68,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings()).build();
     mClient = new TransportClient(settings)
       .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
+    mFuzziness = mConfig.getFuzziness();
   }
 
   @Override
@@ -347,7 +350,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString);
+      queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness);
       if (fieldBoosts != null) {
         for (String fieldBoost : fieldBoosts) {
           try {

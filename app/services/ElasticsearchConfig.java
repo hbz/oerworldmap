@@ -1,7 +1,5 @@
 package services;
 
-import helpers.UniversalFunctions;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,9 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.unit.Fuzziness;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
+import helpers.UniversalFunctions;
 
 public class ElasticsearchConfig {
 
@@ -140,5 +141,22 @@ public class ElasticsearchConfig {
 
   public String getIndexConfigString() throws IOException {
     return UniversalFunctions.readFile(INDEX_CONFIG_FILE, StandardCharsets.UTF_8);
+  }
+
+  public Fuzziness getFuzziness() {
+    String fuzzyString = mConfig.getString("es.search.fuzziness");
+    if (StringUtils.isEmpty(fuzzyString) || fuzzyString.equals("AUTO")) {
+      return Fuzziness.AUTO;
+    }
+    if (fuzzyString.equals("ZERO")) {
+      return Fuzziness.ZERO;
+    }
+    if (fuzzyString.equals("ONE")) {
+      return Fuzziness.ONE;
+    }
+    if (fuzzyString.equals("TWO")) {
+      return Fuzziness.TWO;
+    }
+    return Fuzziness.AUTO;
   }
 }
