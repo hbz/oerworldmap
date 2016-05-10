@@ -10,7 +10,7 @@
 
     {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Service.alternateName") tooltip=(i18n "Service.alternateName" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=serviceType key="serviceType" title=(i18n "Service.serviceType") tooltip=(i18n "Service.serviceType" bundle="descriptions") hidden=true multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=serviceType key="serviceType" title=(i18n "Service.serviceType") tooltip=(i18n "Service.serviceType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
     {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Service.description") tooltip=(i18n "Service.description" bundle="descriptions")}}
 
@@ -48,6 +48,6 @@
 
     {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Service.sameAs") tooltip=(i18n "Service.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
-    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Service.tag") tooltip=(i18n "Service.tag" bundle="descriptions") hidden=false multiple=true type="text"}}
+    {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Service.tag") tooltip=(i18n "Service.tag" bundle="descriptions") hidden=false multiple=true input_type="text"}}
 
 </fieldset>
