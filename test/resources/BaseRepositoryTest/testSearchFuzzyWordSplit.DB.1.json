@@ -1,0 +1,70 @@
+{
+  "provider": [
+    {
+      "@type": "Organization", 
+      "provides": [
+        {
+          "@type": "Service", 
+          "name": [
+            {
+              "@value": "LeTest", 
+              "@language": "en"
+            }
+          ], 
+          "@id": "urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001"
+        }
+      ], 
+      "name": [
+        {
+          "@value": "Test University", 
+          "@language": "en"
+        }
+      ], 
+      "description": [
+        {
+          "@value": "Phantastic Tests.", 
+          "@language": "en"
+        }
+      ], 
+      "location": {
+        "geo": {
+          "lon": 33.3333333, 
+          "lat": 44.4444444
+        }, 
+        "address": {
+          "addressCountry": "BE", 
+          "streetAddress": "Street 1", 
+          "@type": "PostalAddress", 
+          "postalCode": "12345", 
+          "addressLocality": "Town", 
+          "addressRegion": ""
+        }, 
+        "@type": "Place"
+      }, 
+      "@id": "urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00002", 
+      "url": "http://thegreatprovider.net"
+    }
+  ], 
+  "availableChannel": [
+    {
+      "serviceUrl": "http://somewhereinthe.net/", 
+      "availableLanguage": [
+        "en"
+      ]
+    }
+  ], 
+  "@type": "Service", 
+  "name": [
+    {
+      "@value": "Letest", 
+      "@language": "en"
+    }
+  ], 
+  "description": [
+    {
+      "@value": "Le Test is an online community for 'finding, authoring and sharing' open educational resources (OER). Le Test was developed by the LeTest team.", 
+      "@language": "en"
+    }
+  ], 
+  "@id": "urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001"
+}

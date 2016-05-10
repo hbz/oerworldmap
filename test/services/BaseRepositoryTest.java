@@ -361,6 +361,51 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
+  @Test
+  public void testSearchFuzzyWordSplit() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyWordSplit.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(2000);
+    QueryContext queryContext = new QueryContext(null, null);
+
+    // query correct spelling:
+    List<Resource> correctQuery = mBaseRepo.query("Letest", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"Letest\".", correctQuery.size() == 1);
+
+    // query with white space inserted
+    List<Resource> alternateQuery = mBaseRepo.query("Le Test", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"Le Test\".", alternateQuery.size() == 1);
+
+    mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00002", mMetadata);
+  }
+
+  @Test
+  public void testSearchFuzzyExtension() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyExtension.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    System.out.println(db1.toString());
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(2000);
+    QueryContext queryContext = new QueryContext(null, null);
+
+    // query correct spelling:
+    List<Resource> correctQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"foobar.ao\".", correctQuery.size() == 1);
+
+    // query with white space inserted
+    List<Resource> alternateQuery = mBaseRepo.query("foobar", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"foobar\".", alternateQuery.size() == 1);
+
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfea00001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfea00002", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
