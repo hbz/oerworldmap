@@ -18,17 +18,14 @@ public class Global extends GlobalSettings {
 
   @Override
   public void onStart(Application app) {
-
     if (app.isTest()){
       appConfig = new Configuration(ConfigFactory.parseFile(new File("conf/test.conf")).resolve());
     }
     else{
       appConfig = new Configuration(ConfigFactory.parseFile(new File("conf/application.conf")).resolve());
     }
-
     Logger.info("oerworldmap has started");
     Locale.setDefault(new Locale("en", "US"));
-
   }
 
   @Override
@@ -48,7 +45,7 @@ public class Global extends GlobalSettings {
     } else {
       Locale.setDefault(new Locale("en"));
     }
-    //Logger.info("Language is " + Locale.getDefault());
+    Logger.info("Language is " + Locale.getDefault());
     return super.onRequest(request, actionMethod);
   }
 

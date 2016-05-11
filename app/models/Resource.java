@@ -152,7 +152,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public static Resource fromJsonFile(String aFile) throws IOException {
     InputStream in = Play.application().classloader().getResourceAsStream(aFile);
     String json = IOUtils.toString(in, "UTF-8");
-    in.close();
     return Resource.fromJson(json);
   }
 
@@ -326,10 +325,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   public String getId() {
     return getAsString(JsonLdConstants.ID);
-  }
-
-  public String getType() {
-    return getAsString(JsonLdConstants.TYPE);
   }
 
   public void merge(Resource aOther) {

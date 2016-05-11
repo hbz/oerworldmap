@@ -1,36 +1,25 @@
 package services.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.typesafe.config.Config;
+import helpers.JsonLdConstants;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.jena.atlas.RuntimeIOException;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.indices.IndexMissingException;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.typesafe.config.Config;
-
-import helpers.JsonLdConstants;
 import models.Resource;
-import play.Logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.digest.DigestUtils;
 
 
 public class FileRepository extends Repository implements Writable, Readable {
-
-  private Client mClient;
 
   private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>() {
   };
@@ -47,13 +36,12 @@ public class FileRepository extends Repository implements Writable, Readable {
    * Add a new resource to the repository.
    *
    * @param aResource
-   * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull final Resource aResource, @Nonnull final String aType) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     String encodedId = DigestUtils.sha256Hex(id);
-    Path dir = Paths.get(getPath().toString(), aResource.getAsString(JsonLdConstants.TYPE));
+    Path dir = Paths.get(getPath().toString(), aType);
     Path file = Paths.get(dir.toString(), encodedId);
     if (!Files.exists(dir)) {
       Files.createDirectory(dir);
@@ -61,23 +49,9 @@ public class FileRepository extends Repository implements Writable, Readable {
     Files.write(file, aResource.toString().getBytes());
   }
 
-  public void refreshIndex(String aIndex) {
-    try {
-      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
-    } catch (IndexMissingException e) {
-      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
-    throw new UnsupportedOperationException();
-  }
-
   /**
    * Get a Resource specified by the given identifier.
-   *
+   * 
    * @param aId
    * @return the Resource by the given identifier or null if no such Resource
    * exists.
@@ -105,20 +79,23 @@ public class FileRepository extends Repository implements Writable, Readable {
   public List<Resource> getAll(@Nonnull String aType) {
     ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(getPath().toString(), aType);
-    try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir)) {
-      ObjectMapper objectMapper = new ObjectMapper();
-      for (Path resourceFile : resourceFiles) {
-        Map<String, Object> resourceMap;
-        try {
-          resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-          continue;
-        }
-        results.add(Resource.fromMap(resourceMap));
+    DirectoryStream<Path> resourceFiles;
+    try {
+      resourceFiles = Files.newDirectoryStream(typeDir);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      return results;
+    }
+    ObjectMapper objectMapper = new ObjectMapper();
+    for (Path resourceFile : resourceFiles) {
+      Map<String, Object> resourceMap;
+      try {
+        resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        continue;
       }
-    } catch (IOException e) {
-      throw new RuntimeIOException(e);
+      results.add(Resource.fromMap(resourceMap));
     }
     return results;
   }
@@ -126,13 +103,12 @@ public class FileRepository extends Repository implements Writable, Readable {
 
   /**
    * Delete a Resource specified by the given identifier.
-   *
+   * 
    * @param aId
-   * @param aMetadata
    * @return The resource that has been deleted.
    */
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
+  public Resource deleteResource(@Nonnull String aId) {
     Resource resource = this.getResource(aId);
     try {
       Files.delete(getResourcePath(aId));
@@ -144,27 +120,24 @@ public class FileRepository extends Repository implements Writable, Readable {
 
   private Path getResourcePath(@Nonnull final String aId) throws IOException {
     String encodedId = DigestUtils.sha256Hex(aId);
-    DirectoryStream.Filter<Path> directoryFilter = new DirectoryStream.Filter<Path>() {
-      @Override
-      public boolean accept(Path entry) throws IOException {
-        return Files.isDirectory(entry);
-      }
-    };
-
-    try (DirectoryStream<Path> typeDirs = Files.newDirectoryStream(getPath(),directoryFilter)) {
-      for (Path typeDir : typeDirs) {
-        DirectoryStream.Filter<Path> fileFilter =  new DirectoryStream.Filter<Path>() {
+    DirectoryStream<Path> typeDirs = Files.newDirectoryStream(getPath(),
+        new DirectoryStream.Filter<Path>() {
           @Override
           public boolean accept(Path entry) throws IOException {
-            return (entry.getFileName().toString().equals(encodedId));
+            return Files.isDirectory(entry);
           }
-        };
-        try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir, fileFilter)) {
-          Iterator<Path> iterator = resourceFiles.iterator();
-          if (iterator.hasNext()) {
-            return iterator.next();
-          }
-        }
+        });
+
+    for (Path typeDir : typeDirs) {
+      DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir,
+          new DirectoryStream.Filter<Path>() {
+            @Override
+            public boolean accept(Path entry) throws IOException {
+              return (entry.getFileName().toString().equals(encodedId));
+            }
+          });
+      for (Path resourceFile : resourceFiles) {
+        return resourceFile;
       }
     }
 

@@ -17,7 +17,7 @@ import models.Resource;
  */
 public class ResourceDenormalizerTest implements JsonTest {
 
-  //@Test
+  @Test
   public void testNewResourceWithNewReference() throws IOException {
     Resource in = getResourceFromJsonFile(
         "ResourceDenormalizerTest/testNewResourceWithNewReference.IN.json");
@@ -37,7 +37,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(out2, get2);
   }
 
-  //@Test
+  @Test
   public void testNewResourceWithExistingReference() throws IOException {
     Resource in = getResourceFromJsonFile(
         "ResourceDenormalizerTest/testNewResourceWithExistingReference.IN.json");
@@ -63,7 +63,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(out2, get2);
   }
 
-  //@Test
+  @Test
   public void testModifyExistingResource() throws IOException {
     Resource in = getResourceFromJsonFile(
         "ResourceDenormalizerTest/testModifyExistingResource.IN.json");
@@ -96,7 +96,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(out3, get3);
   }
 
-  //@Test
+  @Test
   public void testModifyExistingResourceAllReferences() throws IOException {
     Resource in = getResourceFromJsonFile(
         "ResourceDenormalizerTest/testModifyExistingResourceAllReferences.IN.json");
@@ -136,7 +136,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(out4, get4);
   }
 
-  //@Test
+  @Test
   public void testRemoveReference() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testRemoveReference.IN.json");
     Resource db1 = getResourceFromJsonFile(
@@ -161,7 +161,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(out2, get2);
   }
 
-  //@Test
+  @Test
   public void testResourceWithUnidentifiedObjectValues() throws IOException {
 
     Resource original = getResourceFromJsonFile(
@@ -183,7 +183,7 @@ public class ResourceDenormalizerTest implements JsonTest {
 
   }
 
-  //@Test
+  @Test
   public void testResourceIsUpdatedWithNewUnidentifiedValuesOnly() throws IOException {
     Resource in = getResourceFromJsonFile(
         "ResourceDenormalizerTest/testResourceIsUpdatedWithNewUnidentifiedValuesOnly.IN.json");
@@ -196,7 +196,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(in, denormalized.get(0));
   }
 
-  //@Test
+  @Test
   public void testResourceWithoutIdIsIncludedCompletely() throws IOException {
     Resource in = getResourceFromJsonFile(
         "ResourceDenormalizerTest/testResourceWithoutIdIsIncludedCompletely.IN.json");
@@ -217,7 +217,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     assertEquals(out2, get2);
   }
 
-  //@Test
+  @Test
   public void testDenormalizeStringArray() throws IOException {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testDenormalizeStringArray.IN.json");
     MockResourceRepository repo = new MockResourceRepository();
@@ -227,7 +227,7 @@ public class ResourceDenormalizerTest implements JsonTest {
     }
   }
 
-  //@Test(expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testEmbeddedUnresolvableId() throws IOException {
     Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testEmbeddedUnresolvableId.DB.1.json");
     MockResourceRepository repo = new MockResourceRepository();
@@ -235,8 +235,8 @@ public class ResourceDenormalizerTest implements JsonTest {
     Resource in = getResourceFromJsonFile("ResourceDenormalizerTest/testEmbeddedUnresolvableId.IN.json");
     List<Resource> denormalized = ResourceDenormalizer.denormalize(in, repo);
   }
-
-  //@Test
+  
+  @Test
   public void testUpdateDeletingOneEntry() throws IOException {
     MockResourceRepository repo = new MockResourceRepository();
     Resource db = getResourceFromJsonFile("ResourceDenormalizerTest/testUpdateDeletingOneEntry.DB.1.json");

@@ -1,8 +1,8 @@
 {
-	"attended": {
-		"@type": "Foo"
-	}, 
-	"@type": "Person", 
-	"@id": "info:id002", 
-	"@context": "http://schema.org/"
+  "attended" : {
+    "@type" : "Foo"
+  },
+  "@type" : "Person",
+  "@id" : "id002"
 }
+

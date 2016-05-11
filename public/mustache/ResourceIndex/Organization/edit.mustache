@@ -8,19 +8,19 @@
 
     {{> FormElements/localizedInput.mustache property=name key="name" title=(i18n "Organization.name") tooltip=(i18n "Organization.name" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=url key="url" title=(i18n "Organization.url") tooltip=(i18n "Organization.url" bundle="descriptions") hidden=false multiple=false input_type="url"}}
+    {{> FormElements/input.mustache property=url key="url" title=(i18n "Organization.url") tooltip=(i18n "Organization.url" bundle="descriptions") hidden=false multiple=false type="url"}}
 
-    {{> FormElements/input.mustache property=email key="email" title=(i18n "Organization.email") tooltip=(i18n "Organization.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
+    {{> FormElements/input.mustache property=email key="email" title=(i18n "Organization.email") tooltip=(i18n "Organization.email" bundle="descriptions") hidden=false multiple=false type="email"}}
 
     {{> FormElements/localizedTextarea.mustache property=description key="description" title=(i18n "Organization.description") tooltip=(i18n "Organization.description" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Organization.additionalType") tooltip=(i18n "Organization.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
+    {{> FormElements/input.mustache property=additionalType key="additionalType" title=(i18n "Organization.additionalType") tooltip=(i18n "Organization.additionalType" bundle="descriptions") hidden=true multiple=true type="text"}}
 
-    {{> FormElements/select.mustache property=countryChampionFor key="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") multiple=true input_type="text" options="countries"}}
+    {{> FormElements/select.mustache property=countryChampionFor key="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") multiple=true type="text" options="countries"}}
 
     {{> FormElements/localizedInput.mustache property=alternateName key="alternateName" title=(i18n "Organization.alternateName") tooltip=(i18n "Organization.alternateName" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Organization.image") tooltip=(i18n "Organization.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Organization.image") tooltip=(i18n "Organization.image" bundle="descriptions") hidden=false multiple=false type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location key="location" title=(i18n "Organization.location") tooltip=(i18n "Organization.location" bundle="descriptions")}}
 
@@ -42,11 +42,9 @@
 
     {{> FormElements/id.mustache property=memberOf key="memberOf" title=(i18n "Organization.memberOf") tooltip=(i18n "Organization.memberOf" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Service)"}}
 
-    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Organization.sameAs") tooltip=(i18n "Organization.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
+    {{> FormElements/input.mustache property=sameAs key="sameAs" title=(i18n "Organization.sameAs") tooltip=(i18n "Organization.sameAs" bundle="descriptions") hidden=false multiple=true type="url"}}
 
-    {{> FormElements/id.mustache property=funderOf key="funderOf" title=(i18n "Organization.funderOf") tooltip=(i18n "Organization.funderOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
-
-    {{> FormElements/id.mustache property=organizerFor key="organizerFor" title=(i18n "Organization.organizerFor") tooltip=(i18n "Organization.organizerFor" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+    {{> FormElements/id.mustache property=funderOf key="funderOf" title=(i18n "Action.funderOf") tooltip=(i18n "Action.funderOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
     {{> FormElements/input.mustache property=tag key="tag" title=(i18n "Organization.tag") tooltip=(i18n "Organization.tag" bundle="descriptions") hidden=false multiple=true type="text"}}
 

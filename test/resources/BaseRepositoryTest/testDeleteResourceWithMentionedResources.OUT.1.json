@@ -1,18 +1,17 @@
 {
 	"@type": "Person", 
-	"@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456", 
-	"givenName": "Hans", 
+	"@id": "4g5h6j", 
+	"givenName": "Hans",
 	"familyName": "Wurst", 
 	"affiliation": [
 		{
 			"legalName": "Oh Yeah Company", 
 			"@type": "Organization", 
-			"@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123", 
+			"@id": "1a2s3d", 
 			"employee": {
 				"@type": "Person", 
-				"@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456"
+				"@id": "4g5h6j"
 			}
 		}
-	], 
-	"@context": "http://schema.org/"
+	]
 }

@@ -9,6 +9,5 @@
     "@language" : "en"
   } ],
   "location" : { },
-  "@id" : "urn:uuid:8df0e95f-3381-40dc-8e93-dc7fac083fee",
-  "@context": "http://schema.org/"
+  "@id" : "urn:uuid:8df0e95f-3381-40dc-8e93-dc7fac083fee"
 }

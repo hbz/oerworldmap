@@ -1,10 +1,9 @@
 {
-  "@context": "http://schema.org/",
   "attended" : {
     "@type" : "Event",
-    "@id" : "info:OER15"
+    "@id" : "OER15"
   },
   "@type" : "Person",
-  "@id" : "info:id001"
+  "@id" : "id001"
 }
 

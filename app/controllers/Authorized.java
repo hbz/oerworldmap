@@ -11,7 +11,6 @@ import services.Account;
 import services.QueryContext;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -32,9 +31,9 @@ public class Authorized extends Action.Simple {
 
   static {
     mPermissions = new HashMap<>();
-    try (InputStream is = Play.application().classloader().getResourceAsStream("permissions.properties")) {
+    try {
       Properties permissions = new Properties();
-      permissions.load(is);
+      permissions.load(Play.application().classloader().getResourceAsStream("permissions.properties"));
       for(Map.Entry<Object, Object> permission : permissions.entrySet()) {
         mPermissions.put(permission.getKey().toString(), new ArrayList<>(Arrays.asList(permission.getValue().toString()
           .split(" +"))));
@@ -46,9 +45,9 @@ public class Authorized extends Action.Simple {
 
   static {
     mRoles = new HashMap<>();
-    try (InputStream is = Play.application().classloader().getResourceAsStream("roles.properties")) {
+    try {
       Properties roles = new Properties();
-      roles.load(is);
+      roles.load(Play.application().classloader().getResourceAsStream("roles.properties"));
       for(Map.Entry<Object, Object> role : roles.entrySet()) {
         mRoles.put(role.getKey().toString(), new ArrayList<>(Arrays.asList(role.getValue().toString().split(" +"))));
       }
@@ -116,7 +115,7 @@ public class Authorized extends Action.Simple {
     QueryContext queryContext;
     if (getUserActivities(user, parameters).contains(activity)) {
       queryContext = new QueryContext(user.getId(), getUserRoles(user, parameters));
-      //Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
+      Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
     } else {
       Logger.warn("Unuthorized " + user.getId() + " for " + activity + " with " + parameters);
       // Show prompt for users that are not logged in.
@@ -149,10 +148,10 @@ public class Authorized extends Action.Simple {
 
     for(Map.Entry<String, List<String>> role : mRoles.entrySet()) {
       if (role.getValue().contains(user.getId()) || role.getValue().contains(user.getAsString("email"))) {
-        //Logger.debug("Adding role " + role.getKey() + " for " + user.getId());
+        Logger.debug("Adding role " + role.getKey() + " for " + user.getId());
         roles.add(role.getKey());
       } else {
-        //Logger.debug("Not adding role " + role.getKey() + " for " + user.getId());
+        Logger.debug("Not adding role " + role.getKey() + " for " + user.getId());
       }
     }
 

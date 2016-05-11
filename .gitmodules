@@ -1,9 +1,3 @@
 [submodule "third-party/bootstrap"]
 	path = third-party/bootstrap
 	url = https://github.com/twbs/bootstrap.git
-[submodule "node/json-frame"]
-	path = node/json-frame
-	url = https://github.com/literarymachine/json-frame.git
-[submodule "express"]
-	path = node/express
-	url = https://github.com/expressjs/express.git

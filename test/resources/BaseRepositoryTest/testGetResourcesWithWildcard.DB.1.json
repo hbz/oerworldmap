@@ -1,11 +1,10 @@
 {
   "@type": "Person",
-  "@id": "info:123",
+  "@id": "123",
   "name": [
     {
       "@language": "de",
       "@value": "Foo"
     }
-  ],
-  "@context": "http://schema.org/"
+  ]
 }

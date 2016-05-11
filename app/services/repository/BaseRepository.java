@@ -1,189 +1,104 @@
 package services.repository;
 
-import java.io.File;
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
 
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.tdb.TDBFactory;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigException;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import models.Commit;
-import models.GraphHistory;
+import helpers.JsonLdConstants;
+import helpers.UniversalFunctions;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
-import models.TripleCommit;
 import play.Logger;
-import services.IndexQueue;
 import services.QueryContext;
-import services.ResourceIndexer;
+import services.ResourceDenormalizer;
 
 public class BaseRepository extends Repository
-    implements Readable, Writable, Queryable, Aggregatable, Versionable {
+    implements Readable, Writable, Queryable, Aggregatable {
 
-  private ElasticsearchRepository mElasticsearchRepo;
-  private TriplestoreRepository mTriplestoreRepository;
-  private ResourceIndexer mResourceIndexer;
-  private ActorRef mIndexQueue;
+  private static ElasticsearchRepository mElasticsearchRepo;
+  // private static FileRepository mFileRepo;
 
-  public BaseRepository(Config aConfiguration) throws IOException {
-
+  public BaseRepository(Config aConfiguration) {
     super(aConfiguration);
-
     mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
-    Dataset dataset;
-
-    try {
-      dataset = TDBFactory.createDataset(aConfiguration.getString("tdb.dir"));
-    } catch (ConfigException e) {
-      Logger.warn("No persistent TDB configured", e);
-      dataset = DatasetFactory.createMem();
-    }
-
-    File commitDir = new File(aConfiguration.getString("graph.history.dir"));
-    if (!commitDir.exists()) {
-      Logger.warn("Commit dir does not exist");
-      if (!commitDir.mkdir()) {
-        throw new IOException("Could not create commit dir");
-      }
-    }
-
-    File historyFile = new File(aConfiguration.getString("graph.history.file"));
-    if (!historyFile.exists()) {
-      Logger.warn("History file does not exist");
-      if (!historyFile.createNewFile()) {
-        throw new IOException("Could not create history file");
-      }
-    }
-    GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
-
-    mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo, graphHistory);
-    mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, dataset.getDefaultModel(), graphHistory);
-
+    // mFileRepo = new FileRepository(aConfiguration);
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
-
-    Resource resource = mTriplestoreRepository.deleteResource(aId, aMetadata);
-
-    if (resource != null) {
-      mElasticsearchRepo.deleteResource(aId, aMetadata);
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
-      mIndexQueue.tell(diff, mIndexQueue);
-
+  public Resource deleteResource(@Nonnull String aId) throws IOException {
+    // query Resources that mention this Resource and delete the references
+    List<Resource> resources = getResources("_all", aId);
+    // TODO: find better performing query
+    for (Resource resource : resources) {
+      if (resource.getAsString(JsonLdConstants.ID).equals(aId)) {
+        continue;
+      }
+      String type = resource.getAsString(JsonLdConstants.TYPE);
+      resource = resource.removeAllReferencesTo(aId);
+      addResource(getRecord(resource), type);
     }
 
-    return resource;
+    // delete the resource itself
+    Resource result = mElasticsearchRepo.deleteResource(aId + "." + Record.RESOURCEKEY);
+    return result;
+  }
 
+  public void addResource(Resource aResource) throws IOException {
+    List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
+    for (Resource dnr : denormalizedResources) {
+      if (dnr.hasId()) {
+        Resource rec = getRecord(dnr);
+        // Extract the type from the resource, otherwise everything will be
+        // typed WebPage!
+        String type = dnr.getAsString(JsonLdConstants.TYPE);
+        addResource(rec, type);
+      }
+    }
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
-    Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
-    Commit commit = new TripleCommit(header, diff);
-
-    mTriplestoreRepository.commit(commit);
-    mIndexQueue.tell(diff, mIndexQueue);
-
+  public void addResource(@Nonnull Resource aResource, @Nonnull String aType) throws IOException {
+    mElasticsearchRepo.addResource(aResource, aType);
+    // FIXME: As is the case for getResource, this may result in too many open
+    // files
+    // mFileRepo.addResource(aResource, aType);
   }
 
-  /**
-   * Add several CBDs of resources, using individual commits with metadata provided in Map
-   * @param aResources
-   *          The resources to be added
-   * @param aMetadata
-   *          The metadata to use
-   * @throws IOException
-   */
-  @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
-    List<Commit> commits = new ArrayList<>();
-    Commit.Diff indexDiff = new TripleCommit.Diff();
-    for (Resource resource : aResources) {
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
-      indexDiff.append(diff);
-      commits.add(new TripleCommit(header, diff));
-    }
-
-    mTriplestoreRepository.commit(commits);
-    mIndexQueue.tell(indexDiff, mIndexQueue);
-
-  }
-
-  /**
-   * As opposed to {@link #addResources}, this method imports resources using individual commits with metadata
-   * extracted from a document surrounding the actual resource (a "record").
-   *
-   * @param aRecords
-   *          The resources to import
-   * @throws IOException
-   */
-  public void importRecords(@Nonnull List<Resource> aRecords, Map<String, String> aDefaultMetadata) throws IOException {
-
-    aRecords.sort(((o1, o2) -> ZonedDateTime.parse(o1.getAsString(Record.DATE_CREATED))
-      .compareTo(ZonedDateTime.parse(o2.getAsString(Record.DATE_CREATED)))));
-
-    Commit.Diff indexDiff = new TripleCommit.Diff();
-    for (Resource record : aRecords) {
-      String author = record.getAsString(Record.AUTHOR);
-      if (StringUtils.isEmpty(author)) {
-        author = aDefaultMetadata.get(TripleCommit.Header.AUTHOR_HEADER);
+  public ProcessingReport validateAndAdd(Resource aResource) throws IOException {
+    List<Resource> denormalizedResources = ResourceDenormalizer.denormalize(aResource, this);
+    ProcessingReport processingReport = new ListProcessingReport();
+    for (Resource dnr : denormalizedResources) {
+      try {
+        processingReport.mergeWith(dnr.validate());
+      } catch (ProcessingException e) {
+        Logger.error(e.toString());
       }
-      ZonedDateTime date = ZonedDateTime.parse(record.getAsString(Record.DATE_CREATED));
-      if (date == null) {
-        date = ZonedDateTime.parse(aDefaultMetadata.get(TripleCommit.Header.DATE_HEADER));
-      }
-      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      resource.put("@context", "http://schema.org/");
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
-      Commit commit = new TripleCommit(new TripleCommit.Header(author, date), diff);
-      indexDiff.append(diff);
-      mTriplestoreRepository.commit(commit);
     }
-
-    mIndexQueue.tell(indexDiff, mIndexQueue);
-
-  }
-
-  /**
-   * Import resources, extracting any embedded resources and adding those too, in the same commit
-   * @param aResources
-   *          The resources to flatten and import
-   * @throws IOException
-   */
-  public void importResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
-
-    Commit.Diff diff = mTriplestoreRepository.getDiffs(aResources);
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-    mTriplestoreRepository.commit(new TripleCommit(header, diff));
-    mIndexQueue.tell(diff, mIndexQueue);
-
+    if (!processingReport.isSuccess()) {
+      return processingReport;
+    }
+    for (Resource dnr : denormalizedResources) {
+      if (dnr.hasId()) {
+        Resource rec = getRecord(dnr);
+        // Extract the type from the resource, otherwise everything will be
+        // typed WebPage!
+        String type = dnr.getAsString(JsonLdConstants.TYPE);
+        addResource(rec, type);
+      }
+    }
+    return processingReport;
   }
 
   @Override
@@ -201,20 +116,70 @@ public class BaseRepository extends Repository
       Logger.error(e.toString());
       return null;
     }
+    // members are Records, unwrap to plain Resources
+    List<Resource> resources = new ArrayList<>();
+    resources.addAll(unwrapRecords(resourceList.getItems()));
+    resourceList.setItems(resources);
     return resourceList;
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return mTriplestoreRepository.getResource(aId);
+    Resource resource = mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    if (resource == null || resource.isEmpty()) {
+      // FIXME: This may lead to inconsistencies (too many open files) when ES
+      // and FS are out of sync
+      // resource = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    }
+    if (resource != null) {
+      resource = (Resource) resource.get(Record.RESOURCEKEY);
+    }
+    return resource;
   }
 
   public Resource getRecord(@Nonnull String aId) {
-    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCE_KEY);
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    return mElasticsearchRepo.getResources(aField, aValue);
+    List<Resource> records = mElasticsearchRepo.getResources(aField, aValue);
+    if (records != null) {
+      return unwrapRecords(records);
+    }
+    return null;
+  }
+
+  private Resource getRecord(Resource aResource) {
+    String id = (String) aResource.get(JsonLdConstants.ID);
+    Resource record;
+    if (null != id) {
+      record = getRecordFromRepo(id);
+      if (null == record) {
+        record = new Record(aResource);
+      } else {
+        record.put("dateModified", UniversalFunctions.getCurrentTime());
+        record.put(Record.RESOURCEKEY, aResource);
+      }
+    } else {
+      record = new Record(aResource);
+    }
+    return record;
+  }
+
+  private Resource getRecordFromRepo(String aId) {
+    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    // if (record == null || record.isEmpty()) {
+    // record = mFileRepo.getResource(aId + "." + Record.RESOURCEKEY);
+    // }
+    // return record;
+  }
+
+  private List<Resource> unwrapRecords(List<Resource> aRecords) {
+    List<Resource> resources = new ArrayList<Resource>();
+    for (Resource rec : aRecords) {
+      resources.add((Resource) rec.get(Record.RESOURCEKEY));
+    }
+    return resources;
   }
 
   @Override
@@ -236,31 +201,6 @@ public class BaseRepository extends Repository
       Logger.error(e.toString());
     }
     return resources;
-  }
-
-  @Override
-  public Resource stage(Resource aResource) throws IOException {
-    return mTriplestoreRepository.stage(aResource);
-  }
-
-  @Override
-  public List<Commit> log(String aId) {
-    return mTriplestoreRepository.log(aId);
-  }
-
-  @Override
-  public void commit(Commit aCommit) throws IOException {
-    mTriplestoreRepository.commit(aCommit);
-  }
-
-  @Override
-  public Commit.Diff getDiff(Resource aResource) {
-    return mTriplestoreRepository.getDiff(aResource);
-  }
-
-  @Override
-  public Commit.Diff getDiff(List<Resource> aResources) {
-    return mTriplestoreRepository.getDiff(aResources);
   }
 
 }

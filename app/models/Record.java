@@ -6,23 +6,19 @@ import helpers.UniversalFunctions;
 public class Record extends Resource {
 
   /**
-   *
+   * 
    */
   private static final long serialVersionUID = 5181258925743099684L;
-  public static final String TYPE = "WebPage";
-  public static final String RESOURCE_KEY = "about";
-  public static final String DATE_CREATED = "dateCreated";
-  public static final String DATE_MODIFIED = "dateModified";
-  public static final String AUTHOR = "author";
+  public static final String RESOURCEKEY = "about";
 
   public Record(Resource aResource) {
-    super(TYPE, aResource.get(JsonLdConstants.ID) + "." + RESOURCE_KEY);
-    put(RESOURCE_KEY, aResource);
-    put(DATE_MODIFIED, UniversalFunctions.getCurrentTime());
+    super("WebPage", aResource.get(JsonLdConstants.ID) + "." + RESOURCEKEY);
+    put(RESOURCEKEY, aResource);
+    put("dateCreated", UniversalFunctions.getCurrentTime());
   }
 
   public Resource getResource() {
-    return (Resource) get(RESOURCE_KEY);
+    return (Resource) get(RESOURCEKEY);
   }
 
 }

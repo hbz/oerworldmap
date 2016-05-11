@@ -1,6 +1,5 @@
 {
-  "@context": "http://schema.org/",
   "@type" : "Event",
-  "@id" : "info:OER15"
+  "@id" : "OER15"
 }
 
