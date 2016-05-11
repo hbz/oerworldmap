@@ -368,7 +368,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
-    Thread.sleep(2000);
+    Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null, null);
 
     // query correct spelling:
@@ -378,6 +378,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // query with white space inserted
     List<Resource> alternateQuery = mBaseRepo.query("Le Test", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Could not find \"Le Test\".", alternateQuery.size() == 1);
+
+    System.out.println("alternateName: " + getNameList(alternateQuery));
 
     mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00002", mMetadata);
@@ -391,14 +393,14 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
-    Thread.sleep(2000);
+    Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null, null);
 
     // query correct spelling:
     List<Resource> correctQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Could not find \"foobar.ao\".", correctQuery.size() == 1);
 
-    // query with white space inserted
+    // query with extension being dropped
     List<Resource> alternateQuery = mBaseRepo.query("foobar", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Could not find \"foobar\".", alternateQuery.size() == 1);
 

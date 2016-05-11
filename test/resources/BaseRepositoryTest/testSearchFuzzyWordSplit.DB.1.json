@@ -66,5 +66,6 @@
       "@language": "en"
     }
   ], 
-  "@id": "urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001"
+  "@id": "urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001",
+  "@context": "http://schema.org/"
 }
