@@ -125,7 +125,7 @@ public class ResourceDenormalizer {
       Map<String, DenormalizeResourceWrapper> aWrappedResources, Readable aRepo,
       boolean aOverwriteOnMerge) throws IOException {
 
-    mBroaderConceptEnricher.enrich(aResource, aRepo);
+    //mBroaderConceptEnricher.enrich(aResource, aRepo);
 
     String keyId = aResource.getAsString(JsonLdConstants.ID);
     if (keyId == null || !aWrappedResources.containsKey(keyId)) {

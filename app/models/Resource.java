@@ -1,7 +1,9 @@
 package models;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,6 +30,8 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
 import play.Play;
 
@@ -182,6 +188,20 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
    */
   public JsonNode toJson() {
     return new ObjectMapper().convertValue(this, JsonNode.class);
+  }
+
+  /**
+   * Get an RDF representation of the resource.
+   *
+   * @return Model The RDF Model
+   */
+  public Model toModel() {
+
+    Model model = ModelFactory.createDefaultModel();
+    InputStream stream = new ByteArrayInputStream(this.toString().getBytes(StandardCharsets.UTF_8));
+    RDFDataMgr.read(model, stream, Lang.JSONLD);
+    return model;
+
   }
 
   /**
