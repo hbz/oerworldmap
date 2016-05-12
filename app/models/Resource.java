@@ -56,8 +56,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
-  public Resource() {
-  }
+
 
   /**
    * Constructor which sets up a random UUID.
@@ -260,56 +259,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
   }
 
-  public static Resource getLinkClone(final Resource aResource) {
-    if (aResource == null) {
-      return null;
-    }
-    final Resource result = new Resource();
-    if (null != aResource.get(JsonLdConstants.ID)) {
-      result.put(JsonLdConstants.ID, aResource.get(JsonLdConstants.ID));
-    }
-    if (null != aResource.get(JsonLdConstants.TYPE)) {
-      result.put(JsonLdConstants.TYPE, aResource.get(JsonLdConstants.TYPE));
-    }
-    if (null != aResource.get("name")) {
-      result.put("name", aResource.get("name"));
-    }
-    return result;
-  }
-
-  public static Resource getEmbedClone(final Resource aResource) {
-    if (aResource == null) {
-      return null;
-    }
-    final Resource result = new Resource();
-    for (Iterator<Map.Entry<String, Object>> it = aResource.entrySet().iterator(); it.hasNext();) {
-      Map.Entry<String, Object> entry = it.next();
-      // remove entries of type List if they only contain ID entries
-      if (entry.getValue() instanceof List<?>) {
-        List<?> list = (List<?>) (entry.getValue());
-        List<Object> truncatedList = new ArrayList<>();
-        for (Iterator<?> innerIt = list.iterator(); innerIt.hasNext();) {
-          Object li = innerIt.next();
-          if (li instanceof Resource && ((Resource) li).hasId()) {
-            truncatedList.add(Resource.getLinkClone((Resource) li));
-          } else {
-            truncatedList.add(li);
-          }
-        }
-        if (truncatedList.isEmpty()) {
-          it.remove();
-        }
-        result.put(entry.getKey(), truncatedList);
-      }
-      // remove entries of type Resource if they have an ID
-      else if (entry.getValue() instanceof Resource && ((Resource) entry.getValue()).hasId()) {
-        result.put(entry.getKey(), getLinkClone((Resource) (entry.getValue())));
-      } else {
-        result.put(entry.getKey(), entry.getValue());
-      }
-    }
-    return result;
-  }
 
   @SuppressWarnings("unchecked")
   @Override
@@ -356,68 +305,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     for (Entry<String, Object> entry : aOther.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
-  }
-
-  public void replaceBy(Resource aOther) {
-    clear();
-    for (Entry<String, Object> otherEntry : aOther.entrySet()){
-      put(otherEntry.getKey(), otherEntry.getValue());
-    }
-  }
-
-  public boolean hasIdOnly() {
-    if (size() == 1 && hasId()) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Clone the given Resource, whereby all nested Resources having an
-   * ID are reduced to that ID so that only non-ID nested Resources
-   * are comprised with deep structures.
-   * @param aResource a Resource to be cloned.
-   * @return a clone of the given Resource whose nested resources are
-   *         either of ID-only type or kept "as is".
-   */
-  public static Resource getFlatClone(Resource aResource) {
-    Resource result = Resource.fromMap(aResource);
-
-    for (Entry<String, Object> entry : aResource.entrySet()) {
-      if (entry.getValue() instanceof Resource) {
-        Resource resource = (Resource) entry.getValue();
-        if (resource.hasId()) {
-          result.put(entry.getKey(), Resource.getIdClone(resource));
-        } //
-        else {
-          result.put(entry.getKey(), entry.getValue());
-        }
-      } //
-      else if (entry.getValue() instanceof List<?>) {
-        result.put(entry.getKey(), getAsIdTree((List<?>) entry.getValue()));
-      } else {
-        result.put(entry.getKey(), entry.getValue());
-      }
-    }
-    return result;
-  }
-
-  private static List<?> getAsIdTree(List<?> aList) {
-    for (Object object : aList) {
-      if (object instanceof Resource) {
-        object = getIdClone((Resource) object);
-      } //
-      else if (object instanceof List<?>) {
-        object = getAsIdTree((List<?>) object);
-      }
-    }
-    return aList;
-  }
-
-  public static Resource getIdClone(Resource value) {
-    Resource result = new Resource();
-    result.put(JsonLdConstants.ID, value.get(JsonLdConstants.ID));
-    return result;
   }
 
   @Override
@@ -485,72 +372,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       result.delete(result.length() - 2, result.length());
     }
     return result.toString();
-  }
-
-  /*
-   * Remove all references to the given id.
-   */
-  public Resource removeAllReferencesTo(String aId) {
-    for (Iterator<Map.Entry<String, Object>> it = entrySet().iterator(); it.hasNext();) {
-      Entry<String, Object> entry = it.next();
-      if (entry.getValue() instanceof Resource) {
-        Resource innerResource = (Resource) entry.getValue();
-        if (innerResource.hasId() && innerResource.getAsString(JsonLdConstants.ID).equals(aId)) {
-          it.remove();
-        } //
-        else
-          innerResource.removeAllReferencesTo(aId);
-      } //
-      else if (entry.getValue() instanceof List<?>) {
-        List<?> list = (List<?>) entry.getValue();
-        for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
-          Object item = itn.next();
-          if (item instanceof Resource) {
-            Resource innerResource = (Resource) item;
-            String innerId = innerResource.getAsString(JsonLdConstants.ID);
-            if (innerId != null && innerId.equals(aId)) {
-              itn.remove();
-              if (list.isEmpty()) {
-                it.remove();
-              }
-            } //
-            else {
-              innerResource.removeAllReferencesTo(aId);
-            }
-          }
-        }
-      }
-    }
-    return this;
-  }
-
-  /*
-   * Remove a specified reference to the given id.
-   */
-  public Resource removeReference(String aReferenceKey, String aValueId) {
-    Object value = get(aReferenceKey);
-    if (value instanceof Resource){
-      Resource resource = (Resource) value;
-      if (aValueId.equals(resource.get(JsonLdConstants.ID))){
-        remove(aReferenceKey);
-      }
-    } //
-    else if (value instanceof List<?>){
-      List<?> list = (List<?>) value;
-      for (Iterator<?> itn = list.iterator(); itn.hasNext();) {
-        Object item = itn.next();
-        if (item instanceof Resource){
-          Resource resource = (Resource) item;
-          if (aValueId.equals(resource.get(JsonLdConstants.ID))){
-            itn.remove();
-          }
-        }
-      }
-      if (list.isEmpty()){
-        remove(aReferenceKey);
-      }
-    }
-    return this;
   }
 
 }
