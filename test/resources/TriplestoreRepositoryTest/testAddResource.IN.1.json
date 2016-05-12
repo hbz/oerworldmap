@@ -1,0 +1,11 @@
+{
+  "@context" : "http://schema.org/",
+  "@id": "info:alice",
+  "@type": "Person",
+  "name": [
+    {
+      "@value": "Alice",
+      "@language": "en"
+    }
+  ]
+}

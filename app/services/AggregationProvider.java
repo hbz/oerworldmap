@@ -9,10 +9,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 import models.Record;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author fo
@@ -82,7 +80,7 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
+            .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String id) {
@@ -91,7 +89,7 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(FilterBuilders.existsFilter(Record.RESOURCEKEY + ".countryChampionFor")));
+            .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {

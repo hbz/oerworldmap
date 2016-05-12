@@ -6,7 +6,7 @@ import sys, getopt, json, os, urllib2
 def fix(endpoint_url, index_name, output_file):
     mapping = fix_mappings(get_mapping(endpoint_url, index_name))
     with open(output_file, 'w') as fixed_mapping:
-        json.dump(mapping[index_name], fixed_mapping, indent=2)
+        json.dump(mapping[index_name], fixed_mapping, indent=2, separators=(',', ': '))
 
 
 def fix_mappings(json):
@@ -29,7 +29,7 @@ def process_mapping(mapping):
 
 def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
-                    'availableLanguage', 'prefLabel']
+                    'availableLanguage', 'prefLabel', 'postalCode', 'startDate', 'endDate', 'startTime', 'endTime']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])

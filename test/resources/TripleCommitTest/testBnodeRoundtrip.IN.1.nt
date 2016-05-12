@@ -1,0 +1,13 @@
+<info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <uri:http://schema.org/Person> .
+<info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://schema.org/email> "foo@bar.de" .
+<info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://schema.org/name> "Hans Wurst"@en .
+<info:urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0456> <http://schema.org/location> _:Bfacacc3b270f489742c855da28fc52b8 .
+_:Bfacacc3b270f489742c855da28fc52b8 <http://schema.org/geo> _:B99c41cf35d737694e9abe15897f62ff9 .
+_:Bfacacc3b270f489742c855da28fc52b8 <http://schema.org/address> _:Bd2bee2f20b8fba9f182616fbeec48f4d .
+_:Bfacacc3b270f489742c855da28fc52b8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> .
+_:B99c41cf35d737694e9abe15897f62ff9 <http://schema.org/lon> "1.269779692E2"^^<http://www.w3.org/2001/XMLSchema#double> .
+_:B99c41cf35d737694e9abe15897f62ff9 <http://schema.org/lat> "3.7566535E1"^^<http://www.w3.org/2001/XMLSchema#double> .
+_:Bd2bee2f20b8fba9f182616fbeec48f4d <http://schema.org/streetAddress> "Sejong-daero" .
+_:Bd2bee2f20b8fba9f182616fbeec48f4d <http://schema.org/addressLocality> "Seoul" .
+_:Bd2bee2f20b8fba9f182616fbeec48f4d <http://schema.org/addressCountry> "KR" .
+_:Bd2bee2f20b8fba9f182616fbeec48f4d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> .

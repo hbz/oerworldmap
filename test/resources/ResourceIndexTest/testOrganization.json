@@ -1,0 +1,16 @@
+{
+  "@context": "http://schema.org",
+  "@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac7927",
+  "@type": "Organization",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Manufacturing Educational Resource Develeopment Enterprise"
+    }
+  ],
+  "organizerFor": [
+    {
+      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f"
+    }
+  ]
+}

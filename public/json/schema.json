@@ -108,6 +108,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
         }
       },
       "additionalProperties": false
@@ -428,7 +432,10 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "serviceType": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "description": {
           "$ref": "#/definitions/LocalizedString"
@@ -538,6 +545,30 @@
           "type": "array",
           "items": {
             "type": "string"
+          }
+        },
+        "licenseConcept": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/Concept"
+              },
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": [
+                          "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         "audience": {
@@ -651,19 +682,6 @@
         },
         "description": {
           "$ref": "#/definitions/LocalizedString"
-        },
-        "affiliation": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Service"
-              }
-            ]
-          }
         },
         "memberOf": {
           "description": "An organization or service the person is member of.",
@@ -1037,10 +1055,10 @@
           }
         },
         "startDate": {
-              "$ref": "#/definitions/full-date"
+            "$ref": "#/definitions/full-date"
         },
         "endDate": {
-              "$ref": "#/definitions/full-date"
+            "$ref": "#/definitions/full-date"
         },
         "location": {
           "$ref": "#/definitions/Place"
@@ -1234,8 +1252,17 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Year",
       "description": "4 digit year",
-      "type": "string",
-      "pattern": "^[0-9]{4}$"
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{4}$"
+        },
+        {
+          "type": "number",
+          "minimum": 1900,
+          "maximum": 2100
+        }
+      ]
     },
     "full-date": {
       "$schema": "http://json-schema.org/draft-04/schema#",

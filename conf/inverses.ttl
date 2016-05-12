@@ -1,0 +1,22 @@
+@prefix    : <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+:author owl:inverseOf :authorOf .
+:authorOf owl:inverseOf :author .
+:member owl:inverseOf :memberOf .
+:memberOf owl:inverseOf :member .
+:provider owl:inverseOf :provides .
+:provides owl:inverseOf :provider .
+:creator owl:inverseOf :created .
+:created owl:inverseOf :creator .
+:agent owl:inverseOf :agentIn .
+:agentIn owl:inverseOf :agent .
+:participant owl:inverseOf :participantIn .
+:participantIn owl:inverseOf :participant .
+:organizer owl:inverseOf :organizerFor .
+:organizerFor owl:inverseOf :organizer .
+:performer owl:inverseOf :performerIn .
+:performerIn owl:inverseOf :performer .
+:funder owl:inverseOf :funderOf .
+:funderOf owl:inverseOf :funder .
+:knows owl:inverseOf :knows .

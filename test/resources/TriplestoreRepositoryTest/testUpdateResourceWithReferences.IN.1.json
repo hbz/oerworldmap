@@ -1,0 +1,16 @@
+{
+  "@context" : "http://schema.org/",
+  "@id": "info:carol",
+  "@type": "Person",
+  "name": [
+    {
+      "@value": "Carol Foo",
+      "@language": "en"
+    }
+  ],
+  "knows": [
+    {
+      "@id": "info:alice"
+    }
+  ]
+}

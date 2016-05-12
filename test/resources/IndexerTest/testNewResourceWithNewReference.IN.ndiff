@@ -1,0 +1,14 @@
+Author: Anonymous
+Date: 2016-04-07T19:07:18.447+02:00
+
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> <http://schema.org/email> "foo@bar.de" .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> <http://schema.org/name> "Hans Wurst"@en .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> <http://schema.org/authorOf> <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0123> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> <http://schema.org/authorOf> <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0789> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0123> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Article> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0123> <http://schema.org/author> <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0123> <http://schema.org/name> "Ganz spannend!"@de .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0789> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Article> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0789> <http://schema.org/author> <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0456> .
++ <info:urn:uuid:58ea1dfc-23bb-11e5-8892-001999ac0789> <http://schema.org/name> "Noch spannender!"@de .

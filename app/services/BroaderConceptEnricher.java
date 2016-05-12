@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +10,18 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.shared.Lock;
+import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.eclipse.jetty.util.ConcurrentHashSet;
 
 import helpers.JsonLdConstants;
@@ -21,54 +34,60 @@ import services.repository.Readable;
  */
 public class BroaderConceptEnricher implements ResourceEnricher {
 
-  private static final String ABOUT = "about";
-  private static final String BROADER = "broader";
+  private final Model mConceptSchemes;
 
-  @Override
-  public Resource enrich(Resource aToBeEnriched, @Nonnull Readable aEnrichmentSource) {
-    final Set<Resource> subjects = new ConcurrentHashSet<>();
-    final Set<Resource> broaderResources = new HashSet<>();
-    subjects.addAll(aToBeEnriched.getAsList(ABOUT));
-    broaderResources.addAll(subjects);
-    if (subjects.isEmpty()) {
-      return aToBeEnriched;
-    }
-    try {
-      subjects.addAll(traverseBroaderConcept(subjects, broaderResources, aEnrichmentSource));
+  private static final String SELECT_BROADER =
+    "SELECT ?broader WHERE {" +
+    "  <%1$s> <http://schema.org/broader>+ ?broader " +
+    "}";
+
+  public BroaderConceptEnricher() {
+
+    this.mConceptSchemes = ModelFactory.createDefaultModel();
+
+    // Load ESC
+    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
+        .getResourceAsStream("public/json/esc.json")) {
+      RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
     } catch (IOException e) {
-      Logger.error(e.toString());
+      throw new RuntimeIOException(e);
     }
-    final List<Resource> broaderResourcesAsList = new ArrayList<>();
-    broaderResourcesAsList.addAll(broaderResources);
-    aToBeEnriched.put(ABOUT, broaderResourcesAsList);
-    return aToBeEnriched;
+
+    // Load ISCED-1997
+    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
+        .getResourceAsStream("public/json/isced-1997.json")) {
+      RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
+    } catch (IOException e) {
+      throw new RuntimeIOException(e);
+    }
+
   }
 
-  private static Set<Resource> traverseBroaderConcept(Set<Resource> aResources,
-		  Set<Resource> aReturnList, Readable aRepo) throws IOException {
-    Iterator<Resource> it = aResources.iterator();
-    while (it.hasNext()) {
-      Resource next = it.next();
-      String id = next.getAsString(JsonLdConstants.ID);
-      if (null != id) {
-        Resource fromRepo = aRepo.getResource(id);
-        if (null != fromRepo) {
-          Resource broaderConceptRef = fromRepo.getAsResource(BROADER);
-          if (null != broaderConceptRef) {
-            String broaderId = broaderConceptRef.getAsString(JsonLdConstants.ID);
-            if (null != broaderId) {
-              Resource broaderConcept = aRepo.getResource(broaderId);
-              if (null != broaderConcept) {
-                aReturnList.add(Resource.getIdClone(broaderConcept));
-                aResources.add(Resource.getIdClone(broaderConcept));
-                aResources.remove(next);
-                traverseBroaderConcept(aResources, aReturnList, aRepo);
-              }
+  public void enrich(Model aToBeEnriched) {
+
+    Model broaderConcepts = ModelFactory.createDefaultModel();
+
+    aToBeEnriched.enterCriticalSection(Lock.READ);
+    try {
+      for (Statement stmt : aToBeEnriched.listStatements().toSet()) {
+        if (stmt.getObject().isResource()) {
+          try (QueryExecution queryExecution = QueryExecutionFactory.create(
+              String.format(SELECT_BROADER, stmt.getObject()), mConceptSchemes)) {
+            ResultSet resultSet = queryExecution.execSelect();
+            while (resultSet.hasNext()) {
+              QuerySolution querySolution = resultSet.next();
+              Statement broaderConcept = ResourceFactory.createStatement(stmt.getSubject(), stmt.getPredicate(),
+                querySolution.get("broader").asResource());
+              broaderConcepts.add(broaderConcept);
             }
           }
         }
       }
+      aToBeEnriched.add(broaderConcepts);
+    } finally {
+      aToBeEnriched.leaveCriticalSection();
     }
-    return aReturnList;
+
   }
+
 }
