@@ -56,8 +56,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
-
-
   /**
    * Constructor which sets up a random UUID.
    *
@@ -154,10 +152,9 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
-  public static Resource fromJsonFile(String aFile) throws IOException {
-    InputStream in = Play.application().classloader().getResourceAsStream(aFile);
-    String json = IOUtils.toString(in, "UTF-8");
-    in.close();
+  public static Resource fromJson(InputStream aInputStream) throws IOException {
+    String json = IOUtils.toString(aInputStream, "UTF-8");
+    aInputStream.close();
     return Resource.fromJson(json);
   }
 
