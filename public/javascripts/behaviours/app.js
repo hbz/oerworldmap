@@ -229,49 +229,57 @@ var Hijax = (function ($, Hijax, page) {
 
       $('#app-modal').on('submit', 'form', function(e){
         e.preventDefault();
+
         var form = $(this);
 
         $.ajax({
           type : 'POST',
           url : form.attr('action'),
           data : form.serialize(),
-          success : function(data, textStatus, jqXHR){
-            console.log('jqXHR', jqXHR);
-            //console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
-            console.log('status', jqXHR.status)
+          success : function(data, textStatus, jqXHR) {
 
+            // console.log('jqXHR', jqXHR);
+            // console.log('status', jqXHR.status)
+            // console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
+
+            // get the location header, because if a resource was successfully created the response is forwarding to it
             var location = jqXHR.getResponseHeader('Location');
-            if(location) {
-              parser = document.createElement('a');
-              parser.href = jqXHR.getResponseHeader('Location');
-              page(parser.pathname);
-            } else {
-/*
-              page(
-                window.location.pathname +
-                window.location.search +
-                window.location.hash
-              );
-*/
 
+            if(location) {
+
+              // just attach behaviours to get notifications
+              Hijax.attachBehaviours( $(data).filter('main').contents() )
+
+              // parse location and pass to router
+              var just_a_parser = document.createElement('a');
+              just_a_parser.href = jqXHR.getResponseHeader('Location');
+              page(just_a_parser.pathname);
+
+            } else {
+
+              // if updated resource is currently lodaded in the detail column, update column
               if(form.attr('action') == detail_source) {
                 $('#app-col-detail [data-app="col-content"]').html(
                   Hijax.attachBehaviours( $(data).filter('main').contents() )
                 );
               }
+
             }
 
+            // finally close modal
             $('#app-modal').modal('hide');
+
           },
           error : function(jqXHR, textStatus, errorThrown){
-            console.log(jqXHR);
-            console.log(jqXHR.getAllResponseHeaders());
 
-            console.log(form.first('fieldset'));
+            // console.log(jqXHR);
+            // console.log(jqXHR.getAllResponseHeaders());
+            // console.log(form.first('fieldset'));
 
-            form.first('fieldset').prepend(
+            form.find('.messages').empty().append(
               $(jqXHR.responseText).find('#messages')
             );
+
           }
         });
       });

@@ -1,3 +1,25 @@
+/*
+
+  From the Bootstrap docs:
+
+  "Firefox has some awkward fieldset styling involving width that interferes with the responsive table.
+  This cannot be overriden without a Firefox-specific hack that we don't provide in Bootstrap: ..."
+
+  This hack is here, because of heavy usage of fieldsets and e.g. <pre> elements breaking them otherwise.
+
+  http://getbootstrap.com/css/#tables-responsive
+  https://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content/17863685#17863685
+
+*/
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+
+
+
+
 .column h1 {
   margin-top: 0px;
 }
@@ -57,4 +79,20 @@ h3:first-child {
       }
     }
   }
+}
+
+
+/* --- alerts --- */
+
+.alert {
+
+  p {
+    margin-bottom: inherit;
+  }
+
+  h1 {
+    font-size: @font-size-h2;
+    margin: 0 0 @line-height-computed 0;
+  }
+
 }

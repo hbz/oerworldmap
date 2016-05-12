@@ -154,7 +154,9 @@
 
             <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
-                <h1>Edit {{[@type]}}</h1>
+                <h1 class="modal-title">Edit {{[@type]}}</h1>
+
+                <div class="messages"></div>
 
                 {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
 
