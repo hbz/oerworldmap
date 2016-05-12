@@ -1388,7 +1388,17 @@
             "alternateName": {
               "properties": {
                 "@value": {
-                  "type": "string"
+                  "type": "multi_field", 
+                  "fields": {
+                    "title_variations": {
+                      "type": "string", 
+                      "analyzer": "title_analyzer"
+                    }, 
+                    "simple_tokenizer": {
+                      "type": "string", 
+                      "analyzer": "simple"
+                    }
+                  }
                 }, 
                 "@language": {
                   "index": "not_analyzed", 
@@ -3735,7 +3745,17 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field", 
+                      "fields": {
+                        "title_variations": {
+                          "type": "string", 
+                          "analyzer": "title_analyzer"
+                        }, 
+                        "simple_tokenizer": {
+                          "type": "string", 
+                          "analyzer": "simple"
+                        }
+                      }
                     }, 
                     "@language": {
                       "index": "not_analyzed", 
@@ -3893,7 +3913,17 @@
             "name": {
               "properties": {
                 "@value": {
-                  "type": "string"
+                  "type": "multi_field", 
+                  "fields": {
+                    "title_variations": {
+                      "type": "string", 
+                      "analyzer": "title_analyzer"
+                    }, 
+                    "simple_tokenizer": {
+                      "type": "string", 
+                      "analyzer": "simple"
+                    }
+                  }
                 }, 
                 "@language": {
                   "index": "not_analyzed", 
@@ -5336,6 +5366,37 @@
         "dateModified": {
           "type": "date", 
           "format": "dateOptionalTime"
+        }
+      }
+    }
+  }, 
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "title_analyzer": {
+          "type": "custom", 
+          "tokenizer": "standard", 
+          "filter": [
+            "title_variations", 
+            "asciifolding_preserve_original"
+          ]
+        }
+      }, 
+      "filter": {
+        "title_variations": {
+          "type": "word_delimiter", 
+          "preserve_original": true, 
+          "split_on_numerics": false, 
+          "split_on_case_change": true, 
+          "generate_word_parts": true, 
+          "generate_number_parts": false, 
+          "catenate_words": true, 
+          "catenate_numbers": false, 
+          "catenate_all": false
+        }, 
+        "asciifolding_preserve_original": {
+          "type": "asciifolding", 
+          "preserve_original": true
         }
       }
     }
