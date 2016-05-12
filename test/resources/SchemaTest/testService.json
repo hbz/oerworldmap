@@ -14,7 +14,9 @@
       "@value": "OERMa"
     }
   ],
-  "serviceType": "production machinery",
+  "serviceType": [
+    "production machinery"
+  ],
   "description": [
     {
       "@language": "en",

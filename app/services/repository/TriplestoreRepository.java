@@ -60,7 +60,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
-  private final InverseEnricher mInverseEnricher = new InverseEnricher();
+  private final ResourceEnricher mInverseEnricher = new InverseEnricher();
   private final ResourceEnricher mBroaderConceptEnricher = new BroaderConceptEnricher();
 
   public TriplestoreRepository(Config aConfiguration) throws IOException {
@@ -292,8 +292,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Commit.Diff getDiff(@Nonnull Resource aResource) {
 
-    aResource = mBroaderConceptEnricher.enrich(aResource, this);
-
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
 
@@ -305,6 +303,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Reduce incoming model to CBD
     Model model = getConciseBoundedDescription(aResource.getId(), incoming);
+
+    mBroaderConceptEnricher.enrich(model);
 
     // Add inferred (e.g. inverse) statements to incoming model
     mInverseEnricher.enrich(model);

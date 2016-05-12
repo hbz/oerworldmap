@@ -12,6 +12,7 @@ For inital background information about this project please refer to the
     $ git clone git@github.com:hbz/oerworldmap.git
     $ git submodule init
     $ git submodule update
+    $ cd node/json-frame && npm install
 
 ### Setup Elasticsearch
 
@@ -24,7 +25,7 @@ For inital background information about this project please refer to the
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
-    
+
 #### Configure elasticsearch
 
 If you are in an environment where your instance of elasticsearch won't be the only one on the network, you might want

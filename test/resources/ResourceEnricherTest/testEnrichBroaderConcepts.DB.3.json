@@ -1,9 +1,0 @@
-{
-  "@type": "Concept",
-  "@id": "broadestConcept",
-  "narrower": [
-    {
-      "@id": "broaderConcept"
-    }
-  ]
-}

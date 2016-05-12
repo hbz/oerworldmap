@@ -432,7 +432,10 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "serviceType": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "description": {
           "$ref": "#/definitions/LocalizedString"

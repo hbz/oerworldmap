@@ -31,7 +31,7 @@ public class QueryContext {
     FilterBuilder authenticated = FilterBuilders
         .notFilter(FilterBuilders.orFilter(FilterBuilders.termFilter("about.@type", "Concept"),
             FilterBuilders.termFilter("about.@type", "ConceptScheme")));
-    filters.put("authenticated", authenticated);
+    filters.put("disabled", authenticated);
 
     // TODO: Remove privacy filter when all persons are accounts?
     FilterBuilder admin = FilterBuilders
