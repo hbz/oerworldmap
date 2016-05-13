@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import helpers.JsonLdConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -32,7 +33,7 @@ import services.AccountService;
 
 public class UserIndex extends OERWorldMap {
 
-  private static AccountService accountService = new AccountService(
+  private static AccountService mAccountService = new AccountService(
     new File(Global.getConfig().getString("user.token.dir")), new File(Global.getConfig().getString("ht.passwd")));
 
   public static Result signup() {
@@ -62,7 +63,7 @@ public class UserIndex extends OERWorldMap {
     } else if (!password.equals(confirm)) {
       result = badRequest("Passwords must match.");
     } else {
-      String token = accountService.addUser(username, password);
+      String token = mAccountService.addUser(username, password);
       if (token == null) {
         result = badRequest("Failed to add ".concat(username));
       } else {
@@ -75,15 +76,16 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result verify(String token) {
+  public static Result verify(String token) throws IOException {
 
     Result result;
 
     if (token == null) {
       result = badRequest("No token given.");
     } else {
-      String username = accountService.verifyToken(token);
+      String username = mAccountService.verifyToken(token);
       if (username != null) {
+        createProfile(username);
         result = ok("Verified ".concat(username));
       } else {
         result = badRequest("Invalid token ".concat(token));
@@ -114,18 +116,18 @@ public class UserIndex extends OERWorldMap {
         result = badRequest("Please fill out the form.");
       } else if (!updated.equals(confirm)) {
         result = badRequest("Passwords must match.");
-      } else if (!accountService.updatePassword(username, password, updated)) {
+      } else if (!mAccountService.updatePassword(username, password, updated)) {
         result = badRequest("Failed to update password for ".concat(username));
       } else {
         result = ok("Password changed.");
       }
     } else {
       username = user.getAsString("email");
-      if (StringUtils.isEmpty(username) || !accountService.userExists(username)) {
+      if (StringUtils.isEmpty(username) || !mAccountService.userExists(username)) {
         result = badRequest("No valid username provided.");
       } else {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
-        if (accountService.setPassword(username, password)) {
+        if (mAccountService.setPassword(username, password)) {
           sendMail(username, password);
           result = ok("Password successfully reset.");
         } else {
@@ -168,7 +170,6 @@ public class UserIndex extends OERWorldMap {
       return internalServerError("Newletter currently not available.");
     }
 
-    @SuppressWarnings("resource")
     HttpClient client = new DefaultHttpClient();
     HttpPost request = new HttpPost("https://" + mailmanHost + "/mailman/subscribe/" + mailmanList);
     try {
@@ -216,6 +217,16 @@ public class UserIndex extends OERWorldMap {
       Logger.error(e.toString());
       Logger.debug("Failed to send\n" + aMessage + "\nto " + aEmailAddress);
     }
+  }
+
+  private static void createProfile(String aEmailAddress) throws IOException {
+
+    Resource person = new Resource("Person");
+    person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    person.put("email", aEmailAddress);
+    // TODO: set write permission to aEmailAddress
+    mBaseRepository.addResource(person, getMetadata());
+
   }
 
 }
