@@ -37,6 +37,7 @@ import helpers.HandlebarsHelpers;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
+import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 import play.Play;
@@ -201,7 +202,11 @@ public abstract class OERWorldMap extends Controller {
   protected static Map<String, String> getMetadata() {
 
     Map<String, String> metadata = new HashMap<>();
-    metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    if (!StringUtils.isEmpty(request().username())) {
+      metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    } else {
+      metadata.put(TripleCommit.Header.AUTHOR_HEADER, "System");
+    }
     metadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     return metadata;
 
