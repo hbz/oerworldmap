@@ -1,0 +1,127 @@
+{
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "knows": {
+      "@container": "@set"
+    },
+    "name": {
+      "@container": "@set"
+    },
+    "alternateName": {
+      "@container": "@set"
+    },
+    "description": {
+      "@container": "@set"
+    },
+    "keywords": {
+      "@container": "@set"
+    },
+    "additionalType": {
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "tag": {
+      "@container": "@set"
+    },
+    "serviceType": {
+      "@container": "@set"
+    },
+    "availableChannel": {
+      "@container": "@set"
+    },
+    "license": {
+      "@container": "@set"
+    },
+    "countryChampionFor": {
+      "@container": "@set"
+    },
+    "author": {
+      "@container": "@set"
+    },
+    "authorOf": {
+      "@container": "@set"
+    },
+    "member": {
+      "@container": "@set"
+    },
+    "memberOf": {
+      "@container": "@set"
+    },
+    "provider": {
+      "@container": "@set"
+    },
+    "provides": {
+      "@container": "@set"
+    },
+    "creator": {
+      "@container": "@set"
+    },
+    "created": {
+      "@container": "@set"
+    },
+    "agent": {
+      "@container": "@set"
+    },
+    "agentIn": {
+      "@container": "@set"
+    },
+    "mentions": {
+      "@container": "@set"
+    },
+    "mentionedIn": {
+      "@container": "@set"
+    },
+    "participant": {
+      "@container": "@set"
+    },
+    "participantIn": {
+      "@container": "@set"
+    },
+    "narrower": {
+      "@container": "@set"
+    },
+    "hasTopConcept": {
+      "@container": "@set"
+    },
+    "about": {
+      "@container": "@set"
+    },
+    "audience": {
+      "@container": "@set"
+    },
+    "affiliation": {
+      "@container": "@set"
+    },
+    "result": {
+      "@container": "@set"
+    },
+    "contactPoint": {
+      "@container": "@set"
+    },
+    "organizer": {
+      "@container": "@set"
+    },
+    "organizerFor": {
+      "@container": "@set"
+    },
+    "performer": {
+      "@container": "@set"
+    },
+    "performerIn": {
+      "@container": "@set",
+      "@embed": "@always"
+    },
+    "mainEntityOf": {
+      "@container": "@set"
+    },
+    "image": {
+      "@type": "@id"
+    },
+    "url": {
+      "@type": "@id"
+    }
+  }
+}

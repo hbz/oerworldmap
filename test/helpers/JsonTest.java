@@ -28,7 +28,7 @@ public interface JsonTest {
       return Resource.fromJson(json);
     } catch (IOException e) {
       Logger.error(e.toString());
-      return new Resource();
+      return new Resource(null);
     }
   }
 

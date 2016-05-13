@@ -12,9 +12,9 @@
 
     {{> FormElements/localizedTextarea.mustache property=articleBody key="articleBody" title=(i18n "Article.articleBody") tooltip=(i18n "Article.articleBody" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=dateCreated key="dateCreated" title=(i18n "Article.dateCreated") tooltip=(i18n "Article.dateCreated" bundle="descriptions") hidden=false multiple=false type="text"}}
+    {{> FormElements/input.mustache property=dateCreated key="dateCreated" title=(i18n "Article.dateCreated") tooltip=(i18n "Article.dateCreated" bundle="descriptions") hidden=false multiple=false input_type="text"}}
 
-    {{> FormElements/input.mustache property=image key="image" title=(i18n "Article.image") tooltip=(i18n "Article.image" bundle="descriptions") hidden=false multiple=false type="url"}}
+    {{> FormElements/input.mustache property=image key="image" title=(i18n "Article.image") tooltip=(i18n "Article.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
     {{> FormElements/id.mustache property=creator key="creator" title=(i18n "Article.creator") tooltip=(i18n "Article.creator" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
 

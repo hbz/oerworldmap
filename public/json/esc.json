@@ -3,2420 +3,2421 @@
     {
       "name": [
         {
-          "@value": "Engineering, manufacturing and construction", 
+          "@value": "Engineering, manufacturing and construction",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "07"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n07", 
+      },
+      "@id": "https://w3id.org/class/esc/n07",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Engineering and engineering trades", 
+              "@value": "Engineering and engineering trades",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "071"
-          ], 
-          "@id": "https://w3id.org/class/esc/n071", 
+          ],
+          "@id": "https://w3id.org/class/esc/n071",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Electricity and energy", 
+                  "@value": "Electricity and energy",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0713"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0713", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0713",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n071"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Electronics and automation", 
+                  "@value": "Electronics and automation",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0714"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0714", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0714",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n071"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Chemical engineering and processes", 
+                  "@value": "Chemical engineering and processes",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0711"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0711", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0711",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n071"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Motor vehicles, ships and aircraft", 
+                  "@value": "Motor vehicles, ships and aircraft",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0716"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0716", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0716",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n071"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Environmental protection technology", 
+                  "@value": "Environmental protection technology",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0712"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0712", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0712",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n071"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Mechanics and metal trades", 
+                  "@value": "Mechanics and metal trades",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0715"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0715", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0715",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n071"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n07"
-          }, 
+          },
           "scopeNote": [
             {
-              "@value": "Manufacturing programmes should be classified in the detailed fields under 071 \\u2018Engineering and engineering trades\\u2019 if the emphasis is towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.", 
+              "@value": "Manufacturing programmes should be classified in the detailed fields under 071 \\u2018Engineering and engineering trades\\u2019 if the emphasis is towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.",
               "@language": "en"
             }
-          ], 
+          ],
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Architecture and construction", 
+              "@value": "Architecture and construction",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "073"
-          ], 
-          "@id": "https://w3id.org/class/esc/n073", 
+          ],
+          "@id": "https://w3id.org/class/esc/n073",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Building and civil engineering", 
+                  "@value": "Building and civil engineering",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0732"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0732", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0732",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n073"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Architecture and town planning", 
+                  "@value": "Architecture and town planning",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0731"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0731", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0731",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n073"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n07"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Manufacturing and processing", 
+              "@value": "Manufacturing and processing",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "072"
-          ], 
-          "@id": "https://w3id.org/class/esc/n072", 
+          ],
+          "@id": "https://w3id.org/class/esc/n072",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Mining and extraction", 
+                  "@value": "Mining and extraction",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0724"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0724", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0724",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n072"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Textiles (clothes, footwear and leather)", 
+                  "@value": "Textiles (clothes, footwear and leather)",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0723"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0723", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0723",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n072"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Food processing", 
+                  "@value": "Food processing",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0721"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0721", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0721",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n072"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Materials (glass, paper, plastic and wood)", 
+                  "@value": "Materials (glass, paper, plastic and wood)",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0722"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0722", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0722",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n072"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n07"
-          }, 
+          },
           "scopeNote": [
             {
-              "@value": "Other manufacturing programmes [those without an emphasis towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.] and qualifications should be classified under 072 \\u2018Manufacturing and processing\\u2019. This is the case where the emphasis is on manufacturing specific products, such as food, textiles, shoes, paper, furniture, glass, plastic, etc., However, manufacturing of metal products is excluded from narrow field 072 and included in detailed field 0715 \\u2018Mechanics and metal trades\\u2019.", 
+              "@value": "Other manufacturing programmes [those without an emphasis towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.] and qualifications should be classified under 072 \\u2018Manufacturing and processing\\u2019. This is the case where the emphasis is on manufacturing specific products, such as food, textiles, shoes, paper, furniture, glass, plastic, etc., However, manufacturing of metal products is excluded from narrow field 072 and included in detailed field 0715 \\u2018Mechanics and metal trades\\u2019.",
               "@language": "en"
             }
-          ], 
+          ],
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Social sciences, journalism and information", 
+          "@value": "Social sciences, journalism and information",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "03"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n03", 
+      },
+      "@id": "https://w3id.org/class/esc/n03",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Journalism and information", 
+              "@value": "Journalism and information",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "032"
-          ], 
-          "@id": "https://w3id.org/class/esc/n032", 
+          ],
+          "@id": "https://w3id.org/class/esc/n032",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Journalism and reporting", 
+                  "@value": "Journalism and reporting",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0321"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0321", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0321",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n032"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Library, information and archival studies", 
+                  "@value": "Library, information and archival studies",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0322"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0322", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0322",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n032"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n03"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Social and behavioural sciences", 
+              "@value": "Social and behavioural sciences",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "031"
-          ], 
-          "@id": "https://w3id.org/class/esc/n031", 
+          ],
+          "@id": "https://w3id.org/class/esc/n031",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Psychology", 
+                  "@value": "Psychology",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0313"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0313", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0313",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n031"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Economics", 
+                  "@value": "Economics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0311"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0311", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0311",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n031"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Sociology and cultural studies", 
+                  "@value": "Sociology and cultural studies",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0314"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0314", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0314",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n031"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Political sciences and civics", 
+                  "@value": "Political sciences and civics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0312"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0312", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0312",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n031"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n03"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Generic programmes and qualifications", 
+          "@value": "Generic programmes and qualifications",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "00"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n00", 
+      },
+      "@id": "https://w3id.org/class/esc/n00",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Literacy and numeracy", 
+              "@value": "Literacy and numeracy",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "002", 
+            "002",
             "0021"
-          ], 
-          "@id": "https://w3id.org/class/esc/n002", 
+          ],
+          "@id": "https://w3id.org/class/esc/n002",
           "broader": {
             "@id": "https://w3id.org/class/esc/n00"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Basic programmes and qualifications", 
+              "@value": "Basic programmes and qualifications",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "001", 
+            "001",
             "0011"
-          ], 
-          "@id": "https://w3id.org/class/esc/n001", 
+          ],
+          "@id": "https://w3id.org/class/esc/n001",
           "broader": {
             "@id": "https://w3id.org/class/esc/n00"
-          }, 
+          },
           "scopeNote": [
             {
-              "@value": "Generic programmes which cover a range of subjects, such as languages and literature, social and natural sciences, mathematics, arts and/or physical education, should be classified in 0011 \\u2018Basic programmes and qualifications\\u2019. This should be the case even if there is some concentration on a certain category of subject matter, such as humanities, social sciences, natural sciences, etc., which can occur.", 
+              "@value": "Generic programmes which cover a range of subjects, such as languages and literature, social and natural sciences, mathematics, arts and/or physical education, should be classified in 0011 \\u2018Basic programmes and qualifications\\u2019. This should be the case even if there is some concentration on a certain category of subject matter, such as humanities, social sciences, natural sciences, etc., which can occur.",
               "@language": "en"
             }
-          ], 
+          ],
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Personal skills and development", 
+              "@value": "Personal skills and development",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "003", 
+            "003",
             "0031"
-          ], 
-          "@id": "https://w3id.org/class/esc/n003", 
+          ],
+          "@id": "https://w3id.org/class/esc/n003",
           "broader": {
             "@id": "https://w3id.org/class/esc/n00"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "scopeNote": [
         {
-          "@value": "General education programmes and qualifications which cover a broad range of subjects with little or no specialisation in a particular field or fields will typically be classified within the broad field 00 \\u2018Generic programmes and qualifications\\u2019", 
+          "@value": "General education programmes and qualifications which cover a broad range of subjects with little or no specialisation in a particular field or fields will typically be classified within the broad field 00 \\u2018Generic programmes and qualifications\\u2019",
           "@language": "en"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Services", 
+          "@value": "Services",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "10"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n10", 
+      },
+      "@id": "https://w3id.org/class/esc/n10",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Personal services", 
+              "@value": "Personal services",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "101"
-          ], 
-          "@id": "https://w3id.org/class/esc/n101", 
+          ],
+          "@id": "https://w3id.org/class/esc/n101",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Domestic services", 
+                  "@value": "Domestic services",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1011"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1011", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1011",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n101"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Hotel, restaurants and catering", 
+                  "@value": "Hotel, restaurants and catering",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1013"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1013", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1013",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n101"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Hair and beauty services", 
+                  "@value": "Hair and beauty services",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1012"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1012", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1012",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n101"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Sports", 
+                  "@value": "Sports",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1014"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1014", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1014",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n101"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Travel, tourism and leisure", 
+                  "@value": "Travel, tourism and leisure",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1015"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1015", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1015",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n101"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n10"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Security services", 
+              "@value": "Security services",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "103"
-          ], 
-          "@id": "https://w3id.org/class/esc/n103", 
+          ],
+          "@id": "https://w3id.org/class/esc/n103",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Military and defence", 
+                  "@value": "Military and defence",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1031"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1031", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1031",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n103"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Protection of persons and property", 
+                  "@value": "Protection of persons and property",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1032"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1032", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1032",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n103"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n10"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Hygiene and occupational health services", 
+              "@value": "Hygiene and occupational health services",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "102"
-          ], 
-          "@id": "https://w3id.org/class/esc/n102", 
+          ],
+          "@id": "https://w3id.org/class/esc/n102",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Occupational health and safety", 
+                  "@value": "Occupational health and safety",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1022"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1022", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1022",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n102"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Community sanitation", 
+                  "@value": "Community sanitation",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "1021"
-              ], 
-              "@id": "https://w3id.org/class/esc/n1021", 
+              ],
+              "@id": "https://w3id.org/class/esc/n1021",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n102"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n10"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Transport services", 
+              "@value": "Transport services",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "104", 
+            "104",
             "1041"
-          ], 
-          "@id": "https://w3id.org/class/esc/n104", 
+          ],
+          "@id": "https://w3id.org/class/esc/n104",
           "broader": {
             "@id": "https://w3id.org/class/esc/n10"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Business, administration and law", 
+          "@value": "Business, administration and law",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "04"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n04", 
+      },
+      "@id": "https://w3id.org/class/esc/n04",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Business and administration", 
+              "@value": "Business and administration",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "041"
-          ], 
-          "@id": "https://w3id.org/class/esc/n041", 
+          ],
+          "@id": "https://w3id.org/class/esc/n041",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Wholesale and retail sales", 
+                  "@value": "Wholesale and retail sales",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0416"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0416", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0416",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Management and administration", 
+                  "@value": "Management and administration",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0413"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0413", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0413",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Accounting and taxation", 
+                  "@value": "Accounting and taxation",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0411"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0411", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0411",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Work skills", 
+                  "@value": "Work skills",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0417"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0417", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0417",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Marketing and advertising", 
+                  "@value": "Marketing and advertising",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0414"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0414", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0414",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Finance, banking and insurance", 
+                  "@value": "Finance, banking and insurance",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0412"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0412", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0412",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Secretarial and office work", 
+                  "@value": "Secretarial and office work",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0415"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0415", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0415",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n041"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n04"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Law", 
+              "@value": "Law",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "0421", 
+            "0421",
             "042"
-          ], 
-          "@id": "https://w3id.org/class/esc/n042", 
+          ],
+          "@id": "https://w3id.org/class/esc/n042",
           "broader": {
             "@id": "https://w3id.org/class/esc/n04"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Information and Communication Technologies (ICTs)", 
+          "@value": "Information and Communication Technologies (ICTs)",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
-        "061", 
+        "061",
         "06"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n06", 
+      },
+      "@id": "https://w3id.org/class/esc/n06",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Computer use", 
+              "@value": "Computer use",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0611"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0611", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0611",
           "broader": {
             "@id": "https://w3id.org/class/esc/n06"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Software and applications development and analysis", 
+              "@value": "Software and applications development and analysis",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0613"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0613", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0613",
           "broader": {
             "@id": "https://w3id.org/class/esc/n06"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Database and network design and administration", 
+              "@value": "Database and network design and administration",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0612"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0612", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0612",
           "broader": {
             "@id": "https://w3id.org/class/esc/n06"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Education", 
+          "@value": "Education",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
-        "011", 
+        "011",
         "01"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n01", 
+      },
+      "@id": "https://w3id.org/class/esc/n01",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Teacher training with subject specialisation", 
+              "@value": "Teacher training with subject specialisation",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0114"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0114", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0114",
           "broader": {
             "@id": "https://w3id.org/class/esc/n01"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Education science", 
+              "@value": "Education science",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0111"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0111", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0111",
           "broader": {
             "@id": "https://w3id.org/class/esc/n01"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Teacher training without subject specialisation", 
+              "@value": "Teacher training without subject specialisation",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0113"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0113", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0113",
           "broader": {
             "@id": "https://w3id.org/class/esc/n01"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Training for pre-school teachers", 
+              "@value": "Training for pre-school teachers",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "0112"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0112", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0112",
           "broader": {
             "@id": "https://w3id.org/class/esc/n01"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Natural sciences, mathematics and statistics", 
+          "@value": "Natural sciences, mathematics and statistics",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "05"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n05", 
+      },
+      "@id": "https://w3id.org/class/esc/n05",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Environment", 
+              "@value": "Environment",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "052"
-          ], 
-          "@id": "https://w3id.org/class/esc/n052", 
+          ],
+          "@id": "https://w3id.org/class/esc/n052",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Natural environments and wildlife", 
+                  "@value": "Natural environments and wildlife",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0522"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0522", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0522",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n052"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Environmental sciences", 
+                  "@value": "Environmental sciences",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0521"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0521", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0521",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n052"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n05"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Biological and related sciences", 
+              "@value": "Biological and related sciences",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "051"
-          ], 
-          "@id": "https://w3id.org/class/esc/n051", 
+          ],
+          "@id": "https://w3id.org/class/esc/n051",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Biology", 
+                  "@value": "Biology",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0511"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0511", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0511",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n051"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Biochemistry", 
+                  "@value": "Biochemistry",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0512"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0512", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0512",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n051"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n05"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Mathematics and statistics", 
+              "@value": "Mathematics and statistics",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "054"
-          ], 
-          "@id": "https://w3id.org/class/esc/n054", 
+          ],
+          "@id": "https://w3id.org/class/esc/n054",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Mathematics", 
+                  "@value": "Mathematics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0541"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0541", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0541",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n054"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Statistics", 
+                  "@value": "Statistics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0542"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0542", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0542",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n054"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n05"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Physical sciences", 
+              "@value": "Physical sciences",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "053"
-          ], 
-          "@id": "https://w3id.org/class/esc/n053", 
+          ],
+          "@id": "https://w3id.org/class/esc/n053",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Physics", 
+                  "@value": "Physics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0533"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0533", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0533",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n053"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Chemistry", 
+                  "@value": "Chemistry",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0531"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0531", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0531",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n053"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Earth sciences", 
+                  "@value": "Earth sciences",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0532"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0532", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0532",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n053"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n05"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Health and welfare", 
+          "@value": "Health and welfare",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "09"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n09", 
+      },
+      "@id": "https://w3id.org/class/esc/n09",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Health", 
+              "@value": "Health",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "091"
-          ], 
-          "@id": "https://w3id.org/class/esc/n091", 
+          ],
+          "@id": "https://w3id.org/class/esc/n091",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Medicine", 
+                  "@value": "Medicine",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0912"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0912", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0912",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Nursing and midwifery", 
+                  "@value": "Nursing and midwifery",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0913"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0913", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0913",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Pharmacy", 
+                  "@value": "Pharmacy",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0916"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0916", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0916",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Medical diagnostic and treatment technology", 
+                  "@value": "Medical diagnostic and treatment technology",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0914"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0914", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0914",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Dental studies", 
+                  "@value": "Dental studies",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0911"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0911", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0911",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Traditional and complementary medicine and therapy", 
+                  "@value": "Traditional and complementary medicine and therapy",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0917"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0917", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0917",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Therapy and rehabilitation", 
+                  "@value": "Therapy and rehabilitation",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0915"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0915", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0915",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n091"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n09"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Welfare", 
+              "@value": "Welfare",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "092"
-          ], 
-          "@id": "https://w3id.org/class/esc/n092", 
+          ],
+          "@id": "https://w3id.org/class/esc/n092",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Child care and youth services", 
+                  "@value": "Child care and youth services",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0922"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0922", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0922",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n092"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Social work and counselling", 
+                  "@value": "Social work and counselling",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0923"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0923", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0923",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n092"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Care of the elderly and of disabled adults", 
+                  "@value": "Care of the elderly and of disabled adults",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0921"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0921", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0921",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n092"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n09"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Agriculture, forestry, fisheries and veterinary", 
+          "@value": "Agriculture, forestry, fisheries and veterinary",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "08"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n08", 
+      },
+      "@id": "https://w3id.org/class/esc/n08",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Forestry", 
+              "@value": "Forestry",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "082", 
+            "082",
             "0821"
-          ], 
-          "@id": "https://w3id.org/class/esc/n082", 
+          ],
+          "@id": "https://w3id.org/class/esc/n082",
           "broader": {
             "@id": "https://w3id.org/class/esc/n08"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Fisheries", 
+              "@value": "Fisheries",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "0831", 
+            "0831",
             "083"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0831", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0831",
           "broader": {
             "@id": "https://w3id.org/class/esc/n08"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Agriculture", 
+              "@value": "Agriculture",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "081"
-          ], 
-          "@id": "https://w3id.org/class/esc/n081", 
+          ],
+          "@id": "https://w3id.org/class/esc/n081",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Horticulture", 
+                  "@value": "Horticulture",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0812"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0812", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0812",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n081"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Crop and livestock production", 
+                  "@value": "Crop and livestock production",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0811"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0811", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0811",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n081"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n08"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Veterinary", 
+              "@value": "Veterinary",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
-            "0841", 
+            "0841",
             "084"
-          ], 
-          "@id": "https://w3id.org/class/esc/n0841", 
+          ],
+          "@id": "https://w3id.org/class/esc/n0841",
           "broader": {
             "@id": "https://w3id.org/class/esc/n08"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
-    }, 
+    },
     {
       "name": [
         {
-          "@value": "Arts and humanities", 
+          "@value": "Arts and humanities",
           "@language": "en"
         }
-      ], 
+      ],
       "notation": [
         "02"
-      ], 
+      ],
       "topConceptOf": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
-      "@id": "https://w3id.org/class/esc/n02", 
+      },
+      "@id": "https://w3id.org/class/esc/n02",
       "narrower": [
         {
           "name": [
             {
-              "@value": "Arts", 
+              "@value": "Arts",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "021"
-          ], 
-          "@id": "https://w3id.org/class/esc/n021", 
+          ],
+          "@id": "https://w3id.org/class/esc/n021",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Fashion, interior and industrial design", 
+                  "@value": "Fashion, interior and industrial design",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0212"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0212", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0212",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n021"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Audio-visual techniques and media production", 
+                  "@value": "Audio-visual techniques and media production",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0211"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0211", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0211",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n021"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Music and performing arts", 
+                  "@value": "Music and performing arts",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0215"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0215", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0215",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n021"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Handicrafts", 
+                  "@value": "Handicrafts",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0214"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0214", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0214",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n021"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Fine arts", 
+                  "@value": "Fine arts",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0213"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0213", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0213",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n021"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n02"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Humanities (except languages)", 
+              "@value": "Humanities (except languages)",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "022"
-          ], 
-          "@id": "https://w3id.org/class/esc/n022", 
+          ],
+          "@id": "https://w3id.org/class/esc/n022",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Religion and theology", 
+                  "@value": "Religion and theology",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0221"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0221", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0221",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n022"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Philosophy and ethics", 
+                  "@value": "Philosophy and ethics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0223"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0223", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0223",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n022"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "History and archaeology", 
+                  "@value": "History and archaeology",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0222"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0222", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0222",
               "broader": {
                 "@id": "https://w3id.org/class/esc/n022"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n02"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
-        }, 
+        },
         {
           "name": [
             {
-              "@value": "Languages", 
+              "@value": "Languages",
               "@language": "en"
             }
-          ], 
+          ],
           "notation": [
             "023"
-          ], 
-          "@id": "https://w3id.org/class/esc/n023", 
+          ],
+          "@id": "https://w3id.org/class/esc/n023",
           "narrower": [
             {
               "name": [
                 {
-                  "@value": "Literature and linguistics", 
+                  "@value": "Literature and linguistics",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0232"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0232", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0232",
               "narrower": [
                 {
                   "name": [
                     {
-                      "@value": "Portuguese literature and linguistics", 
+                      "@value": "Portuguese literature and linguistics",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0232-pt"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0232-pt", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0232-pt",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0232"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "English literature and linguistics", 
+                      "@value": "English literature and linguistics",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0232-en"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0232-en", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0232-en",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0232"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Spanish literature and linguistics", 
+                      "@value": "Spanish literature and linguistics",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0232-es"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0232-es", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0232-es",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0232"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
                 }
-              ], 
+              ],
               "broader": {
                 "@id": "https://w3id.org/class/esc/n023"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
-            }, 
+            },
             {
               "name": [
                 {
-                  "@value": "Language acquisition", 
+                  "@value": "Language acquisition",
                   "@language": "en"
                 }
-              ], 
+              ],
               "notation": [
                 "0231"
-              ], 
-              "@id": "https://w3id.org/class/esc/n0231", 
+              ],
+              "@id": "https://w3id.org/class/esc/n0231",
               "narrower": [
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 Chinese", 
+                      "@value": "Language acquisition \\u2013 Chinese",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-zh"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-zh", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-zh",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 Italian", 
+                      "@value": "Language acquisition \\u2013 Italian",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-it"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-it", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-it",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 German", 
+                      "@value": "Language acquisition \\u2013 German",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-de"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-de", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-de",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 Spanish", 
+                      "@value": "Language acquisition \\u2013 Spanish",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-es"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-es", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-es",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 Gaelic", 
+                      "@value": "Language acquisition \\u2013 Gaelic",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-ga"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-ga", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-ga",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 Welsh", 
+                      "@value": "Language acquisition \\u2013 Welsh",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-cy"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-cy", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-cy",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 American Sign Language", 
+                      "@value": "Language acquisition \\u2013 American Sign Language",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-ase"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-ase", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-ase",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 French", 
+                      "@value": "Language acquisition \\u2013 French",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-fr"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-fr", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-fr",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
-                }, 
+                },
                 {
                   "name": [
                     {
-                      "@value": "Language acquisition \\u2013 English", 
+                      "@value": "Language acquisition \\u2013 English",
                       "@language": "en"
                     }
-                  ], 
+                  ],
                   "notation": [
                     "0231-en"
-                  ], 
-                  "@id": "https://w3id.org/class/esc/n0231-en", 
+                  ],
+                  "@id": "https://w3id.org/class/esc/n0231-en",
                   "broader": {
                     "@id": "https://w3id.org/class/esc/n0231"
-                  }, 
+                  },
                   "inScheme": {
                     "@id": "https://w3id.org/class/esc/scheme"
-                  }, 
+                  },
                   "@type": "Concept"
                 }
-              ], 
+              ],
               "broader": {
                 "@id": "https://w3id.org/class/esc/n023"
-              }, 
+              },
               "inScheme": {
                 "@id": "https://w3id.org/class/esc/scheme"
-              }, 
+              },
               "@type": "Concept"
             }
-          ], 
+          ],
           "broader": {
             "@id": "https://w3id.org/class/esc/n02"
-          }, 
+          },
           "inScheme": {
             "@id": "https://w3id.org/class/esc/scheme"
-          }, 
+          },
           "@type": "Concept"
         }
-      ], 
+      ],
       "inScheme": {
         "@id": "https://w3id.org/class/esc/scheme"
-      }, 
+      },
       "@type": "Concept"
     }
-  ], 
-  "@id": "https://w3id.org/class/esc/scheme", 
+  ],
+  "@context": "http://schema.org/",
+  "@id": "https://w3id.org/class/esc/scheme",
   "@type": "ConceptScheme"
 }

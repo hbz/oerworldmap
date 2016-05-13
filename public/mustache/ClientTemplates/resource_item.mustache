@@ -1,7 +1,11 @@
 <ul class="list-group">
     <li class="list-group-item">
         {{getIcon [@type]}}
-        {{name.[0].[@value]}}
+        {{#if name}}
+            {{name.[0].[@value]}}
+        {{ else }}
+            {{[@id]}}
+        {{/if}}
         <div class="input-icon" data-action="delete">
             <i class="fa fa-times"></i>
         </div>

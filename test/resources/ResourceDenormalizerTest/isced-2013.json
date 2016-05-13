@@ -1,0 +1,1789 @@
+{
+  "publisher": {
+    "@id": "http://lobid.org/organisation/DE-605"
+  }, 
+  "description": {
+    "@value": "This is a SKOS representation of the ISCED 2013 fields of education and training.", 
+    "@language": "en"
+  }, 
+  "title": {
+    "@value": "ISCED 2013 fields of education and training", 
+    "@language": "en"
+  }, 
+  "preferredNamespacePrefix": "isced-2013", 
+  "source": {
+    "@id": "http://www.uis.unesco.org/Education/Documents/isced-fields-of-education-training-2013.pdf"
+  }, 
+  "@context": {
+    "publisher": "http://purl.org/dc/terms/publisher", 
+    "@vocab": "http://www.w3.org/2004/02/skos/core#", 
+    "name": "http://www.w3.org/2004/02/skos/core#prefLabel", 
+    "title": "http://purl.org/dc/terms/title", 
+    "preferredNamespacePrefix": "http://purl.org/vocab/vann/preferredNamespacePrefix", 
+    "source": "http://purl.org/dc/terms/source", 
+    "alternateName": "http://www.w3.org/2004/02/skos/core#altLabel", 
+    "preferredNamespaceUri": "http://purl.org/vocab/vann/preferredNamespaceUri", 
+    "description": "http://purl.org/dc/terms/description"
+  }, 
+  "hasTopConcept": [
+    {
+      "name": {
+        "@value": "Generic programmes and qualifications", 
+        "@language": "en"
+      }, 
+      "notation": "00", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n00", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Basic programmes and qualifications", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "001", 
+            "0011"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0011", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n00"
+          }, 
+          "scopeNote": {
+            "@value": "Generic programmes which cover a range of subjects, such as languages and literature, social and natural sciences, mathematics, arts and/or physical education, should be classified in 0011 \\u2018Basic programmes and qualifications\\u2019. This should be the case even if there is some concentration on a certain category of subject matter, such as humanities, social sciences, natural sciences, etc., which can occur.", 
+            "@language": "en"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Literacy and numeracy", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "0021", 
+            "002"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0021", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n00"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Personal skills and development", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "003", 
+            "0031"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0031", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n00"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "scopeNote": {
+        "@value": "General education programmes and qualifications which cover a broad range of subjects with little or no specialisation in a particular field or fields will typically be classified within the broad field 00 \\u2018Generic programmes and qualifications\\u2019", 
+        "@language": "en"
+      }, 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Agriculture, forestry, fisheries and veterinary", 
+        "@language": "en"
+      }, 
+      "notation": "08", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n08", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Veterinary", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "084", 
+            "0841"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0841", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n08"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Fisheries", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "0831", 
+            "083"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0831", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n08"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Forestry", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "0821", 
+            "082"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n082", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n08"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Agriculture", 
+            "@language": "en"
+          }, 
+          "notation": "081", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n081", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Crop and livestock production", 
+                "@language": "en"
+              }, 
+              "notation": "0811", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0811", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n081"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Horticulture", 
+                "@language": "en"
+              }, 
+              "notation": "0812", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0812", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n081"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n08"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Engineering, manufacturing and construction", 
+        "@language": "en"
+      }, 
+      "notation": "07", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n07", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Architecture and construction", 
+            "@language": "en"
+          }, 
+          "notation": "073", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n073", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Building and civil engineering", 
+                "@language": "en"
+              }, 
+              "notation": "0732", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0732", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n073"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Architecture and town planning", 
+                "@language": "en"
+              }, 
+              "notation": "0731", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0731", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n073"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n07"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Manufacturing and processing", 
+            "@language": "en"
+          }, 
+          "notation": "072", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n072", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Materials (glass, paper, plastic and wood)", 
+                "@language": "en"
+              }, 
+              "notation": "0722", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0722", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n072"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Mining and extraction", 
+                "@language": "en"
+              }, 
+              "notation": "0724", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0724", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n072"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Food processing", 
+                "@language": "en"
+              }, 
+              "notation": "0721", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0721", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n072"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Textiles (clothes, footwear and leather)", 
+                "@language": "en"
+              }, 
+              "notation": "0723", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0723", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n072"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n07"
+          }, 
+          "scopeNote": {
+            "@value": "Other manufacturing programmes [those without an emphasis towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.] and qualifications should be classified under 072 \\u2018Manufacturing and processing\\u2019. This is the case where the emphasis is on manufacturing specific products, such as food, textiles, shoes, paper, furniture, glass, plastic, etc., However, manufacturing of metal products is excluded from narrow field 072 and included in detailed field 0715 \\u2018Mechanics and metal trades\\u2019.", 
+            "@language": "en"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Engineering and engineering trades", 
+            "@language": "en"
+          }, 
+          "notation": "071", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Chemical engineering and processes", 
+                "@language": "en"
+              }, 
+              "notation": "0711", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0711", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Mechanics and metal trades", 
+                "@language": "en"
+              }, 
+              "notation": "0715", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0715", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Motor vehicles, ships and aircraft", 
+                "@language": "en"
+              }, 
+              "notation": "0716", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0716", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Electricity and energy", 
+                "@language": "en"
+              }, 
+              "notation": "0713", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0713", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Electronics and automation", 
+                "@language": "en"
+              }, 
+              "notation": "0714", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0714", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Environmental protection technology", 
+                "@language": "en"
+              }, 
+              "notation": "0712", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0712", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n071"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n07"
+          }, 
+          "scopeNote": {
+            "@value": "Manufacturing programmes should be classified in the detailed fields under 071 \\u2018Engineering and engineering trades\\u2019 if the emphasis is towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.", 
+            "@language": "en"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Education", 
+        "@language": "en"
+      }, 
+      "notation": [
+        "01", 
+        "011"
+      ], 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n011", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Teacher training without subject specialisation", 
+            "@language": "en"
+          }, 
+          "notation": "0113", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0113", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n011"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Training for pre-school teachers", 
+            "@language": "en"
+          }, 
+          "notation": "0112", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0112", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n011"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Education science", 
+            "@language": "en"
+          }, 
+          "notation": "0111", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0111", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n011"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Teacher training with subject specialisation", 
+            "@language": "en"
+          }, 
+          "notation": "0114", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0114", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n011"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Business, administration and law", 
+        "@language": "en"
+      }, 
+      "notation": "04", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n04", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Law", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "042", 
+            "0421"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0421", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n04"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Business and administration", 
+            "@language": "en"
+          }, 
+          "notation": "041", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Marketing and advertising", 
+                "@language": "en"
+              }, 
+              "notation": "0414", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0414", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Work skills", 
+                "@language": "en"
+              }, 
+              "notation": "0417", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0417", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Secretarial and office work", 
+                "@language": "en"
+              }, 
+              "notation": "0415", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0415", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Finance, banking and insurance", 
+                "@language": "en"
+              }, 
+              "notation": "0412", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0412", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Accounting and taxation", 
+                "@language": "en"
+              }, 
+              "notation": "0411", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0411", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Wholesale and retail sales", 
+                "@language": "en"
+              }, 
+              "notation": "0416", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0416", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Management and administration", 
+                "@language": "en"
+              }, 
+              "notation": "0413", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0413", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n041"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n04"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Information and Communication Technologies (ICTs)", 
+        "@language": "en"
+      }, 
+      "notation": [
+        "061", 
+        "06"
+      ], 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n061", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Software and applications development and analysis", 
+            "@language": "en"
+          }, 
+          "notation": "0613", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0613", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n061"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Database and network design and administration", 
+            "@language": "en"
+          }, 
+          "notation": "0612", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0612", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n061"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Computer use", 
+            "@language": "en"
+          }, 
+          "notation": "0611", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0611", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n061"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Services", 
+        "@language": "en"
+      }, 
+      "notation": "10", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n10", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Transport services", 
+            "@language": "en"
+          }, 
+          "notation": [
+            "104", 
+            "1041"
+          ], 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1041", 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n10"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Security services", 
+            "@language": "en"
+          }, 
+          "notation": "103", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n103", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Protection of persons and property", 
+                "@language": "en"
+              }, 
+              "notation": "1032", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1032", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n103"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Military and defence", 
+                "@language": "en"
+              }, 
+              "notation": "1031", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1031", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n103"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n10"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Hygiene and occupational health services", 
+            "@language": "en"
+          }, 
+          "notation": "102", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n102", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Occupational health and safety", 
+                "@language": "en"
+              }, 
+              "notation": "1022", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1022", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n102"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Community sanitation", 
+                "@language": "en"
+              }, 
+              "notation": "1021", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1021", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n102"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n10"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Personal services", 
+            "@language": "en"
+          }, 
+          "notation": "101", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n101", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Travel, tourism and leisure", 
+                "@language": "en"
+              }, 
+              "notation": "1015", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1015", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n101"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Sports", 
+                "@language": "en"
+              }, 
+              "notation": "1014", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1014", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n101"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Domestic services", 
+                "@language": "en"
+              }, 
+              "notation": "1011", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1011", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n101"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Hotel, restaurants and catering", 
+                "@language": "en"
+              }, 
+              "notation": "1013", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1013", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n101"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Hair and beauty services", 
+                "@language": "en"
+              }, 
+              "notation": "1012", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n1012", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n101"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n10"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Health and welfare", 
+        "@language": "en"
+      }, 
+      "notation": "09", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n09", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Welfare", 
+            "@language": "en"
+          }, 
+          "notation": "092", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n092", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Care of the elderly and of disabled adults", 
+                "@language": "en"
+              }, 
+              "notation": "0921", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0921", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n092"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Child care and youth services", 
+                "@language": "en"
+              }, 
+              "notation": "0922", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0922", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n092"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Social work and counselling", 
+                "@language": "en"
+              }, 
+              "notation": "0923", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0923", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n092"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n09"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Health", 
+            "@language": "en"
+          }, 
+          "notation": "091", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Medical diagnostic and treatment technology", 
+                "@language": "en"
+              }, 
+              "notation": "0914", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0914", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Traditional and complementary medicine and therapy", 
+                "@language": "en"
+              }, 
+              "notation": "0917", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0917", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Dental studies", 
+                "@language": "en"
+              }, 
+              "notation": "0911", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0911", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Pharmacy", 
+                "@language": "en"
+              }, 
+              "notation": "0916", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0916", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Therapy and rehabilitation", 
+                "@language": "en"
+              }, 
+              "notation": "0915", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0915", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Nursing and midwifery", 
+                "@language": "en"
+              }, 
+              "notation": "0913", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0913", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Medicine", 
+                "@language": "en"
+              }, 
+              "notation": "0912", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0912", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n091"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n09"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Arts and humanities", 
+        "@language": "en"
+      }, 
+      "notation": "02", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n02", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Arts", 
+            "@language": "en"
+          }, 
+          "notation": "021", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Music and performing arts", 
+                "@language": "en"
+              }, 
+              "notation": "0215", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0215", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Fashion, interior and industrial design", 
+                "@language": "en"
+              }, 
+              "notation": "0212", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0212", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Handicrafts", 
+                "@language": "en"
+              }, 
+              "notation": "0214", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0214", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Audio-visual techniques and media production", 
+                "@language": "en"
+              }, 
+              "notation": "0211", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0211", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Fine arts", 
+                "@language": "en"
+              }, 
+              "notation": "0213", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0213", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n021"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n02"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Languages", 
+            "@language": "en"
+          }, 
+          "notation": "023", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n023", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Literature and linguistics", 
+                "@language": "en"
+              }, 
+              "notation": "0232", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0232", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n023"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Language acquisition", 
+                "@language": "en"
+              }, 
+              "notation": "0231", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0231", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n023"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n02"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Humanities (except languages)", 
+            "@language": "en"
+          }, 
+          "notation": "022", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n022", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Religion and theology", 
+                "@language": "en"
+              }, 
+              "notation": "0221", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0221", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n022"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Philosophy and ethics", 
+                "@language": "en"
+              }, 
+              "notation": "0223", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0223", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n022"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "History and archaeology", 
+                "@language": "en"
+              }, 
+              "notation": "0222", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0222", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n022"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n02"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Social sciences, journalism and information", 
+        "@language": "en"
+      }, 
+      "notation": "03", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n03", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Social and behavioural sciences", 
+            "@language": "en"
+          }, 
+          "notation": "031", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n031", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Sociology and cultural studies", 
+                "@language": "en"
+              }, 
+              "notation": "0314", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0314", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n031"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Political sciences and civics", 
+                "@language": "en"
+              }, 
+              "notation": "0312", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0312", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n031"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Economics", 
+                "@language": "en"
+              }, 
+              "notation": "0311", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0311", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n031"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Psychology", 
+                "@language": "en"
+              }, 
+              "notation": "0313", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0313", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n031"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n03"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Journalism and information", 
+            "@language": "en"
+          }, 
+          "notation": "032", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n032", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Library, information and archival studies", 
+                "@language": "en"
+              }, 
+              "notation": "0322", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0322", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n032"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Journalism and reporting", 
+                "@language": "en"
+              }, 
+              "notation": "0321", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0321", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n032"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n03"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }, 
+    {
+      "name": {
+        "@value": "Natural sciences, mathematics and statistics", 
+        "@language": "en"
+      }, 
+      "notation": "05", 
+      "topConceptOf": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n05", 
+      "narrower": [
+        {
+          "name": {
+            "@value": "Biological and related sciences", 
+            "@language": "en"
+          }, 
+          "notation": "051", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n051", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Biology", 
+                "@language": "en"
+              }, 
+              "notation": "0511", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0511", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n051"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Biochemistry", 
+                "@language": "en"
+              }, 
+              "notation": "0512", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0512", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n051"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n05"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Environment", 
+            "@language": "en"
+          }, 
+          "notation": "052", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n052", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Natural environments and wildlife", 
+                "@language": "en"
+              }, 
+              "notation": "0522", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0522", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n052"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Environmental sciences", 
+                "@language": "en"
+              }, 
+              "notation": "0521", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0521", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n052"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n05"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Physical sciences", 
+            "@language": "en"
+          }, 
+          "notation": "053", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n053", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Chemistry", 
+                "@language": "en"
+              }, 
+              "notation": "0531", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0531", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n053"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Physics", 
+                "@language": "en"
+              }, 
+              "notation": "0533", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0533", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n053"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Earth sciences", 
+                "@language": "en"
+              }, 
+              "notation": "0532", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0532", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n053"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n05"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }, 
+        {
+          "name": {
+            "@value": "Mathematics and statistics", 
+            "@language": "en"
+          }, 
+          "notation": "054", 
+          "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n054", 
+          "narrower": [
+            {
+              "name": {
+                "@value": "Statistics", 
+                "@language": "en"
+              }, 
+              "notation": "0542", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0542", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n054"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }, 
+            {
+              "name": {
+                "@value": "Mathematics", 
+                "@language": "en"
+              }, 
+              "notation": "0541", 
+              "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n0541", 
+              "broader": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n054"
+              }, 
+              "inScheme": {
+                "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+              }, 
+              "@type": "Concept"
+            }
+          ], 
+          "broader": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#n05"
+          }, 
+          "inScheme": {
+            "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+          }, 
+          "@type": "Concept"
+        }
+      ], 
+      "inScheme": {
+        "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme"
+      }, 
+      "@type": "Concept"
+    }
+  ], 
+  "preferredNamespaceUri": "https://w3id.org/oer/isced-2013#", 
+  "@id": "urn:uuid:d5b69890-517b-11e5-9b83-ab2851db3f69#scheme", 
+  "@type": "ConceptScheme"
+}
