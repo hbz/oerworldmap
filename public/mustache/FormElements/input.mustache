@@ -5,13 +5,13 @@
     {{#if multiple}}
         <ul title="{{title}}" class="multiple-list">
             {{#property}}
-                <li class="multiple-one">{{input (stringFormat "%s[%s]" key @index) . type=type}}</li>
+                <li class="multiple-one">{{input (stringFormat "%s[%s]" property_path @index) . type=type}}</li>
             {{/property}}
-            <li class="multiple-one">{{input (stringFormat "%s[%s]" key (size property)) "" type=type}}</li>
+            <li class="multiple-one">{{input (stringFormat "%s[%s]" property_path (size property)) "" type=type}}</li>
         </ul>
     {{else}}
         <div class="single">
-            {{input key property type=type}}
+            {{input property_path property type=type}}
         </div>
     {{/if}}
 
