@@ -34,7 +34,10 @@ import services.AccountService;
 public class UserIndex extends OERWorldMap {
 
   private static AccountService mAccountService = new AccountService(
-    new File(Global.getConfig().getString("user.token.dir")), new File(Global.getConfig().getString("ht.passwd")));
+    new File(Global.getConfig().getString("user.token.dir")),
+    new File(Global.getConfig().getString("ht.passwd")),
+    new File(Global.getConfig().getString("ht.groups")),
+    new File(Global.getConfig().getString("ht.permissions")));
 
   public static Result signup() {
 
@@ -226,6 +229,7 @@ public class UserIndex extends OERWorldMap {
     person.put("email", aEmailAddress);
     // TODO: set write permission to aEmailAddress
     mBaseRepository.addResource(person, getMetadata());
+    mAccountService.setPermissions(person.getId(), aEmailAddress);
 
   }
 

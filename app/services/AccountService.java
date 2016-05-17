@@ -1,9 +1,11 @@
 package services;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ListIterator;
@@ -20,13 +22,51 @@ import play.Logger;
  */
 public class AccountService {
 
+  private static final String mLimitWriteDirective =
+    "<Location /resource/%s>\n" +
+      "  AuthType Basic\n" +
+      "  AuthName \"Restricted Files\"\n" +
+      "  AuthUserFile %s\n" +
+      "  AuthGroupFile %s\n" +
+      "  <LimitExcept POST>\n" +
+      "    Require group admin\n" +
+      "    Require user %s\n" +
+      "  </LimitExcept>\n" +
+    "</Location>";
+
+  public void setPermissions(String aId, String aUser) {
+
+    String entry = String.format(mLimitWriteDirective, aId, mUserFile, mGroupFile, aUser);
+    try {
+      FileUtils.writeStringToFile(new File(mPermissionsDir, aId), entry);
+    } catch (IOException e) {
+      Logger.error("Could not create permission file", e);
+    }
+
+    try {
+      Process apache2ctl = Runtime.getRuntime().exec("sudo apache2ctl restart");
+      BufferedReader stdInput = new BufferedReader(new InputStreamReader(apache2ctl.getInputStream()));
+      BufferedReader stdError = new BufferedReader(new InputStreamReader(apache2ctl.getErrorStream()));
+      Logger.debug(stdInput.toString());
+      Logger.debug(stdError.toString());
+    } catch (IOException e) {
+      Logger.error("Could not restart Apache", e);
+    }
+
+  }
+
+
   private final File mTokenDir;
   private final File mUserFile;
+  private final File mGroupFile;
+  private final File mPermissionsDir;
 
-  public AccountService(File aTokenDir, File aUserFile) {
+  public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aPermissionsDir) {
 
     mTokenDir = aTokenDir;
     mUserFile = aUserFile;
+    mGroupFile = aGroupFile;
+    mPermissionsDir = aPermissionsDir;
 
   }
 

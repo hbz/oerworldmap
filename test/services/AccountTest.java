@@ -23,6 +23,8 @@ public class AccountTest {
 
   private File mTokenDir;
   private File mUserFile;
+  private File mGroupFile;
+  private File mPermissionsDir;
   private AccountService mAccountService;
 
   @Before
@@ -30,7 +32,9 @@ public class AccountTest {
 
     mTokenDir = Files.createTempDirectory(null).toFile();
     mUserFile = Files.createTempFile(null, null).toFile();
-    mAccountService = new AccountService(mTokenDir, mUserFile);
+    mGroupFile = Files.createTempFile(null, null).toFile();
+    mPermissionsDir = Files.createTempDirectory(null).toFile();
+    mAccountService = new AccountService(mTokenDir, mUserFile, mGroupFile, null);
 
   }
 
@@ -39,6 +43,8 @@ public class AccountTest {
 
     mTokenDir.delete();
     mUserFile.delete();
+    mGroupFile.delete();
+    mPermissionsDir.delete();
 
   }
 
