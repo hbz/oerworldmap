@@ -544,12 +544,6 @@
         "license": {
           "type": "array",
           "items": {
-            "type": "string"
-          }
-        },
-        "licenseConcept": {
-          "type": "array",
-          "items": {
             "allOf": [
               {
                 "$ref": "#/definitions/Concept"
