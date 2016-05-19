@@ -59,3 +59,5 @@ Felix joined the project in October 2015, being the UI- / frontend-designer of t
 ## Ben Buschfeld (Design, 2014-2015)
 ![Ben Buschfeld](/assets/images/image02.jpg)
 Ben has been the frontend-designer of the project December 2015. He studied communication design from 1990-1994 and is working on the web and digital media since 1995, when he wrote the initial draft and subsequently acted as the art director and project manager of the B2B-platform Baunetz.de. After the launch 1997 he teached as a visiting professor for information design at UDLA in Mexico and founded his own studio [http://www.buschfeld.com](http://www.buschfeld.com) – graphic and interface design in Berlin. Since then he developed a number of publications, corporate identity programs, websites, information portals, and graphical user interfaces – working for clients from various industries, cultural and political institutions. His design work and public engagement was frequently awarded.
+
+Test.
