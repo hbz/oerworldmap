@@ -172,21 +172,17 @@
     .modal-dialog {
       margin: (@header-height * 2) auto;
       width: 500px;
-
     }
 
     .visible-modal {
       display: block;
     }
 
-    h1.modal-title {
-      margin: 0px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid @blue-darker;
-    }
-
-    .messages #messages {
-      margin-top: 20px;
+    .messages {
+      display: none;
+      &.active {
+        display: block;
+      }
     }
 
   }
