@@ -27,8 +27,17 @@ var Hijax = (function ($, Hijax, page) {
   };
 
   var initialisation_source = window.location;
+  var initialisation_content = document.documentElement.innerHTML;
   var map_and_index_source = '';
   var detail_source = '';
+
+  function get(url, callback) {
+    if(url == initialisation_source.pathname + initialisation_source.search) {
+      callback(initialisation_content);
+    } else {
+      $.get(url, callback);
+    }
+  }
 
   function set_map_and_index_source(url, index_mode) {
     if(url != map_and_index_source) {
@@ -116,7 +125,21 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
-  function routing_done() {
+  function route_default(pagejs_ctx, next) {
+    console.log(pagejs_ctx);
+
+    get(
+      pagejs_ctx.path,
+      function(data){
+        Hijax.attachBehaviours( $(data).filter('main').contents() )
+      }
+    );
+
+    next();
+  }
+
+  function routing_done(pagejs_ctx) {
+    console.log(pagejs_ctx);
     Hijax.layout();
   }
 
@@ -145,19 +168,19 @@ var Hijax = (function ($, Hijax, page) {
 
       // setup app routes
 
-      page('/', route_index);
-      page('/resource/', route_index);
-      page('/aggregation/', route_index);
-      page('/resource/:id', route_detail);
-      page('/country/:id', route_index_country);
+      page('/', route_index, routing_done);
+      page('/resource/', route_index, routing_done);
+      page('/aggregation/', route_index, routing_done);
+      page('/resource/:id', route_detail, routing_done);
+      page('/country/:id', route_index_country, routing_done);
 
       // setup non-app (currently static) routes
 
-      page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_static);
+      page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_static, routing_done);
 
       // after all app routes ...
 
-      page('*', routing_done);
+      page('*', route_default, routing_done);
 
       // start routing
 
@@ -237,12 +260,18 @@ var Hijax = (function ($, Hijax, page) {
           data : form.serialize(),
           success : function(data, textStatus, jqXHR) {
 
-            // console.log('jqXHR', jqXHR);
+            console.log('jqXHR', jqXHR);
             // console.log('status', jqXHR.status)
-            // console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
+            console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
+
+            var content_type = jqXHR.getResponseHeader('Content-Type');
 
             // in any case, get contents and attach behaviours
-            var contents = Hijax.attachBehaviours( $(data).filter('main').contents() );
+            if(content_type.indexOf("text/plain") > -1) {
+              var contents = data;
+            } else {
+              var contents = Hijax.attachBehaviours( $(data).filter('main').contents() );
+            }
 
             // get the location header, because if a resource was successfully created the response is forwarding to it
             var location = jqXHR.getResponseHeader('Location');
@@ -271,14 +300,25 @@ var Hijax = (function ($, Hijax, page) {
           },
           error : function(jqXHR, textStatus, errorThrown){
 
+            console.log('jqXHR', jqXHR);
+            // console.log('status', jqXHR.status)
+            console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
+
+            var content_type = jqXHR.getResponseHeader('Content-Type'); console.log('content_type', content_type);
+
+            // in any case, get contents and attach behaviours
+            if(content_type.indexOf("text/plain") > -1) { console.log("text/plain");
+              var contents = jqXHR.responseText;
+            } else {
+              var contents = Hijax.attachBehaviours( $(jqXHR.responseText).filter('main').contents() );
+            }
+
             // if it's a play error replace everything with received data ... app will be gone
             if( jqXHR.responseText.indexOf('<body id="play-error-page">') > -1 ) {
               var new_doc = document.open("text/html", "replace");
               new_doc.write(jqXHR.responseText);
               new_doc.close();
             }
-
-            var contents = $(jqXHR.responseText).filter('main').contents();
 
             if( form.find('.messages').length ) {
               form.find('.messages')
@@ -304,6 +344,20 @@ var Hijax = (function ($, Hijax, page) {
       if(!init_app) {
         return;
       }
+
+      console.log(
+        "attaching app",
+        context,
+        $(context).filter('[data-app="to-modal-on-load"]')
+      );
+
+      $(context).filter('[data-app="to-modal-on-load"]').each(function(){
+        var content = $( this ).clone();
+        var modal = $('#app-modal');
+        modal.find('.modal-body').append( content );
+        Hijax.attachBehaviours( $('#app-modal') );
+        modal.modal('show');
+      });
 
       $('#app', context).on('submit', 'form', function() {
         var form = $(this);

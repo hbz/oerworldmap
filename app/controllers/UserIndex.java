@@ -42,7 +42,6 @@ public class UserIndex extends OERWorldMap {
   public static Result signup() {
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(Locale.getDefault()));
     return ok(render("Registration", "UserIndex/register.mustache", scope));
 
   }
@@ -88,8 +87,12 @@ public class UserIndex extends OERWorldMap {
     } else {
       String username = mAccountService.verifyToken(token);
       if (username != null) {
+
         createProfile(username);
-        result = ok("Verified ".concat(username));
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("username", username);
+        result = ok(render("User verified", "UserIndex/verified.mustache", scope));
+
       } else {
         result = badRequest("Invalid token ".concat(token));
       }
