@@ -211,18 +211,17 @@ var Hijax = (function ($, Hijax, page) {
         var id = this.hash.substring(1);
         var content = $( this.hash ).clone().prop('id', id + '-clone');
         var modal = $('#app-modal');
-        modal.find('.modal-body').append( content )
+        modal.find('.modal-body').append( content );
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
         e.preventDefault();
         // e.stopPropagation();
       });
 
-      // move modal content back to placeholder, when modal is closed
+      // clear modal content when closed
 
       $('#app-modal').on('hidden.bs.modal', function(){
-        var modal = $(this);
-        modal.find('.modal-body').empty();
+        $('#app-modal').find('.modal-body').empty();
       });
 
       // catch form submition inside modals and handle it async
@@ -242,43 +241,52 @@ var Hijax = (function ($, Hijax, page) {
             // console.log('status', jqXHR.status)
             // console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
 
+            // in any case, get contents and attach behaviours
+            var contents = Hijax.attachBehaviours( $(data).filter('main').contents() );
+
             // get the location header, because if a resource was successfully created the response is forwarding to it
             var location = jqXHR.getResponseHeader('Location');
 
             if(location) {
-
-              // just attach behaviours to get notifications
-              Hijax.attachBehaviours( $(data).filter('main').contents() )
 
               // parse location and pass to router
               var just_a_parser = document.createElement('a');
               just_a_parser.href = jqXHR.getResponseHeader('Location');
               page(just_a_parser.pathname);
 
+            } else if(form.attr('action') == detail_source) {
+
+              // if updated resource is currently lodaded in the detail column, update column and close modal
+              $('#app-col-detail [data-app="col-content"]').html( contents );
+              $('#app-modal').modal('hide');
+
             } else {
 
-              // if updated resource is currently lodaded in the detail column, update column
-              if(form.attr('action') == detail_source) {
-                $('#app-col-detail [data-app="col-content"]').html(
-                  Hijax.attachBehaviours( $(data).filter('main').contents() )
-                );
-              }
+              $('#app-modal').find('.modal-body')
+                .empty()
+                .append( contents );
 
             }
-
-            // finally close modal
-            $('#app-modal').modal('hide');
 
           },
           error : function(jqXHR, textStatus, errorThrown){
 
-            // console.log(jqXHR);
-            // console.log(jqXHR.getAllResponseHeaders());
-            // console.log(form.first('fieldset'));
+            // if it's a play error replace everything with received data ... app will be gone
+            if( jqXHR.responseText.indexOf('<body id="play-error-page">') > -1 ) {
+              var new_doc = document.open("text/html", "replace");
+              new_doc.write(jqXHR.responseText);
+              new_doc.close();
+            }
 
-            form.find('.messages').empty().append(
-              $(jqXHR.responseText).find('#messages')
-            );
+            var contents = $(jqXHR.responseText).filter('main').contents();
+
+            if( form.find('.messages').length ) {
+              form.find('.messages')
+                .empty().append( contents )
+                .addClass('active');
+            } else {
+              form.prepend( contents );
+            }
 
           }
         });
