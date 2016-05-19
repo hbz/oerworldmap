@@ -187,7 +187,7 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        return ok(render("Updated", "updated.mustache", resource));
+        return read(resource.getId());
       } else {
         return ok("Updated " + resource.getId());
       }
@@ -296,7 +296,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     if (request().accepts("text/html")) {
-      return ok(render(title, "ResourceIndex/" + type + "/read.mustache", resource));
+      return ok(render(title, "ResourceIndex/read.mustache", resource));
     } else {
       return ok(resource.toString()).as("application/json");
     }

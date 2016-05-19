@@ -61,12 +61,14 @@
 
 ul#messages {
   list-style-type: none;
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
 }
 
 
+
 /* --- alerts --- */
+
 
 .alert-success {
   background-color: @green;
@@ -79,6 +81,12 @@ ul#messages {
   background: @red;
   color: white;
   border: none !important;
+
+  pre {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.9);
+  }
 }
 
 .alert-success a:hover,

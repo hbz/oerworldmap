@@ -6,7 +6,7 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-behaviour="input"]', context).each(function() {
+      $('[data-attach~="input"] [data-behaviour~="input"]', context).each(function() {
 
         var widget = $(this);
 

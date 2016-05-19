@@ -1,59 +1,193 @@
-#app-col-container {
-  position: fixed;
-  left: 0px;
-  top: @header-height;
-  width: 100%;
-  bottom: 0px;
+@toggle-col-size: 38px;
 
-  [data-app="col"] {
-    position: absolute;
-    width: 33.3333%;
-    height: 100%;
+#app {
+
+  .app-hidden {
+    display: none;
   }
 
-  #app-col-map {
+  #app-col-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+
     left: 0px;
+    top: @header-height;
+    width: 100%;
+    bottom: 0px;
 
-    #page-footer {
-      position: absolute;
-      bottom: 0;
-      right: 0;
+    background: @blue-lightest;
 
-      .container {
-        width: auto;
+    [data-app="col"] {
+      flex-basis: 33.3333%;
+      min-width: 33.333%;
+      position: relative;
+      height: 100%;
+
+      [data-app="col-content"] {
+        position: relative;
+        height: 100%;
+        overflow-y: scroll;
+      }
+
+      [data-app="toggle-col"] {
+        display: block;
+        position: absolute;
+        // z-index: 99999;
+        left: -(@toggle-col-size / 2);
+        top: 50%;
+        width: @toggle-col-size;
+        height: @toggle-col-size;
+        margin-top: -(@toggle-col-size / 2);
+        line-height: @toggle-col-size;
+        padding: 0 (@toggle-col-size / 10);
+        text-align: center;
+        cursor: pointer;
+
+        background: @blue-lightest;
+        border-radius: @toggle-col-size;
+        border: 1px solid transparent;
+        background-clip: padding-box;
+
+        &::after {
+          display: block;
+          position: absolute;
+          left: -1px; right: -1px;
+          top: -1px; bottom: -1px;
+          background: linear-gradient(to right, @blue-lighter 0%, @blue-lighter 50%, @blue-lightest 80%);
+          content: '';
+          z-index: -1;
+          border-radius: (@toggle-col-size);
+        }
       }
     }
-  }
 
-  #app-col-index {
-    left: 33.3333%;
+    #app-col-detail {
+      &[data-col-mode="hidden"],
+      &[data-col-mode="collapsed"] {
+        flex-basis: 0%;
+        min-width: 0%;
+        border-left: none;
+      }
+    }
 
-    &[data-col-mode="floating"] {
-      background: transparent;
-      .resource-list {
+    #app-col-index,
+    #app-col-detail {
+      border-left: 1px solid @blue-lighter;
+    }
+
+    #app-col-index[data-col-mode="floating"] {
+      margin-left: -33.333%;
+      border-left: none;
+      [data-app="toggle-col"] {
         display: none;
       }
     }
 
-    &[data-col-mode="list"] {
-      background: green;
+    .visible-expanded,
+    .visible-collapsed {
+      display: none;
     }
 
-    &[data-col-mode="aggregation"] {
-      background: red;
+    #app-col-detail {
+      &[data-col-mode="expanded"] .visible-expanded {
+        display: inline;
+      }
+      &[data-col-mode="collapsed"] .visible-collapsed {
+        display: inline;
+      }
+      &[data-col-mode="collapsed"] [data-app="toggle-col"] {
+        text-align: left;
+      }
+    }
+
+    #app-col-map {
+      flex: 1 1 auto !important;
+
+      #page-footer {
+        position: absolute;
+        bottom: 15px;
+        right: 16px;
+        color: white;
+        a {
+          color: white;
+        }
+      }
+    }
+
+    #app-col-index {
+
+      &[data-col-mode="floating"] {
+        .floating-hidden {
+          display: none;
+        }
+      }
+
+      &[data-col-mode="list"] {
+        #list {
+          display: block;
+        }
+        #statistic {
+          display: none;
+        }
+        [href="#list"] {
+          opacity: .4;
+        }
+      }
+
+      &[data-col-mode="statistic"] {
+        #list {
+          display: none;
+        }
+        #statistic {
+          display: block;
+        }
+        [href="#statistic"] {
+          opacity: .4;
+        }
+      }
+
+    }
+
+    #app-col-detail {
+      &[data-col-mode="hidden"] {
+        visibility: hidden;
+      }
+    }
+
+    [data-app-index-switch] {
+      a {
+        text-decoration: none;
+        margin-left: 10px;
+      }
     }
   }
 
-  #app-col-detail {
-    left: 66.6666%;
+  .visible-modal {
+    display: none;
+  }
 
-    &[data-col-mode="hidden"] {
-      visibility: hidden;
+  #app-modal {
+
+    .modal-dialog {
+      margin: (@header-height * 2) auto;
+      width: 500px;
+
     }
-  }
 
-  [data-app="col"] {
-    overflow-y: scroll;
-  }
+    .visible-modal {
+      display: block;
+    }
 
+    h1.modal-title {
+      margin: 0px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid @blue-darker;
+    }
+
+    .messages #messages {
+      margin-top: 20px;
+    }
+
+  }
 }

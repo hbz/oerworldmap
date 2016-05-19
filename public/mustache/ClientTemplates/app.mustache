@@ -1,0 +1,64 @@
+<div id="app">
+
+    {{{header}}}
+
+    <div id="app-col-container">
+
+        <div id="app-col-map" data-app="col">
+            <div data-app="col-content" data-behaviour="map">
+
+                <nav class="nav nav-map">
+                    <ul>
+                        <li class="dropdown">
+                            <button type="button" data-toggle="dropdown">
+                                <i class="fa fa-fw fa-plus"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours">+ Add Organization <i class="fa fa-users"></i></a></li>
+                                <li><a href="#form-resource-add-person" data-app="to-modal-and-attach-behaviours">+ Add User <i class="fa fa-user"></i></a></li>
+                                <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours">+ Add Service <i class="fa fa-desktop"></i></a></li>
+                                <li><a href="#form-resource-add-project" data-app="to-modal-and-attach-behaviours">+ Add Project <i class="fa fa-gears"></i></a></li>
+                                <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours">+ Add Story <i class="fa fa-comment"></i></a></li>
+                                <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours">+ Add Event <i class="fa fa-calendar"></i></a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#newsletter" data-app="to-modal">
+                                <i class="fa fa-fw fa-envelope"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                {{{footer}}}
+
+            </div>
+        </div>
+
+    	<div id="app-col-index" data-app="col">
+    	    <div data-app="toggle-col">
+    	        <i class="fa fa-chevron-right"></i>
+            </div>
+    	    <div data-app="col-content" class="color-scheme-text"></div>
+    	</div>
+
+    	<div id="app-col-detail" data-app="col">
+        	<div data-app="toggle-col">
+        	    <i class="fa fa-chevron-right visible-expanded"></i>
+            	<i class="fa fa-chevron-left visible-collapsed"></i>
+        	</div>
+    	    <div data-app="col-content" class="color-scheme-text"></div>
+    	</div>
+
+    </div>
+
+    <div id="app-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content bg-blue-palest color-scheme-text">
+                <div class="modal-body" data-attach="input localizedInput localizedTextarea availableChannel place resource select">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

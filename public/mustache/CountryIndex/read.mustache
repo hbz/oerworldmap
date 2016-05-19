@@ -1,102 +1,88 @@
-<div role="complementary"
-     class="color-scheme-map column-large"
-     data-view="map"
-     data-focus="{{scope.alpha-2}}"
->
-    <div class="hidden">
-        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
-    </div>
-</div>
+{{#scope}}
 
-<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+    <div class="column-section">
 
-    {{#scope}}
+        <div class="resource-header">
+            <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+        </div>
 
-        <div class="column-section">
+        {{#champions}}
+            <div class="country-champion">
 
-            <div class="resource-header">
-                <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+                {{#image}}
+                    <img src="{{.}}" class="img" />
+                {{/image}}
+                {{^image}}
+                    <div class="img placeholder-image"></div>
+                {{/image}}
+
+                <div class="text">
+                    <h4>Country Champion</h4>
+
+                    <ul class="resource-list truncated"><li>
+                      {{>ResourceIndex/link.mustache}}
+                    </li></ul>
+
+                    <p>
+                      <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                    </p>
+
+                </div>
+
             </div>
+        {{/champions}}
 
-            {{#champions}}
-                <div class="country-champion">
+        {{^champions}}
+            <div class="country-champion">
 
-                    {{#image}}
-                        <img src="{{.}}" class="img" />
-                    {{/image}}
-                    {{^image}}
-                        <div class="img placeholder-image"></div>
-                    {{/image}}
+                <div class="img placeholder-image-qmark"></div>
 
-                    <div class="text">
-                        <h4>Country Champion</h4>
-
-                        <ul class="resource-list truncated"><li>
-                          {{>ResourceIndex/link.mustache}}
-                        </li></ul>
-
-                        <p>
-                          <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                        </p>
-
-                    </div>
-
+                <div class="text">
+                    There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
                 </div>
-            {{/champions}}
 
-            {{^champions}}
-                <div class="country-champion">
+            </div>
+        {{/champions}}
 
-                    <div class="img placeholder-image-qmark"></div>
+    </div>
+    <div class="column-section">
 
-                    <div class="text">
-                        There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
-                    </div>
+        <h3>Statistics</h3>
 
-                </div>
-            {{/champions}}
+        {{#countryAggregation.[about.location.address.addressCountry].buckets}}
+            <table class="statistics-table">
+            {{#by_type.buckets}}
+                <tr>
+                    <td>{{doc_count}}</td>
+                    <td>{{getIcon key}}
+                        <a href="/resource/?filter.about.location.address.addressCountry={{scope.alpha-2}}&filter.about.@type={{key}}">{{i18n key}}</a>
+                    </td>
+                </tr>
+            {{/by_type.buckets}}
+            </table>
+        {{/countryAggregation.[about.location.address.addressCountry].buckets}}
 
-        </div>
-        <div class="column-section">
+    </div>
+    <div class="column-section">
 
-            <h3>Statistics</h3>
+        <p>
+            Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
+        </p>
 
-            {{#countryAggregation.[about.location.address.addressCountry].buckets}}
-                <table class="statistics-table">
-                {{#by_type.buckets}}
-                    <tr>
-                        <td>{{doc_count}}</td>
-                        <td>{{getIcon key}}
-                            <a href="/resource/?filter.about.location.address.addressCountry={{scope.alpha-2}}&filter.about.@type={{key}}">{{i18n key}}</a>
-                        </td>
-                    </tr>
-                {{/by_type.buckets}}
-                </table>
-            {{/countryAggregation.[about.location.address.addressCountry].buckets}}
+        <ul class="resource-list truncated" data-app="link-to-fragment" data-behaviour="populateMap">
+            <script type="application/ld+json">
+                {{{resources.member}}}
+            </script>
+            {{#resources.member}}
+                <li about="{{@id}}">
+                    {{>ResourceIndex/link.mustache}}
+                </li>
+            {{/resources.member}}
+        </ul>
+        {{^resources}}
+            <em>No related entities found</em>
+        {{/resources}}
 
-        </div>
-        <div class="column-section">
+    </div>
 
-            <p>
-                Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
-            </p>
-
-            <ul class="resource-list truncated" data-behaviour="populateMap">
-                <script type="application/ld+json">
-                    {{{resources.member}}}
-                </script>
-                {{#resources.member}}
-                    <li about="{{@id}}">
-                        {{>ResourceIndex/link.mustache}}
-                    </li>
-                {{/resources.member}}
-            </ul>
-            {{^resources}}
-                <em>No related entities found</em>
-            {{/resources}}
-
-        </div>
-
-    {{/scope}}
-
-</div>
+{{/scope}}

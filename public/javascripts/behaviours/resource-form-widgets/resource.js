@@ -173,7 +173,7 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-behaviour="resource"]', context).each(function() {
+      $('[data-attach~="resource"] [data-behaviour~="resource"]', context).each(function() {
 
         var widget = $(this);
         var lookup_url = $(this).data('lookup');

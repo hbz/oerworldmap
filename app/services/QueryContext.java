@@ -51,7 +51,7 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getTypeAggregation());
     guestAggregations.add(AggregationProvider.getByCountryAggregation());
     guestAggregations.add(AggregationProvider.getServiceLanguageAggregation());
-    guestAggregations.add(AggregationProvider.getServiceByFieldOfEducationAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
     guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation());
     guestAggregations.add(AggregationProvider.getTagAggregation());
 

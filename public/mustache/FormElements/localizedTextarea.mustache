@@ -7,16 +7,16 @@
             <li class="multiple-one">
                 <fieldset>
                     <legend>{{title}}</legend>
-                    {{textarea (stringFormat "%s[%s][@value]" key @index) [@value]}}
-                    {{input (stringFormat "%s[%s][@language]" key @index) [@language]}}
+                    {{textarea (stringFormat "%s[%s][@value]" property_path @index) [@value]}}
+                    {{input (stringFormat "%s[%s][@language]" property_path @index) [@language]}}
                 </fieldset>
             </li>
         {{/property}}
         <li class="multiple-one">
             <fieldset>
                 <legend>{{title}}</legend>
-                {{textarea (stringFormat "%s[%s][@value]" key (size property)) ""}}
-                {{input (stringFormat "%s[%s][@language]" key (size property)) ""}}
+                {{textarea (stringFormat "%s[%s][@value]" property_path (size property)) ""}}
+                {{input (stringFormat "%s[%s][@language]" property_path (size property)) ""}}
             </fieldset>
         </li>
     </ul>

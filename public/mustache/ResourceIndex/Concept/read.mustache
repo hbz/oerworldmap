@@ -1,101 +1,84 @@
-<div
-    role="complementary"
-    data-view="map"
-    data-focus="{{#scope}}{{@id}}{{/scope}}"
-    class="color-scheme-map column-medium"
->
-    <div class="hidden">
-        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
-    </div>
-</div>
+{{#scope}}
 
-<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
-    <div class="column-container">
+    <div>
 
-        {{#scope}}
+        <script type="application/ld+json">
+            {{json .}}
+        </script>
 
-            <div>
+        <div class="resource-header">
 
-                <script type="application/ld+json">
-                    {{json .}}
-                </script>
-
-                <div class="resource-header">
-
-                    <h1 class="resource-title">
-                        {{getIcon @type}}
-                        {{#localized name}}
-                            {{[@value]}}
-                        {{else}}
-                            {{[@id]}}
-                        {{/localized}}
-                    </h1>
-
-                </div>
-
-                {{#localized description}}
-                    <p>{{{[@value]}}}</p>
+            <h1 class="resource-title">
+                {{getIcon @type}}
+                {{#localized name}}
+                    {{[@value]}}
+                {{else}}
+                    {{[@id]}}
                 {{/localized}}
+            </h1>
 
-                <table class="table resource-details-table">
+        </div>
 
-                    {{#if inScheme}}
-                        <tr>
-                            <td>{{i18n "Concept.inScheme"}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#inScheme}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/inScheme}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
+        {{#localized description}}
+            <p>{{{[@value]}}}</p>
+        {{/localized}}
 
-                    {{#if broader}}
-                        <tr>
-                            <td>{{i18n "Concept.broader"}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#broader}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/broader}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
+        <table class="table resource-details-table">
 
-                    {{#if narrower}}
-                        <tr>
-                            <td>{{i18n "Concept.narrower"}}</td>
-                            <td>
-                                <ul class="resource-list" data-behaviour="sort">
-                                    {{#narrower}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/narrower}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
+            {{#if inScheme}}
+                <tr>
+                    <td>{{i18n "Concept.inScheme"}}</td>
+                    <td>
+                        <ul class="resource-list">
+                            {{#inScheme}}
+                                <li>{{>ResourceIndex/link.mustache}}</li>
+                            {{/inScheme}}
+                        </ul>
+                    </td>
+                </tr>
+            {{/if}}
 
-                    {{#if related}}
-                        <tr>
-                            <td>{{i18n "Concept.related"}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#related}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/related}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
+            {{#if broader}}
+                <tr>
+                    <td>{{i18n "Concept.broader"}}</td>
+                    <td>
+                        <ul class="resource-list">
+                            {{#broader}}
+                                <li>{{>ResourceIndex/link.mustache}}</li>
+                            {{/broader}}
+                        </ul>
+                    </td>
+                </tr>
+            {{/if}}
 
-                </table>
+            {{#if narrower}}
+                <tr>
+                    <td>{{i18n "Concept.narrower"}}</td>
+                    <td>
+                        <ul class="resource-list" data-behaviour="sort">
+                            {{#narrower}}
+                                <li>{{>ResourceIndex/link.mustache}}</li>
+                            {{/narrower}}
+                        </ul>
+                    </td>
+                </tr>
+            {{/if}}
 
-            </div>
+            {{#if related}}
+                <tr>
+                    <td>{{i18n "Concept.related"}}</td>
+                    <td>
+                        <ul class="resource-list">
+                            {{#related}}
+                                <li>{{>ResourceIndex/link.mustache}}</li>
+                            {{/related}}
+                        </ul>
+                    </td>
+                </tr>
+            {{/if}}
 
-        {{/scope}}
+        </table>
 
     </div>
-</div>
+
+{{/scope}}
