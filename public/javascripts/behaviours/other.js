@@ -96,7 +96,7 @@ var Hijax = (function ($, Hijax) {
 
       // log out by clearing authentication cache or providing wrong credentials to apache
       // http://stackoverflow.com/a/32325848
-      $('form[data-behaviour="logout"]', context).submit(function(event) {
+      $('[data-behaviour="logout"]', context).click(function(event) {
         if (!document.execCommand("ClearAuthenticationCache")) {
           $.ajax({
             async: false,

@@ -35,7 +35,10 @@ var Hijax = (function ($, Hijax, page) {
     if(url == initialisation_source.pathname + initialisation_source.search) {
       callback(initialisation_content);
     } else {
-      $.get(url, callback);
+      $.ajax(url, {
+        method : 'GET',
+        success : callback
+      });
     }
   }
 
@@ -127,9 +130,15 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
+  function route_login(pagejs_ctx) {
+    $.get('/.login', function(){
+      window.location = "/";
+    });
+  }
+
   function route_default(pagejs_ctx, next) {
-    get(pagejs_ctx.path, function(data){
-      get_main( data )
+    get(pagejs_ctx.path, function(data, textStatus, jqXHR){
+      get_main( data );
     });
     next();
   }
@@ -167,9 +176,10 @@ var Hijax = (function ($, Hijax, page) {
       page('/resource/:id', route_detail, routing_done);
       page('/country/:id', route_index_country, routing_done);
 
-      // setup non-app (currently static) routes
+      // setup non-app (currently static) and login routes
 
       page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_static, routing_done);
+      page('/.login', route_login, routing_done);
 
       // after all app routes ...
 
@@ -273,7 +283,7 @@ var Hijax = (function ($, Hijax, page) {
 
               // parse location and pass to router
               var just_a_parser = document.createElement('a');
-              just_a_parser.href = jqXHR.getResponseHeader('Location');
+              just_a_parser.href = location;
               page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
