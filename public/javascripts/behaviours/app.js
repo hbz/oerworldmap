@@ -39,11 +39,20 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
+  function get_main(data) {
+    var body_mock = $(
+      '<div id="body-mock">' +
+      data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') +
+      '</div>'
+    );
+    return Hijax.attachBehaviours( body_mock.find('main').contents() );
+  }
+
   function set_map_and_index_source(url, index_mode) {
     if(url != map_and_index_source) {
       get(url, function(data){
         $('#app-col-index [data-app="col-content"]').html(
-          Hijax.attachBehaviours( $(data).filter('main').contents() )
+          get_main( data )
         );
         map_and_index_source = url;
       });
@@ -55,7 +64,7 @@ var Hijax = (function ($, Hijax, page) {
     if(url != detail_source) {
       get(url, function(data){
         $('#app-col-detail [data-app="col-content"]').html(
-          Hijax.attachBehaviours( $(data).filter('main').contents() )
+          get_main( data )
         );
         detail_source = url;
       });
@@ -109,7 +118,6 @@ var Hijax = (function ($, Hijax, page) {
   function route_detail(pagejs_ctx, next) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
-
     next();
   }
 
@@ -121,7 +129,7 @@ var Hijax = (function ($, Hijax, page) {
 
   function route_default(pagejs_ctx, next) {
     get(pagejs_ctx.path, function(data){
-      Hijax.attachBehaviours( $(data).filter('main').contents() )
+      get_main( data )
     });
     next();
   }
@@ -255,7 +263,7 @@ var Hijax = (function ($, Hijax, page) {
             if(content_type.indexOf("text/plain") > -1) {
               var contents = data;
             } else {
-              var contents = Hijax.attachBehaviours( $(data).filter('main').contents() );
+              var contents = get_main( data );
             }
 
             // get the location header, because if a resource was successfully created the response is forwarding to it
@@ -295,7 +303,7 @@ var Hijax = (function ($, Hijax, page) {
             if(content_type.indexOf("text/plain") > -1) { console.log("text/plain");
               var contents = jqXHR.responseText;
             } else {
-              var contents = Hijax.attachBehaviours( $(jqXHR.responseText).filter('main').contents() );
+              var contents = get_main( jqXHR.responseText );
             }
 
             // if it's a play error replace everything with received data ... app will be gone
