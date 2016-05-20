@@ -12,6 +12,21 @@ function makeid() {
 
 var Hijax = (function ($, Hijax) {
 
+  // log out by clearing authentication cache or providing wrong credentials to apache
+  // http://stackoverflow.com/a/32325848
+
+  function logout() {
+      if (!document.execCommand("ClearAuthenticationCache")) {
+        $.ajax({
+          async: false,
+          url: "/.login",
+          type: 'GET',
+          username: 'logout'
+        });
+      }
+      window.location = "/";
+  }
+
   var my = {
     attach: function(context) {
 
@@ -94,19 +109,11 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      // log out by clearing authentication cache or providing wrong credentials to apache
-      // http://stackoverflow.com/a/32325848
-      $('[data-behaviour="logout"]', context).click(function(event) {
-        if (!document.execCommand("ClearAuthenticationCache")) {
-          $.ajax({
-            async: false,
-            url: "/.login",
-            type: 'GET',
-            username: 'logout'
-          });
-        }
-        window.location = "/";
-        // event.preventDefault();
+      $('[data-behaviour="logout"]', context).click( logout );
+      $('[data-behaviour="logout-on-load"]', context).each(function(){
+        setTimeout(function(){
+          logout();
+        }, 5000);
       });
 
       $('[data-behaviour="login"]', context).click(function(){

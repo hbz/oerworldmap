@@ -125,7 +125,7 @@ public class UserIndex extends OERWorldMap {
       } else if (!mAccountService.updatePassword(username, password, updated)) {
         result = badRequest("Failed to update password for ".concat(username));
       } else {
-        result = ok("Password changed.");
+        result = ok(render("Password changed", "UserIndex/passwordChanged.mustache"));
       }
     } else {
       username = user.getAsString("email");
@@ -135,7 +135,7 @@ public class UserIndex extends OERWorldMap {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
         if (mAccountService.setPassword(username, password)) {
           sendMail(username, password);
-          result = ok("Password successfully reset.");
+          result = ok(render("Password changed", "UserIndex/passwordChanged.mustache"));
         } else {
           result = badRequest("Failed to reset password.");
         }

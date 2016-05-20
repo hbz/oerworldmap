@@ -4,7 +4,7 @@
   index modes: floating, list, statistic
   detail modes: expanded, collapsed, hidden
 
-  TODO: check initialisation_source to avoid dedundant requests on init
+  TODO: check initialization_source to avoid dedundant requests on init
 
 */
 
@@ -26,14 +26,14 @@ var Hijax = (function ($, Hijax, page) {
     'app' : Handlebars.compile($('#app\\.mustache').html())
   };
 
-  var initialisation_source = window.location;
-  var initialisation_content = document.documentElement.innerHTML;
+  var initialization_source = window.location;
+  var initialization_content = document.documentElement.innerHTML;
   var map_and_index_source = '';
   var detail_source = '';
 
   function get(url, callback) {
-    if(url == initialisation_source.pathname + initialisation_source.search) {
-      callback(initialisation_content);
+    if(url == initialization_source.pathname + initialization_source.search) {
+      callback(initialization_content);
     } else {
       $.ajax(url, {
         method : 'GET',
@@ -48,7 +48,8 @@ var Hijax = (function ($, Hijax, page) {
       data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') +
       '</div>'
     );
-    return Hijax.attachBehaviours( body_mock.find('main').contents() );
+    return Hijax.attachBehaviours( body_mock.find('main') );
+    // return body_mock.find('main').contents();
   }
 
   function set_map_and_index_source(url, index_mode) {
@@ -125,7 +126,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_static(pagejs_ctx) {
-    if(pagejs_ctx.path != initialisation_source.pathname) {
+    if(pagejs_ctx.path != initialization_source.pathname) {
       window.location = pagejs_ctx.path;
     }
   }
@@ -273,6 +274,7 @@ var Hijax = (function ($, Hijax, page) {
             if(content_type.indexOf("text/plain") > -1) {
               var contents = data;
             } else {
+              console.log('get_main on post response');
               var contents = get_main( data );
             }
 
@@ -345,8 +347,8 @@ var Hijax = (function ($, Hijax, page) {
         return;
       }
 
-      $(context).filter('[data-app="to-modal-on-load"]').each(function(){
-        var content = $( this ).clone();
+      $(context).find('[data-app="to-modal-on-load"]').each(function(){
+        var content = $( this ).children().clone();
         var modal = $('#app-modal');
         modal.find('.modal-body').append( content );
         Hijax.attachBehaviours( $('#app-modal') );
