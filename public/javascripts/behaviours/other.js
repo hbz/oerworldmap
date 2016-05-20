@@ -106,7 +106,23 @@ var Hijax = (function ($, Hijax) {
           });
         }
         window.location = "/";
-        event.preventDefault();
+        // event.preventDefault();
+      });
+
+      $('[data-behaviour="login"]', context).click(function(){
+        var form = $(this).closest('form');
+        var username = form.find('[name="email"]').val();
+        var password = form.find('[name="password"]').val();
+
+        $.ajax({
+          async : false,
+          url : "/.login",
+          type : 'GET',
+          username : username,
+          password : password
+        });
+
+        window.location = "/";
       });
 
     }
