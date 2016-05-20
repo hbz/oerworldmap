@@ -8,8 +8,8 @@ var Hijax = (function (window) {
 
     attachBehaviour : function(context, behaviour) {
       if ('function' == typeof(my.behaviours[behaviour].attach)) {
-        if (behaviour in deferreds) {
-          deferreds[behaviour].done(function() {
+        if ('function' == typeof(my.behaviours[behaviour].init)) {
+          my.behaviours[behaviour].initialized.done(function() {
             my.behaviours[behaviour].attach(context);
           });
         } else {
@@ -27,7 +27,7 @@ var Hijax = (function (window) {
 
     initBehaviour : function(context, behaviour) {
       if ('function' == typeof(my.behaviours[behaviour].init)) {
-        deferreds[behaviour] = my.behaviours[behaviour].init(context);
+        my.behaviours[behaviour].init(context);
         my.attachBehaviour(context, behaviour);
       } else {
         my.attachBehaviour(context, behaviour);
@@ -40,7 +40,7 @@ var Hijax = (function (window) {
       }
       return context;
     },
-    
+
     layout : function() {
       for (var behaviour in my.behaviours) {
         if(my.behaviours[behaviour].layout) {

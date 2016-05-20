@@ -41,30 +41,24 @@ var Hijax = (function ($, Hijax, page) {
 
   function set_map_and_index_source(url, index_mode) {
     if(url != map_and_index_source) {
-      $.get(
-        url,
-        function(data){
-          $('#app-col-index [data-app="col-content"]').html(
-            Hijax.attachBehaviours( $(data).filter('main').contents() )
-          );
-          map_and_index_source = url;
-        }
-      )
+      get(url, function(data){
+        $('#app-col-index [data-app="col-content"]').html(
+          Hijax.attachBehaviours( $(data).filter('main').contents() )
+        );
+        map_and_index_source = url;
+      });
     }
     $('#app-col-index').attr('data-col-mode', index_mode);
   }
 
   function set_detail_source(url) {
     if(url != detail_source) {
-      $.get(
-        url,
-        function(data){
-          $('#app-col-detail [data-app="col-content"]').html(
-            Hijax.attachBehaviours( $(data).filter('main').contents() )
-          );
-          detail_source = url;
-        }
-      );
+      get(url, function(data){
+        $('#app-col-detail [data-app="col-content"]').html(
+          Hijax.attachBehaviours( $(data).filter('main').contents() )
+        );
+        detail_source = url;
+      });
     }
     // preserve collapsed state / avoid auto expanding of collapsed detail when switching from floating to list
     if($('#app-col-detail').attr('data-col-mode') != 'collapsed') {
@@ -126,31 +120,22 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_default(pagejs_ctx, next) {
-    console.log(pagejs_ctx);
-
-    get(
-      pagejs_ctx.path,
-      function(data){
-        Hijax.attachBehaviours( $(data).filter('main').contents() )
-      }
-    );
-
+    get(pagejs_ctx.path, function(data){
+      Hijax.attachBehaviours( $(data).filter('main').contents() )
+    });
     next();
   }
 
   function routing_done(pagejs_ctx) {
-    console.log(pagejs_ctx);
     Hijax.layout();
   }
 
-  Hijax.behaviours.hfactor = {
+  var my = {
 
     init : function(context) {
 
       if(!init_app) {
-        var deferred = new $.Deferred();
-        deferred.resolve();
-        return deferred;
+        my.initialized.resolve();
       }
 
       // render template / cleanup dom
@@ -333,10 +318,7 @@ var Hijax = (function ($, Hijax, page) {
       });
 
       // deferr
-
-      var deferred = new $.Deferred();
-      deferred.resolve();
-      return deferred;
+      my.initialized.resolve();
     },
 
     attach : function(context) {
@@ -344,12 +326,6 @@ var Hijax = (function ($, Hijax, page) {
       if(!init_app) {
         return;
       }
-
-      console.log(
-        "attaching app",
-        context,
-        $(context).filter('[data-app="to-modal-on-load"]')
-      );
 
       $(context).filter('[data-app="to-modal-on-load"]').each(function(){
         var content = $( this ).clone();
@@ -371,9 +347,13 @@ var Hijax = (function ($, Hijax, page) {
         }
       });
 
-    }
+    },
+
+    initialized : new $.Deferred()
 
   };
+
+  Hijax.behaviours.app = my;
 
   return Hijax;
 

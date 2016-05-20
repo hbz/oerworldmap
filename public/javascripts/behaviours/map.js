@@ -617,7 +617,7 @@ var Hijax = (function ($, Hijax) {
     init : function(context) {
 
       if (!$('div[data-behaviour="map"]', context).length) {
-        return new $.Deferred();
+        my.initialized.resolve();
       }
 
       // Get mercator projection
@@ -828,18 +828,16 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Defer until vector source is loaded
-      var deferred = new $.Deferred();
       if (countryVectorSource.getFeatureById("US")) { // Is this a relieable test?
-        deferred.resolve();
+        my.initialized.resolve();
       } else {
         var listener = countryVectorSource.on('change', function(e) {
           if (countryVectorSource.getState() == 'ready') {
             ol.Observable.unByKey(listener);
-            deferred.resolve();
+            my.initialized.resolve();
           }
         });
       }
-      return deferred;
 
     },
 
@@ -953,10 +951,14 @@ var Hijax = (function ($, Hijax) {
         setBoundingBox(this);
       });
 
-    }
+    },
+
+    initialized : new $.Deferred()
+
   };
 
-  Hijax.behaviours.map =  my;
+  Hijax.behaviours.map = my;
+
   return Hijax;
 
 })(jQuery, Hijax);
