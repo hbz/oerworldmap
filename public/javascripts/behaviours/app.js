@@ -245,17 +245,25 @@ var Hijax = (function ($, Hijax, page) {
 
         modal.find('.modal-body').append( content );
         modal.data('is_protected', is_protected);
+        modal.data('opened_on', 'click');
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
       });
 
-      // catch closing of protected modals
+      // catch closing of protected modals and go back if opened on load
 
       $('#app-modal').on('hide.bs.modal', function(e){
         if( $('#app-modal').data('is_protected') ) {
           var confirm = window.confirm("Are you sure you want to close? All form content will be lost.");
           if(!confirm) {
             return false;
+          }
+        }
+        if( $('#app-modal').data('opened_on') == 'load' ) {
+          if(history.length > 1) {
+            history.go(-1);
+          } else {
+            page('/');
           }
         }
       });
@@ -327,10 +335,10 @@ var Hijax = (function ($, Hijax, page) {
             // console.log('status', jqXHR.status)
             console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
 
-            var content_type = jqXHR.getResponseHeader('Content-Type'); console.log('content_type', content_type);
+            var content_type = jqXHR.getResponseHeader('Content-Type');
 
             // in any case, get contents and attach behaviours
-            if(content_type.indexOf("text/plain") > -1) { console.log("text/plain");
+            if(content_type.indexOf("text/plain") > -1) {
               var contents = jqXHR.responseText;
             } else {
               var contents = get_main( jqXHR.responseText );
@@ -366,10 +374,10 @@ var Hijax = (function ($, Hijax, page) {
       }
 
       $(context).find('[data-app="to-modal-on-load"]').each(function(){
-        console.log("to-modal-on-load");
         var content = $( this ).children().clone();
         var modal = $('#app-modal');
         modal.find('.modal-body').empty().append( content );
+        modal.data('opened_on', 'load');
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
       });
