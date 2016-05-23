@@ -183,7 +183,7 @@ public class UserIndex extends OERWorldMap {
     if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
       Logger.warn("No mailman configured, user ".concat(username)
         .concat(" not signed up for newsletter"));
-      return internalServerError("Newletter currently not available.");
+      return internalServerError("Newsletter currently not available.");
     }
 
     HttpClient client = new DefaultHttpClient();
@@ -205,7 +205,7 @@ public class UserIndex extends OERWorldMap {
       return internalServerError();
     }
 
-    return ok(username + " signed up for newsletter");
+    return ok(username + " signed up for newsletter.");
 
   }
 
