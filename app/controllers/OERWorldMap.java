@@ -66,11 +66,8 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  static {
-
-  }
-
   protected static ResourceBundle messages = ResourceBundle.getBundle("messages", Locale.getDefault());
+  protected static ResourceBundle emails = ResourceBundle.getBundle("emails", Locale.getDefault());
 
   //TODO: is this right here? how else to implement?
   public static String getLabel(String aId) {

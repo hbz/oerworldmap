@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,9 @@ public class UserIndex extends OERWorldMap {
       if (token == null) {
         result = badRequest("Failed to add " . concat(username));
       } else {
-        sendMail(username, "Token: " . concat(token));
+        sendMail(username, MessageFormat.format(emails.getString("account.verify.message"),
+            mConf.getString("proxy.host").concat(routes.UserIndex.verify(token).url())),
+            emails.getString("account.verify.subject"));
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
         result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
@@ -140,7 +143,8 @@ public class UserIndex extends OERWorldMap {
       } else {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
         if (mAccountService.setPassword(username, password)) {
-          sendMail(username, password);
+          sendMail(username, MessageFormat.format(emails.getString("account.password.message"), password),
+              emails.getString("account.password.subject"));
           result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
         } else {
           result = badRequest("Failed to reset password.");
@@ -205,7 +209,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  private static void sendMail(String aEmailAddress, String aMessage) {
+  private static void sendMail(String aEmailAddress, String aMessage, String aSubject) {
     Email mail = new SimpleEmail();
     try {
       mail.setMsg(aMessage);
@@ -220,7 +224,7 @@ public class UserIndex extends OERWorldMap {
       mail.setStartTLSEnabled(mConf.getBoolean("mail.smtp.tls"));
       mail.setFrom(mConf.getString("mail.smtp.from"),
         mConf.getString("mail.smtp.sender"));
-      mail.setSubject(UserIndex.messages.getString("user_token_request_subject"));
+      mail.setSubject(aSubject);
       mail.addTo(aEmailAddress);
       mail.send();
       Logger.debug(mail.toString());
