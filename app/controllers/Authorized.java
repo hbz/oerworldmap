@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Resource;
+import play.Logger;
 import play.libs.F;
 import play.mvc.*;
 import services.QueryContext;
@@ -25,10 +26,13 @@ public class Authorized extends Action.Simple {
     if (username != null) {
       ctx.request().setUsername(username);
       List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
-      if (users.size() == 1) {
+      if (users.size() == 0) {
         user = users.get(0);
+      } else if (users.size() > 0) {
+        user = users.get(0);
+        Logger.warn(String.format("Multiple profiles for %s detected", username));
       } else {
-        user = new Resource("Person", username);
+        user = new Resource("Person");
         user.put("email", username);
       }
     } else {
