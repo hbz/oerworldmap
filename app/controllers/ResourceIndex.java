@@ -285,6 +285,7 @@ public class ResourceIndex extends OERWorldMap {
         }
         Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
         resource.put("aggregation", nestedConceptAggregation);
+        return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
       }
     }
 

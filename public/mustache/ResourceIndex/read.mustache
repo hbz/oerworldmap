@@ -14,6 +14,10 @@
                     <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours">
                         <i class="fa fa-pencil"></i>
                     </a>
+                    <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
+                        <i class="fa fa-history"></i>
+                    </a>
+
                 {{/if}}
 
                 <h1 class="resource-title">
@@ -32,6 +36,39 @@
                     </div>
                 {{/serviceType}}
 
+                {{#additionalType}}
+                    <div class="resource-subline">
+                        <div class="resource-subline-label">Additional Type</div>
+                        {{.}}
+                    </div>
+                {{/additionalType}}
+
+                {{#if creator}}
+                    <div class="resource-subline">
+                        <div class="resource-subline-label">Contributed</div>{{#dateCreated}} on {{.}} {{/dateCreated}}by
+                        <ul class="comma-seperated-list">
+                            {{#creator}}
+                                <li>
+                                    <a href="/resource/{{@id}}">
+                                        {{#localized name}}
+                                            {{[@value]}}
+                                        {{else}}
+                                            {{[@id]}}
+                                        {{/localized}}
+                                    </a>
+                                </li>
+                            {{/creator}}
+                        </ul>
+                    </div>
+                {{/if}}
+
+                {{#countryChampionFor}}
+                    <div class="resource-subline">
+                        {{i18n (stringFormat "%s.countryChampionFor" @type)}}
+                        <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                    </div>
+                {{/countryChampionFor}}
+
             </div>
 
             {{#image}}
@@ -46,44 +83,136 @@
                 <p>{{{[@value]}}}</p>
             {{/localized}}
 
-            {{#availableChannel}}{{#serviceUrl}}
+            {{#localized articleBody}}{{{[@value]}}}{{/localized}}
+
+            {{#url}}
                 <p>
                     <a href="{{.}}" target="_blank" class="btn btn-default">
                         <i class="fa fa-external-link"></i>
                         {{stripProtocol .}}
                     </a>
                 </p>
-            {{/serviceUrl}}{{/availableChannel}}
+            {{/url}}
+
+            {{#availableChannel}}
+                {{#serviceUrl}}
+                    <p>
+                        <a href="{{.}}" target="_blank" class="btn btn-default">
+                            <i class="fa fa-external-link"></i>
+                            {{stripProtocol .}}
+                        </a>
+                    </p>
+                {{/serviceUrl}}
+            {{/availableChannel}}
+
+            {{#license}}
+                <img src="{{image}}" width="75" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
+            {{/license}}
 
             <table class="table resource-details-table">
 
-                <tr>
-                    <td>{{i18n "Service.availableChannel.availableLanguage"}}</td>
-                    <td>
-                        <ul class="comma-seperated-list">
-                            {{#availableChannel}}
-                                {{#availableLanguage}}
-                                    <li>{{i18n . bundle = "languages"}}</li>
-                                {{/availableLanguage}}
-                            {{/availableChannel}}
-                        </ul>
-                    </td>
-                </tr>
+                {{#if email}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.email" @type)}}</td>
+                        <td>
+                            <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                        </td>
+                    </tr>
+                {{/if}}
 
-                <tr>
-                    <td>{{i18n "Service.audience"}}</td>
-                    <td>
-                        <ul class="resource-list truncated">
-                            {{#audience}}
-                                <li>{{>ResourceIndex/link.mustache}}</li>
-                            {{/audience}}
-                        </ul>
-                    </td>
-                </tr>
+                {{#if alternateName}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
+                        <td>
+                            <ul class="comma-seperated-list">
+                                {{#localized alternateName}}
+                                    <li>{{[@value]}}</li>
+                                {{/localized}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if location.address}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.location" @type)}}</td>
+                        <td>
+                            {{#location}}
+                                {{>ResourceIndex/Place/read.mustache}}
+                            {{/location}}
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if contactPoint}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.contactPoint" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#contactPoint}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/contactPoint}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if created}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.created" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#created}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/created}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if keywords}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
+                        <td>
+                            <ul class="comma-seperated-list">
+                                {{#keywords}}<li><a href='/resource/?q="{{.}}" '>{{.}}</a></li>{{/keywords}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+
+                {{#if availableChannel}}
+                    <tr>
+                        <td>{{i18n "Service.availableChannel.availableLanguage"}}</td>
+                        <td>
+                            <ul class="comma-seperated-list">
+                                {{#availableChannel}}
+                                    {{#availableLanguage}}
+                                        <li>{{i18n . bundle = "languages"}}</li>
+                                    {{/availableLanguage}}
+                                {{/availableChannel}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{# if audience}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.audience" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#audience}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/audience}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
 
                 {{#if provider}}
                     <tr>
-                        <td>{{i18n "Service.provider"}}</td>
+                        <td>{{i18n (stringFormat "%s.provider" @type)}}</td>
                         <td>
                             <ul class="resource-list truncated">
                                 {{#provider}}
@@ -94,9 +223,22 @@
                     </tr>
                 {{/if}}
 
+                {{#if provides}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.provides" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#provides}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/provides}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
                 {{#if about}}
                     <tr>
-                        <td>{{i18n "Service.about"}}</td>
+                        <td>{{i18n (stringFormat "%s.about" @type)}}</td>
                         <td>
                             <ul class="resource-list truncated">
                                 {{#about}}
@@ -109,7 +251,7 @@
 
                 {{#if sameAs}}
                     <tr>
-                        <td>{{i18n "Service.sameAs"}}</td>
+                        <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
                         <td>
                             <ul class="resource-list truncated">
                                 {{#sameAs}}
@@ -122,7 +264,7 @@
 
                 {{#if memberOf}}
                     <tr>
-                        <td>{{i18n "Service.memberOf"}}</td>
+                        <td>{{i18n (stringFormat "%s.memberOf" @type)}}</td>
                         <td>
                             <ul class="resource-list truncated">
                                 {{#memberOf}}
@@ -133,9 +275,22 @@
                     </tr>
                 {{/if}}
 
+                {{#if member}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.member" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#member}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/member}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
                 {{#if tag}}
                     <tr>
-                        <td>{{i18n "Service.tag"}}</td>
+                        <td>{{i18n (stringFormat "%s.tag" @type)}}</td>
                         <td>
                             <ul class="comma-seperated-list">
                                 {{#tag}}
@@ -145,6 +300,230 @@
                         </td>
                     </tr>
                 {{/if}}
+
+                {{#if mainEntity}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.mainEntity" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#mainEntity}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/mainEntity}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if mainEntityOf}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.mainEntityOf" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#mainEntityOf}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/mainEntityOf}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if mentions}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#mentions}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/mentions}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if mentionedIn}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.mentionedIn" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#mentionedIn}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/mentionedIn}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if startTime}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.startTime" @type)}} - {{i18n (stringFormat "%s.endTime" @type)}}</td>
+                        <td>{{startTime}} &ndash; {{endTime}}</td>
+                    </tr>
+                {{/if}}
+
+                {{#if startDate}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.startDate" @type)}} - {{i18n (stringFormat "%s.endDate" @type)}}</td>
+                        <td>{{startDate}} &ndash; {{endDate}}</td>
+                    </tr>
+                {{/if}}
+
+                {{#if agent}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.agent" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#agent}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/agent}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if agentIn}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.agentIn" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#agentIn}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/agentIn}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if participant}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.participant" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#participant}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/participant}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if participantIn}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.participantIn" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#participantIn}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/participantIn}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if instrument}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.instrument" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#instrument}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/instrument}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if result}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.result" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#result}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/result}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if funder}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.funder" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#funder}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/funder}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if funderOf}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.funderOf" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#funderOf}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/funderOf}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if organizer}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.organizer" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#organizer}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/organizer}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if performer}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.performer" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#performer}}
+                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                {{/performer}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if inLanguage}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.inLanguage" @type)}}</td>
+                        <td>
+                            <ul class="comma-seperated-list">
+                                {{#inLanguage}}
+                                    <li>{{i18n . bundle = "languages"}}</li>
+                                {{/inLanguage}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+                {{#if recordedIn}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.recordedIn" @type)}}</td>
+                        <td>
+                            <ul class="resource-list truncated">
+                                {{#recordedIn}}
+                                    <li>{{externalLink .}}</li>
+                                {{/recordedIn}}
+                            </ul>
+                        </td>
+                    </tr>
+                {{/if}}
+
+
 
             </table>
 
