@@ -618,6 +618,7 @@ var Hijax = (function ($, Hijax) {
 
       if (!$('div[data-behaviour="map"]', context).length) {
         my.initialized.resolve();
+        return;
       }
 
       // Get mercator projection

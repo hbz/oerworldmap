@@ -1,33 +1,37 @@
-<form action="/user/register" method="post" class="text-center">
+<div data-app="to-modal-on-load">
+    <form action="/user/register" method="post" class="text-center">
 
-    <h1 class="modal-title">{{i18n "newsletter_signup_title"}}</h1>
+        <h1 class="modal-title">{{i18n "newsletter_signup_title"}}</h1>
 
-    <p>{{i18n "newsletter_signup_call"}}</p>
+        <p>{{i18n "newsletter_signup_call"}}</p>
 
-    {{#messages.size}}
-        <ul id="messages">
-        {{#messages}}
-            <li class="message {{level}}">
-                <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
-            </li>
-        {{/messages}}
-        </ul>
-    {{/messages.size}}
+        {{#messages.size}}
+            <ul id="messages">
+            {{#messages}}
+                <li class="message {{level}}">
+                    <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
+                </li>
+            {{/messages}}
+            </ul>
+        {{/messages.size}}
 
-    <input type="hidden" name="@type" value="Person" />
+        <div class="messages alert alert-danger"></div>
 
-    <div class="form-group">
-        <label class="sr-only" for="register-email">{{i18n "email_address"}}</label>
-        <input type="email" name="email" required id="register-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "placeholder_email"}}" />
-    </div>
+        <input type="hidden" name="@type" value="Person" />
 
-    <p>{{{i18n "newsletter_signup_priv"}}}</p>
+        <div class="form-group">
+            <label class="sr-only" for="register-email">{{i18n "email_address"}}</label>
+            <input type="email" name="email" required id="register-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "placeholder_email"}}" />
+        </div>
 
-    <div class="container-top-line">
-        <button class="btn btn-default" type="submit">
-            <span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>
-            {{i18n "subscribe"}}
-        </button>
-    </div>
+        <p>{{{i18n "newsletter_signup_priv"}}}</p>
 
-</form>
+        <div class="container-top-line">
+            <button class="btn btn-default" type="submit">
+                <span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>
+                {{i18n "subscribe"}}
+            </button>
+        </div>
+
+    </form>
+</div>

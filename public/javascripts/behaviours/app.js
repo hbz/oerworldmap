@@ -154,6 +154,7 @@ var Hijax = (function ($, Hijax, page) {
 
       if(!init_app) {
         my.initialized.resolve();
+        return;
       }
 
       // render template / cleanup dom
