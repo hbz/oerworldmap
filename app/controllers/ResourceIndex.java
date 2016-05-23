@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -63,6 +64,11 @@ public class ResourceIndex extends OERWorldMap {
           Logger.error("Invalid bounding box: ".concat(boundingBox), e);
         }
       }
+    }
+
+    // Sort by dateCreated if no query string given
+    if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
+      sort = "dateCreated:DESC";
     }
 
     queryContext.setFetchSource(new String[]{
