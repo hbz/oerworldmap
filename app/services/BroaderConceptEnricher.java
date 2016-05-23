@@ -2,13 +2,6 @@ package services;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
 
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -19,15 +12,10 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.shared.Lock;
+import helpers.SCHEMA;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import org.eclipse.jetty.util.ConcurrentHashSet;
-
-import helpers.JsonLdConstants;
-import models.Resource;
-import play.Logger;
-import services.repository.Readable;
 
 /**
  * @author fo, pvb
@@ -76,9 +64,11 @@ public class BroaderConceptEnricher implements ResourceEnricher {
             ResultSet resultSet = queryExecution.execSelect();
             while (resultSet.hasNext()) {
               QuerySolution querySolution = resultSet.next();
-              Statement broaderConcept = ResourceFactory.createStatement(stmt.getSubject(), stmt.getPredicate(),
-                querySolution.get("broader").asResource());
-              broaderConcepts.add(broaderConcept);
+              if (!stmt.getPredicate().equals(SCHEMA.broader)) {
+                Statement broaderConcept = ResourceFactory.createStatement(stmt.getSubject(), stmt.getPredicate(),
+                  querySolution.get("broader").asResource());
+                broaderConcepts.add(broaderConcept);
+              }
             }
           }
         }
