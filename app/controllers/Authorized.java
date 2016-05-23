@@ -23,7 +23,11 @@ public class Authorized extends Action.Simple {
 
     Resource user;
 
+    List<String> roles = new ArrayList<>();
+    roles.add("guest");
+
     if (username != null) {
+      roles.add("authenticated");
       ctx.request().setUsername(username);
       List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
       if (users.size() == 0) {
@@ -43,7 +47,7 @@ public class Authorized extends Action.Simple {
     ctx.args.put("username", username);
 
     // TODO: get roles? or allowed methods for this url?
-    ctx.args.put("queryContext", new QueryContext(user.getId(), new ArrayList<>()));
+    ctx.args.put("queryContext", new QueryContext(user.getId(), roles));
 
     return delegate.call(ctx);
 
