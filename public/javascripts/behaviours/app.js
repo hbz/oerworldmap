@@ -348,9 +348,10 @@ var Hijax = (function ($, Hijax, page) {
       }
 
       $(context).find('[data-app="to-modal-on-load"]').each(function(){
+        console.log("to-modal-on-load");
         var content = $( this ).children().clone();
         var modal = $('#app-modal');
-        modal.find('.modal-body').append( content );
+        modal.find('.modal-body').empty().append( content );
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
       });

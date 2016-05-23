@@ -121,6 +121,7 @@ var Hijax = (function ($, Hijax) {
         var username = form.find('[name="email"]').val();
         var password = form.find('[name="password"]').val();
 
+/*
         $.ajax({
           async : false,
           url : "/.login",
@@ -128,8 +129,28 @@ var Hijax = (function ($, Hijax) {
           username : username,
           password : password
         });
+*/
 
-        window.location = "/";
+        $.ajax({
+          async : false,
+          url : "/.login",
+          type : 'GET',
+          xhrFields : {
+            withCredentials : true
+          },
+          beforeSend : function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
+          },
+          error : function(jqXHR) {
+            alert('Wrong username or password.');
+            jqXHR.abort();
+            // window.location = "/";
+          },
+          success : function() {
+            window.location = "/";
+          }
+        });
+
       });
 
     }

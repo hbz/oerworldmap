@@ -59,18 +59,20 @@ public class UserIndex extends OERWorldMap {
     Result result;
 
     if (StringUtils.isEmpty(username)) {
-      result = badRequest("No Username provided.");
+      result = badRequest("No email address provided.");
     } else if (StringUtils.isEmpty(password)) {
-      result = badRequest("No Password provided.");
+      result = badRequest("No password provided.");
     } else if (!password.equals(confirm)) {
       result = badRequest("Passwords must match.");
     } else {
       String token = mAccountService.addUser(username, password);
       if (token == null) {
-        result = badRequest("Failed to add ".concat(username));
+        result = badRequest("Failed to add " . concat(username));
       } else {
-        sendMail(username, "Token: ".concat(token));
-        result = ok("Added ".concat(username));
+        sendMail(username, "Token: " . concat(token));
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("username", username);
+        result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
       }
     }
 
@@ -135,7 +137,7 @@ public class UserIndex extends OERWorldMap {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
         if (mAccountService.setPassword(username, password)) {
           sendMail(username, password);
-          result = ok(render("Password changed", "UserIndex/passwordReset.mustache"));
+          result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
         } else {
           result = badRequest("Failed to reset password.");
         }

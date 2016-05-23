@@ -1,55 +1,68 @@
 <div data-app="to-modal-on-load">
+    <div class="text-center">
 
-    <form action="/.login" method="post">
+        <h1 class="modal-title">Login</h1>
 
-        <h1>Login</h1>
+        <p>When you click the login button your browser will present you a popup where you can enter your email address and password.</p>
 
-        <label>
-            Email: <input name="email">
-        </label>
+        <a class="btn btn-default" href="/.login">Login</a>
 
-        <label>
-            Password: <input name="password" type="password">
-        </label>
+        <hr/>
 
-        <button data-behaviour="login">Login</button>
+        <form action="/user/password" method="post">
 
-    </form>
+            <h2>Forgot password?</h2>
 
-    <form action="/user/register" method="post">
+            <p>
+                Enter your email address, we will send you a temporary password.
+            </p>
 
-        <h1>Register</h1>
+            <div class="messages alert alert-danger"></div>
 
-        <input type="hidden" name="@type" value="Person">
+            <input type="hidden" name="@type" value="Person">
 
-        <label>
-            Email: <input name="email">
-        </label>
+            <label class="sr-only" for="forgot-email">{{i18n "email_address"}}</label>
 
-        <label>
-            Password: <input name="password" type="password">
-        </label>
+            <div class="input-group" style="width: 80%; margin: 0 auto;">
+                <input type="email" name="email" required id="forgot-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "placeholder_email"}}" />
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default">Reset Password</button>
+                </div>
+            </div>
 
-        <label>
-            Repeat password: <input name="password-confirm" type="password">
-        </label>
+        </form>
 
-        <button type="submit">Register</button>
+        <hr/>
 
-    </form>
+        <form action="/user/register" method="post">
 
-    <form action="/user/password" method="post">
+            <h2>Register</h2>
 
-        <h1>Forgot password?</h1>
+            <p>
+                No account yet? Leave you email address and choose a password to setup your profile on the OER World Map.
+            </p>
 
-        <input type="hidden" name="@type" value="Person">
+            <div class="messages alert alert-danger"></div>
 
-        <label>
-            Email: <input name="email">
-        </label>
+            <input type="hidden" name="@type" value="Person">
 
-        <button type="submit">Reset password</button>
+            <div class="form-group">
+                <label class="sr-only" for="register-email">Email address</label>
+                <input type="email" name="email" class="form-control" id="register-email" placeholder="{{i18n "placeholder_email"}}">
+            </div>
 
-    </form>
+            <div class="form-group">
+                <label class="sr-only" for="register-password">Password</label>
+                <input type="password" name="password" class="form-control" id="register-password" placeholder="Choose Password ...">
+            </div>
+
+            <div class="form-group">
+                <label class="sr-only" for="register-password-confirm">Repeat Password</label>
+                <input type="password" name="password-confirm" class="form-control" id="register-password-confirm" placeholder="Repeat Password ...">
+            </div>
+
+            <button type="submit" class="btn btn-default">Register</button>
+
+        </form>
 
 </div>
