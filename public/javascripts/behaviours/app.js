@@ -161,7 +161,8 @@ var Hijax = (function ($, Hijax, page) {
       $('body', context).append(
         templates.app({
           header : $('header', context)[0].outerHTML,
-          footer : $('footer', context)[0].outerHTML
+          footer : $('footer', context)[0].outerHTML,
+          user : user
         })
       );
 

@@ -9,19 +9,25 @@
 
                 <nav class="nav nav-map">
                     <ul>
-                        <li class="dropdown">
-                            <button type="button" data-toggle="dropdown">
-                                <i class="fa fa-fw fa-plus"></i>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dLabel">
-                                <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours">+ Add Organization <i class="fa fa-users"></i></a></li>
-                                <li><a href="#form-resource-add-person" data-app="to-modal-and-attach-behaviours">+ Add User <i class="fa fa-user"></i></a></li>
-                                <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours">+ Add Service <i class="fa fa-desktop"></i></a></li>
-                                <li><a href="#form-resource-add-project" data-app="to-modal-and-attach-behaviours">+ Add Project <i class="fa fa-gears"></i></a></li>
-                                <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours">+ Add Story <i class="fa fa-comment"></i></a></li>
-                                <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours">+ Add Event <i class="fa fa-calendar"></i></a></li>
-                            </ul>
-                        </li>
+
+                        {{#if user.email}}
+
+                            <li class="dropdown">
+                                <button type="button" data-toggle="dropdown">
+                                    <i class="fa fa-fw fa-plus"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                    <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours">+ Add Organization <i class="fa fa-users"></i></a></li>
+                                    <li><a href="#form-resource-add-person" data-app="to-modal-and-attach-behaviours">+ Add User <i class="fa fa-user"></i></a></li>
+                                    <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours">+ Add Service <i class="fa fa-desktop"></i></a></li>
+                                    <li><a href="#form-resource-add-project" data-app="to-modal-and-attach-behaviours">+ Add Project <i class="fa fa-gears"></i></a></li>
+                                    <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours">+ Add Story <i class="fa fa-comment"></i></a></li>
+                                    <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours">+ Add Event <i class="fa fa-calendar"></i></a></li>
+                                </ul>
+                            </li>
+
+                        {{/if}}
+
                         <li>
                             <a href="#newsletter" data-app="to-modal-and-attach-behaviours">
                                 <i class="fa fa-fw fa-envelope"></i>
