@@ -184,6 +184,60 @@
         display: block;
       }
     }
+  }
 
+  #app-notification-prototype {
+    display: none;
+  }
+
+  .notification {
+    position: absolute;
+    width: 400px;
+    left: calc(50vw ~"-" 200px);
+    top: @map-padding;
+    border: 1px solid @blue-darker;
+    background: rgba(255,255,255,0.7);
+    padding: 15px;
+
+    .notification-header {
+      .clearfix();
+      padding-bottom: (@line-height-computed / 2);
+      border-bottom: 1px solid @blue-darker;
+      margin-bottom: @line-height-computed;
+
+      .dismiss {
+        display: none;
+      }
+
+      .checkbox {
+        float: left;
+        margin: 0;
+        font-size: @font-size-small;
+        line-height: 1;
+
+        label {
+          min-height: auto;
+
+          input {
+            margin-top: 0px;
+          }
+        }
+      }
+    }
+
+    .notification-content {
+      position: relative;
+      text-align: center;
+
+      h1 {
+        font-size: (@font-size-h1 * 1.2);
+      }
+    }
+
+    &.dismissable {
+      .dismiss {
+        display: block;
+      }
+    }
   }
 }

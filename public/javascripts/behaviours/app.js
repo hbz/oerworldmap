@@ -82,6 +82,15 @@ var Hijax = (function ($, Hijax, page) {
   function route_index(pagejs_ctx, next) {
     var index_mode;
 
+    if(
+      pagejs_ctx.pathname == "/" &&
+      pagejs_ctx.querystring == ''
+    ) {
+      get('/', function(data){
+        get_main(data);
+      });
+    }
+
     if( pagejs_ctx.pathname == "/" ) {
       index_mode = 'floating';
     }
@@ -146,6 +155,10 @@ var Hijax = (function ($, Hijax, page) {
 
   function routing_done(pagejs_ctx) {
     Hijax.layout();
+  }
+
+  function layout_notifications() {
+    $('.notification');
   }
 
   var my = {
@@ -364,6 +377,25 @@ var Hijax = (function ($, Hijax, page) {
         });
       });
 
+      /* --- notifications --- */
+
+      $('#app', context).on('click', '[data-app~="close-notification"]', function(e){
+        var notification = $(this).closest('.notification');
+
+        if(
+          notification.data('dismissable') &&
+          notification.find('[name="dismiss"]')[0].checked
+        ) {
+          var dismissed = JSON.parse( localStorage.getItem('dismissed-notifications') ) || [];
+          dismissed.push(notification.data('id'));
+          localStorage.setItem('dismissed-notifications', JSON.stringify(dismissed));
+        }
+
+        notification.fadeOut(function(){
+          $(this).remove();
+        });
+      });
+
       // deferr
       my.initialized.resolve();
     },
@@ -374,7 +406,9 @@ var Hijax = (function ($, Hijax, page) {
         return;
       }
 
-      $(context).find('[data-app="to-modal-on-load"]').each(function(){
+      /* --- modals --- */
+
+      $(context).find('[data-app~="to-modal-on-load"]').each(function(){
         var content = $( this ).children().clone();
         var modal = $('#app-modal');
         var is_protected = ( $(this).data('app').indexOf("modal-protected") >= 0 ? true : false );
@@ -383,6 +417,34 @@ var Hijax = (function ($, Hijax, page) {
         modal.data('opened_on', 'load');
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
+      });
+
+      /* --- notifications --- */
+
+      $(context).find('[data-app~="notification"]').each(function(){
+        var dismissed = JSON.parse( localStorage.getItem('dismissed-notifications') ) || [];
+        console.log(dismissed);
+        if(dismissed.indexOf( this.id ) > -1) {
+          return;
+        }
+
+        var content = $( this ).children().clone();
+        var dismissable = ( $(this).data('app').indexOf("notification-dismissable") >= 0 ? true : false );
+        var notification = $('#app-notification-prototype')
+          .clone()
+          .prop('id', 'notification-' + this.id)
+          .data('id', this.id)
+          .data('dismissable', dismissable);
+
+        if(dismissable) {
+          notification.addClass('dismissable');
+        }
+
+        notification
+          .find('.notification-content')
+          .append( content );
+
+        $('#app-col-container').append(notification);
       });
 
       $('#app', context).on('submit', 'form', function() {
