@@ -82,16 +82,34 @@
 
     <nav class="user">
         <ul>
+
             {{#if user.email}}
-                <li><a href="#" title="{{user.email}}"><i class="fa fa-user"></i></a></li>
-                <li><a href="#" data-behaviour="logout"><i class="fa fa-sign-out"></i></a></li>
-                <li><a href="/user/password">Change PW</a></li>
+
+                <li class="dropdown">
+                    <div class="a" type="button" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
+                        <li><a href="/resource/{{user.[@id]}}"><i class="fa fa-fw fa-user"></i> My Profile</a></li>
+                        <li><a href="/user/password"><i class="fa fa-fw fa-lock"></i> Change Password</a></li>
+                        <li><a href="#" data-behaviour="logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </li>
+
             {{else}}
-                <li><h2><a href="/contribute">Join us in mapping the world of OER!</a></h2></li>
+
                 <li><a href="/user/register">Login</a></li>
+
             {{/if}}
+
         </ul>
     </nav>
+
+    {{#unless user.email}}
+
+        <h2 class="slogan"><a href="/contribute">Join us in mapping the world of OER!</a></h2>
+
+    {{/unless}}
 
 </header>
 

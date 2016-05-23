@@ -377,7 +377,9 @@ var Hijax = (function ($, Hijax, page) {
       $(context).find('[data-app="to-modal-on-load"]').each(function(){
         var content = $( this ).children().clone();
         var modal = $('#app-modal');
+        var is_protected = ( $(this).data('app').indexOf("modal-protected") >= 0 ? true : false );
         modal.find('.modal-body').empty().append( content );
+        modal.data('is_protected', is_protected);
         modal.data('opened_on', 'load');
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
