@@ -235,15 +235,29 @@ var Hijax = (function ($, Hijax, page) {
 
       // bind modal links
 
-      $('#app', context).on('click', '[data-app="to-modal-and-attach-behaviours"]', function(e){
+      $('#app', context).on('click', '[data-app~="to-modal-and-attach-behaviours"]', function(e){
+        e.preventDefault();
+
         var id = this.hash.substring(1);
         var content = $( this.hash ).clone().prop('id', id + '-clone');
+        var is_protected = ( $(this).data('app').indexOf("modal-protected") >= 0 ? true : false );
         var modal = $('#app-modal');
+
         modal.find('.modal-body').append( content );
+        modal.data('is_protected', is_protected);
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
-        e.preventDefault();
-        // e.stopPropagation();
+      });
+
+      // catch closing of protected modals
+
+      $('#app-modal').on('hide.bs.modal', function(e){
+        if( $('#app-modal').data('is_protected') ) {
+          var confirm = window.confirm("Are you sure you want to close? All form content will be lost.");
+          if(!confirm) {
+            return false;
+          }
+        }
       });
 
       // clear modal content when closed
@@ -284,6 +298,9 @@ var Hijax = (function ($, Hijax, page) {
 
             if(location) {
 
+              // close modal
+              $('#app-modal').data('is_protected', false).modal('hide');
+
               // parse location and pass to router
               var just_a_parser = document.createElement('a');
               just_a_parser.href = location;
@@ -293,7 +310,7 @@ var Hijax = (function ($, Hijax, page) {
 
               // if updated resource is currently lodaded in the detail column, update column and close modal
               $('#app-col-detail [data-app="col-content"]').html( contents );
-              $('#app-modal').modal('hide');
+              $('#app-modal').data('is_protected', false).modal('hide');
 
             } else {
 

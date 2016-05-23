@@ -107,3 +107,16 @@ h3:first-child {
 .modal-title {
   padding-bottom: 20px;
 }
+
+.modal .close {
+  position: absolute;
+  z-index: 2;
+  right: @modal-inner-padding;
+  top: @modal-inner-padding;
+  color: @blue-darker !important;
+  opacity: 1;
+
+  &:hover {
+    color: @orange !important;
+  }
+}
