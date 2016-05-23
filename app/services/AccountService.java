@@ -28,7 +28,7 @@ public class AccountService {
       "  AuthName \"Restricted Files\"\n" +
       "  AuthUserFile %s\n" +
       "  AuthGroupFile %s\n" +
-      "  <LimitExcept POST>\n" +
+      "  <LimitExcept GET>\n" +
       "    Require group admin\n" +
       "    Require user %s\n" +
       "  </LimitExcept>\n" +
@@ -44,7 +44,7 @@ public class AccountService {
     }
 
     try {
-      Process apache2ctl = Runtime.getRuntime().exec("sudo apache2ctl restart");
+      Process apache2ctl = Runtime.getRuntime().exec("sudo apache2ctl graceful");
       BufferedReader stdInput = new BufferedReader(new InputStreamReader(apache2ctl.getInputStream()));
       BufferedReader stdError = new BufferedReader(new InputStreamReader(apache2ctl.getErrorStream()));
       Logger.debug(stdInput.toString());
