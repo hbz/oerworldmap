@@ -44,6 +44,7 @@ import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
 import play.twirl.api.Html;
+import services.AccountService;
 import services.QueryContext;
 import services.repository.BaseRepository;
 
@@ -55,6 +56,12 @@ public abstract class OERWorldMap extends Controller {
 
   final protected static Configuration mConf = Global.getConfig();
   protected static BaseRepository mBaseRepository = null;
+
+  protected static AccountService mAccountService = new AccountService(
+    new File(Global.getConfig().getString("user.token.dir")),
+    new File(Global.getConfig().getString("ht.passwd")),
+    new File(Global.getConfig().getString("ht.groups")),
+    new File(Global.getConfig().getString("ht.permissions")));
 
   // TODO final protected static FileRepository
   // mUnconfirmedUserRepository;

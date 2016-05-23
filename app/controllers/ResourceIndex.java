@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import models.Record;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -106,6 +109,8 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public static Result importRecords() throws IOException {
+
+    // Import records
     JsonNode json = request().body().asJson();
     List<Resource> records = new ArrayList<>();
     if (json.isArray()) {
@@ -118,7 +123,29 @@ public class ResourceIndex extends OERWorldMap {
       return badRequest();
     }
     mBaseRepository.importRecords(records, getMetadata());
+
+    // Add user accounts
+    for (Resource record : records) {
+      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
+      if ("Person".equals(resource.getType())) {
+        String email = resource.getAsString("email");
+        if (StringUtils.isNotEmpty(email)) {
+          String password = new BigInteger(130, new SecureRandom()).toString(32);
+          String token = mAccountService.addUser(email, password);
+          if (StringUtils.isNotEmpty(token)) {
+            String id = mAccountService.verifyToken(token);
+            if (id.equals(email)) {
+              mAccountService.setPermissions(resource.getId(), email);
+            }
+          }
+        }
+      }
+    }
+
+    mAccountService.refresh();
+
     return ok(Integer.toString(records.size()).concat(" records imported."));
+
   }
 
   public static Result importResources() throws IOException {
@@ -170,7 +197,7 @@ public class ResourceIndex extends OERWorldMap {
     resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
 
     // Person create /update only through UserIndex, which is restricted to admin
-    if ("Person".equals(resource.getType())) {
+    if (!isUpdate && "Person".equals(resource.getType())) {
       return forbidden("Upsert Person forbidden.");
     }
 

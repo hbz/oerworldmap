@@ -30,15 +30,8 @@ import helpers.JSONForm;
 import models.Resource;
 import play.Logger;
 import play.mvc.Result;
-import services.AccountService;
 
 public class UserIndex extends OERWorldMap {
-
-  private static AccountService mAccountService = new AccountService(
-    new File(Global.getConfig().getString("user.token.dir")),
-    new File(Global.getConfig().getString("ht.passwd")),
-    new File(Global.getConfig().getString("ht.groups")),
-    new File(Global.getConfig().getString("ht.permissions")));
 
   public static Result signup() {
 
