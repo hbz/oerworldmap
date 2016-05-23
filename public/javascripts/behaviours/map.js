@@ -465,6 +465,7 @@ var Hijax = (function ($, Hijax) {
   }
 
   function addPlacemarks(placemarks) {
+    placemarksVectorSource.clear();
     placemarksVectorSource.addFeatures(placemarks);
   }
 
@@ -789,7 +790,7 @@ var Hijax = (function ($, Hijax) {
           if (feature) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
-              Hijax.goto(feature.get("features")[0].getProperties().url);
+              Hijax.goto('#' + feature.get("features")[0].getProperties()['resource']['@id']);
             } else if(type == "country") {
               Hijax.goto("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
@@ -938,7 +939,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Add heat map data
-      $('[about="#users-by-country"], form#resource-filter-form', context).each(function(){
+      $('form#form-resource-filter', context).add($('#country-statistics', context)).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setAggregations( json );
         if( $(this).is('table') ) {
