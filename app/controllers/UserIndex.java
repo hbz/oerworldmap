@@ -64,6 +64,8 @@ public class UserIndex extends OERWorldMap {
       result = badRequest("No password provided.");
     } else if (!password.equals(confirm)) {
       result = badRequest("Passwords must match.");
+    } else if (password.length() < 8) {
+      result = badRequest("Password must be at least 8 characters long.");
     } else {
       String token = mAccountService.addUser(username, password);
       if (token == null) {
@@ -124,6 +126,8 @@ public class UserIndex extends OERWorldMap {
         result = badRequest("Please fill out the form.");
       } else if (!updated.equals(confirm)) {
         result = badRequest("Passwords must match.");
+      } else if (password.length() < 8) {
+        result = badRequest("Password must be at least 8 characters long.");
       } else if (!mAccountService.updatePassword(username, password, updated)) {
         result = badRequest("Failed to update password for ".concat(username));
       } else {
