@@ -465,6 +465,7 @@ var Hijax = (function ($, Hijax) {
   }
 
   function addPlacemarks(placemarks) {
+    clusterSource.clear();
     placemarksVectorSource.clear();
     placemarksVectorSource.addFeatures(placemarks);
   }
@@ -533,6 +534,7 @@ var Hijax = (function ($, Hijax) {
 
   function getMarkers(resource, labelCallback, origin) {
     origin = origin || resource;
+
     if (markers[resource['@id']]) {
       for (var i = 0; i < markers[resource['@id']].length; i++) {
         var properties = markers[resource['@id']][i].getProperties();
@@ -584,7 +586,7 @@ var Hijax = (function ($, Hijax) {
 
     var traverse = [ "mainEntity", "mentions", "member", "agent", "participant", "provider" ]
 
-    if (!markers.length) {
+    if (!_markers.length) {
       for (var key in resource) {
         if (traverse.indexOf(key) == -1) {
           continue;
@@ -755,7 +757,6 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
           target: container,
           view: view,
@@ -852,6 +853,7 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       // Populate map with pins from resource listings
+      markers = {};
       $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         if(json instanceof Array) {

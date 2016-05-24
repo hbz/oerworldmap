@@ -423,7 +423,6 @@ var Hijax = (function ($, Hijax, page) {
 
       $(context).find('[data-app~="notification"]').each(function(){
         var dismissed = JSON.parse( localStorage.getItem('dismissed-notifications') ) || [];
-        console.log(dismissed);
         if(dismissed.indexOf( this.id ) > -1) {
           return;
         }
