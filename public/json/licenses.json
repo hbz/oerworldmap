@@ -234,29 +234,6 @@
       }
     },
     {
-      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#copyright",
-      "@type": "Concept",
-      "name": [
-        {
-          "@value": "Copyright",
-          "@language": "en"
-        }
-      ],
-      "alternateName": [
-        {
-          "@value": "©",
-          "@language": "en"
-        }
-      ],
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Copyright.svg/197px-Copyright.svg.png",
-      "topConceptOf": {
-        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-      },
-      "inScheme": {
-        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-      }
-    },
-    {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-nd",
       "@type": "Concept",
       "name": [
@@ -272,6 +249,29 @@
         }
       ],
       "image": "http://mirrors.creativecommons.org/presskit/icons/nd.png",
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#copyright",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Copyright",
+          "@language": "en"
+        }
+      ],
+      "alternateName": [
+        {
+          "@value": "©",
+          "@language": "en"
+        }
+      ],
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Copyright.svg/197px-Copyright.svg.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
