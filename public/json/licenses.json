@@ -179,7 +179,7 @@
           "@language": "en"
         }
       ],
-      "image": "http://mirrors.creativecommons.org/presskit/icons/cc.png",
+      "image": "http://mirrors.creativecommons.org/presskit/icons/by.png",
       "topConceptOf": {
         "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
       },
