@@ -56,7 +56,7 @@ public class CountryIndex extends OERWorldMap {
     if (request().accepts("text/html")) {
       return ok(render(Countries.getNameFor(id, Locale.getDefault()), "CountryIndex/read.mustache", scope));
     } else {
-      return ok(resources.toString()).as("application/json");
+      return ok(resources.toResource().toString()).as("application/json");
     }
 
   }
