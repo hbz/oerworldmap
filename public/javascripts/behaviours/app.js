@@ -53,6 +53,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function set_map_and_index_source(url, index_mode) {
+    console.log('set_map_and_index_source', url, index_mode);
     if(url != map_and_index_source) {
       get(url, function(data){
         $('#app-col-index [data-app="col-content"]').html(
@@ -79,7 +80,7 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
-  function route_index(pagejs_ctx, next) {
+  function route_index(pagejs_ctx, next) { console.log('route_index', pagejs_ctx);
     var index_mode;
 
     if(
@@ -242,7 +243,7 @@ var Hijax = (function ($, Hijax, page) {
       // catch links to fragments
 
       $('#app', context).on('click', '[data-app="link-to-fragment"] a', function(e){
-        page(map_and_index_source + '#' + this.href.split('/').pop());
+        my.linkToFragment( this.href.split('/').pop() );
         e.preventDefault();
         e.stopPropagation();
       });
@@ -460,7 +461,11 @@ var Hijax = (function ($, Hijax, page) {
 
     },
 
-    initialized : new $.Deferred()
+    initialized : new $.Deferred(),
+
+    linkToFragment : function(fragment) {
+      page(window.location.pathname + window.location.search + '#' + fragment);
+    }
 
   };
 

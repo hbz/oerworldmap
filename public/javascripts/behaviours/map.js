@@ -791,9 +791,9 @@ var Hijax = (function ($, Hijax) {
           if (feature) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
-              Hijax.goto('#' + feature.get("features")[0].getProperties()['resource']['@id']);
+              Hijax.behaviours.app.linkToFragment( feature.get("features")[0].getProperties()['resource']['@id'] );
             } else if(type == "country") {
-              Hijax.goto("/country/" + feature.getId().toLowerCase());
+              page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"));
             }
