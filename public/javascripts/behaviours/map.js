@@ -755,8 +755,8 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
-          layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
+          layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
+          //layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
@@ -852,6 +852,7 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       // Populate map with pins from resource listings
+      console.log("Adding placemarks");
       $('[data-behaviour~="populateMap"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         if(json instanceof Array) {
@@ -864,6 +865,7 @@ var Hijax = (function ($, Hijax) {
         }
         addPlacemarks( markers );
       });
+      console.log("Done adding placemarks");
 
       // Link list entries to pins
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
