@@ -1,6 +1,7 @@
 <div class="column-container">
 
     {{#scope}}
+        {{#resource}}
 
         <article class="resource" data-behaviour="populateMapHightlights">
 
@@ -10,10 +11,12 @@
 
             <div class="resource-header">
 
-                {{#if user.email}}
+                {{#if ../permissions.edit}}
                     <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours modal-protected">
                         <i class="fa fa-pencil"></i>
                     </a>
+                {{/if}}
+                {{#if ../permissions.log}}
                     <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
                         <i class="fa fa-history"></i>
                     </a>
@@ -529,7 +532,7 @@
 
         </article>
 
-        {{#if user.email}}
+        {{#if ../permissions.edit}}
 
             <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
@@ -547,6 +550,7 @@
 
         {{/if}}
 
+        {{/resource}}
     {{/scope}}
 
 </div>

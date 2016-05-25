@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -187,6 +189,29 @@ public class AccountService {
 
     String entry = getEntry(username);
     return entry != null && MD5Crypt.verifyPassword(password, entry.split(":")[1]);
+
+  }
+
+  // FIXME: unit tests
+  public List<String> getRoles(String username) {
+
+    List<String> roles = new ArrayList<>();
+
+    try {
+      List<String> lines = Files.readAllLines(mGroupFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        String role = entry[0].trim();
+        List<String> users = Arrays.asList(entry[1].split(" +"));
+        if (users.contains(username)) {
+          roles.add(role);
+        }
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get roles", e);
+    }
+
+    return roles;
 
   }
 

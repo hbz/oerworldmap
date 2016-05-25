@@ -329,8 +329,24 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
+    Resource user = (Resource) ctx().args.get("user");
+    boolean mayEdit = (resource.getType().equals("Person") && user.getId().equals(id))
+        || (!resource.getType().equals("Person")
+            && mAccountService.getRoles(user.getAsString("email")).contains("champion"))
+        || mAccountService.getRoles(user.getAsString("email")).contains("admin");
+    boolean mayLog = mAccountService.getRoles(user.getAsString("email")).contains("admin")
+        || mAccountService.getRoles(user.getAsString("email")).contains("champion");
+
+    Map<String, Object> permissions = new HashMap<>();
+    permissions.put("edit", mayEdit);
+    permissions.put("log", mayLog);
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
+    scope.put("permissions", permissions);
+
     if (request().accepts("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", resource));
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else {
       return ok(resource.toString()).as("application/json");
     }
