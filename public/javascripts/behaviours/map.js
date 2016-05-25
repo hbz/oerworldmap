@@ -301,10 +301,15 @@ var Hijax = (function ($, Hijax) {
     var feature_type = getFeatureType( feature );
 
     if( feature_type == 'placemark' || feature_type == 'cluster' ) {
-      setFeatureStyle(
-        feature,
-        'base'
-      );
+      console.log('feature', feature);
+      var properties = feature.getProperties();
+      console.log('properties', properties);
+      if(! properties.highligted) {
+        setFeatureStyle(
+          feature,
+          'base'
+        );
+      }
     }
 
     if( feature_type == 'country' ) {
@@ -468,17 +473,10 @@ var Hijax = (function ($, Hijax) {
   }
 
   function addPlacemarks(placemarks) {
-    console.log('addPlacemarks', placemarks);
     current_pins = placemarks;
-/*
-    clusterSource.clear();
-    placemarksVectorSource.clear();
-    placemarksVectorSource.addFeatures(placemarks);
-*/
   }
 
   function highlightPlacemarks(placemarks) {
-    console.log('highlightPlacemarks', placemarks);
     current_highlights = placemarks;
   }
 
@@ -626,6 +624,33 @@ var Hijax = (function ($, Hijax) {
 
     return _markers;
 
+  }
+
+  function set_style_for_clusters_containing_markers(markers, style, highligted){
+    highligted = highligted || false;
+
+    // iterate over markers and collect the clusters, they are in
+    var clusters = [];
+    for(var i = 0; i < markers.length; i++) {
+      clusterLayer.getSource().forEachFeature(function(f){
+        var cfeatures = f.get('features');
+        for(var j = 0; j < cfeatures.length; j++) {
+          if(markers[i].getId() == cfeatures[j].getId()) {
+            clusters.push(f);
+          }
+        }
+      });
+    }
+
+    // last but not least, change the style of the clusters, we found
+    for(var i = 0; i < clusters.length; i++) {
+      clusters[i].setStyle( styles.placemark_cluster[ style ]( clusters[i] ) );
+      if(highligted) {
+        var properties = clusters[i].getProperties();
+        properties.highligted = true;
+        clusters[i].setProperties(properties);
+      }
+    }
   }
 
   var my = {
@@ -795,6 +820,10 @@ var Hijax = (function ($, Hijax) {
           updateHoverState(pixel);
         });
 
+        world.on('moveend', function(evt) {
+          set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
+        });
+
         // Bind click events
         world.on('click', function(evt) {
           var feature = world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
@@ -858,18 +887,19 @@ var Hijax = (function ($, Hijax) {
 
     layout : function() {
 
-      console.log('layout map', my.attached);
-
       $.when.apply(null, my.attached).done(function(){
-
-        console.log('layout map deffered');
-        console.log('current_pins', current_pins);
-        console.log('current_highlights', current_highlights);
 
         clusterSource.clear();
         placemarksVectorSource.clear();
         placemarksVectorSource.addFeatures(current_pins);
 
+        set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
+
+/*
+        var properties = feature.getProperties();
+        properties.country = aggregation;
+        feature.setProperties(properties);
+*/
       });
 
       world.updateSize();
@@ -917,6 +947,7 @@ var Hijax = (function ($, Hijax) {
       // Link list entries to pins
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
+
         $( this ).on("mouseenter", "li", function() {
 
           var id = this.getAttribute("about");
@@ -931,26 +962,10 @@ var Hijax = (function ($, Hijax) {
             })[0];
             var markers = getMarkers(resource);
 
-            // iterate over markers and collect the clusters, they are in
-            var clusters = [];
-            for(var i = 0; i < markers.length; i++) {
-              clusterLayer.getSource().forEachFeature(function(f){
-                var cfeatures = f.get('features');
-                for(var j = 0; j < cfeatures.length; j++) {
-                  if(markers[i].getId() == cfeatures[j].getId()) {
-                    clusters.push(f);
-                  }
-                }
-              });
-            }
-
-            // last but not least, change the style of the clusters, we found
-            for(var i = 0; i < clusters.length; i++) {
-              clusters[i].setStyle(styles.placemark_cluster.hover(clusters[i]));
-            }
-
+            set_style_for_clusters_containing_markers(markers, 'hover');
           }
         });
+
         $( this ).on("mouseleave", "li", function() {
 
           var id = this.getAttribute("about");
@@ -965,6 +980,9 @@ var Hijax = (function ($, Hijax) {
             })[0];
             var markers = getMarkers(resource);
 
+            set_style_for_clusters_containing_markers(markers, 'base');
+
+/*
             // iterate over markers and collect the clusters, they are in
             var clusters = [];
             for(var i = 0; i < markers.length; i++) {
@@ -982,6 +1000,8 @@ var Hijax = (function ($, Hijax) {
             for(var i = 0; i < clusters.length; i++) {
               clusters[i].setStyle(styles.placemark_cluster.base(clusters[i]));
             }
+*/
+
           }
 
         });
