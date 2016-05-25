@@ -30,9 +30,9 @@ public class Authorized extends Action.Simple {
       roles.add("authenticated");
       ctx.request().setUsername(username);
       List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
-      if (users.size() == 0) {
+      if (users.size() == 1) {
         user = users.get(0);
-      } else if (users.size() > 0) {
+      } else if (users.size() > 1) {
         user = users.get(0);
         Logger.warn(String.format("Multiple profiles for %s detected", username));
       } else {
