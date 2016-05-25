@@ -29,10 +29,13 @@ def process_mapping(mapping):
 
 def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
-                    'availableLanguage', 'prefLabel', 'postalCode', 'startDate', 'endDate', 'startTime', 'endTime']
+                    'availableLanguage', 'prefLabel', 'postalCode']
+    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])
+        elif property in date_time:
+            properties[property] = set_date_time(properties[property])
         elif 'properties' in properties[property]:
             # Add a location field to all top-level types, populated by copy_to
             if 'about' == property and not 'location' in properties[property]:
@@ -99,6 +102,12 @@ def set_not_analyzed(field):
     field['type'] = 'string'
     field['index'] = 'not_analyzed'
     return field
+
+def set_date_time(field):
+    return {
+        'type': 'date',
+        'format': 'dateOptionalTime'
+    }
 
 
 def get_mapping(endpoint, index):
