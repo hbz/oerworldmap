@@ -1,0 +1,19 @@
+<Location /resource/>
+  AuthType Basic
+  AuthName "Restricted Files"
+  AuthUserFile /tmp/htpasswd
+  AuthGroupFile /tmp/htgroups
+  <LimitExcept GET>
+    Require group champion
+    Require group admin
+  </LimitExcept>
+</Location>
+
+<Location /log/>
+  AuthType Basic
+  AuthName "Restricted Files"
+  AuthUserFile /tmp/htpasswd
+  AuthGroupFile /tmp/htgroups
+  Require group champion
+  Require group admin
+</Location>
