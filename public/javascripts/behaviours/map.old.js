@@ -36,9 +36,6 @@ var Hijax = (function ($, Hijax) {
 
       markers = {},
 
-      current_pins = [],
-      current_highlights = [],
-
       templates = {},
 
       styles = {
@@ -468,18 +465,9 @@ var Hijax = (function ($, Hijax) {
   }
 
   function addPlacemarks(placemarks) {
-    console.log('addPlacemarks', placemarks);
-    current_pins = placemarks;
-/*
     clusterSource.clear();
     placemarksVectorSource.clear();
     placemarksVectorSource.addFeatures(placemarks);
-*/
-  }
-
-  function highlightPlacemarks(placemarks) {
-    console.log('highlightPlacemarks', placemarks);
-    current_highlights = placemarks;
   }
 
   function setBoundingBox(element) {
@@ -803,9 +791,9 @@ var Hijax = (function ($, Hijax) {
           if (feature) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
-              Hijax.behaviours.app.linkToFragment( feature.get("features")[0].getProperties()['resource']['@id'] );
+              Hijax.goto('#' + feature.get("features")[0].getProperties()['resource']['@id']);
             } else if(type == "country") {
-              page("/country/" + feature.getId().toLowerCase());
+              Hijax.goto("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"));
             }
@@ -857,32 +845,17 @@ var Hijax = (function ($, Hijax) {
     },
 
     layout : function() {
-
-      console.log('layout map', my.attached);
-
-      $.when.apply(null, my.attached).done(function(){
-
-        console.log('layout map deffered');
-        console.log('current_pins', current_pins);
-        console.log('current_highlights', current_highlights);
-
-        clusterSource.clear();
-        placemarksVectorSource.clear();
-        placemarksVectorSource.addFeatures(current_pins);
-
-      });
-
-      world.updateSize();
+      if(world) { // without this condition -> error on loading single resource
+        world.updateSize();
+      }
     },
 
     attach : function(context) {
 
-      console.log('map attach started');
-
-      var _attached = new $.Deferred();
-      my.attached.push(_attached);
-
-      function get_markers_from_json(json) {
+      // Populate map with pins from resource listings
+      markers = {};
+      $('[data-behaviour~="populateMap"]', context).each(function(){
+        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         var _markers = [];
         if(json instanceof Array) {
           for (i in json) {
@@ -891,28 +864,9 @@ var Hijax = (function ($, Hijax) {
         } else {
           _markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
         }
-        return _markers;
-      }
-
-      // Populate map with pins from resource listings
-
-      markers = {};
-      $('[data-behaviour~="populateMap"]', context).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
-        addPlacemarks(
-          get_markers_from_json(json)
-        );
+        console.log( _markers );
+        addPlacemarks( _markers );
       });
-
-      // Populate pin highlights
-
-      $('[data-behaviour~="populateMapHightlights"]', context).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
-        highlightPlacemarks(
-          get_markers_from_json(json)
-        );
-      });
-
 
       // Link list entries to pins
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
@@ -1002,14 +956,9 @@ var Hijax = (function ($, Hijax) {
         setBoundingBox(this);
       });
 
-      console.log('map attach done');
-      _attached.resolve();
-
     },
 
-    initialized : new $.Deferred(),
-
-    attached : []
+    initialized : new $.Deferred()
 
   };
 

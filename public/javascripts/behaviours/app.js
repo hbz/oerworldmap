@@ -28,8 +28,12 @@ var Hijax = (function ($, Hijax, page) {
 
   var initialization_source = window.location;
   var initialization_content = document.documentElement.innerHTML;
+
   var map_and_index_source = '';
   var detail_source = '';
+
+  var map_and_index_loaded = $.Deferred().resolve();
+  var detail_loaded = $.Deferred().resolve();
 
   function get(url, callback) {
     if(url == initialization_source.pathname + initialization_source.search) {
@@ -55,11 +59,13 @@ var Hijax = (function ($, Hijax, page) {
   function set_map_and_index_source(url, index_mode) {
     console.log('set_map_and_index_source', url, index_mode);
     if(url != map_and_index_source) {
+      map_and_index_loaded = $.Deferred();
       get(url, function(data){
         $('#app-col-index [data-app="col-content"]').html(
           get_main( data )
         );
         map_and_index_source = url;
+        map_and_index_loaded.resolve()
       });
     }
     $('#app-col-index').attr('data-col-mode', index_mode);
@@ -67,11 +73,13 @@ var Hijax = (function ($, Hijax, page) {
 
   function set_detail_source(url) {
     if(url != detail_source) {
+      detail_loaded = $.Deferred();
       get(url, function(data){
         $('#app-col-detail [data-app="col-content"]').html(
           get_main( data )
         );
         detail_source = url;
+        detail_loaded.resolve();
       });
     }
     // preserve collapsed state / avoid auto expanding of collapsed detail when switching from floating to list
@@ -155,7 +163,12 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function routing_done(pagejs_ctx) {
-    Hijax.layout();
+    $.when(
+      map_and_index_loaded,
+      detail_loaded
+    ).done(function(){
+      Hijax.layout();
+    });
   }
 
   function layout_notifications() {
