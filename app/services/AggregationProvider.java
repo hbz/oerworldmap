@@ -63,9 +63,9 @@ public class AggregationProvider {
         .field("about.audience.@id");
   }
 
-  public static AggregationBuilder<?> getTagAggregation() {
-    return AggregationBuilders.terms("about.tag").size(0)
-      .field("about.tag");
+  public static AggregationBuilder<?> getKeywordsAggregation() {
+    return AggregationBuilders.terms("about.keywords").size(0)
+      .field("about.keywords");
   }
 
   public static AggregationBuilder<?> getServiceByGradeLevelAggregation(List<String> anIdList) {

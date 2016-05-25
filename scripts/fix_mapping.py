@@ -28,7 +28,7 @@ def process_mapping(mapping):
 
 
 def process_properties(properties):
-    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
+    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
                     'availableLanguage', 'prefLabel', 'postalCode']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated']
     for property in properties:

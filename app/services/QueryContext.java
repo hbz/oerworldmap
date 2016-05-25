@@ -10,7 +10,6 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-import play.Logger;
 
 /**
  * @author fo
@@ -53,7 +52,7 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getServiceLanguageAggregation());
     guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
     guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation());
-    guestAggregations.add(AggregationProvider.getTagAggregation());
+    guestAggregations.add(AggregationProvider.getKeywordsAggregation());
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);

@@ -202,14 +202,15 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     // Validate
-    ProcessingReport processingReport = mBaseRepository.stage(resource).validate();
+    Resource staged = mBaseRepository.stage(resource);
+    ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
       List<Map<String, Object>> messages = new ArrayList<>();
       HashMap<String, Object> message = new HashMap<>();
       message.put("level", "warning");
       message.put("message", OERWorldMap.messages.getString("schema_error")
         + "<pre>" + processingReport.toString() + "</pre>"
-        + "<pre>" + resource + "</pre>");
+        + "<pre>" + staged + "</pre>");
       messages.add(message);
       return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
     }
