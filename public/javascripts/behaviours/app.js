@@ -57,7 +57,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function set_map_and_index_source(url, index_mode) {
-    console.log('set_map_and_index_source', url, index_mode);
+    Hijax.behaviours.map.clear();
     if(url != map_and_index_source) {
       map_and_index_loaded = $.Deferred();
       get(url, function(data){
@@ -488,7 +488,10 @@ var Hijax = (function ($, Hijax, page) {
 
     linkToFragment : function(fragment) {
       var pathname = '';
-      if( window.location.pathname.split("/")[2].indexOf('urn') == 0 ) {
+      if(
+        window.location.pathname.split("/").length >= 3 &&
+        window.location.pathname.split("/")[2].indexOf('urn') == 0
+      ) {
         pathname = '/resource/';
       } else {
         pathname = window.location.pathname;

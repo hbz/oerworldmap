@@ -936,6 +936,11 @@ var Hijax = (function ($, Hijax) {
       world.updateSize();
     },
 
+    clear : function() {
+      // current_pins = []; ... probably not needed, because set on every routing
+      current_highlights = [];
+    },
+
     attach : function(context) {
 
       console.log('map attach started');
