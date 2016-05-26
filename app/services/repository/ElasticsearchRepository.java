@@ -130,7 +130,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       return null;
     }
     Logger.debug("DELETING " + aId);
-    boolean found = deleteDocument(Record.TYPE, resource.getId());
+    boolean found = deleteDocument(Record.TYPE, resource.getId().concat(".").concat(Record.RESOURCE_KEY));
     refreshIndex(mConfig.getIndex());
     if (found) {
       return resource;
