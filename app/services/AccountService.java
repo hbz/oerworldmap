@@ -53,8 +53,9 @@ public class AccountService {
   public void setPermissions(String aId, String aUser) {
 
     String entry = String.format(mLimitWriteDirective, aId, mUserFile, mGroupFile, aUser);
+    String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
     try {
-      FileUtils.writeStringToFile(new File(mPermissionsDir, aId), entry);
+      FileUtils.writeStringToFile(new File(mPermissionsDir, fileName), entry);
     } catch (IOException e) {
       Logger.error("Could not create permission file", e);
     }
