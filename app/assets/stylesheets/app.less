@@ -86,6 +86,16 @@
       }
     }
 
+    // quick fix for index column covering map
+    // ... would probably better be handeled with a zero width column
+    #app-col-index[data-col-mode="floating"] {
+      pointer-events: none;
+      #form-resource-filter,
+      [data-app-index-switch] {
+        pointer-events: auto;
+      }
+    }
+
     .visible-expanded,
     .visible-collapsed {
       display: none;
