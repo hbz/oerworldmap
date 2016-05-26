@@ -53,11 +53,9 @@ var Hijax = (function ($, Hijax, page) {
       '</div>'
     );
     return Hijax.attachBehaviours( body_mock.find('main') );
-    // return body_mock.find('main').contents();
   }
 
   function set_map_and_index_source(url, index_mode) {
-    Hijax.behaviours.map.clear();
     if(url != map_and_index_source) {
       map_and_index_loaded = $.Deferred();
       get(url, function(data){
@@ -92,40 +90,64 @@ var Hijax = (function ($, Hijax, page) {
     $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
   }
 
-  function route_index(pagejs_ctx, next) { console.log('route_index', pagejs_ctx);
+  function route_index(pagejs_ctx, next) {
     var index_mode;
 
+    // clear empty searches
+
+    if(pagejs_ctx.querystring == "q=") {
+      page.redirect(
+        pagejs_ctx.pathname +
+        ( pagejs_ctx.hash ? '#' + pagejs_ctx.hash : '' )
+      )
+    }
+
+    // trigger behaviour attachment for landing page
+
     if(
-      pagejs_ctx.pathname == "/" &&
-      pagejs_ctx.querystring == ''
+      pagejs_ctx.path == ""
     ) {
       get('/', function(data){
         get_main(data);
       });
     }
 
-    if( pagejs_ctx.path == "/" ) {
+    // determine index_mode
+
+    if( pagejs_ctx.pathname == "/" ) {
       index_mode = 'floating';
     }
 
-    if( pagejs_ctx.path == "/resource/" ) {
+    if( pagejs_ctx.pathname == "/resource/" ) {
       index_mode = 'list';
     }
 
-    if( pagejs_ctx.path == "/aggregation/" ) {
+    if( pagejs_ctx.pathname == "/aggregation/" ) {
       index_mode = 'statistic';
     }
+
+    // set map and index source
 
     var url = '/resource/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : '');
     set_map_and_index_source(url, index_mode);
 
-    // set focus to fit all (might be overwritten by set_detail_source
-    $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit');
+    // set focus to fit if filtered and none if unfiltered (might be overwritten by set_detail_source)
+
+    if( pagejs_ctx.querystring ) {
+      console.log('focus FIT');
+      $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit');
+    } else {
+      console.log('focus NONE');
+      $('#app-col-map [data-behaviour="map"]').attr('data-focus', '');
+    }
+
+    // set detail source
 
     if(pagejs_ctx.hash) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       $('#app-col-detail').attr('data-col-mode', 'hidden');
+      Hijax.behaviours.map.clearHighlights();
     }
 
     next();
@@ -142,6 +164,7 @@ var Hijax = (function ($, Hijax, page) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       $('#app-col-detail').attr('data-col-mode', 'hidden');
+      Hijax.behaviours.map.clearHighlights();
     }
 
     next();
@@ -181,9 +204,11 @@ var Hijax = (function ($, Hijax, page) {
     });
   }
 
+/*
   function layout_notifications() {
     $('.notification');
   }
+*/
 
   var my = {
 
@@ -246,15 +271,7 @@ var Hijax = (function ($, Hijax, page) {
       $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
         var col = $(this).closest('[data-app="col"]');
         if(col.is('#app-col-index')) {
-
-          if(window.location.search) {
-            page('/' + window.location.search + window.location.hash);
-          } else if(window.location.hash) {
-            page('/resource/' + window.location.hash.split('#')[1]);
-          } else {
-            page('/');
-          }
-
+          page('/' + window.location.search + window.location.hash);
         } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'expanded') {
           col.attr('data-col-mode', 'collapsed');
         } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'collapsed') {

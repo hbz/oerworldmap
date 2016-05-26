@@ -936,8 +936,7 @@ var Hijax = (function ($, Hijax) {
       world.updateSize();
     },
 
-    clear : function() {
-      // current_pins = []; ... probably not needed, because set on every routing
+    clearHighlights : function() {
       current_highlights = [];
     },
 
