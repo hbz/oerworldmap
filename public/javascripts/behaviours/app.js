@@ -487,7 +487,13 @@ var Hijax = (function ($, Hijax, page) {
     initialized : new $.Deferred(),
 
     linkToFragment : function(fragment) {
-      page(window.location.pathname + window.location.search + '#' + fragment);
+      var pathname = '';
+      if( window.location.pathname.split("/")[2].indexOf('urn') == 0 ) {
+        pathname = '/resource/';
+      } else {
+        pathname = window.location.pathname;
+      }
+      page(pathname + window.location.search + '#' + fragment);
     }
 
   };
