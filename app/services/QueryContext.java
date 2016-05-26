@@ -27,10 +27,13 @@ public class QueryContext {
 
   public QueryContext(String userId, List<String> roles) {
 
-    FilterBuilder authenticated = FilterBuilders
+    FilterBuilder concepts = FilterBuilders
         .notFilter(FilterBuilders.orFilter(FilterBuilders.termFilter("about.@type", "Concept"),
             FilterBuilders.termFilter("about.@type", "ConceptScheme")));
-    filters.put("disabled", authenticated);
+    filters.put("concepts", concepts);
+
+    FilterBuilder emptyNames = FilterBuilders.existsFilter("about.name.@value");
+    filters.put("emptyNames", emptyNames);
 
     // TODO: Remove privacy filter when all persons are accounts?
     FilterBuilder admin = FilterBuilders
