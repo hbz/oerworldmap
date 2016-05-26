@@ -104,15 +104,15 @@ var Hijax = (function ($, Hijax, page) {
       });
     }
 
-    if( pagejs_ctx.pathname == "/" ) {
+    if( pagejs_ctx.path == "/" ) {
       index_mode = 'floating';
     }
 
-    if( pagejs_ctx.pathname == "/resource/" ) {
+    if( pagejs_ctx.path == "/resource/" ) {
       index_mode = 'list';
     }
 
-    if( pagejs_ctx.pathname == "/aggregation/" ) {
+    if( pagejs_ctx.path == "/aggregation/" ) {
       index_mode = 'statistic';
     }
 
