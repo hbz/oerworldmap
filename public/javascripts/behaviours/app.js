@@ -82,10 +82,14 @@ var Hijax = (function ($, Hijax, page) {
         detail_loaded.resolve();
       });
     }
+
     // preserve collapsed state / avoid auto expanding of collapsed detail when switching from floating to list
     if($('#app-col-detail').attr('data-col-mode') != 'collapsed') {
       $('#app-col-detail').attr('data-col-mode', 'expanded');
     }
+
+    // set focus to fit hightlighted
+    $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
   }
 
   function route_index(pagejs_ctx, next) { console.log('route_index', pagejs_ctx);
@@ -115,6 +119,9 @@ var Hijax = (function ($, Hijax, page) {
     var url = '/resource/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : '');
     set_map_and_index_source(url, index_mode);
 
+    // set focus to fit all (might be overwritten by set_detail_source
+    $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit');
+
     if(pagejs_ctx.hash) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
@@ -127,6 +134,9 @@ var Hijax = (function ($, Hijax, page) {
   function route_index_country(pagejs_ctx, next) {
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
+
+    // set focus to country code (might be overwritten by set_detail_source
+    $('#app-col-map [data-behaviour="map"]').attr('data-focus', pagejs_ctx.path.split("/").pop().toUpperCase() );
 
     if(pagejs_ctx.hash) {
       set_detail_source('/resource/' + pagejs_ctx.hash);

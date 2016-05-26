@@ -490,37 +490,62 @@ var Hijax = (function ($, Hijax) {
 
       boundingBox = placemarksVectorSource.getExtent();
 
+    } else if("fit-highlighted" == dataFocus) {
+
+      var focusIds = [];
+      $.each(current_highlights, function(i, v){
+        focusIds.push(v.getId());
+      });
+
     } else {
 
       var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
 
-      if (focusIds) {
+    }
 
-        // Init bounding box and transformation function
-        var boundingBox = ol.extent.createEmpty();
-        var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+    if (focusIds) {
 
-        // Look for features on all layers and extend bounding box
-        world.getLayers().forEach(function(layer) {
-          for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
+      // Init bounding box and transformation function
+      var boundingBox = ol.extent.createEmpty();
+      var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+
+      // Look for features on all layers and extend bounding box
+      world.getLayers().forEach(function(layer) {
+
+        for (var i = 0; i < focusIds.length; i++) {
+
+          if(layer.get('title') == 'cluster') {
+
+            var clusters = layer.getSource().getFeatures();
+            for(var j = 0; j < clusters.length; j++) {
+              var features = clusters[ j ].get('features');
+               for(var k = 0; k < features.length; k++) {
+                if (features[ k ].getId() == focusIds[i]) {
+                  ol.extent.extend(boundingBox, features[ k ].getGeometry().getExtent());
+                }
+               }
+            }
+
+          } else if (layer.getSource().getFeatureById) {
+
             var feature = layer.getSource().getFeatureById(focusIds[i]);
             if (feature) {
               ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
             }
+
           }
-        });
+        }
+      });
 
-        // Special case single point
-        if (boundingBox[0] == boundingBox[2]) {
-          boundingBox[0] -= 1000000;
-          boundingBox[2] += 1000000;
-        }
-        if (boundingBox[1] == boundingBox[3]) {
-          boundingBox[1] -= 1000000;
-          boundingBox[3] += 1000000;
-        }
+      // Special case single point
+      if (boundingBox[0] == boundingBox[2]) {
+        boundingBox[0] -= 1000000;
+        boundingBox[2] += 1000000;
       }
-
+      if (boundingBox[1] == boundingBox[3]) {
+        boundingBox[1] -= 1000000;
+        boundingBox[3] += 1000000;
+      }
     }
 
     if (boundingBox && (boundingBox[0] != Infinity)) {
@@ -709,6 +734,7 @@ var Hijax = (function ($, Hijax) {
 
         // Country vector layer
         countryVectorLayer = new ol.layer.Vector({
+          title: 'country',
           source: countryVectorSource
         });
 
@@ -719,6 +745,7 @@ var Hijax = (function ($, Hijax) {
 
         // OSM tile layer
         osmTileLayer = new ol.layer.Tile({
+          title: 'osm',
           source: osmTileSource,
           preload: Infinity,
           opacity: 1
@@ -742,6 +769,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         clusterLayer = new ol.layer.Vector({
+          title: 'cluster',
           source: clusterSource,
           style: function(feature, resolution) {
             return [styles.placemark_cluster.base(feature)];
@@ -776,6 +804,7 @@ var Hijax = (function ($, Hijax) {
         // overlay for country hover style
         var collection = new ol.Collection();
         hoveredCountriesOverlay = new ol.layer.Vector({
+          title: 'country-hover',
           source: new ol.source.Vector({
             features: collection,
             useSpatialIndex: false // optional, might improve performance
@@ -900,6 +929,8 @@ var Hijax = (function ($, Hijax) {
         properties.country = aggregation;
         feature.setProperties(properties);
 */
+        setBoundingBox($('[data-behaviour="map"]')[0]);
+
       });
 
       world.updateSize();
@@ -1017,10 +1048,12 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Set zoom
+/*
       $('[data-behaviour="map"]', context).each(function() {
         // zoom to bounding box, if focus is set
         setBoundingBox(this);
       });
+*/
 
       console.log('map attach done');
       _attached.resolve();
