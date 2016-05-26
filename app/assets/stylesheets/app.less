@@ -23,6 +23,7 @@
       min-width: 33.333%;
       position: relative;
       height: 100%;
+      z-index: 1;
 
       [data-app="col-content"] {
         position: relative;
@@ -30,10 +31,11 @@
         overflow-y: scroll;
       }
 
+      // to get background gradient below button special z-index setup is required:
+      // http://stackoverflow.com/a/9072467/1060128
       [data-app="toggle-col"] {
         display: block;
         position: absolute;
-        // z-index: 99999;
         left: -(@toggle-col-size / 2);
         top: 50%;
         width: @toggle-col-size;
