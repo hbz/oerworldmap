@@ -16,7 +16,7 @@ import java.io.InputStream;
 /**
  * Created by fo on 27.04.16.
  */
-public class InverseEnricher {
+public class InverseEnricher implements ResourceEnricher {
 
   private final Model mInverseRelations;
 

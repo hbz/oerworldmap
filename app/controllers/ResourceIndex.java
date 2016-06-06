@@ -24,6 +24,7 @@ import models.Commit;
 import models.Resource;
 import models.ResourceList;
 import play.Logger;
+import play.Play;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
@@ -170,7 +171,14 @@ public class ResourceIndex extends OERWorldMap {
     // Validate
     ProcessingReport processingReport = mBaseRepository.stage(resource).validate();
     if (!processingReport.isSuccess()) {
-      return badRequest(processingReport.toString());
+      List<Map<String, Object>> messages = new ArrayList<>();
+      HashMap<String, Object> message = new HashMap<>();
+      message.put("level", "warning");
+      message.put("message", OERWorldMap.messages.getString("schema_error")
+        + "<pre>" + processingReport.toString() + "</pre>"
+        + "<pre>" + resource + "</pre>");
+      messages.add(message);
+      return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
     }
 
     // Save
@@ -227,7 +235,14 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     if (!listProcessingReport.isSuccess()) {
-      return badRequest(listProcessingReport.toString());
+      List<Map<String, Object>> messages = new ArrayList<>();
+      HashMap<String, Object> message = new HashMap<>();
+      message.put("level", "warning");
+      message.put("message", OERWorldMap.messages.getString("schema_error")
+        + "<pre>" + listProcessingReport.toString() + "</pre>"
+        + "<pre>" + resources + "</pre>");
+      messages.add(message);
+      return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
     }
 
     mBaseRepository.addResources(resources, getMetadata());
@@ -255,11 +270,11 @@ public class ResourceIndex extends OERWorldMap {
       Resource conceptScheme = null;
       String field = null;
       if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJsonFile("public/json/esc.json");
+        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/esc.json"));
         field = "about.about.@id";
       } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
         field = "about.audience.@id";
-        conceptScheme = Resource.fromJsonFile("public/json/isced-1997.json");
+        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
