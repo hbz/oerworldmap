@@ -140,11 +140,11 @@ public class ElasticsearchConfig {
   }
 
   private CreateIndexResponse createIndex(String aIndex) {
-    return mClient.admin().indices().prepareCreate(mIndex).execute().actionGet();
+    return mClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
   }
 
   public DeleteIndexResponse deleteIndex(String aIndex) {
-    return mClient.admin().indices().delete(new DeleteIndexRequest(mIndex)).actionGet();
+    return mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
   }
 
   private void refreshElasticsearch(String aIndex) {
