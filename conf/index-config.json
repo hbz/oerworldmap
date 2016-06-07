@@ -5372,18 +5372,8 @@
   }, 
   "settings": {
     "analysis": {
-      "analyzer": {
-        "title_analyzer": {
-          "type": "custom", 
-          "tokenizer": "standard", 
-          "filter": [
-            "title_variations", 
-            "asciifolding_preserve_original"
-          ]
-        }
-      }, 
       "filter": {
-        "title_variations": {
+        "title_filter": {
           "type": "word_delimiter", 
           "preserve_original": true, 
           "split_on_numerics": false, 
@@ -5397,6 +5387,16 @@
         "asciifolding_preserve_original": {
           "type": "asciifolding", 
           "preserve_original": true
+        }
+      }, 
+      "analyzer": {
+        "title_analyzer": {
+          "filter": [
+            "title_filter", 
+            "asciifolding_preserve_original"
+          ], 
+          "type": "custom", 
+          "tokenizer": "standard"
         }
       }
     }
