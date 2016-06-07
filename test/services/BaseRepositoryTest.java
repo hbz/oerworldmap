@@ -423,12 +423,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query with diacritica
-    List<Resource> correctQuery = mBaseRepo.query("fóobar.ao", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find \"fóobar.ao\".", correctQuery.size() > 0);
+    List<Resource> correctQuery = mBaseRepo.query("tóobar.ao", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"tóobar.ao\".", correctQuery.size() == 1);
 
     // query without diacritica
-    List<Resource> alternateQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find \"foobar.ao\".", alternateQuery.size() > 0);
+    List<Resource> alternateQuery = mBaseRepo.query("toobar.ao", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"toobar.ao\".", alternateQuery.size() == 1);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
