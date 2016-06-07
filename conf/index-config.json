@@ -1390,11 +1390,11 @@
                 "@value": {
                   "type": "multi_field", 
                   "fields": {
-                    "title_variations": {
+                    "about.alternateName_variations": {
                       "type": "string", 
                       "analyzer": "title_analyzer"
                     }, 
-                    "simple_tokenizer": {
+                    "about.alternateName_simple_tokenized": {
                       "type": "string", 
                       "analyzer": "simple"
                     }
@@ -3747,11 +3747,11 @@
                     "@value": {
                       "type": "multi_field", 
                       "fields": {
-                        "title_variations": {
+                        "about.about.name_variations": {
                           "type": "string", 
                           "analyzer": "title_analyzer"
                         }, 
-                        "simple_tokenizer": {
+                        "about.about.name_simple_tokenized": {
                           "type": "string", 
                           "analyzer": "simple"
                         }
@@ -3915,11 +3915,11 @@
                 "@value": {
                   "type": "multi_field", 
                   "fields": {
-                    "title_variations": {
+                    "about.name_variations": {
                       "type": "string", 
                       "analyzer": "title_analyzer"
                     }, 
-                    "simple_tokenizer": {
+                    "about.name_simple_tokenized": {
                       "type": "string", 
                       "analyzer": "simple"
                     }

@@ -370,6 +370,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // triggerable
     Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null, null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query correct spelling:
     List<Resource> correctQuery = mBaseRepo.query("Letest", 0, 10, null, null, queryContext).getItems();
@@ -395,6 +396,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // triggerable
     Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null, null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query correct spelling:
     List<Resource> correctQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
@@ -418,14 +420,15 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // triggerable
     Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null, null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query with diacritica
     List<Resource> correctQuery = mBaseRepo.query("fóobar.ao", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find \"fóobar.ao\".", correctQuery.size() == 1);
+    Assert.assertTrue("Could not find \"fóobar.ao\".", correctQuery.size() > 0);
 
     // query without diacritica
     List<Resource> alternateQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find \"foobar.ao\".", alternateQuery.size() == 1);
+    Assert.assertTrue("Could not find \"foobar.ao\".", alternateQuery.size() > 0);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
