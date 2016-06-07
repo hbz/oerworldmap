@@ -210,7 +210,7 @@ public class BaseRepository extends Repository
   }
 
   public Resource getRecord(@Nonnull String aId) {
-    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCE_KEY);
+    return mElasticsearchRepo.getRecord(aId + "." + Record.RESOURCE_KEY);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {

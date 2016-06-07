@@ -14,7 +14,9 @@
       "@value": "OERMa"
     }
   ],
-  "serviceType": "production machinery",
+  "serviceType": [
+    "production machinery"
+  ],
   "description": [
     {
       "@language": "en",
@@ -97,7 +99,7 @@
       ]
     }
   ],
-  "licenseConcept": [
+  "license": [
     {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by",
       "@type": "Concept",

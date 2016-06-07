@@ -9,9 +9,9 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.vocabulary.RDF;
+import helpers.SCHEMA;
 import models.Commit;
 import models.GraphHistory;
 import models.Record;
@@ -22,6 +22,7 @@ import services.repository.Writable;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,9 @@ public class ResourceIndexer {
     "    ?s1 ?p1 <%1$s> ." +
     "    OPTIONAL { ?s2 ?p2 ?s1 . } ." +
     "}";
+
+  // TODO: evaluate if there are other properties to exclude from triggering indexing
+  private final List<RDFNode> mDoNotTrigger = Arrays.asList(new RDFNode[]{RDF.type, SCHEMA.about});
 
   public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
 
@@ -64,8 +68,7 @@ public class ResourceIndexer {
       RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
       Property property = ((TripleCommit.Diff.Line)line).stmt.getPredicate();
       RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
-      // TODO: evaluate if there are other properties to exclude from triggering indexing
-      if (!property.equals(RDF.type)) {
+      if (!mDoNotTrigger.contains(property)) {
         if (subject.isURIResource()) {
           commitScope.add(subject.toString());
         }

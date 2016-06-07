@@ -104,6 +104,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return null;
   }
 
+  public Resource getRecord(@Nonnull String aId) {
+    return Resource.fromMap(getDocument(Record.TYPE, aId));
+  }
+
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     List<Resource> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(aField, aValue)) {
@@ -129,7 +133,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       return null;
     }
     Logger.debug("DELETING " + aId);
-    boolean found = deleteDocument(Record.TYPE, resource.getId());
+    boolean found = deleteDocument(Record.TYPE, resource.getId().concat(".").concat(Record.RESOURCE_KEY));
     refreshIndex(mConfig.getIndex());
     if (found) {
       return resource;
