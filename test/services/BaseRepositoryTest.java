@@ -408,6 +408,29 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfea00002", mMetadata);
   }
 
+  @Test
+  public void testSearchFuzzyDiacritica() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyDiacritica.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    System.out.println(db1.toString());
+
+    // FIXME: Thread.sleep to be deleted when Repo synchronization is
+    // triggerable
+    Thread.sleep(5000);
+    QueryContext queryContext = new QueryContext(null, null);
+
+    // query with diacritica
+    List<Resource> correctQuery = mBaseRepo.query("fóobar.ao", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"fóobar.ao\".", correctQuery.size() == 1);
+
+    // query without diacritica
+    List<Resource> alternateQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"foobar.ao\".", alternateQuery.size() == 1);
+
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
