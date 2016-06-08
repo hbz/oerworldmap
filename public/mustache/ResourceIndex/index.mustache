@@ -212,7 +212,7 @@
                 {{#ifCond (size buckets) '>' 1}}
                     <li>
                         <h2>{{i18n (getField @key)}}</h2>
-                        {{pieChart . width=200 height=200 href-template="/resource/{key}"}}
+                        {{pieChart . width=200 height=200 href-template=(stringFormat "/resource/?filter.%s={key}" @key)}}
                     </li>
                 {{/ifCond}}
             {{/each}}
