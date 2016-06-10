@@ -27,6 +27,7 @@
 
       [data-app="col-content"] {
         position: relative;
+        z-index: 2;
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
@@ -76,10 +77,12 @@
 
     #app-col-index,
     #app-col-detail {
+      background: @blue-lightest;
       border-left: 1px solid @blue-lighter;
     }
 
     #app-col-index[data-col-mode="floating"] {
+      background: transparent;
       margin-left: -33.333%;
       border-left: none;
       [data-app="toggle-col"] {
