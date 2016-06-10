@@ -21,7 +21,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.typesafe.config.Config;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -45,7 +44,6 @@ import play.mvc.Controller;
 import play.mvc.With;
 import play.twirl.api.Html;
 import services.AccountService;
-import services.QueryContext;
 import services.repository.BaseRepository;
 
 /**
@@ -264,7 +262,7 @@ public abstract class OERWorldMap extends Controller {
       throws URISyntaxException, IOException {
 
     URL dirURL = classLoader.getResource(path);
-    ;
+
     if (dirURL == null) {
       return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path))
           .list();
@@ -277,7 +275,7 @@ public abstract class OERWorldMap extends Controller {
                                                                                      // file
       JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
       Enumeration<JarEntry> entries = jar.entries(); // gives ALL entries in jar
-      Set<String> result = new HashSet<String>(); // avoid duplicates in case it
+      Set<String> result = new HashSet<>(); // avoid duplicates in case it
                                                   // is a subdirectory
       while (entries.hasMoreElements()) {
         String name = entries.nextElement().getName();
