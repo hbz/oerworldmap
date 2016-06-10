@@ -553,8 +553,28 @@ var Hijax = (function ($, Hijax) {
       world.getView().fit(boundingBox, world.getSize(), {
         padding: [50, 50, 50, 50]
       });
-    }
+    } else {
 
+      // if no bounding box set center to user and zoom to initial again ...
+
+      if (
+        navigator.geolocation
+      ) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lon = position.coords.longitude;
+          var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
+          center[1] = defaultCenter[1];
+          world.getView().setCenter(center);
+        });
+      } else {
+        world.getView().setCenter(defaultCenter);
+      }
+
+      // Get zoom values adapted to map size
+      var zoom_values = getZoomValues();
+
+      world.getView().setZoom(zoom_values.initialZoom);
+    }
   }
 
   function zoomToFeatures(features) {

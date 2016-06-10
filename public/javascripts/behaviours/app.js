@@ -47,6 +47,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function get_main(data) {
+    // http://stackoverflow.com/a/12848798/1060128
     var body_mock = $(
       '<div id="body-mock">' +
       data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') +
