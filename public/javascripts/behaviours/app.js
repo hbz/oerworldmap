@@ -358,13 +358,21 @@ var Hijax = (function ($, Hijax, page) {
 
             if(location) {
 
+              // null map and index source as it's outdated
+              map_and_index_source = '';
+
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
-              // parse location and pass to router
-              var just_a_parser = document.createElement('a');
-              just_a_parser.href = location;
-              page(just_a_parser.pathname);
+              // wait a bit and hope new resource will be indexed after
+              window.setTimeout(function(){
+
+                // parse location and pass to router
+                var just_a_parser = document.createElement('a');
+                just_a_parser.href = location;
+                page(just_a_parser.pathname);
+
+              }, 2000);
 
             } else if(form.attr('action') == detail_source) {
 
