@@ -2,6 +2,8 @@ package services.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -214,9 +216,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
 
+    Model extendedDescription = ModelFactory.createDefaultModel();
+
+    // Validate URI
+    try {
+      new URI(aId);
+    } catch (URISyntaxException e) {
+      return extendedDescription;
+    }
+
     // Current data
     String describeStatement = String.format(EXTENDED_DESCRIPTION, aId);
-    Model extendedDescription = ModelFactory.createDefaultModel();
 
     extendedDescription.enterCriticalSection(Lock.WRITE);
     aModel.enterCriticalSection(Lock.READ);
