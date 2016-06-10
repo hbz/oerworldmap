@@ -64,7 +64,7 @@ var Hijax = (function ($, Hijax, page) {
           get_main( data )
         );
         map_and_index_source = url;
-        map_and_index_loaded.resolve()
+        map_and_index_loaded.resolve();
       });
     }
     $('#app-col-index').attr('data-col-mode', index_mode);
@@ -77,14 +77,10 @@ var Hijax = (function ($, Hijax, page) {
         $('#app-col-detail [data-app="col-content"]').html(
           get_main( data )
         );
+        $('#app-col-detail').attr('data-col-mode', 'expanded');
         detail_source = url;
         detail_loaded.resolve();
       });
-    }
-
-    // preserve collapsed state / avoid auto expanding of collapsed detail when switching from floating to list
-    if($('#app-col-detail').attr('data-col-mode') != 'collapsed') {
-      $('#app-col-detail').attr('data-col-mode', 'expanded');
     }
 
     // set focus to fit hightlighted
