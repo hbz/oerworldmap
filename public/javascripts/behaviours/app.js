@@ -87,7 +87,7 @@ var Hijax = (function ($, Hijax, page) {
     $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
   }
 
-  function route_index(pagejs_ctx, next) {
+  function route_index(pagejs_ctx, next) { console.log('route_index');
     var index_mode;
 
     // clear empty searches
@@ -131,10 +131,8 @@ var Hijax = (function ($, Hijax, page) {
     // set focus to fit if filtered and none if unfiltered (might be overwritten by set_detail_source)
 
     if( pagejs_ctx.querystring ) {
-      console.log('focus FIT');
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit');
     } else {
-      console.log('focus NONE');
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', '');
     }
 
@@ -150,7 +148,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_index_country(pagejs_ctx, next) {
+  function route_index_country(pagejs_ctx, next) { console.log('route_index_country');
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
 
@@ -167,7 +165,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_detail(pagejs_ctx, next) {
+  function route_detail(pagejs_ctx, next) { console.log('route_detail');
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
     next();
@@ -339,17 +337,12 @@ var Hijax = (function ($, Hijax, page) {
           data : form.serialize(),
           success : function(data, textStatus, jqXHR) {
 
-            console.log('jqXHR', jqXHR);
-            // console.log('status', jqXHR.status)
-            console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
-
             var content_type = jqXHR.getResponseHeader('Content-Type');
 
             // in any case, get contents and attach behaviours
             if(content_type.indexOf("text/plain") > -1) {
               var contents = data;
             } else {
-              console.log('get_main on post response');
               var contents = get_main( data );
             }
 
@@ -390,10 +383,6 @@ var Hijax = (function ($, Hijax, page) {
 
           },
           error : function(jqXHR, textStatus, errorThrown){
-
-            console.log('jqXHR', jqXHR);
-            // console.log('status', jqXHR.status)
-            console.log('getAllResponseHeaders', jqXHR.getAllResponseHeaders());
 
             var content_type = jqXHR.getResponseHeader('Content-Type');
 

@@ -301,9 +301,9 @@ var Hijax = (function ($, Hijax) {
     var feature_type = getFeatureType( feature );
 
     if( feature_type == 'placemark' || feature_type == 'cluster' ) {
-      console.log('feature', feature);
+      // console.log('feature', feature);
       var properties = feature.getProperties();
-      console.log('properties', properties);
+      // console.log('properties', properties);
       if(! properties.highligted) {
         setFeatureStyle(
           feature,
