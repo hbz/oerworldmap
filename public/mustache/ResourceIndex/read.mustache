@@ -206,7 +206,16 @@
                         <td>
                             <ul class="resource-list">
                                 {{#audience}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                    <li>
+                                        {{getIcon @type}}
+                                        <a href="/resource/?filter.about.audience.@id={{@id}}">
+                                            {{#localized this.name}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        </a>
+                                    </li>
                                 {{/audience}}
                             </ul>
                         </td>
@@ -245,7 +254,16 @@
                         <td>
                             <ul class="resource-list">
                                 {{#about}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
+                                    <li>
+                                        {{getIcon @type}}
+                                        <a href="/resource/?filter.about.about.@id={{@id}}">
+                                            {{#localized this.name}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        </a>
+                                    </li>
                                 {{/about}}
                             </ul>
                         </td>
