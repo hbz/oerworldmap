@@ -136,6 +136,15 @@
                     </tr>
                 {{/if}}
 
+                {{#if hashtag}}
+                    <tr>
+                        <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
+                        <td>
+                            {{ hashtag }}
+                        </td>
+                    </tr>
+                {{/if}}
+
                 {{#if location.address}}
                     <tr>
                         <td>{{i18n (stringFormat "%s.location" @type)}}</td>
