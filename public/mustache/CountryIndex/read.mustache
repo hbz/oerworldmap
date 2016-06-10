@@ -1,3 +1,96 @@
+{{#if user.email}}
+
+    <form id="form-resource-add-service" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Service</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Service/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-organization" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Organization</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Organization/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-story" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Story</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Article/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-action" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Project</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Action/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-person" method="post" class="clearfix visible-modal" action="/user/">
+
+        <h1 class="modal-title">Add Person</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Person/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-event" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Event</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Event/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+{{/if}}
+
 {{#scope}}
 
     <div class="column-section">
