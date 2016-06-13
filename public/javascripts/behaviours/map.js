@@ -565,6 +565,8 @@ var Hijax = (function ($, Hijax) {
           var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
           center[1] = defaultCenter[1];
           world.getView().setCenter(center);
+        }, function(err){
+          world.getView().setCenter(defaultCenter);
         });
       } else {
         world.getView().setCenter(defaultCenter);
