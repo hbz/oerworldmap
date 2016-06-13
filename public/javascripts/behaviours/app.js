@@ -107,7 +107,7 @@ var Hijax = (function ($, Hijax, page) {
     // trigger behaviour attachment for landing page
 
     if(
-      pagejs_ctx.path == ""
+      pagejs_ctx.path == "/"
     ) {
       get('/', function(data){
         get_main(data);
@@ -170,7 +170,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_detail(pagejs_ctx, next) { console.log('route_detail', pagejs_ctx);
+  function route_detail(pagejs_ctx, next) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
     next();
