@@ -361,25 +361,30 @@ public class ResourceIndex extends OERWorldMap {
     return ok(record.toString()).as("application/json");
   }
 
-  public static Result delete(String id) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(id, getMetadata());
+  public static Result delete(String aId) throws IOException {
+    Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
       return ok("deleted resource " + resource.toString());
     } else {
-      return badRequest("Failed to delete resource " + id);
+      return badRequest("Failed to delete resource " + aId);
     }
   }
 
-  public static Result log(String id) {
+  public static Result log(String aId) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
-    for (Commit commit : mBaseRepository.log(id)) {
+    for (Commit commit : mBaseRepository.log(aId)) {
       stringBuilder.append(commit).append("\n\n");
     }
 
     return ok(stringBuilder.toString());
 
+  }
+
+  public static Result index(String aId) {
+    mBaseRepository.index(aId);
+    return ok("Indexed ".concat(aId));
   }
 
 }

@@ -263,4 +263,7 @@ public class BaseRepository extends Repository
     return mTriplestoreRepository.getDiff(aResources);
   }
 
+  public void index(String aId) {
+    mIndexQueue.tell(aId, mIndexQueue);
+  }
 }
