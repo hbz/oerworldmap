@@ -84,6 +84,8 @@ var Hijax = (function ($, Hijax, page) {
         detail_source = url;
         detail_loaded.resolve();
       });
+    } else {
+      $('#app-col-detail').attr('data-col-mode', 'expanded');
     }
 
     // set focus to fit hightlighted
@@ -168,7 +170,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_detail(pagejs_ctx, next) {
+  function route_detail(pagejs_ctx, next) { console.log('route_detail', pagejs_ctx);
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
     next();
