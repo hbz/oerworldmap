@@ -26,7 +26,10 @@ var Hijax = (function ($, Hijax, page) {
     'app' : Handlebars.compile($('#app\\.mustache').html())
   };
 
-  var initialization_source = window.location;
+  var initialization_source = {
+    pathname : window.location.pathname,
+    search : window.location.search
+  };
   var initialization_content = document.documentElement.innerHTML;
 
   var map_and_index_source = '';
@@ -87,7 +90,7 @@ var Hijax = (function ($, Hijax, page) {
     $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
   }
 
-  function route_index(pagejs_ctx, next) { console.log('route_index');
+  function route_index(pagejs_ctx, next) {
     var index_mode;
 
     // clear empty searches
@@ -148,7 +151,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_index_country(pagejs_ctx, next) { console.log('route_index_country');
+  function route_index_country(pagejs_ctx, next) {
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
 
@@ -165,7 +168,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function route_detail(pagejs_ctx, next) { console.log('route_detail');
+  function route_detail(pagejs_ctx, next) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
     next();
