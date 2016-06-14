@@ -124,6 +124,13 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
 
+    Resource user = (Resource) ctx().args.get("user");
+    boolean mayAdd = mAccountService.getRoles(user.getAsString("email")).contains("admin")
+      || mAccountService.getRoles(user.getAsString("email")).contains("champion");
+    Map<String, Object> permissions = new HashMap<>();
+    permissions.put("add", mayAdd);
+    mustacheData.put("permissions", permissions);
+
     TemplateLoader loader = new ResourceTemplateLoader();
     loader.setPrefix("public/mustache");
     loader.setSuffix("");

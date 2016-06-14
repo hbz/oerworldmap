@@ -225,7 +225,8 @@ var Hijax = (function ($, Hijax, page) {
         templates.app({
           header : $('header', context)[0].outerHTML,
           footer : $('footer', context)[0].outerHTML,
-          user : user
+          user : user,
+          permissions : permissions
         })
       );
 
