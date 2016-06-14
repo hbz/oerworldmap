@@ -210,7 +210,7 @@
 
         {{#each scope.resources.aggregations}}
             {{#ifCond (size buckets) '>' 1}}
-                <table class="table">
+                <table class="table" data-behaviour="chart-pie">
                     <thead>
                         <script type="application/ld+json">
                             {{json .}}
