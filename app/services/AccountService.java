@@ -26,10 +26,6 @@ public class AccountService {
 
   private static final String mLimitWriteDirective =
     "<Location /resource/%s>\n" +
-      "  AuthType Basic\n" +
-      "  AuthName \"Restricted Files\"\n" +
-      "  AuthUserFile %s\n" +
-      "  AuthGroupFile %s\n" +
       "  <LimitExcept GET>\n" +
       "    Require group admin\n" +
       "    Require user %s\n" +
@@ -52,7 +48,7 @@ public class AccountService {
 
   public void setPermissions(String aId, String aUser) {
 
-    String entry = String.format(mLimitWriteDirective, aId, mUserFile, mGroupFile, aUser);
+    String entry = String.format(mLimitWriteDirective, aId, aUser);
     String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
     try {
       FileUtils.writeStringToFile(new File(mPermissionsDir, fileName), entry);

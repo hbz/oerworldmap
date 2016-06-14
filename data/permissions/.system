@@ -1,8 +1,22 @@
-<Location /resource/>
+ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a href=/user/password>reset password</a>."
+
+<proxy *>
+    Redirect "/.login" "/"
+</proxy>
+
+<Location />
   AuthType Basic
   AuthName "Restricted Files"
   AuthUserFile /tmp/htpasswd
   AuthGroupFile /tmp/htgroups
+  Require all granted
+</Location>
+
+<Location /.login>
+  Require valid-user
+</Location>
+
+<Location /resource/>
   <LimitExcept GET>
     Require group champion
     Require group admin
@@ -10,10 +24,6 @@
 </Location>
 
 <Location /log/>
-  AuthType Basic
-  AuthName "Restricted Files"
-  AuthUserFile /tmp/htpasswd
-  AuthGroupFile /tmp/htgroups
   Require group champion
   Require group admin
 </Location>
