@@ -18,7 +18,7 @@ import java.util.List;
 public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation() {
-    return AggregationBuilders.terms("about.@type").size(0).field("about.@type");
+    return AggregationBuilders.terms("about.@type").size(0).field("about.@type").minDocCount(0);
   }
 
   public static AggregationBuilder<?> getLocationAggregation() {

@@ -437,7 +437,6 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
 
 });
 
-
 Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
   /*
 
@@ -459,33 +458,6 @@ Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
 });
 
 
-Handlebars.registerHelper('ifShowFilter', function (aggregation, key, filters, options) {
-
-  if (
-    aggregation.buckets.length &&
-    ! filters[ key ]
-  ) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
-
-});
-
-Handlebars.registerHelper('ifShowFilters', function (aggregations, filters, options) {
-
-  if (Object.keys(filters).length) {
-    for (filter in aggregations) {
-      if (aggregations[filter].buckets.length && !filters[filter]) {
-        return options.fn(this);
-      }
-    }
-    return options.inverse(this);
-  } else {
-    return options.fn(this);
-  }
-
-});
 
 Handlebars.registerHelper('nestedAggregation', function (aggregation) {
   return nestedAggregation(aggregation);
@@ -549,6 +521,7 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
 });
 
+/*
 Handlebars.registerHelper('ifIn', function(item, list, options) {
   for (i in list) {
     if (list[i] == item) {
@@ -557,3 +530,4 @@ Handlebars.registerHelper('ifIn', function(item, list, options) {
   }
   return options.inverse(this);
 });
+*/

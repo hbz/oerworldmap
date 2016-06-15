@@ -108,63 +108,28 @@
 
     <div class="column-section bg-blue-paler">
 
-        {{#ifShowFilters scope.resources.aggregations scope.resources.filters}}
 
-            <span class="text-muted">Filter by:</span>
+        <span class="text-muted">Filter by:</span>
 
-            {{#each scope.resources.aggregations}}
+        {{#each scope.resources.aggregations}}
 
-                {{#ifShowFilter . @key scope.resources.filters}}
-
-                    <div class="dropdown resource-filter">
-                        <a href="#" data-toggle="dropdown">
-                            {{i18n (getField @key)}}
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu color-scheme-text layout-typo-small">
-                            {{#buckets}}
-                                {{#unlessIn @key key scope.resources.filters}}
-
-                                    <li>
-                                        <label class="resource-filter">
-                                            <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}">
-                                            {{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})
-                                        </label>
-                                    </li>
-
-                                {{/unlessIn}}
-                            {{/buckets}}
-                        </ul>
-                    </div>
-
-                {{/ifShowFilter}}
-
-            {{/each}}
-
-        {{/ifShowFilters}}
-
-        {{#ifObjectNotEmpty scope.resources.filters}}
-
-            {{#ifShowFilters scope.resources.aggregations scope.resources.filters}}
-                <hr class="narrow" />
-            {{/ifShowFilters}}
-
-            <span class="text-muted">Current Filters:</span>
-
-            <ul class="filters-applied">
-                {{#each scope.resources.filters}}
-                    {{#this}}
-                        <li>
-                            <label class="applied-filter">
-                                <input type="checkbox" checked class="filter" name="filter.{{@key}}" value="{{.}}">
-                                {{i18n (getField @key)}}: {{i18n . bundle="labels"}}
-                            </label>
-                        </li>
-                    {{/this}}
-                {{/each}}
+            <h2>{{i18n (getField @key)}}</h2>
+            <ul class="color-scheme-text layout-typo-small">
+                {{#buckets}}
+                    <li>
+                        <label class="resource-filter">
+                            {{#ifIn @key key scope.resources.filters}}
+                                <input type="checkbox" checked class="filter" name="filter.{{../@key}}" value="{{key}}">
+                            {{ else }}
+                                <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}">
+                            {{/ifIn}}
+                            {{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})
+                        </label>
+                    </li>
+                {{/buckets}}
             </ul>
 
-          {{/ifObjectNotEmpty}}
+        {{/each}}
 
     </div>
 
