@@ -1066,7 +1066,7 @@ var Hijax = (function ($, Hijax) {
 
       // Add heat map data
       $('form#form-resource-filter', context).add($('#country-statistics', context)).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        var json = JSON.parse( $(this).find('script[type="application/ld+json"]#json-aggregations').html() );
         setAggregations( json );
         if( $(this).is('table') ) {
           $(this).hide();

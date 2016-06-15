@@ -1,1 +1,37 @@
+@btn-append-width: 35px;
 
+#filter {
+
+  .btn {
+    text-align: left;
+  }
+
+  .input-group-btn .btn,
+  .dropdown-toggle {
+    width: @btn-append-width;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .dropdown {
+    width: 100%;
+
+    .btn:first-child {
+      width: calc(~'100% - ' @btn-append-width);
+    }
+  }
+
+  #filter-search {
+    margin-bottom: @map-padding;
+  }
+
+  #filter-type {
+    width: calc(~'100% + 5px');
+    .btn {
+      width: (100% / 6);
+      text-align: center;
+    }
+  }
+
+}

@@ -79,14 +79,24 @@
     #app-col-detail {
       background: @blue-lightest;
       border-left: 1px solid @blue-lighter;
+
+      [data-app="col-content"] {
+        padding: @map-padding;
+      }
     }
 
-    #app-col-index[data-col-mode="floating"] {
-      background: transparent;
-      margin-left: -33.333%;
-      border-left: none;
-      [data-app="toggle-col"] {
-        display: none;
+    @index-min-width: 470px;
+
+    #app-col-index {
+      min-width: @index-min-width;
+
+      &[data-col-mode="floating"] {
+        background: transparent;
+        margin-left: -@index-min-width;
+        border-left: none;
+        [data-app="toggle-col"] {
+          display: none;
+        }
       }
     }
 
@@ -94,6 +104,8 @@
     // ... would probably better be handeled with a zero width column
     #app-col-index[data-col-mode="floating"] {
       pointer-events: none;
+
+      #filter,
       #form-resource-filter,
       [data-app-index-switch] {
         pointer-events: auto;

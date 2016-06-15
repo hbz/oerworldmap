@@ -91,23 +91,26 @@
 
 {{/if}}
 
+<div id="filter-container">
 
+    <form id="form-resource-filter">
 
-<form id="form-resource-filter">
+        <script type="application/ld+json" id="json-filters">
+            {{json scope.resources.filters}}
+        </script>
 
-    <script type="application/ld+json">
-        {{json scope.resources.aggregations}}
-    </script>
+        <script type="application/ld+json" id="json-aggregations">
+            {{json scope.resources.aggregations}}
+        </script>
 
-    <div class="column-section">
-        <div id="search">
-            <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
-            <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+        <div class="column-section">
+            <div id="search">
+                <input type="text" name="q" value="{{scope.resources.searchTerms}}" placeholder="Search the map ...">
+                <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+            </div>
         </div>
-    </div>
 
-    <div class="column-section bg-blue-paler">
-
+        <div class="column-section bg-blue-paler">
 
         <span class="text-muted">Filter by:</span>
 
@@ -131,9 +134,11 @@
 
         {{/each}}
 
-    </div>
+        </div>
 
-</form>
+    </form>
+
+</div>
 
 
 <div class="column-section last">
