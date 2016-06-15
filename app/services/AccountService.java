@@ -17,6 +17,7 @@ import helpers.MD5Crypt;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import play.Logger;
 
 /**
@@ -66,8 +67,8 @@ public class AccountService {
       Process apache2ctl = Runtime.getRuntime().exec("sudo apache2ctl graceful");
       BufferedReader stdInput = new BufferedReader(new InputStreamReader(apache2ctl.getInputStream()));
       BufferedReader stdError = new BufferedReader(new InputStreamReader(apache2ctl.getErrorStream()));
-      Logger.debug(stdInput.toString());
-      Logger.debug(stdError.toString());
+      Logger.debug(IOUtils.toString(stdInput));
+      Logger.debug(IOUtils.toString(stdError));
     } catch (IOException e) {
       Logger.error("Could not restart Apache", e);
     }

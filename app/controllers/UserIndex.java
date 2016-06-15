@@ -230,6 +230,16 @@ public class UserIndex extends OERWorldMap {
 
   private static void createProfile(String aEmailAddress) throws IOException {
 
+    // Check if person entry with corresponding email already exists
+    List<Resource> users = mBaseRepository.getResources("about.email", aEmailAddress);
+    for (Resource user : users) {
+      if (user.getType().equals("Person")) {
+        Logger.warn("Profile for ".concat(aEmailAddress).concat(" already exists."));
+        mAccountService.setPermissions(user.getId(), aEmailAddress);
+        return;
+      }
+    }
+
     Resource person = new Resource("Person");
     person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     person.put("email", aEmailAddress);
