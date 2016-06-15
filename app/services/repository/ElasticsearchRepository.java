@@ -32,6 +32,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.GeoBoundingBoxFilterBuilder;
 import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
+import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -338,13 +339,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
       for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
-        // This could also be an OrFilterBuilder allowing to expand the result
-        // list
-        AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
+        // This could also be an AndFilterBuilder allowing to narrow down the result list
+        OrFilterBuilder orFilterBuilder = FilterBuilders.orFilter();
         for (String filter : entry.getValue()) {
-          andTermFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
+          orFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
         }
-        aggregationAndFilter.add(andTermFilterBuilder);
+        aggregationAndFilter.add(orFilterBuilder);
       }
       globalAndFilter.add(aggregationAndFilter);
     }
@@ -366,10 +366,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       queryBuilder = QueryBuilders.matchAllQuery();
     }
 
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-      .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(queryBuilder);
 
-    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).setPostFilter(globalAndFilter).execute().actionGet();
 
   }
 
