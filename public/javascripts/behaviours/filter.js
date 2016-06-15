@@ -17,7 +17,7 @@ var Hijax = (function ($, Hijax, page) {
     'Organization' : { 'icon' : 'users' },
     'Person' : { 'icon' : 'user' },
     'Service' : { 'icon' : 'desktop' },
-    'Project' : { 'icon' : 'gears' },
+    'Action' : { 'icon' : 'gears' },
     'Article' : { 'icon' : 'comment' },
     'Event' : { 'icon' : 'calendar' }
   };
@@ -42,8 +42,10 @@ var Hijax = (function ($, Hijax, page) {
         console.log('filters', filters);
         console.log('aggregations', aggregations);
 
-        if( typeof filters['about.@type'] != 'undefined' ) {
-          resource_types[ filters['about.@type'][0] ].active = true;
+        var active_type = ( typeof filters['about.@type'] != 'undefined' ? filters['about.@type'][0] : false );
+
+        for(t in resource_types) {
+          resource_types[ t ].active = (active_type == t);
         }
 
         // render template
@@ -51,7 +53,7 @@ var Hijax = (function ($, Hijax, page) {
         $(this).prepend(
           templates.filter({
             // filters : filters,
-            resource_types : resource_types,
+            resource_types : resource_types
           })
         );
 
@@ -67,6 +69,8 @@ var Hijax = (function ($, Hijax, page) {
 
           var checkbox = $(container).find('[name="filter.about.@type"][value="' + $(this).data('filter-value') + '"]');
           checkbox.prop("checked", active);
+
+          $('#form-resource-filter').submit();
         });
 
       });
