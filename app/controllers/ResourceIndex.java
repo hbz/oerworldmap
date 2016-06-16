@@ -91,14 +91,16 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resources", resourceList.toResource());
 
     List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
-    statisticsAggregations.add(AggregationProvider.getTypeAggregation(10));
-    statisticsAggregations.add(AggregationProvider.getByCountryAggregation(10));
-    statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(10));
+    statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
+    statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
-    statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(10));
-    statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(10));
+    statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(5));
 
     scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations));
+    scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
+        "#009380", "#627e45", "#6676b0", "#5ab18d"));
 
     if (request().accepts("text/html")) {
       return ok(render("Resources", "ResourceIndex/index.mustache", scope));

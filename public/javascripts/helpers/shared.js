@@ -358,7 +358,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
 /**
  * Adopted from http://stackoverflow.com/questions/7261318/svg-chart-generation-in-javascript
  */
-  Handlebars.registerHelper('pieChart', function(aggregation, options) {
+  Handlebars.registerHelper('pieChart', function(aggregation, colors, options) {
 
   // FIXME actually an array is passed in , but rhino does not recognize it as such?
   var buckets = [];
@@ -415,7 +415,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
         ((endAngle-startAngle > 180) ? 1 : 0) + ",1 " + x2 + "," + y2 + " z";
 
     var c = parseInt((i + 200) / sectorAngleArr.length * 360);
-    var path = createElement("path", true, {d: d, fill: "hsl(" + c + ", 66%, 50%)"});
+    var path = createElement("path", true, {d: d, fill: colors[i]});
 
     var href = urltemplate.parse(options.hash['href-template']).expand(buckets[i]);
     var arc = createElement("a", true, {
@@ -519,6 +519,10 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
       return options.inverse(this);
   }
 
+});
+
+Handlebars.registerHelper('get', function(list, index) {
+  return list[index];
 });
 
 /*
