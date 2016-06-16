@@ -173,7 +173,7 @@
         </ul>
 
         <ul id="statistic" class="aggregation-list">
-            {{#each scope.resources.aggregations}}
+            {{#each scope.statistics}}
                 {{#ifCond (size buckets) '>' 1}}
                     <li>
                         <h2>{{i18n (getField @key)}}</h2>

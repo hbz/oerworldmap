@@ -50,12 +50,12 @@ public class QueryContext {
      */
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
-    guestAggregations.add(AggregationProvider.getTypeAggregation());
-    guestAggregations.add(AggregationProvider.getByCountryAggregation());
-    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation());
+    guestAggregations.add(AggregationProvider.getTypeAggregation(0));
+    guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
+    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
     guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
-    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation());
-    guestAggregations.add(AggregationProvider.getKeywordsAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
+    guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);

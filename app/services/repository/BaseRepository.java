@@ -227,6 +227,10 @@ public class BaseRepository extends Repository
     return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilders);
+  }
+
   @Override
   public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<Resource>();

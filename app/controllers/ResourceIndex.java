@@ -90,6 +90,16 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 
+    List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
+    statisticsAggregations.add(AggregationProvider.getTypeAggregation(10));
+    statisticsAggregations.add(AggregationProvider.getByCountryAggregation(10));
+    statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(10));
+    statisticsAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(10));
+    statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(10));
+
+    scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations));
+
     if (request().accepts("text/html")) {
       return ok(render("Resources", "ResourceIndex/index.mustache", scope));
     } else if (request().accepts("text/csv")) {

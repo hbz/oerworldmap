@@ -19,10 +19,10 @@ public class AggregationIndex extends OERWorldMap {
   public static Result list() throws IOException {
 
     Resource countryAggregation = mBaseRepository
-        .aggregate(AggregationProvider.getByCountryAggregation());
-    Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation());
+        .aggregate(AggregationProvider.getByCountryAggregation(0));
+    Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(0));
     Resource languageAggregation = mBaseRepository
-        .aggregate(AggregationProvider.getServiceLanguageAggregation());
+        .aggregate(AggregationProvider.getServiceLanguageAggregation(0));
 
     ResourceList topLevelISCEDConcepts = mBaseRepository.query(
         "about.topConceptOf.@id:\"https://w3id.org/isced/1997/scheme\"", 0, Integer.MAX_VALUE, null,
@@ -32,7 +32,7 @@ public class AggregationIndex extends OERWorldMap {
       topLevelISCEDConceptIds.add(r.getAsString(JsonLdConstants.ID));
     }
     Resource gradeLevelAggregation = mBaseRepository
-        .aggregate(AggregationProvider.getServiceByGradeLevelAggregation(topLevelISCEDConceptIds));
+        .aggregate(AggregationProvider.getServiceByGradeLevelAggregation(topLevelISCEDConceptIds, 0));
 
     ResourceList topLevelESCConcepts = mBaseRepository.query(
         "about.topConceptOf.@id:\"https://w3id.org/class/esc/scheme\"", 0, Integer.MAX_VALUE, null,
@@ -42,7 +42,7 @@ public class AggregationIndex extends OERWorldMap {
       topLevelESCConceptIds.add(r.getAsString(JsonLdConstants.ID));
     }
     Resource fieldOfEducationAggregation = mBaseRepository.aggregate(
-        AggregationProvider.getServiceByFieldOfEducationAggregation(topLevelESCConceptIds));
+        AggregationProvider.getServiceByFieldOfEducationAggregation(topLevelESCConceptIds, 0));
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("countryAggregation", countryAggregation);

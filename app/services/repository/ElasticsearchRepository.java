@@ -145,10 +145,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
-    throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
     Resource aggregations = Resource
       .fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
+    if (null == aggregations) {
+      return null;
+    }
+    return (Resource) aggregations.get("aggregations");
+  }
+
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) {
+    Resource aggregations = Resource
+      .fromJson(getAggregations(aAggregationBuilders).toString());
     if (null == aggregations) {
       return null;
     }
@@ -289,6 +297,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
       .setSize(0).execute().actionGet();
     return response;
+
+  }
+
+  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders) {
+
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    for (AggregationBuilder<?> aggregationBuilder : aAggregationBuilders) {
+      searchRequestBuilder.addAggregation(aggregationBuilder);
+    }
+
+    return searchRequestBuilder.setSize(0).execute().actionGet();
 
   }
 

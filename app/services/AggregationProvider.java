@@ -17,26 +17,27 @@ import java.util.List;
  */
 public class AggregationProvider {
 
-  public static AggregationBuilder<?> getTypeAggregation() {
-    return AggregationBuilders.terms("about.@type").size(0).field("about.@type").minDocCount(0);
+  public static AggregationBuilder<?> getTypeAggregation(int aSize) {
+    return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
+        .exclude("Concept|ConceptScheme");
   }
 
-  public static AggregationBuilder<?> getLocationAggregation() {
-    return AggregationBuilders.terms("about.location.address.addressCountry").size(0)
+  public static AggregationBuilder<?> getLocationAggregation(int aSize) {
+    return AggregationBuilders.terms("about.location.address.addressCountry").size(aSize)
         .field("about.location.address.addressCountry");
   }
 
-  public static AggregationBuilder<?> getServiceLanguageAggregation() {
-    return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(0)
+  public static AggregationBuilder<?> getServiceLanguageAggregation(int aSize) {
+    return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(aSize)
         .field("about.availableChannel.availableLanguage");
   }
 
-  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation() {
-    return AggregationBuilders.terms("about.about.@id").size(0).field("about.about.@id");
+  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation(int aSize) {
+    return AggregationBuilders.terms("about.about.@id").size(aSize).field("about.about.@id");
   }
 
-  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation(List<String> anIdList) {
-    return AggregationBuilders.terms("about.about.@id").size(0)
+  public static AggregationBuilder<?> getServiceByFieldOfEducationAggregation(List<String> anIdList, int aSize) {
+    return AggregationBuilders.terms("about.about.@id").size(aSize)
         .field("about.about.@id")
         .include(StringUtils.join(anIdList, '|'));
   }
@@ -55,37 +56,38 @@ public class AggregationProvider {
       "https://w3id.org/class/esc/n09",
       "https://w3id.org/class/esc/n10"
     };
-    return getServiceByFieldOfEducationAggregation(Arrays.asList(topLevelIds));
+    return getServiceByFieldOfEducationAggregation(Arrays.asList(topLevelIds), 0);
   }
 
-  public static AggregationBuilder<?> getServiceByGradeLevelAggregation() {
-    return AggregationBuilders.terms("about.audience.@id").size(0)
+  public static AggregationBuilder<?> getServiceByGradeLevelAggregation(int aSize) {
+    return AggregationBuilders.terms("about.audience.@id").size(aSize)
         .field("about.audience.@id");
   }
 
-  public static AggregationBuilder<?> getKeywordsAggregation() {
-    return AggregationBuilders.terms("about.keywords").size(0)
+  public static AggregationBuilder<?> getKeywordsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.keywords").size(aSize)
       .field("about.keywords");
   }
 
-  public static AggregationBuilder<?> getServiceByGradeLevelAggregation(List<String> anIdList) {
-    return AggregationBuilders.terms("about.audience.@id").size(0)
+  public static AggregationBuilder<?> getServiceByGradeLevelAggregation(List<String> anIdList, int aSize) {
+    return AggregationBuilders.terms("about.audience.@id").size(aSize)
         .field("about.audience.@id")
         .include(StringUtils.join(anIdList, '|'));
   }
 
-  public static AggregationBuilder<?> getByCountryAggregation() {
+  public static AggregationBuilder<?> getByCountryAggregation(int aSize) {
     return AggregationBuilders
-        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(0)
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(aSize)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
             .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
-  public static AggregationBuilder<?> getForCountryAggregation(String id) {
+  public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
     return AggregationBuilders
-        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(id).size(0)
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(aId)
+        .size(aSize)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
