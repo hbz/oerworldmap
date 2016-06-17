@@ -10,7 +10,7 @@
 
     {{> FormElements/input.mustache property=url property_path="url" title=(i18n "Person.url") tooltip=(i18n "Person.url" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
-    {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Person.email") tooltip=(i18n "Person.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
+    {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Person.email") tooltip=(i18n "Person.email" bundle="descriptions") hidden=false multiple=false input_type="email" readonly=true}}
 
     {{> FormElements/localizedTextarea.mustache property=description property_path="description" title=(i18n "Person.description") tooltip=(i18n "Person.description" bundle="descriptions")}}
 
