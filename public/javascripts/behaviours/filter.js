@@ -44,62 +44,92 @@ var Hijax = (function ($, Hijax, page) {
     if(
       typeof filters[ aggregation_name ] !== 'undefined' &&
       filters[ aggregation_name ].indexOf( key ) > -1
-    ) { console.log("yes it's active");
+    ) {
       return true;
     } else {
       return false;
     }
   }
 
-  function create_bloodhound(aggregation) {
+  function pimp_aggregation(aggregation, name) {
 
-    // prepare source array
+    // copy identifier to property to have unified access in templates
+    aggregation.name = name;
 
-    var bloodhound_source = [];
+    // active ?
+    aggregation.active = (typeof filters[ name ] !== 'undefined');
 
-    for(i in aggregation.buckets) {
-      bloodhound_source.push({
-        id : aggregation.buckets[i].key,
-        label_x : get_label(aggregation.buckets[i].key, aggregation.name), // just label doesn't work for some reason
-        count : aggregation.buckets[i].doc_count,
-        active : is_active(aggregation.buckets[i].key, aggregation.name)
-      });
+    // pimp buckets
+    for(var i = 0; i < aggregation.buckets.length; i++) {
+      aggregation.buckets[ i ].id = aggregation.buckets[ i ].key;
+      aggregation.buckets[ i ].label_x = get_label(aggregation.buckets[ i ].key, name); // just label doesn't work for some reason
+      aggregation.buckets[ i ].active = is_active(aggregation.buckets[ i ].key, name);
     }
 
-    bloodhound_source.sort(function(a,b) {
+    // sort buckets
+    aggregation.buckets.sort(function(a,b) {
       if(a.label_x < b.label_x) return -1;
       if(a.label_x == b.label_x) return 0;
       if(a.label_x > b.label_x) return 1;
     });
 
-    // create bloodhound
+    // use typeahead?
+    if(aggregation.buckets.length > 20) {
+      aggregation.typeahead = true;
+      create_bloodhound(aggregation);
+    } else {
+      aggregation.typeahead = false;
+    }
+  }
 
+  function create_bloodhound(aggregation) {
     bloodhounds[ aggregation.name ] = new Bloodhound({
       datumTokenizer : function(d){
         return Bloodhound.tokenizers.whitespace(d.label_x);
       },
       queryTokenizer : Bloodhound.tokenizers.whitespace,
-      local : bloodhound_source,
+      local : aggregation.buckets,
       identify : function(result){
         return result.id;
       },
     });
-
   }
 
-  function init_typeahead(name) {
+  function init_filter(aggregation) {
 
-    var filter = $('.filter[data-filter-name="' + name + '"]');
+    var filter = $('.filter[data-filter-name="' + aggregation.name + '"]');
     var dropdown = $(filter).find('.dropdown-menu')
     var dropdown_button = $(filter).find('.dropdown-toggle');
     var dropdown_parent = dropdown.parent();
-    var typeahead = $(filter).find('.typeahead');
 
     // prevent dropdown from being closed on click
 
     dropdown.on('click', function(){
       return false; // dirty
     });
+
+    if(aggregation.typeahead) {
+
+      init_typeahead(aggregation.name, filter, dropdown, dropdown_button, dropdown_parent);
+
+    } else {
+
+      filter.find('.tt-suggestion').click(function(){
+        $(this).find('[data-filter-value]').toggleClass('active');
+      });
+
+      dropdown_parent.on('hide.bs.dropdown', function(){
+        filter.find('.button').first().addClass('active');
+        update_checkboxes(filter);
+        $('#form-resource-filter').submit();
+      });
+
+    }
+  }
+
+  function init_typeahead(name, filter, dropdown, dropdown_button, dropdown_parent) {
+
+    var typeahead = $(filter).find('.typeahead');
 
     // init typeahead
 
@@ -134,18 +164,8 @@ var Hijax = (function ($, Hijax, page) {
     // when selection is made ...
 
     typeahead.bind('typeahead:beforeselect', function(e, suggestion) {
-      console.log('suggestion', suggestion, e);
       $(e.target).closest('.filter').find('[data-filter-value="' + suggestion.id + '"]').toggleClass('active');
-
       e.preventDefault();
-
-      //return false;
-
-
-      //$('[data-filter-name]')
-      // dropdown_button.dropdown('toggle');
-      // typeahead.typeahead('val', '');
-      // my.setLanguage(one, suggestion.id);
     });
 
     typeahead.bind('typeahead:close', function(e) {
@@ -184,8 +204,6 @@ var Hijax = (function ($, Hijax, page) {
   var my = {
 
     init : function(context) {
-
-      // deferr
       my.initialized.resolve();
     },
 
@@ -215,17 +233,7 @@ var Hijax = (function ($, Hijax, page) {
         // prepare aggregations
 
         for(a in aggregations) {
-          // copy identifier to property to have unified access in templates
-          aggregations[ a ].name = a;
-          // use typeahead?
-          if(aggregations[ a ].buckets.length > 20) {
-            aggregations[ a ].typeahead = true;
-            create_bloodhound(aggregations[ a ]);
-          } else {
-            aggregations[ a ].typeahead = false;
-          }
-          // active ?
-          aggregations[ a ].active = (typeof filters[ a ] !== 'undefined');
+          pimp_aggregation(aggregations[ a ], a);
         }
 
         // extract country
@@ -251,6 +259,7 @@ var Hijax = (function ($, Hijax, page) {
         $(container).prepend(
           templates.filter({
             filters : filters,
+            q : $('[name="q"]').val(),
             aggregations : aggregations,
             resource_types : resource_types,
             country_aggregation : country_aggregation
@@ -260,14 +269,15 @@ var Hijax = (function ($, Hijax, page) {
         // init typeaheads
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
-          for(name in bloodhounds) {
-            init_typeahead(name);
+          init_filter(country_aggregation);
+          for(name in aggregations) {
+            init_filter(aggregations[ name ]);
           }
         }, 0);
 
-        // bind toggle filter
+        // bind toggle filter buttons
 
-        $(container).find('[data-filter-action="toggle-filter"]').click(function(){ console.log('toggle-filter', this);
+        $(container).find('[data-filter-action="toggle-filter"]').click(function(){
           if(! $(this).hasClass('active')) {
             return;
           }
@@ -294,6 +304,20 @@ var Hijax = (function ($, Hijax, page) {
           checkbox.prop("checked", active);
 
           $('#form-resource-filter').submit();
+        });
+
+        // bind text search
+
+        $('[data-filter-action="search"]').click(function(){
+          $('[name="q"]').val( $('[data-filter-name="q"]').val() );
+          $('#form-resource-filter').submit();
+        });
+
+        $('[data-filter-name="q"]').keypress(function(e) {
+          if(e.which == 13) {
+            $('[name="q"]').val( $(this).val() );
+            $('#form-resource-filter').submit();
+          }
         });
 
       });
