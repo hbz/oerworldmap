@@ -1,4 +1,5 @@
 @btn-append-width: 35px;
+@filter-gutter: 20px;
 
 #filter {
 
@@ -20,6 +21,27 @@
     .btn:first-child {
       width: calc(~'100% - ' @btn-append-width);
     }
+  }
+
+  .dropdown-menu {
+    margin-top: 10px;
+  }
+
+  .filter {
+    margin-bottom: 10px;
+  }
+
+  .col-1 .dropdown-menu {
+    left: 0%;
+    right: calc(~'-200% - ' (@filter-gutter * 2));
+  }
+  .col-2 .dropdown-menu {
+    left: calc(~'-100% - ' @filter-gutter);
+    right: calc(~'-100% - ' @filter-gutter);
+  }
+  .col-3 .dropdown-menu {
+    left: calc(~'-200% - ' (@filter-gutter * 2));
+    right: 0%;
   }
 
   #filter-search {

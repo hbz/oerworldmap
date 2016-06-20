@@ -126,7 +126,7 @@
                             {{ else }}
                                 <input type="checkbox" class="filter" name="filter.{{../@key}}" value="{{key}}">
                             {{/ifIn}}
-                            {{i18n key bundle=(getBundle (getField ../@key))}} ({{doc_count}})
+                            <span class="label">{{i18n key bundle=(getBundle (getField ../@key))}}</span> ({{doc_count}})
                         </label>
                     </li>
                 {{/buckets}}
