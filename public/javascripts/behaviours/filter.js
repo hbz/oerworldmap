@@ -116,9 +116,17 @@ var Hijax = (function ($, Hijax, page) {
 
       filter.find('.tt-suggestion').click(function(){
         $(this).find('[data-filter-value]').toggleClass('active');
+        filter.addClass('updated');
       });
 
       dropdown_parent.on('hide.bs.dropdown', function(){
+        // if not updated, return
+        if(! filter.hasClass('updated')) {
+          return;
+        } else {
+          filter.removeClass('updated');
+        }
+
         filter.find('.button').first().addClass('active');
         update_checkboxes(filter);
         $('#form-resource-filter').submit();
@@ -164,17 +172,27 @@ var Hijax = (function ($, Hijax, page) {
     // when selection is made ...
 
     typeahead.bind('typeahead:beforeselect', function(e, suggestion) {
-      $(e.target).closest('.filter').find('[data-filter-value="' + suggestion.id + '"]').toggleClass('active');
+      var filter = $(e.target).closest('.filter');
+      filter.addClass('updated');
+      filter.find('[data-filter-value="' + suggestion.id + '"]').toggleClass('active');
       e.preventDefault();
     });
 
     typeahead.bind('typeahead:close', function(e) {
       e.preventDefault();
 
-      // update checkboxes
-
       var filter = $(e.target).closest('.filter');
       var filter_name = filter.data('filter-name');
+
+      // if not updated, return
+
+      if(! filter.hasClass('updated')) {
+        return;
+      } else {
+        filter.removeClass('updated');
+      }
+
+      // update checkboxes
 
       update_checkboxes(filter);
 
