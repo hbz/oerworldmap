@@ -195,7 +195,7 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function routing_done(pagejs_ctx) {
+  function routing_done(pagejs_ctx) { console.log('routing_done');
     $.when(
       map_and_index_loaded,
       detail_loaded
@@ -215,6 +215,13 @@ var Hijax = (function ($, Hijax, page) {
     init : function(context) {
 
       if(!init_app) {
+        page('*', function(pagejs_ctx){
+          if(pagejs_ctx.path != initialization_source.pathname) {
+            window.location = pagejs_ctx.path;
+          }
+        });
+        page();
+
         my.initialized.resolve();
         return;
       }
