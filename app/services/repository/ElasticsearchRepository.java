@@ -386,9 +386,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       queryBuilder = QueryBuilders.matchAllQuery();
     }
 
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(queryBuilder);
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+        .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
 
-    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).setPostFilter(globalAndFilter).execute().actionGet();
+    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
 
   }
 
