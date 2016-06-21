@@ -93,7 +93,7 @@
 
 {{#scope}}
 
-    <div class="column-section">
+    <div class="column-section-new">
 
         <div class="resource-header">
             <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
@@ -138,9 +138,9 @@
         {{/champions}}
 
     </div>
-    <div class="column-section" id="country-statistics">
+    <div class="column-section-new" id="country-statistics">
 
-        <script type="application/ld+json">
+        <script type="application/ld+json" id="json-aggregations">
             {{json countryAggregation}}
         </script>
 
@@ -160,7 +160,7 @@
         {{/countryAggregation.[about.location.address.addressCountry].buckets}}
 
     </div>
-    <div class="column-section">
+    <div class="column-section-new last">
 
         <p>
             Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
