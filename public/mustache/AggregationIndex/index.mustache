@@ -1,0 +1,22 @@
+<div data-app="to-modal-on-load">
+    {{#each scope.statistics}}
+        {{#ifCond (size buckets) '>' 1}}
+            <h2>{{i18n (getField [@key])}}</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    {{pieChart . scope.colors width=200 height=200 href-template=(stringFormat "/resource/?filter.%s={key}" [@key])}}
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        {{#each buckets}}
+                            <tr>
+                                <td style="background-color: {{get scope.colors @index}}">&nbsp;</td>
+                                <td>{{i18n key bundle=(getBundle (getField ../[@key]))}} ({{ doc_count }})</td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            </div>
+        {{/ifCond}}
+    {{/each}}
+</div>
