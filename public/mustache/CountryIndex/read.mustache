@@ -138,6 +138,7 @@
         {{/champions}}
 
     </div>
+
     <div class="column-section-new" id="country-statistics">
 
         <script type="application/ld+json" id="json-aggregations">
@@ -160,7 +161,20 @@
         {{/countryAggregation.[about.location.address.addressCountry].buckets}}
 
     </div>
+
     <div class="column-section-new last">
+
+        <div class="p">
+            <form action="/resource/">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control">
+                    <input type="hidden" name="filter.about.location.address.addressCountry" value="{{ scope.alpha-2 }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>
+        </div>
 
         <p>
             Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
