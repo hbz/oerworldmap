@@ -224,11 +224,13 @@
     position: absolute;
     z-index: 1;
     width: 400px;
+    max-height: calc(100% ~"-" (@map-padding * 2));
     left: calc(50vw ~"-" 200px);
     top: @map-padding;
     border: 1px solid @blue-darker;
     background: rgba(255,255,255,0.7);
     padding: 15px;
+    overflow-y: scroll;
 
     .notification-header {
       .clearfix();
