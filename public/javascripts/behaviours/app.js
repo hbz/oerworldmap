@@ -440,6 +440,14 @@ var Hijax = (function ($, Hijax, page) {
         });
       });
 
+      $('#app', context).on('click', function(e){
+        if(! $(e.target).closest('.notification').length) {
+          $('.notification:not(#app-notification-prototype)').fadeOut(function(){
+            $(this).remove();
+          });
+        }
+      });
+
       // deferr
       my.initialized.resolve();
     },
