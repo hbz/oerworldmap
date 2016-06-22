@@ -387,4 +387,15 @@ public class ResourceIndex extends OERWorldMap {
     return ok("Indexed ".concat(aId));
   }
 
+  public static Result feed() {
+
+    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, queryContext);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resources", resourceList.toResource());
+
+    return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
+
+  }
+
 }

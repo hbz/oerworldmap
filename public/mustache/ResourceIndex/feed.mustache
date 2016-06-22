@@ -1,0 +1,13 @@
+<div data-app="to-modal-on-load">
+
+    <h2>Recent additions</h2>
+
+    <ul class="resource-list">
+        {{#scope.resources.member}}
+            <li>
+                {{>ResourceIndex/link.mustache}}
+            </li>
+        {{/scope.resources.member}}
+    </ul>
+
+</div>
