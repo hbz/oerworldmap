@@ -2,30 +2,41 @@
 
     <h1>Welcome to the OER World Map</h1>
 
-    <p class="lead">
-        Our goal is to provide the most complete and comprehensive picture of the global OER movement and to develop a global network of partners and volunteers to guarantee ongoing data curation. We currently gather data about people, organizations, services, projects and events related to OER.
-    </p>
+    <div class="lead">
+        <p>
+            Our goal is to provide the most complete and comprehensible picture of the global Open Educational Resources (OER) movement. We currently gather data about people, organizations, services, projects and events related to OER.
+        </p>
+        <p>
+            Please consider to <a href="/contribute">contribute</a>!
+        </p>
+    </div>
 
-    <p>
-        If you have data you believe is relevant, please consider to <a href="/contribute">contribute</a>!
-    </p>
 
 
-    <h2>Currently on the OER World Map</h2>
+    <h2>Currently on the Map</h2>
 
     {{#scope.typeAggregation.[about.@type]}}
-        <table class="table">
-            <tbody>
-            {{#buckets}}
-                <tr>
-                    <td>{{doc_count}}</td>
-                    <td>{{getIcon key}}
-                        <a href="/resource/?filter.about.@type={{key}}">{{i18n key}}</a>
+
+        <table class="numbers-table">
+            <tr>
+                {{#buckets}}
+
+                    <td>
+                        <a href="/resource/?filter.about.@type={{key}}">
+                            {{getIcon key}}<br/>
+                            <span class="name">{{i18n key}}</span><br/>
+                            <span class="count">{{doc_count}}</span>
+                        </a>
                     </td>
-                </tr>
-            {{/buckets}}
-            </tbody>
+
+                {{/buckets}}
+            </tr>
         </table>
+
     {{/scope.typeAggregation.[about.@type]}}
+
+    <p>
+        <a href="/aggregation/">More Statistics</a>&ensp;–&ensp;<a href="/feed/">Recent Additions</a>
+    </p>
 
 </div>
