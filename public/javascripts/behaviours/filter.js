@@ -95,6 +95,14 @@ var Hijax = (function ($, Hijax, page) {
     // copy identifier to property to have unified access in templates
     aggregation.name = name;
 
+    // show ?
+    if(aggregation.buckets.length) {
+      aggregation.show = true;
+    } else {
+      aggregation.show = false;
+      return;
+    }
+
     // active ?
     aggregation.active = (typeof filters[ name ] !== 'undefined');
 
@@ -112,7 +120,7 @@ var Hijax = (function ($, Hijax, page) {
     }
 
     // button text
-    if(aggregation.button_title) {
+    if(aggregation.active) {
       aggregation.button_text = aggregation.filter_options[0] + ', ...';
     } else {
       aggregation.button_text = localize('messages', get_field(name));
@@ -327,8 +335,10 @@ var Hijax = (function ($, Hijax, page) {
 
         var i = 0;
         for(a in aggregations) {
-          aggregations[ a ].column = i + 1;
-          i = (i + 1) % 3;
+          if(aggregations[ a ].show) {
+            aggregations[ a ].column = i + 1;
+            i = (i + 1) % 3;
+          }
         }
 
         // render template
