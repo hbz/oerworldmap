@@ -969,16 +969,8 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "properties": {
-                            "lat": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lat"
-                            },
-                            "lon": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lon"
-                            }
-                          }
+                          "type": "geo_point",
+                          "copy_to": "about.location.geo"
                         },
                         "@type": {
                           "index": "not_analyzed",
@@ -1916,16 +1908,8 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "properties": {
-                            "lat": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lat"
-                            },
-                            "lon": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lon"
-                            }
-                          }
+                          "type": "geo_point",
+                          "copy_to": "about.location.geo"
                         },
                         "@type": {
                           "index": "not_analyzed",
@@ -2473,16 +2457,8 @@
             "location": {
               "properties": {
                 "geo": {
-                  "properties": {
-                    "lat": {
-                      "type": "double",
-                      "copy_to": "about.location.geo.lat"
-                    },
-                    "lon": {
-                      "type": "double",
-                      "copy_to": "about.location.geo.lon"
-                    }
-                  }
+                  "type": "geo_point",
+                  "copy_to": "about.location.geo"
                 },
                 "@type": {
                   "index": "not_analyzed",
@@ -2757,16 +2733,8 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "properties": {
-                            "lat": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lat"
-                            },
-                            "lon": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lon"
-                            }
-                          }
+                          "type": "geo_point",
+                          "copy_to": "about.location.geo"
                         },
                         "@type": {
                           "index": "not_analyzed",
@@ -3248,16 +3216,8 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "properties": {
-                            "lat": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lat"
-                            },
-                            "lon": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lon"
-                            }
-                          }
+                          "type": "geo_point",
+                          "copy_to": "about.location.geo"
                         },
                         "@type": {
                           "index": "not_analyzed",
@@ -3740,16 +3700,8 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "properties": {
-                        "lat": {
-                          "type": "double",
-                          "copy_to": "about.location.geo.lat"
-                        },
-                        "lon": {
-                          "type": "double",
-                          "copy_to": "about.location.geo.lon"
-                        }
-                      }
+                      "type": "geo_point",
+                      "copy_to": "about.location.geo"
                     },
                     "@type": {
                       "index": "not_analyzed",
@@ -4312,16 +4264,8 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "properties": {
-                            "lat": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lat"
-                            },
-                            "lon": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lon"
-                            }
-                          }
+                          "type": "geo_point",
+                          "copy_to": "about.location.geo"
                         },
                         "@type": {
                           "index": "not_analyzed",
@@ -5001,16 +4945,8 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "properties": {
-                            "lat": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lat"
-                            },
-                            "lon": {
-                              "type": "double",
-                              "copy_to": "about.location.geo.lon"
-                            }
-                          }
+                          "type": "geo_point",
+                          "copy_to": "about.location.geo"
                         },
                         "@type": {
                           "index": "not_analyzed",
