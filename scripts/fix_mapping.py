@@ -29,7 +29,7 @@ def process_mapping(mapping):
 
 def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
-                    'availableLanguage', 'prefLabel', 'postalCode']
+                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated']
     for property in properties:
         if property in not_analyzed:
@@ -58,14 +58,8 @@ def build_location_properties():
     return {
         "properties": {
             "geo": {
-                "properties": {
-                    "lat": {
-                        "type": "double"
-                    },
-                    "lon": {
-                        "type": "double"
-                    }
-                }
+                "type": "geo_point",
+                "copy_to": "about.location.geo"
             },
             "@type": {
                 "index": "not_analyzed",

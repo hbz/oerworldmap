@@ -167,6 +167,7 @@
                   }
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "contactPoint": {
@@ -654,6 +655,7 @@
                   }
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "alternateName": {
@@ -1219,6 +1221,7 @@
               }
             },
             "keywords": {
+              "index": "not_analyzed",
               "type": "string"
             },
             "licenseConcept": {
@@ -1562,6 +1565,7 @@
                   }
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "alternateName": {
@@ -2401,6 +2405,7 @@
                   }
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "contactPoint": {
@@ -2538,6 +2543,7 @@
                   "type": "string"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "licenseConcept": {
@@ -2875,6 +2881,7 @@
                   "type": "string"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "alternateName": {
@@ -3334,9 +3341,11 @@
                   }
                 },
                 "hashtag": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "alternateName": {
@@ -3473,6 +3482,7 @@
                   "format": "dateOptionalTime"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "mentions": {
@@ -3531,6 +3541,7 @@
               "format": "dateOptionalTime"
             },
             "hashtag": {
+              "index": "not_analyzed",
               "type": "string"
             },
             "contactPoint": {
@@ -3945,6 +3956,7 @@
                   "format": "dateOptionalTime"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "mentions": {
@@ -4004,6 +4016,7 @@
                   "type": "string"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "licenseConcept": {
@@ -4678,6 +4691,7 @@
                   "type": "string"
                 },
                 "keywords": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "licenseConcept": {
