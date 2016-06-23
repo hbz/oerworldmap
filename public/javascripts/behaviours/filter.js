@@ -339,7 +339,7 @@ var Hijax = (function ($, Hijax, page) {
         });
 
       });
-      }, 1000);
+      }, 0);
     },
 
     initialized : new $.Deferred(),

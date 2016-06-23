@@ -2,10 +2,18 @@
 @index-min-width: 470px;
 @notification-width: 400px;
 
+.app-visible {
+  opacity: 0;
+}
+
 #app {
 
   .app-hidden {
     display: none;
+  }
+
+  .app-visible {
+    opacity: 1;
   }
 
   #app-col-container {
@@ -280,4 +288,29 @@
       }
     }
   }
+
+  @spinner-size: 100px;
+
+  #app-loading {
+    display: none;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: fadeout(@blue-darker, 40%);
+
+    img {
+      display: block;
+      position: absolute;
+      left: calc(50% ~'-' (@spinner-size / 2));
+      top: calc(50% ~'-' (@spinner-size / 2));
+      width: @spinner-size;
+      height: @spinner-size;
+    }
+  }
+
+  &.loading {
+    #app-loading {
+      display: block;
+    }
+  }
+
 }

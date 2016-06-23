@@ -93,6 +93,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index(pagejs_ctx, next) {
+    $('#app').addClass('loading');
     var index_mode;
 
     // clear empty searches
@@ -151,6 +152,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index_country(pagejs_ctx, next) {
+    $('#app').addClass('loading');
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
 
@@ -168,6 +170,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_detail(pagejs_ctx, next) {
+    $('#app').addClass('loading');
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
     next();
@@ -198,6 +201,7 @@ var Hijax = (function ($, Hijax, page) {
       detail_loaded
     ).done(function(){
       Hijax.layout();
+      $('#app').removeClass('loading');
     });
   }
 
