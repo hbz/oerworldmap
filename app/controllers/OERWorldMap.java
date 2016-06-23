@@ -55,6 +55,10 @@ public abstract class OERWorldMap extends Controller {
   final protected static Configuration mConf = Global.getConfig();
   protected static BaseRepository mBaseRepository = null;
 
+  static {
+    AccountService.setApache2Ctl(Global.getConfig().getString("ht.apache2ctl.restart"));
+  }
+
   protected static AccountService mAccountService = new AccountService(
     new File(Global.getConfig().getString("user.token.dir")),
     new File(Global.getConfig().getString("ht.passwd")),

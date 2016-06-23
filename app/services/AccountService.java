@@ -34,6 +34,8 @@ public class AccountService {
       "  </LimitExcept>\n" +
     "</Location>";
 
+  private static String mApache2ctl = "sudo apache2ctl graceful";
+
   private final File mTokenDir;
   private final File mUserFile;
   private final File mGroupFile;
@@ -64,10 +66,14 @@ public class AccountService {
 
   }
 
+  public static void setApache2Ctl(String aApache2ctl) {
+    mApache2ctl = aApache2ctl;
+  }
+
   public void refresh() {
 
     try {
-      Process apache2ctl = Runtime.getRuntime().exec("sudo apache2ctl graceful");
+      Process apache2ctl = Runtime.getRuntime().exec(mApache2ctl);
       BufferedReader stdInput = new BufferedReader(new InputStreamReader(apache2ctl.getInputStream()));
       BufferedReader stdError = new BufferedReader(new InputStreamReader(apache2ctl.getErrorStream()));
       Logger.debug(IOUtils.toString(stdInput));
