@@ -84,7 +84,7 @@
     <nav class="user">
         <ul>
 
-            {{#if user.email}}
+            {{#if user}}
 
                 <li class="dropdown">
                     <div class="a" type="button" data-toggle="dropdown" title="{{ username }}">
@@ -106,7 +106,7 @@
         </ul>
     </nav>
 
-    {{#unless user.email}}
+    {{#unless user}}
 
         <h2 class="slogan"><a href="/contribute">Join us in mapping the world of OER!</a></h2>
 

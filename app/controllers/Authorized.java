@@ -1,7 +1,7 @@
 package controllers;
 
 import models.Resource;
-import play.Logger;
+import org.apache.commons.lang3.StringUtils;
 import play.libs.F;
 import play.mvc.*;
 import services.QueryContext;
@@ -21,33 +21,25 @@ public class Authorized extends Action.Simple {
 
     String username = getHttpBasicAuthUser(ctx);
 
-    Resource user;
+    Resource user = null;
 
     List<String> roles = new ArrayList<>();
     roles.add("guest");
 
-    if (username != null) {
-      roles.add("authenticated");
+    if (!StringUtils.isEmpty(username)) {
       ctx.request().setUsername(username);
-      List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
-      if (users.size() == 1) {
-        user = users.get(0);
-      } else if (users.size() > 1) {
-        user = users.get(0);
-        Logger.warn(String.format("Multiple profiles for %s detected", username));
-      } else {
-        user = new Resource("Person");
-        user.put("email", username);
+      String profileId = OERWorldMap.getAccountService().getProfileId(username);
+      if (!StringUtils.isEmpty(profileId)) {
+        roles.add("authenticated");
+        user = OERWorldMap.getRepository().getResource(profileId);
       }
-    } else {
-      user = new Resource("Person");
     }
 
     ctx.args.put("user", user);
     ctx.args.put("username", username);
 
     // TODO: get roles? or allowed methods for this url?
-    ctx.args.put("queryContext", new QueryContext(user.getId(), roles));
+    ctx.args.put("queryContext", new QueryContext(roles));
 
     return delegate.call(ctx);
 

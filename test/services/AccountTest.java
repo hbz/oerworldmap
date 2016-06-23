@@ -19,11 +19,13 @@ public class AccountTest {
 
   private final String mTestUsername = "username";
   private final String mTestPassword = "password";
+  private final String mTestUserId = "info:username";
   private final String mTestToken = DigestUtils.sha256Hex(mTestUsername);
 
   private File mTokenDir;
   private File mUserFile;
   private File mGroupFile;
+  private File mProfileFile;
   private File mPermissionsDir;
   private AccountService mAccountService;
 
@@ -33,8 +35,9 @@ public class AccountTest {
     mTokenDir = Files.createTempDirectory(null).toFile();
     mUserFile = Files.createTempFile(null, null).toFile();
     mGroupFile = Files.createTempFile(null, null).toFile();
+    mProfileFile = Files.createTempFile(null, null).toFile();
     mPermissionsDir = Files.createTempDirectory(null).toFile();
-    mAccountService = new AccountService(mTokenDir, mUserFile, mGroupFile, null);
+    mAccountService = new AccountService(mTokenDir, mUserFile, mGroupFile, mProfileFile, mPermissionsDir);
 
   }
 
@@ -44,6 +47,7 @@ public class AccountTest {
     mTokenDir.delete();
     mUserFile.delete();
     mGroupFile.delete();
+    mProfileFile.delete();
     mPermissionsDir.delete();
 
   }
@@ -115,6 +119,24 @@ public class AccountTest {
     assertTrue(mAccountService.validatePassword(mTestUsername, mTestPassword));
     assertTrue(mAccountService.updatePassword(mTestUsername, mTestPassword, updated));
     assertTrue(mAccountService.validatePassword(mTestUsername, updated));
+
+  }
+
+  @Test
+  public void testSetProfileId() throws IOException {
+
+    mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
+    mAccountService.setProfileId(mTestUsername, mTestUserId);
+    assertEquals(mTestUsername.concat(" ").concat(mTestUserId).concat("\n"), FileUtils.readFileToString(mProfileFile));
+
+  }
+
+  @Test
+  public void testGetProfileId() throws IOException {
+
+    mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
+    mAccountService.setProfileId(mTestUsername, mTestUserId);
+    assertEquals(mTestUserId, mAccountService.getProfileId(mTestUsername));
 
   }
 

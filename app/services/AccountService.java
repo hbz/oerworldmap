@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -36,13 +37,15 @@ public class AccountService {
   private final File mTokenDir;
   private final File mUserFile;
   private final File mGroupFile;
+  private final File mProfileFile;
   private final File mPermissionsDir;
 
-  public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aPermissionsDir) {
+  public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aProfileFile, File aPermissionsDir) {
 
     mTokenDir = aTokenDir;
     mUserFile = aUserFile;
     mGroupFile = aGroupFile;
+    mProfileFile = aProfileFile;
     mPermissionsDir = aPermissionsDir;
 
   }
@@ -210,6 +213,49 @@ public class AccountService {
     }
 
     return roles;
+
+  }
+
+  public boolean setProfileId(String username, String profileId) {
+
+    if (!userExists(username)) {
+      return false;
+    }
+
+    try {
+      List<String> profileDb = Files.readAllLines(mProfileFile.toPath());
+      for (final ListIterator<String> i = profileDb.listIterator(); i.hasNext();) {
+        if (i.next().startsWith(username)) {
+          i.set(username.concat(" ").concat(profileId));
+          FileUtils.writeLines(mProfileFile, profileDb);
+          return true;
+        }
+      }
+      FileUtils.writeLines(mProfileFile, Collections.singletonList(username.concat(" ").concat(profileId)), true);
+      return true;
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return false;
+    }
+
+  }
+
+  public String getProfileId(String username) {
+
+    try {
+      List<String> lines = Files.readAllLines(mProfileFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(" ");
+        String name = entry[0].trim();
+        if (name.equals(username)) {
+          return entry[1].trim();
+        }
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get roles", e);
+    }
+
+    return null;
 
   }
 

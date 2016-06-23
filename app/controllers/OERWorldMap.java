@@ -59,6 +59,7 @@ public abstract class OERWorldMap extends Controller {
     new File(Global.getConfig().getString("user.token.dir")),
     new File(Global.getConfig().getString("ht.passwd")),
     new File(Global.getConfig().getString("ht.groups")),
+    new File(Global.getConfig().getString("ht.profiles")),
     new File(Global.getConfig().getString("ht.permissions")));
 
   // TODO final protected static FileRepository
@@ -125,8 +126,8 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("templates", getClientTemplates());
 
     Resource user = (Resource) ctx().args.get("user");
-    boolean mayAdd = mAccountService.getRoles(user.getAsString("email")).contains("admin")
-      || mAccountService.getRoles(user.getAsString("email")).contains("champion");
+    boolean mayAdd = (user != null) && (mAccountService.getRoles(user.getAsString("email")).contains("admin")
+      || mAccountService.getRoles(user.getAsString("email")).contains("champion"));
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("add", mayAdd);
     mustacheData.put("permissions", permissions);
@@ -184,6 +185,10 @@ public abstract class OERWorldMap extends Controller {
 
   protected static BaseRepository getRepository() {
     return mBaseRepository;
+  }
+
+  protected static AccountService getAccountService() {
+    return mAccountService;
   }
 
   /**

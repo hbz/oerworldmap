@@ -25,7 +25,7 @@ public class QueryContext {
   private GeoPoint mZoomBottomRight = null;
   private List<GeoPoint> mPolygonFilter = new ArrayList<>();
 
-  public QueryContext(String userId, List<String> roles) {
+  public QueryContext(List<String> roles) {
 
     FilterBuilder concepts = FilterBuilders
         .notFilter(FilterBuilders.orFilter(FilterBuilders.termFilter("about.@type", "Concept"),

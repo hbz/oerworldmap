@@ -235,6 +235,7 @@ public class UserIndex extends OERWorldMap {
     for (Resource user : users) {
       if (user.getType().equals("Person")) {
         Logger.warn("Profile for ".concat(aEmailAddress).concat(" already exists."));
+        mAccountService.setProfileId(aEmailAddress, user.getId());
         mAccountService.setPermissions(user.getId(), aEmailAddress);
         return;
       }
@@ -242,9 +243,8 @@ public class UserIndex extends OERWorldMap {
 
     Resource person = new Resource("Person");
     person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-    person.put("email", aEmailAddress);
-    // TODO: set write permission to aEmailAddress
     mBaseRepository.addResource(person, getMetadata());
+    mAccountService.setProfileId(aEmailAddress, person.getId());
     mAccountService.setPermissions(person.getId(), aEmailAddress);
 
   }
