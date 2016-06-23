@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
@@ -71,9 +73,22 @@ public class BaseRepository extends Repository
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
-    mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo, graphHistory);
+    Model mDb = dataset.getDefaultModel();
+    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+
+    if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
+      List<Commit> commits = graphHistory.log();
+      Collections.reverse(commits);
+      for (Commit commit: commits) {
+        commit.getDiff().apply(mDb);
+      }
+      Logger.debug("Loaded commit history to triple store");
+      mResourceIndexer.index("*");
+      Logger.debug("Indexed all resources from triple store");
+    }
+
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, dataset.getDefaultModel(), graphHistory);
+    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, mDb, graphHistory);
 
   }
 
