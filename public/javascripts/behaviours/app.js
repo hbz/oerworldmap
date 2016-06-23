@@ -441,7 +441,10 @@ var Hijax = (function ($, Hijax, page) {
       });
 
       $('#app', context).on('click', function(e){
-        if(! $(e.target).closest('.notification').length) {
+        if(
+          ! $(e.target).closest('.notification').length ||
+          $(e.target).is('a')
+        ) {
           $('.notification:not(#app-notification-prototype)').fadeOut(function(){
             $(this).remove();
           });
