@@ -35,20 +35,6 @@ public class QueryContext {
     FilterBuilder emptyNames = FilterBuilders.existsFilter("about.name.@value");
     filters.put("emptyNames", emptyNames);
 
-    // TODO: Remove privacy filter when all persons are accounts?
-    FilterBuilder admin = FilterBuilders
-        .notFilter(FilterBuilders.andFilter(FilterBuilders.termFilter("about.@type", "Person"),
-            FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email"))));
-    filters.put("admin", admin);
-
-    /*
-     * if (userId != null) { FilterBuilder owner =
-     * FilterBuilders.notFilter(FilterBuilders.andFilter(
-     * FilterBuilders.termFilter("about.@type", "Person"),
-     * FilterBuilders.notFilter(FilterBuilders.termFilter("about." +
-     * JsonLdConstants.ID, userId)))); filters.put("owner", owner); }
-     */
-
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation(0));
     guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
