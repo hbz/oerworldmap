@@ -51,6 +51,29 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
+  function localize(aggregation, key) {
+    if(i18n_bundles[ aggregation ]) {
+      var bundle = i18n_bundles[ aggregation ];
+    } else {
+      var bundle = 'messages';
+    }
+
+    if(bundle == "countries") {
+      key = key.toUpperCase();
+    }
+
+    return i18nStrings[ bundle ][ key ];
+  }
+
+  function get_field(string) {
+    var parts = string.split('.');
+    var field = parts[parts.length -1];
+    if (field == "@id") {
+      field = parts[parts.length -2];
+    }
+    return field;
+  };
+
   function pimp_aggregation(aggregation, name) {
 
     // copy identifier to property to have unified access in templates
@@ -58,6 +81,23 @@ var Hijax = (function ($, Hijax, page) {
 
     // active ?
     aggregation.active = (typeof filters[ name ] !== 'undefined');
+
+    // button title
+    if(aggregation.active) { console.log(i18nStrings);
+      var parts = [];
+      for(var i = 0; i < filters[ name ].length; i++) {
+        parts.push( localize(name, filters[ name ][ i ]) );
+      }
+      parts.sort();
+      aggregation.button_title = parts.join(", ");
+    }
+
+    // button text
+    if(aggregation.button_title) {
+      aggregation.button_text = trim_at_first_blank( aggregation.button_title );
+    } else {
+      aggregation.button_text = localize('messages', get_field(name));
+    }
 
     // pimp buckets
     for(var i = 0; i < aggregation.buckets.length; i++) {
