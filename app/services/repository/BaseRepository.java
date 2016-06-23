@@ -32,6 +32,7 @@ import models.TripleCommit;
 import play.Logger;
 import services.IndexQueue;
 import services.QueryContext;
+import services.ResourceFramer;
 import services.ResourceIndexer;
 
 public class BaseRepository extends Repository
@@ -72,6 +73,10 @@ public class BaseRepository extends Repository
       }
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
+
+    Integer framerPort = aConfiguration.getInt("node.framer.port");
+    ResourceFramer.setPort(framerPort);
+    ResourceFramer.start();
 
     Model mDb = dataset.getDefaultModel();
     mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
