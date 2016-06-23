@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -21,7 +22,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.typesafe.config.Config;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -43,7 +43,6 @@ import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
 import play.twirl.api.Html;
-import services.QueryContext;
 import services.repository.BaseRepository;
 
 /**
@@ -63,10 +62,6 @@ public abstract class OERWorldMap extends Controller {
     } catch (final Exception ex) {
       throw new RuntimeException("Failed to create Respository", ex);
     }
-  }
-
-  static {
-
   }
 
   protected static ResourceBundle messages = ResourceBundle.getBundle("messages", Locale.getDefault());
@@ -121,7 +116,8 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("templates", getClientTemplates());
 
     TemplateLoader loader = new ResourceTemplateLoader();
-    loader.setPrefix("public/mustache");
+    String prefix = new String(getWorkingDirectory()) + "/public/mustache";
+    loader.setPrefix(prefix);
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
 
@@ -223,7 +219,7 @@ public abstract class OERWorldMap extends Controller {
     for (String path : paths) {
       try {
         String template = "<script id=\"".concat(path).concat("\" type=\"text/mustache\">\n");
-        InputStream templateStream = classLoader.getResourceAsStream(dir + path);
+        InputStream templateStream = new FileInputStream(dir + path);
         template = template.concat(IOUtils.toString(templateStream));
         templateStream.close();
         template = template.concat("</script>\n\n");
@@ -291,6 +287,17 @@ public abstract class OERWorldMap extends Controller {
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
+  }
+
+  private static String getWorkingDirectory(){
+    String directory = null;
+    try {
+      directory = new File( "." ).getCanonicalPath();
+      directory = directory.substring(0, directory.lastIndexOf("oerworldmap") + "oerworldmap".length());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return directory;
   }
 
 }

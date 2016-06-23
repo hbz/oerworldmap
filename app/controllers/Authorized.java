@@ -118,7 +118,7 @@ public class Authorized extends Action.Simple {
       queryContext = new QueryContext(user.getId(), getUserRoles(user, parameters));
       //Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
     } else {
-      Logger.warn("Unuthorized " + user.getId() + " for " + activity + " with " + parameters);
+      Logger.warn("Unauthorized " + user.getId() + " for " + activity + " with " + parameters);
       // Show prompt for users that are not logged in.
       if (StringUtils.isEmpty(user.getAsString("email"))) {
         ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
