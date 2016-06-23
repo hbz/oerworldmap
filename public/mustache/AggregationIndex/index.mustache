@@ -1,6 +1,10 @@
 <div data-app="to-modal-on-load">
+
+    <h1 class="modal-title text-center">Global Statistics</h1>
+
     {{#each scope.statistics}}
         {{#ifCond (size buckets) '>' 1}}
+
             <h2>{{i18n (getField [@key])}}</h2>
             <div class="row">
                 <div class="col-md-6">
@@ -17,6 +21,8 @@
                     </table>
                 </div>
             </div>
+
         {{/ifCond}}
     {{/each}}
+
 </div>
