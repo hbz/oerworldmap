@@ -1,4 +1,6 @@
 @toggle-col-size: 38px;
+@index-min-width: 470px;
+@notification-width: 400px;
 
 #app {
 
@@ -84,8 +86,6 @@
         padding: @map-padding;
       }
     }
-
-    @index-min-width: 470px;
 
     #app-col-index {
       width: @index-min-width;
@@ -220,56 +220,63 @@
     display: none;
   }
 
-  .notification {
+  #app-notification-area {
+    pointer-events: none;
     position: absolute;
-    z-index: 1;
-    width: 400px;
-    max-height: calc(100% ~"-" (@map-padding * 2));
-    left: calc(50vw ~"-" 200px);
-    top: @map-padding;
-    border: 1px solid @blue-darker;
-    background: rgba(255,255,255,0.85);
-    padding: 15px 15px 20px 15px;
-    overflow-y: scroll;
+    top: @map-padding; right: @index-min-width; bottom: @map-padding; left: @map-padding;
 
-    .notification-header {
-      .clearfix();
-      padding-bottom: (@line-height-computed / 2);
-      border-bottom: 1px solid @blue-darker;
-      margin-bottom: @line-height-computed;
+    .notification {
+      pointer-events: all;
+      position: absolute;
+      z-index: 1;
+      width: @notification-width;
+      max-height: 100%;
+      left: calc(60% ~"-" (@notification-width / 2));
+      top: 0;
+      border: 1px solid @blue-darker;
+      background: rgba(255,255,255,0.85);
+      padding: 15px 15px 20px 15px;
+      overflow-y: scroll;
 
-      .dismiss {
-        display: none;
-      }
+      .notification-header {
+        .clearfix();
+        padding-bottom: (@line-height-computed / 2);
+        border-bottom: 1px solid @blue-darker;
+        margin-bottom: @line-height-computed;
 
-      .checkbox {
-        float: left;
-        margin: 0;
-        font-size: @font-size-small;
-        line-height: 1;
+        .dismiss {
+          display: none;
+        }
 
-        label {
-          min-height: auto;
+        .checkbox {
+          float: left;
+          margin: 0;
+          font-size: @font-size-small;
+          line-height: 1;
 
-          input {
-            margin-top: 0px;
+          label {
+            min-height: auto;
+
+            input {
+              margin-top: 0px;
+            }
           }
         }
       }
-    }
 
-    .notification-content {
-      position: relative;
-      text-align: center;
+      .notification-content {
+        position: relative;
+        text-align: center;
 
-      h1 {
-        font-size: (@font-size-h1 * 1.2);
+        h1 {
+          font-size: (@font-size-h1 * 1.2);
+        }
       }
-    }
 
-    &.dismissable {
-      .dismiss {
-        display: block;
+      &.dismissable {
+        .dismiss {
+          display: block;
+        }
       }
     }
   }

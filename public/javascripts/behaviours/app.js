@@ -495,7 +495,7 @@ var Hijax = (function ($, Hijax, page) {
           .find('.notification-content')
           .append( content );
 
-        $('#app-col-container').append(notification);
+        $('#app-notification-area').append(notification);
       });
 
       $('#app', context).on('submit', 'form', function() {
