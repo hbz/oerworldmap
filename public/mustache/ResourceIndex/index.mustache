@@ -116,7 +116,7 @@
 
         {{#each scope.resources.aggregations}}
 
-            <h2>{{i18n (getField [@key])}}</h2>
+            <h2 data-filter-name="{{@key}}">{{i18n (getField [@key])}}</h2>
             <ul class="color-scheme-text layout-typo-small">
                 {{#buckets}}
                     <li>

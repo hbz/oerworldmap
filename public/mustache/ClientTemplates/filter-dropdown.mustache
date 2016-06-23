@@ -16,15 +16,19 @@
     {{#if typeahead}}
 
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-typeahead">
-            <input type="text" class="form-control typeahead" placeholder="..." />
-            <div class="input-icon">
-                <i class="fa fa-search"></i>
+            <button type="button" class="btn btn-default" data-filter-action="apply-filter">Apply Filter</button>
+            <div style="position: relative;">
+                <input type="text" class="form-control typeahead" placeholder="..." />
+                <div class="input-icon">
+                    <i class="fa fa-search"></i>
+                </div>
             </div>
         </div>
 
     {{else}}
 
         <div class="dropdown-menu dropdown-menu-right">
+            <button type="button" class="btn btn-default" data-filter-action="apply-filter">Apply Filter</button>
 
             {{#each buckets}}
 

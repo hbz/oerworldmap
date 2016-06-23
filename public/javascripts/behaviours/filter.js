@@ -74,6 +74,22 @@ var Hijax = (function ($, Hijax, page) {
     return field;
   };
 
+  function get_option_label(name, value) {
+    var text = $('[name="filter.' + name + '"][value="' + value + '"]').siblings('.label').text();
+    if(text) {
+      return text;
+    } else {
+      // fallback:
+      // get_option_label doesn't work when options are set, where no hits exists for,
+      // because then the corresponding filteroptions aren't in the server side form
+      return localize(name, value);
+    }
+  }
+
+  function get_filter_label(name) {
+    return $('h2[data-filter-name="' + name + '"]').text();
+  }
+
   function pimp_aggregation(aggregation, name) {
 
     // copy identifier to property to have unified access in templates
@@ -86,15 +102,18 @@ var Hijax = (function ($, Hijax, page) {
     if(aggregation.active) { console.log(i18nStrings);
       var parts = [];
       for(var i = 0; i < filters[ name ].length; i++) {
-        parts.push( localize(name, filters[ name ][ i ]) );
+        parts.push( get_option_label(name, filters[ name ][ i ]) );
       }
       parts.sort();
-      aggregation.button_title = parts.join(", ");
+      aggregation.filter_options = parts;
+      aggregation.button_title = get_filter_label(name) + ': ' + aggregation.filter_options.join(", ");
+    } else {
+      aggregation.button_title = "Filter by " + get_filter_label(name);
     }
 
     // button text
     if(aggregation.button_title) {
-      aggregation.button_text = trim_at_first_blank( aggregation.button_title );
+      aggregation.button_text = aggregation.filter_options[0] + ', ...';
     } else {
       aggregation.button_text = localize('messages', get_field(name));
     }
@@ -346,6 +365,13 @@ var Hijax = (function ($, Hijax, page) {
           checkboxes.prop("checked", false);
 
           $('#form-resource-filter').submit();
+        });
+
+        // bind apply filter
+
+        $(container).find('[data-filter-action="apply-filter"]').click(function(e){
+          var dropdown_button = $(e.target).closest('.dropdown').find('[data-toggle="dropdown"]');
+          dropdown_button.dropdown('toggle');
         });
 
         // bind type filter
