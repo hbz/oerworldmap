@@ -10,7 +10,7 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint"];
 
   var init_app = true;
 
@@ -93,15 +93,13 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index(pagejs_ctx, next) {
+    $('#app').addClass('loading');
     var index_mode;
 
     // clear empty searches
 
     if(pagejs_ctx.querystring == "q=") {
-      page.redirect(
-        pagejs_ctx.pathname +
-        ( pagejs_ctx.hash ? '#' + pagejs_ctx.hash : '' )
-      )
+      page.redirect('/');
     }
 
     // trigger behaviour attachment for landing page
@@ -154,6 +152,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index_country(pagejs_ctx, next) {
+    $('#app').addClass('loading');
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
 
@@ -171,6 +170,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_detail(pagejs_ctx, next) {
+    $('#app').addClass('loading');
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
     next();
@@ -195,12 +195,13 @@ var Hijax = (function ($, Hijax, page) {
     next();
   }
 
-  function routing_done(pagejs_ctx) { console.log('routing_done');
+  function routing_done(pagejs_ctx) {
     $.when(
       map_and_index_loaded,
       detail_loaded
     ).done(function(){
       Hijax.layout();
+      $('#app').removeClass('loading');
     });
   }
 
@@ -245,7 +246,6 @@ var Hijax = (function ($, Hijax, page) {
 
       page('/', route_index, routing_done);
       page('/resource/', route_index, routing_done);
-      page('/aggregation/', route_index, routing_done);
       page('/resource/:id', route_detail, routing_done);
       page('/country/:id', route_index_country, routing_done);
 
@@ -279,11 +279,11 @@ var Hijax = (function ($, Hijax, page) {
       $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
         var col = $(this).closest('[data-app="col"]');
         if(col.is('#app-col-index')) {
-          page('/' + window.location.search + window.location.hash);
-        } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'expanded') {
-          col.attr('data-col-mode', 'collapsed');
-        } else if(col.is('#app-col-detail') && col.attr('data-col-mode') == 'collapsed') {
-          col.attr('data-col-mode', 'expanded');
+          page('/');
+        } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'floating') {
+          page('/');
+        } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'list') {
+          page(window.location.pathname + window.location.search);
         }
         Hijax.layout();
       });
@@ -444,6 +444,17 @@ var Hijax = (function ($, Hijax, page) {
         });
       });
 
+      $('#app', context).on('click', function(e){
+        if(
+          ! $(e.target).closest('.notification').length ||
+          $(e.target).is('a')
+        ) {
+          $('.notification:not(#app-notification-prototype)').fadeOut(function(){
+            $(this).remove();
+          });
+        }
+      });
+
       // deferr
       my.initialized.resolve();
     },
@@ -491,7 +502,7 @@ var Hijax = (function ($, Hijax, page) {
           .find('.notification-content')
           .append( content );
 
-        $('#app-col-container').append(notification);
+        $('#app-notification-area').append(notification);
       });
 
       $('#app', context).on('submit', 'form', function() {
@@ -511,16 +522,11 @@ var Hijax = (function ($, Hijax, page) {
     initialized : new $.Deferred(),
 
     linkToFragment : function(fragment) {
-      var pathname = '';
-      if(
-        window.location.pathname.split("/").length >= 3 &&
-        window.location.pathname.split("/")[2].indexOf('urn') == 0
-      ) {
-        pathname = '/resource/';
+      if( window.location.search ) {
+        page('/resource/' + window.location.search + '#' + fragment);
       } else {
-        pathname = window.location.pathname;
+        page('/resource/' + fragment);
       }
-      page(pathname + window.location.search + '#' + fragment);
     }
 
   };

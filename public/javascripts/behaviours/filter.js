@@ -51,13 +51,80 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
+  function localize(aggregation, key) {
+    if(i18n_bundles[ aggregation ]) {
+      var bundle = i18n_bundles[ aggregation ];
+    } else {
+      var bundle = 'messages';
+    }
+
+    if(bundle == "countries") {
+      key = key.toUpperCase();
+    }
+
+    return i18nStrings[ bundle ][ key ];
+  }
+
+  function get_field(string) {
+    var parts = string.split('.');
+    var field = parts[parts.length -1];
+    if (field == "@id") {
+      field = parts[parts.length -2];
+    }
+    return field;
+  };
+
+  function get_option_label(name, value) {
+    var text = $('[name="filter.' + name + '"][value="' + value + '"]').siblings('.label').text();
+    if(text) {
+      return text;
+    } else {
+      // fallback:
+      // get_option_label doesn't work when options are set, where no hits exists for,
+      // because then the corresponding filteroptions aren't in the server side form
+      return localize(name, value);
+    }
+  }
+
+  function get_filter_label(name) {
+    return $('h2[data-filter-name="' + name + '"]').text();
+  }
+
   function pimp_aggregation(aggregation, name) {
 
     // copy identifier to property to have unified access in templates
     aggregation.name = name;
 
+    // show ?
+    if(aggregation.buckets.length) {
+      aggregation.show = true;
+    } else {
+      aggregation.show = false;
+      return;
+    }
+
     // active ?
     aggregation.active = (typeof filters[ name ] !== 'undefined');
+
+    // button title
+    if(aggregation.active) { console.log(i18nStrings);
+      var parts = [];
+      for(var i = 0; i < filters[ name ].length; i++) {
+        parts.push( get_option_label(name, filters[ name ][ i ]) );
+      }
+      parts.sort();
+      aggregation.filter_options = parts;
+      aggregation.button_title = get_filter_label(name) + ': ' + aggregation.filter_options.join(", ");
+    } else {
+      aggregation.button_title = "Filter by " + get_filter_label(name);
+    }
+
+    // button text
+    if(aggregation.active) {
+      aggregation.button_text = aggregation.filter_options[0] + ', ...';
+    } else {
+      aggregation.button_text = localize('messages', get_field(name));
+    }
 
     // pimp buckets
     for(var i = 0; i < aggregation.buckets.length; i++) {
@@ -268,9 +335,15 @@ var Hijax = (function ($, Hijax, page) {
 
         var i = 0;
         for(a in aggregations) {
-          aggregations[ a ].column = i + 1;
-          i = (i + 1) % 3;
+          if(aggregations[ a ].show) {
+            aggregations[ a ].column = i + 1;
+            i = (i + 1) % 3;
+          }
         }
+
+        // set clear filter position
+
+        var clear_filter_offset = (2 - i) * 4;
 
         // render template
 
@@ -280,7 +353,8 @@ var Hijax = (function ($, Hijax, page) {
             q : $('[name="q"]').val(),
             aggregations : aggregations,
             resource_types : resource_types,
-            country_aggregation : country_aggregation
+            country_aggregation : country_aggregation,
+            clear_filter_offset : clear_filter_offset
           })
         );
 
@@ -306,6 +380,13 @@ var Hijax = (function ($, Hijax, page) {
           checkboxes.prop("checked", false);
 
           $('#form-resource-filter').submit();
+        });
+
+        // bind apply filter
+
+        $(container).find('[data-filter-action="apply-filter"]').click(function(e){
+          var dropdown_button = $(e.target).closest('.dropdown').find('[data-toggle="dropdown"]');
+          dropdown_button.dropdown('toggle');
         });
 
         // bind type filter
@@ -339,7 +420,7 @@ var Hijax = (function ($, Hijax, page) {
         });
 
       });
-      }, 1000);
+      }, 0);
     },
 
     initialized : new $.Deferred(),

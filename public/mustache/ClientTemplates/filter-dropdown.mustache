@@ -1,7 +1,12 @@
 <div class="btn-group dropdown filter" data-filter-name="{{name}}">
 
-    <button type="button" class="btn btn-default {{#if active}} active {{/if}}" data-filter-action="toggle-filter">
-        <span class="text">{{i18n (getField name)}}</span>
+    <button
+        type="button"
+        class="btn btn-default {{#if active}} active {{/if}}"
+        title="{{button_title}}"
+        data-filter-action="toggle-filter"
+    >
+        <span class="text">{{button_text}}</span>
     </button>
 
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -11,15 +16,19 @@
     {{#if typeahead}}
 
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-typeahead">
-            <input type="text" class="form-control typeahead" placeholder="..." />
-            <div class="input-icon">
-                <i class="fa fa-search"></i>
+            <button type="button" class="btn btn-default" data-filter-action="apply-filter">Apply Filter</button>
+            <div style="position: relative;">
+                <input type="text" class="form-control typeahead" placeholder="..." />
+                <div class="input-icon">
+                    <i class="fa fa-search"></i>
+                </div>
             </div>
         </div>
 
     {{else}}
 
         <div class="dropdown-menu dropdown-menu-right">
+            <button type="button" class="btn btn-default" data-filter-action="apply-filter">Apply Filter</button>
 
             {{#each buckets}}
 

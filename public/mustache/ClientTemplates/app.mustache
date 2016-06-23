@@ -1,4 +1,4 @@
-<div id="app">
+<div id="app" class="loading">
 
     {{{header}}}
 
@@ -39,7 +39,7 @@
                         </li>
 
                         <li>
-                            <a href="/feed/" title="Recent updates">
+                            <a href="/feed/" title="Recent Additions">
                                 <i class="fa fa-fw fa-rss"></i>
                             </a>
                         </li>
@@ -65,6 +65,9 @@
         	    <i class="fa fa-chevron-right visible-expanded"></i>
             	<i class="fa fa-chevron-left visible-collapsed"></i>
         	</div>
+    	</div>
+
+    	<div id="app-notification-area">
     	</div>
 
     </div>
@@ -94,5 +97,9 @@
         <div class="notification-content">
         </div>
     </div>
+
+	<div id="app-loading">
+	    <img src="/assets/images/spinner.svg" />
+	</div>
 
 </div>

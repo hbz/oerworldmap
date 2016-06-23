@@ -27,20 +27,31 @@
         </div>
 
         {{#country_aggregation}}
+            {{#if show}}
 
-            <div class="col-sm-4 col-{{column}}">
-                {{> filter-dropdown}}
-            </div>
+                <div class="col-sm-4 col-{{column}}">
+                    {{> filter-dropdown}}
+                </div>
 
+            {{/if}}
         {{/country_aggregation}}
 
         {{#each aggregations}}
+            {{#if show}}
 
-            <div class="col-sm-4 col-{{column}}">
-                {{> filter-dropdown}}
-            </div>
+                <div class="col-sm-4 col-{{column}} floating-hidden">
+                    {{> filter-dropdown}}
+                </div>
 
+            {{/if}}
         {{/each}}
 
+        <div class="col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
+            <div class="small clear-filter">
+                <a href="/">Clear Filter</a>
+            </div>
+        </div>
+
     </div>
+
 </div>

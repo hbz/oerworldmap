@@ -93,7 +93,7 @@
 
 <div id="filter-container">
 
-    <form id="form-resource-filter" class="app-hidden">
+    <form id="form-resource-filter" class="app-hidden" action="/resource/">
 
         <script type="application/ld+json" id="json-filters">
             {{json scope.resources.filters}}
@@ -116,7 +116,7 @@
 
         {{#each scope.resources.aggregations}}
 
-            <h2>{{i18n (getField [@key])}}</h2>
+            <h2 data-filter-name="{{@key}}">{{i18n (getField [@key])}}</h2>
             <ul class="color-scheme-text layout-typo-small">
                 {{#buckets}}
                     <li>
@@ -141,7 +141,7 @@
 </div>
 
 
-<div class="list-statistics-container">
+<div class="list-statistics-container floating-hidden">
 
     <div class="p clearfix">
 
@@ -149,20 +149,9 @@
             Found <span class="badge">{{scope.resources.totalItems}}</span> entities
         </div>
 
-        <div data-app-index-switch class="pull-right">
-            <a href="#list" title="List View">
-                <i class="fa fa-list" aria-hidden="true"></i>
-                <span class="sr-only">List</span>
-            </a>
-            <a href="#statistic" title="Statistic View">
-                <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                <span class="sr-only">Statistic</span>
-            </a>
-        </div>
-
     </div>
 
-    <div class="floating-hidden">
+    <div>
 
         <ul id="list" class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
 
