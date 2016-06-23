@@ -341,6 +341,10 @@ var Hijax = (function ($, Hijax, page) {
           }
         }
 
+        // set clear filter position
+
+        var clear_filter_offset = (2 - i) * 4;
+
         // render template
 
         $(container).prepend(
@@ -349,7 +353,8 @@ var Hijax = (function ($, Hijax, page) {
             q : $('[name="q"]').val(),
             aggregations : aggregations,
             resource_types : resource_types,
-            country_aggregation : country_aggregation
+            country_aggregation : country_aggregation,
+            clear_filter_offset : clear_filter_offset
           })
         );
 
