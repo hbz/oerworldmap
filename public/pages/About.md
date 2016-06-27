@@ -8,6 +8,8 @@ For more than a decade the creation and use of Open Educational Resources (OER) 
 
 The OER World Map is intended to provide the information needed to support the self-organization processes of the OER movement.  In addition to mapping relevant organisations, projects, people and services, the platform provides social networking, allows the identification of OER collections, and supports decision making. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
 
+![The OER World Map seen as 'operations room' for the open education community](/assets/images/open-control-room.jpg)
+
 The OER World Map is being built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) funded by [The William and Flora Hewlett Foundation](http://www.hewlett.org/). But it belongs to the global OER community. With input and intelligence from local sources and a global network of partners and volunteers, the OER World Map will be built and updated – a resource for all.
 
 ![hbz](/assets/images/image06.gif) ![graphthinkingGmbH](/assets/images/image10.png) ![The Open University](/assets/images/image07.png) ![The William and Flora Hewlett Foundation](/assets/images/image04.jpg)
