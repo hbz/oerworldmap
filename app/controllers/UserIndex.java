@@ -152,7 +152,7 @@ public class UserIndex extends OERWorldMap {
   public static Result newsletterSignup() {
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(Locale.getDefault()));
+    scope.put("countries", Countries.list(OERWorldMap.mLocale));
     return ok(render("Registration", "UserIndex/newsletter.mustache", scope));
 
   }

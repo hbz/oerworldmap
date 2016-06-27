@@ -55,6 +55,8 @@ public abstract class OERWorldMap extends Controller {
   final protected static Configuration mConf = Global.getConfig();
   protected static BaseRepository mBaseRepository = null;
 
+  public static Locale mLocale = new Locale("en", "US");
+
   static {
     AccountService.setApache2Ctl(Global.getConfig().getString("ht.apache2ctl.restart"));
   }
@@ -76,8 +78,8 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", Locale.getDefault());
-  protected static ResourceBundle emails = ResourceBundle.getBundle("emails", Locale.getDefault());
+  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", OERWorldMap.mLocale);
+  protected static ResourceBundle emails = ResourceBundle.getBundle("emails", OERWorldMap.mLocale);
 
   //TODO: is this right here? how else to implement?
   public static String getLabel(String aId) {
@@ -92,7 +94,7 @@ public abstract class OERWorldMap extends Controller {
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
           String language = ((Resource) n).getAsString("@language");
-          if (language.equals(Locale.getDefault().getLanguage())) {
+          if (language.equals(OERWorldMap.mLocale.getLanguage())) {
             return ((Resource) n).getAsString("@value");
           }
         }
