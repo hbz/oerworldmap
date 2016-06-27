@@ -86,7 +86,7 @@ public class ResourceFramer {
         queryExecution.execDescribe(dbstate);
 
         ByteArrayOutputStream unframed = new ByteArrayOutputStream();
-        RDFDataMgr.write(unframed, dbstate, Lang.JSONLD);
+        RDFDataMgr.write(unframed, dbstate, Lang.NQUADS);
         unframed.close();
         //aModel.write(System.out, "TURTLE");
 
