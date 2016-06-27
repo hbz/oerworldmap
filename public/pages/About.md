@@ -1,26 +1,14 @@
-# Vision & Goals
+# The Vision
 
-The OER World Map shares information on behalf of the worldwide OER community, using local knowledge to describe the OER ecosystem. Built with cutting edge linked open data technology, OER World Map collects and visualizes information about actors, activities and resources from the field of OER. Our goal is to provide the most complete and comprehensive picture of the global OER movement and to develop a global network of partners and volunteers to guarantee ongoing data curation.
+For more than a decade the creation and use of Open Educational Resources (OER) has been increasing around the globe. The OER World Map collects and visualizes data on the growing number of actors and activities in the field of open education worldwide. The goal is to accelerate  the evolution of the global OER ecosystem by providing a comprehensive and responsive picture of the OER movement. The information provided can be used for a wide range of purposes, including:
 
-## The OER World Map is
-- a tool to collect and store data by, about and for the OER community
-- a set of tools to visualize the data
-- open to contribution by individuals and institutions
-- built on state of the art linked open data technology
-- aiming at maximum openness, connectivity and reusability
-- owned and driven by the OER community.
+- connecting actors with each other facilitating co-operation and sharing of resources and knowledge
+- providing qualified lists of repositories and other OER services to help teachers and learners find educational resources relevant to them
+- supporting policy makers in taking and defending strategic decisions by providing meaningful statistics and overviews of the open education movement and its associated impacts
 
-## The OER World Map can be used
-- to find and contact OER experts
-- to find OER services in order to use them for learning
-- to find OER services in order to develop technical infrastructure like search engines
-- to connect institutions and foster inter institutional cooperation
-- in many other ways.
+The OER World Map is intended to provide the information needed to support the self-organization processes of the OER movement.  In addition to mapping relevant organisations, projects, people and services, the platform provides social networking, allows the identification of OER collections, and supports decision making. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
 
----
-
-# Institutions
-OER World Map is built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) with funding from [The William and Flora Hewlett Foundation](http://www.hewlett.org/).
+The OER World Map is being built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) funded by [The William and Flora Hewlett Foundation](http://www.hewlett.org/). But it belongs to the global OER community. With input and intelligence from local sources and a global network of partners and volunteers, the OER World Map will be built and updated – a resource for all.
 
 ![hbz](/assets/images/image06.gif) ![graphthinkingGmbH](/assets/images/image10.png) ![The Open University](/assets/images/image07.png) ![The William and Flora Hewlett Foundation](/assets/images/image04.jpg)
 
