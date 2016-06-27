@@ -27,7 +27,7 @@ Karin started to work for the OER World Map at hbz in spring 2016 as online edit
 ![Dr. Robert Farrow](/assets/images/image08.jpg)
 Robert ([@philosopher1978](https://twitter.com/philosopher1978) on Twitter)  is an interdisciplinary open education researcher at the Open University, UK who acts as one of the research leads for OER Research Hub and leads the development of OER Impact Map. He has many years of experience in curating and visualizing data about OER activity and discourse, primarily in the Hewlett funded OLnet and OER Research Hub projects. His input to the project will focus on generating authentic use cases for the OER Map as well as acting as a conduit for outreach and awareness-building in the OER community.
 
-## Felix Link (Design, since 2015)
+## Felix Link (Design)
 ![Felix Link](/assets/images/felix-link.png)
 Felix joined the project in October 2015, being the UI-/frontend-designer of the OER World Map. He studied graphic and communication design from 2006 to 2012. Since 2008 he has been working as a freelance designer for both agencies and own clients, developing and implementing projects in corporate, editorial and web design. He is interested in design as a conceptual and integrated process as well as a characteristic expression of its content.
 
@@ -49,7 +49,7 @@ Johannes is the front-end developer of the project. Together with Felix Link he 
 
 ## Former Member of our Team
 
-## Ben Buschfeld (Design, 2014-2015)
+## Ben Buschfeld (Design)
 ![Ben Buschfeld](/assets/images/image02.jpg)
 Ben has been the frontend-designer of the project until December 2015. He studied communication design from 1990-1994 and is working on the web and digital media since 1995, when he wrote the initial draft and subsequently acted as the art director and project manager of the B2B-platform Baunetz.de. After the launch 1997 he teached as a visiting professor for information design at UDLA in Mexico and founded his own studio [http://www.buschfeld.com](http://www.buschfeld.com) – graphic and interface design in Berlin. Since then he developed a number of publications, corporate identity programs, websites, information portals, and graphical user interfaces – working for clients from various industries, cultural and political institutions. His design work and public engagement was frequently awarded.
 
