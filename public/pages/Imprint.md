@@ -36,7 +36,7 @@ Depending on your use of the OER World Map different sets of data may be stored,
 
 ### A. Accessing the content of the OER World Map
 For providing the contents of the OER World Map to you, our server will process your 
-- IP-Address
+- IP address
 - Browsertype and -version
 - Operating system.
 
@@ -88,15 +88,15 @@ This information can be deleted upon request.
 
 ### C. Newsletter
 
-Via this website you can also register for a newsletter and contribute to the country stats, which we maintain. In this case, you will have to consent to the following:
+Via this website you can also register for a newsletter which we maintain. In this case, you will have to consent to the following:
 
 OER World Map and the corresponding newsletter is a service by the Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz), Jülicher Str. 6, 50674 Köln, Germany.
 
-You are giving your consent to processing your email address solely for the purpose of sending you irregular updates on progress of the OER Wold Map and related projects (newsletter).
+You are giving your consent to processing your e-mail address solely for the purpose of sending you irregular updates on progress of the OER Wold Map and related projects (newsletter).
 
-- hbz will not transfer the email address we have received for newsletters to any third party, except for the purpose of sending out the newsletter, where we may work with a specialised provider contracted by us.
-- You can, of course, unsubscribe from the newsletter at any time via email to [&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;](mailto:&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;), or by following the instructions provided at the bottom of each newsletter. After unsubscribing, your email address will be removed from the system.
-- You will receive a first e-mail that requires you to confirm your subscription. We do this to avoid people registering other people and spelling errors. The system will await a confirmation for two weeks, during which the email address is temporarily stored, after this period the e-mail address will permanently be removed from our system.
+- hbz will not transfer the e-mail address we have received for newsletters to any third party, except for the purpose of sending out the newsletter, where we may work with a specialised provider contracted by us.
+- You can, of course, unsubscribe from the newsletter at any time via e-mail to [&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;](mailto:&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;), or by following the instructions provided at the bottom of each newsletter. After unsubscribing, your e-mail address will be removed from the system.
+- You will receive a first e-mail that requires you to confirm your subscription. We do this to avoid people registering other people and spelling errors. The system will await a confirmation for two weeks, during which the e-mail address is temporarily stored, after this period the e-mail address will permanently be removed from our system.
 
 We may invite you to provide this and any further information for future phases of the OER Wold Map, but will ask for your consent for these processes separately in the future.
 
