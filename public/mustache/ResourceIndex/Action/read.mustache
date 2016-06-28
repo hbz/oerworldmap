@@ -201,14 +201,14 @@
                         </tr>
                     {{/if}}
 
-                    {{#if tag}}
+                    {{#if keywords}}
                         <tr>
-                            <td>{{i18n "Action.tag"}}</td>
+                            <td>{{i18n "Action.keywords"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
-                                    {{#tag}}
-                                        <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
-                                    {{/tag}}
+                                    {{#keywords}}
+                                        <li><a href="/resource/?filter.about.keywords={{.}}">{{.}}</a></li>
+                                    {{/keywords}}
                               </ul>
                           </td>
                       </tr>
