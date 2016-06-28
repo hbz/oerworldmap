@@ -2,25 +2,19 @@ a.btn:hover {
   color: @blue-darker;
 }
 
-.resource-form-modal {
-  .modal-dialog {
-    width: 500px;
-  }
 
-  h1 {
-    margin: 0px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid @blue-darker;
-  }
-}
 
 legend {
   display: none;
 }
 
 .resource-form-widget {
-  border-bottom: 1px solid @blue-darker;
+  border-top: 1px solid @blue-darker;
   padding: 10px 0px;
+
+  &:last-child {
+    border-bottom: 1px solid @blue-darker;
+  }
 
   h4 {
     margin: 5px 0 15px 0;
@@ -38,14 +32,15 @@ legend {
   }
 
   &.behaving {
-    label {
+    label,
+    &[data-behaviour="place"] fieldset {
       display: none;
     }
   }
 
   .btn {
-    font-weight: bold;
-    font-size: (@font-size-base * 0.9);
+    // font-weight: bold;
+    // font-size: (@font-size-base * 0.9);
     text-align: left;
     .text {
       margin-right: 20px;
@@ -54,6 +49,10 @@ legend {
 
   .dropdown {
     width: 100%;
+  }
+
+  .dropdown-menu-typeahead {
+    width: 458px;
   }
 
   .form-row {
@@ -171,7 +170,6 @@ li.multiple-one {
 
 .dropdown-menu-typeahead {
   padding: 0px;
-  width: 458px;
   margin-top: 10px;
   overflow: hidden;
 }
@@ -234,7 +232,7 @@ li.multiple-one {
   padding: @padding-base-vertical @padding-base-horizontal;
   border-top: 1px solid @blue-darker;
 
-  &:first-child {
+  &:first-of-type {
     border-top: none;
   }
 }

@@ -8,8 +8,8 @@
             <fieldset>
 
               <legend>{{title}}</legend>
-              {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
-              {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
+              {{> ResourceIndex/PostalAddress/edit.mustache property=address property_path="location[address]"}}
+              {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo property_path="location[geo]"}}
 
             </fieldset>
         {{/with}}
@@ -19,8 +19,8 @@
         <fieldset>
 
             <legend>{{title}}</legend>
-            {{> ResourceIndex/PostalAddress/edit.mustache property=address key="location[address]"}}
-            {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo key="location[geo]"}}
+            {{> ResourceIndex/PostalAddress/edit.mustache property=address property_path="location[address]"}}
+            {{> ResourceIndex/GeoCoordinates/edit.mustache property=geo property_path="location[geo]"}}
 
         </fieldset>
 

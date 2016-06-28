@@ -1,43 +1,26 @@
-<div
-    role="complementary"
-    data-view="map"
-    data-focus="{{#scope}}{{@id}}{{/scope}}"
-    class="color-scheme-map column-medium"
->
-    <div class="hidden">
-        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
-    </div>
-</div>
+{{#scope}}
 
-<div role="main" class="column column-medium color-scheme-text bg-blue-palest">
-    <div class="column-container">
+    <div>
 
-        {{#scope}}
+        <script type="application/ld+json">
+            {{json .}}
+        </script>
 
-            <div>
+        <div class="resource-header">
 
-                <script type="application/ld+json">
-                    {{json .}}
-                </script>
+            <h1 class="resource-title">
+                {{getIcon @type}}
+                {{i18n @id}}
+            </h1>
 
-                <div class="resource-header">
+        </div>
 
-                    <h1 class="resource-title">
-                        {{getIcon @type}}
-                        {{i18n @id}}
-                    </h1>
+        {{#localized description}}
+            <p>{{{[@value]}}}</p>
+        {{/localized}}
 
-                </div>
-
-                {{#localized description}}
-                    <p>{{{[@value]}}}</p>
-                {{/localized}}
-
-                {{nestedAggregation aggregation.services}}
-
-            </div>
-
-        {{/scope}}
+        {{nestedAggregation aggregation.services}}
 
     </div>
-</div>
+
+{{/scope}}

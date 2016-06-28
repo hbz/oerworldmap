@@ -11,5 +11,6 @@ data/*/
 !data/ingest/
 !data/pages/
 !data/travis/
+!data/permissions/
 repo-deb-build*.*
 .idea/

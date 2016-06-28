@@ -1,11 +1,18 @@
 @resource-list-icon-width: 2em;
 @resource-list-vertical-padding: 0.3em;
 
+
+.list-statistics-container {
+  border-top: 1px solid @blue-darker;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
 .resource-list {
   .list-unstyled();
   border-top: 1px solid @blue-paler;
 }
-  
+
 .resource-list li {
   padding: @resource-list-vertical-padding 0px @resource-list-vertical-padding @resource-list-icon-width;
   border-bottom: 1px solid @blue-paler;
@@ -19,7 +26,7 @@
   top: @resource-list-vertical-padding;
   line-height: inherit;
 }
-  
+
 .resource-list li a {
   text-decoration: none;
 }
@@ -47,11 +54,11 @@
   padding: @resource-list-vertical-padding 0px @resource-list-vertical-padding @resource-list-icon-width;
   text-align: right;
   text-decoration: none;
-  
+
   .fa {
     margin-left: 3px;
   }
-  
+
   &:focus {
     text-decoration: none;
   }
@@ -62,7 +69,7 @@
   .less {
     display: inline;
   }
-      
+
   &.collapsed {
     .more {
       display: inline;

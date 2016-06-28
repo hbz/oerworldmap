@@ -47,6 +47,11 @@
 @header-fontsize: 20px;
 
 
+/* --- map --- */
+
+@map-padding: 20px;
+
+
 /* --- backgrounds --- */
 
 .bg(@color) {
@@ -71,7 +76,6 @@
 @color-scheme-text-color: @blue-darker;
 
 .color-scheme-text {
-  background: @color-scheme-text-background;
   color: @color-scheme-text-color;
 }
 
@@ -97,7 +101,7 @@
 @color-scheme-map-gradient-end: @blue-light;
 
 .color-scheme-map {
-  background: @color-scheme-map-background;
+  // background: @color-scheme-map-background;
   color: @color-scheme-map-color;
 }
 
@@ -105,19 +109,12 @@
   color: @color-scheme-map-color;
 }
 
-.color-scheme-map a:hover {
-  color: @hightlight-color;
+.color-scheme-map a:visited {
+  color: @color-scheme-map-color;
 }
 
-.color-scheme-map {
-  background: rgba(95,171,218,1);
-  background: -moz-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, @color-scheme-map-gradient-start), color-stop(100%, @color-scheme-map-gradient-end));
-  background: -webkit-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
-  background: -o-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
-  background: -ms-radial-gradient(center, ellipse cover, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
-  background: radial-gradient(ellipse at center, @color-scheme-map-gradient-start 0%, @color-scheme-map-gradient-end 100%);
-  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5fabda', endColorstr='#268dcd', GradientType=1 );
+.color-scheme-map a:hover {
+  color: @hightlight-color;
 }
 
 .color-scheme-map .call-for-action {

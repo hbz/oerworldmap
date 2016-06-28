@@ -36,6 +36,9 @@ var Hijax = (function ($, Hijax) {
 
       markers = {},
 
+      current_pins = [],
+      current_highlights = [],
+
       templates = {},
 
       styles = {
@@ -298,10 +301,15 @@ var Hijax = (function ($, Hijax) {
     var feature_type = getFeatureType( feature );
 
     if( feature_type == 'placemark' || feature_type == 'cluster' ) {
-      setFeatureStyle(
-        feature,
-        'base'
-      );
+      // console.log('feature', feature);
+      var properties = feature.getProperties();
+      // console.log('properties', properties);
+      if(! properties.highligted) {
+        setFeatureStyle(
+          feature,
+          'base'
+        );
+      }
     }
 
     if( feature_type == 'country' ) {
@@ -393,7 +401,7 @@ var Hijax = (function ($, Hijax) {
 
     // determine focused country
 
-    var focusId = $('[data-view="map"]').attr("data-focus");
+    var focusId = $('[data-behaviour="map"]').attr("data-focus");
 
     if(
       focusId &&
@@ -465,7 +473,11 @@ var Hijax = (function ($, Hijax) {
   }
 
   function addPlacemarks(placemarks) {
-    placemarksVectorSource.addFeatures(placemarks);
+    current_pins = placemarks;
+  }
+
+  function highlightPlacemarks(placemarks) {
+    current_highlights = placemarks;
   }
 
   function setBoundingBox(element) {
@@ -478,37 +490,62 @@ var Hijax = (function ($, Hijax) {
 
       boundingBox = placemarksVectorSource.getExtent();
 
+    } else if("fit-highlighted" == dataFocus) {
+
+      var focusIds = [];
+      $.each(current_highlights, function(i, v){
+        focusIds.push(v.getId());
+      });
+
     } else {
 
       var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
 
-      if (focusIds) {
+    }
 
-        // Init bounding box and transformation function
-        var boundingBox = ol.extent.createEmpty();
-        var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+    if (focusIds) {
 
-        // Look for features on all layers and extend bounding box
-        world.getLayers().forEach(function(layer) {
-          for (var i = 0; i < focusIds.length; i++) if (layer.getSource().getFeatureById) {
+      // Init bounding box and transformation function
+      var boundingBox = ol.extent.createEmpty();
+      var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
+
+      // Look for features on all layers and extend bounding box
+      world.getLayers().forEach(function(layer) {
+
+        for (var i = 0; i < focusIds.length; i++) {
+
+          if(layer.get('title') == 'cluster') {
+
+            var clusters = layer.getSource().getFeatures();
+            for(var j = 0; j < clusters.length; j++) {
+              var features = clusters[ j ].get('features');
+               for(var k = 0; k < features.length; k++) {
+                if (features[ k ].getId() == focusIds[i]) {
+                  ol.extent.extend(boundingBox, features[ k ].getGeometry().getExtent());
+                }
+               }
+            }
+
+          } else if (layer.getSource().getFeatureById) {
+
             var feature = layer.getSource().getFeatureById(focusIds[i]);
             if (feature) {
               ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
             }
+
           }
-        });
+        }
+      });
 
-        // Special case single point
-        if (boundingBox[0] == boundingBox[2]) {
-          boundingBox[0] -= 1000000;
-          boundingBox[2] += 1000000;
-        }
-        if (boundingBox[1] == boundingBox[3]) {
-          boundingBox[1] -= 1000000;
-          boundingBox[3] += 1000000;
-        }
+      // Special case single point
+      if (boundingBox[0] == boundingBox[2]) {
+        boundingBox[0] -= 1000000;
+        boundingBox[2] += 1000000;
       }
-
+      if (boundingBox[1] == boundingBox[3]) {
+        boundingBox[1] -= 1000000;
+        boundingBox[3] += 1000000;
+      }
     }
 
     if (boundingBox && (boundingBox[0] != Infinity)) {
@@ -516,8 +553,30 @@ var Hijax = (function ($, Hijax) {
       world.getView().fit(boundingBox, world.getSize(), {
         padding: [50, 50, 50, 50]
       });
-    }
+    } else {
 
+      // if no bounding box set center to user and zoom to initial again ...
+
+      if (
+        navigator.geolocation
+      ) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lon = position.coords.longitude;
+          var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
+          center[1] = defaultCenter[1];
+          world.getView().setCenter(center);
+        }, function(err){
+          world.getView().setCenter(defaultCenter);
+        });
+      } else {
+        world.getView().setCenter(defaultCenter);
+      }
+
+      // Get zoom values adapted to map size
+      var zoom_values = getZoomValues();
+
+      world.getView().setZoom(zoom_values.initialZoom);
+    }
   }
 
   function zoomToFeatures(features) {
@@ -532,6 +591,7 @@ var Hijax = (function ($, Hijax) {
 
   function getMarkers(resource, labelCallback, origin) {
     origin = origin || resource;
+
     if (markers[resource['@id']]) {
       for (var i = 0; i < markers[resource['@id']].length; i++) {
         var properties = markers[resource['@id']][i].getProperties();
@@ -583,7 +643,7 @@ var Hijax = (function ($, Hijax) {
 
     var traverse = [ "mainEntity", "mentions", "member", "agent", "participant", "provider" ]
 
-    if (!markers.length) {
+    if (!_markers.length) {
       for (var key in resource) {
         if (traverse.indexOf(key) == -1) {
           continue;
@@ -613,11 +673,39 @@ var Hijax = (function ($, Hijax) {
 
   }
 
+  function set_style_for_clusters_containing_markers(markers, style, highligted){
+    highligted = highligted || false;
+
+    // iterate over markers and collect the clusters, they are in
+    var clusters = [];
+    for(var i = 0; i < markers.length; i++) {
+      clusterLayer.getSource().forEachFeature(function(f){
+        var cfeatures = f.get('features');
+        for(var j = 0; j < cfeatures.length; j++) {
+          if(markers[i].getId() == cfeatures[j].getId()) {
+            clusters.push(f);
+          }
+        }
+      });
+    }
+
+    // last but not least, change the style of the clusters, we found
+    for(var i = 0; i < clusters.length; i++) {
+      clusters[i].setStyle( styles.placemark_cluster[ style ]( clusters[i] ) );
+      if(highligted) {
+        var properties = clusters[i].getProperties();
+        properties.highligted = true;
+        clusters[i].setProperties(properties);
+      }
+    }
+  }
+
   var my = {
     init : function(context) {
 
-      if (!$('div[data-view="map"]', context).length) {
-        return new $.Deferred();
+      if (!$('div[data-behaviour="map"]', context).length) {
+        my.initialized.resolve();
+        return;
       }
 
       // Get mercator projection
@@ -648,14 +736,11 @@ var Hijax = (function ($, Hijax) {
         }
       )();
 
-      $('div[data-view="map"]', context).each(function() {
-
-        // move footer to map container
-        $('#page-footer').appendTo(this);
+      $('div[data-behaviour="map"]', context).each(function() {
 
         // switch style
-        $(this).addClass("map-view");
-        $('body').removeClass("layout-scroll").addClass("layout-fixed");
+        // $(this).addClass("map-view");
+        // $('body').removeClass("layout-scroll").addClass("layout-fixed");
 
         // Map container
         container = $('<div id="map"></div>')[0];
@@ -671,6 +756,7 @@ var Hijax = (function ($, Hijax) {
 
         // Country vector layer
         countryVectorLayer = new ol.layer.Vector({
+          title: 'country',
           source: countryVectorSource
         });
 
@@ -681,6 +767,7 @@ var Hijax = (function ($, Hijax) {
 
         // OSM tile layer
         osmTileLayer = new ol.layer.Tile({
+          title: 'osm',
           source: osmTileSource,
           preload: Infinity,
           opacity: 1
@@ -704,6 +791,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         clusterLayer = new ol.layer.Vector({
+          title: 'cluster',
           source: clusterSource,
           style: function(feature, resolution) {
             return [styles.placemark_cluster.base(feature)];
@@ -738,6 +826,7 @@ var Hijax = (function ($, Hijax) {
         // overlay for country hover style
         var collection = new ol.Collection();
         hoveredCountriesOverlay = new ol.layer.Vector({
+          title: 'country-hover',
           source: new ol.source.Vector({
             features: collection,
             useSpatialIndex: false // optional, might improve performance
@@ -756,7 +845,6 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
           target: container,
           view: view,
@@ -783,6 +871,10 @@ var Hijax = (function ($, Hijax) {
           updateHoverState(pixel);
         });
 
+        world.on('moveend', function(evt) {
+          set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
+        });
+
         // Bind click events
         world.on('click', function(evt) {
           var feature = world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
@@ -791,9 +883,9 @@ var Hijax = (function ($, Hijax) {
           if (feature) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
-              Hijax.goto(feature.get("features")[0].getProperties().url);
+              Hijax.behaviours.app.linkToFragment( feature.get("features")[0].getProperties()['resource']['@id'] );
             } else if(type == "country") {
-              Hijax.goto("/country/" + feature.getId().toLowerCase());
+              page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"));
             }
@@ -831,40 +923,88 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Defer until vector source is loaded
-      var deferred = new $.Deferred();
       if (countryVectorSource.getFeatureById("US")) { // Is this a relieable test?
-        deferred.resolve();
+        my.initialized.resolve();
       } else {
         var listener = countryVectorSource.on('change', function(e) {
           if (countryVectorSource.getState() == 'ready') {
             ol.Observable.unByKey(listener);
-            deferred.resolve();
+            my.initialized.resolve();
           }
         });
       }
-      return deferred;
 
+    },
+
+    layout : function() {
+
+      $.when.apply(null, my.attached).done(function(){
+
+        clusterSource.clear();
+        placemarksVectorSource.clear();
+        placemarksVectorSource.addFeatures(current_pins);
+
+        set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
+
+/*
+        var properties = feature.getProperties();
+        properties.country = aggregation;
+        feature.setProperties(properties);
+*/
+        setBoundingBox($('[data-behaviour="map"]')[0]);
+
+      });
+
+      world.updateSize();
+    },
+
+    clearHighlights : function() {
+      current_highlights = [];
     },
 
     attach : function(context) {
 
-      // Populate map with pins from resource listings
-      $('[data-behaviour~="populateMap"]', context).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+      console.log('map attach started');
+
+      var _attached = new $.Deferred();
+      my.attached.push(_attached);
+
+      function get_markers_from_json(json) {
+        var _markers = [];
         if(json instanceof Array) {
-          var markers = [];
           for (i in json) {
-            var markers = markers.concat( getMarkers(json[i]) );
+            _markers = _markers.concat( getMarkers(json[i]) );
           }
         } else {
-          var markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
+          _markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
         }
-        addPlacemarks( markers );
+        return _markers;
+      }
+
+      // Populate map with pins from resource listings
+
+      markers = {};
+      $('[data-behaviour~="populateMap"]', context).each(function(){
+        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        addPlacemarks(
+          get_markers_from_json(json)
+        );
       });
+
+      // Populate pin highlights
+
+      $('[data-behaviour~="populateMapHightlights"]', context).each(function(){
+        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        highlightPlacemarks(
+          get_markers_from_json(json)
+        );
+      });
+
 
       // Link list entries to pins
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
+
         $( this ).on("mouseenter", "li", function() {
 
           var id = this.getAttribute("about");
@@ -879,26 +1019,10 @@ var Hijax = (function ($, Hijax) {
             })[0];
             var markers = getMarkers(resource);
 
-            // iterate over markers and collect the clusters, they are in
-            var clusters = [];
-            for(var i = 0; i < markers.length; i++) {
-              clusterLayer.getSource().forEachFeature(function(f){
-                var cfeatures = f.get('features');
-                for(var j = 0; j < cfeatures.length; j++) {
-                  if(markers[i].getId() == cfeatures[j].getId()) {
-                    clusters.push(f);
-                  }
-                }
-              });
-            }
-
-            // last but not least, change the style of the clusters, we found
-            for(var i = 0; i < clusters.length; i++) {
-              clusters[i].setStyle(styles.placemark_cluster.hover(clusters[i]));
-            }
-
+            set_style_for_clusters_containing_markers(markers, 'hover');
           }
         });
+
         $( this ).on("mouseleave", "li", function() {
 
           var id = this.getAttribute("about");
@@ -913,6 +1037,9 @@ var Hijax = (function ($, Hijax) {
             })[0];
             var markers = getMarkers(resource);
 
+            set_style_for_clusters_containing_markers(markers, 'base');
+
+/*
             // iterate over markers and collect the clusters, they are in
             var clusters = [];
             for(var i = 0; i < markers.length; i++) {
@@ -930,14 +1057,16 @@ var Hijax = (function ($, Hijax) {
             for(var i = 0; i < clusters.length; i++) {
               clusters[i].setStyle(styles.placemark_cluster.base(clusters[i]));
             }
+*/
+
           }
 
         });
       });
 
       // Add heat map data
-      $('[about="#users-by-country"], form#resource-filter-form', context).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+      $('form#form-resource-filter', context).add($('#country-statistics', context)).each(function(){
+        var json = JSON.parse( $(this).find('script[type="application/ld+json"]#json-aggregations').html() );
         setAggregations( json );
         if( $(this).is('table') ) {
           $(this).hide();
@@ -945,15 +1074,26 @@ var Hijax = (function ($, Hijax) {
       });
 
       // Set zoom
-      $('[data-view="map"]', context).each(function() {
+/*
+      $('[data-behaviour="map"]', context).each(function() {
         // zoom to bounding box, if focus is set
         setBoundingBox(this);
       });
+*/
 
-    }
+      console.log('map attach done');
+      _attached.resolve();
+
+    },
+
+    initialized : new $.Deferred(),
+
+    attached : []
+
   };
 
-  Hijax.behaviours.map =  my;
+  Hijax.behaviours.map = my;
+
   return Hijax;
 
 })(jQuery, Hijax);

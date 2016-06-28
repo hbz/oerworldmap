@@ -2,6 +2,8 @@ package services.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -190,20 +192,20 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     try (QueryExecution queryExecution = QueryExecutionFactory.create(
         QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), incoming)) {
       ResultSet resultSet = queryExecution.execSelect();
-      List<String> links = new ArrayList<>();
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
-        links.add(querySolution.get("o").toString());
-      }
-      // Only add statements that don't have the original resource as their subject.
-      // staged.add(getConciseBoundedDescriptions(links)) would be simpler, but mistakenly
-      // duplicates bnodes under certain circumstances.
-      // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
-      StmtIterator it = getConciseBoundedDescriptions(links, mDb).listStatements();
-      while (it.hasNext()) {
-        Statement statement = it.next();
-        if (!statement.getSubject().toString().equals(aResource.getId())) {
-          staged.add(statement);
+        String linked = querySolution.get("o").toString();
+        Model referenced = getExtendedDescription(linked, mDb);
+        StmtIterator it = referenced.listStatements();
+        while (it.hasNext()) {
+          Statement statement = it.next();
+          // Only add statements that don't have the original resource as their subject.
+          // staged.add(getExtendedDescription(linked, mDb)) would be simpler, but mistakenly
+          // duplicates bnodes under certain circumstances.
+          // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
+          if (!statement.getSubject().toString().equals(aResource.getId())) {
+            staged.add(statement);
+          }
         }
       }
     }
@@ -214,9 +216,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
 
+    Model extendedDescription = ModelFactory.createDefaultModel();
+
+    // Validate URI
+    try {
+      new URI(aId);
+    } catch (URISyntaxException e) {
+      return extendedDescription;
+    }
+
     // Current data
     String describeStatement = String.format(EXTENDED_DESCRIPTION, aId);
-    Model extendedDescription = ModelFactory.createDefaultModel();
 
     extendedDescription.enterCriticalSection(Lock.WRITE);
     aModel.enterCriticalSection(Lock.READ);
