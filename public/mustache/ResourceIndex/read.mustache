@@ -391,8 +391,8 @@
 
                 {{#if startDate}}
                     <tr>
-                        <td>{{i18n (stringFormat "%s.startDate" @type)}} - {{i18n (stringFormat "%s.endDate" @type)}}</td>
-                        <td>{{startDate}} &ndash; {{endDate}}</td>
+                        <td>{{i18n (stringFormat "%s.startDate" @type)}} {{#if endDate}}- {{i18n (stringFormat "%s.endDate" @type)}}{{/if}}</td>
+                        <td>{{startDate}} {{#if endDate}}&ndash; {{endDate}} {{/if}}</td>
                     </tr>
                 {{/if}}
 
