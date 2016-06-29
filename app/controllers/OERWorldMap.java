@@ -134,8 +134,10 @@ public abstract class OERWorldMap extends Controller {
 
 
     try {
-      Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
-      scope.put("globalAggregation", globalAggregation);
+      if (scope != null) {
+        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
+        scope.put("globalAggregation", globalAggregation);
+      }
     } catch (IOException e) {
       Logger.error("Could not add global statistics", e);
     }
