@@ -5,6 +5,8 @@ import play.Application;
 import play.Configuration;
 import play.GlobalSettings;
 import play.Logger;
+import play.api.mvc.EssentialFilter;
+import play.filters.gzip.GzipFilter;
 import play.i18n.Lang;
 import play.mvc.Action;
 import play.mvc.Http;
@@ -47,6 +49,11 @@ public class Global extends GlobalSettings {
       }
     }
     return super.onRequest(request, actionMethod);
+  }
+
+  @Override
+  public <T extends EssentialFilter> Class<T>[] filters() {
+    return new Class[]{GzipFilter.class};
   }
 
   public static Configuration getConfig() {
