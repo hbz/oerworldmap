@@ -1,0 +1,68 @@
+<div data-app="to-modal-on-load">
+    <div class="text-center">
+
+        <h1 class="modal-title">Login</h1>
+
+        <p>When you click the login button your browser will present you a popup where you can enter your email address and password.</p>
+
+        <a class="btn btn-default" href="/.login">Login</a>
+
+        <hr/>
+
+        <form action="/user/password" method="post">
+
+            <h2>Forgot password?</h2>
+
+            <p>
+                Enter your email address, we will send you a temporary password.
+            </p>
+
+            <div class="messages alert alert-danger"></div>
+
+            <input type="hidden" name="@type" value="Person">
+
+            <label class="sr-only" for="forgot-email">{{i18n "email_address"}}</label>
+
+            <div class="input-group" style="width: 80%; margin: 0 auto;">
+                <input type="email" name="email" required id="forgot-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "placeholder_email"}}" />
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default">Reset Password</button>
+                </div>
+            </div>
+
+        </form>
+
+        <hr/>
+
+        <form action="/user/register" method="post">
+
+            <h2>Register</h2>
+
+            <p>
+                No account yet? Leave you email address and choose a password to setup your profile on the OER World Map.
+            </p>
+
+            <div class="messages alert alert-danger"></div>
+
+            <input type="hidden" name="@type" value="Person">
+
+            <div class="form-group">
+                <label class="sr-only" for="register-email">Email address</label>
+                <input type="email" name="email" class="form-control" id="register-email" placeholder="{{i18n "placeholder_email"}}">
+            </div>
+
+            <div class="form-group">
+                <label class="sr-only" for="register-password">Password</label>
+                <input type="password" name="password" class="form-control" id="register-password" placeholder="Choose Password ...">
+            </div>
+
+            <div class="form-group">
+                <label class="sr-only" for="register-password-confirm">Repeat Password</label>
+                <input type="password" name="password-confirm" class="form-control" id="register-password-confirm" placeholder="Repeat Password ...">
+            </div>
+
+            <button type="submit" class="btn btn-default">Register</button>
+
+        </form>
+
+</div>

@@ -16,7 +16,7 @@ var Hijax = (function ($, Hijax) {
 
       my.data_arrays['countries'] = [];
 
-      for(i in i18nStrings.countries) {
+      for(var i in i18nStrings.countries) {
         my.data_arrays['countries'].push({
           id: i,
           label: i18nStrings.countries[i]
@@ -46,7 +46,7 @@ var Hijax = (function ($, Hijax) {
 
       my.data_arrays['languages'] = [];
 
-      for(i in i18nStrings.languages) {
+      for(var i in i18nStrings.languages) {
         my.data_arrays['languages'].push({
           id: i,
           label: i18nStrings.languages[i]
@@ -74,7 +74,7 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-behaviour="select"]', context).each(function() {
+      $('[data-attach~="select"] [data-behaviour~="select"]', context).each(function() {
 
         var widget = $(this);
         var key = widget.data('key');

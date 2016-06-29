@@ -1,14 +1,12 @@
-<div role="main">
-    <section>
-        {{#if messages}}
-            <ul id="messages">
-              {{#messages}}
-                  <li class="message {{level}}">
-                      <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
-                  </li>
-              {{/messages}}
-            </ul>
-        {{/if}}
-        {{{scope.continue}}}
-    </section>
-</div>
+<section>
+    {{#if messages}}
+        <ul id="messages">
+          {{#messages}}
+              <li class="message {{level}}">
+                  <div class="alert alert-{{level}}" role="alert">{{{message}}}</div>
+              </li>
+          {{/messages}}
+        </ul>
+    {{/if}}
+    {{{scope.continue}}}
+</section>

@@ -2,12 +2,15 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.mvc.Result;
 import services.AggregationProvider;
 
@@ -18,38 +21,19 @@ public class AggregationIndex extends OERWorldMap {
 
   public static Result list() throws IOException {
 
-    Resource countryAggregation = mBaseRepository
-        .aggregate(AggregationProvider.getByCountryAggregation());
-    Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation());
-    Resource languageAggregation = mBaseRepository
-        .aggregate(AggregationProvider.getServiceLanguageAggregation());
-
-    ResourceList topLevelISCEDConcepts = mBaseRepository.query(
-        "about.topConceptOf.@id:\"https://w3id.org/isced/1997/scheme\"", 0, Integer.MAX_VALUE, null,
-        null);
-    ArrayList<String> topLevelISCEDConceptIds = new ArrayList<>();
-    for (Resource r : topLevelISCEDConcepts.getItems()) {
-      topLevelISCEDConceptIds.add(r.getAsString(JsonLdConstants.ID));
-    }
-    Resource gradeLevelAggregation = mBaseRepository
-        .aggregate(AggregationProvider.getServiceByGradeLevelAggregation(topLevelISCEDConceptIds));
-
-    ResourceList topLevelESCConcepts = mBaseRepository.query(
-        "about.topConceptOf.@id:\"https://w3id.org/class/esc/scheme\"", 0, Integer.MAX_VALUE, null,
-        null);
-    ArrayList<String> topLevelESCConceptIds = new ArrayList<>();
-    for (Resource r : topLevelESCConcepts.getItems()) {
-      topLevelESCConceptIds.add(r.getAsString(JsonLdConstants.ID));
-    }
-    Resource fieldOfEducationAggregation = mBaseRepository.aggregate(
-        AggregationProvider.getServiceByFieldOfEducationAggregation(topLevelESCConceptIds));
-
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countryAggregation", countryAggregation);
-    scope.put("typeAggregation", typeAggregation);
-    scope.put("gradeLevelAggregation", gradeLevelAggregation);
-    scope.put("languageAggregation", languageAggregation);
-    scope.put("fieldOfEducationAggregation", fieldOfEducationAggregation);
+
+    List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
+    statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
+    statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));
+    statisticsAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(5));
+
+    scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations));
+    scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
+      "#009380", "#627e45", "#6676b0", "#5ab18d"));
 
     return ok(render("Country Aggregations", "AggregationIndex/index.mustache", scope));
 

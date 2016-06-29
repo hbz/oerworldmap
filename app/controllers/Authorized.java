@@ -2,183 +2,51 @@ package controllers;
 
 import models.Resource;
 import org.apache.commons.lang3.StringUtils;
-import play.Logger;
-import play.Play;
-import play.Routes;
 import play.libs.F;
-import play.mvc.*;
-import services.Account;
+import play.mvc.Action;
+import play.mvc.Http;
+import play.mvc.Result;
 import services.QueryContext;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 /**
  * @author fo
  */
 public class Authorized extends Action.Simple {
 
-  public static final String REALM = "Basic realm=\"OER World Map\"";
   public static final String AUTHORIZATION = "authorization";
-  public static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-
-  private static Map<String, List<String>> mPermissions;
-
-  private static Map<String, List<String>> mRoles;
-
-  static {
-    mPermissions = new HashMap<>();
-    try (InputStream is = Play.application().classloader().getResourceAsStream("permissions.properties")) {
-      Properties permissions = new Properties();
-      permissions.load(is);
-      for(Map.Entry<Object, Object> permission : permissions.entrySet()) {
-        mPermissions.put(permission.getKey().toString(), new ArrayList<>(Arrays.asList(permission.getValue().toString()
-          .split(" +"))));
-      }
-    } catch (IOException e) {
-      Logger.error(e.toString());
-    }
-  }
-
-  static {
-    mRoles = new HashMap<>();
-    try (InputStream is = Play.application().classloader().getResourceAsStream("roles.properties")) {
-      Properties roles = new Properties();
-      roles.load(is);
-      for(Map.Entry<Object, Object> role : roles.entrySet()) {
-        mRoles.put(role.getKey().toString(), new ArrayList<>(Arrays.asList(role.getValue().toString().split(" +"))));
-      }
-    } catch (IOException e) {
-      Logger.error(e.toString());
-    }
-  }
 
   @Override
   public F.Promise<Result> call(Http.Context ctx) throws Throwable {
 
-    String activity = ctx.args.get(Routes.ROUTE_CONTROLLER).toString()
-        .concat(".").concat(ctx.args.get(Routes.ROUTE_ACTION_METHOD).toString());
     String username = getHttpBasicAuthUser(ctx);
 
-    Resource user;
+    Resource user = null;
 
-    if (username != null) {
+    List<String> roles = new ArrayList<>();
+    roles.add("guest");
+
+    if (!StringUtils.isEmpty(username)) {
       ctx.request().setUsername(username);
-      List<Resource> users = OERWorldMap.getRepository().getResources("about.email", username);
-      if (users.size() == 1) {
-        user = users.get(0);
-      } else {
-        user = new Resource("Person", username);
-        user.put("email", username);
+      String profileId = OERWorldMap.getAccountService().getProfileId(username);
+      if (!StringUtils.isEmpty(profileId)) {
+        roles.add("authenticated");
+        user = OERWorldMap.getRepository().getResource(profileId);
       }
-    } else {
-      user = new Resource("Person");
     }
 
     ctx.args.put("user", user);
+    ctx.args.put("username", username);
 
-    if (mPermissions.get(activity) != null) {
-      mPermissions.get(activity).add("admin");
-    } else {
-      List<String> permissions = new ArrayList<>();
-      permissions.add("guest");
-      permissions.add("admin");
-      mPermissions.put(activity, permissions);
-    }
-
-    // Extract parameters via route pattern
-    Pattern routePattern = Pattern.compile("\\$([^<]+)<([^>]+)>");
-    Matcher routePatternMatcher = routePattern.matcher(ctx.args.get(Routes.ROUTE_PATTERN).toString());
-    List<String> parameterNames = new ArrayList<>();
-    while (routePatternMatcher.find()) {
-      parameterNames.add(routePatternMatcher.group(1));
-    }
-
-    Map<String, String> parameters = new HashMap<>();
-    if (!parameterNames.isEmpty()) {
-      String regex = routePatternMatcher.replaceAll("($2)");
-      Pattern path = Pattern.compile(regex);
-      Matcher parts = path.matcher(ctx.request().path());
-      int i = 0;
-      while (parts.find()) {
-        parameters.put(parameterNames.get(i), parts.group(1));
-      }
-    }
-
-    // FIXME: activity based auth should make this superfluous,
-    // but currently needed in front end templates
-    user.put("roles", getUserRoles(user, parameters));
-
-    QueryContext queryContext;
-    if (getUserActivities(user, parameters).contains(activity)) {
-      queryContext = new QueryContext(user.getId(), getUserRoles(user, parameters));
-      //Logger.info("Authorized " + user.getId() + " for " + activity + " with " + parameters);
-    } else {
-      Logger.warn("Unauthorized " + user.getId() + " for " + activity + " with " + parameters);
-      // Show prompt for users that are not logged in.
-      if (StringUtils.isEmpty(user.getAsString("email"))) {
-        ctx.response().setHeader(WWW_AUTHENTICATE, REALM);
-        return F.Promise.pure(Results.unauthorized(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
-      } else {
-        return F.Promise.pure(Results.forbidden(OERWorldMap.render("Not authenticated", "Secured/token.mustache")));
-      }
-
-    }
-    ctx.args.put("queryContext", queryContext);
+    // TODO: get roles? or allowed methods for this url?
+    ctx.args.put("queryContext", new QueryContext(roles));
 
     return delegate.call(ctx);
 
-  }
-
-  public List<String> getUserActivities(Resource user, Map<String, String> parameters) {
-    List<String> activities = new ArrayList<>();
-    for (String role : getUserRoles(user, parameters)) {
-      List<String> roleActivities = getRoleActivities(role);
-      activities.addAll(roleActivities);
-    }
-    return activities;
-  }
-
-  public List<String> getUserRoles(Resource user, Map<String, String> parameters) {
-
-    List<String> roles = new ArrayList<>();
-
-    for(Map.Entry<String, List<String>> role : mRoles.entrySet()) {
-      if (role.getValue().contains(user.getId()) || role.getValue().contains(user.getAsString("email"))) {
-        //Logger.debug("Adding role " + role.getKey() + " for " + user.getId());
-        roles.add(role.getKey());
-      } else {
-        //Logger.debug("Not adding role " + role.getKey() + " for " + user.getId());
-      }
-    }
-
-    roles.add("guest");
-
-    if (user != null) {
-      if (!StringUtils.isEmpty(user.getAsString("email"))) {
-        roles.add("authenticated");
-      }
-      if (user.getId().equals(parameters.get("id"))) {
-        roles.add("owner");
-      }
-    }
-
-    return roles;
-
-  }
-
-  public List<String> getRoleActivities(String role) {
-    List<String> activities = new ArrayList<>();
-    for(Map.Entry<String, List<String>> activity : mPermissions.entrySet()) {
-      if (activity.getValue().contains(role)) {
-        activities.add(activity.getKey());
-      }
-    }
-    return activities;
   }
 
   private static String getHttpBasicAuthUser(Http.Context ctx) {
@@ -204,14 +72,7 @@ public class Authorized extends Action.Simple {
       return null;
     }
 
-    String username = credentials[0];
-    String password = credentials[1];
-
-    if (!Account.authenticate(username, password)) {
-      return null;
-    }
-
-    return username;
+    return credentials[0];
 
   }
 

@@ -40,7 +40,7 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-behaviour="place"]', context).each(function() {
+      $('[data-attach~="place"] [data-behaviour~="place"]', context).each(function() {
 
         var widget = $(this);
 

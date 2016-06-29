@@ -10,7 +10,6 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-import play.Logger;
 
 /**
  * @author fo
@@ -26,34 +25,23 @@ public class QueryContext {
   private GeoPoint mZoomBottomRight = null;
   private List<GeoPoint> mPolygonFilter = new ArrayList<>();
 
-  public QueryContext(String userId, List<String> roles) {
+  public QueryContext(List<String> roles) {
 
-    FilterBuilder authenticated = FilterBuilders
+    FilterBuilder concepts = FilterBuilders
         .notFilter(FilterBuilders.orFilter(FilterBuilders.termFilter("about.@type", "Concept"),
             FilterBuilders.termFilter("about.@type", "ConceptScheme")));
-    filters.put("disabled", authenticated);
+    filters.put("concepts", concepts);
 
-    // TODO: Remove privacy filter when all persons are accounts?
-    FilterBuilder admin = FilterBuilders
-        .notFilter(FilterBuilders.andFilter(FilterBuilders.termFilter("about.@type", "Person"),
-            FilterBuilders.notFilter(FilterBuilders.existsFilter("about.email"))));
-    filters.put("admin", admin);
-
-    /*
-     * if (userId != null) { FilterBuilder owner =
-     * FilterBuilders.notFilter(FilterBuilders.andFilter(
-     * FilterBuilders.termFilter("about.@type", "Person"),
-     * FilterBuilders.notFilter(FilterBuilders.termFilter("about." +
-     * JsonLdConstants.ID, userId)))); filters.put("owner", owner); }
-     */
+    FilterBuilder emptyNames = FilterBuilders.existsFilter("about.name.@value");
+    filters.put("emptyNames", emptyNames);
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
-    guestAggregations.add(AggregationProvider.getTypeAggregation());
-    guestAggregations.add(AggregationProvider.getByCountryAggregation());
-    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation());
-    guestAggregations.add(AggregationProvider.getServiceByFieldOfEducationAggregation());
-    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation());
-    guestAggregations.add(AggregationProvider.getTagAggregation());
+    guestAggregations.add(AggregationProvider.getTypeAggregation(0));
+    guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
+    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
+    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
+    guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);

@@ -30,11 +30,15 @@
 // badges
 @badge-bg: @blue-darker;
 
+// code
+@pre-bg: rgba(255,255,255,0.2);
+
 // tables
 @table-border-color: @blue-pale;
 
 // grid
-@grid-gutter-width: 26px;
+// @grid-gutter-width: 26px;
+@grid-gutter-width: 20px;
 
 // popovers
 @popover-bg: @blue-paler;
@@ -42,6 +46,7 @@
 
 // dropdowns
 // @dropdown-bg: @blue-paler;
+@dropdown-bg: @blue-palest;
 @dropdown-border: @blue-darker;
 @dropdown-link-color: @blue-darker;
 @dropdown-link-hover-bg: @blue-paler;
@@ -52,19 +57,24 @@
 @modal-content-border-color: @blue-darker;
 @modal-backdrop-bg: @blue-darker;
 @modal-inner-padding: 20px;
+@modal-title-line-height: @headings-line-height;
 
 // buttons
 @btn-default-bg: @blue-paler;
 @btn-default-border: @blue-darker;
 @btn-default-color: @blue-darker;
-// @btn-font-weight: bold;
+@btn-font-weight: bold;
 
 // forms
 @input-color: @blue-darker;
 @input-border: @blue-darker;
 @input-border-focus: @blue-darker;
-@input-color-placeholder: @blue-dark;
+@input-color-placeholder: fadeout(@blue-darker, 40%);
 
 // list-group
 @list-group-border: @blue-darker;
 @list-group-bg: transparent;
+
+// close
+@close-color: @blue-darker;
+@close-text-shadow: none;

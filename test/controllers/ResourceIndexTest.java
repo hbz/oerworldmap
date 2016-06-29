@@ -30,6 +30,8 @@ import play.test.FakeApplication;
  */
 public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest {
 
+  //FIXME: Authorization is now done by external means, should we test this here and if so, how?
+
   private static FakeApplication fakeApplication;
 
   @BeforeClass
@@ -48,7 +50,6 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
-        String auth = getAuthString();
         Map<String, String> data = new HashMap<>();
         data.put(JsonLdConstants.TYPE, "Organization");
         data.put(JsonLdConstants.ID, "info:urn:uuid:" + UUID.randomUUID().toString());
@@ -57,7 +58,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
         data.put("name[0][@language]", "en");
         data.put(JsonLdConstants.CONTEXT, "http://schema.org/");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
-            .withHeader("Authorization", "Basic " + auth).withFormUrlEncodedBody(data));
+            .withFormUrlEncodedBody(data));
         assertEquals(201, status(result));
       }
     });
@@ -68,10 +69,9 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
-        String auth = getAuthString();
         Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
         Result result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(event.toJson()));
+            .withJsonBody(event.toJson()));
         assertEquals(201, status(result));
       }
     });
@@ -82,90 +82,21 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
-        String auth = getAuthString();
 
         Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
         Result createEventResult = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
-          .withHeader("Authorization", "Basic " + auth).withJsonBody(event.toJson()));
+          .withJsonBody(event.toJson()));
         assertEquals(201, status(createEventResult));
 
         Resource organization = getResourceFromJsonFileUnsafe("ResourceIndexTest/testOrganization.json");
         Result createOrganizationResult = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
+            .withJsonBody(organization.toJson()));
         assertEquals(201, status(createOrganizationResult));
 
         organization.put("email", "foo@bar.de");
         Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.updateResource(organization.getId()).url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(organization.toJson()));
+            .withJsonBody(organization.toJson()));
         assertEquals(200, status(updateResult));
-      }
-    });
-  }
-
-  @Test
-  public void createPersonFromJsonAuthorized() {
-    running(fakeApplication, new Runnable() {
-      @Override
-      public void run() {
-        String auth = getAuthString();
-        Resource person = new Resource("Person", "info:" + Global.getConfig().getString("admin.user"));
-        person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-        person.put("email", "foo@bar.com");
-        Result createResult = route(fakeRequest("POST", routes.UserIndex.addUser().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()), Integer.MAX_VALUE);
-        assertEquals(201, status(createResult));
-      }
-    });
-  }
-
-  @Test
-  public void updatePersonFromJsonAuthorized() {
-    running(fakeApplication, new Runnable() {
-      @Override
-      public void run() {
-        String auth = getAuthString();
-        Resource person = new Resource("Person", "info:" + Global.getConfig().getString("admin.user"));
-        person.put("email", Global.getConfig().getString("admin.user"));
-        person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-        Result createResult = route(fakeRequest("POST", routes.UserIndex.addUser().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
-        assertEquals(201, status(createResult));
-        Result updateResult = route(fakeRequest("POST", routes.UserIndex.updateUser(person.getId()).url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
-        assertEquals(200, status(updateResult));
-      }
-    });
-  }
-
-  @Test
-  public void createPersonFromJsonUnauthorized() {
-    running(fakeApplication, new Runnable() {
-      @Override
-      public void run() {
-        Resource person = new Resource("Person");
-        person.put("email", "foo@bar.de");
-        Result createResult = route(fakeRequest("POST", routes.UserIndex.addUser().url())
-            .withHeader("Authorization", "Basic ").withJsonBody(person.toJson()));
-        assertEquals(401, status(createResult));
-      }
-    });
-  }
-
-  @Test
-  public void updatePersonFromJsonUnauthorized() {
-    running(fakeApplication, new Runnable() {
-      @Override
-      public void run() {
-        String auth = getAuthString();
-        Resource person = new Resource("Person");
-        person.put("email", "foo@bar.de");
-        person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-        Result createResult = route(fakeRequest("POST", routes.UserIndex.addUser().url())
-            .withHeader("Authorization", "Basic " + auth).withJsonBody(person.toJson()));
-        assertEquals(201, status(createResult));
-        Result updateResult = route(fakeRequest("POST", routes.UserIndex.updateUser(person.getId()).url())
-            .withHeader("Authorization", "Basic ").withJsonBody(person.toJson()));
-        assertEquals(401, status(updateResult));
       }
     });
   }

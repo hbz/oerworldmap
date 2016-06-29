@@ -2,11 +2,11 @@
 <fieldset>
 
   <legend>Address</legend>
-  {{input (stringFormat "%s[streetAddress]" key) streetAddress}}
-  {{input (stringFormat "%s[addressLocality]" key) addressLocality}}
-  {{input (stringFormat "%s[postalCode]" key) postalCode}}
-  {{input (stringFormat "%s[addressRegion]" key) addressRegion}}
-  {{input (stringFormat "%s[addressCountry]" key) addressCountry}}
+  {{input (stringFormat "%s[streetAddress]" property_path) streetAddress}}
+  {{input (stringFormat "%s[addressLocality]" property_path) addressLocality}}
+  {{input (stringFormat "%s[postalCode]" property_path) postalCode}}
+  {{input (stringFormat "%s[addressRegion]" property_path) addressRegion}}
+  {{input (stringFormat "%s[addressCountry]" property_path) addressCountry}}
 
 </fieldset>
 {{/property}}
@@ -14,11 +14,11 @@
     <fieldset>
 
         <legend>Address</legend>
-        {{input (stringFormat "%s[streetAddress]" key) streetAddress}}
-        {{input (stringFormat "%s[addressLocality]" key) addressLocality}}
-        {{input (stringFormat "%s[postalCode]" key) postalCode}}
-        {{input (stringFormat "%s[addressRegion]" key) addressRegion}}
-        {{input (stringFormat "%s[addressCountry]" key) addressCountry}}
+        {{input (stringFormat "%s[streetAddress]" property_path) streetAddress}}
+        {{input (stringFormat "%s[addressLocality]" property_path) addressLocality}}
+        {{input (stringFormat "%s[postalCode]" property_path) postalCode}}
+        {{input (stringFormat "%s[addressRegion]" property_path) addressRegion}}
+        {{input (stringFormat "%s[addressCountry]" property_path) addressCountry}}
 
     </fieldset>
 {{/property}}

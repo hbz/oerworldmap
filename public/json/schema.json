@@ -378,7 +378,7 @@
             "$ref": "#/definitions/Service"
           }
         },
-        "tag": {
+        "keywords": {
           "type": "array",
           "items": {
             "type": "string"
@@ -589,7 +589,7 @@
             ]
           }
         },
-        "tag": {
+        "keywords": {
           "type": "array",
           "items": {
             "type": "string"
@@ -762,7 +762,7 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "tag": {
+        "keywords": {
           "type": "array",
           "items": {
             "type": "string"
@@ -945,7 +945,7 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "tag": {
+        "keywords": {
           "type": "array",
           "items": {
             "type": "string"
@@ -1074,7 +1074,7 @@
         "hashtag": {
           "type": "string"
         },
-      "tag": {
+      "keywords": {
         "type": "array",
         "items": {
           "type": "string"
