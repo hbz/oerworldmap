@@ -534,7 +534,9 @@ var Hijax = (function ($, Hijax, page) {
     initialized : new $.Deferred(),
 
     linkToFragment : function(fragment) {
-      if( window.location.search ) {
+      if (window.location.pathname.split('/')[1] == 'country') {
+        page(window.location.pathname + '#' + fragment);
+      } else if( window.location.search ) {
         page('/resource/' + window.location.search + '#' + fragment);
       } else {
         page('/resource/' + fragment);
