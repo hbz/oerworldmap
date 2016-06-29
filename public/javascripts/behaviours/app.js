@@ -316,18 +316,24 @@ var Hijax = (function ($, Hijax, page) {
       // catch closing of protected modals and go back if opened on load
 
       $('#app-modal').on('hide.bs.modal', function(e){
-        if( $('#app-modal').data('is_protected') ) {
+        var modal = $('#app-modal');
+        if( modal.data('is_protected') ) {
           var confirm = window.confirm("Are you sure you want to close? All form content will be lost.");
           if(!confirm) {
             return false;
           }
         }
-        if( $('#app-modal').data('opened_on') == 'load' ) {
+        if(
+          modal.data('opened_on') == 'load' &&
+          ! modal.data('hidden_on_exit')
+        ) {
           if(history.length > 1) {
             history.go(-1);
           } else {
             page('/');
           }
+        } else if( modal.data('hidden_on_exit') ) {
+          modal.data('hidden_on_exit', false);
         }
       });
 
@@ -476,6 +482,11 @@ var Hijax = (function ($, Hijax, page) {
         modal.data('opened_on', 'load');
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
+        page.exit(window.location.pathname, function(pagejs_ctx, next) {
+          modal.data('hidden_on_exit', true);
+          modal.modal('hide');
+          next();
+        });
       });
 
       /* --- notifications --- */

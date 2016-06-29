@@ -121,7 +121,7 @@ var Hijax = (function ($, Hijax, page) {
 
     // button text
     if(aggregation.active) {
-      aggregation.button_text = aggregation.filter_options[0] + ', ...';
+      aggregation.button_text = aggregation.filter_options[0] + (aggregation.filter_options.length > 1 ? ', ...' : '');
     } else {
       aggregation.button_text = localize('messages', get_field(name));
     }
