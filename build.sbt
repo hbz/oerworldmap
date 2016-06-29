@@ -7,6 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 libraryDependencies ++= Seq(
   cache,
   javaWs,
+  filters,
   "commons-validator" % "commons-validator" % "1.4.0",
   "com.github.fge" % "jackson-coreutils" % "1.8",
   "com.github.fge" % "json-schema-validator" % "2.2.6",
