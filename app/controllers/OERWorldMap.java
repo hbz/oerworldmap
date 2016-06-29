@@ -44,6 +44,7 @@ import play.mvc.Controller;
 import play.mvc.With;
 import play.twirl.api.Html;
 import services.AccountService;
+import services.AggregationProvider;
 import services.repository.BaseRepository;
 
 /**
@@ -130,6 +131,15 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("template", templatePath);
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
+
+
+    try {
+      Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
+      scope.put("globalAggregation", globalAggregation);
+    } catch (IOException e) {
+      Logger.error("Could not add global statistics", e);
+    }
+
 
     Resource user = (Resource) ctx().args.get("user");
     boolean mayAdd = (user != null) && (mAccountService.getRoles(request().username()).contains("admin")

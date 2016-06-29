@@ -375,7 +375,7 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function setAggregations(aggregations) {
+  function setCountryData(aggregations) {
 
     // attach aggregations to country features
 
@@ -390,8 +390,6 @@ var Hijax = (function ($, Hijax) {
         throw 'No feature with id "' + aggregation.key.toUpperCase() + '" found';
       }
     }
-
-    setHeatmapColors(aggregations);
 
   }
 
@@ -1067,10 +1065,15 @@ var Hijax = (function ($, Hijax) {
       // Add heat map data
       $('form#form-resource-filter', context).add($('#country-statistics', context)).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]#json-aggregations').html() );
-        setAggregations( json );
+        setHeatmapColors( json );
         if( $(this).is('table') ) {
           $(this).hide();
         }
+      });
+
+      $('#global-statistics', context).each(function(){
+        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        setCountryData( json );
       });
 
       // Set zoom
