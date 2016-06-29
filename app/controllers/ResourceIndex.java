@@ -91,7 +91,7 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {
-      return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
     } else if (request().accepts("text/csv")) {
       StringBuffer result = new StringBuffer();
       AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
