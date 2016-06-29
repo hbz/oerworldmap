@@ -98,9 +98,5 @@ You are giving your consent to processing your e-mail address solely for the pur
 - You can, of course, unsubscribe from the newsletter at any time via e-mail to [&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;](mailto:&#111;&#101;&#114;worl&#100;map-&#110;&#101;w&#115;-leave&#64;list&#101;n&#46;hbz-nrw&#46;d&#101;), or by following the instructions provided at the bottom of each newsletter. After unsubscribing, your e-mail address will be removed from the system.
 - You will receive a first e-mail that requires you to confirm your subscription. We do this to avoid people registering other people and spelling errors. The system will await a confirmation for two weeks, during which the e-mail address is temporarily stored, after this period the e-mail address will permanently be removed from our system.
 
-We may invite you to provide this and any further information for future phases of the OER Wold Map, but will ask for your consent for these processes separately in the future.
-
-Your country of residence is also processed, but solely to provide an indication of activity for each country on the OER World Map.
-
-D. Versions
-This is the second version of this policy (2.0) as of June 29th 2016. The previous version (1.0) can be found here.
+### D. Versions
+This is the second version of this policy (2.0) as of June 29th 2016. The previous version (1.0) can be found [here](https://github.com/hbz/oerworldmap/blob/e14aa22df3ebecd6f659f63e0f5e3e991a3aef8e/public/pages/Imprint.md).
