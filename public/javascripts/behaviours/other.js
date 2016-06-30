@@ -153,6 +153,14 @@ var Hijax = (function ($, Hijax) {
 
       });
 
+      $('[data-behaviour="global-statistic"]', context).slice(1).hide();
+      $('[data-behaviour="global-statistic-switch"]', context).click(function(e) {
+        var id = $(this).attr("href").slice(1);
+        $('[data-behaviour="global-statistic"]', context).hide();
+        $("[id='" + id + "']", context).show();
+        e.preventDefault();
+      });
+
     }
   }
 
