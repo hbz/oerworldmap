@@ -33,6 +33,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.GeoBoundingBoxFilterBuilder;
 import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
+import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -147,10 +148,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
-    throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
     Resource aggregations = Resource
       .fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
+    if (null == aggregations) {
+      return null;
+    }
+    return (Resource) aggregations.get("aggregations");
+  }
+
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) {
+    Resource aggregations = Resource
+      .fromJson(getAggregations(aAggregationBuilders).toString());
     if (null == aggregations) {
       return null;
     }
@@ -294,6 +303,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
+  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders) {
+
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    for (AggregationBuilder<?> aggregationBuilder : aAggregationBuilders) {
+      searchRequestBuilder.addAggregation(aggregationBuilder);
+    }
+
+    return searchRequestBuilder.setSize(0).execute().actionGet();
+
+  }
+
   private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                                  Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
 
@@ -341,13 +362,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
       for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
-        // This could also be an OrFilterBuilder allowing to expand the result
-        // list
-        AndFilterBuilder andTermFilterBuilder = FilterBuilders.andFilter();
+        // This could also be an AndFilterBuilder allowing to narrow down the result list
+        OrFilterBuilder orFilterBuilder = FilterBuilders.orFilter();
         for (String filter : entry.getValue()) {
-          andTermFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
+          orFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
         }
-        aggregationAndFilter.add(andTermFilterBuilder);
+        aggregationAndFilter.add(orFilterBuilder);
       }
       globalAndFilter.add(aggregationAndFilter);
     }
@@ -370,7 +390,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
 
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-      .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
+        .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
 

@@ -1,13 +1,16 @@
 #page-footer {
+
   ul {
     .list-unstyled();
     margin: 0px;
     float: right;
     font-size: 14px;
     line-height: 14px;
+
     li {
       margin-left: 20px;
       float: left;
+
       a {
         text-decoration: none;
         &:hover {
@@ -16,12 +19,14 @@
         }
       }
     }
-  }
-}
 
-.container-static-page #page-footer {
-  padding: 10px 0px;
-  border-top: 1px solid @blue-darker;
-  .clearfix();
-  
+  }
+
+  &.container-static-page .inner {
+      .clearfix(); // needed because of the floated list, to make the bottom padding visible
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-top: 1px solid @blue-darker;
+  }
+
 }

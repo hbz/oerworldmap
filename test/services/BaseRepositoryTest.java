@@ -176,14 +176,14 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Thread.sleep(10000);
 
     try {
-      QueryContext queryContext = new QueryContext(null, null);
+      QueryContext queryContext = new QueryContext(null);
       queryContext.setElasticsearchFieldBoosts( //
           new String[] { //
               "about.name.@value^9", //
               "about.alternateName.@value^6" });
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
-      
+
       // must provide 6 hits when search is reduced on "about.name.@value" and
       // "about.alternateName.@value"
       Assert.assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 6);
@@ -234,7 +234,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // triggerable
     Thread.sleep(2000);
 
-    QueryContext queryContext = new QueryContext(null, null);
+    QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
     List<Resource> beforeZoomList = mBaseRepo.query("Zoom", 0, 10, null, null, queryContext).getItems();
@@ -275,7 +275,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // triggerable
     Thread.sleep(2000);
 
-    QueryContext queryContext = new QueryContext(null, null);
+    QueryContext queryContext = new QueryContext(null);
 
     // query before filtering
     List<Resource> beforeFilterList = mBaseRepo.query("Polygon", 0, 10, null, null, queryContext).getItems();
@@ -322,7 +322,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // triggerable
     Thread.sleep(2000);
 
-    QueryContext queryContext = new QueryContext(null, null);
+    QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
     List<Resource> beforeFilterList = mBaseRepo.query("Polygon Zoom", 0, 10, null, null, queryContext).getItems();

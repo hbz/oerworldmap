@@ -1,102 +1,199 @@
-<div role="complementary"
-     class="color-scheme-map column-large"
-     data-view="map"
-     data-focus="{{scope.alpha-2}}"
->
-    <div class="hidden">
-        <a href="/aggregation/" class="hijax transclude map-view-hidden" target="_self">Aggregations</a>
-    </div>
-</div>
+{{#if user}}
 
-<div role="main" class="column column-small color-scheme-text bg-blue-palest">
+    <form id="form-resource-add-service" method="post" class="clearfix visible-modal" action="/resource/">
 
-    {{#scope}}
+        <h1 class="modal-title">Add Service</h1>
 
-        <div class="column-section">
+        <div class="messages resource-form-widget"></div>
 
-            <div class="resource-header">
-                <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+        {{> ResourceIndex/Service/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-organization" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Organization</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Organization/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-story" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Story</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Article/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-action" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Project</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Action/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-person" method="post" class="clearfix visible-modal" action="/user/">
+
+        <h1 class="modal-title">Add Person</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Person/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+
+    <form id="form-resource-add-event" method="post" class="clearfix visible-modal" action="/resource/">
+
+        <h1 class="modal-title">Add Event</h1>
+
+        <div class="messages resource-form-widget"></div>
+
+        {{> ResourceIndex/Event/edit.mustache}}
+
+        <div class="pull-right resource-form-top-padding">
+            <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
+            <button type="submit" class="btn btn-inverted">Save Changes</button>
+        </div>
+    </form>
+
+{{/if}}
+
+{{#scope}}
+
+    <div class="column-section-new">
+
+        <div class="resource-header">
+            <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+        </div>
+
+        {{#champions}}
+            <div class="country-champion">
+
+                {{#image}}
+                    <img src="{{.}}" class="img" />
+                {{/image}}
+                {{^image}}
+                    <div class="img placeholder-image"></div>
+                {{/image}}
+
+                <div class="text">
+                    <h4>Country Champion</h4>
+
+                    <ul class="resource-list truncated"><li>
+                      {{>ResourceIndex/link.mustache}}
+                    </li></ul>
+
+                    <p>
+                      <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                    </p>
+
+                </div>
+
             </div>
+        {{/champions}}
 
-            {{#champions}}
-                <div class="country-champion">
+        {{^champions}}
+            <div class="country-champion">
 
-                    {{#image}}
-                        <img src="{{.}}" class="img" />
-                    {{/image}}
-                    {{^image}}
-                        <div class="img placeholder-image"></div>
-                    {{/image}}
+                <div class="img placeholder-image-qmark"></div>
 
-                    <div class="text">
-                        <h4>Country Champion</h4>
-
-                        <ul class="resource-list truncated"><li>
-                          {{>ResourceIndex/link.mustache}}
-                        </li></ul>
-
-                        <p>
-                          <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                        </p>
-
-                    </div>
-
+                <div class="text">
+                    There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
                 </div>
-            {{/champions}}
 
-            {{^champions}}
-                <div class="country-champion">
+            </div>
+        {{/champions}}
 
-                    <div class="img placeholder-image-qmark"></div>
+    </div>
 
-                    <div class="text">
-                        There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
-                    </div>
+    <div class="column-section-new" id="country-statistics">
 
+        <script type="application/ld+json" id="json-aggregations">
+            {{json countryAggregation}}
+        </script>
+
+        <h3>Statistics</h3>
+
+        {{#countryAggregation.[about.location.address.addressCountry].buckets}}
+            <table class="statistics-table">
+            {{#by_type.buckets}}
+                <tr>
+                    <td>{{doc_count}}</td>
+                    <td>{{getIcon key}}
+                        <a href="/resource/?filter.about.location.address.addressCountry={{scope.alpha-2}}&filter.about.@type={{key}}">{{i18n key}}</a>
+                    </td>
+                </tr>
+            {{/by_type.buckets}}
+            </table>
+        {{/countryAggregation.[about.location.address.addressCountry].buckets}}
+
+    </div>
+
+    <div class="column-section-new last">
+
+        <div class="p">
+            <form action="/resource/">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control">
+                    <input type="hidden" name="filter.about.location.address.addressCountry" value="{{ scope.alpha-2 }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </span>
                 </div>
-            {{/champions}}
-
-        </div>
-        <div class="column-section">
-
-            <h3>Statistics</h3>
-
-            {{#countryAggregation.[about.location.address.addressCountry].buckets}}
-                <table class="statistics-table">
-                {{#by_type.buckets}}
-                    <tr>
-                        <td>{{doc_count}}</td>
-                        <td>{{getIcon key}}
-                            <a href="/resource/?filter.about.location.address.addressCountry={{scope.alpha-2}}&filter.about.@type={{key}}">{{i18n key}}</a>
-                        </td>
-                    </tr>
-                {{/by_type.buckets}}
-                </table>
-            {{/countryAggregation.[about.location.address.addressCountry].buckets}}
-
-        </div>
-        <div class="column-section">
-
-            <p>
-                Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
-            </p>
-
-            <ul class="resource-list truncated" data-behaviour="populateMap">
-                <script type="application/ld+json">
-                    {{{resources.member}}}
-                </script>
-                {{#resources.member}}
-                    <li about="{{@id}}">
-                        {{>ResourceIndex/link.mustache}}
-                    </li>
-                {{/resources.member}}
-            </ul>
-            {{^resources}}
-                <em>No related entities found</em>
-            {{/resources}}
-
+            </form>
         </div>
 
-    {{/scope}}
+        <p>
+            Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
+        </p>
 
-</div>
+        <ul class="resource-list truncated" data-app="link-to-fragment" data-behaviour="populateMap">
+            <script type="application/ld+json">
+                {{{resources.member}}}
+            </script>
+            {{#resources.member}}
+                <li about="{{@id}}">
+                    {{>ResourceIndex/link.mustache}}
+                </li>
+            {{/resources.member}}
+        </ul>
+        {{^resources}}
+            <em>No related entities found</em>
+        {{/resources}}
+
+    </div>
+
+{{/scope}}

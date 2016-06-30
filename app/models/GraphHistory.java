@@ -3,6 +3,7 @@ package models;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import play.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -82,8 +83,8 @@ public class GraphHistory {
       try {
         TripleCommit commit = TripleCommit.fromString(FileUtils.readFileToString(commitFile));
         commits.add(commit);
-      } catch (IOException e) {
-        throw new RuntimeIOException(e);
+      } catch (IllegalArgumentException | IOException e) {
+        Logger.error("Could not read commit, skipping", e);
       }
     }
 

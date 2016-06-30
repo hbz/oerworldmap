@@ -41,16 +41,36 @@ public class ResourceFramer {
 
   private static final NingWSClient mWSClient = new NingWSClient(new AsyncHttpClientConfig.Builder().build());
 
-  static {
-    NodeEnvironment env = new NodeEnvironment();
+  private static int mPort = 8080;
+
+  private static NodeEnvironment mEnv = new NodeEnvironment();
+
+  private static ScriptFuture mFramer = null;
+
+  public static void start() {
+
     try {
-      NodeScript script = env.createScript("frame.js", new File("node/json-frame/frame.js"), null);
+      NodeScript script = mEnv.createScript("frame.js", new File("node/json-frame/frame.js"),
+        new String[]{Integer.toString(mPort)});
       script.setNodeVersion("0.10");
-      ScriptFuture framer = script.executeModule();
-      framer.getModuleResult();
+      mFramer = script.executeModule();
+      mFramer.getModuleResult();
     } catch (InterruptedException | ExecutionException | NodeException e) {
       Logger.error(e.toString());
     }
+
+  }
+
+  public static void stop() {
+
+    if (mFramer != null) {
+      mFramer.cancel(true);
+    }
+
+  }
+
+  public static void setPort(int aPort) {
+    mPort = aPort;
   }
 
   public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
@@ -75,8 +95,9 @@ public class ResourceFramer {
         if (types.hasNext()) {
           String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
           String type = URLEncoder.encode(types.next().toString(), StandardCharsets.UTF_8.toString());
-          F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/".concat(type).concat("/").concat(id))
-              .post(new String(unframed.toByteArray(), StandardCharsets.UTF_8)).map(WSResponse::asJson);
+          F.Promise<JsonNode> promise = mWSClient.url("http://localhost:".concat(Integer.toString(mPort)).concat("/")
+            .concat(type).concat("/").concat(id)).post(new String(unframed.toByteArray(), StandardCharsets.UTF_8))
+            .map(WSResponse::asJson);
 
           return Resource.fromJson(promise.get(Integer.MAX_VALUE));
         }
@@ -92,7 +113,7 @@ public class ResourceFramer {
 
   public static List<Resource> flatten(Resource resource) throws IOException {
 
-    F.Promise<JsonNode> promise = mWSClient.url("http://localhost:8080/flatten/")
+    F.Promise<JsonNode> promise = mWSClient.url("http://localhost:".concat(Integer.toString(mPort)).concat("/flatten/"))
       .post(resource.toJson()).map(WSResponse::asJson);
 
     JsonNode results = promise.get(Integer.MAX_VALUE);

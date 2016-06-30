@@ -1,7 +1,5 @@
-<div role="main" class="color-scheme-text container column large">
-    <section>
-        <h1>Created</h1>
-        <pre>{{json scope}}</pre>
-        <a class="hijax transclude" target="_top" href="/resource/{{scope.[@id]}}">Show</a>
-    </section>
-</div>
+<section>
+    <h1>Created</h1>
+    <pre>{{json scope.resource}}</pre>
+    <a class="hijax transclude" target="_top" href="/resource/{{scope.[@id]}}">Show</a>
+</section>

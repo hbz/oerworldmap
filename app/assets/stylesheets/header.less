@@ -1,58 +1,88 @@
+.header-link() {
+  display: inline-block;
+  line-height: @header-height !important;
+  padding: 0 @header-padding;
+  text-decoration: none;
+  color: @blue-lightest;
+
+  &:hover {
+    background: @blue-dark;
+    color: @blue-lightest;
+  }
+}
+
 #page-header {
   position: fixed;
+  z-index: 1000;
   top: 0px;
   left: 0px;
   width: 100%;
   background: @blue-darker;
   .economica();
   font-size: @header-fontsize;
-}
 
-#page-header nav ul {
-  padding: 0px;
-  margin: 0px;
-  list-style: none;
-}
+  h1 {
+    display: inline;
+    font-size: @header-fontsize;
+    font-weight: bold;
+    letter-spacing: 2px;
 
-#page-header nav ul li {
-  float: left;
-  border-right: 1px solid @blue-dark;
-}
+    a {
+      .header-link();
+    }
+  }
 
-#page-header a {
-  display: inline-block;
-  line-height: @header-height !important;
-  padding: 0 @header-padding;
-  text-decoration: none;
-  color: @blue-lightest;
-}
+  .slogan {
+    margin: 0;
+    letter-spacing: 2px;
+    float: right;
 
-#page-header a:hover {
-  background: @blue-dark;
-  color: @blue-lightest;
-}
+    a {
+      .header-link();
 
-#page-header a:focus {
-  outline: none;
-}
+      &:hover {
+        background: transparent;
+        color: @orange;
+      }
+    }
+  }
 
-#page-header h1 {
-  display: inline;
-  font-size: @header-fontsize;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
+  nav > ul {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
 
-#page-header h2 {
-  margin: 0 @header-padding 0 0;
-  font-size: @header-fontsize;
-  line-height: @header-height !important;
-  font-style: italic;
-  letter-spacing: 2px;
-  color: @blue-lightest;
-  float: right;
-}
+    > li {
+      float: left;
 
-#page-header nav.user {
-  float: right;
+      > a,
+      > .a {
+        .header-link();
+      }
+
+      &.dropdown {
+        .dropdown-menu {
+          margin: -1px -2px 0 0;
+          border-radius: 0px;
+          .source-sans();
+          font-size: @font-size-small;
+        }
+      }
+    }
+  }
+
+  nav.main,
+  nav.social {
+    > ul > li {
+      border-right: 1px solid @blue-dark;
+    }
+  }
+
+  nav.user {
+    float: right;
+
+    > ul > li {
+      border-left: 1px solid @blue-dark;
+    }
+  }
 }

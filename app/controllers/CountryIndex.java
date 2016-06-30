@@ -38,7 +38,7 @@ public class CountryIndex extends OERWorldMap {
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
     });
 
-    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id.toUpperCase()));
+    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id.toUpperCase(), 0));
     ResourceList champions = mBaseRepository.query(
         Record.RESOURCE_KEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null, null);
     ResourceList resources = mBaseRepository.query(
@@ -47,14 +47,14 @@ public class CountryIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
-    scope.put("name", Countries.getNameFor(id, Locale.getDefault()));
+    scope.put("name", Countries.getNameFor(id, OERWorldMap.mLocale));
     scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
     scope.put("embed", embed);
 
     if (request().accepts("text/html")) {
-      return ok(render(Countries.getNameFor(id, Locale.getDefault()), "CountryIndex/read.mustache", scope));
+      return ok(render(Countries.getNameFor(id, OERWorldMap.mLocale), "CountryIndex/read.mustache", scope));
     } else {
       return ok(resources.toResource().toString()).as("application/json");
     }

@@ -21,7 +21,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.typesafe.config.Config;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -37,13 +36,15 @@ import helpers.HandlebarsHelpers;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
+import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
 import play.twirl.api.Html;
-import services.QueryContext;
+import services.AccountService;
+import services.AggregationProvider;
 import services.repository.BaseRepository;
 
 /**
@@ -55,6 +56,19 @@ public abstract class OERWorldMap extends Controller {
   final protected static Configuration mConf = Global.getConfig();
   protected static BaseRepository mBaseRepository = null;
 
+  public static Locale mLocale = new Locale("en", "US");
+
+  static {
+    AccountService.setApache2Ctl(Global.getConfig().getString("ht.apache2ctl.restart"));
+  }
+
+  protected static AccountService mAccountService = new AccountService(
+    new File(Global.getConfig().getString("user.token.dir")),
+    new File(Global.getConfig().getString("ht.passwd")),
+    new File(Global.getConfig().getString("ht.groups")),
+    new File(Global.getConfig().getString("ht.profiles")),
+    new File(Global.getConfig().getString("ht.permissions")));
+
   // TODO final protected static FileRepository
   // mUnconfirmedUserRepository;
   static {
@@ -65,11 +79,8 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  static {
-
-  }
-
-  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", Locale.getDefault());
+  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", OERWorldMap.mLocale);
+  protected static ResourceBundle emails = ResourceBundle.getBundle("emails", OERWorldMap.mLocale);
 
   //TODO: is this right here? how else to implement?
   public static String getLabel(String aId) {
@@ -84,7 +95,7 @@ public abstract class OERWorldMap extends Controller {
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
           String language = ((Resource) n).getAsString("@language");
-          if (language.equals(Locale.getDefault().getLanguage())) {
+          if (language.equals(OERWorldMap.mLocale.getLanguage())) {
             return ((Resource) n).getAsString("@value");
           }
         }
@@ -115,10 +126,29 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
     mustacheData.put("user", ctx().args.get("user"));
+    mustacheData.put("username", ctx().args.get("username"));
     mustacheData.put("pageTitle", pageTitle);
     mustacheData.put("template", templatePath);
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
+
+
+    try {
+      if (scope != null) {
+        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
+        scope.put("globalAggregation", globalAggregation);
+      }
+    } catch (IOException e) {
+      Logger.error("Could not add global statistics", e);
+    }
+
+
+    Resource user = (Resource) ctx().args.get("user");
+    boolean mayAdd = (user != null) && (mAccountService.getRoles(request().username()).contains("admin")
+      || mAccountService.getRoles(request().username()).contains("champion"));
+    Map<String, Object> permissions = new HashMap<>();
+    permissions.put("add", mayAdd);
+    mustacheData.put("permissions", permissions);
 
     TemplateLoader loader = new ResourceTemplateLoader();
     loader.setPrefix("public/mustache");
@@ -175,6 +205,10 @@ public abstract class OERWorldMap extends Controller {
     return mBaseRepository;
   }
 
+  protected static AccountService getAccountService() {
+    return mAccountService;
+  }
+
   /**
    * Get resource from JSON body or form data
    * @return The JSON node
@@ -200,7 +234,11 @@ public abstract class OERWorldMap extends Controller {
   protected static Map<String, String> getMetadata() {
 
     Map<String, String> metadata = new HashMap<>();
-    metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    if (!StringUtils.isEmpty(request().username())) {
+      metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    } else {
+      metadata.put(TripleCommit.Header.AUTHOR_HEADER, "System");
+    }
     metadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     return metadata;
 
@@ -254,7 +292,7 @@ public abstract class OERWorldMap extends Controller {
       throws URISyntaxException, IOException {
 
     URL dirURL = classLoader.getResource(path);
-    ;
+
     if (dirURL == null) {
       return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path))
           .list();
@@ -267,7 +305,7 @@ public abstract class OERWorldMap extends Controller {
                                                                                      // file
       JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
       Enumeration<JarEntry> entries = jar.entries(); // gives ALL entries in jar
-      Set<String> result = new HashSet<String>(); // avoid duplicates in case it
+      Set<String> result = new HashSet<>(); // avoid duplicates in case it
                                                   // is a subdirectory
       while (entries.hasMoreElements()) {
         String name = entries.nextElement().getName();

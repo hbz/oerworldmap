@@ -1,0 +1,292 @@
+package services;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+
+import helpers.MD5Crypt;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import play.Logger;
+
+/**
+ * @author fo
+ */
+public class AccountService {
+
+  private static final String mLimitWriteDirective =
+    "<Location /resource/%s>\n" +
+      "  <LimitExcept GET>\n" +
+      "    Require group admin\n" +
+      "    Require user %s\n" +
+      "  </LimitExcept>\n" +
+    "</Location>";
+
+  private static String mApache2ctl = "sudo apache2ctl graceful";
+
+  private final File mTokenDir;
+  private final File mUserFile;
+  private final File mGroupFile;
+  private final File mProfileFile;
+  private final File mPermissionsDir;
+
+  public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aProfileFile, File aPermissionsDir) {
+
+    mTokenDir = aTokenDir;
+    mUserFile = aUserFile;
+    mGroupFile = aGroupFile;
+    mProfileFile = aProfileFile;
+    mPermissionsDir = aPermissionsDir;
+
+  }
+
+  public void setPermissions(String aId, String aUser) {
+
+    String entry = String.format(mLimitWriteDirective, aId, aUser);
+    String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
+    try {
+      FileUtils.writeStringToFile(new File(mPermissionsDir, fileName), entry);
+    } catch (IOException e) {
+      Logger.error("Could not create permission file", e);
+    }
+
+    refresh();
+
+  }
+
+  public static void setApache2Ctl(String aApache2ctl) {
+    mApache2ctl = aApache2ctl;
+  }
+
+  public void refresh() {
+
+    try {
+      Process apache2ctl = Runtime.getRuntime().exec(mApache2ctl);
+      BufferedReader stdInput = new BufferedReader(new InputStreamReader(apache2ctl.getInputStream()));
+      BufferedReader stdError = new BufferedReader(new InputStreamReader(apache2ctl.getErrorStream()));
+      Logger.debug(IOUtils.toString(stdInput));
+      Logger.debug(IOUtils.toString(stdError));
+    } catch (IOException e) {
+      Logger.error("Could not restart Apache", e);
+    }
+
+  }
+
+  public String addUser(String username, String password) {
+
+    if (!userExists(username) && !pendingVerification(username)) {
+      try {
+        String token = getEncryptedUsername(username);
+        File tokenFile = new File(mTokenDir, token);
+        FileUtils.writeStringToFile(tokenFile, buildEntry(username, password));
+        return token;
+      } catch (IOException e) {
+        Logger.error(e.toString());
+      }
+    }
+
+    return null;
+
+  }
+
+  public boolean deleteUser(String username) {
+
+    if (!userExists(username)) {
+      return false;
+    }
+
+    try {
+      List<String> userDb = Files.readAllLines(mUserFile.toPath());
+      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext();) {
+        if (i.next().startsWith(username)) {
+          i.remove();
+          break;
+        }
+      }
+      FileUtils.writeLines(mUserFile,userDb);
+      return true;
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return false;
+    }
+
+  }
+
+  public String verifyToken(String token) {
+
+    File tokenFile = new File(mTokenDir, token);
+
+    if (tokenFile.exists()) {
+      try {
+        String entry = FileUtils.readFileToString(tokenFile);
+        new BufferedWriter(new FileWriter(mUserFile, true)).append(entry.concat("\n")).close();
+        FileUtils.forceDelete(tokenFile);
+        return entry.split(":")[0];
+      } catch (IOException e) {
+        Logger.error(e.toString());
+      }
+    }
+
+    return null;
+
+  }
+
+  public boolean userExists(String username) {
+
+    try {
+      return FileUtils.readFileToString(mUserFile).contains(username);
+    } catch (IOException e) {
+      Logger.error(e.toString());
+    }
+
+    return false;
+
+  }
+
+  public boolean pendingVerification(String username) {
+    return new File(mTokenDir, getEncryptedUsername(username)).exists();
+  }
+
+  public boolean updatePassword(String username, String current, String updated) {
+
+    return validatePassword(username, current) && setPassword(username, updated);
+
+  }
+
+  public boolean setPassword(String username, String password) {
+
+    if (!userExists(username)) {
+      return false;
+    }
+
+    try {
+      List<String> userDb = Files.readAllLines(mUserFile.toPath());
+      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext();) {
+        if (i.next().startsWith(username)) {
+          i.set(buildEntry(username, password));
+          break;
+        }
+      }
+      FileUtils.writeLines(mUserFile,userDb);
+      return true;
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return false;
+    }
+
+  }
+
+  public boolean validatePassword(String username, String password) {
+
+    if (!userExists(username)) {
+      return false;
+    }
+
+    String entry = getEntry(username);
+    return entry != null && MD5Crypt.verifyPassword(password, entry.split(":")[1]);
+
+  }
+
+  // FIXME: unit tests
+  public List<String> getRoles(String username) {
+
+    List<String> roles = new ArrayList<>();
+
+    try {
+      List<String> lines = Files.readAllLines(mGroupFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        String role = entry[0].trim();
+        List<String> users = Arrays.asList(entry[1].split(" +"));
+        if (users.contains(username)) {
+          roles.add(role);
+        }
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get roles", e);
+    }
+
+    return roles;
+
+  }
+
+  public boolean setProfileId(String username, String profileId) {
+
+    if (!userExists(username)) {
+      return false;
+    }
+
+    try {
+      List<String> profileDb = Files.readAllLines(mProfileFile.toPath());
+      for (final ListIterator<String> i = profileDb.listIterator(); i.hasNext();) {
+        if (i.next().startsWith(username)) {
+          i.set(username.concat(" ").concat(profileId));
+          FileUtils.writeLines(mProfileFile, profileDb);
+          return true;
+        }
+      }
+      FileUtils.writeLines(mProfileFile, Collections.singletonList(username.concat(" ").concat(profileId)), true);
+      return true;
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return false;
+    }
+
+  }
+
+  public String getProfileId(String username) {
+
+    try {
+      List<String> lines = Files.readAllLines(mProfileFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(" ");
+        String name = entry[0].trim();
+        if (name.equals(username)) {
+          return entry[1].trim();
+        }
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get roles", e);
+    }
+
+    return null;
+
+  }
+
+  private String getEntry(String username) {
+    try {
+      List<String> userDb = Files.readAllLines(mUserFile.toPath());
+      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext();) {
+        String entry = i.next();
+        if (entry.startsWith(username)) {
+          return entry;
+        }
+      }
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return null;
+    }
+    return null;
+  }
+
+  private static String buildEntry(String username, String password) {
+    return username.concat(":").concat(MD5Crypt.apacheCrypt(password));
+  }
+
+  private static String getEncryptedUsername(String email) {
+    return DigestUtils.sha256Hex(email);
+  }
+
+}

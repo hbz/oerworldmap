@@ -1,15 +1,17 @@
 package controllers;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import helpers.JsonLdConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -23,274 +25,228 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-
 import helpers.Countries;
 import helpers.JSONForm;
-import helpers.JsonLdConstants;
 import models.Resource;
 import play.Logger;
 import play.mvc.Result;
-import services.Account;
 
 public class UserIndex extends OERWorldMap {
 
-  public static Result list() throws IOException {
+  public static Result signup() {
+
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(Locale.getDefault()));
-    return ok(render("Registration", "UserIndex/index.mustache", scope));
+    return ok(render("Registration", "UserIndex/register.mustache", scope));
+
   }
 
-  public static Result register() throws IOException {
+  public static Result register() {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
-    Map<String, Object> scope = new HashMap<>();
 
-    ProcessingReport report = user.validate();
-    user.put("mbox_sha1sum", Account.getEncryptedEmailAddress(user));
-    if (mConf.getBoolean("user.email.unique")) {
-      ensureEmailUnique(user, report);
-    }
-    if (!report.isSuccess()) {
-      scope.put("countries", Countries.list(Locale.getDefault()));
-      scope.put("user", user);
-      return badRequest(render("Registration", "UserIndex/index.mustache", scope,
-          JSONForm.generateErrorReport(report)));
-    }
+    String username = user.getAsString("email");
+    String password = user.getAsString("password");
+    String confirm = user.getAsString("password-confirm");
+    user.remove("password");
+    user.remove("password-confirm");
 
-    newsletterSignup(user);
-    user.remove("email");
-    mBaseRepository.addResource(user, getMetadata());
+    Result result;
 
-    List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String, Object> message = new HashMap<>();
-    message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_registration_feedback"));
-    messages.add(message);
-    return ok(render("Registration", "feedback.mustache", scope, messages));
-
-  }
-
-  private static Result upsertUser(String aId) throws IOException {
-
-    boolean update = StringUtils.isNotEmpty(aId);
-
-    // If updating a resource, check if it actually exists
-    if (update) {
-      Resource originalResource = mBaseRepository.getResource(aId);
-      if (originalResource == null) {
-        return notFound("Not found");
-      }
-    }
-
-    // Get resource from JSON body or form data
-    JsonNode json = request().body().asJson();
-    if (null == json) {
-      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
-      if (null == formUrlEncoded) {
-        return badRequest("Empty request body");
-      }
-      json = JSONForm.parseFormData(formUrlEncoded, true);
-    }
-    Resource resource = Resource.fromJson(json);
-    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
-
-    // Check if id of updated resource matches URL parameter
-    if (update && !aId.equals(resource.getId())) {
-      return badRequest("Invalid ID");
-    }
-
-    // Only person create /update through UserIndex, which is restricted to admin
-    if (!"Person".equals(resource.getType())) {
-      return forbidden((update ? "Update" : "Create").concat(" ").concat(resource.getType()).concat(" forbidden."));
-    }
-
-    ProcessingReport processingReport = mBaseRepository.stage(resource).validate();
-    if (!processingReport.isSuccess()) {
-      return badRequest("Failed to".concat((update ? " update " : " create ")).concat(resource.getId()).concat("\n")
-        .concat(processingReport.toString()).concat("\n"));
-    }
-
-    mBaseRepository.addResource(resource, getMetadata());
-    if (update) {
-      return ok("Updated " + resource.getId() + "\n");
+    if (StringUtils.isEmpty(username)) {
+      result = badRequest("No email address provided.");
+    } else if (StringUtils.isEmpty(password)) {
+      result = badRequest("No password provided.");
+    } else if (!password.equals(confirm)) {
+      result = badRequest("Passwords must match.");
+    } else if (password.length() < 8) {
+      result = badRequest("Password must be at least 8 characters long.");
     } else {
-      response().setHeader(LOCATION, routes.UserIndex.read(resource.getId()).absoluteURL(request()));
-      return created("Created " + resource.getId() + "\n");
+      String token = mAccountService.addUser(username, password);
+      if (token == null) {
+        result = badRequest("Failed to add " . concat(username));
+      } else {
+        sendMail(username, MessageFormat.format(emails.getString("account.verify.message"),
+            mConf.getString("proxy.host").concat(routes.UserIndex.verify(token).url())),
+            emails.getString("account.verify.subject"));
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("username", username);
+        result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
+      }
     }
 
-  }
-
-  public static Result addUser() throws IOException {
-
-    return updateUser(null);
+    return result;
 
   }
 
-  public static Result updateUser(String aId) throws IOException {
+  public static Result verify(String token) throws IOException {
 
-    return upsertUser(aId);
+    Result result;
+
+    if (token == null) {
+      result = badRequest("No token given.");
+    } else {
+      String username = mAccountService.verifyToken(token);
+      if (username != null) {
+
+        createProfile(username);
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("username", username);
+        result = ok(render("User verified", "UserIndex/verified.mustache", scope));
+
+      } else {
+        result = badRequest("Invalid token ".concat(token));
+      }
+    }
+
+    return result;
 
   }
 
-  public static Result read(String id) throws IOException {
-    return ResourceIndex.read(id);
+  public static Result requestPassword() {
+    return ok(render("Reset Password", "UserIndex/password.mustache"));
   }
 
-  public static Result delete(String id) throws IOException {
-    return ResourceIndex.delete(id);
-  }
+  public static Result sendPassword() {
 
-  public static Result sendToken() {
+    Result result;
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
-    ProcessingReport report = user.validate();
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("user", user);
-
-    if (!report.isSuccess()) {
-      return badRequest(render("Request Token", "Secured/token.mustache", scope,
-          JSONForm.generateErrorReport(report)));
-    }
-
-    String token = Account.createTokenFor(user);
-    if (!StringUtils.isEmpty(token) && !StringUtils.isEmpty(mConf.getString("mail.smtp.host"))) {
-      sendTokenMail(user, token);
-    } else if (!StringUtils.isEmpty(token)) {
-      Logger.warn("No mailserver specified, cannot send ".concat(token).concat(" to "
-        .concat(user.getAsString("email"))));
+    String username;
+    if (ctx().args.get("username") != null) {
+      username = ctx().args.get("username").toString();
+      String password = user.getAsString("password");
+      String updated = user.getAsString("password-new");
+      String confirm = user.getAsString("password-confirm");
+      if (StringUtils.isEmpty(password) || StringUtils.isEmpty(updated) || StringUtils.isEmpty(confirm)) {
+        result = badRequest("Please fill out the form.");
+      } else if (!updated.equals(confirm)) {
+        result = badRequest("Passwords must match.");
+      } else if (password.length() < 8) {
+        result = badRequest("Password must be at least 8 characters long.");
+      } else if (!mAccountService.updatePassword(username, password, updated)) {
+        result = badRequest("Failed to update password for ".concat(username));
+      } else {
+        result = ok(render("Password changed", "UserIndex/passwordChanged.mustache"));
+      }
     } else {
-      Logger.warn("Could not get token for ".concat(user.getAsString("email")));
-    }
-
-    scope.put("continue", "<a class=\"hijax\" target=\"_self\" href=\"/.auth\">".concat(
-      messages.getString("feedback_link_continue")).concat("</a>"));
-
-    // We fail silently with success message in order not to expose valid email addresses
-    List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String, Object> message = new HashMap<>();
-    message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_token_request_description"));
-    messages.add(message);
-
-    return ok(render("Request Token", "feedback.mustache", scope, messages));
-
-  }
-
-  public static Result manageToken() {
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
-
-    List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String, Object> message = new HashMap<>();
-    message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_status_logged_in"));
-    messages.add(message);
-
-    return ok(render("Manage Token", "feedback.mustache", scope, messages));
-
-  }
-
-  public static Result deleteToken() {
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("continue", "<a href=\"\">".concat(messages.getString("feedback_link_continue")).concat("</a>"));
-
-    Resource user = new Resource("Person");
-    user.put("email", request().username());
-    Account.removeTokenFor(user);
-    scope.put("user", user);
-
-    List<Map<String, Object>> messages = new ArrayList<>();
-    HashMap<String, Object> message = new HashMap<>();
-    message.put("level", "success");
-    message.put("message", UserIndex.messages.getString("user_status_logged_out"));
-    messages.add(message);
-
-    return ok(render("Delete Token", "feedback.mustache", scope, messages));
-
-  }
-
-  private static void ensureEmailUnique(Resource user, ProcessingReport aReport) {
-    String aEmail = user.get("mbox_sha1sum").toString();
-    String emailExistsQuery = JsonLdConstants.TYPE.concat(":Person").concat(" AND ")
-        .concat("mbox_sha1sum:").concat(aEmail);
-    if ((!(mBaseRepository.query(emailExistsQuery, 0, 1, null, null).getTotalItems() == 0))) {
-      ProcessingMessage message = new ProcessingMessage();
-      message.setMessage("This e-mail address is already registered");
-      ObjectNode instance = new ObjectNode(JsonNodeFactory.instance);
-      instance.put("pointer", "/mbox_sha1sum");
-      message.put("instance", instance);
-      try {
-        aReport.error(message);
-      } catch (ProcessingException e) {
-        e.printStackTrace();
+      username = user.getAsString("email");
+      if (StringUtils.isEmpty(username) || !mAccountService.userExists(username)) {
+        result = badRequest("No valid username provided.");
+      } else {
+        String password = new BigInteger(130, new SecureRandom()).toString(32);
+        if (mAccountService.setPassword(username, password)) {
+          sendMail(username, MessageFormat.format(emails.getString("account.password.message"), password),
+              emails.getString("account.password.subject"));
+          result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
+        } else {
+          result = badRequest("Failed to reset password.");
+        }
       }
     }
+
+    return result;
+
   }
 
-  private static void newsletterSignup(Resource user) {
+  public static Result newsletterSignup() {
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("countries", Countries.list(OERWorldMap.mLocale));
+    return ok(render("Registration", "UserIndex/newsletter.mustache", scope));
+
+  }
+
+  public static Result newsletterRegister() {
+
+    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+
+    if (!user.validate().isSuccess()) {
+      return badRequest("Please provide a valid email address and select a country.");
+    }
+
+    String username = user.getAsString("email");
+
+    if (StringUtils.isEmpty(username)) {
+      return badRequest("Not username given.");
+    }
 
     String mailmanHost = mConf.getString("mailman.host");
     String mailmanList = mConf.getString("mailman.list");
     if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
-      Logger.warn("No mailman configured, user ".concat(user.get("email").toString())
+      Logger.warn("No mailman configured, user ".concat(username)
         .concat(" not signed up for newsletter"));
-      return;
+      return internalServerError("Newsletter currently not available.");
     }
 
-    @SuppressWarnings("resource")
     HttpClient client = new DefaultHttpClient();
     HttpPost request = new HttpPost("https://" + mailmanHost + "/mailman/subscribe/" + mailmanList);
     try {
-      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+      List<NameValuePair> nameValuePairs = new ArrayList<>(1);
       nameValuePairs.add(new BasicNameValuePair("email", user.get("email").toString()));
       request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
       HttpResponse response = client.execute(request);
-      Logger.info(Integer.toString(response.getStatusLine().getStatusCode()));
-      try (BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()))) {
-        String line;
-        while ((line = rd.readLine()) != null) {
-          Logger.info(line);
-        }
+      Integer responseCode = response.getStatusLine().getStatusCode();
+
+      if (!responseCode.equals(200)) {
+        Logger.error(response.getStatusLine().toString());
+        return internalServerError();
       }
 
     } catch (IOException e) {
-      e.printStackTrace();
+      Logger.error(e.toString());
+      return internalServerError();
     }
+
+    return ok(username + " signed up for newsletter.");
+
   }
 
-  private static void sendTokenMail(Resource aUser, String aToken) {
-    Email confirmationMail = new SimpleEmail();
+  private static void sendMail(String aEmailAddress, String aMessage, String aSubject) {
+    Email mail = new SimpleEmail();
     try {
-      confirmationMail.setMsg(UserIndex.messages.getString("user_token_request_message").concat("\n\n").concat(aToken));
-      confirmationMail.setHostName(mConf.getString("mail.smtp.host"));
-      confirmationMail.setSmtpPort(mConf.getInt("mail.smtp.port"));
+      mail.setMsg(aMessage);
+      mail.setHostName(mConf.getString("mail.smtp.host"));
+      mail.setSmtpPort(mConf.getInt("mail.smtp.port"));
       String smtpUser = mConf.getString("mail.smtp.user");
       String smtpPass = mConf.getString("mail.smtp.password");
       if (!smtpUser.isEmpty()) {
-        confirmationMail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
+        mail.setAuthenticator(new DefaultAuthenticator(smtpUser, smtpPass));
       }
-      confirmationMail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
-      confirmationMail.setStartTLSEnabled(mConf.getBoolean("mail.smtp.tls"));
-      confirmationMail.setFrom(mConf.getString("mail.smtp.from"),
+      mail.setSSLOnConnect(mConf.getBoolean("mail.smtp.ssl"));
+      mail.setStartTLSEnabled(mConf.getBoolean("mail.smtp.tls"));
+      mail.setFrom(mConf.getString("mail.smtp.from"),
         mConf.getString("mail.smtp.sender"));
-      confirmationMail.setSubject(UserIndex.messages.getString("user_token_request_subject"));
-      confirmationMail.addTo((String) aUser.get("email"));
-      confirmationMail.send();
-      Logger.debug(confirmationMail.toString());
-      Logger.info("Sent " + aToken + " to " + aUser.get("email"));
+      mail.setSubject(aSubject);
+      mail.addTo(aEmailAddress);
+      mail.send();
+      Logger.debug(mail.toString());
+      Logger.info("Sent\n" + aMessage + "\nto " + aEmailAddress);
     } catch (EmailException e) {
-      Logger.debug(e.toString());
-      Logger.error("Failed to send " + aToken + " to " + aUser.get("email"));
+      Logger.error(e.toString());
+      Logger.debug("Failed to send\n" + aMessage + "\nto " + aEmailAddress);
     }
+  }
+
+  private static void createProfile(String aEmailAddress) throws IOException {
+
+    // Check if person entry with corresponding email already exists
+    List<Resource> users = mBaseRepository.getResources("about.email", aEmailAddress);
+    for (Resource user : users) {
+      if (user.getType().equals("Person")) {
+        Logger.warn("Profile for ".concat(aEmailAddress).concat(" already exists."));
+        mAccountService.setProfileId(aEmailAddress, user.getId());
+        mAccountService.setPermissions(user.getId(), aEmailAddress);
+        return;
+      }
+    }
+
+    Resource person = new Resource("Person");
+    person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    mBaseRepository.addResource(person, getMetadata());
+    mAccountService.setProfileId(aEmailAddress, person.getId());
+    mAccountService.setPermissions(person.getId(), aEmailAddress);
+
   }
 
 }

@@ -1,0 +1,57 @@
+<div id="filter">
+
+    <div id="filter-search" class="input-group">
+        <input type="text" data-filter-name="q" value="{{q}}" class="form-control" placeholder="Search the map ...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" data-filter-action="search"><i class="fa fa-search"></i></button>
+        </span>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8">
+
+            <div id="filter-type" class="btn-group">
+                {{#each resource_types}}
+                    <button
+                        class="btn btn-default {{#if active}} active {{/if}}"
+                        data-filter-action="set-type"
+                        data-filter-name="filter.about.@type"
+                        data-filter-value="{{@key}}"
+                        title="{{@key}}"
+                    >
+                        <i class="fa fa-fw fa-{{icon}}"></i>
+                    </button>
+                {{/each}}
+            </div>
+
+        </div>
+
+        {{#country_aggregation}}
+            {{#if show}}
+
+                <div class="col-sm-4 col-{{column}}">
+                    {{> filter-dropdown}}
+                </div>
+
+            {{/if}}
+        {{/country_aggregation}}
+
+        {{#each aggregations}}
+            {{#if show}}
+
+                <div class="col-sm-4 col-{{column}} floating-hidden">
+                    {{> filter-dropdown}}
+                </div>
+
+            {{/if}}
+        {{/each}}
+
+        <div class="col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
+            <div class="small clear-filter">
+                <a href="/">Clear Filter</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
