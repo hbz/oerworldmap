@@ -21,6 +21,7 @@ A short text with lessons learned – what worked and what did not – would con
 To become a truly global resource, OER World Map web site pages need to be available in multiple languages.  If you would be able to translate web pages into your native language please let us know at [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
 
 ---
+
 ## Build and use the data
 ### Become an editor and contribute data
 If you are interested in collecting data for the OER World Map, you can use templates to edit data directly on the platform. In order to do this, just register on the platform and contact us at [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
@@ -32,6 +33,7 @@ Existing OER data can be uploaded to the OER World Map platform using a powerful
 The API of the OER World Map can be used to generate and export data with no delay.  Complete or filtered data can be used in other web sites. A special functionality currently is developed to support the reuse of data with flexible and easily integrated gadgets. If you would like to reuse OER World Map data, please contact us at [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
 
 ---
+
 ## Technical input
 ### Report bugs
 Please report any bugs you identify by opening a new ticket if you are registered on [GitHub](https://github.com/hbz/oerworldmap). Otherwise you can send a message to [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
