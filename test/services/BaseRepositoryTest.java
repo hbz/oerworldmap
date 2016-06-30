@@ -369,7 +369,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
     Thread.sleep(5000);
-    QueryContext queryContext = new QueryContext(null, null);
+    QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query correct spelling:
@@ -395,7 +395,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
     Thread.sleep(5000);
-    QueryContext queryContext = new QueryContext(null, null);
+    QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query correct spelling:
@@ -419,7 +419,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
     Thread.sleep(5000);
-    QueryContext queryContext = new QueryContext(null, null);
+    QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query with diacritica
