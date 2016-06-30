@@ -5,7 +5,9 @@
     <nav class="row text-center">
         {{#each scope.statistics}}
             {{#ifCond (size buckets) '>' 1}}
-                <a data-behaviour="global-statistic-switch" href="#{{[@key]}}">{{i18n [@key]}}</a>
+                <span class="separated">
+                    <a data-behaviour="global-statistic-switch" href="#{{[@key]}}">{{i18n [@key]}}</a>
+                </span>
             {{/ifCond}}
         {{/each}}
     </nav>
