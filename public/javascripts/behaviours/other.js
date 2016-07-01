@@ -153,12 +153,29 @@ var Hijax = (function ($, Hijax) {
 
       });
 
+      // global statistics
       $('[data-behaviour="global-statistic"]', context).slice(1).hide();
       $('[data-behaviour="global-statistic-switch"]', context).click(function(e) {
         var id = $(this).attr("href").slice(1);
         $('[data-behaviour="global-statistic"]', context).hide();
         $("[id='" + id + "']", context).show();
         e.preventDefault();
+      });
+
+      // carousel
+      $('[data-behaviour="carousel"]', context).each(function() {
+        var children = $(this).children();
+        if (children.length > 1) {
+          var i = 0;
+          children.hide();
+          $(children.get(i)).show();
+          setInterval(function() {
+            $(children.get(i)).fadeOut(400, function() {
+              i = (i + 1) % children.length;
+              $(children.get(i)).fadeIn(400);
+            });
+          }, 5000);
+        }
       });
 
     }

@@ -99,33 +99,35 @@
             <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
         </div>
 
-        {{#champions}}
-            <div class="country-champion">
+        {{#if champions}}
+            <div data-behaviour="carousel">
+                {{#champions}}
+                    <div class="country-champion">
 
-                {{#image}}
-                    <img src="{{.}}" class="img" />
-                {{/image}}
-                {{^image}}
-                    <div class="img placeholder-image"></div>
-                {{/image}}
+                        {{#image}}
+                            <img src="{{.}}" class="img" />
+                        {{/image}}
+                        {{^image}}
+                            <div class="img placeholder-image-qmark"></div>
+                        {{/image}}
 
-                <div class="text">
-                    <h4>Country Champion</h4>
+                        <div class="text">
+                            <h4>Country Champion</h4>
 
-                    <ul class="resource-list truncated"><li>
-                      {{>ResourceIndex/link.mustache}}
-                    </li></ul>
+                            <ul class="resource-list truncated"><li>
+                                {{>ResourceIndex/link.mustache}}
+                            </li></ul>
 
-                    <p>
-                      <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                    </p>
+                            <p>
+                                <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                            </p>
 
-                </div>
+                        </div>
 
+                    </div>
+                {{/champions}}
             </div>
-        {{/champions}}
-
-        {{^champions}}
+        {{else}}
             <div class="country-champion">
 
                 <div class="img placeholder-image-qmark"></div>
@@ -135,7 +137,7 @@
                 </div>
 
             </div>
-        {{/champions}}
+        {{/if}}
 
     </div>
 
