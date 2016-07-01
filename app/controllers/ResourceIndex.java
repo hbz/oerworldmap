@@ -337,10 +337,12 @@ public class ResourceIndex extends OERWorldMap {
         || mAccountService.getRoles(request().username()).contains("admin"));
     boolean mayLog = (user != null) && (mAccountService.getRoles(request().username()).contains("admin")
         || mAccountService.getRoles(request().username()).contains("champion"));
+    boolean mayAdminister = (user != null) && mAccountService.getRoles(request().username()).contains("admin");
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
     permissions.put("log", mayLog);
+    permissions.put("administer", mayAdminister);
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
