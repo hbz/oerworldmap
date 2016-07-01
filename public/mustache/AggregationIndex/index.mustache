@@ -2,20 +2,38 @@
 
     <h1 class="modal-title text-center">Global Statistics</h1>
 
+    <nav class="row text-center">
+        {{#each scope.statistics}}
+            {{#ifCond (size buckets) '>' 1}}
+                <span class="separated">
+                    <a data-behaviour="global-statistic-switch" href="#{{[@key]}}">{{i18n [@key]}}</a>
+                </span>
+            {{/ifCond}}
+        {{/each}}
+    </nav>
+
+    <hr />
+
     {{#each scope.statistics}}
         {{#ifCond (size buckets) '>' 1}}
 
-            <h2>{{i18n (getField [@key])}}</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    {{pieChart . scope.colors width=200 height=200 href-template=(stringFormat "/resource/?filter.%s={key}" [@key])}}
+            <div id="{{[@key]}}" data-behaviour="global-statistic">
+                <h2>{{i18n [@key] }}</h2>
+                <div class="row text-center">
+                    {{pieChart . scope.colors width=300 height=300 href-template=(stringFormat "/resource/?filter.%s={key}" [@key])}}
                 </div>
-                <div class="col-md-6">
+                <div class="row">
                     <table class="table">
                         {{#each buckets}}
                             <tr>
-                                <td style="background-color: {{get scope.colors @index}}">&nbsp;</td>
-                                <td>{{i18n key bundle=(getBundle (getField ../[@key]))}} ({{ doc_count }})</td>
+                                <td style="width: 10%">
+                                    <div style="background-color: {{get scope.colors @index}};">&nbsp;</div>
+                                </td>
+                                <td>
+                                    <a href="/resource/?filter.{{[@key]}}={{key}}">
+                                        {{i18n key bundle=(getBundle (getField ../[@key]))}} ({{ doc_count }})
+                                    </a>
+                                </td>
                             </tr>
                         {{/each}}
                     </table>
