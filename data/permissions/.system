@@ -27,3 +27,15 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
   Require group champion
   Require group admin
 </Location>
+
+<Location /record/>
+  Require group admin
+</Location>
+
+<Location /import/>
+  Require group admin
+</Location>
+
+<Location /index/>
+  Require group admin
+</Location>
