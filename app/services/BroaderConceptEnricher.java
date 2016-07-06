@@ -40,6 +40,7 @@ public class BroaderConceptEnricher implements ResourceEnricher {
       if (inputStream == null){
         inputStream = new FileInputStream("public/json/esc.json");
       }
+      RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }
