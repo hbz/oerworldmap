@@ -3,64 +3,64 @@
     {
       "serviceUrl": "https://toobar.ao/"
     }
-  ], 
+  ],
   "provider": [
     {
-      "@type": "Organization", 
+      "@type": "Organization",
       "provides": [
         {
-          "@type": "Service", 
+          "@type": "Service",
           "name": [
             {
-              "@value": "tóobar.ao", 
+              "@value": "tóobar.ao",
               "@language": "en"
             }
-          ], 
+          ],
           "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001"
         }
-      ], 
+      ],
       "name": [
         {
-          "@value": "Tóobar, Inc.", 
+          "@value": "Tóobar, Inc.",
           "@language": "en"
         }
-      ], 
+      ],
       "description": [
         {
-          "@value": "Tóobar, Inc. is a privately held company based in Angola. We operate tóobar.ao, the bookstore for books that want to be free. With your help, we will change the world. ", 
+          "@value": "Tóobar, Inc. is a privately held company based in Angola. We operate tóobar.ao, the bookstore for books that want to be free. With your help, we will change the world. ",
           "@language": "en"
         }
-      ], 
+      ],
       "location": {
         "geo": {
-          "lon": 11.111111, 
+          "lon": 11.111111,
           "lat": 22.222222
-        }, 
+        },
         "address": {
-          "addressCountry": "AO", 
-          "addressLocality": "Town", 
+          "addressCountry": "AO",
+          "addressLocality": "Town",
           "addressRegion": "Region"
         }
-      }, 
-      "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", 
+      },
+      "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002",
       "url": "https://toobar.ao/"
     }
-  ], 
-  "@type": "Service", 
+  ],
+  "@type": "Service",
   "name": [
     {
-      "@value": "tóobar.ao", 
+      "@value": "tóobar.ao",
       "@language": "en"
     }
-  ], 
+  ],
   "description": [
     {
-      "@value": "Tóobar.ao is a place for individuals and institutions to join together to make ebooks free to the world. We work together to support authors, publishers, or other rights holders who want their ebooks to be free. We support Creative Commons licensing as an enabling tool to \"unglue\" the ebooks. \r\n\r\nWe have three types of Ungluing Campaigns: Pledge Campaigns, Buy-to-Unglue Campaigns and Thanks-for-Ungluing campaigns.\r\n\r\n    In a Pledge Campaign, book lovers pledge their support for ungluing a book. If enough support is found to reach the goal (and only then), the supporter's credit cards are charged, and an unglued ebook is released.\r\n    In a Buy-to-Unglue Campaign, every ebook copy sold moves the book's ungluing date closer to the present. And you can donate ebooks to your local library- that's something you can't do in the Kindle or Apple Stores!\r\n    In a Thanks-for-Ungluing Campaign, the ebook is already released with a Creative Commons license. Supporters can express their thanks by paying what they wish for the license and the ebook.\r\n\r\nWe also support distribution and preservation of free ebooks through our growing catalog of free-licensed ebooks. ", 
+      "@value": "Tóobar.ao is a place for individuals and institutions to join together to make ebooks free to the world. We work together to support authors, publishers, or other rights holders who want their ebooks to be free. We support Creative Commons licensing as an enabling tool to \"unglue\" the ebooks. \r\n\r\nWe have three types of Ungluing Campaigns: Pledge Campaigns, Buy-to-Unglue Campaigns and Thanks-for-Ungluing campaigns.\r\n\r\n    In a Pledge Campaign, book lovers pledge their support for ungluing a book. If enough support is found to reach the goal (and only then), the supporter's credit cards are charged, and an unglued ebook is released.\r\n    In a Buy-to-Unglue Campaign, every ebook copy sold moves the book's ungluing date closer to the present. And you can donate ebooks to your local library- that's something you can't do in the Kindle or Apple Stores!\r\n    In a Thanks-for-Ungluing Campaign, the ebook is already released with a Creative Commons license. Supporters can express their thanks by paying what they wish for the license and the ebook.\r\n\r\nWe also support distribution and preservation of free ebooks through our growing catalog of free-licensed ebooks. ",
       "@language": "en"
     }
-  ], 
-  "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", 
-  "startDate": "2012-00-00", 
-  "email": "faq@toobar.ao", 
+  ],
+  "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001",
+  "startDate": "2012-01-01",
+  "email": "faq@toobar.ao",
   "@context": "http://schema.org/"
 }
