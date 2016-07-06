@@ -1,5 +1,6 @@
 package services;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,16 +35,19 @@ public class BroaderConceptEnricher implements ResourceEnricher {
     this.mConceptSchemes = ModelFactory.createDefaultModel();
 
     // Load ESC
-    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
-        .getResourceAsStream("public/json/esc.json")) {
-      RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
+    try (InputStream inputStream = new FileInputStream("public/json/esc.json");
+    ) {
+      try {
+        RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }
 
     // Load ISCED-1997
-    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
-        .getResourceAsStream("public/json/isced-1997.json")) {
+    try (InputStream inputStream = new FileInputStream("public/json/isced-1997.json")) {
       RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
     } catch (IOException e) {
       throw new RuntimeIOException(e);

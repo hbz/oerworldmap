@@ -1,41 +1,19 @@
 package controllers;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import helpers.JSONForm;
-import models.TripleCommit;
-import org.apache.commons.io.IOUtils;
-
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
-
 import helpers.HandlebarsHelpers;
+import helpers.JSONForm;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
 import models.Resource;
+import models.TripleCommit;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
@@ -46,6 +24,19 @@ import play.twirl.api.Html;
 import services.AccountService;
 import services.AggregationProvider;
 import services.repository.BaseRepository;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * @author fo
@@ -151,7 +142,8 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("permissions", permissions);
 
     TemplateLoader loader = new ResourceTemplateLoader();
-    loader.setPrefix("public/mustache");
+    String prefix = new String(getWorkingDirectory()) + "/public/mustache";
+    loader.setPrefix(prefix);
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
 
@@ -261,7 +253,7 @@ public abstract class OERWorldMap extends Controller {
     for (String path : paths) {
       try {
         String template = "<script id=\"".concat(path).concat("\" type=\"text/mustache\">\n");
-        InputStream templateStream = classLoader.getResourceAsStream(dir + path);
+        InputStream templateStream = new FileInputStream(dir + path);
         template = template.concat(IOUtils.toString(templateStream));
         templateStream.close();
         template = template.concat("</script>\n\n");
@@ -329,6 +321,17 @@ public abstract class OERWorldMap extends Controller {
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
+  }
+
+  private static String getWorkingDirectory(){
+    String directory = null;
+    try {
+      directory = new File( "." ).getCanonicalPath();
+      directory = directory.substring(0, directory.lastIndexOf("oerworldmap") + "oerworldmap".length());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return directory;
   }
 
 }
