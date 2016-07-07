@@ -1,7 +1,7 @@
 # Contribute
 ## Raise awareness
 ### Spread the news
-People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities.  We need to build the network together, so please speak to your friends and colleagues or use social media like Facebook or Twitter to reach out more widely(use [#oerworldmap](https://twitter.com/hashtag/oerworldmap).
+People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities.  We need to build the network together, so please speak to your friends and colleagues or use social media like Facebook or Twitter to reach out more widely (use [#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
 
 ### Become a Country Champion
 Developing the OER World Map depends upon collaboration. It will be built best by a network of Country Champions who will have or want to create an overview of the OER movement in their own country.  From their local base they will raise awareness with their connections, gather data and assure its quality. 
