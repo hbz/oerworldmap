@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -424,7 +425,11 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public List<Commit> log(String aId) {
 
-    return mGraphHistory.log(aId);
+    if (StringUtils.isEmpty(aId)) {
+      return mGraphHistory.log();
+    } else {
+      return mGraphHistory.log(aId);
+    }
 
   }
 
