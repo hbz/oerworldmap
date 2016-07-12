@@ -30,7 +30,7 @@
                                     <div style="background-color: {{get scope.colors @index}};">&nbsp;</div>
                                 </td>
                                 <td>
-                                    <a href="/resource/?filter.{{[@key]}}={{key}}">
+                                    <a href="/resource/?filter.{{[@key]}}={{encodeURIComponent key}}">
                                         {{i18n key bundle=(getBundle (getField ../[@key]))}} ({{ doc_count }})
                                     </a>
                                 </td>

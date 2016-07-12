@@ -417,7 +417,11 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
     var c = parseInt((i + 200) / sectorAngleArr.length * 360);
     var path = createElement("path", true, {d: d, fill: colors[i]});
 
-    var href = urltemplate.parse(options.hash['href-template']).expand(buckets[i]);
+    var url_params = {};
+    for (var p in buckets[i]) {
+      url_params[p] = (typeof buckets[i][p] == 'string') ? encodeURIComponent(buckets[i][p]) : buckets[i][p];
+    }
+    var href = urltemplate.parse(options.hash['href-template']).expand(url_params);
     var arc = createElement("a", true, {
       "xlink:href": href,
       // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?),
@@ -526,6 +530,10 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
 Handlebars.registerHelper('get', function(list, index) {
   return list[index];
+});
+
+Handlebars.registerHelper('encodeURIComponent', function(string) {
+  return encodeURIComponent(string);
 });
 
 /*
