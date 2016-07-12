@@ -2,17 +2,17 @@
 ## What is OER?
 'OER' stands for 'Open Educational Resources' and this refers to freely accessible materials that can be used for a [range of activities around teaching and learning](https://www.opencontent.org/definition/). What makes them open is typically an open license instead of a traditional copyright license.
 
-According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise,that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
+According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
 
 Following the definition by [The William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) OER can be (or include) full courses, course materials, modules, textbooks, streaming videos, tests, software, and any other tools, materials, or techniques used to support access to knowledge.
 
-The detail of how to define OER still remains contested. The OER World Map project takes a broad and inclusive approach, providing information about actors and activities from the field of OER in the strict sense of the term, but also about related subjects like Open Education, Open Access and MOOCs. For more information on our collection strategie, please see “What belongs on the OER World Map?”.
+The detail of how to define OER still remains contested. The OER World Map project takes a broad and inclusive approach, providing information about actors and activities from the field of OER in the strict sense of the term, but also about related subjects like Open Education, Open Access and MOOCs. For more information on our collection strategy, please see “What belongs on the OER World Map?”
 
 ## Who is this website for?
 The OER World Map provides helpful information for everyone who is interested in or connected to OER and Open Education. The system is designed to provide real-time answers to questions like:
 - "Where can I find OER?"
 - "Which projects are working on a similar topic to our project?"
-- "Which experts have the knowledge to answer a question related to a special area of OER?". 
+- "Which experts have the knowledge to answer a question related to a special area of OER?" 
 
 We believe that this set of data is of special importance, since it provides a solid foundation for future attempts to collect knowledge about OER and Open Education in a systematic way. 
 
@@ -21,11 +21,14 @@ Our platform provides data and information with relevance to all stakeholder gro
 At the moment, we focus on three main use cases (known as "epics"):
 - Teachers and learners should be provided with qualified lists of OER services (e.g. repositories of OER) in order to help them finding resources more efficiently;
 - OER actors should be supported in their communication and collaboration through  connecting to relevant OER experts and projects working on similar tasks
-- OER Policy makers should be supported by reliable statistical data .
+- OER Policy makers should be supported by reliable statistical data.
 
 In addition to browser access (on desktop and mobile) The OER World Map makes data available to other systems through an Application Programming Interface (API), which will allow other services to reuse our data easily.  
 
 Our use cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please tell us so!
+
+## How do I saerch the database?
+Please make sure, that you use wildcards. Example: Search for "*stax*" instead of "stax" to find "OpenStax". We will refine the search engine soon, so that the use of wildcards will become obsolete.
 
 ## How can I participate?
 The success of the project is dependent on the participation of the OER community.  There are many ways to contribute. The most important ways are:
@@ -81,7 +84,7 @@ We will, however, take an active lead in highlighting the special benefits of op
 Projects should be handled more flexibly than services. Many projects might aim at goals related to Open Education in the wider sense and provide results which are valuable to the OER movement, even if they do not provide open licensed materials. To avoid excluding valuable experiences, we believe that the OER World Map should be open to all projects which consider themselves to contribute to the field of Open Education.
 
 ## Will the OER World Map include MOOCs (Massive Open Online Courses)?
-This is an interesting question. The simple answer will be "Yes!". But things are more complicated, if you look at it in more detail:
+This is an interesting question. The simple answer will be "Yes!" But things are more complicated, if you look at it in more detail:
 
 A criticism that has frequently been made is that many [MOOCs](https://en.wikipedia.org/wiki/Massive_open_online_course) are not using openly licensed material (which makes them "free" or “gratis” but not really "open"). As stated above, the World Map can also include gratis services and materials. This is true for MOOCs as well. But if a MOOC does not provide open resources, it will be classified accordingly using the "openness indicator" in the future.
 
@@ -102,7 +105,7 @@ Yes! We believe that students are missing in current OER discussions too often. 
 Country champions help to map the OER world by country – gathering data, assuring its quality and raising awareness of the project. Check out our [blog post](https://oerworldmap.wordpress.com/2015/04/17/what-does-it-mean-to-become-a-country-champion/) for more information about the country champion network. If you are interested in acting as champion for your country, please do not hesitate to [contact us](https://oerworldmap.org/info@oerworldmap.org).
 
 ## Will the OER World Map be available in several languages?
-The initial version of the website will be developed in English. Nevertheless, we believe that in the long run the site should be available in many languages and the system is prepared to support multilinguality. At the time being the platform supports data input in all major languages of the world and the system will show you data within the language chosen in your browser, if available. If you are interested in translating the website into your own language, please [contact us](https://oerworldmap.org/info@oerworldmap.org).
+The initial version of the website will be developed in English. Nevertheless, we believe that in the long run the site should be available in many languages and the system is prepared to support multilingualism. At the time being the platform supports data input in all major languages of the world and the system will show you data within the language chosen in your browser, if available. If you are interested in translating the website into your own language, please [contact us](https://oerworldmap.org/info@oerworldmap.org).
 
 ## Why are countries displayed in different shades of green?
 Countries with documented OER activity are displayed green. The more activity there is, the darker the colour. We call this mechanism “heat map”. The heat map is based right now on a very simple algorithm: the number of entries. We are thinking about refining the algorithm in the future (e.g. by representing the number of entries into relation to the number of inhabitants). 
