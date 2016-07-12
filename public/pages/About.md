@@ -23,7 +23,7 @@ The OER World Map is being built by [hbz](http://www.hbz-nrw.de) and [graphthink
 Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java developer in the field of Computational Linguistics (CL). After having worked with search engines, parsers, neural networks and speech synthesis in the course of his CL studies at the University of Cologne he went on to gain general IT experience at a German 1000 head counting, Java focused company. Later on he worked as a backend developer in an Gardner Magic Quadrant American eDiscovery company, finally heading for the open minded spirit of the University-related hbz again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
 
 ## Karin Driesen (Online Editor)
-![Karin Driesen](/assets/images/Karin-Driesen-400.jpg)
+![Karin Driesen](/assets/images/Karin-Driesen-130.jpg)
 Karin started to work for the OER World Map at hbz in spring 2016 as online editor. Before this she worked for the German office of O’Reilly Media, a computer book publisher known for supporting the open source community. She has studied two extremely different subjects: German literature and geoecology. These subjects were related to different ways of studying: reading and writing on your own studying literature and working together as a team by sharing all resources with your fellow geoecology students. Getting material written by other people, refine it and pass it on to the following students was much like the OER way. She wants to  move ahead on this way and help people to find useful and reusable information.
 
 ## Dr. Robert Farrow (Project Communications)
