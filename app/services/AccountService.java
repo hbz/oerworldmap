@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import helpers.MD5Crypt;
 
@@ -200,27 +201,109 @@ public class AccountService {
   }
 
   // FIXME: unit tests
-  public List<String> getRoles(String username) {
+  public List<String> getGroups(String username) {
 
-    List<String> roles = new ArrayList<>();
+    List<String> groups = new ArrayList<>();
 
     try {
       List<String> lines = Files.readAllLines(mGroupFile.toPath());
       for (String line : lines) {
         String[] entry = line.split(":");
-        String role = entry[0].trim();
+        String group = entry[0].trim();
         List<String> users = Arrays.asList(entry[1].split(" +"));
         if (users.contains(username)) {
-          roles.add(role);
+          groups.add(group);
         }
       }
     } catch (IOException e) {
-      Logger.error("Failed to get roles", e);
+      Logger.error("Failed to get groups", e);
     }
 
-    return roles;
+    return groups;
 
   }
+
+  public List<String> getGroups() {
+
+    List<String> groups = new ArrayList<>();
+
+    try {
+      List<String> lines = Files.readAllLines(mGroupFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        String group = entry[0].trim();
+        groups.add(group);
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get groups", e);
+    }
+
+    return groups;
+
+  }
+
+  /**
+   * Update all groups at once.
+   *
+   * @param groups The map of group name with all users of that group
+   * @return True on success
+   */
+  public boolean setGroups(Map<String, List<String>> groups) {
+
+    List<String> lines = new ArrayList<>();
+
+    for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
+      lines.add(entry.getKey().concat(": ").concat(String.join(" ", entry.getValue())));
+    }
+
+    try {
+      FileUtils.writeLines(mGroupFile, lines);
+      return true;
+    } catch (IOException e) {
+      Logger.error("Failed to update groups", e);
+      return false;
+    }
+
+  }
+
+  public List<String> getUsers() {
+
+    List<String> users = new ArrayList<>();
+
+    try {
+      List<String> lines = Files.readAllLines(mUserFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        String user = entry[0].trim();
+        users.add(user);
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get users", e);
+    }
+
+    return users;
+
+  }
+
+  public List<String> getUsers(String aGroup) {
+
+    try {
+      List<String> lines = Files.readAllLines(mGroupFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        String group = entry[0].trim();
+        if (group.equals(aGroup)) {
+          return Arrays.asList(entry[1].split(" +"));
+        }
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get users", e);
+    }
+
+    return new ArrayList<>();
+
+  }
+
 
   public boolean setProfileId(String username, String profileId) {
 
@@ -258,7 +341,7 @@ public class AccountService {
         }
       }
     } catch (IOException e) {
-      Logger.error("Failed to get roles", e);
+      Logger.error("Failed to get profile ID", e);
     }
 
     return null;

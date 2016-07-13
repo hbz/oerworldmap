@@ -1,16 +1,20 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import helpers.JsonLdConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -199,6 +203,48 @@ public class UserIndex extends OERWorldMap {
     }
 
     return ok(username + " signed up for newsletter.");
+
+  }
+
+  public static Result editGroups() {
+
+    Map<String, Map<String, Boolean>> groups = new HashMap<>();
+    for (String group : mAccountService.getGroups()) {
+      Map<String, Boolean> users = new HashMap<>();
+      for (String user: mAccountService.getUsers()) {
+        users.put(user, mAccountService.getUsers(group).contains(user));
+      }
+      groups.put(group, users);
+    }
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("groups", groups);
+    return ok(render("Edit Permissions", "UserIndex/groups.mustache", scope));
+
+  }
+
+  public static Result setGroups() {
+
+    Map<String, List<String>> groupUsers = new HashMap<>();
+
+    if (request().body().asFormUrlEncoded() != null) {
+      JsonNode jsonNode = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+      Iterator<String> groupNames = jsonNode.fieldNames();
+      while (groupNames.hasNext()) {
+        String group = groupNames.next();
+        List<String> users = StreamSupport.stream(
+          Spliterators.spliteratorUnknownSize(jsonNode.get(group).fieldNames(),
+            Spliterator.ORDERED), false).collect(
+          Collectors.<String>toList());
+        groupUsers.put(group, users);
+      }
+    }
+
+    if (mAccountService.setGroups(groupUsers)) {
+      return ok("Groups updated");
+    } else {
+      return internalServerError("Failed to update groups");
+    }
 
   }
 
