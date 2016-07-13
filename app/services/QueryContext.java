@@ -42,6 +42,7 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
     guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
     guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
+    guestAggregations.add(AggregationProvider.getLicenseAggregation(0));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);

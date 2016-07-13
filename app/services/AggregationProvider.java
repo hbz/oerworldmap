@@ -105,4 +105,9 @@ public class AggregationProvider {
     return conceptAggregation;
   }
 
+  public static AggregationBuilder<?> getLicenseAggregation(int aSize) {
+    return AggregationBuilders.terms("about.license.@id").size(aSize)
+      .field("about.license.@id");
+  }
+
 }
