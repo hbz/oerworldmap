@@ -157,19 +157,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.3.json");
     Resource db4 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.4.json");
-    Resource db5 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.5.json");
-    Resource db6 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.6.json");
-    Resource db7 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.7.json");
-    Resource db8 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.8.json");
 
-    mBaseRepo.addResource(db7, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(db6, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
     mBaseRepo.addResource(db4, mMetadata);
     mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db5, mMetadata);
-    mBaseRepo.addResource(db8, mMetadata);
 
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
@@ -179,43 +171,36 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       QueryContext queryContext = new QueryContext(null);
       queryContext.setElasticsearchFieldBoosts( //
           new String[] { //
-              "about.name.@value^9", //
-              "about.alternateName.@value^6" });
+              "about.name.@value^9.0", //
+              "about.name_variations^9.0", //
+              "about.name_simple_tokenized^9.0", //
+              "about.alternateName.@value^6.0",
+              "about.alternateName_variations^6.0", //
+              "about.alternateName_simple_tokenized^6.0"});
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
-
-      // must provide 6 hits when search is reduced on "about.name.@value" and
+      // must provide 3 hits because search is reduced on "about.name.@value" and
       // "about.alternateName.@value"
-      Assert.assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 6);
+      Assert.assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 3);
 
-      // hits 1 to 5 must contain "oerworldmap" in field "name".
-      // hit 1 should be the Service named "OERWorldMap"
-
-      for (int i = 0; i < 4; i++) {
+      // hits 1 and 2 must contain "oerworldmap" in field "name".
+      for (int i = 0; i < 2; i++) {
         Assert.assertTrue(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
       }
-      // hits 5 and 6 must not contain "oerworldmap" in field "name"
-      for (int i = 4; i < 6; i++) {
+      // hit 3 must not contain "oerworldmap" in field "name"
+      for (int i = 2; i < 3; i++) {
         Assert.assertFalse(actualNameList.get(i).toLowerCase().contains("oerworldmap"));
       }
       // Resources db6 must not be found, since it only contains "oerworldmap"
       // in the field url
       // that is not in the list of searchable fields
-      Assert.assertFalse(actualNameList.contains("A Good Provider 6"));
-      // Resources db8 must not be found, since it doesn't contain "oerworldmap"
-      // in any searchable field
-      // that is not in the list of searchable fields
-      Assert.assertFalse(actualNameList.contains("A Good Provider 8"));
+      Assert.assertFalse(actualNameList.contains("Another Provider 4"));
     } //
     finally {
       mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00001", mMetadata);
       mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00002", mMetadata);
       mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00003", mMetadata);
       mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00004", mMetadata);
-      mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00005", mMetadata);
-      mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00006", mMetadata);
-      mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00007", mMetadata);
-      mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00008", mMetadata);
       mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-980666500001", mMetadata);
     }
   }
