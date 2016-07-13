@@ -217,7 +217,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
-    Thread.sleep(2000);
+    Thread.sleep(4000);
 
     QueryContext queryContext = new QueryContext(null);
 
@@ -258,7 +258,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
-    Thread.sleep(2000);
+    Thread.sleep(4000);
 
     QueryContext queryContext = new QueryContext(null);
 
@@ -305,7 +305,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // FIXME: Thread.sleep to be deleted when Repo synchronization is
     // triggerable
-    Thread.sleep(2000);
+    Thread.sleep(4000);
 
     QueryContext queryContext = new QueryContext(null);
 
