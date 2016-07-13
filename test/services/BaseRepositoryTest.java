@@ -222,7 +222,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
-    List<Resource> beforeZoomList = mBaseRepo.query("Zoom", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeZoomList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(beforeZoomList.size() == 3);
     List<String> beforeZoomNames = getNameList(beforeZoomList);
     Assert.assertTrue(beforeZoomNames.contains("In Zoom Organization 1"));
@@ -234,7 +234,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));
 
     // query after zooming
-    List<Resource> afterZoomList = mBaseRepo.query("Zoom", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterZoomList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(afterZoomList.size() == 2);
     List<String> afterZoomNames = getNameList(afterZoomList);
     Assert.assertTrue(afterZoomNames.contains("In Zoom Organization 1"));
