@@ -73,9 +73,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
     Resource toBeDeleted = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(1000);
     mBaseRepo.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), mMetadata);
     Resource result1 = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
     Resource result2 = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
@@ -91,9 +88,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource out = getResourceFromJsonFile("BaseRepositoryTest/testDeleteLastResourceInList.OUT.1.json");
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(1000);
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665", mMetadata);
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
@@ -109,9 +103,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(1000);
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665", mMetadata);
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
@@ -142,9 +133,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mBaseRepo.addResource(in1, mMetadata);
     mBaseRepo.addResource(in2, mMetadata);
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(2000);
     Assert.assertEquals(2, mBaseRepo.getResources("\\*.@id", "info:123").size());
     mBaseRepo.deleteResource(in1.getAsString(JsonLdConstants.ID), mMetadata);
     mBaseRepo.deleteResource(in2.getAsString(JsonLdConstants.ID), mMetadata);
@@ -162,10 +150,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db3, mMetadata);
     mBaseRepo.addResource(db4, mMetadata);
     mBaseRepo.addResource(db1, mMetadata);
-
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(10000);
 
     try {
       QueryContext queryContext = new QueryContext(null);
@@ -215,10 +199,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
 
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(16000);
-
     QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
@@ -255,10 +235,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
-
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(16000);
 
     QueryContext queryContext = new QueryContext(null);
 
@@ -302,10 +278,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
-
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(16000);
 
     QueryContext queryContext = new QueryContext(null);
 
@@ -351,9 +323,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyWordSplit.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
@@ -376,9 +345,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyExtension.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
@@ -399,9 +365,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyDiacritica.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
@@ -422,9 +385,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchTermAppendedByAsterisk.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    // FIXME: Thread.sleep to be deleted when Repo synchronization is
-    // triggerable
-    Thread.sleep(5000);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
