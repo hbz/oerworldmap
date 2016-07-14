@@ -44,7 +44,7 @@
     "@language" : "en"
   } ],
   "@id" : "urn:uuid:9843bac3-028f-4be8-ac54-92dcfea00001",
-  "startDate" : "2012-00-00",
+  "startDate" : "2012-01-01",
   "email" : "faq@foobar.ao",
   "@context": "http://schema.org/"
 }
