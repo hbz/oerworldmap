@@ -22,6 +22,8 @@ public class IndexerTest implements JsonTest {
   @Test
   public void testIndexNewResourceWithNewReference() throws IOException {
 
+    ResourceFramer.start();
+
     // The model for the indexer to SPARQL against
     Model db = ModelFactory.createDefaultModel();
 
