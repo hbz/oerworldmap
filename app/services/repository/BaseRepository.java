@@ -42,6 +42,7 @@ public class BaseRepository extends Repository
   private TriplestoreRepository mTriplestoreRepository;
   private ResourceIndexer mResourceIndexer;
   private ActorRef mIndexQueue;
+  private boolean mAsyncIndexing;
 
   public BaseRepository(Config aConfiguration) throws IOException {
 
@@ -95,6 +96,8 @@ public class BaseRepository extends Repository
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
     mTriplestoreRepository = new TriplestoreRepository(aConfiguration, mDb, graphHistory);
 
+    mAsyncIndexing = aConfiguration.getBoolean("index.async");
+
   }
 
   @Override
@@ -105,7 +108,7 @@ public class BaseRepository extends Repository
     if (resource != null) {
       mElasticsearchRepo.deleteResource(aId, aMetadata);
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
-      mIndexQueue.tell(diff, mIndexQueue);
+      index(diff);
 
     }
 
@@ -123,7 +126,7 @@ public class BaseRepository extends Repository
     Commit commit = new TripleCommit(header, diff);
 
     mTriplestoreRepository.commit(commit);
-    mIndexQueue.tell(diff, mIndexQueue);
+    index(diff);
 
   }
 
@@ -150,7 +153,7 @@ public class BaseRepository extends Repository
     }
 
     mTriplestoreRepository.commit(commits);
-    mIndexQueue.tell(indexDiff, mIndexQueue);
+    index(indexDiff);
 
   }
 
@@ -185,7 +188,7 @@ public class BaseRepository extends Repository
       mTriplestoreRepository.commit(commit);
     }
 
-    mIndexQueue.tell(indexDiff, mIndexQueue);
+    index(indexDiff);
 
   }
 
@@ -202,7 +205,7 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     mTriplestoreRepository.commit(new TripleCommit(header, diff));
-    mIndexQueue.tell(diff, mIndexQueue);
+    index(diff);
 
   }
 
@@ -288,6 +291,23 @@ public class BaseRepository extends Repository
   }
 
   public void index(String aId) {
-    mIndexQueue.tell(aId, mIndexQueue);
+
+    if (mAsyncIndexing) {
+      mIndexQueue.tell(aId, mIndexQueue);
+    } else {
+      mResourceIndexer.index(aId);
+    }
+
   }
+
+  private void index(Commit.Diff aDiff) {
+
+    if (mAsyncIndexing) {
+      mIndexQueue.tell(aDiff, mIndexQueue);
+    } else {
+      mResourceIndexer.index(aDiff);
+    }
+
+  }
+
 }

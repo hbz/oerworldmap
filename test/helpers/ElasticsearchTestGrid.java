@@ -8,7 +8,9 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import com.typesafe.config.Config;
@@ -27,10 +29,8 @@ public class ElasticsearchTestGrid {
   protected static Client mClient;
   protected static ElasticsearchConfig mEsConfig;
 
-  @SuppressWarnings("resource")
   @BeforeClass
   public static void setup() throws IOException {
-
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
     mEsConfig = new ElasticsearchConfig(mConfig);
 
@@ -38,12 +38,10 @@ public class ElasticsearchTestGrid {
     mRepo = new ElasticsearchRepository(mConfig);
 
     mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings())
-        .build();
+      .build();
     mClient = new TransportClient(mClientSettings)
-        .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
-            Integer.valueOf(mEsConfig.getJavaPort())));
-
-    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.name"));
+      .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
+        Integer.valueOf(mEsConfig.getJavaPort())));
   }
 
   @AfterClass
@@ -51,4 +49,10 @@ public class ElasticsearchTestGrid {
     mRepo.deleteIndex(mConfig.getString("es.index.name"));
     mClient.close();
   }
+
+  @Before
+  public void setupIndex() {
+    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.name"));
+  }
+
 }
