@@ -12,6 +12,21 @@ function makeid() {
 
 var Hijax = (function ($, Hijax) {
 
+  // log out by clearing authentication cache or providing wrong credentials to apache
+  // http://stackoverflow.com/a/32325848
+
+  function logout() {
+      if (!document.execCommand("ClearAuthenticationCache")) {
+        $.ajax({
+          async: false,
+          url: "/.login",
+          type: 'GET',
+          username: 'logout'
+        });
+      }
+      window.location = "/";
+  }
+
   var my = {
     attach: function(context) {
 
@@ -93,6 +108,76 @@ var Hijax = (function ($, Hijax) {
           event.preventDefault();
         }
       });
+
+      $('[data-behaviour="logout"]', context).click( logout );
+      $('[data-behaviour="logout-on-load"]', context).each(function(){
+        setTimeout(function(){
+          logout();
+        }, 5000);
+      });
+
+      $('[data-behaviour="login"]', context).click(function(){
+        var form = $(this).closest('form');
+        var username = form.find('[name="email"]').val();
+        var password = form.find('[name="password"]').val();
+
+/*
+        $.ajax({
+          async : false,
+          url : "/.login",
+          type : 'GET',
+          username : username,
+          password : password
+        });
+*/
+
+        $.ajax({
+          async : false,
+          url : "/.login",
+          type : 'GET',
+          xhrFields : {
+            withCredentials : true
+          },
+          beforeSend : function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
+          },
+          error : function(jqXHR) {
+            alert('Wrong username or password.');
+            jqXHR.abort();
+            // window.location = "/";
+          },
+          success : function() {
+            window.location = "/";
+          }
+        });
+
+      });
+
+      // global statistics
+      $('[data-behaviour="global-statistic"]', context).slice(1).hide();
+      $('[data-behaviour="global-statistic-switch"]', context).click(function(e) {
+        var id = $(this).attr("href").slice(1);
+        $('[data-behaviour="global-statistic"]', context).hide();
+        $("[id='" + id + "']", context).show();
+        e.preventDefault();
+      });
+
+      // carousel
+      $('[data-behaviour="carousel"]', context).each(function() {
+        var children = $(this).children();
+        if (children.length > 1) {
+          var i = 0;
+          children.hide();
+          $(children.get(i)).show();
+          setInterval(function() {
+            $(children.get(i)).fadeOut(400, function() {
+              i = (i + 1) % children.length;
+              $(children.get(i)).fadeIn(400);
+            });
+          }, 5000);
+        }
+      });
+
     }
   }
 

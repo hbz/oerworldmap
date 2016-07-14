@@ -25,7 +25,7 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
   @BeforeClass
   public static void setUpDir() throws IOException {
     UniversalFunctions
-        .deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/WebPage")));
+        .deleteDirectory(new File(mConfig.getString("filerepo.dir"), "WebPage"));
     resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
@@ -47,7 +47,7 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
   @AfterClass
   public static void tearDownDir() throws IOException {
     UniversalFunctions
-        .deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/WebPage")));
+        .deleteDirectory(new File(mConfig.getString("filerepo.dir"), "WebPage"));
   }
 
 }

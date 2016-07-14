@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,6 +11,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import models.Record;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -65,6 +69,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    // Sort by dateCreated if no query string given
+    if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
+      sort = "dateCreated:DESC";
+    }
+
     queryContext.setFetchSource(new String[]{
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
@@ -82,7 +91,7 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resources", resourceList.toResource());
 
     if (request().accepts("text/html")) {
-      return ok(render("Resources", "ResourceIndex/index.mustache", scope));
+      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
     } else if (request().accepts("text/csv")) {
       StringBuffer result = new StringBuffer();
       AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
@@ -100,6 +109,8 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public static Result importRecords() throws IOException {
+
+    // Import records
     JsonNode json = request().body().asJson();
     List<Resource> records = new ArrayList<>();
     if (json.isArray()) {
@@ -112,7 +123,29 @@ public class ResourceIndex extends OERWorldMap {
       return badRequest();
     }
     mBaseRepository.importRecords(records, getMetadata());
+
+    // Add user accounts
+    for (Resource record : records) {
+      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
+      if ("Person".equals(resource.getType())) {
+        String email = resource.getAsString("email");
+        if (StringUtils.isNotEmpty(email)) {
+          String password = new BigInteger(130, new SecureRandom()).toString(32);
+          String token = mAccountService.addUser(email, password);
+          if (StringUtils.isNotEmpty(token)) {
+            String id = mAccountService.verifyToken(token);
+            if (id.equals(email)) {
+              mAccountService.setPermissions(resource.getId(), email);
+            }
+          }
+        }
+      }
+    }
+
+    mAccountService.refresh();
+
     return ok(Integer.toString(records.size()).concat(" records imported."));
+
   }
 
   public static Result importResources() throws IOException {
@@ -164,19 +197,20 @@ public class ResourceIndex extends OERWorldMap {
     resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
 
     // Person create /update only through UserIndex, which is restricted to admin
-    if ("Person".equals(resource.getType())) {
+    if (!isUpdate && "Person".equals(resource.getType())) {
       return forbidden("Upsert Person forbidden.");
     }
 
     // Validate
-    ProcessingReport processingReport = mBaseRepository.stage(resource).validate();
+    Resource staged = mBaseRepository.stage(resource);
+    ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
       List<Map<String, Object>> messages = new ArrayList<>();
       HashMap<String, Object> message = new HashMap<>();
       message.put("level", "warning");
       message.put("message", OERWorldMap.messages.getString("schema_error")
         + "<pre>" + processingReport.toString() + "</pre>"
-        + "<pre>" + resource + "</pre>");
+        + "<pre>" + staged + "</pre>");
       messages.add(message);
       return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
     }
@@ -187,7 +221,7 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        return ok(render("Updated", "updated.mustache", resource));
+        return read(resource.getId());
       } else {
         return ok("Updated " + resource.getId());
       }
@@ -285,6 +319,7 @@ public class ResourceIndex extends OERWorldMap {
         }
         Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
         resource.put("aggregation", nestedConceptAggregation);
+        return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
       }
     }
 
@@ -295,8 +330,26 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
+    Resource user = (Resource) ctx().args.get("user");
+    boolean mayEdit = (user != null) && ((resource.getType().equals("Person") && user.getId().equals(id))
+        || (!resource.getType().equals("Person")
+            && mAccountService.getRoles(request().username()).contains("champion"))
+        || mAccountService.getRoles(request().username()).contains("admin"));
+    boolean mayLog = (user != null) && (mAccountService.getRoles(request().username()).contains("admin")
+        || mAccountService.getRoles(request().username()).contains("champion"));
+    boolean mayAdminister = (user != null) && mAccountService.getRoles(request().username()).contains("admin");
+
+    Map<String, Object> permissions = new HashMap<>();
+    permissions.put("edit", mayEdit);
+    permissions.put("log", mayLog);
+    permissions.put("administer", mayAdminister);
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
+    scope.put("permissions", permissions);
+
     if (request().accepts("text/html")) {
-      return ok(render(title, "ResourceIndex/" + type + "/read.mustache", resource));
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else {
       return ok(resource.toString()).as("application/json");
     }
@@ -310,24 +363,40 @@ public class ResourceIndex extends OERWorldMap {
     return ok(record.toString()).as("application/json");
   }
 
-  public static Result delete(String id) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(id, getMetadata());
+  public static Result delete(String aId) throws IOException {
+    Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
       return ok("deleted resource " + resource.toString());
     } else {
-      return badRequest("Failed to delete resource " + id);
+      return badRequest("Failed to delete resource " + aId);
     }
   }
 
-  public static Result log(String id) {
+  public static Result log(String aId) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
-    for (Commit commit : mBaseRepository.log(id)) {
+    for (Commit commit : mBaseRepository.log(aId)) {
       stringBuilder.append(commit).append("\n\n");
     }
 
     return ok(stringBuilder.toString());
+
+  }
+
+  public static Result index(String aId) {
+    mBaseRepository.index(aId);
+    return ok("Indexed ".concat(aId));
+  }
+
+  public static Result feed() {
+
+    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, queryContext);
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resources", resourceList.toResource());
+
+    return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
 
   }
 

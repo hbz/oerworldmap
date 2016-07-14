@@ -53,6 +53,13 @@ Download [sbt](http://www.scala-sbt.org/download.html), then
 
     $ sbt run
 
+### Work with IDEs
+
+Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sbt), integration to Eclipse and IDEA IntelliJ is provided by running `eclipse` or `idea` from within activator. To run the OER World Map JUnit tests inside IntelliJ, it is necessary to set the test's working directory to the root directory of this project (i. e. `oerworldmap`):
+
+    Run | Edit configurations... | JUnit | <MyTest> | Configuration | Working directory:
+    <absolute/path/to/oerworldmap>
+
 ## Contribute
 
 ### Coding conventions

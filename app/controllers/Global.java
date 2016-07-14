@@ -5,11 +5,15 @@ import play.Application;
 import play.Configuration;
 import play.GlobalSettings;
 import play.Logger;
+import play.api.mvc.EssentialFilter;
+import play.filters.gzip.GzipFilter;
+import play.i18n.Lang;
 import play.mvc.Action;
 import play.mvc.Http;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Locale;
 
 public class Global extends GlobalSettings {
@@ -39,17 +43,17 @@ public class Global extends GlobalSettings {
   @Override
   public Action onRequest(Http.Request request, Method actionMethod) {
     if (appConfig.getBoolean("i18n.enabled")) {
-      try {
-        Locale.setDefault(request.acceptLanguages().get(0).toLocale());
-      } catch (IndexOutOfBoundsException e) {
-        Locale.setDefault(new Locale("en"));
-        Logger.error(e.toString());
+      List<Lang> acceptLanguages = request.acceptLanguages();
+      if (acceptLanguages.size() > 0) {
+        OERWorldMap.mLocale = acceptLanguages.get(0).toLocale();
       }
-    } else {
-      Locale.setDefault(new Locale("en"));
     }
-    //Logger.info("Language is " + Locale.getDefault());
     return super.onRequest(request, actionMethod);
+  }
+
+  @Override
+  public <T extends EssentialFilter> Class<T>[] filters() {
+    return new Class[]{GzipFilter.class};
   }
 
   public static Configuration getConfig() {

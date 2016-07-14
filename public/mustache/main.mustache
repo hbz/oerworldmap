@@ -53,6 +53,11 @@
         </style>
     {{/if}}
 
+    <script>
+        var user = {{json user}};
+        var permissions = {{json permissions}};
+    </script>
+
 </head>
 <body class="">
 
@@ -78,185 +83,57 @@
 
     <nav class="user">
         <ul>
-            {{#if user.email}}
-                <li><a href="#user-login" data-toggle="modal" title="{{user.email}}"><i class="fa fa-user"></i></a></li>
+
+            {{#if user}}
+
+                <li class="dropdown">
+                    <div class="a" type="button" data-toggle="dropdown" title="{{ username }}">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
+                        <li><a href="/resource/{{user.[@id]}}"><i class="fa fa-fw fa-user"></i> My Profile</a></li>
+                        <li><a href="/user/password"><i class="fa fa-fw fa-lock"></i> Change Password</a></li>
+                        <li><a href="#" data-behaviour="logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </li>
+
             {{else}}
-                <li><h2><a href="/contribute">Join us in mapping the world of OER!</a></h2></li>
-                <li><a href="#user-login" data-toggle="modal">Log in</a></li>
+
+                <li><a href="/user/register">Login</a></li>
+
             {{/if}}
+
         </ul>
     </nav>
 
+    {{#unless user}}
+
+        <h2 class="slogan"><a href="/contribute">Join us in mapping the world of OER!</a></h2>
+
+    {{/unless}}
+
+    <div class="hidden" id="global-statistics">
+        <script type="application/ld+json" id="json-aggregations">
+            {{json scope.globalAggregation}}
+        </script>
+    </div>
+
 </header>
 
-{{> (lookup . 'template') }}
+<main>
+    {{> (lookup . 'template') }}
+</main>
 
-<div class="modal fade" id="user-login">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
+<footer id="page-footer" class="container container-static-page color-scheme-text">
+    <nav class="inner">
+        <ul>
+            <li><a href="/imprint" title="Imprint">Imprint & Privacy</a></li>
+            <li><a href="http://creativecommons.org/licenses/by/4.0/" title="License" target="_blank" rel="license"><img alt="Creative Commons License CC BY-SA 4.0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a></li>
+        </ul>
+    </nav>
+</footer>
 
-                {{> Secured/token.mustache}}
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade resource-form-modal" id="resource-add-service">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
-
-                <h1>Add Service</h1>
-
-                <form method="post" class="edit hijax" target="add-service-feedback" action="/resource/">
-
-                    <div id="add-service-feedback"></div>
-
-                    {{> ResourceIndex/Service/edit.mustache}}
-
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade resource-form-modal" id="resource-add-organization">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
-
-                <h1>Add Organization</h1>
-
-                <form method="post" class="edit hijax" target="add-organization-feedback" action="/resource/">
-
-                    <div id="add-organization-feedback"></div>
-
-                    {{> ResourceIndex/Organization/edit.mustache}}
-
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade resource-form-modal" id="resource-add-article">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
-
-                <h1>Add Story</h1>
-
-                <form method="post" class="edit hijax" target="add-story-feedback" action="/resource/">
-
-                    <div id="add-story-feedback"></div>
-
-                    {{> ResourceIndex/Article/edit.mustache}}
-
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade resource-form-modal" id="resource-add-action">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
-
-                <h1>Add Project</h1>
-
-                <form method="post" class="edit hijax" target="add-action-feedback" action="/resource/">
-
-                    <div id="add-action-feedback"></div>
-
-                    {{> ResourceIndex/Action/edit.mustache}}
-
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade resource-form-modal" id="resource-add-person">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
-
-                <h1>Add Person</h1>
-
-                <form method="post" class="edit hijax" target="add-person-feedback" action="/user/">
-
-                    <div id="add-person-feedback"></div>
-
-                    {{> ResourceIndex/Person/edit.mustache}}
-
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade resource-form-modal" id="resource-add-event">
-    <div class="modal-dialog">
-        <div class="modal-content bg-blue-palest color-scheme-text">
-            <div class="modal-body clearfix">
-
-                <h1>Add Event</h1>
-
-                <form method="post" class="edit hijax" target="add-event-feedback" action="/resource/">
-
-                    <div id="add-event-feedback"></div>
-
-                    {{> ResourceIndex/Event/edit.mustache}}
-
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container container-static-page color-scheme-text">
-    <footer id="page-footer">
-        <nav class="footer">
-            <ul>
-                <li><a href="/imprint" title="Imprint">Imprint & Privacy</a></li>
-                <li><a href="http://creativecommons.org/licenses/by/4.0/" title="License" target="_blank" rel="license"><img alt="Creative Commons License CC BY-SA 4.0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a></li>
-            </ul>
-        </nav>
-    </footer>
-</div>
+{{{templates}}}
 
 <script type="text/javascript" src="/assets/vendor/bootstrap.min.js"></script>
 <script type="text/javascript" src="/assets/vendor/handlebars.min.js"></script>
@@ -264,13 +141,16 @@
 <script type="text/javascript" src="/assets/vendor/d3.v3.min.js"></script>
 <script type="text/javascript" src="/assets/vendor/ol-3.7/ol.js"></script>
 <script type="text/javascript" src="/assets/vendor/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="/assets/vendor/page.fork.js"></script>
 <script type="text/javascript" src="/assets/i18n.js"></script>
 
+<script type="text/javascript" src="/assets/javascripts/helpers.js"></script>
 <script type="text/javascript" src="/assets/javascripts/helpers/shared.js"></script>
 <script type="text/javascript" src="/assets/javascripts/helpers/client.js"></script>
 <script type="text/javascript" src="/assets/javascripts/handlebars.form-helpers.js"></script>
 <script type="text/javascript" src="/assets/javascripts/hijax.js"></script>
-<script type="text/javascript" src="/assets/javascripts/behaviours/hfactor.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/app.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/filter.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/map.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/charts.js"></script>
@@ -290,7 +170,6 @@
 
 <script type="text/javascript" src="/assets/javascripts/main.js"></script>
 
-{{{templates}}}
 
 {{#if config.piwik.url}}
     <!-- Piwik -->

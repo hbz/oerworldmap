@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.json.simple.parser.ParseException;
@@ -30,6 +32,7 @@ import models.TripleCommit;
 import play.Logger;
 import services.IndexQueue;
 import services.QueryContext;
+import services.ResourceFramer;
 import services.ResourceIndexer;
 
 public class BaseRepository extends Repository
@@ -39,6 +42,7 @@ public class BaseRepository extends Repository
   private TriplestoreRepository mTriplestoreRepository;
   private ResourceIndexer mResourceIndexer;
   private ActorRef mIndexQueue;
+  private boolean mAsyncIndexing;
 
   public BaseRepository(Config aConfiguration) throws IOException {
 
@@ -71,9 +75,28 @@ public class BaseRepository extends Repository
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
-    mResourceIndexer = new ResourceIndexer(dataset.getDefaultModel(), mElasticsearchRepo, graphHistory);
+    Integer framerPort = aConfiguration.getInt("node.framer.port");
+    ResourceFramer.setPort(framerPort);
+    ResourceFramer.start();
+
+    Model mDb = dataset.getDefaultModel();
+    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+
+    if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
+      List<Commit> commits = graphHistory.log();
+      Collections.reverse(commits);
+      for (Commit commit: commits) {
+        commit.getDiff().apply(mDb);
+      }
+      Logger.debug("Loaded commit history to triple store");
+      mResourceIndexer.index("*");
+      Logger.debug("Indexed all resources from triple store");
+    }
+
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, dataset.getDefaultModel(), graphHistory);
+    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, mDb, graphHistory);
+
+    mAsyncIndexing = aConfiguration.getBoolean("index.async");
 
   }
 
@@ -85,7 +108,7 @@ public class BaseRepository extends Repository
     if (resource != null) {
       mElasticsearchRepo.deleteResource(aId, aMetadata);
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
-      mIndexQueue.tell(diff, mIndexQueue);
+      index(diff);
 
     }
 
@@ -103,7 +126,7 @@ public class BaseRepository extends Repository
     Commit commit = new TripleCommit(header, diff);
 
     mTriplestoreRepository.commit(commit);
-    mIndexQueue.tell(diff, mIndexQueue);
+    index(diff);
 
   }
 
@@ -130,7 +153,7 @@ public class BaseRepository extends Repository
     }
 
     mTriplestoreRepository.commit(commits);
-    mIndexQueue.tell(indexDiff, mIndexQueue);
+    index(indexDiff);
 
   }
 
@@ -165,7 +188,7 @@ public class BaseRepository extends Repository
       mTriplestoreRepository.commit(commit);
     }
 
-    mIndexQueue.tell(indexDiff, mIndexQueue);
+    index(indexDiff);
 
   }
 
@@ -182,7 +205,7 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     mTriplestoreRepository.commit(new TripleCommit(header, diff));
-    mIndexQueue.tell(diff, mIndexQueue);
+    index(diff);
 
   }
 
@@ -227,6 +250,10 @@ public class BaseRepository extends Repository
     return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilders);
+  }
+
   @Override
   public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<Resource>();
@@ -261,6 +288,26 @@ public class BaseRepository extends Repository
   @Override
   public Commit.Diff getDiff(List<Resource> aResources) {
     return mTriplestoreRepository.getDiff(aResources);
+  }
+
+  public void index(String aId) {
+
+    if (mAsyncIndexing) {
+      mIndexQueue.tell(aId, mIndexQueue);
+    } else {
+      mResourceIndexer.index(aId);
+    }
+
+  }
+
+  private void index(Commit.Diff aDiff) {
+
+    if (mAsyncIndexing) {
+      mIndexQueue.tell(aDiff, mIndexQueue);
+    } else {
+      mResourceIndexer.index(aDiff);
+    }
+
   }
 
 }

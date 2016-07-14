@@ -24,21 +24,6 @@
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @text-color-70;
 }
 
-/* http://stackoverflow.com/a/2610741/1060128 */
-.register ::-webkit-input-placeholder { /* WebKit browsers */
-  color: @text-color;
-}
-.register :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: @text-color;
-  opacity: 1;
-}
-.register ::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color: @text-color;
-  opacity: 1;
-}
-.register :-ms-input-placeholder { /* Internet Explorer 10+ */
-  color: @text-color;
-}
 
 .loading-indicator {
   display: none;
@@ -46,27 +31,19 @@
 }
 
 
-/* --- placeholder --- */
-
-/*
-.placeholder {
-  color: #fff;
-  background: #ccc;
-  margin: 0 10px 10px 0;
-}
-*/
-
 
 /* --- message list --- */
 
 ul#messages {
   list-style-type: none;
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
 }
 
 
+
 /* --- alerts --- */
+
 
 .alert-success {
   background-color: @green;
@@ -79,6 +56,12 @@ ul#messages {
   background: @red;
   color: white;
   border: none !important;
+
+  pre {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.9);
+  }
 }
 
 .alert-success a:hover,

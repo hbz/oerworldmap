@@ -47,7 +47,7 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-behaviour="availableChannel"]', context).each(function() {
+      $('[data-attach~="availableChannel"] [data-behaviour~="availableChannel"]', context).each(function() {
 
         var widget = $(this);
 
