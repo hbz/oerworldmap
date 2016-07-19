@@ -19,10 +19,20 @@ import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import models.Resource;
 import models.TripleCommit;
+import services.repository.BaseRepository;
 
 public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
   private static Map<String, String> mMetadata = new HashMap<>();
+  private static BaseRepository mBaseRepo;
+
+  static {
+    try {
+      mBaseRepo = new BaseRepository(mConfig);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   @BeforeClass
   public static void setUp() {
@@ -221,9 +231,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue(afterZoomNames.contains("In Zoom Organization 2"));
     Assert.assertFalse(afterZoomNames.contains("Out Of Zoom Organization 3"));
 
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", mMetadata);
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
   @Test
@@ -264,9 +274,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue(afterFilterNames.contains("In Polygon Organization 2"));
     Assert.assertTrue(afterFilterNames.contains("In Polygon Organization 3"));
 
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", mMetadata);
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
   @Test
@@ -313,9 +323,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue(afterFilterNames.contains("In Polygon Zoom Organization 2"));
     Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Zoom Organization 3"));
 
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", mMetadata);
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
-    mRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0002", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
   @Test
