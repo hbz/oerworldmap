@@ -9,6 +9,15 @@
 
                 <nav class="nav nav-map">
                     <ul>
+
+                        {{#if permissions.administer}}
+                            <li>
+                                <a href="/user/groups" title="Groups">
+                                    <i class="fa fa-gear"></i>
+                                </a>
+                            </li>
+                        {{/if}}
+
                         {{#if permissions.add}}
 
                             <li class="dropdown">

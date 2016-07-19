@@ -219,7 +219,7 @@ public class UserIndex extends OERWorldMap {
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("groups", groups);
-    return ok(render("Edit Permissions", "UserIndex/groups.mustache", scope));
+    return ok(render("Edit Groups", "UserIndex/groups.mustache", scope));
 
   }
 
@@ -241,7 +241,7 @@ public class UserIndex extends OERWorldMap {
     }
 
     if (mAccountService.setGroups(groupUsers)) {
-      return ok("Groups updated");
+      return ok(render("Groups Updated", "UserIndex/groupsChanged.mustache"));
     } else {
       return internalServerError("Failed to update groups");
     }
