@@ -18,13 +18,13 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
 
 <Location /resource/>
   <LimitExcept GET>
-    Require group champion
+    Require group editor
     Require group admin
   </LimitExcept>
 </Location>
 
 <Location /log/>
-  Require group champion
+  Require group editor
   Require group admin
 </Location>
 

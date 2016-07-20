@@ -333,10 +333,10 @@ public class ResourceIndex extends OERWorldMap {
     Resource user = (Resource) ctx().args.get("user");
     boolean mayEdit = (user != null) && ((resource.getType().equals("Person") && user.getId().equals(id))
         || (!resource.getType().equals("Person")
-            && mAccountService.getGroups(request().username()).contains("champion"))
+            && mAccountService.getGroups(request().username()).contains("editor"))
         || mAccountService.getGroups(request().username()).contains("admin"));
     boolean mayLog = (user != null) && (mAccountService.getGroups(request().username()).contains("admin")
-        || mAccountService.getGroups(request().username()).contains("champion"));
+        || mAccountService.getGroups(request().username()).contains("editor"));
     boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
 
     Map<String, Object> permissions = new HashMap<>();
