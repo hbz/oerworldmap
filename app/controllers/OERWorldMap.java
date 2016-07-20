@@ -145,10 +145,12 @@ public abstract class OERWorldMap extends Controller {
 
 
     Resource user = (Resource) ctx().args.get("user");
-    boolean mayAdd = (user != null) && (mAccountService.getRoles(request().username()).contains("admin")
-      || mAccountService.getRoles(request().username()).contains("champion"));
+    boolean mayAdd = (user != null) && (mAccountService.getGroups(request().username()).contains("admin")
+      || mAccountService.getGroups(request().username()).contains("editor"));
+    boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("add", mayAdd);
+    permissions.put("administer", mayAdminister);
     mustacheData.put("permissions", permissions);
 
     TemplateLoader loader = new ResourceTemplateLoader();

@@ -1,0 +1,36 @@
+<div data-app="to-modal-on-load">
+
+    <h1 class="modal-title">Administer Groups</h1>
+
+    <form method="post" action="/user/groups">
+        <table class="table">
+            <tr><th>Group</th><th>Users</th></tr>
+            {{#each scope.groups}}
+                <tr>
+                    <td>{{[@key]}}</td>
+                    <td>
+                        <ul>
+                            {{#each .}}
+                                <li>
+                                    <input name="{{../[@key]}}[{{[@key]}}]" type="checkbox"{{#if .}} checked="checked"{{/if}}>
+                                    {{[@key]}}
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+
+        <div class="container-top-line text-center">
+            <button class="btn btn-default" type="submit">
+                <span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>
+                Save
+            </button>
+            <button class="btn btn-default" data-dismiss="modal">
+                Cancel
+            </button>
+        </div>
+    </form>
+
+</div>
