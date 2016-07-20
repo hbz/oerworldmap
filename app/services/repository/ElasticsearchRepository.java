@@ -1,14 +1,11 @@
 package services.repository;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
+import com.typesafe.config.Config;
+import helpers.JsonLdConstants;
+import models.Record;
+import models.Resource;
+import models.ResourceList;
+import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
@@ -28,31 +25,19 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.index.query.AndFilterBuilder;
-import org.elasticsearch.index.query.FilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.GeoBoundingBoxFilterBuilder;
-import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
-import org.elasticsearch.index.query.OrFilterBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
-
-import com.typesafe.config.Config;
-
-import helpers.JsonLdConstants;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
 import play.Logger;
 import services.ElasticsearchConfig;
 import services.QueryContext;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.util.*;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
@@ -60,9 +45,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private Client mClient;
   private Fuzziness mFuzziness;
 
-  //final private ElasticsearchProvider elasticsearch;
-
-  @SuppressWarnings("resource")
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
     mConfig = new ElasticsearchConfig(aConfiguration);
@@ -182,12 +164,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+                            Map<String, List<String>> aFilters) throws IOException, ParseException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
 
     SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
@@ -316,7 +298,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                 Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
+                                 Map<String, List<String>> aFilters, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
@@ -361,7 +343,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
-      for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
+      for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
         // This could also be an AndFilterBuilder allowing to narrow down the result list
         OrFilterBuilder orFilterBuilder = FilterBuilders.orFilter();
         for (String filter : entry.getValue()) {

@@ -45,7 +45,7 @@ public class ResourceIndex extends OERWorldMap {
       throws IOException, ParseException {
 
     // Extract filters directly from query params
-    Map<String, ArrayList<String>> filters = new HashMap<>();
+    Map<String, List<String>> filters = new HashMap<>();
     Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
     for (Map.Entry<String, String[]> entry : request().queryString().entrySet()) {
       Matcher filterMatcher = filterPattern.matcher(entry.getKey());
