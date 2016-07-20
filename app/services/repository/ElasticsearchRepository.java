@@ -164,12 +164,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, ArrayList<String>> aFilters) throws IOException, ParseException {
+                            Map<String, List<String>> aFilters) throws IOException, ParseException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
 
     SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
@@ -298,7 +298,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                 Map<String, ArrayList<String>> aFilters, QueryContext aQueryContext) {
+                                 Map<String, List<String>> aFilters, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
@@ -343,7 +343,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     if (!(null == aFilters)) {
       AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
-      for (Map.Entry<String, ArrayList<String>> entry : aFilters.entrySet()) {
+      for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
         // This could also be an AndFilterBuilder allowing to narrow down the result list
         OrFilterBuilder orFilterBuilder = FilterBuilders.orFilter();
         for (String filter : entry.getValue()) {

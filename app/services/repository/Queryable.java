@@ -1,7 +1,7 @@
 package services.repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -17,7 +17,7 @@ public interface Queryable {
 
   /**
    * Query for resources.
-   * 
+   *
    * @param aQueryString
    *          A string describing the query
    * @param aFilters
@@ -25,6 +25,6 @@ public interface Queryable {
    *         criteria given in the query string
    */
   ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-      Map<String, ArrayList<String>> aFilters) throws IOException, ParseException;
+                     Map<String, List<String>> aFilters) throws IOException, ParseException;
 
 }
