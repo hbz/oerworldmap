@@ -2,6 +2,7 @@ package services.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.ResultSetFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.riot.Lang;
@@ -430,6 +433,100 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } else {
       return mGraphHistory.log(aId);
     }
+
+  }
+
+  public String sparql(String q) {
+
+    String result;
+    StringWriter out;
+
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(q), mDb)) {
+        switch (queryExecution.getQuery().getQueryType()) {
+          case Query.QueryTypeSelect:
+            result = ResultSetFormatter.asXMLString(queryExecution.execSelect());
+            break;
+          case Query.QueryTypeConstruct:
+            out = new StringWriter();
+            queryExecution.execConstruct().write(out, "TURTLE");
+            result = out.toString();
+            break;
+          case Query.QueryTypeDescribe:
+            out = new StringWriter();
+            queryExecution.execDescribe().write(out, "TURTLE");
+            result = out.toString();
+            break;
+          default:
+            result = "";
+        }
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+    }
+
+    return result;
+
+  }
+
+  /**
+   * This method creates a diff using the SPARQL INSERT/DELETE semantics:
+   * https://www.w3.org/TR/2010/WD-sparql11-update-20100126/#t413
+   *
+   * @param delete Construct statement for triples to delete
+   * @param insert Construct statement for triples to insert
+   * @param where Clause for the construct statement
+   * @return The resulting diff
+   */
+  public Commit.Diff update(String delete, String insert, String where) {
+
+    String constructQueryTemplate = "CONSTRUCT { %s } WHERE { %s }";
+    TripleCommit.Diff diff = new TripleCommit.Diff();
+
+    if (!StringUtils.isEmpty(where) && !StringUtils.isEmpty(delete)) {
+      String deleteQuery = String.format(constructQueryTemplate, delete, where);
+      Model deleteModel;
+      mDb.enterCriticalSection(Lock.READ);
+      try {
+        try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(deleteQuery), mDb)) {
+          deleteModel = queryExecution.execConstruct();
+        }
+      } finally {
+        mDb.leaveCriticalSection();
+      }
+
+      StmtIterator itDelete = deleteModel.listStatements();
+      while (itDelete.hasNext()) {
+        Statement statement = itDelete.next();
+        if (mDb.contains(statement)) {
+          diff.removeStatement(statement);
+        }
+      }
+    }
+
+    if (!StringUtils.isEmpty(where) && !StringUtils.isEmpty(insert)) {
+      String insertQuery = String.format(constructQueryTemplate, insert, where);
+      Model insertModel;
+      mDb.enterCriticalSection(Lock.READ);
+      try {
+        try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(insertQuery), mDb)) {
+          insertModel = queryExecution.execConstruct();
+        }
+      } finally {
+        mDb.leaveCriticalSection();
+      }
+
+      StmtIterator itInsert = insertModel.listStatements();
+      while (itInsert.hasNext()) {
+        Statement statement = itInsert.next();
+        if (!mDb.contains(statement)) {
+          diff.addStatement(statement);
+        }
+      }
+    }
+
+    return diff;
 
   }
 
