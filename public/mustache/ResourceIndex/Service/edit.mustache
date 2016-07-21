@@ -40,7 +40,7 @@
 
     {{> FormElements/id.mustache property=resultOf property_path="resultOf" title=(i18n "Service.resultOf") tooltip=(i18n "Service.resultOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=member property_path="member" title=(i18n "Service.member") tooltip=(i18n "Service.member" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?q=(about.@type:Organization%20OR%20about.@type:Person)"}}
+    {{> FormElements/id.mustache property=member property_path="member" title=(i18n "Service.member") tooltip=(i18n "Service.member" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
     {{> FormElements/id.mustache property=memberOf property_path="memberOf" title=(i18n "Service.memberOf") tooltip=(i18n "Service.memberOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
