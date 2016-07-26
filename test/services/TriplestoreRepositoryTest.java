@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.Commit;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Assert;
@@ -297,6 +298,61 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Resource staged = triplestoreRepository.stage(resource);
 
     assertEquals(resource, staged);
+
+  }
+
+  @Test
+  public void testUpdateDelete() throws IOException {
+
+    Model db = ModelFactory.createDefaultModel();
+    RDFDataMgr.read(db, "TriplestoreRepositoryTest/testUpdate.IN.nt", Lang.NTRIPLES);
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, db);
+
+    Commit.Diff actual = triplestoreRepository.update(
+      "?s <info:objectProperty> ?o", null, "?s <info:objectProperty> ?o"
+    );
+    Commit.Diff expected = TripleCommit.Diff.fromString(
+      "- <info:subject> <info:objectProperty> <info:object> .\n"
+    );
+
+    assertEquals(expected.toString(), actual.toString());
+
+  }
+
+  @Test
+  public void testUpdateInsert() throws IOException {
+
+    Model db = ModelFactory.createDefaultModel();
+    RDFDataMgr.read(db, "TriplestoreRepositoryTest/testUpdate.IN.nt", Lang.NTRIPLES);
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, db);
+
+    Commit.Diff actual = triplestoreRepository.update(
+      null, "?s <info:anotherProperty> ?o", "?s <info:objectProperty> ?o"
+    );
+    Commit.Diff expected = TripleCommit.Diff.fromString(
+      "+ <info:subject> <info:anotherProperty> <info:object> .\n"
+    );
+
+    assertEquals(expected.toString(), actual.toString());
+
+  }
+
+  @Test
+  public void testUpdateDeleteInsert() throws IOException {
+
+    Model db = ModelFactory.createDefaultModel();
+    RDFDataMgr.read(db, "TriplestoreRepositoryTest/testUpdate.IN.nt", Lang.NTRIPLES);
+    TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, db);
+
+    Commit.Diff actual = triplestoreRepository.update(
+      "?s <info:objectProperty> ?o", "?s <info:anotherProperty> ?o", "?s <info:objectProperty> ?o"
+    );
+    Commit.Diff expected = TripleCommit.Diff.fromString(
+      "- <info:subject> <info:objectProperty> <info:object> .\n" +
+      "+ <info:subject> <info:anotherProperty> <info:object> .\n"
+    );
+
+    assertEquals(expected.toString(), actual.toString());
 
   }
 

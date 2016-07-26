@@ -1,0 +1,2 @@
+<info:subject> <info:objectProperty> <info:object> .
+<info:subject> <info:literalProperty> "Foo" .

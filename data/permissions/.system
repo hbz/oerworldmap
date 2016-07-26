@@ -43,3 +43,7 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
 <Location /user/groups>
   Require group admin
 </Location>
+
+<Location /sparql/>
+  Require group admin
+</Location>
