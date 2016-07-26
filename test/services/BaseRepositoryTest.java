@@ -390,37 +390,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
   }
 
-  @Test
-  public void testSearchTermAppendedByAsterisk() throws IOException, InterruptedException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchTermAppendedByAsterisk.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
-
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
-    // query whole term
-    List<Resource> wholeterm = mBaseRepo.query("weareoer", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find \"weareoer\".", wholeterm.size() == 1);
-
-    // query two characters
-    List<Resource> twochars = mBaseRepo.query("we", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Found unintended result for \"we\".", twochars.size() == 0);
-
-    // query two characters plus "explicit" asterisk
-    List<Resource> twocharsasterisk = mBaseRepo.query("we*", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find result for \"we*\".", twocharsasterisk.size() == 1);
-
-    // query three characters (automatically completed with asterisk)
-    List<Resource> threechars = mBaseRepo.query("wea", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find result for \"wea\".", threechars.size() == 1);
-
-    // query three characters plus "explicit" asterisk
-    List<Resource> threecharsasterisk = mBaseRepo.query("wea*", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Could not find result for \"wea*\".", threecharsasterisk.size() == 1);
-
-    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92waoer00001", mMetadata);
-  }
-
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
