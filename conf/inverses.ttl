@@ -20,3 +20,7 @@
 :funder owl:inverseOf :funderOf .
 :funderOf owl:inverseOf :funder .
 :knows owl:inverseOf :knows .
+:mentions owl:inverseOf :mentionedIn .
+:mentionedIn owl:inverseOf :mentions .
+:mainEntity owl:inverseOf :mainEntityOf .
+:mainEntityOf owl:inverseOf :mainEntity .
