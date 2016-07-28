@@ -1369,14 +1369,15 @@
             "alternateName": {
               "properties": {
                 "@value": {
-                  "type": "multi_field", 
+                  "type": "multi_field",
                   "fields": {
                     "about.alternateName_variations": {
-                      "type": "string", 
-                      "analyzer": "title_analyzer"
-                    }, 
+                      "type": "string",
+                      "analyzer": "title_analyzer",
+                      "search_analyzer": "standard"
+                    },
                     "about.alternateName_simple_tokenized": {
-                      "type": "string", 
+                      "type": "string",
                       "analyzer": "simple"
                     }
                   }
@@ -3668,14 +3669,15 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "multi_field", 
+                      "type": "multi_field",
                       "fields": {
                         "about.about.name_variations": {
-                          "type": "string", 
-                          "analyzer": "title_analyzer"
-                        }, 
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
                         "about.about.name_simple_tokenized": {
-                          "type": "string", 
+                          "type": "string",
                           "analyzer": "simple"
                         }
                       }
@@ -3827,14 +3829,15 @@
             "name": {
               "properties": {
                 "@value": {
-                  "type": "multi_field", 
+                  "type": "multi_field",
                   "fields": {
                     "about.name_variations": {
-                      "type": "string", 
-                      "analyzer": "title_analyzer"
-                    }, 
+                      "type": "string",
+                      "analyzer": "title_analyzer",
+                      "search_analyzer": "standard"
+                    },
                     "about.name_simple_tokenized": {
-                      "type": "string", 
+                      "type": "string",
                       "analyzer": "simple"
                     }
                   }
@@ -5347,33 +5350,39 @@
         }
       }
     }
-  }, 
+  },
   "settings": {
     "analysis": {
       "filter": {
         "title_filter": {
-          "type": "word_delimiter", 
-          "preserve_original": true, 
-          "split_on_numerics": false, 
-          "split_on_case_change": true, 
-          "generate_word_parts": true, 
-          "generate_number_parts": false, 
-          "catenate_words": true, 
-          "catenate_numbers": false, 
+          "type": "word_delimiter",
+          "preserve_original": true,
+          "split_on_numerics": false,
+          "split_on_case_change": true,
+          "generate_word_parts": true,
+          "generate_number_parts": false,
+          "catenate_words": true,
+          "catenate_numbers": false,
           "catenate_all": false
-        }, 
+        },
         "asciifolding_preserve_original": {
-          "type": "asciifolding", 
+          "type": "asciifolding",
           "preserve_original": true
+        },
+        "autocomplete_filter": {
+          "type":     "edge_ngram",
+          "min_gram": 3,
+          "max_gram": 20
         }
-      }, 
+      },
       "analyzer": {
         "title_analyzer": {
           "filter": [
-            "title_filter", 
-            "asciifolding_preserve_original"
-          ], 
-          "type": "custom", 
+            "title_filter",
+            "asciifolding_preserve_original",
+            "autocomplete_filter"
+          ],
+          "type": "custom",
           "tokenizer": "standard"
         }
       }
