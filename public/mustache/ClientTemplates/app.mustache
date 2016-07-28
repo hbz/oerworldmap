@@ -1,0 +1,114 @@
+<div id="app" class="loading">
+
+    {{{header}}}
+
+    <div id="app-col-container">
+
+        <div id="app-col-map" data-app="col">
+            <div data-app="col-content" data-behaviour="map">
+
+                <nav class="nav nav-map">
+                    <ul>
+
+                        {{#if permissions.administer}}
+                            <li>
+                                <a href="/user/groups" title="Groups">
+                                    <i class="fa fa-gear"></i>
+                                </a>
+                            </li>
+                        {{/if}}
+
+                        {{#if permissions.add}}
+
+                            <li class="dropdown">
+                                <button type="button" data-toggle="dropdown" title="Add Entry">
+                                    <i class="fa fa-fw fa-plus"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                    <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Organization <i class="fa fa-users"></i></a></li>
+                                    <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Service <i class="fa fa-desktop"></i></a></li>
+                                    <li><a href="#form-resource-add-action" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Project <i class="fa fa-gears"></i></a></li>
+                                    <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Story <i class="fa fa-comment"></i></a></li>
+                                    <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Event <i class="fa fa-calendar"></i></a></li>
+                                </ul>
+                            </li>
+
+                        {{/if}}
+
+                        <li>
+                            <a href="/user/newsletter" title="Subscribe to Newsletter">
+                                <i class="fa fa-fw fa-envelope"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/aggregation/" title="Statistics">
+                                <i class="fa fa-fw fa-pie-chart"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/feed/" title="Recent Additions">
+                                <i class="fa fa-fw fa-rss"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+
+                {{{footer}}}
+
+            </div>
+        </div>
+
+    	<div id="app-col-index" data-app="col" data-col-mode="floating">
+    	    <div data-app="col-content" class="color-scheme-text"></div>
+    	    <div data-app="toggle-col">
+    	        <i class="fa fa-chevron-right"></i>
+            </div>
+    	</div>
+
+    	<div id="app-col-detail" data-app="col" data-col-mode="hidden">
+    	    <div data-app="col-content" class="color-scheme-text"></div>
+        	<div data-app="toggle-col">
+        	    <i class="fa fa-chevron-right visible-expanded"></i>
+            	<i class="fa fa-chevron-left visible-collapsed"></i>
+        	</div>
+    	</div>
+
+    	<div id="app-notification-area">
+    	</div>
+
+    </div>
+
+    <div id="app-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content bg-blue-palest color-scheme-text">
+                {{! <button type="button" class="close" data-dismiss="modal">&times;</button> }}
+                <div class="modal-body" data-attach="input localizedInput localizedTextarea availableChannel place resource select">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-notification-prototype" class="notification color-scheme-text">
+        <div class="notification-header">
+            <button type="button" class="close" data-app="close-notification">
+                <i class="fa fa-times"></i>
+            </button>
+            <div class="checkbox dismiss">
+                <label>
+                    <input type="checkbox" name="dismiss">
+                    Don't show again
+                </label>
+            </div>
+        </div>
+        <div class="notification-content">
+        </div>
+    </div>
+
+	<div id="app-loading">
+	    <img src="/assets/images/spinner.svg" />
+	</div>
+
+</div>

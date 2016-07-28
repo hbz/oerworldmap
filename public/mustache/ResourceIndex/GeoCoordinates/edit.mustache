@@ -2,8 +2,8 @@
 <fieldset>
 
   <legend>Geo Coordinates</legend>
-  {{input (stringFormat "%s[lat]" key) lat}}
-  {{input (stringFormat "%s[lon]" key) lon}}
+  {{input (stringFormat "%s[lat]" property_path) lat}}
+  {{input (stringFormat "%s[lon]" property_path) lon}}
 
 </fieldset>
 {{/property}}
@@ -11,8 +11,8 @@
     <fieldset>
 
         <legend>Geo Coordinates</legend>
-        {{input (stringFormat "%s[lat]" key) lat}}
-        {{input (stringFormat "%s[lon]" key) lon}}
+        {{input (stringFormat "%s[lat]" property_path) lat}}
+        {{input (stringFormat "%s[lon]" property_path) lon}}
 
     </fieldset>
 {{/property}}

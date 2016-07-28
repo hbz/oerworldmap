@@ -1,6 +1,7 @@
 {
+  "@context": "http://schema.org/",
   "@type": "Service",
-  "@id": "service",
+  "@id": "info:service",
   "about": [
     {
       "@id": "https://w3id.org/class/esc/n0532"

@@ -6,7 +6,7 @@ import sys, getopt, json, os, urllib2
 def fix(endpoint_url, index_name, output_file):
     mapping = fix_mappings(get_mapping(endpoint_url, index_name))
     with open(output_file, 'w') as fixed_mapping:
-        json.dump(mapping[index_name], fixed_mapping, indent=2)
+        json.dump(mapping[index_name], fixed_mapping, indent=2, separators=(',', ': '))
 
 
 def fix_mappings(json):
@@ -28,11 +28,14 @@ def process_mapping(mapping):
 
 
 def process_properties(properties):
-    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
-                    'availableLanguage', 'prefLabel']
+    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
+                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag']
+    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])
+        elif property in date_time:
+            properties[property] = set_date_time(properties[property])
         elif 'properties' in properties[property]:
             # Add a location field to all top-level types, populated by copy_to
             if 'about' == property and not 'location' in properties[property]:
@@ -55,14 +58,8 @@ def build_location_properties():
     return {
         "properties": {
             "geo": {
-                "properties": {
-                    "lat": {
-                        "type": "double"
-                    },
-                    "lon": {
-                        "type": "double"
-                    }
-                }
+                "type": "geo_point",
+                "copy_to": "about.location.geo"
             },
             "@type": {
                 "index": "not_analyzed",
@@ -99,6 +96,12 @@ def set_not_analyzed(field):
     field['type'] = 'string'
     field['index'] = 'not_analyzed'
     return field
+
+def set_date_time(field):
+    return {
+        'type': 'date',
+        'format': 'dateOptionalTime'
+    }
 
 
 def get_mapping(endpoint, index):

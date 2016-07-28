@@ -3,8 +3,10 @@ package controllers;
 import helpers.Countries;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -38,25 +40,30 @@ public class CountryIndex extends OERWorldMap {
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
     });
 
-    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id.toUpperCase()));
-    ResourceList champions = mBaseRepository.query(
-        Record.RESOURCEKEY + ".countryChampionFor:".concat(id.toUpperCase()), 0, 9999, null, null);
-    ResourceList resources = mBaseRepository.query(
-        Record.RESOURCEKEY + ".location.address.addressCountry:".concat(id.toUpperCase()), 0, 9999, null, null,
-            queryContext);
+    Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(id.toUpperCase(), 0));
+
+    Map<String, List<String>> filters = new HashMap<>();
+    // FIXME: update mapping of countryChampionFor to not analyzed, use upper case here
+    filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(id.toLowerCase()));
+    ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
+
+    filters.clear();
+    filters.put(Record.RESOURCE_KEY + ".location.address.addressCountry", Arrays.asList(id.toUpperCase()));
+    ResourceList resources = mBaseRepository.query("*", 0, 9999, null, filters, queryContext);
+
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
-    scope.put("name", Countries.getNameFor(id, Locale.getDefault()));
+    scope.put("name", Countries.getNameFor(id, OERWorldMap.mLocale));
     scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
     scope.put("embed", embed);
 
     if (request().accepts("text/html")) {
-      return ok(render(Countries.getNameFor(id, Locale.getDefault()), "CountryIndex/read.mustache", scope));
+      return ok(render(Countries.getNameFor(id, OERWorldMap.mLocale), "CountryIndex/read.mustache", scope));
     } else {
-      return ok(resources.toString()).as("application/json");
+      return ok(resources.toResource().toString()).as("application/json");
     }
 
   }

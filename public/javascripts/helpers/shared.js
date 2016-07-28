@@ -248,7 +248,7 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('localized', function(list, options) {
   // Get requested language from Java or JS
-  language = java.util.Locale.getDefault() || navigator.language || navigator.userLanguage;
+  language = Packages.controllers.OERWorldMap.mLocale || navigator.language || navigator.userLanguage;
   var result = '';
   // Empty list
   if (!list) {
@@ -261,7 +261,7 @@ Handlebars.registerHelper('localized', function(list, options) {
     }
   }
   // Requested language not available, default to en
-  if (result == '') {
+  if (result.trim() == '') {
     for (var i = 0; i < list.length; i++) {
       if (list[i]['@language'] == 'en') {
         result = result + options.fn(list[i]);
@@ -269,14 +269,20 @@ Handlebars.registerHelper('localized', function(list, options) {
     }
   }
   // Neither requested language nor en available, return all of first available
-  if (result == '') {
+  if (result.trim() == '') {
     for (var i = 0; i < list.length; i++) {
       if (list[i]['@language'] == list[0]['@language']) {
         result = result + options.fn(list[i]);
       }
     }
   }
-  return result;
+
+  if (result.trim() != '') {
+    return result;
+  } else {
+    return options.inverse(this);
+  }
+
 });
 
 Handlebars.registerHelper('getField', function (string, options) {
@@ -289,6 +295,7 @@ Handlebars.registerHelper('getField', function (string, options) {
 });
 
 Handlebars.registerHelper('getIcon', function (string, options) {
+  var type = string || "";
   var icons = {
     'service': 'desktop',
     'person': 'user',
@@ -299,7 +306,9 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'conceptscheme': 'sitemap',
     'event': 'calendar'
   };
-  return new Handlebars.SafeString('<i class="fa fa-fw fa-' + (icons[string.toLowerCase()] || 'desktop') + '"></i>');
+  return new Handlebars.SafeString(
+    '<i class="fa fa-fw fa-' + (icons[type.toLowerCase()] || 'question') + '"></i>'
+  );
 });
 
 Handlebars.registerHelper('json', function (obj, options) {
@@ -349,7 +358,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
 /**
  * Adopted from http://stackoverflow.com/questions/7261318/svg-chart-generation-in-javascript
  */
-  Handlebars.registerHelper('pieChart', function(aggregation, options) {
+  Handlebars.registerHelper('pieChart', function(aggregation, colors, options) {
 
   // FIXME actually an array is passed in , but rhino does not recognize it as such?
   var buckets = [];
@@ -406,9 +415,13 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
         ((endAngle-startAngle > 180) ? 1 : 0) + ",1 " + x2 + "," + y2 + " z";
 
     var c = parseInt((i + 200) / sectorAngleArr.length * 360);
-    var path = createElement("path", true, {d: d, fill: "hsl(" + c + ", 66%, 50%)"});
+    var path = createElement("path", true, {d: d, fill: colors[i]});
 
-    var href = urltemplate.parse(options.hash['href-template']).expand(buckets[i]);
+    var url_params = {};
+    for (var p in buckets[i]) {
+      url_params[p] = (typeof buckets[i][p] == 'string') ? encodeURIComponent(buckets[i][p]) : buckets[i][p];
+    }
+    var href = urltemplate.parse(options.hash['href-template']).expand(url_params);
     var arc = createElement("a", true, {
       "xlink:href": href,
       // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?),
@@ -417,6 +430,9 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
     }, path);
     arcs.push(arc);
   }
+
+  var donut = createElement("circle", true, {cx: width/2, cy: height/2, r: height/3, fill: "white"});
+
   return new Handlebars.SafeString(createElement("svg" , true, {
     width: width,
     height: height,
@@ -424,10 +440,9 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
     viewbox: "0 0 " + width + " " + height,
     xmlns: "http://www.w3.org/2000/svg",
     "xmlns:xlink": "http://www.w3.org/1999/xlink"
-  }, arcs.join("")));
+  }, arcs.join("") + donut));
 
 });
-
 
 Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
   /*
@@ -450,33 +465,6 @@ Handlebars.registerHelper('ifObjectNotEmpty', function(obj, options){
 });
 
 
-Handlebars.registerHelper('ifShowFilter', function (aggregation, key, filters, options) {
-
-  if (
-    aggregation.buckets.length &&
-    ! filters[ key ]
-  ) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
-
-});
-
-Handlebars.registerHelper('ifShowFilters', function (aggregations, filters, options) {
-
-  if (Object.keys(filters).length) {
-    for (filter in aggregations) {
-      if (aggregations[filter].buckets.length && !filters[filter]) {
-        return options.fn(this);
-      }
-    }
-    return options.inverse(this);
-  } else {
-    return options.fn(this);
-  }
-
-});
 
 Handlebars.registerHelper('nestedAggregation', function (aggregation) {
   return nestedAggregation(aggregation);
@@ -540,6 +528,15 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
 });
 
+Handlebars.registerHelper('get', function(list, index) {
+  return list[index];
+});
+
+Handlebars.registerHelper('encodeURIComponent', function(string) {
+  return encodeURIComponent(string);
+});
+
+/*
 Handlebars.registerHelper('ifIn', function(item, list, options) {
   for (i in list) {
     if (list[i] == item) {
@@ -548,3 +545,4 @@ Handlebars.registerHelper('ifIn', function(item, list, options) {
   }
   return options.inverse(this);
 });
+*/

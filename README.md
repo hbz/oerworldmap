@@ -12,6 +12,7 @@ For inital background information about this project please refer to the
     $ git clone git@github.com:hbz/oerworldmap.git
     $ git submodule init
     $ git submodule update
+    $ cd node/json-frame && npm install
 
 ### Setup Elasticsearch
 
@@ -24,7 +25,7 @@ For inital background information about this project please refer to the
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
-    
+
 #### Configure elasticsearch
 
 If you are in an environment where your instance of elasticsearch won't be the only one on the network, you might want
@@ -51,6 +52,13 @@ in `conf/application.conf` before restarting.
 Download [sbt](http://www.scala-sbt.org/download.html), then
 
     $ sbt run
+
+### Work with IDEs
+
+Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sbt), integration to Eclipse and IDEA IntelliJ is provided by running `eclipse` or `idea` from within activator. To run the OER World Map JUnit tests inside IntelliJ, it is necessary to set the test's working directory to the root directory of this project (i. e. `oerworldmap`):
+
+    Run | Edit configurations... | JUnit | <MyTest> | Configuration | Working directory:
+    <absolute/path/to/oerworldmap>
 
 ## Contribute
 

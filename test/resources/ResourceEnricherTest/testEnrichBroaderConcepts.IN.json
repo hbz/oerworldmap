@@ -1,9 +1,0 @@
-{
-  "@type": "Service",
-  "@id": "service",
-  "about": [
-    {
-      "@id": "narrowConcept"
-    }
-  ]
-}

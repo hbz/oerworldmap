@@ -1,0 +1,48 @@
+{
+  "availableChannel": [
+    {
+      "serviceUrl": "https://findmewiththreeletters.ao/"
+    }
+  ],
+  "provider": [
+    {
+      "@type": "Organization",
+      "name": [
+        {
+          "@value": "findmewiththreeletters Inc.",
+          "@language": "en"
+        }
+      ],
+      "location": {
+        "geo": {
+          "lon": 11.112233,
+          "lat": 22.223344
+        },
+        "address": {
+          "addressCountry": "AO",
+          "addressLocality": "Another Town",
+          "addressRegion": "Another Region"
+        }
+      },
+      "@id": "urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002",
+      "url": "https://findmewiththreeletters.ao/"
+    }
+  ],
+  "@type": "Service",
+  "name": [
+    {
+      "@value": "findmewiththreeletters",
+      "@language": "en"
+    }
+  ],
+  "description": [
+    {
+      "@value": "findmewiththreeletters is service we can find just by typing the first three (ore more) letters.",
+      "@language": "en"
+    }
+  ],
+  "@id": "urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001",
+  "startDate": "2012-01-01",
+  "email": "faq@findmewiththreeletters.ao",
+  "@context": "http://schema.org/"
+}

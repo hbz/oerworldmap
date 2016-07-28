@@ -1,0 +1,12 @@
+[
+  {
+    "Content-Location": "http://schema.org/",
+    "X-Classpath": "schema.org.jsonld",
+    "Content-Type": "application/ld+json"
+  },
+  {
+    "Content-Location": "http://schema.org",
+    "X-Classpath": "schema.org.jsonld",
+    "Content-Type": "application/ld+json"
+  }
+]

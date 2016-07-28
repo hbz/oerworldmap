@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -24,11 +25,11 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
   @BeforeClass
   public static void setUpDir() throws IOException {
     UniversalFunctions
-        .deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
+        .deleteDirectory(new File(mConfig.getString("filerepo.dir"), "WebPage"));
     resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
-    resourceRepository.addResource(resource, "Person");
+    resourceRepository.addResource(resource, new HashMap<>());
   }
 
   @Test
@@ -46,7 +47,7 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
   @AfterClass
   public static void tearDownDir() throws IOException {
     UniversalFunctions
-        .deleteDirectory(new File(mConfig.getString("filerepo.dir").concat("/Person")));
+        .deleteDirectory(new File(mConfig.getString("filerepo.dir"), "WebPage"));
   }
 
 }

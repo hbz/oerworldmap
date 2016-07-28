@@ -1,0 +1,316 @@
+@toggle-col-size: 38px;
+@index-min-width: 470px;
+@notification-width: 400px;
+
+.app-visible {
+  opacity: 0;
+}
+
+#app {
+
+  .app-hidden {
+    display: none;
+  }
+
+  .app-visible {
+    opacity: 1;
+  }
+
+  #app-col-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+
+    left: 0px;
+    top: @header-height;
+    width: 100%;
+    bottom: 0px;
+
+    background: @blue-lightest;
+
+    [data-app="col"] {
+      flex-basis: 33.3333%;
+      min-width: 33.333%;
+      position: relative;
+      height: 100%;
+      z-index: 1;
+
+      [data-app="col-content"] {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      // to get background gradient below button special z-index setup is required:
+      // http://stackoverflow.com/a/9072467/1060128
+      [data-app="toggle-col"] {
+        display: block;
+        position: absolute;
+        left: -(@toggle-col-size / 2);
+        top: 50%;
+        width: @toggle-col-size;
+        height: @toggle-col-size;
+        margin-top: -(@toggle-col-size / 2);
+        line-height: @toggle-col-size;
+        padding: 0 (@toggle-col-size / 10);
+        text-align: center;
+        cursor: pointer;
+
+        background: @blue-lightest;
+        border-radius: @toggle-col-size;
+        border: 1px solid transparent;
+        background-clip: padding-box;
+
+        &::after {
+          display: block;
+          position: absolute;
+          left: -1px; right: -1px;
+          top: -1px; bottom: -1px;
+          background: linear-gradient(to right, @blue-lighter 0%, @blue-lighter 50%, @blue-lightest 80%);
+          content: '';
+          z-index: -1;
+          border-radius: (@toggle-col-size);
+        }
+      }
+    }
+
+    #app-col-detail {
+      &[data-col-mode="hidden"],
+      &[data-col-mode="collapsed"] {
+        flex-basis: 0%;
+        min-width: 0%;
+        border-left: none;
+      }
+    }
+
+    #app-col-index,
+    #app-col-detail {
+      background: @blue-lightest;
+      border-left: 1px solid @blue-lighter;
+
+      [data-app="col-content"] {
+        padding: @map-padding;
+      }
+    }
+
+    #app-col-index {
+      width: @index-min-width;
+      min-width: @index-min-width;
+      flex-basis: @index-min-width;
+
+      &[data-col-mode="floating"] {
+        background: transparent;
+        margin-left: -@index-min-width;
+        border-left: none;
+        [data-app="toggle-col"] {
+          display: none;
+        }
+      }
+    }
+
+    // quick fix for index column covering map
+    // ... would probably better be handeled with a zero width column
+    #app-col-index[data-col-mode="floating"] {
+      pointer-events: none;
+
+      #filter,
+      #form-resource-filter,
+      [data-app-index-switch] {
+        pointer-events: auto;
+      }
+    }
+
+    .visible-expanded,
+    .visible-collapsed {
+      display: none;
+    }
+
+    #app-col-detail {
+      &[data-col-mode="expanded"] .visible-expanded {
+        display: inline;
+      }
+      &[data-col-mode="collapsed"] .visible-collapsed {
+        display: inline;
+      }
+      &[data-col-mode="collapsed"] [data-app="toggle-col"] {
+        text-align: left;
+      }
+    }
+
+    #app-col-map {
+      flex: 1 1 auto !important;
+
+      #page-footer {
+        position: absolute;
+        bottom: 15px;
+        right: 16px;
+        color: white;
+        a {
+          color: white;
+        }
+      }
+    }
+
+    #app-col-index {
+
+      &[data-col-mode="floating"] {
+        .floating-hidden {
+          display: none;
+        }
+      }
+
+      &[data-col-mode="list"] {
+        #list {
+          display: block;
+        }
+        #statistic {
+          display: none;
+        }
+        [href="#list"] {
+          opacity: .4;
+        }
+      }
+
+      &[data-col-mode="statistic"] {
+        #list {
+          display: none;
+        }
+        #statistic {
+          display: block;
+        }
+        [href="#statistic"] {
+          opacity: .4;
+        }
+      }
+
+    }
+
+    #app-col-detail {
+      &[data-col-mode="hidden"] {
+        visibility: hidden;
+      }
+    }
+
+    [data-app-index-switch] {
+      a {
+        text-decoration: none;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .visible-modal {
+    display: none;
+  }
+
+  #app-modal {
+
+    .modal-dialog {
+      margin: (@header-height * 2) auto;
+      width: 500px;
+    }
+
+    .visible-modal {
+      display: block;
+    }
+
+    .messages {
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
+  }
+
+  #app-notification-prototype {
+    display: none;
+  }
+
+  #app-notification-area {
+    pointer-events: none;
+    position: absolute;
+    top: @map-padding; right: @index-min-width; bottom: @map-padding; left: @map-padding;
+
+    .notification {
+      pointer-events: all;
+      position: absolute;
+      z-index: 1;
+      width: @notification-width;
+      max-height: 100%;
+      left: calc(60% ~"-" (@notification-width / 2));
+      top: 0;
+      border: 1px solid @blue-darker;
+      background: rgba(255,255,255,0.85);
+      padding: 15px 15px 20px 15px;
+      overflow-y: scroll;
+
+      .notification-header {
+        .clearfix();
+        padding-bottom: (@line-height-computed / 2);
+        border-bottom: 1px solid @blue-darker;
+        margin-bottom: @line-height-computed;
+
+        .dismiss {
+          display: none;
+        }
+
+        .checkbox {
+          float: left;
+          margin: 0;
+          font-size: @font-size-small;
+          line-height: 1;
+
+          label {
+            min-height: auto;
+
+            input {
+              margin-top: 0px;
+            }
+          }
+        }
+      }
+
+      .notification-content {
+        position: relative;
+        text-align: center;
+
+        h1 {
+          font-size: (@font-size-h1 * 1.2);
+        }
+      }
+
+      &.dismissable {
+        .dismiss {
+          display: block;
+        }
+      }
+    }
+  }
+
+  @spinner-size: 100px;
+
+  #app-loading {
+    display: none;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: fadeout(@blue-darker, 40%);
+
+    img {
+      display: block;
+      position: absolute;
+      left: calc(50% ~'-' (@spinner-size / 2));
+      top: calc(50% ~'-' (@spinner-size / 2));
+      width: @spinner-size;
+      height: @spinner-size;
+    }
+  }
+
+  &.loading {
+    #app-loading {
+      display: block;
+    }
+  }
+
+}

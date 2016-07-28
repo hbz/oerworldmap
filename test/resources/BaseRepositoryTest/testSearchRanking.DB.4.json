@@ -1,0 +1,14 @@
+{
+  "@type" : "Organization",
+  "@context" : "http://schema.org/",
+  "name" : [ {
+    "@value" : "Another Provider 4",
+    "@language" : "en"
+  } ],
+  "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00004",
+  "url" : "https://thiscouldbealinkingsitetotheworldmap.org",
+  "alternateName" : [{
+  	"@language" : "en",
+  	"@value" : "Since this organization does not contain the magic word in any field at all, it should be ranked fourth."
+  }]
+}
