@@ -45,7 +45,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -71,7 +86,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -156,7 +186,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -183,7 +228,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -204,7 +264,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -237,7 +312,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -277,7 +367,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -300,7 +405,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -355,7 +475,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -376,7 +511,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -399,7 +549,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -430,7 +595,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -470,7 +650,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -491,7 +686,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -514,7 +724,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -541,7 +766,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -574,7 +814,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -644,7 +899,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -661,7 +931,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -690,7 +975,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -717,7 +1017,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -740,7 +1055,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -781,7 +1111,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -804,7 +1149,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -827,7 +1187,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -892,7 +1267,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -905,7 +1295,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -928,7 +1333,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -960,7 +1380,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1056,7 +1491,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1082,7 +1532,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1103,7 +1568,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1118,7 +1598,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1158,7 +1653,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1181,7 +1691,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1237,7 +1762,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1281,7 +1821,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1305,7 +1860,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1346,7 +1916,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1371,14 +1956,18 @@
                 "@value": {
                   "type": "multi_field",
                   "fields": {
-                    "about.alternateName_variations": {
+                    "@value": {
+                      "type": "string"
+                    },
+                    "variations": {
                       "type": "string",
                       "analyzer": "title_analyzer",
                       "search_analyzer": "standard"
                     },
-                    "about.alternateName_simple_tokenized": {
+                    "simple_tokenized": {
                       "type": "string",
-                      "analyzer": "simple"
+                      "analyzer": "simple",
+                      "search_analyzer": "standard"
                     }
                   }
                 },
@@ -1414,7 +2003,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1437,7 +2041,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1471,7 +2090,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1494,7 +2128,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1565,7 +2214,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1582,7 +2246,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1601,7 +2280,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1644,7 +2338,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1682,7 +2391,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1695,7 +2419,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1718,7 +2457,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1813,7 +2567,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1826,7 +2595,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1847,7 +2631,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -1868,7 +2667,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -1912,7 +2726,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2008,7 +2837,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2031,7 +2875,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2061,7 +2920,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2091,7 +2965,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2104,7 +2993,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2127,7 +3031,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2152,7 +3071,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2198,7 +3132,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2221,7 +3170,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2244,7 +3208,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2271,7 +3250,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2308,7 +3302,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2331,7 +3340,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2405,7 +3429,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2432,7 +3471,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2449,7 +3503,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2460,7 +3529,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2540,7 +3624,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2593,7 +3692,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2660,7 +3774,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2701,7 +3830,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2714,7 +3858,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2739,7 +3898,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2796,7 +3970,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2817,7 +4006,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2840,7 +4044,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2878,7 +4097,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2898,7 +4132,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -2919,7 +4168,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -2986,7 +4250,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3024,7 +4303,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3047,7 +4341,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3073,7 +4382,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3090,7 +4414,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3111,7 +4450,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3138,7 +4492,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3161,7 +4530,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3223,7 +4607,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3362,7 +4761,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3391,7 +4805,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3404,7 +4833,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3451,7 +4895,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3474,7 +4933,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3509,7 +4983,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3530,7 +5019,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3584,7 +5088,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3650,7 +5169,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3671,14 +5205,18 @@
                     "@value": {
                       "type": "multi_field",
                       "fields": {
-                        "about.about.name_variations": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
                           "type": "string",
                           "analyzer": "title_analyzer",
                           "search_analyzer": "standard"
                         },
-                        "about.about.name_simple_tokenized": {
+                        "simple_tokenized": {
                           "type": "string",
-                          "analyzer": "simple"
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3720,7 +5258,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3787,7 +5340,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3831,14 +5399,18 @@
                 "@value": {
                   "type": "multi_field",
                   "fields": {
-                    "about.name_variations": {
+                    "@value": {
+                      "type": "string"
+                    },
+                    "variations": {
                       "type": "string",
                       "analyzer": "title_analyzer",
                       "search_analyzer": "standard"
                     },
-                    "about.name_simple_tokenized": {
+                    "simple_tokenized": {
                       "type": "string",
-                      "analyzer": "simple"
+                      "analyzer": "simple",
+                      "search_analyzer": "standard"
                     }
                   }
                 },
@@ -3853,7 +5425,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3884,7 +5471,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3926,7 +5528,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -3947,7 +5564,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -3970,7 +5602,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4005,7 +5652,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4063,7 +5725,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4095,7 +5772,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4162,7 +5854,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4185,7 +5892,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4223,7 +5945,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4246,7 +5983,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4272,7 +6024,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4299,7 +6066,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4356,7 +6138,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4377,7 +6174,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4404,7 +6216,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4427,7 +6254,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4458,7 +6300,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4500,7 +6357,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4561,7 +6433,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4584,7 +6471,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4602,7 +6504,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4632,7 +6549,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4687,7 +6619,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4710,7 +6657,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4738,7 +6700,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -4759,7 +6736,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4793,7 +6785,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4860,7 +6867,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4883,7 +6905,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4924,7 +6961,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4954,7 +7006,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -4981,7 +7048,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5038,7 +7120,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -5059,7 +7156,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5082,7 +7194,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5109,7 +7236,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5132,7 +7274,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5155,7 +7312,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5191,7 +7363,22 @@
                 "name": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -5223,7 +7410,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5274,7 +7476,22 @@
                 "alternateName": {
                   "properties": {
                     "@value": {
-                      "type": "string"
+                      "type": "multi_field",
+                      "fields": {
+                        "@value": {
+                          "type": "string"
+                        },
+                        "variations": {
+                          "type": "string",
+                          "analyzer": "title_analyzer",
+                          "search_analyzer": "standard"
+                        },
+                        "simple_tokenized": {
+                          "type": "string",
+                          "analyzer": "simple",
+                          "search_analyzer": "standard"
+                        }
+                      }
                     },
                     "@language": {
                       "index": "not_analyzed",
@@ -5303,7 +7520,22 @@
                     "name": {
                       "properties": {
                         "@value": {
-                          "type": "string"
+                          "type": "multi_field",
+                          "fields": {
+                            "@value": {
+                              "type": "string"
+                            },
+                            "variations": {
+                              "type": "string",
+                              "analyzer": "title_analyzer",
+                              "search_analyzer": "standard"
+                            },
+                            "simple_tokenized": {
+                              "type": "string",
+                              "analyzer": "simple",
+                              "search_analyzer": "standard"
+                            }
+                          }
                         },
                         "@language": {
                           "index": "not_analyzed",
@@ -5380,7 +7612,8 @@
           "filter": [
             "title_filter",
             "asciifolding_preserve_original",
-            "autocomplete_filter"
+            "autocomplete_filter",
+            "lowercase"
           ],
           "type": "custom",
           "tokenizer": "standard"
