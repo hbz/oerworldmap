@@ -148,7 +148,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource(in2.getAsString(JsonLdConstants.ID), mMetadata);
   }
 
-  // TODO:
+  @Test
   public void testSearchRankingNameHitsFirst() throws IOException, ParseException, InterruptedException {
 
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.1.json");
@@ -166,11 +166,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       queryContext.setElasticsearchFieldBoosts( //
           new String[] { //
               "about.name.@value^9.0", //
-              "about.name_variations^9.0", //
-              "about.name_simple_tokenized^9.0", //
+              "about.name.@value.variations^9.0", //
+              "about.name.@value.simple_tokenized^9.0", //
               "about.alternateName.@value^6.0",
-              "about.alternateName_variations^6.0", //
-              "about.alternateName_simple_tokenized^6.0"});
+              "about.alternateName.@value.variations^6.0", //
+              "about.alternateName.@value.simple_tokenized^6.0"});
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
       // must provide 3 hits because search is reduced on "about.name.@value" and
