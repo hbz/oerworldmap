@@ -1,6 +1,8 @@
 var console = console || {
   log: function(message) {
-    java.lang.System.out.println(JSON.stringify(message, null, 2));
+    if(typeof java !== 'undefined') {
+      java.lang.System.out.println(JSON.stringify(message, null, 2));
+    }
   }
 };
 
