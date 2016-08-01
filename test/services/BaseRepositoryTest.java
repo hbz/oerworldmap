@@ -391,7 +391,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testThreeLetterSearch() throws IOException, InterruptedException {
+  public void testTwoLetterSearch() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testThreeLetterSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
@@ -404,7 +404,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // query with first two letters only --> no hit
     List<Resource> twoLettersQuery = mBaseRepo.query("fi", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Search result given by two letter search.", twoLettersQuery.size() == 0);
+    Assert.assertTrue("No search result given by two letter search.", twoLettersQuery.size() == 1);
 
     // query with first first three letters --> hit
     List<Resource> threeLettersQuery = mBaseRepo.query("fin", 0, 10, null, null, queryContext).getItems();
