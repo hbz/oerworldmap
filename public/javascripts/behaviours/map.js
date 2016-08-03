@@ -8,6 +8,8 @@ var Hijax = (function ($, Hijax) {
       popoverElement,
       countryVectorSource = null,
       countryVectorLayer = null,
+      subNationalVectorSource = null,
+      subNationalVectorLayer = null,
       placemarksVectorSource = null,
       placemarksVectorLayer = null,
       clusterSource = null,
@@ -172,9 +174,9 @@ var Hijax = (function ($, Hijax) {
     size_factor = Math.pow(size_factor, 0.5);
 
     return {
-      initialZoom: standartInitialZoom * size_factor,
-      minZoom: standartMinZoom * size_factor,
-      maxZoom: standartMaxZoom * size_factor
+      initialZoom: Math.ceil(standartInitialZoom * size_factor),
+      minZoom: Math.round(standartMinZoom * size_factor),
+      maxZoom: Math.round(standartMaxZoom * size_factor)
     };
   }
 
@@ -757,8 +759,21 @@ var Hijax = (function ($, Hijax) {
         // Country vector layer
         countryVectorLayer = new ol.layer.Vector({
           title: 'country',
-          source: countryVectorSource,
-          opacity: 0.5
+          source: countryVectorSource
+        });
+
+        // Subnational vector source
+        subNationalVectorSource = new ol.source.Vector({
+          url: '/assets/json/ne_10m_admin_1_states_provinces_topo.json',
+          format: new ol.format.TopoJSON(),
+          // noWrap: true,
+          wrapX: true
+        });
+
+        // Subnational vector layer
+        subNationalVectorLayer = new ol.layer.Vector({
+          title: 'sub',
+          source: subNationalVectorSource
         });
 
         // OSM tile source
@@ -782,7 +797,8 @@ var Hijax = (function ($, Hijax) {
             '© <a href="http://www.openstreetmap.org/copyright">' +
             'OpenStreetMap contributors</a>',
           tileSize: [512, 512],
-          url: 'https://api.mapbox.com/styles/v1/literarymachine/cink8jyda022wd5m3q1ao9i7m/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
+          url: 'https://api.mapbox.com/styles/v1/literarymachine/ciq3njijr004kq7nduyya7hxg/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
+          //url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=' + mapboxKey
         });
 
         // Mapbox tile layer
@@ -863,7 +879,7 @@ var Hijax = (function ($, Hijax) {
         world = new ol.Map({
           // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
           // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
-          layers: [mapboxTileLayer],
+          layers: [countryVectorLayer, subNationalVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
@@ -983,6 +999,10 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       console.log('map attach started');
+
+      window.setTimeout(function() {
+        console.log(subNationalVectorLayer.getSource().getFeatures());
+      }, 5000);
 
       var _attached = new $.Deferred();
       my.attached.push(_attached);
