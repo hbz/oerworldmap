@@ -115,6 +115,22 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     });
   }
 
+  @Test
+  public void testMissingApiQuery() {
+    running(fakeApplication, new Runnable() {
+      @Override
+      public void run() {
+        // POST resource with missing license
+        Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
+        route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+          .withJsonBody(organization.toJson()));
+        // query all resources with missing licenses:
+        Result searchResult = route(fakeRequest("GET", "/resource/?q=_missing_:about.license"));
+        assertEquals(200, status(searchResult));
+      }
+    });
+  }
+
   private String getAuthString() {
     String email = Global.getConfig().getString("admin.user");
     String pass = Global.getConfig().getString("admin.pass");

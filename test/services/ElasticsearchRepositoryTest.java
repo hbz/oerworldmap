@@ -50,7 +50,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mElasticsearchRepo.addResource(in1, new HashMap<>());
     mElasticsearchRepo.addResource(in2, new HashMap<>());
-    final String aQueryString = "*";
+    final String aQueryString = "";
     ResourceList result = null;
     try {
       result = mElasticsearchRepo.query(aQueryString, 0, 10, null, null);

@@ -212,7 +212,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
-    List<Resource> beforeZoomList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeZoomList = mBaseRepo.query("Organization", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(beforeZoomList.size() == 3);
     List<String> beforeZoomNames = getNameList(beforeZoomList);
     Assert.assertTrue(beforeZoomNames.contains("In Zoom Organization 1"));
@@ -224,7 +224,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));
 
     // query after zooming
-    List<Resource> afterZoomList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterZoomList = mBaseRepo.query("Organization", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(afterZoomList.size() == 2);
     List<String> afterZoomNames = getNameList(afterZoomList);
     Assert.assertTrue(afterZoomNames.contains("In Zoom Organization 1"));
@@ -249,7 +249,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before filtering
-    List<Resource> beforeFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeFilterList = mBaseRepo.query("Organization", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(beforeFilterList.size() == 3);
     List<String> beforeFilterNames = getNameList(beforeFilterList);
     Assert.assertTrue(beforeFilterNames.contains("Out Of Polygon Organization 1"));
@@ -267,7 +267,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setPolygonFilter(polygon);
 
     // query after filtering
-    List<Resource> afterFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterFilterList = mBaseRepo.query("Organization", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(afterFilterList.size() == 2);
     List<String> afterFilterNames = getNameList(afterFilterList);
     Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Organization 1"));
@@ -292,7 +292,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
-    List<Resource> beforeFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeFilterList = mBaseRepo.query("Organization", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(beforeFilterList.size() == 3);
     List<String> beforeFilterNames = getNameList(beforeFilterList);
     Assert.assertTrue(beforeFilterNames.contains("Out Of Polygon Zoom Organization 1"));
@@ -316,7 +316,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));
 
     // query after zooming
-    List<Resource> afterFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterFilterList = mBaseRepo.query("Organization", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue(afterFilterList.size() == 1);
     List<String> afterFilterNames = getNameList(afterFilterList);
     Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Zoom Organization 1"));
@@ -388,6 +388,25 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
+  }
+
+  @Test
+  public void testSearchSpecialChars() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query without special chars
+    List<Resource> withoutChars = mBaseRepo.query("OERforever", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"OERforever\".", withoutChars.size() == 1);
+
+    // query with special chars
+    List<Resource> withChars = mBaseRepo.query("OERforever!", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"OERforever!\".", withChars.size() == 1);
+
+    mBaseRepo.deleteResource("", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

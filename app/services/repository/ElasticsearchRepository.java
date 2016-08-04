@@ -43,7 +43,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   private static ElasticsearchConfig mConfig;
   private Client mClient;
-  private Fuzziness mFuzziness;
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -51,7 +50,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings()).build();
     mClient = new TransportClient(settings)
       .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
-    mFuzziness = mConfig.getFuzziness();
   }
 
   @Override
@@ -356,11 +354,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness);
+      queryBuilder = QueryBuilders.simpleQueryString(aQueryString);
       if (fieldBoosts != null) {
         for (String fieldBoost : fieldBoosts) {
           try {
-            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+            ((SimpleQueryStringBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
               Float.parseFloat(fieldBoost.split("\\^")[1]));
           } catch (ArrayIndexOutOfBoundsException e) {
             Logger.error("Invalid field boost: " + fieldBoost);
