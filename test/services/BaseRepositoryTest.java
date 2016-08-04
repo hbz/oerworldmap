@@ -390,6 +390,25 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
   }
 
+  @Test
+  public void testSearchSpecialChars() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query without special chars
+    List<Resource> withoutChars = mBaseRepo.query("OERforever", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"OERforever\".", withoutChars.size() == 1);
+
+    // query with special chars
+    List<Resource> withChars = mBaseRepo.query("OERforever!", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"OERforever!\".", withChars.size() == 1);
+
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
