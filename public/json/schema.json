@@ -1049,10 +1049,30 @@
           }
         },
         "startDate": {
-            "$ref": "#/definitions/full-date"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
+          ]
         },
         "endDate": {
-            "$ref": "#/definitions/full-date"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
+          ]
         },
         "location": {
           "$ref": "#/definitions/Place"
