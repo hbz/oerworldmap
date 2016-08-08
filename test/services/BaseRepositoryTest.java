@@ -166,11 +166,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       queryContext.setElasticsearchFieldBoosts( //
           new String[] { //
               "about.name.@value^9.0", //
-              "about.name_variations^9.0", //
-              "about.name_simple_tokenized^9.0", //
+              "about.name.@value.variations^9.0", //
+              "about.name.@value.simple_tokenized^9.0", //
               "about.alternateName.@value^6.0",
-              "about.alternateName_variations^6.0", //
-              "about.alternateName_simple_tokenized^6.0"});
+              "about.alternateName.@value.variations^6.0", //
+              "about.alternateName.@value.simple_tokenized^6.0"});
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
       // must provide 3 hits because search is reduced on "about.name.@value" and
@@ -388,6 +388,34 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
+  }
+
+  @Test
+  public void testTwoLetterSearch() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testThreeLetterSearch.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query with first letter only --> no hit
+    List<Resource> oneLetterQuery = mBaseRepo.query("f", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Search result given by one letter search.", oneLetterQuery.size() == 0);
+
+    // query with first two letters only --> no hit
+    List<Resource> twoLettersQuery = mBaseRepo.query("fi", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("No search result given by two letter search.", twoLettersQuery.size() == 1);
+
+    // query with first first three letters --> hit
+    List<Resource> threeLettersQuery = mBaseRepo.query("fin", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("No search result given by three letter search.", threeLettersQuery.size() == 1);
+
+    // query with first first four letters --> hit
+    List<Resource> fourLettersQuery = mBaseRepo.query("find", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("No search result given by four letter search.", threeLettersQuery.size() == 1);
+
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

@@ -356,7 +356,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness);
+      queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness).analyzer("standard")
+        .defaultOperator(QueryStringQueryBuilder.Operator.AND);
       if (fieldBoosts != null) {
         for (String fieldBoost : fieldBoosts) {
           try {
