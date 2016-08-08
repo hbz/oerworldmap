@@ -34,7 +34,7 @@
       }
     ],
   "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/DEU_Oer-Erkenschwick_COA.svg/430px-DEU_Oer-Erkenschwick_COA.svg.png",
-  "mainEntity": 
+  "mainEntity":
   {
     "@id": "urn:uuid:2cc541fb-66f1-4231-9af9-f47494ba51a5",
     "@type": "Organization",
@@ -45,7 +45,7 @@
         }
       ]
   },
-  "mentions": [ 
+  "mentions": [
     {
       "@id": "urn:uuid:5e573656-47f3-11e5-a81e-54ee7558c81f",
       "@type": "Service",
@@ -67,5 +67,20 @@
       ]
     }
   ],
-  "dateCreated": "2011-11-11"
+  "dateCreated": "2011-11-11",
+  "location": {
+    "geo": {
+      "lon": 1.1,
+      "lat": -2.2
+    },
+    "address": {
+      "addressCountry": "SH",
+      "streetAddress": "Rue Example",
+      "@type": "PostalAddress",
+      "postalCode": "1234",
+      "addressRegion": "Beispielregion",
+      "addressLocality": "St. Test"
+    },
+    "@type": "Place"
+  }
 }
