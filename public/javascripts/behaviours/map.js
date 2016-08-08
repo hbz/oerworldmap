@@ -14,8 +14,6 @@ var Hijax = (function ($, Hijax) {
       placemarksVectorLayer = null,
       clusterSource = null,
       clusterLayer = null,
-      osmTileSource = null,
-      osmTileLayer = null,
       mapboxTileSource = null,
       mapboxTileLayer = null,
       hoveredCountriesOverlay = null,
@@ -763,6 +761,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // Subnational vector source
+        /*
         subNationalVectorSource = new ol.source.Vector({
           url: '/assets/json/ne_10m_admin_1_states_provinces_topo.json',
           format: new ol.format.TopoJSON(),
@@ -775,20 +774,7 @@ var Hijax = (function ($, Hijax) {
           title: 'sub',
           source: subNationalVectorSource
         });
-
-        // OSM tile source
-        osmTileSource = new ol.source.OSM({
-          url: 'https://{a-c}.tiles.mapbox.com/v4/johjoh.oer_worldmap/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiam9oam9oIiwiYSI6Imd3bnowY3MifQ.fk6HYuu3q5LzDi3dyip0Bw'
-        });
-
-        // OSM tile layer
-        osmTileLayer = new ol.layer.Tile({
-          title: 'osm',
-          source: osmTileSource,
-          preload: Infinity,
-          opacity: 1
-        });
-        osmTileLayer.setVisible(false);
+        */
 
         // Mapbox tile source
         var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
@@ -798,7 +784,6 @@ var Hijax = (function ($, Hijax) {
             'OpenStreetMap contributors</a>',
           tileSize: [512, 512],
           url: 'https://api.mapbox.com/styles/v1/literarymachine/ciq3njijr004kq7nduyya7hxg/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
-          //url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=' + mapboxKey
         });
 
         // Mapbox tile layer
@@ -842,19 +827,6 @@ var Hijax = (function ($, Hijax) {
           maxZoom: zoom_values.maxZoom
         });
 
-        // Show OSM layer when zooming in
-        view.on('propertychange', function(e) {
-          switch (e.key) {
-            case 'resolution':
-              if (4 < view.getZoom() && view.getZoom() < 8) {
-                osmTileLayer.setVisible(true);
-              } else {
-                osmTileLayer.setVisible(false);
-              }
-              break;
-          }
-        });
-
         // overlay for country hover style
         var collection = new ol.Collection();
         hoveredCountriesOverlay = new ol.layer.Vector({
@@ -877,9 +849,8 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, clusterLayer],
-          // layers: [countryVectorLayer, osmTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
-          layers: [countryVectorLayer, subNationalVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
+          //layers: [subNationalVectorLayer, countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
+          layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
@@ -999,10 +970,6 @@ var Hijax = (function ($, Hijax) {
     attach : function(context) {
 
       console.log('map attach started');
-
-      window.setTimeout(function() {
-        console.log(subNationalVectorLayer.getSource().getFeatures());
-      }, 5000);
 
       var _attached = new $.Deferred();
       my.attached.push(_attached);
