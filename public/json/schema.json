@@ -1058,6 +1058,9 @@
             },
             {
               "$ref": "#/definitions/date-time"
+            },
+            {
+              "$ref": "#/definitions/date-yearmonth"
             }
           ]
         },
@@ -1071,6 +1074,9 @@
             },
             {
               "$ref": "#/definitions/date-time"
+            },
+            {
+              "$ref": "#/definitions/date-yearmonth"
             }
           ]
         },
