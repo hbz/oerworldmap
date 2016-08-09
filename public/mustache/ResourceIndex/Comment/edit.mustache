@@ -3,10 +3,10 @@
     <div class="hidden">
         <legend>Comment</legend>
         {{input "@type" "Comment" readonly="readonly"}}
-        {{input "@id" [@id] readonly="readonly"}}
     </div>
 
-    <textarea class="form-control">{{ text }}</textarea>
+    <input type="hidden" name="text[0][@language]" value="en"/>
+    <textarea class="form-control" name="text[0][@value]"></textarea>
 
     <div class="pull-right resource-form-top-padding">
         <button class="btn btn-inverted" type="submit">Submit</button>

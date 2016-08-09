@@ -226,6 +226,60 @@
               "$ref": "#/definitions/date-time"
             }
           ]
+        },
+        "comment": {
+          "description": "A comment about the Organization",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Comment": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Comment",
+      "description": "A comment about an entry",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The comment's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Comment"
+          ]
+        },
+        "author": {
+          "description": "The author of the comment",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
+        },
+        "text": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "dateCreated": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/date-fullyear"
+            },
+            {
+              "$ref": "#/definitions/full-date"
+            },
+            {
+              "$ref": "#/definitions/date-time"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -396,6 +450,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
+          }
+        },
+        "comment": {
+          "description": "A comment about the Organization",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
           }
         }
       },
@@ -642,6 +703,13 @@
           "type": "array",
           "items": {
                 "$ref": "#/definitions/Organization"
+          }
+        },
+        "comment": {
+          "description": "A comment about the Organization",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
           }
         }
       },
@@ -957,6 +1025,13 @@
           "items": {
                 "$ref": "#/definitions/Event"
               }
+        },
+        "comment": {
+          "description": "A comment about the Organization",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
         }
       },
       "required": [
@@ -1080,30 +1155,37 @@
           "type": "string"
         }
       },
-        "about": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/Concept"
-              },
-              {
-                "properties": {
-                  "inScheme": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "enum": [
-                          "https://w3id.org/class/esc/scheme"
-                        ]
-                      }
+      "about": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            },
+            {
+              "properties": {
+                "inScheme": {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "enum": [
+                        "https://w3id.org/class/esc/scheme"
+                      ]
                     }
                   }
                 }
               }
-            ]
-          }
+            }
+          ]
         }
+      },
+      "comment": {
+        "description": "A comment about the Organization",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Comment"
+        }
+      }
       },
       "required": [
         "name"

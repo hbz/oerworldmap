@@ -3,6 +3,8 @@ package controllers;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,7 +13,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import helpers.JSONForm;
 import models.Record;
+import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -338,11 +344,13 @@ public class ResourceIndex extends OERWorldMap {
     boolean mayLog = (user != null) && (mAccountService.getGroups(request().username()).contains("admin")
         || mAccountService.getGroups(request().username()).contains("editor"));
     boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
+    boolean mayComment = (user != null) && (!resource.getType().equals("Person"));
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
     permissions.put("log", mayLog);
     permissions.put("administer", mayAdminister);
+    permissions.put("comment", mayComment);
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
@@ -389,9 +397,29 @@ public class ResourceIndex extends OERWorldMap {
     return ok("Indexed ".concat(aId));
   }
 
-  public static Result commentResource(String aId) {
+  public static Result commentResource(String aId) throws IOException {
 
-    return internalServerError("Method not implemented");
+    ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
+    jsonNode.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    Resource comment = Resource.fromJson(jsonNode);
+
+    comment.put("author", ctx().args.get("user"));
+    comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+    TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
+    diff.addStatement(ResourceFactory.createStatement(
+      ResourceFactory.createResource(aId),
+      ResourceFactory.createProperty("http://schema.org/comment"),
+      ResourceFactory.createResource(comment.getId())
+    ));
+
+    Map<String, String> metadata = getMetadata();
+    TripleCommit.Header header = new TripleCommit.Header(metadata.get(TripleCommit.Header.AUTHOR_HEADER),
+      ZonedDateTime.parse(metadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit commit = new TripleCommit(header, diff);
+    mBaseRepository.commit(commit);
+
+    return seeOther("/resource/" + aId);
 
   }
 
