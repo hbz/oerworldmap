@@ -576,7 +576,13 @@
 
         {{/if}}
 
+        <h2>Comments</h2>
+        <form method="post" action="/resource/{{[@id]}}/comment">
+            {{>ResourceIndex/Comment/edit.mustache}}
+        </form>
+
         {{/resource}}
+
     {{/scope}}
 
 </div>

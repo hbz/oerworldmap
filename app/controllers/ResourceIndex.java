@@ -389,6 +389,12 @@ public class ResourceIndex extends OERWorldMap {
     return ok("Indexed ".concat(aId));
   }
 
+  public static Result commentResource(String aId) {
+
+    return internalServerError("Method not implemented");
+
+  }
+
   public static Result feed() {
 
     QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
