@@ -1,0 +1,48 @@
+{
+  "availableChannel": [
+    {
+      "serviceUrl": "https://ihaveachannel.ao/"
+    }
+  ],
+  "provider": [
+    {
+      "@type": "Organization",
+      "name": [
+        {
+          "@value": "ihaveachannel Inc.",
+          "@language": "en"
+        }
+      ],
+      "location": {
+        "geo": {
+          "lon": 11.223345,
+          "lat": 22.334456
+        },
+        "address": {
+          "addressCountry": "AO",
+          "addressLocality": "channel Town",
+          "addressRegion": "channel Region"
+        }
+      },
+      "@id": "urn:uuid:9843bac3-028f-4be8-ac54-channel00004",
+      "url": "https://ihaveachannel.ao/"
+    }
+  ],
+  "@type": "Service",
+  "name": [
+    {
+      "@value": "Service With Channel",
+      "@language": "en"
+    }
+  ],
+  "description": [
+    {
+      "@value": "Service With Channel is a service with an available channel.",
+      "@language": "en"
+    }
+  ],
+  "@id": "urn:uuid:9843bac3-028f-4be8-ac54-channel00003",
+  "startDate": "2016-07-28",
+  "email": "faq@ihaveachannel.ao",
+  "@context": "http://schema.org/"
+}

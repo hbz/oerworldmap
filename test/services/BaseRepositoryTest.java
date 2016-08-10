@@ -409,6 +409,29 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
+  @Test
+  public void testSearchMissing() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.2.json");
+    mBaseRepo.addResource(db2, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query all by name
+    List<Resource> queryByName = mBaseRepo.query("Service", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find all by name.", queryByName.size() == 2);
+
+    // query with special chars
+    List<Resource> queryMissingChannel = mBaseRepo.query("_missing_:about.availableChannel", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
+    Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
+
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
