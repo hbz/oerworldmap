@@ -576,20 +576,22 @@
 
         {{/if}}
 
-        <h2>Comments</h2>
-        {{#comment}}
-            <hr>
-            <div>
-                <p><small>
-                    <em>{{#author}}{{#localized this.name}}{{[@value]}}{{/localized}}{{/author}}</em>
-                    on
-                    <em>{{this.dateCreated}}</em>
-                </small></p>
-                <p>{{#localized this.text}}{{[@value]}}{{/localized}}</p>
-            </div>
-        {{/comment}}
+        {{#if comment}}
+            <h2>Comments</h2>
+            {{#comment}}
+                <hr>
+                <div>
+                    <p><small>
+                        <em>{{#author}}{{#localized this.name}}{{[@value]}}{{/localized}}{{/author}}</em>
+                        on
+                        <em>{{this.dateCreated}}</em>
+                    </small></p>
+                    <p>{{#localized this.text}}{{[@value]}}{{/localized}}</p>
+                </div>
+            {{/comment}}
+        {{/if}}
 
-        {{#if ../permissions.edit}}
+        {{#if ../permissions.comment}}
             <h2>Add Comment</h2>
             <form method="post" action="/resource/{{[@id]}}/comment">
                 {{>ResourceIndex/Comment/edit.mustache}}

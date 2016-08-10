@@ -856,6 +856,13 @@
           "items": {
                 "$ref": "#/definitions/Event"
               }
+        },
+        "authorOf": {
+          "description": "Comments by the Person",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
         }
       },
       "additionalProperties": false
