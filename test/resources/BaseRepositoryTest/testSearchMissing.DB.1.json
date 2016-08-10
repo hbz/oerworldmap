@@ -1,0 +1,43 @@
+{
+  "provider": [
+    {
+      "@type": "Organization",
+      "name": [
+        {
+          "@value": "ihavenochannel Inc.",
+          "@language": "en"
+        }
+      ],
+      "location": {
+        "geo": {
+          "lon": 11.223344,
+          "lat": 22.334455
+        },
+        "address": {
+          "addressCountry": "AO",
+          "addressLocality": "No Channel Town",
+          "addressRegion": "No Channel Region"
+        }
+      },
+      "@id": "urn:uuid:9843bac3-028f-4be8-ac54-channel00002",
+      "url": "https://ihavenochannel.ao/"
+    }
+  ],
+  "@type": "Service",
+  "name": [
+    {
+      "@value": "Service Without Channel",
+      "@language": "en"
+    }
+  ],
+  "description": [
+    {
+      "@value": "Service Without Channel is a service missing an available channel.",
+      "@language": "en"
+    }
+  ],
+  "@id": "urn:uuid:9843bac3-028f-4be8-ac54-channel00001",
+  "startDate": "2016-07-28",
+  "email": "faq@ihavenochannel.ao",
+  "@context": "http://schema.org/"
+}
