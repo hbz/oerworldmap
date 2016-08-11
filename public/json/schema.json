@@ -223,6 +223,9 @@
           "items": {
             "$ref": "#/definitions/Comment"
           }
+        },
+        "location": {
+          "$ref": "#/definitions/Place"
         }
       },
       "additionalProperties": false
@@ -260,9 +263,6 @@
         },
         "dateCreated": {
           "$ref": "#/definitions/iso-8601-date"
-        },
-        "location": {
-          "$ref": "#/definitions/Place"
         }
       },
       "additionalProperties": false
