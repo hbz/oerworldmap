@@ -148,7 +148,7 @@ String.fromHtmlEntities = function(string) {
     return new Handlebars.SafeString('<label><span class="label-text">' + label + '</span> '+ createElement('input', false, extend({
       name: name,
       id: name,
-      value: value ? value.toHtmlEntities() : null,
+      value: value ? value.toString().toHtmlEntities() : null,
       type: 'text'
     }, options.hash)) + lookup + '</label>');
   }
@@ -215,7 +215,7 @@ String.fromHtmlEntities = function(string) {
 
       // <option> attributes
       var attr = {
-        value: items[i].value ? items[i].value.toHtmlEntities() : null
+        value: items[i].value ? items[i].value.toString().toHtmlEntities() : null
       };
 
       // We can specify which options are selected by using either:
@@ -247,7 +247,7 @@ String.fromHtmlEntities = function(string) {
     var attr = {
       name: name,
       type: 'checkbox',
-      value: value ? value.toHtmlEntities() : null,
+      value: value ? value.toString().toHtmlEntities() : null,
     };
     if (checked === true || checked === value) {
       attr.checked = 'checked';
@@ -297,7 +297,7 @@ String.fromHtmlEntities = function(string) {
     return new Handlebars.SafeString(createElement('input', false, extend({
       name: name,
       id: name,
-      value: value ? value.toHtmlEntities() : null,
+      value: value ? value.toString().toString().toHtmlEntities() : null,
       type: 'hidden'
     }, options.hash)));
   }
@@ -307,7 +307,7 @@ String.fromHtmlEntities = function(string) {
     return new Handlebars.SafeString(createElement('input', false, extend({
       name: name,
       id: name,
-      value: value ? value.toHtmlEntities() : null,
+      value: value ? value.toString().toHtmlEntities() : null,
       type: 'password'
     }, options.hash)));
   }
