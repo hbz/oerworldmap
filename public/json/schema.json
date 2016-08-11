@@ -226,6 +226,9 @@
               "$ref": "#/definitions/date-time"
             }
           ]
+        },
+        "location": {
+          "$ref": "#/definitions/Place"
         }
       },
       "additionalProperties": false
