@@ -578,7 +578,7 @@
 
         {{#if comment}}
             <h2>Comments</h2>
-            {{#comment}}
+            {{#sort comment "dateCreated" "asc"}}
                 <hr>
                 <div>
                     <p><small>
@@ -588,7 +588,7 @@
                     </small></p>
                     <p>{{#localized this.text}}{{[@value]}}{{/localized}}</p>
                 </div>
-            {{/comment}}
+            {{/sort}}
         {{/if}}
 
         {{#if ../permissions.comment}}
