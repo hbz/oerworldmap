@@ -80,12 +80,6 @@
     "participantIn": {
       "@container": "@set"
     },
-    "narrower": {
-      "@container": "@set"
-    },
-    "hasTopConcept": {
-      "@container": "@set"
-    },
     "about": {
       "@container": "@set"
     },
@@ -122,6 +116,36 @@
     },
     "url": {
       "@type": "@id"
+    },
+    "hasTopConcept": {
+      "@id": "http://www.w3.org/2004/02/skos/core#hasTopConcept",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "scopeNote": {
+      "@id": "http://www.w3.org/2004/02/skos/core#scopeNote",
+      "@container": "@set"
+    },
+    "inScheme": {
+      "@id": "http://www.w3.org/2004/02/skos/core#inScheme",
+      "@type": "@id"
+    },
+    "topConceptOf": {
+      "@id": "http://www.w3.org/2004/02/skos/core#topConceptOf",
+      "@type": "@id"
+    },
+    "narrower": {
+      "@id": "http://www.w3.org/2004/02/skos/core#narrower",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "broader": {
+      "@id": "http://www.w3.org/2004/02/skos/core#broader",
+      "@type": "@id"
+    },
+    "notation": {
+      "@id": "http://www.w3.org/2004/02/skos/core#notation",
+      "@container": "@set"
     }
   }
 }
