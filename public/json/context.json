@@ -1,77 +1,13 @@
 {
   "@context": {
     "@vocab": "http://schema.org/",
-    "knows": {
-      "@container": "@set"
-    },
-    "name": {
-      "@container": "@set"
-    },
-    "alternateName": {
-      "@container": "@set"
-    },
-    "articleBody": {
-      "@container": "@set"
-    },
-    "description": {
-      "@container": "@set"
-    },
-    "funder": {
-      "@container": "@set"
-    },
-    "keywords": {
+    "about": {
       "@container": "@set"
     },
     "additionalType": {
       "@container": "@set"
     },
-    "sameAs": {
-      "@container": "@set",
-      "@type": "@id"
-    },
-    "tag": {
-      "@container": "@set"
-    },
-    "serviceType": {
-      "@container": "@set"
-    },
-    "availableChannel": {
-      "@container": "@set"
-    },
-    "inLanguage": {
-      "@container": "@set"
-    },
-    "instrument": {
-      "@container": "@set"
-    },
-    "license": {
-      "@container": "@set"
-    },
-    "countryChampionFor": {
-      "@container": "@set"
-    },
-    "author": {
-      "@container": "@set"
-    },
-    "authorOf": {
-      "@container": "@set"
-    },
-    "member": {
-      "@container": "@set"
-    },
-    "memberOf": {
-      "@container": "@set"
-    },
-    "provider": {
-      "@container": "@set"
-    },
-    "provides": {
-      "@container": "@set"
-    },
-    "creator": {
-      "@container": "@set"
-    },
-    "created": {
+    "affiliation": {
       "@container": "@set"
     },
     "agent": {
@@ -80,41 +16,110 @@
     "agentIn": {
       "@container": "@set"
     },
+    "alternateName": {
+      "@container": "@set"
+    },
+    "articleBody": {
+      "@container": "@set"
+    },
+    "audience": {
+      "@container": "@set"
+    },
+    "author": {
+      "@container": "@set"
+    },
+    "authorOf": {
+      "@container": "@set"
+    },
+    "availableChannel": {
+      "@container": "@set"
+    },
+    "broader": {
+      "@id": "http://www.w3.org/2004/02/skos/core#broader",
+      "@type": "@id"
+    },
+    "contactPoint": {
+      "@container": "@set"
+    },
+    "countryChampionFor": {
+      "@container": "@set"
+    },
+    "created": {
+      "@container": "@set"
+    },
+    "creator": {
+      "@container": "@set"
+    },
+    "description": {
+      "@container": "@set"
+    },
+    "funder": {
+      "@container": "@set"
+    },
+    "hasTopConcept": {
+      "@id": "http://www.w3.org/2004/02/skos/core#hasTopConcept",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "image": {
+      "@type": "@id"
+    },
+    "inLanguage": {
+      "@container": "@set"
+    },
+    "inScheme": {
+      "@id": "http://www.w3.org/2004/02/skos/core#inScheme",
+      "@type": "@id"
+    },
+    "instrument": {
+      "@container": "@set"
+    },
+    "keywords": {
+      "@container": "@set"
+    },
+    "knows": {
+      "@container": "@set"
+    },
+    "license": {
+      "@container": "@set"
+    },
+    "mainEntityOf": {
+      "@container": "@set"
+    },
+    "member": {
+      "@container": "@set"
+    },
+    "memberOf": {
+      "@container": "@set"
+    },
     "mentions": {
       "@container": "@set"
     },
     "mentionedIn": {
       "@container": "@set"
     },
-    "participant": {
+    "name": {
       "@container": "@set"
     },
-    "participantIn": {
-      "@container": "@set"
-    },
-    "about": {
-      "@container": "@set"
-    },
-    "audience": {
-      "@container": "@set"
-    },
-    "affiliation": {
-      "@container": "@set"
-    },
-    "recordedIn": {
+    "narrower": {
+      "@id": "http://www.w3.org/2004/02/skos/core#narrower",
       "@container": "@set",
       "@type": "@id"
     },
-    "result": {
-      "@container": "@set"
-    },
-    "contactPoint": {
+    "notation": {
+      "@id": "http://www.w3.org/2004/02/skos/core#notation",
       "@container": "@set"
     },
     "organizer": {
       "@container": "@set"
     },
     "organizerFor": {
+      "@container": "@set"
+    },
+    "participant": {
+      "@container": "@set"
+    },
+    "participantIn": {
       "@container": "@set"
     },
     "performer": {
@@ -124,17 +129,20 @@
       "@container": "@set",
       "@embed": "@always"
     },
-    "mainEntityOf": {
+    "provider": {
       "@container": "@set"
     },
-    "image": {
+    "provides": {
+      "@container": "@set"
+    },
+    "recordedIn": {
+      "@container": "@set",
       "@type": "@id"
     },
-    "url": {
-      "@type": "@id"
+    "result": {
+      "@container": "@set"
     },
-    "hasTopConcept": {
-      "@id": "http://www.w3.org/2004/02/skos/core#hasTopConcept",
+    "sameAs": {
       "@container": "@set",
       "@type": "@id"
     },
@@ -142,26 +150,18 @@
       "@id": "http://www.w3.org/2004/02/skos/core#scopeNote",
       "@container": "@set"
     },
-    "inScheme": {
-      "@id": "http://www.w3.org/2004/02/skos/core#inScheme",
-      "@type": "@id"
+    "serviceType": {
+      "@container": "@set"
+    },
+    "tag": {
+      "@container": "@set"
     },
     "topConceptOf": {
       "@id": "http://www.w3.org/2004/02/skos/core#topConceptOf",
       "@type": "@id"
     },
-    "narrower": {
-      "@id": "http://www.w3.org/2004/02/skos/core#narrower",
-      "@container": "@set",
+    "url": {
       "@type": "@id"
-    },
-    "broader": {
-      "@id": "http://www.w3.org/2004/02/skos/core#broader",
-      "@type": "@id"
-    },
-    "notation": {
-      "@id": "http://www.w3.org/2004/02/skos/core#notation",
-      "@container": "@set"
     }
   }
 }
