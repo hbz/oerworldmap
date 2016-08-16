@@ -10,7 +10,13 @@
     "alternateName": {
       "@container": "@set"
     },
+    "articleBody": {
+      "@container": "@set"
+    },
     "description": {
+      "@container": "@set"
+    },
+    "funder": {
       "@container": "@set"
     },
     "keywords": {
@@ -30,6 +36,12 @@
       "@container": "@set"
     },
     "availableChannel": {
+      "@container": "@set"
+    },
+    "inLanguage": {
+      "@container": "@set"
+    },
+    "instrument": {
       "@container": "@set"
     },
     "license": {
@@ -88,6 +100,10 @@
     },
     "affiliation": {
       "@container": "@set"
+    },
+    "recordedIn": {
+      "@container": "@set",
+      "@type": "@id"
     },
     "result": {
       "@container": "@set"
