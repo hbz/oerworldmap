@@ -24,7 +24,6 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
@@ -38,6 +37,8 @@ import services.QueryContext;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.*;
+
+import static org.elasticsearch.index.query.QueryStringQueryBuilder.*;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
@@ -354,7 +355,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.simpleQueryString(aQueryString);
+      queryBuilder = QueryBuilders.simpleQueryString(aQueryString).analyzer("standard").defaultOperator(SimpleQueryStringBuilder.Operator.AND);
       if (fieldBoosts != null) {
         for (String fieldBoost : fieldBoosts) {
           try {

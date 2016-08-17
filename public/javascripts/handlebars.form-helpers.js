@@ -1,4 +1,22 @@
 /**
+ * Convert a string to HTML entities
+ */
+String.prototype.toHtmlEntities = function() {
+    return this.replace(/./gm, function(s) {
+        return "&#" + s.charCodeAt(0) + ";";
+    });
+};
+
+/**
+ * Create string from HTML entities
+ */
+String.fromHtmlEntities = function(string) {
+    return (string+"").replace(/&#\d+;/gm,function(s) {
+        return String.fromCharCode(s.match(/\d+/gm)[0]);
+    })
+};
+
+/**
  * handlebars.form-helpers.js
  * https://github.com/badsyntax/handlebars-form-helpers
  * Copyright (c) 2013 Richard Willis; Licensed MIT
@@ -130,7 +148,7 @@
     return new Handlebars.SafeString('<label><span class="label-text">' + label + '</span> '+ createElement('input', false, extend({
       name: name,
       id: name,
-      value: value,
+      value: value ? value.toString().toHtmlEntities() : null,
       type: 'text'
     }, options.hash)) + lookup + '</label>');
   }
@@ -197,7 +215,7 @@
 
       // <option> attributes
       var attr = {
-        value: items[i].value
+        value: items[i].value ? items[i].value.toString().toHtmlEntities() : null
       };
 
       // We can specify which options are selected by using either:
@@ -229,7 +247,7 @@
     var attr = {
       name: name,
       type: 'checkbox',
-      value: value
+      value: value ? value.toString().toHtmlEntities() : null,
     };
     if (checked === true || checked === value) {
       attr.checked = 'checked';
@@ -279,7 +297,7 @@
     return new Handlebars.SafeString(createElement('input', false, extend({
       name: name,
       id: name,
-      value: value,
+      value: value ? value.toString().toString().toHtmlEntities() : null,
       type: 'hidden'
     }, options.hash)));
   }
@@ -289,7 +307,7 @@
     return new Handlebars.SafeString(createElement('input', false, extend({
       name: name,
       id: name,
-      value: value,
+      value: value ? value.toString().toHtmlEntities() : null,
       type: 'password'
     }, options.hash)));
   }
