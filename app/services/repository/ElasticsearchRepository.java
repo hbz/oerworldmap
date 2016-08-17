@@ -24,7 +24,6 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
@@ -39,11 +38,12 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.*;
 
+import static org.elasticsearch.index.query.QueryStringQueryBuilder.*;
+
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchConfig mConfig;
   private Client mClient;
-  private Fuzziness mFuzziness;
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -51,7 +51,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings()).build();
     mClient = new TransportClient(settings)
       .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
-    mFuzziness = mConfig.getFuzziness();
   }
 
   @Override
@@ -356,12 +355,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness).analyzer("standard")
-        .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+      queryBuilder = QueryBuilders.simpleQueryString(aQueryString).analyzer("standard").defaultOperator(SimpleQueryStringBuilder.Operator.AND);
       if (fieldBoosts != null) {
         for (String fieldBoost : fieldBoosts) {
           try {
-            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+            ((SimpleQueryStringBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
               Float.parseFloat(fieldBoost.split("\\^")[1]));
           } catch (ArrayIndexOutOfBoundsException e) {
             Logger.error("Invalid field boost: " + fieldBoost);
