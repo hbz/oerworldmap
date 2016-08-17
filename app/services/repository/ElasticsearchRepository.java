@@ -28,6 +28,7 @@ import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchParseException;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
@@ -355,28 +356,43 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
 
     QueryBuilder queryBuilder;
-    if (!StringUtils.isEmpty(aQueryString)) {
-      queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness).analyzer("standard")
-        .defaultOperator(QueryStringQueryBuilder.Operator.AND);
-      if (fieldBoosts != null) {
-        for (String fieldBoost : fieldBoosts) {
-          try {
-            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
-              Float.parseFloat(fieldBoost.split("\\^")[1]));
-          } catch (ArrayIndexOutOfBoundsException e) {
-            Logger.error("Invalid field boost: " + fieldBoost);
+
+    while (true) {
+      if (!StringUtils.isEmpty(aQueryString)) {
+        queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness).analyzer("standard")
+          .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+        if (fieldBoosts != null) {
+          // TODO: extract fieldBoost parsing from loop in case
+          for (String fieldBoost : fieldBoosts) {
+            try {
+              ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+                Float.parseFloat(fieldBoost.split("\\^")[1]));
+            } catch (ArrayIndexOutOfBoundsException e) {
+              Logger.error("Invalid field boost: " + fieldBoost);
+            }
           }
         }
+      } else {
+        queryBuilder = QueryBuilders.matchAllQuery();
       }
-    } else {
-      queryBuilder = QueryBuilders.matchAllQuery();
-    }
 
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+      searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
         .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
 
-    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
-
+      try {
+        return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+      } //
+      catch (Exception e) {
+        if (aQueryString.endsWith("!") && e.getMessage().contains("ParseException[Encountered \"<EOF>")) {
+          aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
+          Logger.warn("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
+          continue;
+        }
+        else{
+          return null;
+        }
+      }
+    }
   }
 
   public boolean hasIndex(String aIndex) {
