@@ -14,6 +14,7 @@
       "@container": "@set"
     },
     "agentIn": {
+      "@reverse": "agent",
       "@container": "@set"
     },
     "alternateName": {
@@ -29,6 +30,7 @@
       "@container": "@set"
     },
     "authorOf": {
+      "@reverse": "author",
       "@container": "@set"
     },
     "availableChannel": {
@@ -45,6 +47,7 @@
       "@container": "@set"
     },
     "created": {
+      "@reverse": "creator",
       "@container": "@set"
     },
     "creator": {
@@ -54,6 +57,10 @@
       "@container": "@set"
     },
     "funder": {
+      "@container": "@set"
+    },
+    "funderOf": {
+      "@reverse": "funder",
       "@container": "@set"
     },
     "hasTopConcept": {
@@ -72,6 +79,10 @@
       "@type": "@id"
     },
     "instrument": {
+      "@container": "@set"
+    },
+    "instrumentIn": {
+      "@reverse": "instrument",
       "@container": "@set"
     },
     "keywords": {
@@ -96,6 +107,7 @@
       "@container": "@set"
     },
     "mentionedIn": {
+      "@reverse": "mentions",
       "@container": "@set"
     },
     "name": {
@@ -114,12 +126,14 @@
       "@container": "@set"
     },
     "organizerFor": {
+      "@reverse": "organizer",
       "@container": "@set"
     },
     "participant": {
       "@container": "@set"
     },
     "participantIn": {
+      "@reverse": "participant",
       "@container": "@set"
     },
     "performer": {
@@ -133,6 +147,7 @@
       "@container": "@set"
     },
     "provides": {
+      "@reverse": "provider",
       "@container": "@set"
     },
     "recordedIn": {
