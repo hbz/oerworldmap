@@ -444,6 +444,17 @@
             }
           }
         },
+      },
+      "inLanguage": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "url": {
+        "type": "string",
+        "format": "uri"
+      },
         "sameAs": {
           "type": "array",
           "items": {
