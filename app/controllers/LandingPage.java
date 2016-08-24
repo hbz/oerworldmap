@@ -13,7 +13,7 @@ import services.QueryContext;
 
 public class LandingPage extends OERWorldMap {
 
-  public static Result get() throws IOException {
+  public Result get() throws IOException {
 
     Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(0));
     Map<String, Object> scope = new HashMap<>();

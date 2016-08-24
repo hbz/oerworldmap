@@ -11,7 +11,7 @@ import java.io.StringWriter;
  */
 public class Robots extends Controller {
 
-  public static Result get() {
+  public Result get() {
     StringWriter stringWriter = new StringWriter();
     PrintWriter writer = new PrintWriter(stringWriter, true);
     if (play.Play.isProd()) {

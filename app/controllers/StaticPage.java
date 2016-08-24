@@ -17,7 +17,7 @@ import play.mvc.Result;
  */
 public class StaticPage extends OERWorldMap {
 
-  public static Result get(String aPage) {
+  public Result get(String aPage) {
 
     String title = aPage.substring(0, 1).toUpperCase().concat(aPage.substring(1));
     String language = OERWorldMap.mLocale.getLanguage();

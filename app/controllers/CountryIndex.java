@@ -24,7 +24,7 @@ import services.QueryContext;
  */
 public class CountryIndex extends OERWorldMap {
 
-  public static Result read(String id, boolean embed) throws IOException {
+  public Result read(String id, boolean embed) throws IOException {
     if (!Arrays.asList(java.util.Locale.getISOCountries()).contains(id.toUpperCase())) {
       return notFound("Not found");
     }

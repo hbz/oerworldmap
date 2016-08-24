@@ -19,7 +19,7 @@ import services.AggregationProvider;
  */
 public class AggregationIndex extends OERWorldMap {
 
-  public static Result list() throws IOException {
+  public Result list() throws IOException {
 
     Map<String, Object> scope = new HashMap<>();
 

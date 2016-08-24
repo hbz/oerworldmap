@@ -1,6 +1,7 @@
 package oerworldmap;
 
-import static org.fest.assertions.Assertions.assertThat;
+
+import static org.junit.Assert.assertTrue;
 import static play.test.Helpers.HTMLUNIT;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.inMemoryDatabase;
@@ -13,7 +14,7 @@ import play.libs.F.Callback;
 import play.test.TestBrowser;
 
 public class ApplicationTest {
-  @Test  
+  @Test
   public void runningLandingPage() {
 
     running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT,
@@ -21,7 +22,7 @@ public class ApplicationTest {
           @Override
           public void invoke(TestBrowser browser) {
             browser.goTo("http://localhost:3333/user");
-            assertThat(browser.pageSource().contains("Registration"));
+            assertTrue(browser.pageSource().contains("Registration"));
           }
         });
   }

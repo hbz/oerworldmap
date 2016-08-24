@@ -41,7 +41,7 @@ import services.export.CsvWithNestedIdsExporter;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort, boolean list)
+  public Result list(String q, int from, int size, String sort, boolean list)
       throws IOException, ParseException {
 
     // Extract filters directly from query params
@@ -108,7 +108,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result importRecords() throws IOException {
+  public Result importRecords() throws IOException {
 
     // Import records
     JsonNode json = request().body().asJson();
@@ -148,7 +148,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result importResources() throws IOException {
+  public Result importResources() throws IOException {
     JsonNode json = request().body().asJson();
     List<Resource> resources = new ArrayList<>();
     if (json.isArray()) {
@@ -164,7 +164,7 @@ public class ResourceIndex extends OERWorldMap {
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
-  public static Result addResource() throws IOException {
+  public Result addResource() throws IOException {
 
     JsonNode jsonNode = getJsonFromRequest();
 
@@ -178,7 +178,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result updateResource(String aId) throws IOException {
+  public Result updateResource(String aId) throws IOException {
 
     // If updating a resource, check if it actually exists
     Resource originalResource = mBaseRepository.getResource(aId);
@@ -190,7 +190,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private static Result upsertResource(boolean isUpdate) throws IOException {
+  private Result upsertResource(boolean isUpdate) throws IOException {
 
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
@@ -236,7 +236,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private static Result upsertResources() throws IOException {
+  private Result upsertResources() throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
@@ -286,7 +286,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
 
-  public static Result read(String id) throws IOException {
+  public Result read(String id) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id);
     if (null == resource) {
@@ -355,7 +355,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result export(String aId) {
+  public Result export(String aId) {
     Resource record = mBaseRepository.getRecord(aId);
     if (null == record) {
       return notFound("Not found");
@@ -363,7 +363,7 @@ public class ResourceIndex extends OERWorldMap {
     return ok(record.toString()).as("application/json");
   }
 
-  public static Result delete(String aId) throws IOException {
+  public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
       return ok("deleted resource " + resource.toString());
@@ -372,7 +372,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result log(String aId) {
+  public Result log(String aId) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
@@ -384,12 +384,12 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result index(String aId) {
+  public Result index(String aId) {
     mBaseRepository.index(aId);
     return ok("Indexed ".concat(aId));
   }
 
-  public static Result feed() {
+  public Result feed() {
 
     QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
     ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, queryContext);

@@ -31,7 +31,7 @@ public class Sparql extends OERWorldMap  {
     handlebars = new Handlebars(loader);
   }
 
-  public static Result query(String q) throws IOException {
+  public Result query(String q) throws IOException {
 
     Map<String, Object> mustacheData = new HashMap<>();
     if (! StringUtils.isEmpty(q)) {
@@ -44,7 +44,7 @@ public class Sparql extends OERWorldMap  {
 
   }
 
-  public static Result update(String delete, String insert, String where) throws IOException {
+  public Result update(String delete, String insert, String where) throws IOException {
 
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("delete", delete);
@@ -57,7 +57,7 @@ public class Sparql extends OERWorldMap  {
 
   }
 
-  public static Result patch() throws IOException {
+  public Result patch() throws IOException {
 
     String diffString = request().body().asFormUrlEncoded().get("diff")[0];
 

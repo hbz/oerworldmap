@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  */
 public class I18n extends OERWorldMap {
 
-  public static Result get() {
+  public Result get() {
     Map<String, Object> i18n = new HashMap<>();
     Map<String, String> messages = new HashMap<>();
     ResourceBundle messageBundle = ResourceBundle.getBundle("messages", OERWorldMap.mLocale);

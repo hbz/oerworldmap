@@ -37,14 +37,14 @@ import play.mvc.Result;
 
 public class UserIndex extends OERWorldMap {
 
-  public static Result signup() {
+  public Result signup() {
 
     Map<String, Object> scope = new HashMap<>();
     return ok(render("Registration", "UserIndex/register.mustache", scope));
 
   }
 
-  public static Result register() {
+  public Result register() {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
 
@@ -82,7 +82,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result verify(String token) throws IOException {
+  public Result verify(String token) throws IOException {
 
     Result result;
 
@@ -106,11 +106,11 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result requestPassword() {
+  public Result requestPassword() {
     return ok(render("Reset Password", "UserIndex/password.mustache"));
   }
 
-  public static Result sendPassword() {
+  public Result sendPassword() {
 
     Result result;
 
@@ -153,7 +153,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result newsletterSignup() {
+  public Result newsletterSignup() {
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("countries", Countries.list(OERWorldMap.mLocale));
@@ -161,7 +161,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result newsletterRegister() {
+  public Result newsletterRegister() {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
 
@@ -206,7 +206,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result editGroups() {
+  public Result editGroups() {
 
     Map<String, Map<String, Boolean>> groups = new HashMap<>();
     for (String group : mAccountService.getGroups()) {
@@ -223,7 +223,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result setGroups() {
+  public Result setGroups() {
 
     Map<String, List<String>> groupUsers = new HashMap<>();
 
@@ -248,7 +248,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  private static void sendMail(String aEmailAddress, String aMessage, String aSubject) {
+  private void sendMail(String aEmailAddress, String aMessage, String aSubject) {
     Email mail = new SimpleEmail();
     try {
       mail.setMsg(aMessage);
@@ -274,7 +274,7 @@ public class UserIndex extends OERWorldMap {
     }
   }
 
-  private static void createProfile(String aEmailAddress) throws IOException {
+  private void createProfile(String aEmailAddress) throws IOException {
 
     // Check if person entry with corresponding email already exists
     List<Resource> users = mBaseRepository.getResources("about.email", aEmailAddress);
