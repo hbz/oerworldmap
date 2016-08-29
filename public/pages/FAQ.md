@@ -27,9 +27,6 @@ In addition to browser access (on desktop and mobile) The OER World Map makes da
 
 Our use cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please tell us so!
 
-## How do I search the database?
-Please make sure, that you use wildcards. Example: Search for "*stax*" instead of "stax" to find "OpenStax". We will refine the search engine soon, so that the use of wildcards will become obsolete.
-
 ## How can I participate?
 The success of the project is dependent on the participation of the OER community.  There are many ways to contribute. The most important ways are:
 
