@@ -46,14 +46,10 @@
       ]
     }
   ],
-  "availableChannel": [
-    {
-      "serviceUrl": "http://example.com/oer-machine",
-      "availableLanguage": [
+  "url": "http://example.com/oer-machine",
+  "inLanguage": [
         "en",
         "de"
-      ]
-    }
   ],
   "sameAs": [
     "https://twitter.com/oermachine",
