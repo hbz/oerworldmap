@@ -595,7 +595,7 @@
                                 <em>{{this.dateCreated}}</em>
                             </small>
                         </p>
-                        <p>{{#localized this.text}}{{[@value]}}{{/localized}}</p>
+                        <p>{{#localized this.text}}{{md [@value]}}{{/localized}}</p>
                     </div>
                 {{/if}}
             {{/sort}}
@@ -610,7 +610,7 @@
             {{else}}
                 <p>
                     <em>
-                        You need to provide your name on your<a href="/resource/{{user.[@id]}}">profile</a>in order to
+                        You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
                         comment.
                     </em>
                 </p>
