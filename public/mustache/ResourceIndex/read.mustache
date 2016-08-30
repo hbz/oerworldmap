@@ -572,6 +572,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
                     <button type="submit" class="btn btn-inverted">Save Changes</button>
                 </div>
+
             </form>
 
         {{/if}}
@@ -606,6 +607,9 @@
             {{#if user.name}}
                 <form method="post" action="/resource/{{[@id]}}/comment">
                     {{>ResourceIndex/Comment/edit.mustache}}
+                    <div class="pull-right resource-form-top-padding">
+                        <button class="btn btn-inverted" type="submit">Submit</button>
+                    </div>
                 </form>
             {{else}}
                 <p>
