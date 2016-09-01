@@ -81,11 +81,9 @@
                 </div>
             {{/image}}
 
-            {{#localized description}}
-                <p>{{{[@value]}}}</p>
-            {{/localized}}
+            {{#localized description}}{{md [@value]}}{{/localized}}
 
-            {{#localized articleBody}}{{{[@value]}}}{{/localized}}
+            {{#localized articleBody}}{{md [@value]}}{{/localized}}
 
             {{#url}}
                 <p>

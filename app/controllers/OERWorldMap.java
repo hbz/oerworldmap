@@ -22,6 +22,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.jknack.handlebars.MarkdownHelper;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -185,6 +186,8 @@ public abstract class OERWorldMap extends Controller {
     } catch (Exception e) {
       Logger.error(e.toString());
     }
+
+    handlebars.registerHelper("md", new MarkdownHelper());
 
     try {
       Template template = handlebars.compile("main.mustache");
