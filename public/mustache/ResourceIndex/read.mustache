@@ -570,11 +570,57 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
                     <button type="submit" class="btn btn-inverted">Save Changes</button>
                 </div>
+
             </form>
 
         {{/if}}
 
+        {{#if comment}}
+            <h2>Comments</h2>
+            {{#sort comment "dateCreated" "asc"}}
+                {{#if author.[0].name}}
+                    <hr>
+                    <div>
+                        <p>
+                            <small>
+                                <em>
+                                    {{#author}}
+                                        {{#localized this.name}}
+                                            <a href="/resource/{{[@id]}}">{{[@value]}}</a>
+                                        {{/localized}}
+                                    {{/author}}
+                                </em>
+                                on
+                                <em>{{this.dateCreated}}</em>
+                            </small>
+                        </p>
+                        <p>{{#localized this.text}}{{md [@value]}}{{/localized}}</p>
+                    </div>
+                {{/if}}
+            {{/sort}}
+        {{/if}}
+
+        {{#if ../permissions.comment}}
+            <h2>Add Comment</h2>
+            {{#if user.name}}
+                <form method="post" action="/resource/{{[@id]}}/comment">
+                    {{>ResourceIndex/Comment/edit.mustache}}
+                    <div class="pull-right resource-form-top-padding">
+                        <button class="btn btn-inverted" type="submit">Submit</button>
+                    </div>
+                </form>
+            {{else}}
+                <p>
+                    <em>
+                        You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
+                        comment.
+                    </em>
+                </p>
+            {{/if}}
+        {{/if}}
+
         {{/resource}}
+
     {{/scope}}
 
 </div>

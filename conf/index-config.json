@@ -7558,6 +7558,33 @@
             "@type": {
               "index": "not_analyzed",
               "type": "string"
+            },
+            "comment" : {
+              "properties" : {
+                "dateCreated" : {
+                  "format" : "dateOptionalTime",
+                  "type" : "date"
+                },
+                "@type" : {
+                  "index": "not_analyzed",
+                  "type" : "string"
+                },
+                "text" : {
+                  "properties" : {
+                    "@value" : {
+                      "type" : "string"
+                    },
+                    "@language" : {
+                      "index": "not_analyzed",
+                      "type" : "string"
+                    }
+                  }
+                },
+                "@id" : {
+                  "index": "not_analyzed",
+                  "type" : "string"
+                }
+              }
             }
           }
         },

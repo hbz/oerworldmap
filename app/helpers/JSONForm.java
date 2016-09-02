@@ -96,7 +96,9 @@ public class JSONForm {
       }
       results.add(context);
     }
-    return removeEmptyValues ? removeEmptyValues((ObjectNode) merge(results)) : merge(results);
+    return removeEmptyValues
+      ? setJsonLdTextValues(removeEmptyValues((ObjectNode) merge(results)))
+      : setJsonLdTextValues((ObjectNode) merge(results));
   }
 
   public static List<Map<String, Object>> generateErrorReport(ProcessingReport report) {
@@ -222,6 +224,46 @@ public class JSONForm {
         //if (value.size() > 0)
           result.add(value);
       } else if (!arrayValue.isArray() && !arrayValue.isObject() && !arrayValue.isNull()) {
+        result.add(arrayValue);
+      }
+    }
+    return result;
+  }
+
+  private static ObjectNode setJsonLdTextValues(ObjectNode node) {
+    ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
+    if (node.has(JsonLdConstants.LANGUAGE)) {
+      result.put(JsonLdConstants.LANGUAGE, node.get(JsonLdConstants.LANGUAGE).asText());
+      result.put(JsonLdConstants.VALUE, node.get(JsonLdConstants.VALUE).asText());
+    } else {
+      Iterator<String> fieldNames = node.fieldNames();
+      while(fieldNames.hasNext()) {
+        String fieldName = fieldNames.next();
+        JsonNode fieldValue = node.get(fieldName);
+        if (fieldValue.isArray() && fieldValue.size() > 0) {
+          ArrayNode value = setJsonLdTextValues((ArrayNode) fieldValue);
+          result.put(fieldName, value);
+        } else if (fieldValue.isObject() && fieldValue.size() > 0) {
+          ObjectNode value = setJsonLdTextValues((ObjectNode) fieldValue);
+          result.put(fieldName, value);
+        } else if (!fieldValue.isArray() && !fieldValue.isObject()) {
+          result.put(fieldName, fieldValue);
+        }
+      }
+    }
+    return result;
+  }
+
+  private static ArrayNode setJsonLdTextValues(ArrayNode node) {
+    ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
+    for (JsonNode arrayValue : node) {
+      if (arrayValue.isArray() && arrayValue.size() > 0) {
+        ArrayNode value = setJsonLdTextValues((ArrayNode) arrayValue);
+        result.add(value);
+      } else if (arrayValue.isObject() && arrayValue.size() > 0) {
+        ObjectNode value = setJsonLdTextValues((ObjectNode) arrayValue);
+        result.add(value);
+      } else if (!arrayValue.isArray() && !arrayValue.isObject()) {
         result.add(arrayValue);
       }
     }
