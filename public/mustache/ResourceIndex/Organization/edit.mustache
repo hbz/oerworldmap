@@ -54,4 +54,6 @@
 
     {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Organization.keywords") tooltip=(i18n "Organization.keywords" bundle="descriptions") hidden=false multiple=true input_type="text"}}
 
+    {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Organization.comment") tooltip=(i18n "Organization.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
+
 </fieldset>

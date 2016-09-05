@@ -23,6 +23,10 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
   </LimitExcept>
 </Location>
 
+<Location /resource/*/comment>
+  Require valid-user
+</Location>
+
 <Location /log/>
   Require group editor
   Require group admin

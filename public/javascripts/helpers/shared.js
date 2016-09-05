@@ -538,6 +538,33 @@ Handlebars.registerHelper('encodeURIComponent', function(string) {
   return encodeURIComponent(string);
 });
 
+Handlebars.registerHelper('sort', function(context, field, direction, options) {
+
+  var arr = [];
+  for (var i in context) {
+    arr.push(context[i]);
+  }
+
+  arr.sort(function(a, b) {
+    if (a[field] > b[field]) {
+      return direction == "desc" ? -1 : 1;
+    } else if (a[field] < b[field]) {
+      return direction == "desc" ? 1 : -1;
+    } else {
+      return 0;
+    }
+  });
+
+  var ret = "";
+
+  for(var i=0, j=arr.length; i<j; i++) {
+    ret = ret + options.fn(arr[i]);
+  }
+
+  return ret;
+
+});
+
 /*
 Handlebars.registerHelper('ifIn', function(item, list, options) {
   for (i in list) {

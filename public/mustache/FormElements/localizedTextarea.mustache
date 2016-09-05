@@ -10,6 +10,12 @@
                     {{textarea (stringFormat "%s[%s][@value]" property_path @index) [@value]}}
                     {{input (stringFormat "%s[%s][@language]" property_path @index) [@language]}}
                 </fieldset>
+                <small>
+                    <img src="/assets/images/markdown-mark.svg" class="icon" />
+                    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">
+                        Markdown supported
+                    </a>
+                </small>
             </li>
         {{/property}}
         <li class="multiple-one">
@@ -18,6 +24,12 @@
                 {{textarea (stringFormat "%s[%s][@value]" property_path (size property)) ""}}
                 {{input (stringFormat "%s[%s][@language]" property_path (size property)) ""}}
             </fieldset>
+            <small>
+                <img src="/assets/images/markdown-mark.svg" class="icon" />
+                <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">
+                    Markdown supported
+                </a>
+            </small>
         </li>
     </ul>
 
