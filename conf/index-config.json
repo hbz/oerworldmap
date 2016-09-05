@@ -2946,7 +2946,48 @@
                   }
                 },
                 "location": {
-                  "type": "object"
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point",
+                      "copy_to": "about.location.geo"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string",
+                      "copy_to": "about.location.@type"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string",
+                          "copy_to": "about.location.address.addressLocality"
+                        },
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string",
+                          "copy_to": "about.location.address.addressCountry"
+                        },
+                        "addressRegion": {
+                          "type": "string",
+                          "copy_to": "about.location.address.addressRegion"
+                        },
+                        "streetAddress": {
+                          "type": "string",
+                          "copy_to": "about.location.address.streetAddress"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string",
+                          "copy_to": "about.location.address.postalCode"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string",
+                          "copy_to": "about.location.address.@type"
+                        }
+                      }
+                    }
+                  }
                 },
                 "startTime": {
                   "type": "date",
