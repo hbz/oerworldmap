@@ -139,9 +139,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return (Resource) aggregations.get("aggregations");
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) {
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext) {
     Resource aggregations = Resource
-      .fromJson(getAggregations(aAggregationBuilders).toString());
+      .fromJson(getAggregations(aAggregationBuilders, aQueryContext).toString());
     if (null == aggregations) {
       return null;
     }
@@ -285,15 +285,24 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders) {
+  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
+    aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+
+    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+    if (!(null == aQueryContext)) {
+      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.add(contextFilter);
+      }
+    }
 
     for (AggregationBuilder<?> aggregationBuilder : aAggregationBuilders) {
       searchRequestBuilder.addAggregation(aggregationBuilder);
     }
 
-    return searchRequestBuilder.setSize(0).execute().actionGet();
+    return searchRequestBuilder.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
+      .setSize(0).execute().actionGet();
 
   }
 
