@@ -370,7 +370,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
 
   var width = options.hash.width || 400;
   var height = options.hash.height || 400;
-
+  var donut_color = options.hash.donat_color || '#f7faff';
 
   function openTag(type, closing, attr) {
       var html = ['<' + type];
@@ -399,8 +399,8 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
   var sectorAngleArr = buckets.map(function (v) { return 360 * v['doc_count'] / total; });
 
   var arcs = [];
-  var startAngle = 0;
-  var endAngle = 0;
+  var startAngle = 270;
+  var endAngle = 270;
   for (var i=0; i<sectorAngleArr.length; i++) {
     startAngle = endAngle;
     endAngle = startAngle + sectorAngleArr[i];
@@ -417,7 +417,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
         ((endAngle-startAngle > 180) ? 1 : 0) + ",1 " + x2 + "," + y2 + " z";
 
     var c = parseInt((i + 200) / sectorAngleArr.length * 360);
-    var path = createElement("path", true, {d: d, fill: colors[i]});
+    var path = createElement("path", true, {d: d, fill: colors[i], 'class': 'color-' + i});
 
     var url_params = {};
     for (var p in buckets[i]) {
@@ -433,7 +433,7 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
     arcs.push(arc);
   }
 
-  var donut = createElement("circle", true, {cx: width/2, cy: height/2, r: height/3, fill: "white"});
+  var donut = createElement("circle", true, {cx: width/2, cy: height/2, r: height/3, fill: donut_color});
 
   return new Handlebars.SafeString(createElement("svg" , true, {
     width: width,
