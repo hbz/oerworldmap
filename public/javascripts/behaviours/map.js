@@ -537,21 +537,12 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      // Special case single point
-      if (boundingBox[0] == boundingBox[2]) {
-        boundingBox[0] -= 1000000;
-        boundingBox[2] += 1000000;
-      }
-      if (boundingBox[1] == boundingBox[3]) {
-        boundingBox[1] -= 1000000;
-        boundingBox[3] += 1000000;
-      }
     }
 
     if (boundingBox && (boundingBox[0] != Infinity)) {
       // Set extent of map view
       world.getView().fit(boundingBox, world.getSize(), {
-        padding: [50, 50, 50, 50]
+        minResolution: 2
       });
     } else {
 
@@ -585,7 +576,7 @@ var Hijax = (function ($, Hijax) {
       ol.extent.extend(extent, features[i].getGeometry().getExtent());
     }
     world.getView().fit(extent, world.getSize(), {
-      padding: [50, 50, 50, 50]
+      minResolution: 2
     });
   }
 
