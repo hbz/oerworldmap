@@ -9,6 +9,10 @@
     {{> FormElements/localizedInput.mustache property=name property_path="name" title=(i18n "Service.name") tooltip=(i18n "Service.name" bundle="descriptions")}}
 
     {{> FormElements/localizedInput.mustache property=alternateName property_path="alternateName" title=(i18n "Service.alternateName") tooltip=(i18n "Service.alternateName" bundle="descriptions")}}
+    
+    {{> FormElements/input.mustache property=url property_path="url" title=(i18n "Service.url") tooltip=(i18n "Service.url" bundle="descriptions") hidden=false multiple=false input_type="url"}}
+    
+    {{> FormElements/select.mustache property=inLanguage property_path="inLanguage" title=(i18n "Service.inLanguage") tooltip=(i18n "Service.inLanguage" bundle="descriptions") multiple=true input_type="text" options="languages"}}
 
     {{> FormElements/input.mustache property=serviceType property_path="serviceType" title=(i18n "Service.serviceType") tooltip=(i18n "Service.serviceType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
