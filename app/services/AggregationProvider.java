@@ -115,4 +115,9 @@ public class AggregationProvider {
       .field("about.agent.location.address.addressCountry");
   }
 
+  public static AggregationBuilder<?> getFunderAggregation(int aSize) {
+    return AggregationBuilders.terms("about.funder.@id").size(aSize)
+      .field("about.funder.@id");
+  }
+
 }
