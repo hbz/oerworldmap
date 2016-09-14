@@ -1,11 +1,15 @@
-import BeautifulSoup, urllib2, json
+import BeautifulSoup, urllib2, json, re, os
 
 grant_mapping = {
     'Amount:': 'frapo:hasMonetaryValue',
     'Date of Award:': 'frapo:dateAwarded'
 }
 
-
+def getSoupFromPage(url):
+    page = urllib2.urlopen(url).read()
+    soup = BeautifulSoup.BeautifulSoup(page)
+    soup.prettify()
+    return soup
 
 def collect(url):
     result = {
@@ -21,9 +25,7 @@ def collect(url):
     grant = {
         "@type": "frapo:Grant",
     }
-    page = urllib2.urlopen(url).read()
-    soup = BeautifulSoup.BeautifulSoup(page)
-    soup.prettify()
+    soup = getSoupFromPage(url)
     for table in soup.findAll('tbody'):
         for row in table.findAll('tr'):
             entry = row.findAll('td')
@@ -33,5 +35,28 @@ def collect(url):
     result['frapo:awards'] = grant
     print json.dumps(result, indent=2)
 
+def crawlPage(url):
+    links = []
+    soup = getSoupFromPage(url)
+    for table in soup.findAll('tbody'):
+        for row in table.findAll('tr'):
+            cols = row.findAll('td')
+            link = cols[0].find('a').get('href')
+            links.append('http://www.hewlett.org' + link)
+    return links
+
+def nextPage(currentPage):
+    m = re.search(r'page=\d+$', currentPage)
+    if m is None:
+        return currentPage + '&page=1'
+    else:
+        next = "http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148&page=%d"
+        i = 2
+        if os.path.exists(next % i):
+            return next % i
+
 if __name__ == "__main__":
-    collect("http://www.hewlett.org/grants/16045/monterey-institute-technology-and-education")
+    print nextPage("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148&page=1")
+    links = crawlPage("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148")
+    for link in links:
+        collect(link)
