@@ -1,15 +1,35 @@
 import BeautifulSoup, urllib2, json, re, os
 
+
 grant_mapping = {
     'Amount:': 'frapo:hasMonetaryValue',
     'Date of Award:': 'frapo:dateAwarded'
 }
+
+
+def get_trailing_page(s):
+    m = re.search(r'page[=]\d+$', s)
+    return int(m.group()) if m else None
+
+
+def get_trailing_number(s):
+    # from: http://stackoverflow.com/a/7085715/4420271
+    m = re.search(r'\d+$', s)
+    return int(m.group()) if m else 0
+
+
+def remove_trailing(astring, trailing):
+    # http://stackoverflow.com/a/3663767/4420271 ("jack1")
+    regex = r'%s$' % re.escape(trailing)
+    return re.sub(regex, '', astring)
+
 
 def getSoupFromPage(url):
     page = urllib2.urlopen(url).read()
     soup = BeautifulSoup.BeautifulSoup(page)
     soup.prettify()
     return soup
+
 
 def collect(url):
     result = {
@@ -33,9 +53,10 @@ def collect(url):
             if field in grant_mapping:
                 grant[grant_mapping[field]] = entry[1].getText()
     result['frapo:awards'] = grant
-    print json.dumps(result, indent=2)
+    return json.dumps(result, indent=2)
 
-def crawlPage(url):
+
+def crawl_page(url):
     links = []
     soup = getSoupFromPage(url)
     for table in soup.findAll('tbody'):
@@ -45,18 +66,26 @@ def crawlPage(url):
             links.append('http://www.hewlett.org' + link)
     return links
 
-def nextPage(currentPage):
-    m = re.search(r'page=\d+$', currentPage)
-    if m is None:
-        return currentPage + '&page=1'
-    else:
-        next = "http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148&page=%d"
-        i = 2
-        if os.path.exists(next % i):
-            return next % i
+
+def next_page(url, count):
+    page = url
+    page += '&page=' + str(count)
+    return crawl_page(page)
+
+
+def import_hewlett_data(url):
+    imports = []
+    current_number = 0
+    while 1:
+        links = next_page("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148", current_number)
+        if links.__eq__([]):
+            break
+        for link in links:
+            json = collect(link)
+            imports.append(json)
+        current_number += 1
+
 
 if __name__ == "__main__":
-    print nextPage("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148&page=1")
-    links = crawlPage("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148")
-    for link in links:
-        collect(link)
+    import_hewlett_data ('http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148')
+
