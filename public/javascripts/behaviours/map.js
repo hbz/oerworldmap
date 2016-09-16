@@ -288,9 +288,11 @@ var Hijax = (function ($, Hijax) {
     if (world.getView().getZoom() > 8) {
       $(popoverElement).hide();
       hoveredCountriesOverlay.setVisible(false);
+      world.getTarget().style.cursor = '';
     } else if (show_popover) {
       $(popoverElement).show();
       hoveredCountriesOverlay.setVisible(true);
+      world.getTarget().style.cursor = 'pointer';
     } else {
       hoveredCountriesOverlay.setVisible(true);
     }
@@ -892,7 +894,7 @@ var Hijax = (function ($, Hijax) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
               Hijax.behaviours.app.linkToFragment( feature.get("features")[0].getProperties()['resource']['@id'] );
-            } else if(type == "country") {
+            } else if(type == "country" && world.getView().getZoom() < 9) {
               page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"));
