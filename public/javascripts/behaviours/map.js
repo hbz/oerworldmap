@@ -284,9 +284,21 @@ var Hijax = (function ($, Hijax) {
 
     }
 
+    // FIXME @j0hj0h: this should probably go somewhere else
+    if (world.getView().getZoom() > 8) {
+      $(popoverElement).hide();
+      hoveredCountriesOverlay.setVisible(false);
+    } else if (show_popover) {
+      $(popoverElement).show();
+      hoveredCountriesOverlay.setVisible(true);
+    } else {
+      hoveredCountriesOverlay.setVisible(true);
+    }
+
   }
 
   function setFeatureStyle( feature, style ) {
+
     var feature_type = getFeatureType( feature );
 
     if( feature_type == 'country' ) {
