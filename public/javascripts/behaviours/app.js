@@ -279,8 +279,10 @@ var Hijax = (function ($, Hijax, page) {
 
       $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
         var col = $(this).closest('[data-app="col"]');
-        if(col.is('#app-col-index')) {
+        if(col.is('#app-col-index') && $('#app-col-detail').attr('data-col-mode') == 'hidden') {
           page('/');
+        } else if(col.is('#app-col-index') && $('#app-col-detail').attr('data-col-mode') == 'expanded') {
+          page(detail_source);
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'floating') {
           page('/');
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'list') {

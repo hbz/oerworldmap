@@ -105,9 +105,13 @@
                 {{/serviceUrl}}
             {{/availableChannel}}
 
-            {{#license}}
-                <img src="{{image}}" width="75" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
-            {{/license}}
+            {{#if license}}
+                <div class="licenses">
+                    {{#license}}
+                        <img src="{{image}}" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
+                    {{/license}}
+                </div>
+            {{/if}}
 
             <table class="table resource-details-table">
 
