@@ -285,7 +285,7 @@ var Hijax = (function ($, Hijax) {
     }
 
     // FIXME @j0hj0h: this should probably go somewhere else
-    if (world.getView().getZoom() > 8) {
+    if (world.getView().getZoom() > 8 && (type == "country")) {
       $(popoverElement).hide();
       hoveredCountriesOverlay.setVisible(false);
       world.getTarget().style.cursor = '';
@@ -448,7 +448,7 @@ var Hijax = (function ($, Hijax) {
       if(
         ! focused_country
       ) {
-        var stroke_width = 0.5;
+        var stroke_width = world.getView().getZoom() > 4 ? 1.5 : 0.5;
         var stroke_color = '#0c75bf';
         var zIndex = 1;
 
@@ -456,7 +456,7 @@ var Hijax = (function ($, Hijax) {
       } else if(
         focused_country != feature.getId()
       ) {
-        var stroke_width = 0.5;
+        var stroke_width = world.getView().getZoom() > 4 ? 1.5 : 0.5;
         var stroke_color = '#0c75bf';
         var zIndex = 1;
 
@@ -464,7 +464,7 @@ var Hijax = (function ($, Hijax) {
         var color_d3 = d3.rgb(color_rgb);
         var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.9)";
       } else {
-        var stroke_width = 2;
+        var stroke_width = world.getView().getZoom() > 4 ? 2 : 1.5;
         var stroke_color = '#0c75bf';
         var zIndex = 2;
 
@@ -844,7 +844,7 @@ var Hijax = (function ($, Hijax) {
             return [new ol.style.Style({
               stroke: new ol.style.Stroke({
                 color: '#0c75bf',
-                width: 2
+                width: world.getView().getZoom() > 4 ? 2 : 1.5
               })
             })];
           },
