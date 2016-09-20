@@ -392,8 +392,13 @@ var Hijax = (function ($, Hijax, page) {
             } else if(form.attr('action') == detail_source) {
 
               // if updated resource is currently lodaded in the detail column, update column and close modal
-              $('#app-col-detail [data-app="col-content"]').html( contents );
+              //$('#app-col-detail [data-app="col-content"]').html( contents );
+              // FIXME: also reloading after a timeout to refresh map after potential location updates
               $('#app-modal').data('is_protected', false).modal('hide');
+              window.setTimeout(function(){
+                window.location.reload();
+              }, 2000);
+              $('#app').addClass('loading');
 
             } else {
 
