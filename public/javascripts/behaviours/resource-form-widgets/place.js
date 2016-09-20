@@ -157,6 +157,17 @@ var Hijax = (function ($, Hijax) {
             return false; // dirty
           });
 
+          function debounce(fn, delay) {
+            var timer = null;
+            return function () {
+              var context = this, args = arguments;
+              clearTimeout(timer);
+              timer = setTimeout(function () {
+                      fn.apply(context, args);
+              }, delay);
+            };
+          }
+
           location_typeahead.typeahead({
             hint: false,
             highlight: true,
@@ -165,7 +176,7 @@ var Hijax = (function ($, Hijax) {
             name: 'locations',
             limit: 9999,
             display: 'label',
-            source: function(q, sync, async) {
+            source: debounce(function(q, sync, async) {
               if (q !== '') {
                 $.get('https://search.mapzen.com/v1/autocomplete?api_key=search-2bvcBc8&text=' + q, function(data) {
                   var results = [];
@@ -178,7 +189,7 @@ var Hijax = (function ($, Hijax) {
                   async(results);
                 });
               }
-            }
+            }, 250)
           });
 
           location_typeahead.bind('typeahead:select', function(e, suggestion) {
