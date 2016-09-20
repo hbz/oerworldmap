@@ -208,10 +208,8 @@ var Hijax = (function ($, Hijax) {
               // style feature
               feature.setStyle(style);
               // get code from region layer by feature coordinates
-              var iso3166_2 = regions.getSource().getFeaturesAtCoordinate(feature.getGeometry().getCoordinates())
-                [0].getId();
-              // set region code in form input
-              widget.find('[name="location[address][addressRegion]"]').val(iso3166_2);
+              setRegionFromFeature(feature);
+              map.addInteraction(createDragInteraction(feature));
             });
 
             // fit view
@@ -221,17 +219,41 @@ var Hijax = (function ($, Hijax) {
 
             // populate remaining form inputs
             var properties = suggestion.feature.properties;
-            var geometry = suggestion.feature.geometry;
-
             widget.find('[name="location[address][streetAddress]"]').val(properties.name || '');
             widget.find('[name="location[address][postalCode]"]').val(properties.postalcode || '');
             widget.find('[name="location[address][addressLocality]"]').val(properties.locality || '');
-            widget.find('[name="location[geo][lat]"]').val(geometry.coordinates[1] || '');
-            widget.find('[name="location[geo][lon]"]').val(geometry.coordinates[0] || '');
             widget.find('[name="location[address][addressCountry]"]').val(properties.country_a.substring(0, 2));
+            setCoordinatesFromLonLat(suggestion.feature.geometry.coordinates)
             country_dropdown_button.find('.text').text(i18nStrings.countries[properties.country_a.substring(0, 2)]);
 
           });
+
+          function createDragInteraction(feature) {
+            var dragInteraction = new ol.interaction.Modify({
+              features: new ol.Collection([feature]),
+              style: null,
+              pixelTolerance: 20
+            });
+            dragInteraction.on('modifyend',function() {
+              setCoordinatesFromLonLat(ol.proj.toLonLat(feature.getGeometry().getCoordinates()));
+              setRegionFromFeature(feature);
+            }, feature);
+            return dragInteraction;
+          }
+
+          function setRegionFromFeature(feature) {
+            var iso3166_2 = regions.getSource().getFeaturesAtCoordinate(feature.getGeometry().getCoordinates())[0] || null;
+            if (iso3166_2) {
+              widget.find('[name="location[address][addressRegion]"]').val(iso3166_2.getId());
+            } else {
+              widget.find('[name="location[address][addressRegion]"]').val("");
+            }
+          }
+
+          function setCoordinatesFromLonLat(lonLat) {
+            widget.find('[name="location[geo][lat]"]').val(lonLat[1] || '');
+            widget.find('[name="location[geo][lon]"]').val(lonLat[0] || '');
+          }
 
           // marker style
           var style = new ol.style.Style({
