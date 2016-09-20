@@ -299,9 +299,37 @@ var Hijax = (function ($, Hijax) {
             })
           });
 
+          // mark current location on load
+          var lat = parseFloat(widget.find('[name="location[geo][lat]"]').val().trim());
+          var lon = parseFloat(widget.find('[name="location[geo][lon]"]').val().trim());
+          if (lat && lon) {
+            var feature = new ol.Feature({
+              geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+            });
+            feature.setStyle(style);
+            markers.setSource(new ol.source.Vector({
+              features: [ feature ]
+            }));
+            // fit view
+            map.getView().fit(markers.getSource().getExtent(), map.getSize(), {
+              minResolution: 2
+            });
+            // drag interaction
+            map.addInteraction(createDragInteraction(feature));
+
+            // set region code in form input when region vector source is loaded
+            if (regions.getSource().getFeatureById("US.CA")) { // Is this a relieable test?
+              setRegionFromFeature(feature);
+            } else {
+              var listener = regions.getSource().on('change', function(e) {
+                if (regions.getSource().getState() == 'ready') {
+                  setRegionFromFeature(feature);
+                }
+              });
+            }
+          }
+
         }, 500);
-
-
 
       });
 
