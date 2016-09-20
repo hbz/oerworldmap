@@ -154,13 +154,41 @@ var Hijax = (function ($, Hijax) {
       });
 
       // global statistics
-      $('[data-behaviour="global-statistic"]', context).slice(1).hide();
-      $('[data-behaviour="global-statistic-switch"]', context).click(function(e) {
+/*
+      $('[data-behaviour~="global-statistic"]', context).slice(1).hide();
+      $('[data-behaviour~="global-statistic-switch"]', context).click(function(e) {
         var id = $(this).attr("href").slice(1);
-        $('[data-behaviour="global-statistic"]', context).hide();
+        $('[data-behaviour~="global-statistic"]', context).hide();
         $("[id='" + id + "']", context).show();
         e.preventDefault();
       });
+*/
+
+
+      $('[data-behaviour~="statistic"]', context).each(function(){
+
+        var n = $(this).find('table tr').length;
+
+        var scale = d3.scale.linear()
+  		    .domain([0, (n-1)/2, (n-1)])
+          .range([
+            '#a0c846',
+            '#ffe600',
+            '#ff8c00'
+          ]);
+
+        for(var i = 0; i < n; i++) {
+          $(this).find('div.color-' + i).css({
+            background : scale(i)
+          });
+          $(this).find('path.color-' + i).css({
+            fill : scale(i)
+          });
+        }
+
+		  });
+
+
 
       // carousel
       $('[data-behaviour="carousel"]', context).each(function() {
