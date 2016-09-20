@@ -110,4 +110,14 @@ public class AggregationProvider {
       .field("about.license.@id");
   }
 
+  public static AggregationBuilder<?> getProjectByLocationAggregation(int aSize) {
+    return AggregationBuilders.terms("about.agent.location.address.addressCountry").size(aSize)
+      .field("about.agent.location.address.addressCountry");
+  }
+
+  public static AggregationBuilder<?> getFunderAggregation(int aSize) {
+    return AggregationBuilders.terms("about.funder.@id").size(aSize)
+      .field("about.funder.@id");
+  }
+
 }
