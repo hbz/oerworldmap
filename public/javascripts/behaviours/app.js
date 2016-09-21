@@ -361,6 +361,14 @@ var Hijax = (function ($, Hijax, page) {
         $('#app-modal').data('is_protected', false)
       });
 
+      // prevent form submit when enter is pressed
+
+      $('#app-modal').on("keypress", "form", function(e) {
+          if (e.keyCode == 13) {
+            e.preventDefault();
+          }
+      });
+
       // catch form submition inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
