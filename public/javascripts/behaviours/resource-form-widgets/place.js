@@ -192,6 +192,14 @@ var Hijax = (function ($, Hijax) {
             }, 250)
           });
 
+          // hack to initially open the typeahead suggestion list
+
+          location_dropdown.on('shown.bs.dropdown', function(){
+            location_typeahead.focus();
+            location_typeahead.typeahead('val', 'x');
+            location_typeahead.typeahead('val', '');
+          });
+
           location_typeahead.bind('typeahead:select', function(e, suggestion) {
 
             location_dropdown_button.dropdown('toggle');
