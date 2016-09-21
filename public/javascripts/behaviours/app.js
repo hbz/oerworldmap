@@ -394,21 +394,16 @@ var Hijax = (function ($, Hijax, page) {
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
-              // wait a bit and hope new resource will be indexed after
-              window.setTimeout(function(){
-
-                // parse location and pass to router
-                var just_a_parser = document.createElement('a');
-                just_a_parser.href = location;
-                page(just_a_parser.pathname);
-
-              }, 2000);
+              var just_a_parser = document.createElement('a');
+              just_a_parser.href = location;
+              page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
 
               // if updated resource is currently lodaded in the detail column, update column and close modal
               $('#app-col-detail [data-app="col-content"]').html( contents );
               $('#app-modal').data('is_protected', false).modal('hide');
+              Hijax.layout();
 
             } else {
 

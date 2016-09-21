@@ -950,6 +950,20 @@ var Hijax = (function ($, Hijax) {
 
       $.when.apply(null, my.attached).done(function(){
 
+        // Ensure that all current highlights are in current pins, too
+        if (current_pins.length) {
+          for (var i = 0; i < current_highlights.length; i++) {
+            for (var j = 0; j < current_pins.length; j++) {
+              if (current_highlights[i].getId() == current_pins[j].getId()) {
+                current_pins.splice(j, 1);
+              }
+            }
+            current_pins.push(current_highlights[i]);
+          }
+        } else {
+          current_pins = current_highlights;
+        }
+
         clusterSource.clear();
         placemarksVectorSource.clear();
         placemarksVectorSource.addFeatures(current_pins);
