@@ -19,7 +19,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation(int aSize) {
     return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
-        .exclude("Concept|ConceptScheme");
+        .exclude("Concept|ConceptScheme|Comment");
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
@@ -108,6 +108,16 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getLicenseAggregation(int aSize) {
     return AggregationBuilders.terms("about.license.@id").size(aSize)
       .field("about.license.@id");
+  }
+
+  public static AggregationBuilder<?> getProjectByLocationAggregation(int aSize) {
+    return AggregationBuilders.terms("about.agent.location.address.addressCountry").size(aSize)
+      .field("about.agent.location.address.addressCountry");
+  }
+
+  public static AggregationBuilder<?> getFunderAggregation(int aSize) {
+    return AggregationBuilders.terms("about.funder.@id").size(aSize)
+      .field("about.funder.@id");
   }
 
 }
