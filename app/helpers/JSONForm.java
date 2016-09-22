@@ -232,7 +232,7 @@ public class JSONForm {
 
   private static ObjectNode setJsonLdTextValues(ObjectNode node) {
     ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
-    if (node.has(JsonLdConstants.LANGUAGE)) {
+    if (node.has(JsonLdConstants.LANGUAGE) && node.has(JsonLdConstants.VALUE)) {
       result.put(JsonLdConstants.LANGUAGE, node.get(JsonLdConstants.LANGUAGE).asText());
       result.put(JsonLdConstants.VALUE, node.get(JsonLdConstants.VALUE).asText());
     } else {
