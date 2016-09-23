@@ -44,7 +44,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
+      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
+    "Comment"));
 
   private static JsonNode mSchemaNode = null;
 

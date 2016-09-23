@@ -250,8 +250,9 @@ public class BaseRepository extends Repository
     return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilders);
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
+      throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
   }
 
   @Override
