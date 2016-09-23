@@ -73,9 +73,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.2.json");
     Resource in3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.3.json");
     Resource expected1 = getResourceFromJsonFile(
-        "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile(
-        "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.2.json");
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.2.json");
 
     mBaseRepo.addResource(in1, mMetadata);
     mBaseRepo.addResource(in2, mMetadata);
@@ -164,13 +164,13 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     try {
       QueryContext queryContext = new QueryContext(null);
       queryContext.setElasticsearchFieldBoosts( //
-          new String[] { //
-              "about.name.@value^9.0", //
-              "about.name.@value.variations^9.0", //
-              "about.name.@value.simple_tokenized^9.0", //
-              "about.alternateName.@value^6.0",
-              "about.alternateName.@value.variations^6.0", //
-              "about.alternateName.@value.simple_tokenized^6.0"});
+        new String[] { //
+          "about.name.@value^9.0", //
+          "about.name.@value.variations^9.0", //
+          "about.name.@value.simple_tokenized^9.0", //
+          "about.alternateName.@value^6.0",
+          "about.alternateName.@value.variations^6.0", //
+          "about.alternateName.@value.simple_tokenized^6.0"});
       List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
       List<String> actualNameList = getNameList(actualList);
       // must provide 3 hits because search is reduced on "about.name.@value" and
@@ -416,6 +416,48 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002", mMetadata);
+  }
+
+  @Test
+  public void testSearchSpecialChars() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query without special chars
+    List<Resource> withoutChars = mBaseRepo.query("OERforever", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"OERforever\".", withoutChars.size() == 1);
+
+    // query with special chars
+    List<Resource> withChars = mBaseRepo.query("OERforever!", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"OERforever!\".", withChars.size() == 1);
+
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testSearchMissing() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.2.json");
+    mBaseRepo.addResource(db2, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query all by name
+    List<Resource> queryByName = mBaseRepo.query("Service", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find all by name.", queryByName.size() == 2);
+
+    // query with special chars
+    List<Resource> queryMissingChannel = mBaseRepo.query("_missing_:about.availableChannel", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
+    Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
+
+    mBaseRepo.deleteResource("", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {
