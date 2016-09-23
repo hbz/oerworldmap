@@ -135,9 +135,11 @@ var Hijax = (function ($, Hijax, page) {
 
     // sort buckets
     aggregation.buckets.sort(function(a,b) {
-      if(a.label_x < b.label_x) return -1;
-      if(a.label_x == b.label_x) return 0;
-      if(a.label_x > b.label_x) return 1;
+      var a_val = (typeof a.label_x === "string") ? a.label_x.toLowerCase() : a.label_x;
+      var b_val = (typeof b.label_x === "string") ? b.label_x.toLowerCase() : b.label_x;
+      if(a_val < b_val) return -1;
+      if(a_val == b_val) return 0;
+      if(a_val > b_val) return 1;
     });
 
     // use typeahead?
