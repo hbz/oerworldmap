@@ -1,5 +1,14 @@
 <fieldset>
 
+    {{^name}}
+        <div class="alert alert-info alert-dismissible">
+            This is your personal profile. We appreciate very much if you want to share information about yourself with
+            the OER community. If you want to enter data about an organization, service or something else, please write
+            to <a href="mailto:{{{obfuscate "info@oerworldmap.org"}}}" class=".alert-link">
+            {{{obfuscate "info@oerworldmap.org"}}}</a> to request editing rights.
+        </div>
+    {{/name}}
+
     <div class="hidden">
         <legend>Person</legend>
         {{input "@type" "Person" readonly="readonly"}}
@@ -44,5 +53,7 @@
     {{> FormElements/id.mustache property=funderOf property_path="funderOf" title=(i18n "Action.funderOf") tooltip=(i18n "Action.funderOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
     {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Person.keywords") tooltip=(i18n "Person.keywords" bundle="descriptions") hidden=false multiple=true input_type="text"}}
+
+    {{> FormElements/id.mustache property=authorOf property_path="authorOf" title=(i18n "Person.authorOf") tooltip=(i18n "Person.authorOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
 </fieldset>

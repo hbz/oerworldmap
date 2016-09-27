@@ -132,42 +132,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -845,42 +837,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -1223,28 +1207,23 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "address": {
                       "properties": {
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         }
                       }
                     }
@@ -1406,42 +1385,34 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "type": "geo_point",
-                          "copy_to": "about.location.geo"
+                          "type": "geo_point"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.@type"
+                          "type": "string"
                         },
                         "address": {
                           "properties": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.addressCountry"
+                              "type": "string"
                             },
                             "addressLocality": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressLocality"
+                              "type": "string"
                             },
                             "addressRegion": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressRegion"
+                              "type": "string"
                             },
                             "streetAddress": {
-                              "type": "string",
-                              "copy_to": "about.location.address.streetAddress"
+                              "type": "string"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.postalCode"
+                              "type": "string"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.@type"
+                              "type": "string"
                             }
                           }
                         }
@@ -2160,42 +2131,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -2513,42 +2476,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -2752,42 +2707,34 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "type": "geo_point",
-                          "copy_to": "about.location.geo"
+                          "type": "geo_point"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.@type"
+                          "type": "string"
                         },
                         "address": {
                           "properties": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.addressCountry"
+                              "type": "string"
                             },
                             "addressLocality": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressLocality"
+                              "type": "string"
                             },
                             "addressRegion": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressRegion"
+                              "type": "string"
                             },
                             "streetAddress": {
-                              "type": "string",
-                              "copy_to": "about.location.address.streetAddress"
+                              "type": "string"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.postalCode"
+                              "type": "string"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.@type"
+                              "type": "string"
                             }
                           }
                         }
@@ -2946,7 +2893,40 @@
                   }
                 },
                 "location": {
-                  "type": "object"
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "startTime": {
                   "type": "date",
@@ -3375,42 +3355,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -3557,42 +3529,34 @@
             "location": {
               "properties": {
                 "geo": {
-                  "type": "geo_point",
-                  "copy_to": "about.location.geo"
+                  "type": "geo_point"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string",
-                  "copy_to": "about.location.@type"
+                  "type": "string"
                 },
                 "address": {
                   "properties": {
                     "addressCountry": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.address.addressCountry"
+                      "type": "string"
                     },
                     "addressLocality": {
-                      "type": "string",
-                      "copy_to": "about.location.address.addressLocality"
+                      "type": "string"
                     },
                     "addressRegion": {
-                      "type": "string",
-                      "copy_to": "about.location.address.addressRegion"
+                      "type": "string"
                     },
                     "streetAddress": {
-                      "type": "string",
-                      "copy_to": "about.location.address.streetAddress"
+                      "type": "string"
                     },
                     "postalCode": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.address.postalCode"
+                      "type": "string"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.address.@type"
+                      "type": "string"
                     }
                   }
                 }
@@ -3720,42 +3684,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -3924,42 +3880,34 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "type": "geo_point",
-                          "copy_to": "about.location.geo"
+                          "type": "geo_point"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.@type"
+                          "type": "string"
                         },
                         "address": {
                           "properties": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.addressCountry"
+                              "type": "string"
                             },
                             "addressLocality": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressLocality"
+                              "type": "string"
                             },
                             "addressRegion": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressRegion"
+                              "type": "string"
                             },
                             "streetAddress": {
-                              "type": "string",
-                              "copy_to": "about.location.address.streetAddress"
+                              "type": "string"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.postalCode"
+                              "type": "string"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.@type"
+                              "type": "string"
                             }
                           }
                         }
@@ -4633,42 +4581,34 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "type": "geo_point",
-                          "copy_to": "about.location.geo"
+                          "type": "geo_point"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.@type"
+                          "type": "string"
                         },
                         "address": {
                           "properties": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.addressCountry"
+                              "type": "string"
                             },
                             "addressLocality": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressLocality"
+                              "type": "string"
                             },
                             "addressRegion": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressRegion"
+                              "type": "string"
                             },
                             "streetAddress": {
-                              "type": "string",
-                              "copy_to": "about.location.address.streetAddress"
+                              "type": "string"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.postalCode"
+                              "type": "string"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.@type"
+                              "type": "string"
                             }
                           }
                         }
@@ -4719,32 +4659,26 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "address": {
                       "properties": {
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         }
                       }
                     }
@@ -5131,28 +5065,23 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "address": {
                       "properties": {
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         }
                       }
                     }
@@ -5286,42 +5215,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -5800,42 +5721,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -6092,42 +6005,34 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "type": "geo_point",
-                          "copy_to": "about.location.geo"
+                          "type": "geo_point"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.@type"
+                          "type": "string"
                         },
                         "address": {
                           "properties": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.addressCountry"
+                              "type": "string"
                             },
                             "addressLocality": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressLocality"
+                              "type": "string"
                             },
                             "addressRegion": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressRegion"
+                              "type": "string"
                             },
                             "streetAddress": {
-                              "type": "string",
-                              "copy_to": "about.location.address.streetAddress"
+                              "type": "string"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.postalCode"
+                              "type": "string"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.@type"
+                              "type": "string"
                             }
                           }
                         }
@@ -6390,37 +6295,30 @@
                   "properties": {
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -6813,42 +6711,34 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": "about.location.@type"
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.@type"
+                          "type": "string"
                         }
                       }
                     }
@@ -7074,42 +6964,34 @@
                     "location": {
                       "properties": {
                         "geo": {
-                          "type": "geo_point",
-                          "copy_to": "about.location.geo"
+                          "type": "geo_point"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.@type"
+                          "type": "string"
                         },
                         "address": {
                           "properties": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.addressCountry"
+                              "type": "string"
                             },
                             "addressLocality": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressLocality"
+                              "type": "string"
                             },
                             "addressRegion": {
-                              "type": "string",
-                              "copy_to": "about.location.address.addressRegion"
+                              "type": "string"
                             },
                             "streetAddress": {
-                              "type": "string",
-                              "copy_to": "about.location.address.streetAddress"
+                              "type": "string"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.postalCode"
+                              "type": "string"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string",
-                              "copy_to": "about.location.address.@type"
+                              "type": "string"
                             }
                           }
                         }
@@ -7438,32 +7320,26 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "address": {
                       "properties": {
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.addressCountry"
+                          "type": "string"
                         },
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressLocality"
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": "about.location.address.streetAddress"
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": "about.location.address.postalCode"
+                          "type": "string"
                         },
                         "addressRegion": {
-                          "type": "string",
-                          "copy_to": "about.location.address.addressRegion"
+                          "type": "string"
                         }
                       }
                     }
@@ -7558,6 +7434,33 @@
             "@type": {
               "index": "not_analyzed",
               "type": "string"
+            },
+            "comment" : {
+              "properties" : {
+                "dateCreated" : {
+                  "format" : "dateOptionalTime",
+                  "type" : "date"
+                },
+                "@type" : {
+                  "index": "not_analyzed",
+                  "type" : "string"
+                },
+                "text" : {
+                  "properties" : {
+                    "@value" : {
+                      "type" : "string"
+                    },
+                    "@language" : {
+                      "index": "not_analyzed",
+                      "type" : "string"
+                    }
+                  }
+                },
+                "@id" : {
+                  "index": "not_analyzed",
+                  "type" : "string"
+                }
+              }
             }
           }
         },

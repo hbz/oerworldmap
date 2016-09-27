@@ -93,6 +93,19 @@ var Hijax = (function ($, Hijax, page) {
     $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
   }
 
+  function route_start(pagejs_ctx, next) {
+    var modal = $('#app-modal');
+    if(
+      (modal.data('bs.modal') || {}).isShown &&
+      modal.data('url') != pagejs_ctx.path
+    ) {
+      modal.data('hidden_on_exit', true);
+      modal.modal('hide');
+    }
+
+    next();
+  }
+
   function route_index(pagejs_ctx, next) {
     $('#app').addClass('loading');
     var index_mode;
@@ -245,19 +258,19 @@ var Hijax = (function ($, Hijax, page) {
 
       // setup app routes
 
-      page('/', route_index, routing_done);
-      page('/resource/', route_index, routing_done);
-      page('/resource/:id', route_detail, routing_done);
-      page('/country/:id', route_index_country, routing_done);
+      page('/', route_start, route_index, routing_done);
+      page('/resource/', route_start, route_index, routing_done);
+      page('/resource/:id', route_start, route_detail, routing_done);
+      page('/country/:id', route_start, route_index_country, routing_done);
 
       // setup non-app (currently static) and login routes
 
-      page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_static, routing_done);
-      page('/.login', route_login, routing_done);
+      page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_start, route_static, routing_done);
+      page('/.login', route_start, route_login, routing_done);
 
       // after all app routes ...
 
-      page('*', route_default, routing_done);
+      page('*', route_start, route_default, routing_done);
 
       // start routing
 
@@ -279,8 +292,10 @@ var Hijax = (function ($, Hijax, page) {
 
       $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
         var col = $(this).closest('[data-app="col"]');
-        if(col.is('#app-col-index')) {
+        if(col.is('#app-col-index') && $('#app-col-detail').attr('data-col-mode') == 'hidden') {
           page('/');
+        } else if(col.is('#app-col-index') && $('#app-col-detail').attr('data-col-mode') == 'expanded') {
+          page(detail_source);
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'floating') {
           page('/');
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'list') {
@@ -310,6 +325,7 @@ var Hijax = (function ($, Hijax, page) {
         modal.find('.modal-body').append( content );
         modal.data('is_protected', is_protected);
         modal.data('opened_on', 'click');
+        modal.data('url', window.location.pathname + window.location.search + this.hash);
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
       });
@@ -338,10 +354,19 @@ var Hijax = (function ($, Hijax, page) {
         }
       });
 
-      // clear modal content when closed
+      // clear modal content when closed and unset protection
 
       $('#app-modal').on('hidden.bs.modal', function(){
         $('#app-modal').find('.modal-body').empty();
+        $('#app-modal').data('is_protected', false)
+      });
+
+      // prevent form submit when enter is pressed
+
+      $('#app-modal').on("keypress", "form", function(e) {
+          if (e.keyCode == 13) {
+            e.preventDefault();
+          }
       });
 
       // catch form submition inside modals and handle it async
@@ -377,21 +402,16 @@ var Hijax = (function ($, Hijax, page) {
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
-              // wait a bit and hope new resource will be indexed after
-              window.setTimeout(function(){
-
-                // parse location and pass to router
-                var just_a_parser = document.createElement('a');
-                just_a_parser.href = location;
-                page(just_a_parser.pathname);
-
-              }, 2000);
+              var just_a_parser = document.createElement('a');
+              just_a_parser.href = location;
+              page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
 
               // if updated resource is currently lodaded in the detail column, update column and close modal
               $('#app-col-detail [data-app="col-content"]').html( contents );
               $('#app-modal').data('is_protected', false).modal('hide');
+              Hijax.layout();
 
             } else {
 
@@ -481,13 +501,9 @@ var Hijax = (function ($, Hijax, page) {
         modal.find('.modal-body').empty().append( content );
         modal.data('is_protected', is_protected);
         modal.data('opened_on', 'load');
+        modal.data('url', window.location.pathname + window.location.search);
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
-        page.exit(window.location.pathname, function(pagejs_ctx, next) {
-          modal.data('hidden_on_exit', true);
-          modal.modal('hide');
-          next();
-        });
       });
 
       /* --- notifications --- */
