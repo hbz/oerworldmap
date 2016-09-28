@@ -10,7 +10,7 @@
 
             <h1 class="resource-title">
                 {{getIcon @type}}
-                {{#localized name}}
+                {{#localized name language=@root.language}}
                     {{[@value]}}
                 {{else}}
                     {{[@id]}}
@@ -19,7 +19,7 @@
 
         </div>
 
-        {{#localized description}}
+        {{#localized description language=@root.language}}
             <p>{{{[@value]}}}</p>
         {{/localized}}
 
