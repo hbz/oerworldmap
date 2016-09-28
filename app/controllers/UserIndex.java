@@ -32,10 +32,19 @@ import org.apache.http.message.BasicNameValuePair;
 import helpers.Countries;
 import helpers.JSONForm;
 import models.Resource;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
 import play.mvc.Result;
 
+import javax.inject.Inject;
+
 public class UserIndex extends OERWorldMap {
+
+  @Inject
+  public UserIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
 
   public Result signup() {
 

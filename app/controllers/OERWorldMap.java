@@ -25,7 +25,6 @@ import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jknack.handlebars.MarkdownHelper;
-import com.typesafe.config.ConfigFactory;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -43,8 +42,11 @@ import helpers.UniversalFunctions;
 import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
+import play.Environment;
 import play.Logger;
-import play.Play;
+
+import play.api.Application;
+import play.api.Play;
 import play.i18n.Lang;
 import play.mvc.Controller;
 import play.twirl.api.Html;
@@ -52,6 +54,9 @@ import services.AccountService;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * @author fo
@@ -62,17 +67,15 @@ import services.repository.BaseRepository;
 public abstract class OERWorldMap extends Controller {
 
   Configuration mConf;
+  Environment mEnv;
   protected BaseRepository mBaseRepository;
   AccountService mAccountService;
 
-  public OERWorldMap() {
+  @Inject
+  public OERWorldMap(Configuration aConf, Environment aEnv) {
 
-    // Configuration
-    if (Play.isTest()){
-      mConf = new Configuration(ConfigFactory.parseFile(new File("conf/test.conf")).resolve());
-    } else {
-      mConf = new Configuration(ConfigFactory.parseFile(new File("conf/application.conf")).resolve());
-    }
+    mConf = aConf;
+    mEnv = aEnv;
 
     // Repository
     try {
@@ -238,7 +241,7 @@ public abstract class OERWorldMap extends Controller {
     permissions.put("administer", mayAdminister);
     mustacheData.put("permissions", permissions);
 
-    TemplateLoader loader = new ResourceTemplateLoader();
+    TemplateLoader loader = new ResourceTemplateLoader(mEnv.classLoader());
     loader.setPrefix("public/mustache");
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
@@ -340,7 +343,7 @@ public abstract class OERWorldMap extends Controller {
 
     final List<String> templates = new ArrayList<>();
     final String dir = "public/mustache/ClientTemplates/";
-    final ClassLoader classLoader = Play.application().classloader();
+    final ClassLoader classLoader = mEnv.classLoader();
 
     String[] paths = new String[0];
     try {
@@ -388,8 +391,7 @@ public abstract class OERWorldMap extends Controller {
     URL dirURL = classLoader.getResource(path);
 
     if (dirURL == null) {
-      return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path))
-          .list();
+      return mEnv.getFile(path).list();
     } else if (dirURL.getProtocol().equals("jar")) {
       String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); // strip
                                                                                      // out

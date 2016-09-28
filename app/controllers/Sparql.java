@@ -8,10 +8,13 @@ import models.Commit;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
 import play.mvc.Result;
 import play.twirl.api.Html;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -22,10 +25,12 @@ import java.util.Map;
  */
 public class Sparql extends OERWorldMap  {
 
-  private static TemplateLoader loader;
-  private static Handlebars handlebars;
-  static {
-    loader = new ResourceTemplateLoader();
+  private Handlebars handlebars;
+
+  @Inject
+  public Sparql(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+    TemplateLoader loader = new ResourceTemplateLoader(mEnv.classLoader());
     loader.setPrefix("public/mustache");
     loader.setSuffix("");
     handlebars = new Handlebars(loader);

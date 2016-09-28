@@ -15,14 +15,23 @@ import models.Resource;
 
 import models.ResourceList;
 
+import play.Configuration;
+import play.Environment;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
+
+import javax.inject.Inject;
 
 /**
  * @author fo
  */
 public class CountryIndex extends OERWorldMap {
+
+  @Inject
+  public CountryIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
 
   public Result read(String id, boolean embed) throws IOException {
     if (!Arrays.asList(java.util.Locale.getISOCountries()).contains(id.toUpperCase())) {

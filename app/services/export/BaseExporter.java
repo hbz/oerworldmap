@@ -4,8 +4,17 @@ import java.util.List;
 
 import controllers.OERWorldMap;
 import models.Resource;
+import play.Configuration;
+import play.Environment;
+
+import javax.inject.Inject;
 
 public class BaseExporter extends OERWorldMap {
+
+  @Inject
+  public BaseExporter(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
 
   // TODO: store in File
   public void exportQueryAsCsv(String aQuery, int aFrom, int aSize, String aSortOrder,

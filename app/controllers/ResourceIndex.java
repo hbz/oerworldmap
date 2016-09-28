@@ -33,8 +33,9 @@ import helpers.JsonLdConstants;
 import models.Commit;
 import models.Resource;
 import models.ResourceList;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
-import play.Play;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
@@ -42,10 +43,17 @@ import services.SearchConfig;
 import services.export.AbstractCsvExporter;
 import services.export.CsvWithNestedIdsExporter;
 
+import javax.inject.Inject;
+
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
+
+  @Inject
+  public ResourceIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
 
   public Result list(String q, int from, int size, String sort, boolean list)
       throws IOException, ParseException {
@@ -310,11 +318,11 @@ public class ResourceIndex extends OERWorldMap {
       Resource conceptScheme = null;
       String field = null;
       if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/esc.json"));
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
         field = "about.about.@id";
       } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
         field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/isced-1997.json"));
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")

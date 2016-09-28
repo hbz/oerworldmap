@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -21,17 +23,16 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.vocabulary.RDF;
-import com.ning.http.client.AsyncHttpClientConfig;
 
 import io.apigee.trireme.core.NodeEnvironment;
 import io.apigee.trireme.core.NodeException;
 import io.apigee.trireme.core.NodeScript;
 import io.apigee.trireme.core.ScriptFuture;
 import models.Resource;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.asynchttpclient.Response;
 import play.Logger;
-import play.libs.F;
-import play.libs.ws.WSResponse;
-import play.libs.ws.ning.NingWSClient;
 import services.repository.TriplestoreRepository;
 
 /**
@@ -39,7 +40,7 @@ import services.repository.TriplestoreRepository;
  */
 public class ResourceFramer {
 
-  private static final NingWSClient mWSClient = new NingWSClient(new AsyncHttpClientConfig.Builder().build());
+  private static final AsyncHttpClient mAsyncHttpClient = new DefaultAsyncHttpClient();
 
   private static int mPort = 8080;
 
@@ -88,18 +89,21 @@ public class ResourceFramer {
         ByteArrayOutputStream unframed = new ByteArrayOutputStream();
         RDFDataMgr.write(unframed, dbstate, Lang.JSONLD);
         unframed.close();
-        //aModel.write(System.out, "TURTLE");
 
         NodeIterator types = aModel.listObjectsOfProperty(aModel.createResource(aId), RDF.type);
 
         if (types.hasNext()) {
           String id = URLEncoder.encode(aId, StandardCharsets.UTF_8.toString());
           String type = URLEncoder.encode(types.next().toString(), StandardCharsets.UTF_8.toString());
-          F.Promise<JsonNode> promise = mWSClient.url("http://localhost:".concat(Integer.toString(mPort)).concat("/")
-            .concat(type).concat("/").concat(id)).post(new String(unframed.toByteArray(), StandardCharsets.UTF_8))
-            .map(WSResponse::asJson);
+          String url = "http://localhost:".concat(Integer.toString(mPort)).concat("/").concat(type).concat("/").concat(id);
+          Future<Response> f = mAsyncHttpClient.preparePost(url).setBody(unframed.toByteArray()).execute();
 
-          return Resource.fromJson(promise.get(Integer.MAX_VALUE));
+          try {
+            return Resource.fromJson(f.get().getResponseBody());
+          } catch (InterruptedException | ExecutionException e) {
+            Logger.error("Could not create resource from model", e);
+          }
+
         }
       }
     } finally {
@@ -113,17 +117,22 @@ public class ResourceFramer {
 
   public static List<Resource> flatten(Resource resource) throws IOException {
 
-    F.Promise<JsonNode> promise = mWSClient.url("http://localhost:".concat(Integer.toString(mPort)).concat("/flatten/"))
-      .post(resource.toJson()).map(WSResponse::asJson);
+    String url = "http://localhost:".concat(Integer.toString(mPort)).concat("/flatten/");
+    String body = resource.toJson().toString();
+    Future<Response> f = mAsyncHttpClient.preparePost(url).setBody(body).execute();
 
-    JsonNode results = promise.get(Integer.MAX_VALUE);
-
-    List<Resource> resources = new ArrayList<>();
-    for (JsonNode result : results) {
-      resources.add(Resource.fromJson(result));
+    try {
+      JsonNode results =  new ObjectMapper().readTree(f.get().getResponseBody());
+      List<Resource> resources = new ArrayList<>();
+      for (JsonNode result : results) {
+        resources.add(Resource.fromJson(result));
+      }
+      return resources;
+    } catch (InterruptedException | ExecutionException e) {
+      Logger.error("Could not flatten resource", e);
     }
 
-    return resources;
+    return null;
 
   }
 

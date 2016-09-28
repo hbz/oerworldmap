@@ -9,13 +9,22 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.pegdown.PegDownProcessor;
 
+import play.Configuration;
+import play.Environment;
 import play.Play;
 import play.mvc.Result;
+
+import javax.inject.Inject;
 
 /**
  * @author fo
  */
 public class StaticPage extends OERWorldMap {
+
+  @Inject
+  public StaticPage(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
 
   public Result get(String aPage) {
 
@@ -24,7 +33,7 @@ public class StaticPage extends OERWorldMap {
     String country = getLocale().getCountry();
     String extension = ".md";
     String path = "public/pages/";
-    ClassLoader classLoader = Play.application().classloader();
+    ClassLoader classLoader = mEnv.classLoader();
     String titleLocalePath = path.concat(title).concat("_").concat(language).concat("_")
         .concat(country).concat(extension);
     String titleLanguagePath = path.concat(title).concat("_").concat(language).concat(extension);
