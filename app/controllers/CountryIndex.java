@@ -29,7 +29,7 @@ public class CountryIndex extends OERWorldMap {
       return notFound("Not found");
     }
 
-    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    QueryContext queryContext = getQueryContext();
 
     queryContext.setFetchSource(new String[]{
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
@@ -54,14 +54,14 @@ public class CountryIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
-    scope.put("name", Countries.getNameFor(id, OERWorldMap.mLocale));
+    scope.put("name", Countries.getNameFor(id, getLocale()));
     scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
     scope.put("embed", embed);
 
-    if (request().accepts("text/html")) {
-      return ok(render(Countries.getNameFor(id, OERWorldMap.mLocale), "CountryIndex/read.mustache", scope));
+    if (ctx().request().accepts("text/html")) {
+      return ok(render(Countries.getNameFor(id, getLocale()), "CountryIndex/read.mustache", scope));
     } else {
       return ok(resources.toResource().toString()).as("application/json");
     }

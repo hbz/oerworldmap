@@ -1,7 +1,7 @@
 GET     /                     controllers.LandingPage.get()
 GET     /robots.txt           controllers.Robots.get()
 GET     /assets/i18n.js       controllers.I18n.get()
-GET     /assets/*file         controllers.Assets.at(path="/public/lib/oerworldmap", file)
+GET     /assets/*file         controllers.Assets.at(path="/public", file)
 GET     /user/register        controllers.UserIndex.signup()
 POST    /user/register        controllers.UserIndex.register()
 GET     /user/verify          controllers.UserIndex.verify(token: String ?= null)

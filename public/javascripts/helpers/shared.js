@@ -250,7 +250,8 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('localized', function(list, options) {
   // Get requested language from Java or JS
-  language = Packages.controllers.OERWorldMap.mLocale || navigator.language || navigator.userLanguage;
+  //language = Packages.controllers.OERWorldMap.mLocale || navigator.language || navigator.userLanguage;
+  language = 'en';
   var result = '';
   // Empty list
   if (!list) {

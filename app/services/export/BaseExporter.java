@@ -8,7 +8,7 @@ import models.Resource;
 public class BaseExporter extends OERWorldMap {
 
   // TODO: store in File
-  public static void exportQueryAsCsv(String aQuery, int aFrom, int aSize, String aSortOrder,
+  public void exportQueryAsCsv(String aQuery, int aFrom, int aSize, String aSortOrder,
       boolean aDetailedCsv) {
 
     StringBuffer result = new StringBuffer();

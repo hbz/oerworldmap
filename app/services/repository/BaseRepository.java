@@ -77,7 +77,8 @@ public class BaseRepository extends Repository
 
     Integer framerPort = aConfiguration.getInt("node.framer.port");
     ResourceFramer.setPort(framerPort);
-    ResourceFramer.start();
+    // FIXME: running framer with trireme broken after play framework update to 2.4
+    //ResourceFramer.start();
 
     Model mDb = dataset.getDefaultModel();
     mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);

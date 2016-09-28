@@ -20,8 +20,8 @@ public class StaticPage extends OERWorldMap {
   public Result get(String aPage) {
 
     String title = aPage.substring(0, 1).toUpperCase().concat(aPage.substring(1));
-    String language = OERWorldMap.mLocale.getLanguage();
-    String country = OERWorldMap.mLocale.getCountry();
+    String language = getLocale().getLanguage();
+    String country = getLocale().getCountry();
     String extension = ".md";
     String path = "public/pages/";
     ClassLoader classLoader = Play.application().classloader();

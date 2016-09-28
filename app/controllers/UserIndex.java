@@ -46,7 +46,7 @@ public class UserIndex extends OERWorldMap {
 
   public Result register() {
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     String username = user.getAsString("email");
     String password = user.getAsString("password");
@@ -69,9 +69,9 @@ public class UserIndex extends OERWorldMap {
       if (token == null) {
         result = badRequest("Failed to add " . concat(username));
       } else {
-        sendMail(username, MessageFormat.format(emails.getString("account.verify.message"),
+        sendMail(username, MessageFormat.format(getEmails().getString("account.verify.message"),
             mConf.getString("proxy.host").concat(routes.UserIndex.verify(token).url())),
-            emails.getString("account.verify.subject"));
+            getEmails().getString("account.verify.subject"));
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
         result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
@@ -114,11 +114,11 @@ public class UserIndex extends OERWorldMap {
 
     Result result;
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     String username;
-    if (ctx().args.get("username") != null) {
-      username = ctx().args.get("username").toString();
+    if (getHttpBasicAuthUser() != null) {
+      username = getHttpBasicAuthUser();
       String password = user.getAsString("password");
       String updated = user.getAsString("password-new");
       String confirm = user.getAsString("password-confirm");
@@ -140,8 +140,8 @@ public class UserIndex extends OERWorldMap {
       } else {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
         if (mAccountService.setPassword(username, password)) {
-          sendMail(username, MessageFormat.format(emails.getString("account.password.message"), password),
-              emails.getString("account.password.subject"));
+          sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
+              getEmails().getString("account.password.subject"));
           result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
         } else {
           result = badRequest("Failed to reset password.");
@@ -156,14 +156,14 @@ public class UserIndex extends OERWorldMap {
   public Result newsletterSignup() {
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(OERWorldMap.mLocale));
+    scope.put("countries", Countries.list(getLocale()));
     return ok(render("Registration", "UserIndex/newsletter.mustache", scope));
 
   }
 
   public Result newsletterRegister() {
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     if (!user.validate().isSuccess()) {
       return badRequest("Please provide a valid email address and select a country.");
@@ -227,8 +227,8 @@ public class UserIndex extends OERWorldMap {
 
     Map<String, List<String>> groupUsers = new HashMap<>();
 
-    if (request().body().asFormUrlEncoded() != null) {
-      JsonNode jsonNode = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+    if (ctx().request().body().asFormUrlEncoded() != null) {
+      JsonNode jsonNode = JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded());
       Iterator<String> groupNames = jsonNode.fieldNames();
       while (groupNames.hasNext()) {
         String group = groupNames.next();

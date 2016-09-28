@@ -35,7 +35,7 @@ public class AccountService {
       "  </LimitExcept>\n" +
     "</Location>";
 
-  private static String mApache2ctl = "sudo apache2ctl graceful";
+  private String mApache2ctl = "sudo apache2ctl graceful";
 
   private final File mTokenDir;
   private final File mUserFile;
@@ -67,7 +67,7 @@ public class AccountService {
 
   }
 
-  public static void setApache2Ctl(String aApache2ctl) {
+  public void setApache2Ctl(String aApache2ctl) {
     mApache2ctl = aApache2ctl;
   }
 

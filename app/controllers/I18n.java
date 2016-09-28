@@ -22,8 +22,8 @@ public class I18n extends OERWorldMap {
   public Result get() {
     Map<String, Object> i18n = new HashMap<>();
     Map<String, String> messages = new HashMap<>();
-    ResourceBundle messageBundle = ResourceBundle.getBundle("messages", OERWorldMap.mLocale);
-    for (String key : Collections.list(ResourceBundle.getBundle("messages", OERWorldMap.mLocale).getKeys())) {
+    ResourceBundle messageBundle = ResourceBundle.getBundle("messages", getLocale());
+    for (String key : Collections.list(ResourceBundle.getBundle("messages", getLocale()).getKeys())) {
       try {
         String message = StringEscapeUtils.unescapeJava(new String(messageBundle.getString(key)
             .getBytes("ISO-8859-1"), "UTF-8"));
@@ -33,8 +33,8 @@ public class I18n extends OERWorldMap {
       }
     }
     i18n.put("messages", messages);
-    i18n.put("countries", Countries.map(OERWorldMap.mLocale));
-    i18n.put("languages", Languages.map(OERWorldMap.mLocale));
+    i18n.put("countries", Countries.map(getLocale()));
+    i18n.put("languages", Languages.map(getLocale()));
 
     String countryMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
     return ok("i18nStrings = ".concat(countryMap)).as("application/javascript");

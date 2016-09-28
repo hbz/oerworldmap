@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -14,7 +15,7 @@ public class Robots extends Controller {
   public Result get() {
     StringWriter stringWriter = new StringWriter();
     PrintWriter writer = new PrintWriter(stringWriter, true);
-    if (play.Play.isProd()) {
+    if (Play.isProd()) {
       writer.println("User-agent: *");
       writer.println("Disallow:");
     } else {

@@ -59,7 +59,7 @@ public class Sparql extends OERWorldMap  {
 
   public Result patch() throws IOException {
 
-    String diffString = request().body().asFormUrlEncoded().get("diff")[0];
+    String diffString = ctx().request().body().asFormUrlEncoded().get("diff")[0];
 
     Commit.Diff diff = TripleCommit.Diff.fromString(diffString);
     TripleCommit.Header header = new TripleCommit.Header(getMetadata().get(TripleCommit.Header.AUTHOR_HEADER),
