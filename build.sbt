@@ -38,3 +38,4 @@ libraryDependencies ++= Seq(
 includeFilter in (Assets, LessKeys.less) := "main.less"
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
+javaOptions in Test += "-Xmx1G"
