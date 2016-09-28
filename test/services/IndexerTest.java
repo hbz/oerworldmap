@@ -22,6 +22,9 @@ public class IndexerTest implements JsonTest {
   @Test
   public void testIndexNewResourceWithNewReference() throws IOException {
 
+    // FIXME: running framer with trireme broken after play framework update to 2.4
+    // Tests thus require an externally running framer:
+    // $ node node/json-frame/frame.js
     //ResourceFramer.start();
 
     // The model for the indexer to SPARQL against

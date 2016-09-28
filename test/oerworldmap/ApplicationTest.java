@@ -10,6 +10,7 @@ import static play.test.Helpers.testServer;
 
 import org.junit.Test;
 
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import play.libs.F.Callback;
 import play.test.TestBrowser;
 
@@ -17,12 +18,12 @@ public class ApplicationTest {
   @Test
   public void runningLandingPage() {
 
-    running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT,
+    running(testServer(3333, fakeApplication(inMemoryDatabase())), new HtmlUnitDriver(),
         new Callback<TestBrowser>() {
           @Override
           public void invoke(TestBrowser browser) {
-            browser.goTo("http://localhost:3333/user");
-            assertTrue(browser.pageSource().contains("Registration"));
+            browser.goTo("http://localhost:3333");
+            assertTrue(browser.pageSource().contains("Welcome to the OER World Map!"));
           }
         });
   }

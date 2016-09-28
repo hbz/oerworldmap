@@ -9,11 +9,13 @@ import static play.test.Helpers.start;
 import static play.test.Helpers.status;
 import static play.test.Helpers.stop;
 
+import java.io.File;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.typesafe.config.ConfigFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import models.Resource;
+import play.Configuration;
 import play.mvc.Result;
 import play.test.FakeApplication;
 
@@ -116,8 +119,9 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   }
 
   private String getAuthString() {
-    String email = Global.getConfig().getString("admin.user");
-    String pass = Global.getConfig().getString("admin.pass");
+    Configuration conf = new Configuration(ConfigFactory.parseFile(new File("conf/test.conf")).resolve());
+    String email = conf.getString("admin.user");
+    String pass = conf.getString("admin.pass");
     String authString = email.concat(":").concat(pass);
     return Base64.getEncoder().encodeToString(authString.getBytes());
   }
