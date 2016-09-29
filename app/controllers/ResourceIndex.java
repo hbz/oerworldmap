@@ -19,7 +19,7 @@ import helpers.JSONForm;
 import models.Record;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.json.simple.parser.ParseException;
@@ -326,7 +326,7 @@ public class ResourceIndex extends OERWorldMap {
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-            .filter(FilterBuilders.termFilter("about.@type", "Service"));
+            .filter(QueryBuilders.termQuery("about.@type", "Service"));
         for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));

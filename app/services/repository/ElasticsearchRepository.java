@@ -21,14 +21,13 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.IndexNotFoundException;
 import org.elasticsearch.index.query.*;
-import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchParseException;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.simple.parser.ParseException;
@@ -38,6 +37,8 @@ import services.QueryContext;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
@@ -49,9 +50,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
     mConfig = new ElasticsearchConfig(aConfiguration);
-    Settings settings = ImmutableSettings.settingsBuilder().put(mConfig.getClientSettings()).build();
-    mClient = new TransportClient(settings)
-      .addTransportAddress(new InetSocketTransportAddress(mConfig.getServer(), 9300));
+    Settings settings = Settings.settingsBuilder().put(mConfig.getClientSettings()).build();
+    try {
+      mClient = TransportClient.builder().settings(settings).build().addTransportAddress(
+        new InetSocketTransportAddress(InetAddress.getByName(mConfig.getServer()), 9300));
+    } catch (UnknownHostException ex) {
+      throw new RuntimeException(ex);
+    }
     mFuzziness = mConfig.getFuzziness();
   }
 
@@ -173,6 +178,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
 
     SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
@@ -238,7 +244,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     final List<Map<String, Object>> docs = new ArrayList<>();
     while (response == null || response.getHits().hits().length != 0) {
       response = mClient.prepareSearch(mConfig.getIndex())
-        .setQuery(QueryBuilders.queryString(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
+        .setQuery(QueryBuilders.queryStringQuery(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
         .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
         docs.add(hit.getSource());
@@ -272,15 +278,16 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
-    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+    BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
+
     if (!(null == aQueryContext)) {
-      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
-        globalAndFilter.add(contextFilter);
+      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.must(contextFilter);
       }
     }
 
     SearchResponse response = searchRequestBuilder.addAggregation(aAggregationBuilder)
-      .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), globalAndFilter))
+      .setQuery(QueryBuilders.boolQuery().filter(globalAndFilter))
       .setSize(0).execute().actionGet();
     return response;
 
@@ -291,10 +298,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
-    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+    BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
+
     if (!(null == aQueryContext)) {
-      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
-        globalAndFilter.add(contextFilter);
+      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.must(contextFilter);
       }
     }
 
@@ -312,14 +320,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
-    AndFilterBuilder globalAndFilter = FilterBuilders.andFilter();
+    BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
     String[] fieldBoosts = null;
 
     if (!(null == aQueryContext)) {
       searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
-      for (FilterBuilder contextFilter : aQueryContext.getFilters()) {
-        globalAndFilter.add(contextFilter);
+      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.must(contextFilter);
       }
       for (AggregationBuilder<?> contextAggregation : aQueryContext.getAggregations()) {
         searchRequestBuilder.addAggregation(contextAggregation);
@@ -328,17 +336,17 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }
       if (null != aQueryContext.getZoomTopLeft() && null != aQueryContext.getZoomBottomRight()) {
-        GeoBoundingBoxFilterBuilder zoomFilter = FilterBuilders.geoBoundingBoxFilter("about.location.geo")//
-          .topLeft(aQueryContext.getZoomTopLeft())//
+        GeoBoundingBoxQueryBuilder zoomFilter = QueryBuilders.geoBoundingBoxQuery("about.location.geo")
+          .topLeft(aQueryContext.getZoomTopLeft())
           .bottomRight(aQueryContext.getZoomBottomRight());
-        globalAndFilter.add(zoomFilter);
+        globalAndFilter.must(zoomFilter);
       }
-      if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()){
-        GeoPolygonFilterBuilder polygonFilter = FilterBuilders.geoPolygonFilter("about.location.geo");
+      if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()) {
+        GeoPolygonQueryBuilder polygonFilter = QueryBuilders.geoPolygonQuery("about.location.geo");
         for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()){
           polygonFilter.addPoint(geoPoint);
         }
-        globalAndFilter.add(polygonFilter);
+        globalAndFilter.must(polygonFilter);
       }
     }
 
@@ -352,56 +360,47 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
 
     if (!(null == aFilters)) {
-      AndFilterBuilder aggregationAndFilter = FilterBuilders.andFilter();
+      BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
       for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
-        // This could also be an AndFilterBuilder allowing to narrow down the result list
-        OrFilterBuilder orFilterBuilder = FilterBuilders.orFilter();
+        BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
         for (String filter : entry.getValue()) {
-          orFilterBuilder.add(FilterBuilders.termFilter(entry.getKey(), filter));
+          // This could also be 'must' queries, allowing to narrow down the result list
+          orFilterBuilder.should(QueryBuilders.termQuery(entry.getKey(), filter));
         }
-        aggregationAndFilter.add(orFilterBuilder);
+        aggregationAndFilter.must(orFilterBuilder);
       }
-      globalAndFilter.add(aggregationAndFilter);
+      globalAndFilter.must(aggregationAndFilter);
     }
 
     QueryBuilder queryBuilder;
 
-    while (true) {
-      if (!StringUtils.isEmpty(aQueryString)) {
-        queryBuilder = QueryBuilders.queryString(aQueryString).fuzziness(mFuzziness).analyzer("standard")
-          .defaultOperator(QueryStringQueryBuilder.Operator.AND);
-        if (fieldBoosts != null) {
-          // TODO: extract fieldBoost parsing from loop in case
-          for (String fieldBoost : fieldBoosts) {
-            try {
-              ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
-                Float.parseFloat(fieldBoost.split("\\^")[1]));
-            } catch (ArrayIndexOutOfBoundsException e) {
-              Logger.error("Invalid field boost: " + fieldBoost);
-            }
+    if (!StringUtils.isEmpty(aQueryString)) {
+      if (aQueryString.endsWith("!")) {
+        aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
+        Logger.warn("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
+      }
+      queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness).analyzer("standard")
+        .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+      if (fieldBoosts != null) {
+        // TODO: extract fieldBoost parsing from loop in case
+        for (String fieldBoost : fieldBoosts) {
+          try {
+            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+              Float.parseFloat(fieldBoost.split("\\^")[1]));
+          } catch (ArrayIndexOutOfBoundsException e) {
+            Logger.error("Invalid field boost: " + fieldBoost);
           }
         }
-      } else {
-        queryBuilder = QueryBuilders.matchAllQuery();
       }
-
-      searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-        .setQuery(QueryBuilders.filteredQuery(queryBuilder, globalAndFilter));
-
-      try {
-        return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
-      } //
-      catch (Exception e) {
-        if (aQueryString.endsWith("!") && e.getMessage().contains("ParseException[Encountered \"<EOF>")) {
-          aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
-          Logger.warn("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
-          continue;
-        }
-        else{
-          return null;
-        }
-      }
+    } else {
+      queryBuilder = QueryBuilders.matchAllQuery();
     }
+
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+      .setQuery(QueryBuilders.boolQuery().must(queryBuilder).filter(globalAndFilter));
+
+    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+
   }
 
   public boolean hasIndex(String aIndex) {
@@ -411,7 +410,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public void refreshIndex(String aIndex) {
     try {
       mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
-    } catch (IndexMissingException e) {
+    } catch (IndexNotFoundException e) {
       Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
       e.printStackTrace();
     }
@@ -420,7 +419,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public void deleteIndex(String aIndex) {
     try {
       mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
-    } catch (IndexMissingException e) {
+    } catch (IndexNotFoundException e) {
       Logger.error("Trying to delete index \"" + aIndex + "\" from Elasticsearch.");
       e.printStackTrace();
     }

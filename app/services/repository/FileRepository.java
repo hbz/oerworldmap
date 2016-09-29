@@ -17,7 +17,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.indices.IndexMissingException;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,15 +58,6 @@ public class FileRepository extends Repository implements Writable, Readable {
       Files.createDirectory(dir);
     }
     Files.write(file, aResource.toString().getBytes());
-  }
-
-  public void refreshIndex(String aIndex) {
-    try {
-      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
-    } catch (IndexMissingException e) {
-      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
-      e.printStackTrace();
-    }
   }
 
   @Override
