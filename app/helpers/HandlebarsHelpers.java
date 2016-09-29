@@ -16,6 +16,12 @@ import play.Logger;
  */
 public class HandlebarsHelpers {
 
+  private static OERWorldMap mController;
+
+  public static void setController(OERWorldMap aController) {
+    mController = aController;
+  }
+
   public CharSequence ifIn(String filter, String value, Map<String, ArrayList<String>> filters,
                            Options options) {
     try {
@@ -59,7 +65,7 @@ public class HandlebarsHelpers {
       try {
         return ResourceBundle.getBundle(bundle).getString(key);
       } catch (MissingResourceException notInBundle) {
-        return OERWorldMap.getLabel(key);
+        return mController.getLabel(key);
       }
     }
     try {
@@ -74,7 +80,7 @@ public class HandlebarsHelpers {
           try {
             return ResourceBundle.getBundle("labels").getString(key);
           } catch (MissingResourceException notLabel) {
-            return OERWorldMap.getLabel(key);
+            return mController.getLabel(key);
           }
         }
       }

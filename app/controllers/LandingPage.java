@@ -7,13 +7,22 @@ import java.util.Map;
 
 import models.Resource;
 import models.ResourceList;
+import play.Configuration;
+import play.Environment;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
 
+import javax.inject.Inject;
+
 public class LandingPage extends OERWorldMap {
 
-  public static Result get() throws IOException {
+  @Inject
+  public LandingPage(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
+
+  public Result get() throws IOException {
 
     Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(0),
         new QueryContext(null));

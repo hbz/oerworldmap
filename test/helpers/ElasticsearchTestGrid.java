@@ -10,13 +10,14 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import play.test.WithApplication;
 import services.ElasticsearchConfig;
 import services.repository.ElasticsearchRepository;
 
 import java.io.File;
 import java.io.IOException;
 
-public class ElasticsearchTestGrid {
+public class ElasticsearchTestGrid extends WithApplication {
 
   protected static Config mConfig;
   protected static ElasticsearchRepository mRepo;
