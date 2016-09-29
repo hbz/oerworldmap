@@ -68,8 +68,30 @@ public abstract class OERWorldMap extends Controller {
 
   Configuration mConf;
   Environment mEnv;
-  protected BaseRepository mBaseRepository;
-  AccountService mAccountService;
+  protected static BaseRepository mBaseRepository = null;
+  static AccountService mAccountService;
+
+  private static synchronized void createBaseRepository(Configuration aConf) {
+    if (mBaseRepository == null) {
+      try {
+        mBaseRepository = new BaseRepository(aConf.underlying());
+      } catch (final Exception ex) {
+        throw new RuntimeException("Failed to create Respository", ex);
+      }
+    }
+  }
+
+  private static synchronized void createAccountService(Configuration aConf) {
+    if (mAccountService == null) {
+      mAccountService = new AccountService(
+        new File(aConf.getString("user.token.dir")),
+        new File(aConf.getString("ht.passwd")),
+        new File(aConf.getString("ht.groups")),
+        new File(aConf.getString("ht.profiles")),
+        new File(aConf.getString("ht.permissions")));
+      mAccountService.setApache2Ctl(aConf.getString("ht.apache2ctl.restart"));
+    }
+  }
 
   @Inject
   public OERWorldMap(Configuration aConf, Environment aEnv) {
@@ -78,20 +100,10 @@ public abstract class OERWorldMap extends Controller {
     mEnv = aEnv;
 
     // Repository
-    try {
-      mBaseRepository = new BaseRepository(mConf.underlying());
-    } catch (final Exception ex) {
-      throw new RuntimeException("Failed to create Respository", ex);
-    }
+    createBaseRepository(mConf);
 
     // Account service
-    mAccountService = new AccountService(
-      new File(mConf.getString("user.token.dir")),
-      new File(mConf.getString("ht.passwd")),
-      new File(mConf.getString("ht.groups")),
-      new File(mConf.getString("ht.profiles")),
-      new File(mConf.getString("ht.permissions")));
-    mAccountService.setApache2Ctl(mConf.getString("ht.apache2ctl.restart"));
+    createAccountService(mConf);
 
   }
 
