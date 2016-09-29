@@ -14,15 +14,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import helpers.JSONForm;
 import models.Record;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -56,7 +55,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public Result list(String q, int from, int size, String sort, boolean list)
-      throws IOException, ParseException {
+      throws IOException {
 
     // Extract filters directly from query params
     Map<String, List<String>> filters = new HashMap<>();

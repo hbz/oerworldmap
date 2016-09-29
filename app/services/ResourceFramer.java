@@ -11,24 +11,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.NodeIterator;
-import com.hp.hpl.jena.shared.Lock;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 import io.apigee.trireme.core.NodeEnvironment;
 import io.apigee.trireme.core.NodeException;
 import io.apigee.trireme.core.NodeScript;
 import io.apigee.trireme.core.ScriptFuture;
 import models.Resource;
+import org.apache.jena.shared.Lock;
+import org.apache.jena.vocabulary.RDF;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.Response;

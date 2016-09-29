@@ -8,8 +8,8 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 
 import helpers.JsonTest;
 import models.TripleCommit;

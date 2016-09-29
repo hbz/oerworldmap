@@ -27,10 +27,8 @@ import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.IndexNotFoundException;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.json.simple.parser.ParseException;
 import play.Logger;
 import services.ElasticsearchConfig;
 import services.QueryContext;
@@ -166,16 +164,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @return A resource resembling the result set of resources matching the
    *         criteria given in the query string
    * @throws IOException
-   * @throws ParseException
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters) throws IOException, ParseException {
+                            Map<String, List<String>> aFilters) throws IOException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException, ParseException {
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
     SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
 
