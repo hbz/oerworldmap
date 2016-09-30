@@ -300,6 +300,7 @@ var Hijax = (function ($, Hijax) {
           // the map
           var map = new ol.Map({
             target: 'location-lookup-map',
+            interactions: ol.interaction.defaults({mouseWheelZoom:false}),
             layers: [ regions, streets, markers ],
             view: new ol.View({
               center: [0, 5000000],
