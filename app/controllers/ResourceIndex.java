@@ -345,12 +345,14 @@ public class ResourceIndex extends OERWorldMap {
         || mAccountService.getGroups(request().username()).contains("editor"));
     boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
     boolean mayComment = (user != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
     permissions.put("log", mayLog);
     permissions.put("administer", mayAdminister);
     permissions.put("comment", mayComment);
+    permissions.put("delete", mayDelete);
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
