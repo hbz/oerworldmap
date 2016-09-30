@@ -6,8 +6,9 @@ sudo: false
 cache:
   directories:
   - $HOME/.ivy2/cache
-services:
-  - elasticsearch
+before_install:
+  - curl https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.1/elasticsearch-2.4.1.tar.gz | tar xz --directory=$HOME
+  - $HOME/elasticsearch-2.4.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
 install:
   - cd node/json-frame/ && npm install && cd ../..
 before_script:
