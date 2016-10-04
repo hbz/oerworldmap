@@ -23,7 +23,8 @@ libraryDependencies ++= Seq(
   "org.apache.jena" % "apache-jena-libs" % "2.13.0",
   "io.apigee.trireme" % "trireme-kernel" % "0.8.8",
   "io.apigee.trireme" % "trireme-core" % "0.8.8",
-  "io.apigee.trireme" % "trireme-node10src" % "0.8.8"
+  "io.apigee.trireme" % "trireme-node10src" % "0.8.8",
+  "org.twitter4j" % "twitter4j-core" % "4.0.5"
 )
 
 includeFilter in (Assets, LessKeys.less) := "main.less"
