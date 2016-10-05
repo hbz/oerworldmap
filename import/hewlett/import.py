@@ -3,7 +3,13 @@ import BeautifulSoup, urllib2, json, re, os
 
 grant_mapping = {
     'Amount:': 'frapo:hasMonetaryValue',
-    'Date of Award:': 'frapo:dateAwarded'
+    'Date of Award:': 'frapo:dateAwarded',
+    'Term of Grant:': 'frapo:hasTemporalDuration',
+    'Program:': 'frapo:BudgetCategory',
+    'Region:': 'frapo:hasLocation',
+    'Grant Purpose:': 'frapo:Endeavour',
+    'Grant Description:': 'frapo:BudgetInformation',
+    'Grantee Website:': 'frapo:hasDominName'
 }
 
 
