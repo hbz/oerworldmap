@@ -25,10 +25,19 @@ def remove_trailing(astring, trailing):
 
 
 def getSoupFromPage(url):
-    page = urllib2.urlopen(url).read()
-    soup = BeautifulSoup.BeautifulSoup(page)
-    soup.prettify()
-    return soup
+    try:
+        page = urllib2.urlopen(url).read()
+    except urllib2.URLError, e:
+        if hasattr(e, 'reason'):
+            print 'We failed to reach a server.'
+            print 'Reason: ', e.reason
+        elif hasattr(e, 'code'):
+            print 'The server couldn\'t fulfill the request.'
+            print 'Error code: ', e.code
+    else:
+        soup = BeautifulSoup.BeautifulSoup(page)
+        soup.prettify()
+        return soup
 
 
 def collect(url):
@@ -46,12 +55,13 @@ def collect(url):
         "@type": "frapo:Grant",
     }
     soup = getSoupFromPage(url)
-    for table in soup.findAll('tbody'):
-        for row in table.findAll('tr'):
-            entry = row.findAll('td')
-            field = entry[0].getText()
-            if field in grant_mapping:
-                grant[grant_mapping[field]] = entry[1].getText()
+    if hasattr(soup, 'tbody'):
+        for table in soup.findAll('tbody'):
+            for row in table.findAll('tr'):
+                entry = row.findAll('td')
+                field = entry[0].getText()
+                if field in grant_mapping:
+                    grant[grant_mapping[field]] = entry[1].getText()
     result['frapo:awards'] = grant
     return json.dumps(result, indent=2)
 
