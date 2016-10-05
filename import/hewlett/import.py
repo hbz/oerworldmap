@@ -94,8 +94,21 @@ def import_hewlett_data(url):
             json = collect(link)
             imports.append(json)
         current_number += 1
+    return imports
 
+
+def write_into_file(imports, filename):
+    output_file = open(filename, "w")
+    count = 1;
+    output_file.write("[")
+    for import_entry in imports:
+        output_file.write(import_entry)
+        if count < len(imports):
+            output_file.write(",\n")
+            count += 1
+    output_file.write("]")
+    output_file.close()
 
 if __name__ == "__main__":
-    import_hewlett_data ('http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148')
-
+    imports = import_hewlett_data ('http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148')
+    write_into_file(imports, "import/hewlett/Hewlett_imports.json")
