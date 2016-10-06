@@ -107,7 +107,7 @@ var Hijax = (function ($, Hijax, page) {
     aggregation.active = (typeof filters[ name ] !== 'undefined');
 
     // button title
-    if(aggregation.active) { console.log(i18nStrings);
+    if(aggregation.active) {
       var parts = [];
       for(var i = 0; i < filters[ name ].length; i++) {
         parts.push( get_option_label(name, filters[ name ][ i ]) );
@@ -135,9 +135,11 @@ var Hijax = (function ($, Hijax, page) {
 
     // sort buckets
     aggregation.buckets.sort(function(a,b) {
-      if(a.label_x < b.label_x) return -1;
-      if(a.label_x == b.label_x) return 0;
-      if(a.label_x > b.label_x) return 1;
+      var a_val = (typeof a.label_x === "string") ? a.label_x.toLowerCase() : a.label_x;
+      var b_val = (typeof b.label_x === "string") ? b.label_x.toLowerCase() : b.label_x;
+      if(a_val < b_val) return -1;
+      if(a_val == b_val) return 0;
+      if(a_val > b_val) return 1;
     });
 
     // use typeahead?
@@ -304,8 +306,8 @@ var Hijax = (function ($, Hijax, page) {
         filters = JSON.parse( $(this).find('#json-filters').html() );
         aggregations = JSON.parse( $(this).find('#json-aggregations').html() );
 
-        console.log('filters', filters);
-        console.log('aggregations', aggregations);
+        // console.log('filters', filters);
+        // console.log('aggregations', aggregations);
 
         // prepare types
 
