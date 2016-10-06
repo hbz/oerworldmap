@@ -2,7 +2,15 @@ name := "oerworldmap"
 
 version := "0.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val specs2core = "org.specs2" %% "specs2-core" % "2.4.14"
+
+lazy val root = (project in file(".")).
+  enablePlugins(PlayJava).
+  configs(IntegrationTest).
+  settings(Defaults.itSettings: _*).
+  settings(
+    libraryDependencies += specs2core % "it,test"
+  )
 
 libraryDependencies ++= Seq(
   cache,

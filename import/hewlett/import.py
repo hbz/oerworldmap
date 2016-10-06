@@ -1,4 +1,4 @@
-import BeautifulSoup, urllib2, json, re, os
+import BeautifulSoup, urllib2, json, re, os, sys
 
 
 grant_mapping = {
@@ -115,6 +115,14 @@ def write_into_file(imports, filename):
     output_file.write("]")
     output_file.close()
 
+def main():
+    if len(sys.argv) != 3:
+        print 'Usage: python <path>/<to>/import.py <import_url> <path>/<to>/<destination_file.json>'
+        # typical usage:
+        # python import/hewlett/import.py 'http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148' 'import/hewlett/testconsole_01.json'
+        return
+    imports = import_hewlett_data(sys.argv[1])
+    write_into_file(imports, sys.argv[2])
+
 if __name__ == "__main__":
-    imports = import_hewlett_data ('http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148')
-    write_into_file(imports, "import/hewlett/Hewlett_imports.json")
+    main()
