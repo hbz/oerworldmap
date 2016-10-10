@@ -363,7 +363,7 @@ var Hijax = (function ($, Hijax, page) {
 
       // prevent form submit when enter is pressed
 
-      $('#app-modal').on("keypress", "form", function(e) {
+      $('#app-modal').on("keypress", "input", function(e) {
           if (e.keyCode == 13) {
             e.preventDefault();
           }
