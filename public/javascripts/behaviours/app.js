@@ -38,10 +38,13 @@ var Hijax = (function ($, Hijax, page) {
   var map_and_index_loaded = $.Deferred().resolve();
   var detail_loaded = $.Deferred().resolve();
 
+  var app_history = [];
+
   function get(url, callback) {
     if(url == initialization_source.pathname + initialization_source.search) {
       callback(initialization_content);
     } else {
+      log.debug('ajaxing content', url);
       $.ajax(url, {
         method : 'GET',
         success : callback
@@ -94,6 +97,19 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_start(pagejs_ctx, next) {
+    log.debug('routing start', pagejs_ctx);
+
+    app_history.push(_(pagejs_ctx).clone());
+
+    if(
+      app_history.length > 1 &&
+      pagejs_ctx.path == app_history[app_history.length - 2].path
+    ) {
+      pagejs_ctx.native_fragment = true;
+    } else {
+      pagejs_ctx.native_fragment = false;
+    }
+
     var modal = $('#app-modal');
     if(
       (modal.data('bs.modal') || {}).isShown &&
@@ -203,9 +219,12 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_default(pagejs_ctx, next) {
-    get(pagejs_ctx.path, function(data, textStatus, jqXHR){
-      get_main( data );
-    });
+    log.debug('route_default');
+    if(! pagejs_ctx.native_fragment) {
+      get(pagejs_ctx.path, function(data, textStatus, jqXHR){
+        get_main( data );
+      });
+    }
     next();
   }
 
@@ -344,9 +363,11 @@ var Hijax = (function ($, Hijax, page) {
           modal.data('opened_on') == 'load' &&
           ! modal.data('hidden_on_exit')
         ) {
-          if(history.length > 1) {
-            history.go(-1);
+          if(modal.data('url_before')) {
+            log.debug('paging to url_before', modal.data('url_before'));
+            page(modal.data('url_before'));
           } else {
+            log.debug('no url_before, paging to home');
             page('/');
           }
         } else if( modal.data('hidden_on_exit') ) {
@@ -502,6 +523,13 @@ var Hijax = (function ($, Hijax, page) {
         modal.data('is_protected', is_protected);
         modal.data('opened_on', 'load');
         modal.data('url', window.location.pathname + window.location.search);
+        if(history.length > 1) {
+          log.debug('saving url_before', app_history[app_history.length - 2].canonicalPath);
+          modal.data('url_before', app_history[app_history.length - 2].canonicalPath);
+        } else {
+          log.debug('saving / as url_before');
+          modal.data('url_before', '/');
+        }
         Hijax.attachBehaviours( $('#app-modal') );
         modal.modal('show');
       });
