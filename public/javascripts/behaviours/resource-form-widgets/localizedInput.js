@@ -49,8 +49,6 @@ var Hijax = (function ($, Hijax) {
         .each(function()
       {
 
-        log.info('found localizedInput', this, context);
-
         var widget = $(this);
 
         $(this).addClass('behaving');
