@@ -291,6 +291,7 @@ var Hijax = (function ($, Hijax, page) {
   var my = {
 
     init : function(context) {
+      log.debug('FILTER initialized');
       my.initialized.resolve();
     },
 

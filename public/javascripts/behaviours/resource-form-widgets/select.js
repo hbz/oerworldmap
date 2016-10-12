@@ -74,7 +74,10 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="select"] [data-behaviour~="select"]', context).each(function() {
+      $('[data-behaviour~="select"]', context)
+        .not('[data-dont-behave] [data-behaviour~="select"]')
+        .each(function()
+      {
 
         var widget = $(this);
         var key = widget.data('key');

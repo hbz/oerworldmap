@@ -44,7 +44,10 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="localizedTextarea"] [data-behaviour~="localizedTextarea"]', context).each(function() {
+      $('[data-behaviour~="localizedTextarea"]', context)
+        .not('[data-dont-behave] [data-behaviour~="localizedTextarea"]')
+        .each(function()
+      {
 
         var widget = $(this);
 

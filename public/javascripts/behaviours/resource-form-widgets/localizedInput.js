@@ -44,7 +44,12 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="localizedInput"] [data-behaviour~="localizedInput"]', context).each(function() {
+      $('[data-behaviour~="localizedInput"]', context)
+        .not('[data-dont-behave] [data-behaviour~="localizedInput"]')
+        .each(function()
+      {
+
+        log.info('found localizedInput', this, context);
 
         var widget = $(this);
 
