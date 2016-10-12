@@ -1,36 +1,22 @@
-import BeautifulSoup, urllib2, json, re, os, sys
+import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse
 
 
 grant_mapping = {
     'Amount:': 'frapo:hasMonetaryValue',
-    'Date of Award:': 'frapo:dateAwarded',
-    'Term of Grant:': 'frapo:hasTemporalDuration',
+    'Date of Award:': 'frapo:hasAwardDate',
+    'Term of Grant:': 'schema:duration',
     'Program:': 'frapo:BudgetCategory',
     'Region:': 'frapo:hasLocation',
     'Grant Purpose:': 'frapo:Endeavour',
     'Grant Description:': 'frapo:BudgetInformation',
-    'Grantee Website:': 'frapo:hasDominName'
+    'Grantee Website:': 'frapo:hasDomainName'
 }
 
 
-def get_trailing_page(s):
-    m = re.search(r'page[=]\d+$', s)
-    return int(m.group()) if m else None
+page_regex = re.compile(r"&page=([0-9]+)$")
 
 
-def get_trailing_number(s):
-    # from: http://stackoverflow.com/a/7085715/4420271
-    m = re.search(r'\d+$', s)
-    return int(m.group()) if m else 0
-
-
-def remove_trailing(astring, trailing):
-    # http://stackoverflow.com/a/3663767/4420271 ("jack1")
-    regex = r'%s$' % re.escape(trailing)
-    return re.sub(regex, '', astring)
-
-
-def getSoupFromPage(url):
+def get_soup_from_page(url):
     try:
         page = urllib2.urlopen(url).read()
     except urllib2.URLError, e:
@@ -46,8 +32,15 @@ def getSoupFromPage(url):
         return soup
 
 
-def collect(url):
-    result = {
+def get_header():
+    return {
+        "@context":{
+            "frapo":"http://purl.org/cerif/frapo/",
+            "rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "rdfs":"http://www.w3.org/2000/01/rdf-schema#",
+            "schema":"http://schema.org/",
+            "xsd":"http://www.w3.org/2001/XMLSchema#"
+        },
         "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f",
         "@type":"schema:Organization",
         "schema:name": [
@@ -57,10 +50,33 @@ def collect(url):
             }
         ]
     }
+
+
+def get_uuid(key):
+    a_uuid = get_uuid_from_file(key)
+    if a_uuid is None:
+        a_uuid = uuid.uuid4()
+    return a_uuid
+
+
+def get_uuid_from_file(key):
+    # TODO
+    # interim function:
+    return uuid.uuid4()
+
+
+def get_grant_number(url):
+    parsed_url = urlparse(url)
+    path = parsed_url[2]
+
+
+
+def collect(url):
+    result = get_header()
     grant = {
         "@type": "frapo:Grant",
     }
-    soup = getSoupFromPage(url)
+    soup = get_soup_from_page(url)
     if hasattr(soup, 'tbody'):
         for table in soup.findAll('tbody'):
             for row in table.findAll('tr'):
@@ -74,7 +90,7 @@ def collect(url):
 
 def crawl_page(url):
     links = []
-    soup = getSoupFromPage(url)
+    soup = get_soup_from_page(url)
     for table in soup.findAll('tbody'):
         for row in table.findAll('tr'):
             cols = row.findAll('td')
@@ -89,9 +105,16 @@ def next_page(url, count):
     return crawl_page(page)
 
 
+def get_page_number(url):
+    match = re.search(page_regex, url)
+    if match.group(1):
+        return int(match.group(1))
+    return 0
+
+
 def import_hewlett_data(url):
     imports = []
-    current_number = 0
+    current_number = get_page_number(url)
     while 1:
         links = next_page("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148", current_number)
         if links.__eq__([]):
