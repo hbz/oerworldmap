@@ -37,6 +37,7 @@ var Hijax = (function ($, Hijax) {
               var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
               widget.find('.multiple-list').append( multiple_one_new );
               my.initOne( multiple_one_new );
+              multiple_one_new.find('input').focus();
             });
 
         }

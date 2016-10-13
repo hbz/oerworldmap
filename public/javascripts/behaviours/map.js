@@ -988,8 +988,6 @@ var Hijax = (function ($, Hijax) {
 
     attach : function(context) {
 
-      console.log('map attach started');
-
       var _attached = new $.Deferred();
       my.attached.push(_attached);
 
@@ -1110,7 +1108,6 @@ var Hijax = (function ($, Hijax) {
       });
 */
 
-      console.log('map attach done');
       _attached.resolve();
 
     },

@@ -206,6 +206,26 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
+      // FIXME: remove unbind
+      // @j0hj0h this is an example of unnecessary behaviour attachment. If a resource is loaded directly,
+      // behaviours are attached twice, once for the inital #document and once when initializing the app (get_main)
+      $('[data-behaviour="delete-resource"]', context).unbind('click.delete').bind('click.delete', function(e) {
+        if (window.confirm("Delete resource?")) {
+          $.ajax({
+            url : this.getAttribute('href'),
+            type : 'DELETE',
+            success : function() {
+              alert('Resource deleted.');
+              window.location = window.location.hash ? window.location.pathname + window.location.search : '/';
+            },
+            error : function(jqXHR) {
+              alert('An error has occurred.');
+            }
+          });
+        }
+        return false;
+      });
+
     }
   }
 

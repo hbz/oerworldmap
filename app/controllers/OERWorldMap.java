@@ -239,7 +239,9 @@ public abstract class OERWorldMap extends Controller {
     try {
       if (scope != null) {
         Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
+        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0));
         scope.put("globalAggregation", globalAggregation);
+        scope.put("keywordAggregation", keywordAggregation);
       }
     } catch (IOException e) {
       Logger.error("Could not add global statistics", e);
