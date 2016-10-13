@@ -4144,8 +4144,7 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",

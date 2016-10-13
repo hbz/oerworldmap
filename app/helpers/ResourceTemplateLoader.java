@@ -10,7 +10,15 @@ import java.net.URL;
  * @author fo
  */
 public class ResourceTemplateLoader extends URLTemplateLoader {
+
+  private ClassLoader mClassLoader;
+
+  public ResourceTemplateLoader(ClassLoader aClassLoader) {
+    super();
+    mClassLoader = aClassLoader;
+  }
+
   protected URL getResource(final String location) throws IOException {
-    return Play.application().classloader().getResource(location);
+    return mClassLoader.getResource(location);
   }
 }
