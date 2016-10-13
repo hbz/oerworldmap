@@ -40,6 +40,7 @@ import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.AbstractCsvExporter;
+import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 
 import javax.inject.Inject;
@@ -116,6 +117,8 @@ public class ResourceIndex extends OERWorldMap {
         result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
       }
       return ok(result.toString()).as("text/csv");
+    } else if (request().accepts("text/calendar")) {
+      return ok(new CalendarExporter().export(resourceList)).as("text/calendar");
     } else {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
