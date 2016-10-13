@@ -48,8 +48,10 @@ def get_header():
 
 def get_uuid(key):
     global uuids
-    a_uuid = uuids[key]
-    if a_uuid is None:
+    try:
+        a_uuid = uuids[key]
+    except KeyError, e:
+        # id does not yet exist
         a_uuid = uuid.uuid4().urn
         put_uuid(key, a_uuid)
     return a_uuid
@@ -117,6 +119,8 @@ def collect(url):
     grant_number = get_grant_number(url)
     result['frapo:hasGrantNumber'] = grant_number
     result['@id'] = get_uuid('hewlett_grant_' + grant_number)
+    action['@id'] = get_uuid('hewlett_action_' + grant_number)
+    agent['@id'] = get_uuid('hewlett_agent_' + grant_number)
     soup = get_soup_from_page(url)
 
     if hasattr(soup, 'h3'):
