@@ -72,14 +72,12 @@ def load_ids_file():
     except ValueError, e:
         if not str(e).__eq__('No JSON object could be decoded'):
             raise ValueError('Unexpected error while loading ids file: ' + str(e))
-    print "load uuids: " + str(uuids) # TODO delete
 
 
 def save_ids_file():
     global uuids, uuid_file
     with open(uuid_file, 'w') as file:
         file.write(json.dumps(uuids))
-    print "save uuids: " + str(uuids) # TODO delete
 
 
 def get_grant_number(url):
@@ -170,11 +168,12 @@ def collect(url):
 def crawl_page(url):
     links = []
     soup = get_soup_from_page(url)
-    for table in soup.findAll('tbody'):
-        for row in table.findAll('tr'):
-            cols = row.findAll('td')
-            link = cols[0].find('a').get('href')
-            links.append('http://www.hewlett.org' + link)
+    if soup:
+        for table in soup.findAll('tbody'):
+            for row in table.findAll('tr'):
+                cols = row.findAll('td')
+                link = cols[0].find('a').get('href')
+                links.append('http://www.hewlett.org' + link)
     return links
 
 
@@ -186,32 +185,32 @@ def next_page(url, count):
 
 def get_page_number(url):
     match = re.search(page_regex, url)
-    if match.group(1):
-        return int(match.group(1))
+    if match:
+        if match.group(1):
+            return int(match.group(1))
     return 0
 
 
 def get_url_without_page(url):
     match = re.search(url_without_page_regex, url)
-    if match.group(1):
-        return match.group(1)
+    if match:
+        if match.group(1):
+            return match.group(1)
     return url
 
 
 def import_hewlett_data(url):
     imports = []
-    # current_number = get_page_number(url) TODO
-    current_number = 0 # TODO delete
+    current_number = get_page_number(url)
     url_no_page = get_url_without_page(url)
-    # while 1: #TODO
-    links = next_page(url_no_page, current_number)
-    # if links.__eq__([]):  TODO
-    #     break             TODO
-    for link in links:
-        json = collect(link)
-        imports.append(json)
-    current_number += 1
-    # TODO: while end
+    while 1:
+        links = next_page(url_no_page, current_number)
+        if links.__eq__([]):
+            break
+        for link in links:
+            json = collect(link)
+            imports.append(json)
+        current_number += 1
     return imports
 
 
