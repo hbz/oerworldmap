@@ -13,6 +13,8 @@ url_term_regex = re.compile(r"/grants/([0-9a-zA-Z]+)/.+")
 month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
 address_without_span_regex = re.compile(r'(?<=(<span class="grant-address">))(.*)(?=(</span>))')
 address_split_regex = re.compile(r'<br ?/?>')
+uuid_file = "id_map.json"
+uuids = {}
 
 
 def get_soup_from_page(url):
@@ -45,16 +47,37 @@ def get_header():
 
 
 def get_uuid(key):
-    a_uuid = get_uuid_from_file(key)
+    global uuids
+    a_uuid = uuids[key]
     if a_uuid is None:
-        a_uuid = uuid.uuid4()
+        a_uuid = uuid.uuid4().urn
+        put_uuid(key, a_uuid)
     return a_uuid
 
 
-def get_uuid_from_file(key):
-    # TODO
-    # interim function:
-    return uuid.uuid4()
+def put_uuid(key, uuid):
+    global uuids
+    uuids[key] = uuid
+
+
+def load_ids_file():
+    global uuids, uuid_file
+    if not os.path.isfile(uuid_file):
+        open(uuid_file, 'a').close()
+    try:
+        with open(uuid_file, 'r') as file:
+            uuids = json.loads(file.read())
+    except ValueError, e:
+        if not str(e).__eq__('No JSON object could be decoded'):
+            raise ValueError('Unexpected error while loading ids file: ' + str(e))
+    print "load uuids: " + str(uuids) # TODO delete
+
+
+def save_ids_file():
+    global uuids, uuid_file
+    with open(uuid_file, 'w') as file:
+        file.write(json.dumps(uuids))
+    print "save uuids: " + str(uuids) # TODO delete
 
 
 def get_grant_number(url):
@@ -91,7 +114,9 @@ def collect(url):
     }
 
     result = get_header()
-    result['frapo:hasGrantNumber'] = get_grant_number(url)
+    grant_number = get_grant_number(url)
+    result['frapo:hasGrantNumber'] = grant_number
+    result['@id'] = get_uuid('hewlett_grant_' + grant_number)
     soup = get_soup_from_page(url)
 
     if hasattr(soup, 'h3'):
@@ -116,23 +141,20 @@ def collect(url):
                 field = entry[0].getText()
                 if field in grant_mapping:
                     result[grant_mapping[field]] = entry[1].getText()
-                else:
-                    if field.__eq__('Grant Description:'):
-                        result['schema:description'] = {
-                            "@language":"en",
-                            "@value":entry[1].getText()
-                        }
-                    else:
-                        if field.__eq__('Term of Grant:'):
-                            duration = get_grant_duration(entry[1].getText())
-                            result['schema:duration'] = duration
-                            action['schema:duration'] = duration
-                        else:
-                            if field.__eq__('Grant Purpose:'):
-                                action['schema:name'] = {
-                                    "@language": "en",
-                                    "@value": entry[1].getText()
-                                }
+                elif field.__eq__('Grant Description:'):
+                    result['schema:description'] = {
+                        "@language":"en",
+                        "@value":entry[1].getText()
+                    }
+                elif field.__eq__('Term of Grant:'):
+                    duration = get_grant_duration(entry[1].getText())
+                    result['schema:duration'] = duration
+                    action['schema:duration'] = duration
+                elif field.__eq__('Grant Purpose:'):
+                    action['schema:name'] = {
+                        "@language": "en",
+                        "@value": entry[1].getText()
+                    }
     location['schema:address'] = address
     agent['schema:location'] = location
     action['schema:agent'] = agent
@@ -201,14 +223,17 @@ def write_into_file(imports, filename):
     output_file.write("]")
     output_file.close()
 
+
 def main():
     if len(sys.argv) != 3:
         print 'Usage: python <path>/<to>/import.py <import_url> <path>/<to>/<destination_file.json>'
         # typical usage:
         # python import/hewlett/import.py 'http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148' 'import/hewlett/testconsole_01.json'
         return
+    load_ids_file()
     imports = import_hewlett_data(sys.argv[1])
     write_into_file(imports, sys.argv[2])
+    save_ids_file()
 
 if __name__ == "__main__":
     main()
