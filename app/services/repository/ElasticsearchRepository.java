@@ -51,7 +51,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Settings settings = Settings.settingsBuilder().put(mConfig.getClientSettings()).build();
     try {
       mClient = TransportClient.builder().settings(settings).build().addTransportAddress(
-        new InetSocketTransportAddress(InetAddress.getByName(mConfig.getServer()), 9300));
+        new InetSocketTransportAddress(InetAddress.getByName(mConfig.getServer()), mConfig.getJavaPort()));
     } catch (UnknownHostException ex) {
       throw new RuntimeException(ex);
     }

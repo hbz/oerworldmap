@@ -33,7 +33,7 @@ public class ElasticsearchConfig {
 
   // HOST
   private String mServer;
-  private String mJavaPort;
+  private Integer mJavaPort;
   private Node mInternalNode;
 
   // CLIENT
@@ -53,13 +53,13 @@ public class ElasticsearchConfig {
 
     // HOST
     mServer = mConfig.getString("es.host.server");
-    mJavaPort = mConfig.getString("es.host.port.java");
+    mJavaPort = mConfig.getInt("es.host.port.java");
 
     mIndex = mConfig.getString("es.index.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    if (mConfig.getBoolean("es.node.inmemory") || Strings.isNullOrEmpty(mJavaPort) || Strings.isNullOrEmpty(mServer)) {
+    if (mConfig.getBoolean("es.node.inmemory") || (mJavaPort == null) || Strings.isNullOrEmpty(mServer)) {
       mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
       mClient = mInternalNode.client();
     } //
@@ -71,7 +71,7 @@ public class ElasticsearchConfig {
       mTransportClient = TransportClient.builder().settings(clientSettings).build();
       try {
         mClient = mTransportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mServer),
-            9300));
+          mJavaPort));
       } catch (UnknownHostException ex) {
         throw new RuntimeException(ex);
       }
@@ -120,7 +120,7 @@ public class ElasticsearchConfig {
     return mServer;
   }
 
-  public String getJavaPort() {
+  public Integer getJavaPort() {
     return mJavaPort;
   }
 
