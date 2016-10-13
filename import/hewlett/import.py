@@ -3,17 +3,16 @@ import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse
 
 grant_mapping = {
     'Amount:': 'frapo:hasMonetaryValue',
-    'Date of Award:': 'frapo:hasAwardDate',
-    'Term of Grant:': 'schema:duration',
-    'Program:': 'frapo:BudgetCategory',
-    'Region:': 'frapo:hasLocation',
-    'Grant Purpose:': 'frapo:Endeavour',
-    'Grant Description:': 'frapo:BudgetInformation',
-    'Grantee Website:': 'frapo:hasDomainName'
+    'Date of Award:': 'frapo:hasAwardDate'
 }
 
 
 page_regex = re.compile(r"&page=([0-9]+)$")
+url_without_page_regex = re.compile(r"(.+)(?=(&page=[0-9]+))")
+url_term_regex = re.compile(r"/grants/([0-9a-zA-Z]+)/.+")
+month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
+address_without_span_regex = re.compile(r'(?<=(<span class="grant-address">))(.*)(?=(</span>))')
+address_split_regex = re.compile(r'<br ?/?>')
 
 
 def get_soup_from_page(url):
@@ -66,17 +65,57 @@ def get_uuid_from_file(key):
 
 
 def get_grant_number(url):
-    parsed_url = urlparse(url)
-    path = parsed_url[2]
+    parsed_url = urlparse.urlparse(url)
+    if parsed_url[2]:
+        match = re.search(url_term_regex, parsed_url[2])
+        if match.group(1):
+            return match.group(1)
+    return 0
 
+
+def get_grant_duration(value):
+    match = re.search(month_duration_regex, value)
+    if match.group(1):
+        return 'P' + match.group(1) + 'M'
+    else:
+        raise ValueError('Unknown duration format:' + value)
+        return value
 
 
 def collect(url):
-    result = get_header()
     grant = {
         "@type": "frapo:Grant",
     }
+    action = {
+        "@type":"schema:Action"
+    }
+    agent = {}
+    location = {
+        "@type":"schema:Place"
+    }
+    address = {
+        "@type":"schema:PostalAddress"
+    }
+
+    result = get_header()
+    grant['frapo:hasGrantNumber'] = get_grant_number(url)
     soup = get_soup_from_page(url)
+
+    if hasattr(soup, 'h3'):
+        agent['schema:name'] = {
+            "@language": "en",
+            "@value": soup.find('h3').getText()
+        }
+    address_tags = soup.findAll('span', { "class" : "grant-address" })
+    for address_tag in address_tags:
+        address_no_span = re.search(address_without_span_regex, (str(address_tag)))
+        address_split = re.split(address_split_regex, address_no_span.group(0))
+        if address_split[0]:
+            address['schema:streetAddress'] = address_split[0]
+        if address_split[1]:
+            address['schema:addressLocality'] = address_split[1]
+        if address_split[2]:
+            address['schema:addressCountry'] = address_split[2]
     if hasattr(soup, 'tbody'):
         for table in soup.findAll('tbody'):
             for row in table.findAll('tr'):
@@ -84,6 +123,27 @@ def collect(url):
                 field = entry[0].getText()
                 if field in grant_mapping:
                     grant[grant_mapping[field]] = entry[1].getText()
+                else:
+                    if field.__eq__('Grant Description:'):
+                        grant['schema:description'] = {
+                            "@language":"en",
+                            "@value":entry[1].getText()
+                        }
+                    else:
+                        if field.__eq__('Term of Grant:'):
+                            duration = get_grant_duration(entry[1].getText())
+                            grant['schema:duration'] = duration
+                            action['schema:duration'] = duration
+                        else:
+                            if field.__eq__('Grant Purpose:'):
+                                action['schema:name'] = {
+                                    "@language": "en",
+                                    "@value": entry[1].getText()
+                                }
+    location['schema:address'] = address
+    agent['schema:location'] = location
+    action['schema:agent'] = agent
+    grant['frapo:funds'] = action
     result['frapo:awards'] = grant
     return json.dumps(result, indent=2)
 
@@ -112,17 +172,27 @@ def get_page_number(url):
     return 0
 
 
+def get_url_without_page(url):
+    match = re.search(url_without_page_regex, url)
+    if match.group(1):
+        return match.group(1)
+    return url
+
+
 def import_hewlett_data(url):
     imports = []
-    current_number = get_page_number(url)
-    while 1:
-        links = next_page("http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148", current_number)
-        if links.__eq__([]):
-            break
-        for link in links:
-            json = collect(link)
-            imports.append(json)
-        current_number += 1
+    # current_number = get_page_number(url) TODO
+    current_number = 0 # TODO delete
+    url_no_page = get_url_without_page(url)
+    # while 1: #TODO
+    links = next_page(url_no_page, current_number)
+    # if links.__eq__([]):  TODO
+    #     break             TODO
+    for link in links:
+        json = collect(link)
+        imports.append(json)
+    current_number += 1
+    # TODO: while end
     return imports
 
 
