@@ -14,15 +14,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import helpers.JSONForm;
 import models.Record;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.FilterBuilders;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -33,8 +32,9 @@ import helpers.JsonLdConstants;
 import models.Commit;
 import models.Resource;
 import models.ResourceList;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
-import play.Play;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
@@ -42,28 +42,35 @@ import services.SearchConfig;
 import services.export.AbstractCsvExporter;
 import services.export.CsvWithNestedIdsExporter;
 
+import javax.inject.Inject;
+
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort, boolean list)
-      throws IOException, ParseException {
+  @Inject
+  public ResourceIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
+
+  public Result list(String q, int from, int size, String sort, boolean list)
+      throws IOException {
 
     // Extract filters directly from query params
     Map<String, List<String>> filters = new HashMap<>();
     Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
-    for (Map.Entry<String, String[]> entry : request().queryString().entrySet()) {
+    for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
       Matcher filterMatcher = filterPattern.matcher(entry.getKey());
       if (filterMatcher.find()) {
         filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
     }
 
-    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    QueryContext queryContext = getQueryContext();
 
     // Check for bounding box
-    String[] boundingBoxParam = request().queryString().get("boundingBox");
+    String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");
     if (boundingBoxParam != null && boundingBoxParam.length > 0) {
       String boundingBox = boundingBoxParam[0];
       if (boundingBox != null) {
@@ -114,10 +121,10 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result importRecords() throws IOException {
+  public Result importRecords() throws IOException {
 
     // Import records
-    JsonNode json = request().body().asJson();
+    JsonNode json = ctx().request().body().asJson();
     List<Resource> records = new ArrayList<>();
     if (json.isArray()) {
       for (JsonNode node : json) {
@@ -154,8 +161,8 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result importResources() throws IOException {
-    JsonNode json = request().body().asJson();
+  public Result importResources() throws IOException {
+    JsonNode json = ctx().request().body().asJson();
     List<Resource> resources = new ArrayList<>();
     if (json.isArray()) {
       for (JsonNode node : json) {
@@ -170,7 +177,7 @@ public class ResourceIndex extends OERWorldMap {
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
-  public static Result addResource() throws IOException {
+  public Result addResource() throws IOException {
 
     JsonNode jsonNode = getJsonFromRequest();
 
@@ -184,7 +191,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result updateResource(String aId) throws IOException {
+  public Result updateResource(String aId) throws IOException {
 
     // If updating a resource, check if it actually exists
     Resource originalResource = mBaseRepository.getResource(aId);
@@ -196,7 +203,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private static Result upsertResource(boolean isUpdate) throws IOException {
+  private Result upsertResource(boolean isUpdate) throws IOException {
 
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
@@ -214,7 +221,7 @@ public class ResourceIndex extends OERWorldMap {
       List<Map<String, Object>> messages = new ArrayList<>();
       HashMap<String, Object> message = new HashMap<>();
       message.put("level", "warning");
-      message.put("message", OERWorldMap.messages.getString("schema_error")
+      message.put("message", getMessages().getString("schema_error")
         + "<pre>" + processingReport.toString() + "</pre>"
         + "<pre>" + staged + "</pre>");
       messages.add(message);
@@ -242,7 +249,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private static Result upsertResources() throws IOException {
+  private Result upsertResources() throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
@@ -278,7 +285,7 @@ public class ResourceIndex extends OERWorldMap {
       List<Map<String, Object>> messages = new ArrayList<>();
       HashMap<String, Object> message = new HashMap<>();
       message.put("level", "warning");
-      message.put("message", OERWorldMap.messages.getString("schema_error")
+      message.put("message", getMessages().getString("schema_error")
         + "<pre>" + listProcessingReport.toString() + "</pre>"
         + "<pre>" + resources + "</pre>");
       messages.add(message);
@@ -292,7 +299,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
 
-  public static Result read(String id) throws IOException {
+  public Result read(String id) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id);
     if (null == resource) {
@@ -310,15 +317,15 @@ public class ResourceIndex extends OERWorldMap {
       Resource conceptScheme = null;
       String field = null;
       if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/esc.json"));
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
         field = "about.about.@id";
       } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
         field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/isced-1997.json"));
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-            .filter(FilterBuilders.termFilter("about.@type", "Service"));
+            .filter(QueryBuilders.termQuery("about.@type", "Service"));
         for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
@@ -336,16 +343,15 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    Resource user = (Resource) ctx().args.get("user");
-    boolean mayEdit = (user != null) && ((resource.getType().equals("Person") && user.getId().equals(id))
+    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
         || (!resource.getType().equals("Person")
-            && mAccountService.getGroups(request().username()).contains("editor"))
-        || mAccountService.getGroups(request().username()).contains("admin"));
-    boolean mayLog = (user != null) && (mAccountService.getGroups(request().username()).contains("admin")
-        || mAccountService.getGroups(request().username()).contains("editor"));
-    boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
-    boolean mayComment = (user != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
+            && mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"))
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
+    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -365,7 +371,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result export(String aId) {
+  public Result export(String aId) {
     Resource record = mBaseRepository.getRecord(aId);
     if (null == record) {
       return notFound("Not found");
@@ -373,7 +379,7 @@ public class ResourceIndex extends OERWorldMap {
     return ok(record.toString()).as("application/json");
   }
 
-  public static Result delete(String aId) throws IOException {
+  public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
       return ok("deleted resource " + resource.toString());
@@ -382,7 +388,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result log(String aId) {
+  public Result log(String aId) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
@@ -394,18 +400,18 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result index(String aId) {
+  public Result index(String aId) {
     mBaseRepository.index(aId);
     return ok("Indexed ".concat(aId));
   }
 
-  public static Result commentResource(String aId) throws IOException {
+  public Result commentResource(String aId) throws IOException {
 
     ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
     jsonNode.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     Resource comment = Resource.fromJson(jsonNode);
 
-    comment.put("author", ctx().args.get("user"));
+    comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
     TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
@@ -425,10 +431,9 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result feed() {
+  public Result feed() {
 
-    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
-    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, queryContext);
+    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 

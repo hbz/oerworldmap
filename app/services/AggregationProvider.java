@@ -3,7 +3,7 @@ package services;
 import helpers.JsonLdConstants;
 import models.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 
@@ -81,7 +81,7 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
+            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
@@ -91,13 +91,13 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
+            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
     String id = aConcept.getAsString(JsonLdConstants.ID);
     AggregationBuilder conceptAggregation = AggregationBuilders.filter(id).filter(
-      FilterBuilders.termFilter(aField, id)
+      QueryBuilders.termQuery(aField, id)
     );
     for (Resource aNarrowerConcept : aConcept.getAsList("narrower")) {
       conceptAggregation.subAggregation(getNestedConceptAggregation(aNarrowerConcept, aField));

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.common.geo.GeoPoint;
-import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -149,7 +148,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchRankingNameHitsFirst() throws IOException, ParseException, InterruptedException {
+  public void testSearchRankingNameHitsFirst() throws IOException, InterruptedException {
 
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.2.json");

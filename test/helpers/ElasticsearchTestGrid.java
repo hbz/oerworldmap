@@ -4,19 +4,20 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import play.test.WithApplication;
 import services.ElasticsearchConfig;
 import services.repository.ElasticsearchRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 
-public class ElasticsearchTestGrid {
+public class ElasticsearchTestGrid extends WithApplication {
 
   protected static Config mConfig;
   protected static ElasticsearchRepository mRepo;
@@ -32,10 +33,10 @@ public class ElasticsearchTestGrid {
     mClient = mEsConfig.getClient();
     mRepo = new ElasticsearchRepository(mConfig);
 
-    mClientSettings = ImmutableSettings.settingsBuilder().put(mEsConfig.getClientSettings())
+    mClientSettings = Settings.settingsBuilder().put(mEsConfig.getClientSettings())
       .build();
-    mClient = new TransportClient(mClientSettings)
-      .addTransportAddress(new InetSocketTransportAddress(mEsConfig.getServer(),
+    mClient = TransportClient.builder().settings(mClientSettings).build()
+      .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mEsConfig.getServer()),
         Integer.valueOf(mEsConfig.getJavaPort())));
   }
 

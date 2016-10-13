@@ -1488,7 +1488,40 @@
                   }
                 },
                 "location": {
-                  "type": "object"
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "provider": {
                   "properties": {
@@ -2335,7 +2368,40 @@
                   "type": "string"
                 },
                 "location": {
-                  "type": "object"
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "startTime": {
                   "type": "date",
@@ -4144,8 +4210,7 @@
                 "location": {
                   "properties": {
                     "geo": {
-                      "type": "geo_point",
-                      "copy_to": "about.location.geo"
+                      "type": "geo_point"
                     },
                     "@type": {
                       "index": "not_analyzed",
@@ -7459,6 +7524,181 @@
                 "@id" : {
                   "index": "not_analyzed",
                   "type" : "string"
+                }
+              }
+            },
+            "author" : {
+              "properties" : {
+                "@id" : {
+                  "type" : "string"
+                },
+                "@type" : {
+                  "type" : "string"
+                },
+                "authorOf" : {
+                  "properties" : {
+                    "@id" : {
+                      "type" : "string"
+                    },
+                    "@type" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "countryChampionFor" : {
+                  "type" : "string"
+                },
+                "description" : {
+                  "properties" : {
+                    "@language" : {
+                      "type" : "string"
+                    },
+                    "@value" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "email" : {
+                  "type" : "string"
+                },
+                "image" : {
+                  "type" : "string"
+                },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "memberOf" : {
+                  "properties" : {
+                    "@id" : {
+                      "type" : "string"
+                    },
+                    "@type" : {
+                      "type" : "string"
+                    },
+                    "name" : {
+                      "properties" : {
+                        "@language" : {
+                          "type" : "string"
+                        },
+                        "@value" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "name" : {
+                  "properties" : {
+                    "@language" : {
+                      "type" : "string"
+                    },
+                    "@value" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "participantIn" : {
+                  "properties" : {
+                    "@id" : {
+                      "type" : "string"
+                    },
+                    "@type" : {
+                      "type" : "string"
+                    },
+                    "name" : {
+                      "properties" : {
+                        "@language" : {
+                          "type" : "string"
+                        },
+                        "@value" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "sameAs" : {
+                  "type" : "string"
+                },
+                "url" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "authorOf" : {
+              "properties" : {
+                "@id" : {
+                  "type" : "string"
+                },
+                "@type" : {
+                  "type" : "string"
+                },
+                "author" : {
+                  "properties" : {
+                    "@id" : {
+                      "type" : "string"
+                    },
+                    "@type" : {
+                      "type" : "string"
+                    },
+                    "name" : {
+                      "properties" : {
+                        "@language" : {
+                          "type" : "string"
+                        },
+                        "@value" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "dateCreated" : {
+                  "type" : "date",
+                  "format" : "strict_date_optional_time||epoch_millis"
+                },
+                "text" : {
+                  "properties" : {
+                    "@language" : {
+                      "type" : "string"
+                    },
+                    "@value" : {
+                      "type" : "string"
+                    }
+                  }
                 }
               }
             }

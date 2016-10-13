@@ -1,7 +1,7 @@
 <span class="resource">
     {{getIcon @type}}
     <a href="/resource/{{@id}}">
-        {{#localized this.name}}
+        {{#localized this.name language=@root.language}}
             {{[@value]}}
         {{else}}
             {{[@id]}}
