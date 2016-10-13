@@ -40,14 +40,7 @@ def get_header():
             "schema":"http://schema.org/",
             "xsd":"http://www.w3.org/2001/XMLSchema#"
         },
-        "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f",
-        "@type":"schema:Organization",
-        "schema:name": [
-            {
-                "@language":"en",
-                "@value":"William and Flora Hewlett Foundation"
-            }
-        ]
+        "@type": "frapo:Grant"
     }
 
 
@@ -83,8 +76,8 @@ def get_grant_duration(value):
 
 
 def collect(url):
-    grant = {
-        "@type": "frapo:Grant",
+    awarder = {
+        "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
     }
     action = {
         "@type":"schema:Action"
@@ -98,7 +91,7 @@ def collect(url):
     }
 
     result = get_header()
-    grant['frapo:hasGrantNumber'] = get_grant_number(url)
+    result['frapo:hasGrantNumber'] = get_grant_number(url)
     soup = get_soup_from_page(url)
 
     if hasattr(soup, 'h3'):
@@ -122,17 +115,17 @@ def collect(url):
                 entry = row.findAll('td')
                 field = entry[0].getText()
                 if field in grant_mapping:
-                    grant[grant_mapping[field]] = entry[1].getText()
+                    result[grant_mapping[field]] = entry[1].getText()
                 else:
                     if field.__eq__('Grant Description:'):
-                        grant['schema:description'] = {
+                        result['schema:description'] = {
                             "@language":"en",
                             "@value":entry[1].getText()
                         }
                     else:
                         if field.__eq__('Term of Grant:'):
                             duration = get_grant_duration(entry[1].getText())
-                            grant['schema:duration'] = duration
+                            result['schema:duration'] = duration
                             action['schema:duration'] = duration
                         else:
                             if field.__eq__('Grant Purpose:'):
@@ -143,8 +136,8 @@ def collect(url):
     location['schema:address'] = address
     agent['schema:location'] = location
     action['schema:agent'] = agent
-    grant['frapo:funds'] = action
-    result['frapo:awards'] = grant
+    result['frapo:funds'] = action
+    result['frapo:is_awarded_by'] = awarder
     return json.dumps(result, indent=2)
 
 
