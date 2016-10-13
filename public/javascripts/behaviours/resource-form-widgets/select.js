@@ -33,9 +33,11 @@ var Hijax = (function ($, Hijax) {
 
       my.bloodhounds['countries'] = new Bloodhound({
         datumTokenizer: function(d){
-          return Bloodhound.tokenizers.whitespace(d.label);
+          return Bloodhound.tokenizers.whitespace(
+            bloodhoundAccentFolding.normalize(d.label)
+          );
         },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
         local: my.data_arrays['countries'],
         identify: function(result){
           return result.id;
@@ -63,9 +65,11 @@ var Hijax = (function ($, Hijax) {
 
       my.bloodhounds['languages'] = new Bloodhound({
         datumTokenizer: function(d){
-          return Bloodhound.tokenizers.whitespace(d.label);
+          return Bloodhound.tokenizers.whitespace(
+            bloodhoundAccentFolding.normalize(d.label)
+          );
         },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
         local: my.data_arrays['languages'],
         identify: function(result){
           return result.id;

@@ -154,9 +154,11 @@ var Hijax = (function ($, Hijax, page) {
   function create_bloodhound(aggregation) {
     bloodhounds[ aggregation.name ] = new Bloodhound({
       datumTokenizer : function(d){
-        return Bloodhound.tokenizers.whitespace(d.label_x);
+        return Bloodhound.tokenizers.whitespace(
+          bloodhoundAccentFolding.normalize(d.label_x)
+        );
       },
-      queryTokenizer : Bloodhound.tokenizers.whitespace,
+      queryTokenizer : bloodhoundAccentFolding.queryTokenizer,
       local : aggregation.buckets,
       identify : function(result){
         return result.id;
