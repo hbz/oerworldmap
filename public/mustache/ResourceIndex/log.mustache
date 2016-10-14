@@ -1,0 +1,17 @@
+<div class="container-fluid container-static-page-vertical" data-behaviour="resource-log">
+
+    <div class="col-md-4" id="log" style="height: 80vh; overflow-y:scroll;">
+        <h1>Log for <a id="resource" href="/resource/{{ scope.resource }}">/resource/{{ scope.resource }}</a></h1>
+        {{#scope.commits}}
+<pre class="commit">
+<a href="/resource/{{ scope.resource }}?version={{ id }}">{{ id }}</a>
+{{ header }}
+</pre>
+        {{/scope.commits}}
+    </div>
+    <div class="col-md-4" id="from">
+    </div>
+    <div class="col-md-4" id="to">
+    </div>
+
+</div>

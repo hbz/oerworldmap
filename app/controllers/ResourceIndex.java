@@ -390,13 +390,11 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result log(String aId) {
 
-    StringBuilder stringBuilder = new StringBuilder();
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("commits", mBaseRepository.log(aId));
+    scope.put("resource", aId);
 
-    for (Commit commit : mBaseRepository.log(aId)) {
-      stringBuilder.append(commit.getId()).append("\n").append(commit).append("\n\n");
-    }
-
-    return ok(stringBuilder.toString());
+    return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
 
   }
 
