@@ -411,6 +411,20 @@ var Hijax = (function ($, Hijax, page) {
           }
       });
 
+      // catch form submition inside app
+
+      $('#app').on('submit', 'form', function() {
+        var form = $(this);
+        if (
+          ! form.attr('method') ||
+          form.attr('method').toUpperCase() == 'GET'
+        ) {
+          var action = form.attr("action") || '';
+          page(action + "?" + form.serialize());
+          return false;
+        }
+      });
+
       // catch form submition inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
@@ -581,18 +595,6 @@ var Hijax = (function ($, Hijax, page) {
           .append( content );
 
         $('#app-notification-area').append(notification);
-      });
-
-      $('#app', context).on('submit', 'form', function() {
-        var form = $(this);
-        if (
-          ! form.attr('method') ||
-          form.attr('method').toUpperCase() == 'GET'
-        ) {
-          var action = form.attr("action") || '';
-          page(action + "?" + form.serialize());
-          return false;
-        }
       });
 
     },
