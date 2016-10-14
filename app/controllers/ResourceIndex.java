@@ -114,7 +114,7 @@ public class ResourceIndex extends OERWorldMap {
       csvExporter.setDropFields(dropFields);
       result.append(csvExporter.headerKeysToCsvString().concat("\n"));
       for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+        result.append(csvExporter.export(resource).concat("\n"));
       }
       return ok(result.toString()).as("text/csv");
     } else if (request().accepts("text/calendar")) {
