@@ -326,15 +326,23 @@ var Hijax = (function ($, Hijax, page) {
           pimp_aggregation(aggregations[ a ], a);
         }
 
-        // extract country
+        // extract country and tag
 
         var country_aggregation = aggregations['about.location.address.addressCountry'];
-        country_aggregation.column = 3;
+        country_aggregation.column = 'small-5';
+        country_aggregation.small = true;
+        country_aggregation.button_text = '<i class="fa fa-globe"></i>';
+
+        var tag_aggregation = aggregations['about.keywords'];
+        tag_aggregation.column = 'small-6';
+        tag_aggregation.small = true;
+        tag_aggregation.button_text = '<i class="fa fa-tag"></i>';
 
         // remove special treated aggregations
 
-        delete aggregations['about.location.address.addressCountry'];
         delete aggregations['about.@type'];
+        delete aggregations['about.keywords'];
+        delete aggregations['about.location.address.addressCountry'];
 
         // set columns
 
@@ -359,6 +367,7 @@ var Hijax = (function ($, Hijax, page) {
             aggregations : aggregations,
             resource_types : resource_types,
             country_aggregation : country_aggregation,
+            tag_aggregation : tag_aggregation,
             clear_filter_offset : clear_filter_offset
           })
         );
@@ -367,6 +376,7 @@ var Hijax = (function ($, Hijax, page) {
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
           init_filter(country_aggregation);
+          init_filter(tag_aggregation);
           for(name in aggregations) {
             init_filter(aggregations[ name ]);
           }

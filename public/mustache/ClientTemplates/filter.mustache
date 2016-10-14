@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col col-sm-8">
 
             <div id="filter-type" class="btn-group">
                 {{#each resource_types}}
@@ -29,24 +29,34 @@
         {{#country_aggregation}}
             {{#if show}}
 
-                <div class="col-sm-4 col-{{column}}">
+                <div class="col col-sm-2 col-{{column}}">
                     {{> filter-dropdown}}
                 </div>
 
             {{/if}}
         {{/country_aggregation}}
 
+        {{#tag_aggregation}}
+            {{#if show}}
+
+                <div class="col col-sm-2 col-{{column}}">
+                    {{> filter-dropdown}}
+                </div>
+
+            {{/if}}
+        {{/tag_aggregation}}
+
         {{#each aggregations}}
             {{#if show}}
 
-                <div class="col-sm-4 col-{{column}} floating-hidden">
+                <div class="col col-sm-4 col-{{column}} floating-hidden">
                     {{> filter-dropdown}}
                 </div>
 
             {{/if}}
         {{/each}}
 
-        <div class="col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
+        <div class="col col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
             <div class="small clear-filter">
                 <a href="/">Clear Filter</a>
             </div>
