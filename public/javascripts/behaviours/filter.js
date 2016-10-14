@@ -100,7 +100,7 @@ var Hijax = (function ($, Hijax, page) {
       aggregation.show = true;
     } else {
       aggregation.show = false;
-      return;
+      // return;
     }
 
     // active ?
@@ -331,12 +331,12 @@ var Hijax = (function ($, Hijax, page) {
         var country_aggregation = aggregations['about.location.address.addressCountry'];
         country_aggregation.column = 'small-5';
         country_aggregation.small = true;
-        country_aggregation.button_text = '<i class="fa fa-globe"></i>';
+        country_aggregation.button_icon = 'globe';
 
         var tag_aggregation = aggregations['about.keywords'];
         tag_aggregation.column = 'small-6';
         tag_aggregation.small = true;
-        tag_aggregation.button_text = '<i class="fa fa-tag"></i>';
+        tag_aggregation.button_icon = 'tag';
 
         // remove special treated aggregations
 
