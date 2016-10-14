@@ -38,5 +38,6 @@ public interface Commit {
 
   Diff getDiff();
   Header getHeader();
+  String getId();
 
 }

@@ -1,6 +1,5 @@
 package models;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import play.Logger;
@@ -40,7 +39,7 @@ public class GraphHistory {
 
   public void add(Commit aCommit) throws IOException {
 
-    String commitId = DigestUtils.sha1Hex(aCommit.toString());
+    String commitId = aCommit.getId();
     File commitFile = new File(mCommitDir, commitId);
     FileUtils.writeStringToFile(commitFile, aCommit.toString());
     FileUtils.writeStringToFile(mHistoryFile, commitId.concat("\n"), true);
@@ -117,6 +116,36 @@ public class GraphHistory {
         }
       } catch (IOException e) {
         throw new RuntimeIOException(e);
+      }
+    }
+
+    return commits;
+
+  }
+
+  public List<Commit> until(String aCommitId) {
+
+    List<String> commitIds;
+
+    try {
+      commitIds = FileUtils.readLines(mHistoryFile, StandardCharsets.UTF_8);
+      Collections.reverse(commitIds);
+    } catch (IOException e) {
+      throw new RuntimeIOException(e);
+    }
+
+    List<Commit> commits = new ArrayList<>();
+
+    for (String commitId : commitIds) {
+      if (commitId.equals(aCommitId)) {
+        break;
+      }
+      File commitFile = new File(mCommitDir, commitId);
+      try {
+        TripleCommit commit = TripleCommit.fromString(FileUtils.readFileToString(commitFile, StandardCharsets.UTF_8));
+        commits.add(commit);
+      } catch (IllegalArgumentException | IOException e) {
+        Logger.error("Could not read commit, skipping", e);
       }
     }
 

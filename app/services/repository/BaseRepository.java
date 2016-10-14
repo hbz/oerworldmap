@@ -228,7 +228,12 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return mTriplestoreRepository.getResource(aId);
+    return getResource(aId, null);
+  }
+
+  @Override
+  public Resource getResource(@Nonnull String aId, String aVersion) {
+    return mTriplestoreRepository.getResource(aId, aVersion);
   }
 
   public Resource getRecord(@Nonnull String aId) {
