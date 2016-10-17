@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "commons-validator" % "commons-validator" % "1.5.1",
   "com.github.fge" % "jackson-coreutils" % "1.8",
   "com.github.fge" % "json-schema-validator" % "2.2.6",
-  "org.apache.commons" % "commons-email" % "1.4",
+  "org.apache.commons" % "commons-email" % "1.3.3",
   "commons-io" % "commons-io" % "2.5",
   "org.elasticsearch" % "elasticsearch" % "2.4.0",
   "org.pegdown" % "pegdown" % "1.6.0",
