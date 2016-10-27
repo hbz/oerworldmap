@@ -2,17 +2,18 @@ import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse
 
 
 grant_mapping = {
-    'Amount:': 'frapo:hasMonetaryValue',
-    'Date of Award:': 'frapo:hasAwardDate'
+    'Amount': 'frapo:hasMonetaryValue',
+    'Date Awarded': 'frapo:hasAwardDate'
 }
 
 
 page_regex = re.compile(r"&page=([0-9]+)$")
 url_without_page_regex = re.compile(r"(.+)(?=(&page=[0-9]+))")
-url_term_regex = re.compile(r"/grants/([0-9a-zA-Z]+)/.+")
+url_term_regex = re.compile(r"/grants/([0-9a-zA-Z-]+)/.*")
 month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
-address_without_span_regex = re.compile(r'(?<=(<span class="grant-address">))(.*)(?=(</span>))')
+address_without_span_regex = re.compile(r'(?<=(<div class="aboutgrantee-address">\n))(.*)(?=(</div>))')
 address_split_regex = re.compile(r'<br ?/?>')
+
 uuid_file = "id_map.json"
 uuids = {}
 
@@ -80,7 +81,7 @@ def save_ids_file():
         file.write(json.dumps(uuids))
 
 
-def get_grant_number(url):
+def get_grant_id(url):
     parsed_url = urlparse.urlparse(url)
     if parsed_url[2]:
         match = re.search(url_term_regex, parsed_url[2])
@@ -114,49 +115,56 @@ def collect(url):
     }
 
     result = get_header()
-    grant_number = get_grant_number(url)
-    result['frapo:hasGrantNumber'] = grant_number
-    result['@id'] = get_uuid('hewlett_grant_' + grant_number)
-    action['@id'] = get_uuid('hewlett_action_' + grant_number)
-    agent['@id'] = get_uuid('hewlett_agent_' + grant_number)
+    grant_id = get_grant_id(url)
+    result['frapo:hasGrantNumber'] = grant_id
+    result['@id'] = get_uuid('hewlett_grant_' + grant_id)
+    action['@id'] = get_uuid('hewlett_action_' + grant_id)
+    agent['@id'] = get_uuid('hewlett_agent_' + grant_id)
     soup = get_soup_from_page(url)
 
-    if hasattr(soup, 'h3'):
+    if hasattr(soup, 'h1'):
         agent['schema:name'] = {
+            "@language": "en",
+            "@value": soup.find('h1').getText()
+        }
+        print(soup.find('h1').getText()) # for status control
+    if hasattr(soup, 'h3'):
+        action['schema:name'] = {
             "@language": "en",
             "@value": soup.find('h3').getText()
         }
-    address_tags = soup.findAll('span', { "class" : "grant-address" })
+    address_tags = soup.findAll('div', { "class" : "aboutgrantee-address" })
     for address_tag in address_tags:
         address_no_span = re.search(address_without_span_regex, (str(address_tag)))
         address_split = re.split(address_split_regex, address_no_span.group(0))
-        if address_split[0]:
-            address['schema:streetAddress'] = address_split[0]
-        if address_split[1]:
-            address['schema:addressLocality'] = address_split[1]
-        if address_split[2]:
-            address['schema:addressCountry'] = address_split[2]
-    if hasattr(soup, 'tbody'):
-        for table in soup.findAll('tbody'):
-            for row in table.findAll('tr'):
-                entry = row.findAll('td')
-                field = entry[0].getText()
-                if field in grant_mapping:
-                    result[grant_mapping[field]] = entry[1].getText()
-                elif field.__eq__('Grant Description:'):
-                    result['schema:description'] = {
-                        "@language":"en",
-                        "@value":entry[1].getText()
-                    }
-                elif field.__eq__('Term of Grant:'):
-                    duration = get_grant_duration(entry[1].getText())
-                    result['schema:duration'] = duration
-                    action['schema:duration'] = duration
-                elif field.__eq__('Grant Purpose:'):
-                    action['schema:name'] = {
-                        "@language": "en",
-                        "@value": entry[1].getText()
-                    }
+        # TODO: addresses are formatted even more heterogeneous in the current hewlett page design
+        # TODO: ==> find 'intelligent' rules to match street vs. locality vs. country
+        for i, splitpart in enumerate(address_split):
+            if i == 0:
+                address['schema:streetAddress'] = address_split[0]
+            if i == 1:
+                address['schema:addressLocality'] = address_split[1]
+            if i == 2:
+                address['schema:addressCountry'] = address_split[2]
+    overviews = soup.findAll('div', { "class" : "grant-overview" })
+    for overview in overviews:
+        result['schema:description'] = {
+            "@language":"en",
+            "@value":overview.getText()
+        }
+    for divs in soup.findAll('li', {'class' : 'highlight'}):
+        label = None
+        value = None
+        for div in divs.findAll('div', {'class' : 'highlights-label'}):
+            label = div.getText()
+        for div in divs.findAll('div', {'class' : 'highlights-value'}):
+            value = div.getText()
+        if label in grant_mapping:
+            result[grant_mapping[label]] = value
+        elif label.__eq__('Term'):
+            duration = get_grant_duration(value)
+            result['schema:duration'] = duration
+            action['schema:duration'] = duration
     location['schema:address'] = address
     agent['schema:location'] = location
     action['schema:agent'] = agent
@@ -169,17 +177,18 @@ def crawl_page(url):
     links = []
     soup = get_soup_from_page(url)
     if soup:
-        for table in soup.findAll('tbody'):
-            for row in table.findAll('tr'):
-                cols = row.findAll('td')
-                link = cols[0].find('a').get('href')
-                links.append('http://www.hewlett.org' + link)
+        for anchor in soup.findAll('a', {'class' : 'listing-highlight-link'}):
+            link = anchor.get('href')
+            # print ('href: ' + `link`)
+            links.append(link)
     return links
 
 
 def next_page(url, count):
-    page = url
-    page += '&page=' + str(count)
+    url_split = re.split(re.compile(r"[?]"), url)
+    page = url_split[0]
+    page += 'page/' + str(count) + '/?' + url_split[1]
+    print('page: ' + `page`) # for status control
     return crawl_page(page)
 
 
@@ -188,7 +197,7 @@ def get_page_number(url):
     if match:
         if match.group(1):
             return int(match.group(1))
-    return 0
+    return 1
 
 
 def get_url_without_page(url):
