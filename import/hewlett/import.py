@@ -7,8 +7,7 @@ grant_mapping = {
 }
 
 
-page_regex = re.compile(r"&page=([0-9]+)$")
-url_page_regex = re.compile(r"page/[0-9]+/")
+url_page_regex = re.compile(r"page/([0-9]+)/")
 url_term_regex = re.compile(r"/grants/([0-9a-zA-Z-]+)/.*")
 month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
 address_without_span_regex = re.compile(r'(?<=(<div class="aboutgrantee-address">\n))(.*)(?=(</div>))')
@@ -101,14 +100,20 @@ def get_grant_duration(value):
         return value
 
 
-def is_desired(beautiful_soup):
-    strategies = beautiful_soup.findAll('li', { "class" : "highlight-strategy" })
+def is_desired(strategies, highlight_lis):
+    has_strategy = False
+    has_support_type = False
     for strategy in strategies:
-        match = re.search(oer_regex, strategy.getText())
-        if match:
-            if match.group(2):
-                return True
-    return False
+        if strategy.getText() == 'OER':
+            has_strategy = True
+    for highlight_li in highlight_lis:
+        for highlight_label in highlight_li.findAll('div', {'class' : 'highlights-label'}):
+            if highlight_label.getText() == 'Type of Support':
+                for highlight_value in highlight_li.findAll('div', {'class' : 'highlights-value'}):
+                    if highlight_value.getText() == 'Project':
+                        has_support_type = True
+    return has_strategy and has_support_type
+
 
 def collect(url):
     awarder = {
@@ -131,9 +136,14 @@ def collect(url):
     result['@id'] = get_uuid('hewlett_grant_' + grant_id)
     action['@id'] = get_uuid('hewlett_action_' + grant_id)
     agent['@id'] = get_uuid('hewlett_agent_' + grant_id)
-    soup = get_soup_from_page(url)
 
-    if not is_desired(soup):
+    soup = get_soup_from_page(url)
+    if not soup:
+        return None
+    highlight_lis = soup.findAll('li', {'class' : 'highlight'})
+    strategies = soup.findAll('li', {'class' : 'highlight-strategy'})
+
+    if not is_desired(strategies, highlight_lis):
         return None
 
     if hasattr(soup, 'h1'):
@@ -166,13 +176,13 @@ def collect(url):
             "@language":"en",
             "@value":overview.getText()
         }
-    for divs in soup.findAll('li', {'class' : 'highlight'}):
+    for highlight_li in highlight_lis:
         label = None
         value = None
-        for div in divs.findAll('div', {'class' : 'highlights-label'}):
-            label = div.getText()
-        for div in divs.findAll('div', {'class' : 'highlights-value'}):
-            value = div.getText()
+        for highlight_label in highlight_li.findAll('div', {'class' : 'highlights-label'}):
+            label = highlight_label.getText()
+        for highlight_value in highlight_li.findAll('div', {'class' : 'highlights-value'}):
+            value = highlight_value.getText()
         if label in grant_mapping:
             result[grant_mapping[label]] = value
         elif label.__eq__('Term'):
@@ -207,7 +217,7 @@ def next_page(url, count):
 
 
 def get_page_number(url):
-    match = re.search(page_regex, url)
+    match = re.search(url_page_regex, url)
     if match:
         if match.group(1):
             return int(match.group(1))
@@ -258,8 +268,10 @@ def main():
         return
     load_ids_file()
     imports = import_hewlett_data(sys.argv[1])
+    print('Hewlett import: found ' + `len(imports)` + ' items.')
     write_into_file(imports, sys.argv[2])
     save_ids_file()
+
 
 if __name__ == "__main__":
     main()
