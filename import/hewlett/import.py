@@ -8,11 +8,13 @@ grant_mapping = {
 
 
 page_regex = re.compile(r"&page=([0-9]+)$")
-url_without_page_regex = re.compile(r"(.+)(?=(&page=[0-9]+))")
+url_page_regex = re.compile(r"page/[0-9]+/")
 url_term_regex = re.compile(r"/grants/([0-9a-zA-Z-]+)/.*")
 month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
 address_without_span_regex = re.compile(r'(?<=(<div class="aboutgrantee-address">\n))(.*)(?=(</div>))')
 address_split_regex = re.compile(r'<br ?/?>')
+oer_regex = re.compile(r'([\W]*)(OER)([\W]*)')
+
 
 uuid_file = "id_map.json"
 uuids = {}
@@ -99,6 +101,15 @@ def get_grant_duration(value):
         return value
 
 
+def is_desired(beautiful_soup):
+    strategies = beautiful_soup.findAll('li', { "class" : "highlight-strategy" })
+    for strategy in strategies:
+        match = re.search(oer_regex, strategy.getText())
+        if match:
+            if match.group(2):
+                return True
+    return False
+
 def collect(url):
     awarder = {
         "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
@@ -121,6 +132,9 @@ def collect(url):
     action['@id'] = get_uuid('hewlett_action_' + grant_id)
     agent['@id'] = get_uuid('hewlett_agent_' + grant_id)
     soup = get_soup_from_page(url)
+
+    if not is_desired(soup):
+        return None
 
     if hasattr(soup, 'h1'):
         agent['schema:name'] = {
@@ -201,11 +215,10 @@ def get_page_number(url):
 
 
 def get_url_without_page(url):
-    match = re.search(url_without_page_regex, url)
-    if match:
-        if match.group(1):
-            return match.group(1)
-    return url
+    match = re.sub(url_page_regex, '', url)
+    if not match:
+        return url
+    return match
 
 
 def import_hewlett_data(url):
@@ -218,7 +231,8 @@ def import_hewlett_data(url):
             break
         for link in links:
             json = collect(link)
-            imports.append(json)
+            if json != None:
+                imports.append(json)
         current_number += 1
     return imports
 
@@ -240,7 +254,7 @@ def main():
     if len(sys.argv) != 3:
         print 'Usage: python <path>/<to>/import.py <import_url> <path>/<to>/<destination_file.json>'
         # typical usage:
-        # python import/hewlett/import.py 'http://www.hewlett.org/grants/search?order=field_date_of_award&sort=desc&keywords=OER&year=&term_node_tid_depth_1=All&program_id=148' 'import/hewlett/testconsole_01.json'
+        # python import/hewlett/import.py 'http://www.hewlett.org/grants/?search=&search_year=&search_program=31392' 'import/hewlett/testconsole_01.json'
         return
     load_ids_file()
     imports = import_hewlett_data(sys.argv[1])
