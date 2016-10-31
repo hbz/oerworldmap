@@ -8,7 +8,8 @@ grant_mapping = {
 
 
 url_page_regex = re.compile(r"page/([0-9]+)/")
-url_term_regex = re.compile(r"/grants/([0-9a-zA-Z-]+)/.*")
+grant_url_id_regex = re.compile(r"/grants/([0-9a-zA-Z-]+)/.*")
+grantee_url_id_regex = re.compile(r"search_grantee=([0-9]+)$")
 month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
 address_without_span_regex = re.compile(r'(?<=(<div class="aboutgrantee-address">\n))(.*)(?=(</div>))')
 address_split_regex = re.compile(r'<br ?/?>')
@@ -85,7 +86,25 @@ def save_ids_file():
 def get_grant_id(url):
     parsed_url = urlparse.urlparse(url)
     if parsed_url[2]:
-        match = re.search(url_term_regex, parsed_url[2])
+        match = re.search(grant_url_id_regex, parsed_url[2])
+        if match.group(1):
+            return match.group(1)
+    return 0
+
+
+def get_grantee_url(beautifulsoup):
+    grantee_urls = beautifulsoup.findAll('div', {'class' : 'aboutgrantee-actions'})
+    for grantee_url in grantee_urls:
+        anchors = grantee_url.findChildren()
+        for anchor in anchors:
+            return "http://www.hewlett.org" + str(anchor['href'])
+
+
+def get_grantee_id(url):
+    parsed_url = urlparse.urlparse(url)
+    if parsed_url[4]:
+        print('parsed_url[4]: ' + `parsed_url[4]`)
+        match = re.search(grantee_url_id_regex, parsed_url[4])
         if match.group(1):
             return match.group(1)
     return 0
@@ -130,21 +149,23 @@ def collect(url):
         "@type":"schema:PostalAddress"
     }
 
-    result = get_header()
-    grant_id = get_grant_id(url)
-    result['frapo:hasGrantNumber'] = grant_id
-    result['@id'] = get_uuid('hewlett_grant_' + grant_id)
-    action['@id'] = get_uuid('hewlett_action_' + grant_id)
-    agent['@id'] = get_uuid('hewlett_agent_' + grant_id)
-
     soup = get_soup_from_page(url)
     if not soup:
         return None
     highlight_lis = soup.findAll('li', {'class' : 'highlight'})
     strategies = soup.findAll('li', {'class' : 'highlight-strategy'})
-
     if not is_desired(strategies, highlight_lis):
         return None
+
+    grant_id = get_grant_id(url)
+    grantee_url = get_grantee_url(soup)
+    grantee_id = get_grantee_id(grantee_url)
+    result = get_header()
+    result['frapo:hasGrantNumber'] = grant_id
+    result['@id'] = get_uuid('hewlett_grant_' + grant_id)
+    action['@id'] = get_uuid('hewlett_action_' + grant_id)
+    agent['ex:granteeNumber'] = grantee_id
+    agent['ex:hewlettGrantList'] = grantee_url
 
     if hasattr(soup, 'h1'):
         agent['schema:name'] = {
