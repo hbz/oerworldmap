@@ -109,14 +109,23 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      $('[data-behaviour="logout"]', context).click( logout );
-      $('[data-behaviour="logout-on-load"]', context).each(function(){
+      $('[data-behaviour~="logout"]', context)
+        .not('[data-dont-behave] [data-behaviour~="logout"]')
+        .click( logout );
+
+      $('[data-behaviour~="logout-on-load"]', context)
+        .not('[data-dont-behave] [data-behaviour~="logout-on-load"]')
+        .each(function()
+      {
         setTimeout(function(){
           logout();
         }, 5000);
       });
 
-      $('[data-behaviour="login"]', context).click(function(){
+      $('[data-behaviour~="login"]', context)
+        .not('[data-dont-behave] [data-behaviour~="login"]')
+        .click(function()
+      {
         var form = $(this).closest('form');
         var username = form.find('[name="email"]').val();
         var password = form.find('[name="password"]').val();
@@ -165,9 +174,14 @@ var Hijax = (function ($, Hijax) {
 */
 
 
-      $('[data-behaviour~="statistic"]', context).each(function(){
+      $('[data-behaviour~="statistic"]', context)
+        .not('[data-dont-behave] [data-behaviour~="statistic"]')
+        .each(function()
+      {
 
         var n = $(this).find('table tr').length;
+
+        log.info('found statistic', n);
 
         var scale = d3.scale.linear()
   		    .domain([0, (n-1)/2, (n-1)])
@@ -178,6 +192,7 @@ var Hijax = (function ($, Hijax) {
           ]);
 
         for(var i = 0; i < n; i++) {
+          //log.info('coloring', $(this).find('div.color-' + i));
           $(this).find('div.color-' + i).css({
             background : scale(i)
           });
@@ -188,10 +203,11 @@ var Hijax = (function ($, Hijax) {
 
 		  });
 
-
-
       // carousel
-      $('[data-behaviour="carousel"]', context).each(function() {
+      $('[data-behaviour~="carousel"]', context)
+        .not('[data-dont-behave] [data-behaviour~="carousel"]')
+        .each(function()
+      {
         var children = $(this).children();
         if (children.length > 1) {
           var i = 0;
@@ -206,10 +222,11 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      // FIXME: remove unbind
-      // @j0hj0h this is an example of unnecessary behaviour attachment. If a resource is loaded directly,
-      // behaviours are attached twice, once for the inital #document and once when initializing the app (get_main)
-      $('[data-behaviour="delete-resource"]', context).unbind('click.delete').bind('click.delete', function(e) {
+
+      $('[data-behaviour~="delete-resource"]', context)
+        .not('[data-dont-behave] [data-behaviour~="delete-resource"]')
+        .bind('click', function(e)
+      {
         if (window.confirm("Delete resource?")) {
           $.ajax({
             url : this.getAttribute('href'),

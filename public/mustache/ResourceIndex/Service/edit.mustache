@@ -14,7 +14,7 @@
 
     {{> FormElements/localizedTextarea.mustache property=description property_path="description" title=(i18n "Service.description") tooltip=(i18n "Service.description" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Service.startDate") tooltip=(i18n "Service.startDate" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Service.startDate") tooltip=(i18n "Service.startDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
 
     {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Service.email") tooltip=(i18n "Service.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
 

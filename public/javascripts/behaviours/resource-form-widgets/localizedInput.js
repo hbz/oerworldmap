@@ -33,9 +33,11 @@ var Hijax = (function ($, Hijax) {
 
       my.languages_bloodhoud = new Bloodhound({
         datumTokenizer: function(d){
-          return Bloodhound.tokenizers.whitespace(d.label);
+          return Bloodhound.tokenizers.whitespace(
+            bloodhoundAccentFolding.normalize(d.label)
+          );
         },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
         local: my.languages_array,
         identify: function(result){
           return result.id;
@@ -44,7 +46,10 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="localizedInput"] [data-behaviour~="localizedInput"]', context).each(function() {
+      $('[data-behaviour~="localizedInput"]', context)
+        .not('[data-dont-behave] [data-behaviour~="localizedInput"]')
+        .each(function()
+      {
 
         var widget = $(this);
 
