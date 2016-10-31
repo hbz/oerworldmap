@@ -5948,7 +5948,7 @@ legend {
   margin: 0;
   padding: 0;
 }
-.resource-form-widget textarea {
+.resource-form-widget textarea:not([rows]) {
   height: 144px;
   resize: vertical;
 }
