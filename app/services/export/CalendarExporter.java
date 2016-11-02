@@ -5,6 +5,7 @@ import models.Resource;
 import models.ResourceList;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -33,7 +34,7 @@ public class CalendarExporter implements Exporter {
 
   private static final String UID = "UID:";
   private static final String ORGANIZER = "ORGANIZER:";
-  private static final String CLEAR_NAME = "CN=";       // in line ORGANIZER
+  private static final String COMMON_NAME = "CN=";      // in line ORGANIZER
   private static final String MAILTO = "MAILTO:";       // in line ORGANIZER
   private static final String LOCATION = "LOCATION:";
   private static final String SUMMARY = "SUMMARY:";
@@ -49,14 +50,20 @@ public class CalendarExporter implements Exporter {
   private static final Map<String, String> mFieldMap = new HashMap<>();
   static{
     mFieldMap.put(UID, JsonLdConstants.ID);
-    mFieldMap.put(CLEAR_NAME, "organizer.name");
-    mFieldMap.put(SUMMARY, "name");
-    mFieldMap.put(DESCRIPTION, "description");
+    mFieldMap.put(COMMON_NAME, "organizer.name.@value");
+    mFieldMap.put(SUMMARY, "name.@value");
+    mFieldMap.put(DESCRIPTION, "description.@value");
     mFieldMap.put(URL, "url");
     mFieldMap.put(DATE_START, "startDate");
     mFieldMap.put(DATE_END, "endDate");
     mFieldMap.put(LOCATION, "location.address");
-    mFieldMap.put(GEO, "location.geo");
+    mFieldMap.put(GEO, "location.geo.lat"); // TODO: concat ";" and location.geo.lon
+  }
+
+  private final Locale mPreferredLocale;
+
+  public CalendarExporter(Locale aPreferredLocale){
+    mPreferredLocale = aPreferredLocale;
   }
 
   @Override
@@ -85,8 +92,9 @@ public class CalendarExporter implements Exporter {
   private String exportResourceWithoutHeader(Resource aResource){
     StringBuilder result = new StringBuilder(EVENT_BEGIN);
     for (Map.Entry<String, String> mapping : mFieldMap.entrySet()){
-      String value = aResource.get(mapping.getValue()).toString();
-      if (value != null){
+      final Object o = aResource.getNestedFieldValue(mapping.getValue(), mPreferredLocale);
+      if (o != null) {
+        String value = o.toString();
         result.append(mapping.getKey()).append(value).append("\n");
       }
     }
@@ -105,7 +113,7 @@ public class CalendarExporter implements Exporter {
       String name = organizer.get("name").toString();
       boolean hasName = false;
       if (name != null){
-        result.append(CLEAR_NAME).append(name);
+        result.append(COMMON_NAME).append(name);
         hasName = true;
       }
       String email = aResource.get("email").toString();
