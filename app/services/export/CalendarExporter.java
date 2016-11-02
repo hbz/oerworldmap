@@ -27,7 +27,8 @@ public class CalendarExporter implements Exporter {
     "CALSCALE:GREGORIAN\n" + //
     "METHOD:PUBLISH\n";
   private static final String FOOTER = "END:VCALENDAR\n";
-  private static final String SEPARATOR = ":";
+  private static final String KEY_SEPARATOR = ":";
+  private static final String VALUE_SEPARATOR = ";";
 
   private static final String EVENT_BEGIN = "BEGIN:VEVENT\n";
   private static final String EVENT_END = "END:VEVENT\n";
@@ -56,8 +57,13 @@ public class CalendarExporter implements Exporter {
     mFieldMap.put(URL, "url");
     mFieldMap.put(DATE_START, "startDate");
     mFieldMap.put(DATE_END, "endDate");
-    mFieldMap.put(LOCATION, "location.address");
-    mFieldMap.put(GEO, "location.geo.lat"); // TODO: concat ";" and location.geo.lon
+    mFieldMap.put(LOCATION, "location.address.streetAddress".concat(VALUE_SEPARATOR)
+                    .concat("location.address.postalCode").concat(VALUE_SEPARATOR)
+                    .concat("location.address.addressLocality").concat(VALUE_SEPARATOR)
+                    .concat("location.address.addressRegion").concat(VALUE_SEPARATOR)
+                    .concat("location.address.addressCountry").concat(VALUE_SEPARATOR));
+
+    mFieldMap.put(GEO, "location.geo.lat".concat(VALUE_SEPARATOR).concat("location.geo.lon"));
   }
 
   private final Locale mPreferredLocale;
@@ -92,10 +98,24 @@ public class CalendarExporter implements Exporter {
   private String exportResourceWithoutHeader(Resource aResource){
     StringBuilder result = new StringBuilder(EVENT_BEGIN);
     for (Map.Entry<String, String> mapping : mFieldMap.entrySet()){
-      final Object o = aResource.getNestedFieldValue(mapping.getValue(), mPreferredLocale);
-      if (o != null) {
-        String value = o.toString();
-        result.append(mapping.getKey()).append(value).append("\n");
+      boolean hasAppendedSomething = false;
+      String[] mappingValues = mapping.getValue().split(VALUE_SEPARATOR);
+      for (int i=0; i<mappingValues.length; i++){
+        final Object o = aResource.getNestedFieldValue(mappingValues[i], mPreferredLocale);
+        if (o != null) {
+          String value = o.toString();
+          if (i == 0){
+            result.append(mapping.getKey());
+          } //
+          else{
+            result.append(VALUE_SEPARATOR);
+          }
+          result.append(value);
+          hasAppendedSomething = true;
+        }
+      }
+      if (hasAppendedSomething){
+        result.append("\n");
       }
     }
     result.append(getExportedOrganizer(aResource));
@@ -122,7 +142,7 @@ public class CalendarExporter implements Exporter {
       }
       if (email != null){
         if (hasName){
-          result.append(SEPARATOR);
+          result.append(KEY_SEPARATOR);
         }
         result.append(MAILTO).append(email);
       }

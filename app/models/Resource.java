@@ -388,12 +388,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       }
       return resource.getNestedFieldValue(split[1], aPreferredLocale);
     }
-    System.out.println("get(split[0]: " + o);
-    Resource nested = getAsResource(split[0]);
-    System.out.println("nested: " + nested.toString());
-    if (nested != null){
-      return nested.getNestedFieldValue(split[1], aPreferredLocale);
-    }
     return null;
   }
 
