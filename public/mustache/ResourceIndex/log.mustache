@@ -2,16 +2,14 @@
 
     <div class="col-md-4" id="log" style="height: 80vh; overflow-y:scroll;">
         <h1>Log for <a id="resource" href="/resource/{{ scope.resource }}">/resource/{{ scope.resource }}</a></h1>
-        {{#scope.commits}}
+{{#scope.commits}}
 <pre class="commit">
-<a href="/resource/{{ scope.resource }}?version={{ id }}">{{ id }}</a>
+<a href="/resource/{{ scope.resource }}?version={{ id }}" target="_blank">{{ id }}</a> <input type="radio" name="to" value="{{ id }}"> <input type="radio" name="from" value="{{ id }}">
 {{ header }}
 </pre>
-        {{/scope.commits}}
+{{/scope.commits}}
     </div>
-    <div class="col-md-4" id="from">
-    </div>
-    <div class="col-md-4" id="to">
+    <div class="col-md-4" id="diff">
     </div>
 
 </div>
