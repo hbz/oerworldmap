@@ -270,14 +270,17 @@ public class TripleCommit implements Commit {
     return this.mHeader;
   }
 
+  public String getId() {
+    return DigestUtils.sha1Hex(this.toString());
+  }
+
   public String toString() {
     return mHeader.toString().concat("\n").concat(mDiff.toString());
   }
 
   public boolean equals(Object aOther) {
 
-    return aOther instanceof TripleCommit
-      && DigestUtils.sha1Hex(this.toString()).equals(DigestUtils.sha1Hex(aOther.toString()));
+    return aOther instanceof TripleCommit && this.getId().equals(((TripleCommit) aOther).getId());
 
   }
 

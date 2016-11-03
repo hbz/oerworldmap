@@ -10,13 +10,16 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log"];
 
   var init_app = true;
 
-  if( $.inArray(window.location.pathname, static_pages) !== -1) {
-    init_app = false;
-  };
+  $.each(static_pages, function() {
+    if (window.location.pathname.indexOf(this) == 0) {
+      init_app = false;
+      return false;
+    }
+  });
 
   Hijax.goto = function(url) {
     page(url);

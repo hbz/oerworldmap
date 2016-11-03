@@ -393,6 +393,8 @@ var Hijax = (function ($, Hijax) {
 
   function setCountryData(aggregations) {
 
+    if (!countryVectorSource) return;
+
     // attach aggregations to country features
 
     for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
