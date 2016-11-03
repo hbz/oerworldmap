@@ -936,11 +936,13 @@ var Hijax = (function ($, Hijax) {
 
       // Defer until vector source is loaded
       if (countryVectorSource.getFeatureById("US")) { // Is this a relieable test?
+        log.debug('MAP initialized');
         my.initialized.resolve();
       } else {
         var listener = countryVectorSource.on('change', function(e) {
           if (countryVectorSource.getState() == 'ready') {
             ol.Observable.unByKey(listener);
+            log.debug('MAP initialized');
             my.initialized.resolve();
           }
         });
@@ -1097,7 +1099,7 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      $('#global-statistics', context).each(function(){
+      $('#global-statistics').each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setCountryData( json );
       });

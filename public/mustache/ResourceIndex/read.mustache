@@ -81,7 +81,7 @@
             {{#image}}
                 <div class="paragraph-image">
                     <a href="{{.}}" target="_blank">
-                        <img src="{{.}}" width="250" />
+                        <img src="{{.}}" />
                     </a>
                 </div>
             {{/image}}
@@ -567,20 +567,29 @@
 
         {{#if ../permissions.edit}}
 
-            <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
+            <div data-dont-behave>
 
-                <h1 class="modal-title">Edit {{[@type]}}</h1>
+                <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
-                <div class="messages resource-form-widget"></div>
+                    <div class="modal-title">
+                        <h1>Edit {{[@type]}}</h1>
+                        <div class="right">
+                            <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                        </div>
+                    </div>
 
-                {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
+                    <div class="messages resource-form-widget"></div>
 
-                <div class="pull-right resource-form-top-padding">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                    <button type="submit" class="btn btn-inverted">Save Changes</button>
-                </div>
+                    {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
 
-            </form>
+                    <div class="pull-right resource-form-top-padding">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                        <button type="submit" class="btn btn-inverted">Save Changes</button>
+                    </div>
+
+                </form>
+
+            </div>
 
         {{/if}}
 
