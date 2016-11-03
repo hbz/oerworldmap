@@ -273,6 +273,7 @@ var Hijax = (function ($, Hijax, page) {
     init : function(context) {
 
       if(!init_app) {
+        Hijax.attachBehaviours(context);
         page('*', function(pagejs_ctx){
           if(pagejs_ctx.path != initialization_source.pathname) {
             window.location = pagejs_ctx.path;
