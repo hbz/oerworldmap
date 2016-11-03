@@ -1097,7 +1097,7 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      $('#global-statistics', context).each(function(){
+      $('#global-statistics').each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setCountryData( json );
       });
