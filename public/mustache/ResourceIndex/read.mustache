@@ -3,639 +3,672 @@
     {{#scope}}
 
         {{#resource}}
-            {{#if ../permissions.delete}}
-                <a data-behaviour="delete-resource" href="/resource/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
-                    <i class="fa fa-trash"></i>
-                </a>
-            {{/if}}
-            {{#if ../permissions.edit}}
-                <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours modal-protected">
-                    <i class="fa fa-pencil"></i>
-                </a>
-            {{/if}}
-            {{#if ../permissions.log}}
-                <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
-                    <i class="fa fa-history"></i>
-                </a>
-            {{/if}}
 
-        <article class="resource" data-behaviour="populateMapHightlights">
+            <ul class="resource-controls">
 
-            <script type="application/ld+json">
-                {{{.}}}
-            </script>
-
-            <div class="resource-header">
-
-                <h1 class="resource-title">
-                    {{getIcon @type}}
-                    {{#localized name language=@root.language}}
-                        {{[@value]}}
-                    {{else}}
-                        {{[@id]}}
-                    {{/localized}}
-                </h1>
-
-                {{#serviceType}}
-                    <div class="resource-subline">
-                        <div class="resource-subline-label">Service Type</div>
-                        {{.}}
-                    </div>
-                {{/serviceType}}
-
-                {{#additionalType}}
-                    <div class="resource-subline">
-                        <div class="resource-subline-label">Additional Type</div>
-                        {{.}}
-                    </div>
-                {{/additionalType}}
-
-                {{#if creator}}
-                    <div class="resource-subline">
-                        <div class="resource-subline-label">Contributed</div>{{#dateCreated}} on {{.}} {{/dateCreated}}by
-                        <ul class="comma-seperated-list">
-                            {{#creator}}
-                                <li>
-                                    <a href="/resource/{{@id}}">
-                                        {{#localized name language=@root.language}}
-                                            {{[@value]}}
-                                        {{else}}
-                                            {{[@id]}}
-                                        {{/localized}}
-                                    </a>
-                                </li>
-                            {{/creator}}
-                        </ul>
-                    </div>
+                {{#if ../permissions.log}}
+                    <li>
+                        <a target="_blank" href="/log/{{[@id]}}" class="icon-btn">
+                            <i class="fa fa-history"></i>
+                        </a>
+                    </li>
                 {{/if}}
 
-                {{#countryChampionFor}}
-                    <div class="resource-subline">
-                        {{i18n (stringFormat "%s.countryChampionFor" @type)}}
-                        <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                {{#if ../permissions.delete}}
+                    <li>
+                        <a data-behaviour="delete-resource" href="/resource/{{[@id]}}" class="icon-btn">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </li>
+                {{/if}}
+
+                {{#if ../permissions.edit}}
+                    <li>
+                        <a href="#resource-edit" class="icon-btn" data-app="to-modal-and-attach-behaviours modal-protected">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </li>
+                {{/if}}
+
+                <li class="dropdown">
+                    <button type="button" class="icon-btn" data-toggle="dropdown" title="Share and Export">
+                        <i class="fa fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#resource-share" data-app="to-modal-and-attach-behaviours">Share <i class="fa fa-fw fa-share"></i></a></li>
+                        <li><a href="#resource-export" data-app="to-modal-and-attach-behaviours">Export <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
+                        <li><button onclick="window.print();">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <article class="resource" data-behaviour="populateMapHightlights">
+
+                <script type="application/ld+json">
+                    {{{.}}}
+                </script>
+
+                <div class="resource-header">
+
+                    <div class="topline">
+                        {{getIcon @type}} <strong>{{@type}}</strong> – last modified YYYY-MM-DD
                     </div>
-                {{/countryChampionFor}}
 
-            </div>
+                    <h1 class="resource-title">
+                        {{#localized name language=@root.language}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
+                    </h1>
 
-            {{#image}}
-                <div class="paragraph-image">
-                    <a href="{{.}}" target="_blank">
-                        <img src="{{.}}" />
-                    </a>
+                    {{#serviceType}}
+                        <div class="resource-subline">
+                            <div class="resource-subline-label">Service Type</div>
+                            {{.}}
+                        </div>
+                    {{/serviceType}}
+
+                    {{#additionalType}}
+                        <div class="resource-subline">
+                            <div class="resource-subline-label">Additional Type</div>
+                            {{.}}
+                        </div>
+                    {{/additionalType}}
+
+                    {{#if creator}}
+                        <div class="resource-subline">
+                            <div class="resource-subline-label">Contributed</div>{{#dateCreated}} on {{.}} {{/dateCreated}}by
+                            <ul class="comma-seperated-list">
+                                {{#creator}}
+                                    <li>
+                                        <a href="/resource/{{@id}}">
+                                            {{#localized name language=@root.language}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        </a>
+                                    </li>
+                                {{/creator}}
+                            </ul>
+                        </div>
+                    {{/if}}
+
+                    {{#countryChampionFor}}
+                        <div class="resource-subline">
+                            {{i18n (stringFormat "%s.countryChampionFor" @type)}}
+                            <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
+                        </div>
+                    {{/countryChampionFor}}
+
                 </div>
-            {{/image}}
 
-            {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
+                {{#image}}
+                    <div class="paragraph-image">
+                        <a href="{{.}}" target="_blank">
+                            <img src="{{.}}" />
+                        </a>
+                    </div>
+                {{/image}}
 
-            {{#localized articleBody language=@root.language}}{{md [@value]}}{{/localized}}
+                {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
 
-            {{#url}}
-                <p>
-                    <a href="{{.}}" target="_blank" class="btn btn-default">
-                        <i class="fa fa-external-link"></i>
-                        {{stripProtocol .}}
-                    </a>
-                </p>
-            {{/url}}
+                {{#localized articleBody language=@root.language}}{{md [@value]}}{{/localized}}
 
-            {{#availableChannel}}
-                {{#serviceUrl}}
+                {{#url}}
                     <p>
                         <a href="{{.}}" target="_blank" class="btn btn-default">
                             <i class="fa fa-external-link"></i>
                             {{stripProtocol .}}
                         </a>
                     </p>
-                {{/serviceUrl}}
-            {{/availableChannel}}
+                {{/url}}
 
-            {{#if license}}
-                <div class="licenses">
-                    {{#license}}
-                        <img src="{{image}}" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
-                    {{/license}}
-                </div>
-            {{/if}}
+                {{#availableChannel}}
+                    {{#serviceUrl}}
+                        <p>
+                            <a href="{{.}}" target="_blank" class="btn btn-default">
+                                <i class="fa fa-external-link"></i>
+                                {{stripProtocol .}}
+                            </a>
+                        </p>
+                    {{/serviceUrl}}
+                {{/availableChannel}}
 
-            <table class="table resource-details-table">
-
-                {{#if email}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.email" @type)}}</td>
-                        <td>
-                            <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                        </td>
-                    </tr>
+                {{#if license}}
+                    <div class="licenses">
+                        {{#license}}
+                            <img src="{{image}}" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
+                        {{/license}}
+                    </div>
                 {{/if}}
 
-                {{#if alternateName}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
-                        <td>
-                            <ul class="comma-seperated-list">
-                                {{#localized alternateName language=@root.language}}
-                                    <li>{{[@value]}}</li>
-                                {{/localized}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
+                <table class="table resource-details-table">
 
-                {{#if hashtag}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
-                        <td>
-                            {{ hashtag }}
-                        </td>
-                    </tr>
-                {{/if}}
+                    {{#if email}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.email" @type)}}</td>
+                            <td>
+                                <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                            </td>
+                        </tr>
+                    {{/if}}
 
-                {{#if location.address}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.location" @type)}}</td>
-                        <td>
-                            {{#location}}
-                                {{>ResourceIndex/Place/read.mustache}}
-                            {{/location}}
-                        </td>
-                    </tr>
-                {{/if}}
+                    {{#if alternateName}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#localized alternateName language=@root.language}}
+                                        <li>{{[@value]}}</li>
+                                    {{/localized}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
-                {{#if contactPoint}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.contactPoint" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#contactPoint}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/contactPoint}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
+                    {{#if hashtag}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
+                            <td>
+                                {{ hashtag }}
+                            </td>
+                        </tr>
+                    {{/if}}
 
-                {{#if created}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.created" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#created}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/created}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
+                    {{#if location.address}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.location" @type)}}</td>
+                            <td>
+                                {{#location}}
+                                    {{>ResourceIndex/Place/read.mustache}}
+                                {{/location}}
+                            </td>
+                        </tr>
+                    {{/if}}
 
-                {{#if keywords}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
-                        <td>
-                            <ul class="comma-seperated-list">
-                                {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
+                    {{#if contactPoint}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.contactPoint" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#contactPoint}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/contactPoint}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if created}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.created" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#created}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/created}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if keywords}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
 
-                {{#if availableChannel}}
-                    <tr>
-                        <td>{{i18n "Service.availableChannel.availableLanguage"}}</td>
-                        <td>
-                            <ul class="comma-seperated-list">
-                                {{#availableChannel}}
-                                    {{#availableLanguage}}
+                    {{#if availableChannel}}
+                        <tr>
+                            <td>{{i18n "Service.availableChannel.availableLanguage"}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#availableChannel}}
+                                        {{#availableLanguage}}
+                                            <li>{{i18n . bundle = "languages"}}</li>
+                                        {{/availableLanguage}}
+                                    {{/availableChannel}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{# if audience}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.audience" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#audience}}
+                                        <li>
+                                            {{getIcon @type}}
+                                            <a href="/resource/?filter.about.audience.@id={{@id}}">
+                                                {{#localized this.name language=@root.language}}
+                                                    {{[@value]}}
+                                                {{else}}
+                                                    {{[@id]}}
+                                                {{/localized}}
+                                            </a>
+                                        </li>
+                                    {{/audience}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if provider}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.provider" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#provider}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/provider}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if provides}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.provides" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#provides}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/provides}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if about}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.about" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#about}}
+                                        <li>
+                                            {{getIcon @type}}
+                                            <a href="/resource/?filter.about.about.@id={{@id}}">
+                                                {{#localized this.name language=@root.language}}
+                                                    {{[@value]}}
+                                                {{else}}
+                                                    {{[@id]}}
+                                                {{/localized}}
+                                            </a>
+                                        </li>
+                                    {{/about}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if sameAs}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#sameAs}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if memberOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.memberOf" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#memberOf}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/memberOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if member}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.member" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#member}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/member}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if tag}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.tag" @type)}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#tag}}
+                                        <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
+                                    {{/tag}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if mainEntity}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.mainEntity" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mainEntity}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/mainEntity}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if mainEntityOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.mainEntityOf" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mainEntityOf}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/mainEntityOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if mentions}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mentions}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/mentions}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if mentionedIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.mentionedIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mentionedIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/mentionedIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if startTime}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.startTime" @type)}} - {{i18n (stringFormat "%s.endTime" @type)}}</td>
+                            <td>{{startTime}} &ndash; {{endTime}}</td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if startDate}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.startDate" @type)}} {{#if endDate}}- {{i18n (stringFormat "%s.endDate" @type)}}{{/if}}</td>
+                            <td>{{startDate}} {{#if endDate}}&ndash; {{endDate}} {{/if}}</td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if agent}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.agent" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#agent}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/agent}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if agentIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.agentIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#agentIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/agentIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if participant}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.participant" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#participant}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/participant}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if participantIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.participantIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#participantIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/participantIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if instrument}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.instrument" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#instrument}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/instrument}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if result}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.result" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#result}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/result}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if funder}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.funder" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#funder}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/funder}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if funderOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.funderOf" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#funderOf}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/funderOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if organizer}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.organizer" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#organizer}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/organizer}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if performer}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.performer" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#performer}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/performer}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if inLanguage}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.inLanguage" @type)}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#inLanguage}}
                                         <li>{{i18n . bundle = "languages"}}</li>
-                                    {{/availableLanguage}}
-                                {{/availableChannel}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
+                                    {{/inLanguage}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
-                {{# if audience}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.audience" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#audience}}
-                                    <li>
-                                        {{getIcon @type}}
-                                        <a href="/resource/?filter.about.audience.@id={{@id}}">
-                                            {{#localized this.name language=@root.language}}
-                                                {{[@value]}}
-                                            {{else}}
-                                                {{[@id]}}
-                                            {{/localized}}
-                                        </a>
-                                    </li>
-                                {{/audience}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if provider}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.provider" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#provider}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/provider}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if provides}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.provides" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#provides}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/provides}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if about}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.about" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#about}}
-                                    <li>
-                                        {{getIcon @type}}
-                                        <a href="/resource/?filter.about.about.@id={{@id}}">
-                                            {{#localized this.name language=@root.language}}
-                                                {{[@value]}}
-                                            {{else}}
-                                                {{[@id]}}
-                                            {{/localized}}
-                                        </a>
-                                    </li>
-                                {{/about}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if sameAs}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#sameAs}}
-                                    <li>{{externalLink .}}</li>
-                                {{/sameAs}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if memberOf}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.memberOf" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#memberOf}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/memberOf}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if member}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.member" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#member}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/member}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if tag}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.tag" @type)}}</td>
-                        <td>
-                            <ul class="comma-seperated-list">
-                                {{#tag}}
-                                    <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
-                                {{/tag}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if mainEntity}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.mainEntity" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#mainEntity}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/mainEntity}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if mainEntityOf}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.mainEntityOf" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#mainEntityOf}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/mainEntityOf}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if mentions}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#mentions}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/mentions}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if mentionedIn}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.mentionedIn" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#mentionedIn}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/mentionedIn}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if startTime}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.startTime" @type)}} - {{i18n (stringFormat "%s.endTime" @type)}}</td>
-                        <td>{{startTime}} &ndash; {{endTime}}</td>
-                    </tr>
-                {{/if}}
-
-                {{#if startDate}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.startDate" @type)}} {{#if endDate}}- {{i18n (stringFormat "%s.endDate" @type)}}{{/if}}</td>
-                        <td>{{startDate}} {{#if endDate}}&ndash; {{endDate}} {{/if}}</td>
-                    </tr>
-                {{/if}}
-
-                {{#if agent}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.agent" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#agent}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/agent}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if agentIn}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.agentIn" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#agentIn}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/agentIn}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if participant}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.participant" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#participant}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/participant}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if participantIn}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.participantIn" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#participantIn}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/participantIn}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if instrument}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.instrument" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#instrument}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/instrument}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if result}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.result" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#result}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/result}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if funder}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.funder" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#funder}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/funder}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if funderOf}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.funderOf" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#funderOf}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/funderOf}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if organizer}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.organizer" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#organizer}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/organizer}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if performer}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.performer" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#performer}}
-                                    <li>{{>ResourceIndex/link.mustache}}</li>
-                                {{/performer}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if inLanguage}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.inLanguage" @type)}}</td>
-                        <td>
-                            <ul class="comma-seperated-list">
-                                {{#inLanguage}}
-                                    <li>{{i18n . bundle = "languages"}}</li>
-                                {{/inLanguage}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
-
-                {{#if recordedIn}}
-                    <tr>
-                        <td>{{i18n (stringFormat "%s.recordedIn" @type)}}</td>
-                        <td>
-                            <ul class="resource-list">
-                                {{#recordedIn}}
-                                    <li>{{externalLink .}}</li>
-                                {{/recordedIn}}
-                            </ul>
-                        </td>
-                    </tr>
-                {{/if}}
+                    {{#if recordedIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.recordedIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#recordedIn}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/recordedIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
 
 
-            </table>
+                </table>
 
-        </article>
-
-        {{#if ../permissions.edit}}
+            </article>
 
             <div data-dont-behave>
 
-                <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
+                {{#if ../permissions.edit}}
 
-                    <div class="modal-title">
-                        <h1>Edit {{[@type]}}</h1>
-                        <div class="right">
-                            <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
+
+                        <div class="modal-title">
+                            <h1>Edit {{[@type]}}</h1>
+                            <div class="right">
+                                <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="messages resource-form-widget"></div>
+                        <div class="messages resource-form-widget"></div>
 
-                    {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
+                        {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
 
-                    <div class="pull-right resource-form-top-padding">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                        <button type="submit" class="btn btn-inverted">Save Changes</button>
-                    </div>
+                        <div class="pull-right resource-form-top-padding">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                            <button type="submit" class="btn btn-inverted">Save Changes</button>
+                        </div>
 
-                </form>
+                    </form>
+
+                {{/if}}
+
+                {{> share.mustache url=(stringFormat "https://oerworldmap.org/resource/%s" @id)}}
 
             </div>
 
-        {{/if}}
+            <div id="resource-export" class="clearfix visible-modal">
+                export
+            </div>
 
-        {{#if comment}}
-            <h2>Comments</h2>
-            {{#sort comment "dateCreated" "asc"}}
-                {{#if author.[0].name}}
-                    <hr>
-                    <div>
-                        <p>
-                            <small>
-                                <em>
-                                    {{#author}}
-                                        {{#localized this.name language=@root.language}}
-                                            <a href="/resource/{{[@id]}}">{{[@value]}}</a>
-                                        {{/localized}}
-                                    {{/author}}
-                                </em>
-                                on
-                                <em>{{this.dateCreated}}</em>
-                            </small>
-                        </p>
-                        <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
-                    </div>
-                {{/if}}
-            {{/sort}}
-        {{/if}}
-
-        {{#if ../permissions.comment}}
-            <h2>Add Comment</h2>
-            {{#if user.name}}
-                <form method="post" action="/resource/{{[@id]}}/comment">
-                    {{>ResourceIndex/Comment/edit.mustache}}
-                    <div class="pull-right resource-form-top-padding">
-                        <button class="btn btn-inverted" type="submit">Submit</button>
-                    </div>
-                </form>
-            {{else}}
-                <p>
-                    <em>
-                        You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
-                        comment.
-                    </em>
-                </p>
+            {{#if comment}}
+                <h2>Comments</h2>
+                {{#sort comment "dateCreated" "asc"}}
+                    {{#if author.[0].name}}
+                        <hr>
+                        <div>
+                            <p>
+                                <small>
+                                    <em>
+                                        {{#author}}
+                                            {{#localized this.name language=@root.language}}
+                                                <a href="/resource/{{[@id]}}">{{[@value]}}</a>
+                                            {{/localized}}
+                                        {{/author}}
+                                    </em>
+                                    on
+                                    <em>{{this.dateCreated}}</em>
+                                </small>
+                            </p>
+                            <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
+                        </div>
+                    {{/if}}
+                {{/sort}}
             {{/if}}
-        {{/if}}
+
+            {{#if ../permissions.comment}}
+                <h2>Add Comment</h2>
+                {{#if user.name}}
+                    <form method="post" action="/resource/{{[@id]}}/comment">
+                        {{>ResourceIndex/Comment/edit.mustache}}
+                        <div class="pull-right resource-form-top-padding">
+                            <button class="btn btn-inverted" type="submit">Submit</button>
+                        </div>
+                    </form>
+                {{else}}
+                    <p>
+                        <em>
+                            You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
+                            comment.
+                        </em>
+                    </p>
+                {{/if}}
+            {{/if}}
 
         {{/resource}}
 

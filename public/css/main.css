@@ -5357,6 +5357,15 @@ div.page img {
   padding: 5px;
   float: left;
 }
+/* --- icon button --- */
+.icon-btn {
+  text-decoration: none;
+  font-size: 17.25px;
+  margin: 0 5px;
+}
+.icon-btn:focus {
+  text-decoration: none;
+}
 #page-header {
   position: fixed;
   z-index: 1000;
@@ -5723,6 +5732,11 @@ svg .placemark.active {
 /* --- resource vertical container --- */
 .resource-vertical-container {
   margin: 30px 0px;
+}
+/* --- resource controls --- */
+.resource-controls {
+  float: right;
+  margin: 0 -7px;
 }
 /* --- resource header --- */
 .resource-header {
