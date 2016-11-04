@@ -1681,7 +1681,7 @@ output {
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-  background-color: #eeeeee;
+  background-color: transparent;
   opacity: 1;
 }
 .form-control[disabled],
@@ -2976,7 +2976,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   line-height: 1;
   color: #284664;
   text-align: center;
-  background-color: #eeeeee;
+  background-color: #dfeaf5;
   border: 1px solid #284664;
   border-radius: 2px;
 }
@@ -4498,16 +4498,30 @@ h3:first-child {
 .dropdown-menu li:last-child {
   border-bottom: none;
 }
-.dropdown-menu li a {
+.dropdown-menu li a,
+.dropdown-menu li button {
   padding: 5px 30px 5px 8px;
-  text-decoration: none;
   position: relative;
 }
-.dropdown-menu li a i {
+.dropdown-menu li a i,
+.dropdown-menu li button i {
   display: block;
   position: absolute;
   right: 8px;
   top: 8px;
+}
+.dropdown-menu li a {
+  text-decoration: none;
+}
+.dropdown-menu li button {
+  border: none;
+  background: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.dropdown-menu li button:hover {
+  background: #dfeaf5;
 }
 /* --- alerts --- */
 .alert p {
@@ -4686,11 +4700,9 @@ form#add-organization {
   text-align: left;
 }
 */
-hr.narrow {
-  margin: 12px 0px;
-}
-[data-toggle] {
-  cursor: pointer;
+/* --- remove button glow --- */
+button:focus {
+  outline: 0;
 }
 /* --- helpers --- */
 .visible {
@@ -4739,6 +4751,15 @@ hr.narrow {
 /* --- icons --- */
 img.icon {
   height: 15px;
+}
+/* --- horizontal list --- */
+.horizontal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.horizontal-list > li {
+  float: left;
 }
 /* --- container --- */
 /* --- layout scroll --- */
@@ -5361,10 +5382,16 @@ div.page img {
 .icon-btn {
   text-decoration: none;
   font-size: 17.25px;
-  margin: 0 5px;
+  margin: 0 6px;
+  background: none;
+  border: none;
+  padding: 0;
 }
 .icon-btn:focus {
   text-decoration: none;
+}
+.icon-btn.icon-btn-lg {
+  font-size: 19.5px;
 }
 #page-header {
   position: fixed;
@@ -5735,8 +5762,17 @@ svg .placemark.active {
 }
 /* --- resource controls --- */
 .resource-controls {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   float: right;
   margin: 0 -7px;
+}
+.resource-controls > li {
+  float: left;
+}
+.resource-controls .dropdown-menu {
+  font-size: 13px;
 }
 /* --- resource header --- */
 .resource-header {
@@ -5879,83 +5915,6 @@ svg .placemark.active {
   border-bottom: 1px solid #dfeaf5;
   padding-bottom: 0.3em;
 }
-/* --- search --- */
-#search {
-  margin: -20px -24px;
-  font-size: 15px;
-  position: relative;
-}
-#search input[name="q"] {
-  border: none;
-  background: transparent;
-  padding: 20px 40px 20px 24px;
-  margin: 0px;
-  color: #284664;
-  box-shadow: none;
-  display: block;
-  width: 100%;
-}
-#search input[name="q"]:focus {
-  background: white;
-}
-#search button {
-  border: none;
-  background: none;
-  color: #284664;
-  padding: 20px 24px;
-  position: absolute;
-  top: -2px;
-  right: 0px;
-}
-/* --- filter --- */
-.resource-filter {
-  display: inline-block;
-  margin: 0px 0px 0px 12px;
-}
-.resource-filter a {
-  text-decoration: none;
-}
-.dropdown-menu li label {
-  padding: 3px 13px;
-  display: block;
-  clear: both;
-  font-weight: normal;
-  line-height: 1.428571429;
-  color: #244267;
-  white-space: nowrap;
-}
-.dropdown-menu li:hover {
-  text-decoration: none;
-  color: #262626;
-  background-color: #d5e4eb;
-}
-/* --- filters applied --- */
-ul.filters-applied {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-  display: inline;
-}
-ul.filters-applied > li {
-  display: inline;
-  margin-left: 12px;
-}
-.applied-filter {
-  font-weight: normal;
-  padding: 3px 5px;
-  border-radius: 2px;
-  background-color: #aabed2;
-}
-/*
-ul.filters-applied > li > label > span {
-  display: block;
-  padding: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background-color: @blue-pale;
-}
-*/
 a.btn:hover {
   color: #284664;
 }

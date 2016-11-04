@@ -79,16 +79,31 @@ h3:first-child {
       border-bottom: none;
     }
 
-    a {
+    a,
+    button {
       padding: 5px 30px 5px 8px;
-      text-decoration: none;
       position: relative;
-
       i {
         display: block;
         position: absolute;
         right: 8px;
         top: 8px;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    button {
+      border: none;
+      background: none;
+      display: block;
+      width: 100%;
+      text-align: left;
+
+      &:hover {
+        background: @blue-paler;
       }
     }
   }

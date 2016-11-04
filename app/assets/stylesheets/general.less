@@ -1,11 +1,9 @@
-hr.narrow {
-  margin: 12px 0px;
+/* --- remove button glow --- */
+
+button:focus {
+  outline:0;
 }
 
-
-[data-toggle] {
-  cursor: pointer;
-}
 
 /* --- helpers --- */
 
@@ -24,6 +22,7 @@ hr.narrow {
   content: "–";
   margin: 0 5px;
 }
+
 
 /* --- paragraph image --- */
 
@@ -69,4 +68,17 @@ hr.narrow {
 /* --- icons --- */
 img.icon {
   height: @font-size-base;
+}
+
+
+/* --- horizontal list --- */
+
+.horizontal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    float: left;
+  }
 }

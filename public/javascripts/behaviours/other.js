@@ -243,6 +243,13 @@ var Hijax = (function ($, Hijax) {
         return false;
       });
 
+      $('[data-behaviour~="select-on-click"]', context)
+        .not('[data-dont-behave] [data-behaviour~="select-on-click"]')
+        .bind('click', function(e)
+      {
+        this.select();
+      });
+
     }
   }
 
