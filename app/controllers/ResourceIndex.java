@@ -1,37 +1,18 @@
 package controllers;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
-import models.Record;
-import models.TripleCommit;
+import helpers.JsonLdConstants;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-
-import helpers.JsonLdConstants;
-import models.Commit;
-import models.Resource;
-import models.ResourceList;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -40,9 +21,18 @@ import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.AbstractCsvExporter;
+import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author fo
@@ -105,7 +95,8 @@ public class ResourceIndex extends OERWorldMap {
 
     if (request().accepts("text/html")) {
       return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
-    } else if (request().accepts("text/csv")) {
+    } //
+    else if (request().accepts("text/csv")) {
       StringBuffer result = new StringBuffer();
       AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
       csvExporter.defineHeaderColumns(resourceList.getItems());
@@ -113,9 +104,11 @@ public class ResourceIndex extends OERWorldMap {
       csvExporter.setDropFields(dropFields);
       result.append(csvExporter.headerKeysToCsvString().concat("\n"));
       for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+        result.append(csvExporter.export(resource).concat("\n"));
       }
       return ok(result.toString()).as("text/csv");
+    } else if (request().accepts("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
