@@ -19,9 +19,9 @@ For inital background information about this project please refer to the
 #### [Download and install elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/)
 
     $ cd third-party
-    $ wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.6.zip
-    $ unzip elasticsearch-1.3.6.zip
-    $ cd elasticsearch-1.3.6
+    $ wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.4.0.zip
+    $ unzip elasticsearch-2.4.0.zip
+    $ cd elasticsearch-2.4.0
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
@@ -30,7 +30,7 @@ Check with `curl -X GET http://localhost:9200/` if all is well.
 
 If you are in an environment where your instance of elasticsearch won't be the only one on the network, you might want
 to configure your cluster name to be different from the default `elasticsearch`. To do so, shut down elasticsearch and
-edit `cluster.name` in `third-party/elasticsearch-1.3.6/conf/elasticsearch.yml` and `es.cluster.name`
+edit `cluster.name` in `third-party/elasticsearch-2.4.0/conf/elasticsearch.yml` and `es.cluster.name`
 in `conf/application.conf` before restarting.
 
 #### Create and configure oerworldmap index (as specified in `es.index.app.name` in `conf/application.conf`)
@@ -44,8 +44,8 @@ in `conf/application.conf` before restarting.
 
 #### Optionally, you may want to [install the head plugin](https://github.com/mobz/elasticsearch-head)
 
-    $ cd third-party/elasticsearch-1.3.6
-    $ bin/plugin -install mobz/elasticsearch-head
+    $ cd third-party/elasticsearch-2.4.0
+    $ bin/plugin install mobz/elasticsearch-head
 
 ### Setup Play! Application
 
