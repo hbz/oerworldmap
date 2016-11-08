@@ -296,6 +296,9 @@ var Hijax = (function ($, Hijax, page) {
         })
       );
 
+      // header & footer
+      Hijax.attachBehaviours($('body', context).find('#page-header').add('#page-footer'));
+
       $('body>header, body>main, body>footer', context).remove();
 
       $('footer', context).removeClass(); // to remove default (non app) styling
