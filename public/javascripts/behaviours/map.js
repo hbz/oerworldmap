@@ -1099,7 +1099,7 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      $('#global-statistics').each(function(){
+      $('#global-statistics', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setCountryData( json );
       });
