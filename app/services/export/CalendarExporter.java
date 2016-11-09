@@ -92,7 +92,7 @@ public class CalendarExporter implements Exporter {
       }
     }
     result.append(FOOTER);
-    return null;
+    return result.toString();
   }
 
   private String exportResourceWithoutHeader(Resource aResource){

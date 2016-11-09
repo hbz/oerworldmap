@@ -9,11 +9,13 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by pvb on 14.10.16.
@@ -35,27 +37,36 @@ public class CalendarExporterTest implements JsonTest {
 
   @Test
   public void testSingleEventExport() throws IOException {
-    List<String> singleEventExported = splitLines(mExporter.export(singleEvent));
-    BufferedReader reader = FileHelpers.getBufferedReaderFrom("CalendarExporterTest/testSingleResourceExport.OUT.1.iCal");
-    String line = reader.readLine();
-    while (line != null && !line.isEmpty()){
-      assertTrue("Exported event does not contain following line: ".concat(line), singleEventExported.contains(line));
-      line = reader.readLine();
-    }
+    List<String> exported = splitLines(mExporter.export(singleEvent));
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testSingleResourceExport.OUT.1.iCal", Charset.forName("UTF-8")));
+    assertFalse("Export is too short.", expected.size() > exported.size());
+    assertFalse("Export is too long.", expected.size() < exported.size());
+    compareLines(exported, expected);
   }
 
-  // @Test
+  @Test
   public void testMultipleEventsExport() throws IOException {
-    List<String> multipleEventsExported = splitLines(mExporter.export(multipleEvents));
-    BufferedReader reader = FileHelpers.getBufferedReaderFrom("CalendarExporterTest/testMultipleResourcesExport.OUT.1.json");
-    String line = reader.readLine();
-    while (line != null && !line.isEmpty()){
-      assertTrue("Exported events do not contain following line: ".concat(line), multipleEventsExported.contains(line));
-      line = reader.readLine();
-    }
+    List<String> exported = splitLines(mExporter.export(multipleEvents));
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testMultipleResourcesExport.OUT.1.iCal", Charset.forName("UTF-8")));
+    assertFalse("Export is too short.", expected.size() > exported.size());
+    assertFalse("Export is too long.", expected.size() < exported.size());
+    compareLines(exported, expected);
   }
 
   private static List<String> splitLines(String aString){
     return Arrays.asList(aString.split("\n"));
   }
+
+  private void compareLines(List<String> aExported, List<String> aExpected) {
+    for (String line : aExported){
+      if (line.startsWith("DTSTAMP:")){
+        assertTrue("Exported event does not contain proper time stamp: ".concat(line), line.matches("DTSTAMP:[0-9]*"));
+      } //
+      else {
+        assertTrue("Exported event does not contain following line: ".concat(line), aExpected.contains(line));
+      }
+    }
+  }
+
+
 }

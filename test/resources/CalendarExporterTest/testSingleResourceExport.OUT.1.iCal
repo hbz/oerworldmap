@@ -12,5 +12,8 @@ DESCRIPTION:During the digital learning day 2012, the Grammar School Ottorunn (n
 URL:http://wikis.zum.de/digilern2012/Hauptseite
 UID:urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb
 CLASS:PUBLIC
+GEO:48.06375;11.68065
+LOCATION:Karl-Stieler-Str. 1;85521;Ottobrunn;Bayern;DE
+DTSTAMP:1478687646511
 END:VEVENT
 END:VCALENDAR
