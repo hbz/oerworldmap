@@ -7,7 +7,7 @@
             <li class="multiple-one">
                 <fieldset>
                     <legend>{{title}}</legend>
-                    {{textarea (stringFormat "%s[%s][@value]" property_path @index) [@value]}}
+                    {{textarea (stringFormat "%s[%s][@value]" property_path @index) [@value] rows=rows}}
                     {{input (stringFormat "%s[%s][@language]" property_path @index) [@language]}}
                 </fieldset>
                 <small>
@@ -21,7 +21,7 @@
         <li class="multiple-one">
             <fieldset>
                 <legend>{{title}}</legend>
-                {{textarea (stringFormat "%s[%s][@value]" property_path (size property)) ""}}
+                {{textarea (stringFormat "%s[%s][@value]" property_path (size property)) "" rows=rows}}
                 {{input (stringFormat "%s[%s][@language]" property_path (size property)) ""}}
             </fieldset>
             <small>

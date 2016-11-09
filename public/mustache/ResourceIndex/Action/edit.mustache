@@ -20,9 +20,9 @@
 
     {{> FormElements/input.mustache property=url property_path="url" title=(i18n "Action.url") tooltip=(i18n "Action.url" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
-    {{> FormElements/input.mustache property=startTime property_path="startTime" title=(i18n "Action.startTime") tooltip=(i18n "Action.startTime" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=startTime property_path="startTime" title=(i18n "Action.startTime") tooltip=(i18n "Action.startTime" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
 
-    {{> FormElements/input.mustache property=endTime property_path="endTime" title=(i18n "Action.endTime") tooltip=(i18n "Action.endTime" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=endTime property_path="endTime" title=(i18n "Action.endTime") tooltip=(i18n "Action.endTime" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Action.location") tooltip=(i18n "Action.location" bundle="descriptions")}}
 

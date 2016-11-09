@@ -393,6 +393,8 @@ var Hijax = (function ($, Hijax) {
 
   function setCountryData(aggregations) {
 
+    if (!countryVectorSource) return;
+
     // attach aggregations to country features
 
     for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
@@ -934,11 +936,13 @@ var Hijax = (function ($, Hijax) {
 
       // Defer until vector source is loaded
       if (countryVectorSource.getFeatureById("US")) { // Is this a relieable test?
+        log.debug('MAP initialized');
         my.initialized.resolve();
       } else {
         var listener = countryVectorSource.on('change', function(e) {
           if (countryVectorSource.getState() == 'ready') {
             ol.Observable.unByKey(listener);
+            log.debug('MAP initialized');
             my.initialized.resolve();
           }
         });

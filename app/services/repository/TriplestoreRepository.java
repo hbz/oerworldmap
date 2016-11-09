@@ -85,9 +85,15 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId) {
+  public Resource getResource(@Nonnull String aId, String aVersion) {
 
     Model dbstate = getExtendedDescription(aId, mDb);
+
+    if ((aVersion != null) && !("HEAD".equals(aVersion))) {
+      for (Commit commit : mGraphHistory.until(aVersion)) {
+        commit.getDiff().unapply(dbstate);
+      }
+    }
 
     Resource resource = null;
     if (!dbstate.isEmpty()) {
@@ -99,6 +105,13 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return resource;
+
+  }
+
+  @Override
+  public Resource getResource(@Nonnull String aId) {
+
+    return getResource(aId, null);
 
   }
 

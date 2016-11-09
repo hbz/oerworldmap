@@ -2373,26 +2373,26 @@ fieldset[disabled] .btn-info.focus {
 }
 .btn-warning {
   color: #ffffff;
-  background-color: #f0ad4e;
-  border-color: #eea236;
+  background-color: #ff8c00;
+  border-color: #e67e00;
 }
 .btn-warning:focus,
 .btn-warning.focus {
   color: #ffffff;
-  background-color: #ec971f;
-  border-color: #985f0d;
+  background-color: #cc7000;
+  border-color: #663800;
 }
 .btn-warning:hover {
   color: #ffffff;
-  background-color: #ec971f;
-  border-color: #d58512;
+  background-color: #cc7000;
+  border-color: #a85c00;
 }
 .btn-warning:active,
 .btn-warning.active,
 .open > .dropdown-toggle.btn-warning {
   color: #ffffff;
-  background-color: #ec971f;
-  border-color: #d58512;
+  background-color: #cc7000;
+  border-color: #a85c00;
 }
 .btn-warning:active:hover,
 .btn-warning.active:hover,
@@ -2404,8 +2404,8 @@ fieldset[disabled] .btn-info.focus {
 .btn-warning.active.focus,
 .open > .dropdown-toggle.btn-warning.focus {
   color: #ffffff;
-  background-color: #d58512;
-  border-color: #985f0d;
+  background-color: #a85c00;
+  border-color: #663800;
 }
 .btn-warning:active,
 .btn-warning.active,
@@ -2421,11 +2421,11 @@ fieldset[disabled] .btn-warning:focus,
 .btn-warning.disabled.focus,
 .btn-warning[disabled].focus,
 fieldset[disabled] .btn-warning.focus {
-  background-color: #f0ad4e;
-  border-color: #eea236;
+  background-color: #ff8c00;
+  border-color: #e67e00;
 }
 .btn-warning .badge {
-  color: #f0ad4e;
+  color: #ff8c00;
   background-color: #ffffff;
 }
 .btn-danger {
@@ -3099,11 +3099,11 @@ a.label:focus {
   background-color: #31b0d5;
 }
 .label-warning {
-  background-color: #f0ad4e;
+  background-color: #ff8c00;
 }
 .label-warning[href]:hover,
 .label-warning[href]:focus {
-  background-color: #ec971f;
+  background-color: #cc7000;
 }
 .label-danger {
   background-color: #d9534f;
@@ -3292,7 +3292,7 @@ a.badge:focus {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 .progress-bar-warning {
-  background-color: #f0ad4e;
+  background-color: #ff8c00;
 }
 .progress-striped .progress-bar-warning {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -4523,6 +4523,13 @@ h3:first-child {
 /* --- modals --- */
 .modal-title {
   padding-bottom: 20px;
+  position: relative;
+}
+.modal-title .right {
+  font-size: 13px;
+  position: absolute;
+  right: 0;
+  bottom: 34px;
 }
 .modal .close {
   position: absolute;
@@ -4705,6 +4712,10 @@ hr.narrow {
   margin: 0 0 15px 10px;
   padding: 10px;
   border: 1px solid #aabed2;
+}
+.paragraph-image img {
+  max-width: 250px;
+  max-height: 250px;
 }
 /* --- vertical containers --- */
 .container-vertical-line {
@@ -5174,6 +5185,10 @@ blockquote {
   margin: 0 0 15px 10px;
   padding: 10px;
   border: 1px solid #aabed2;
+}
+.table-statistics img {
+  max-width: 250px;
+  max-height: 250px;
 }
 /* --- numbers table --- */
 .numbers-table {
@@ -5948,7 +5963,7 @@ legend {
   margin: 0;
   padding: 0;
 }
-.resource-form-widget textarea {
+.resource-form-widget textarea:not([rows]) {
   height: 144px;
   resize: vertical;
 }
@@ -6173,8 +6188,11 @@ li li li li .schema-tree-item .fa {
 #filter .dropdown {
   width: 100%;
 }
-#filter .dropdown .btn:first-child {
+#filter .dropdown .btn[data-filter-action]:first-child {
   width: calc(100% -  35px);
+}
+#filter .dropdown .btn.dropdown-toggle:first-child {
+  width: 100%;
 }
 #filter .dropdown .dropdown-menu {
   margin-top: 10px;
@@ -6193,17 +6211,33 @@ li li li li .schema-tree-item .fa {
 #filter .filter {
   margin-bottom: 10px;
 }
+#filter .row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+#filter .row .col {
+  padding-left: 5px;
+  padding-right: 5px;
+}
 #filter .col-1 .dropdown-menu {
   left: 0%;
-  right: calc(-200% -  40px);
+  right: calc(-200% -  20px);
 }
 #filter .col-2 .dropdown-menu {
-  left: calc(-100% -  20px);
-  right: calc(-100% -  20px);
+  left: calc(-100% -  10px);
+  right: calc(-100% -  10px);
 }
 #filter .col-3 .dropdown-menu {
-  left: calc(-200% -  40px);
+  left: calc(-200% -  20px);
   right: 0%;
+}
+#filter .col-small-5 .dropdown-menu {
+  left: calc(-400% -  40px);
+  right: calc(-100% -  10px);
+}
+#filter .col-small-6 .dropdown-menu {
+  left: calc(-500% -  50px);
+  right: 0;
 }
 #filter #filter-search {
   margin-bottom: 20px;

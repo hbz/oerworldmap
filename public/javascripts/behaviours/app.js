@@ -10,13 +10,16 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log"];
 
   var init_app = true;
 
-  if( $.inArray(window.location.pathname, static_pages) !== -1) {
-    init_app = false;
-  };
+  $.each(static_pages, function() {
+    if (window.location.pathname.indexOf(this) == 0) {
+      init_app = false;
+      return false;
+    }
+  });
 
   Hijax.goto = function(url) {
     page(url);
@@ -38,10 +41,15 @@ var Hijax = (function ($, Hijax, page) {
   var map_and_index_loaded = $.Deferred().resolve();
   var detail_loaded = $.Deferred().resolve();
 
+  var app_history = [];
+
   function get(url, callback) {
+    log.debug('APP get:', url);
     if(url == initialization_source.pathname + initialization_source.search) {
+      log.debug('APP ... which is the initialization_content');
       callback(initialization_content);
     } else {
+      log.debug('APP ... which needs to be ajaxed');
       $.ajax(url, {
         method : 'GET',
         success : callback
@@ -49,7 +57,8 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
-  function get_main(data) {
+  function get_main(data, url) {
+    log.debug('APP get_main (and attach behaviours)');
     document.title = $(data).filter('title').text();
     // http://stackoverflow.com/a/12848798/1060128
     var body_mock = $(
@@ -57,15 +66,17 @@ var Hijax = (function ($, Hijax, page) {
       data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') +
       '</div>'
     );
-    return Hijax.attachBehaviours( body_mock.find('main') );
+    return Hijax.attachBehaviours(body_mock.find('main'), 'triggered for ' + url);
   }
 
   function set_map_and_index_source(url, index_mode) {
+    log.debug('APP set_map_and_index_source', url);
+
     if(url != map_and_index_source) {
       map_and_index_loaded = $.Deferred();
       get(url, function(data){
         $('#app-col-index [data-app="col-content"]').html(
-          get_main( data )
+          get_main(data, url)
         );
         map_and_index_source = url;
         map_and_index_loaded.resolve();
@@ -75,11 +86,13 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function set_detail_source(url) {
+    log.debug('APP set_detail_source', url);
+
     if(url != detail_source) {
       detail_loaded = $.Deferred();
       get(url, function(data){
         $('#app-col-detail [data-app="col-content"]').html(
-          get_main( data )
+          get_main(data, url)
         );
         $('#app-col-detail').attr('data-col-mode', 'expanded');
         detail_source = url;
@@ -94,6 +107,19 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_start(pagejs_ctx, next) {
+    log.debug('APP route_start', pagejs_ctx);
+
+    app_history.push(_(pagejs_ctx).clone());
+
+    if(
+      app_history.length > 1 &&
+      pagejs_ctx.path == app_history[app_history.length - 2].path
+    ) {
+      pagejs_ctx.native_fragment = true;
+    } else {
+      pagejs_ctx.native_fragment = false;
+    }
+
     var modal = $('#app-modal');
     if(
       (modal.data('bs.modal') || {}).isShown &&
@@ -107,6 +133,8 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index(pagejs_ctx, next) {
+    log.debug('APP route_index', pagejs_ctx);
+
     $('#app').addClass('loading');
     var index_mode;
 
@@ -122,7 +150,8 @@ var Hijax = (function ($, Hijax, page) {
       pagejs_ctx.path == "/"
     ) {
       get('/', function(data){
-        get_main(data);
+        log.debug('APP getting main from:', '/')
+        get_main(data, '/');
       });
     }
 
@@ -166,6 +195,8 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_index_country(pagejs_ctx, next) {
+    log.debug('APP route_index_country', pagejs_ctx);
+
     $('#app').addClass('loading');
     set_map_and_index_source(pagejs_ctx.path, 'list');
     $('#app-col-detail').attr('data-col-mode', 'hidden');
@@ -184,6 +215,8 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_detail(pagejs_ctx, next) {
+    log.debug('APP route_detail', pagejs_ctx);
+
     $('#app').addClass('loading');
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
@@ -191,25 +224,35 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function route_static(pagejs_ctx) {
+    log.debug('APP route_static', pagejs_ctx);
+
     if(pagejs_ctx.path != initialization_source.pathname) {
       window.location = pagejs_ctx.path;
     }
   }
 
   function route_login(pagejs_ctx) {
+    log.debug('APP route_login', pagejs_ctx);
+
     $.get('/.login', function(){
       window.location = "/";
     });
   }
 
   function route_default(pagejs_ctx, next) {
-    get(pagejs_ctx.path, function(data, textStatus, jqXHR){
-      get_main( data );
-    });
+    log.debug('APP route_default', pagejs_ctx);
+    if(! pagejs_ctx.native_fragment) {
+      get(pagejs_ctx.path, function(data, textStatus, jqXHR){
+        log.debug('APP getting main from:', pagejs_ctx.path)
+        get_main(data, pagejs_ctx.path);
+      });
+    }
     next();
   }
 
   function routing_done(pagejs_ctx) {
+    log.debug('APP routing_done', pagejs_ctx);
+
     $.when(
       map_and_index_loaded,
       detail_loaded
@@ -230,6 +273,7 @@ var Hijax = (function ($, Hijax, page) {
     init : function(context) {
 
       if(!init_app) {
+        Hijax.attachBehaviours(context);
         page('*', function(pagejs_ctx){
           if(pagejs_ctx.path != initialization_source.pathname) {
             window.location = pagejs_ctx.path;
@@ -251,6 +295,9 @@ var Hijax = (function ($, Hijax, page) {
           permissions : permissions
         })
       );
+
+      // header & footer
+      Hijax.attachBehaviours($('body', context).find('#page-header').add('#page-footer'));
 
       $('body>header, body>main, body>footer', context).remove();
 
@@ -326,7 +373,7 @@ var Hijax = (function ($, Hijax, page) {
         modal.data('is_protected', is_protected);
         modal.data('opened_on', 'click');
         modal.data('url', window.location.pathname + window.location.search + this.hash);
-        Hijax.attachBehaviours( $('#app-modal') );
+        Hijax.attachBehaviours($('#app-modal'), 'triggered by to-modal-and-attach-behaviours');
         modal.modal('show');
       });
 
@@ -344,9 +391,11 @@ var Hijax = (function ($, Hijax, page) {
           modal.data('opened_on') == 'load' &&
           ! modal.data('hidden_on_exit')
         ) {
-          if(history.length > 1) {
-            history.go(-1);
+          if(modal.data('url_before')) {
+            log.debug('APP paging to url_before', modal.data('url_before'));
+            page(modal.data('url_before'));
           } else {
+            log.debug('APP no url_before, paging to home');
             page('/');
           }
         } else if( modal.data('hidden_on_exit') ) {
@@ -369,6 +418,20 @@ var Hijax = (function ($, Hijax, page) {
           }
       });
 
+      // catch form submition inside app
+
+      $('#app').on('submit', 'form', function() {
+        var form = $(this);
+        if (
+          ! form.attr('method') ||
+          form.attr('method').toUpperCase() == 'GET'
+        ) {
+          var action = form.attr("action") || '';
+          page(action + "?" + form.serialize());
+          return false;
+        }
+      });
+
       // catch form submition inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
@@ -388,7 +451,7 @@ var Hijax = (function ($, Hijax, page) {
             if(content_type.indexOf("text/plain") > -1) {
               var contents = data;
             } else {
-              var contents = get_main( data );
+              var contents = get_main(data, form.attr('action'));
             }
 
             // get the location header, because if a resource was successfully created the response is forwarding to it
@@ -430,7 +493,7 @@ var Hijax = (function ($, Hijax, page) {
             if(content_type.indexOf("text/plain") > -1) {
               var contents = jqXHR.responseText;
             } else {
-              var contents = get_main( jqXHR.responseText );
+              var contents = get_main(jqXHR.responseText, form.attr('action'));
             }
 
             // if it's a play error replace everything with received data ... app will be gone
@@ -483,6 +546,7 @@ var Hijax = (function ($, Hijax, page) {
       });
 
       // deferr
+      log.debug('APP initialized');
       my.initialized.resolve();
     },
 
@@ -502,7 +566,14 @@ var Hijax = (function ($, Hijax, page) {
         modal.data('is_protected', is_protected);
         modal.data('opened_on', 'load');
         modal.data('url', window.location.pathname + window.location.search);
-        Hijax.attachBehaviours( $('#app-modal') );
+        if(app_history.length > 1) {
+          log.debug('APP saving url_before', app_history[app_history.length - 2].canonicalPath);
+          modal.data('url_before', app_history[app_history.length - 2].canonicalPath);
+        } else {
+          log.debug('APP saving / as url_before');
+          modal.data('url_before', '/');
+        }
+        Hijax.attachBehaviours($('#app-modal'), 'triggered by to-modal-on-load');
         modal.modal('show');
       });
 
@@ -531,18 +602,6 @@ var Hijax = (function ($, Hijax, page) {
           .append( content );
 
         $('#app-notification-area').append(notification);
-      });
-
-      $('#app', context).on('submit', 'form', function() {
-        var form = $(this);
-        if (
-          ! form.attr('method') ||
-          form.attr('method').toUpperCase() == 'GET'
-        ) {
-          var action = form.attr("action") || '';
-          page(action + "?" + form.serialize());
-          return false;
-        }
       });
 
     },
