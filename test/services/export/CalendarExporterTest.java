@@ -1,13 +1,11 @@
 package services.export;
 
-import helpers.FileHelpers;
 import helpers.JsonTest;
 import models.Resource;
 import models.ResourceList;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -32,13 +30,16 @@ public class CalendarExporterTest implements JsonTest {
     Resource multipleEvents1 = getResourceFromJsonFile("CalendarExporterTest/testMultipleResourcesExport.IN.1.json");
     Resource multipleEvents2 = getResourceFromJsonFile("CalendarExporterTest/testMultipleResourcesExport.IN.2.json");
     Resource multipleEvents3 = getResourceFromJsonFile("CalendarExporterTest/testMultipleResourcesExport.IN.3.json");
-    multipleEvents = new ResourceList(Arrays.asList(multipleEvents1, multipleEvents2, multipleEvents3), 0, null, 0, 0, null, null, null);
+    Resource multipleEvents4 = getResourceFromJsonFile("CalendarExporterTest/testMultipleResourcesExport.IN.4.json");
+    multipleEvents = new ResourceList(Arrays.asList(multipleEvents1, multipleEvents2, multipleEvents3, multipleEvents4),
+      0, null, 0, 0, null, null, null);
   }
 
   @Test
   public void testSingleEventExport() throws IOException {
     List<String> exported = splitLines(mExporter.export(singleEvent));
-    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testSingleResourceExport.OUT.1.iCal", Charset.forName("UTF-8")));
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testSingleResourceExport.OUT.1.iCal",
+      Charset.forName("UTF-8")));
     assertFalse("Export is too short.", expected.size() > exported.size());
     assertFalse("Export is too long.", expected.size() < exported.size());
     compareLines(exported, expected);
@@ -47,7 +48,8 @@ public class CalendarExporterTest implements JsonTest {
   @Test
   public void testMultipleEventsExport() throws IOException {
     List<String> exported = splitLines(mExporter.export(multipleEvents));
-    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testMultipleResourcesExport.OUT.1.iCal", Charset.forName("UTF-8")));
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testMultipleResourcesExport.OUT.1.iCal",
+      Charset.forName("UTF-8")));
     assertFalse("Export is too short.", expected.size() > exported.size());
     assertFalse("Export is too long.", expected.size() < exported.size());
     compareLines(exported, expected);
