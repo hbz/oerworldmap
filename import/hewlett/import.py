@@ -1,11 +1,10 @@
-import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse
+import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, geotext
 
 
 grant_mapping = {
     'Amount': 'frapo:hasMonetaryValue',
     'Date Awarded': 'frapo:hasAwardDate'
 }
-
 
 url_page_regex = re.compile(r"page/([0-9]+)/")
 grant_url_id_regex = re.compile(r"/grants/([0-9a-zA-Z-]+)/.*")
@@ -14,10 +13,28 @@ month_duration_regex = re.compile(r"([0-9]+) [Mm]onths")
 address_without_span_regex = re.compile(r'(?<=(<div class="aboutgrantee-address">\n))(.*)(?=(</div>))')
 address_split_regex = re.compile(r'<br ?/?>')
 oer_regex = re.compile(r'([\W]*)(OER)([\W]*)')
-
+suite_regex = re.compile(r'((Suite #?)|#)(\d*)')
+street_regex = re.compile(r'(One|[\d]{1,5}).*([Aa]ve(nue)?|B(ou)?le?v(ar)?d\.?|Broadway|Building|Circle|Court|Dr(ive)?|H[ai]ll|Lane|Pa?r?kwa?y|Pl(a(ce|za))?|R(oad|d\.?)|(\bS|\ws)t((r(\.|eet|a(.|ss)e)?)|\.)?|[Ww](ay|eg)|(\bW|\ww)ood)(,? [NS]\.?[EW]\.?)?(?=(,|$| #))')
+region_regex = re.compile(r'^([A-Z]{2})-[A-Z]{2,3}$')
+pobox_regex = re.compile(r'((P\.?O\.? )?Box|Post(bus|fach)) ([\d]{2,6})')
+postalcode_regex = re.compile(r'[\d]{5}(-[\d]{4})?|[A-Z][0-9][A-Z] [0-9][A-Z][0-9]|[A-Z]{1,2}[0-9]{1,2} [0-9][A-Z]{2}')
 
 uuid_file = "id_map.json"
 uuids = {}
+address = {}
+subdivisions_by_countries = {}
+
+
+def fill_subdivision_list():
+    global subdivisions_by_countries
+    current_country = ''
+    current_subdiv_list = []
+    for subdivision in pycountry.subdivisions:
+        if not subdivision.country_code.__eq__(current_country):
+            subdivisions_by_countries[current_country] = current_subdiv_list
+            current_country = str(subdivision.country_code)
+            current_subdiv_list = []
+        current_subdiv_list.append(str(subdivision.code))
 
 
 def get_soup_from_page(url):
@@ -104,7 +121,6 @@ def get_grantee_url(beautifulsoup):
 def get_grantee_id(url):
     parsed_url = urlparse.urlparse(url)
     if parsed_url[4]:
-        print('parsed_url[4]: ' + `parsed_url[4]`)
         match = re.search(grantee_url_id_regex, parsed_url[4])
         if match.group(1):
             return match.group(1)
@@ -135,7 +151,133 @@ def is_desired(strategies, highlight_lis):
     return has_strategy and has_support_type
 
 
+def fill_address(address_line):
+    global address
+    address_line = strip_line(address_line)
+    if address.get('schema:streetAddress', None) == None:
+        address_line = fill_street(address_line)
+    if address.get('schema:countryAddress', None) == None:
+        address_line = fill_country(address_line)
+    if address.get('schema:countryRegion', None) == None:
+        address_line = fill_region(address_line)
+    if address.get('schema:postOfficeBoxNumber', None) == None:
+        address_line = fill_pobox(address_line)
+    if address.get('schema:postalCode', None) == None:
+        address_line = fill_postalcode(address_line)
+
+def fill_street(address_line):
+    global address
+    # extract suite
+    suite = None
+    match = re.search(suite_regex, address_line)
+    if match :
+        suite = match.group(3)
+    address_line = re.sub(suite_regex, ', ', address_line)
+    # extract streetAddress
+    street = None
+    match = re.search(street_regex, address_line)
+    if match :
+        street = match.group(0)
+    address_line = re.sub(street_regex, ', ', address_line)
+    if suite and street:
+        street = street + ", Suite " + suite
+    address['schema:streetAddress'] = street
+    return strip_line(address_line)
+
+
+def fill_country(address_line):
+    global address
+    subword = None
+    words = re.split(r'[ ,.\-_]', address_line)
+    for word in words:
+        length = len(word)
+        if length < 2:
+            continue
+        if length == 2:
+            for country in pycountry.countries:
+                if country.alpha_2 == word:
+                    address['schema:addressCountry'] = subword = word
+        else:
+            if length == 3:
+                for country in pycountry.countries:
+                    if country.alpha_3 == word:
+                        subword = word
+                        address['schema:addressCountry'] = str(country.alpha_2)
+            else:
+                for country in pycountry.countries:
+                    if country.name.encode('utf-8').strip().__eq__(word):
+                        subword = word
+                        address['schema:addressCountry'] = str(country.alpha_2)
+    if subword:
+        address_line = address_line.replace(subword, '')
+    return strip_line(address_line)
+
+
+def fill_region(address_line):
+    global address
+    country = str(address.get('schema:addressCountry'))
+    country_subdivisions = None
+    if country:
+        country_subdivisions = subdivisions_by_countries.get(country)
+    words = re.split(r'[ ,._]', address_line)
+    for word in words:
+        if len(word) < 2:
+            continue
+        if len(word) == 2:
+            if country_subdivisions:
+                for csv in country_subdivisions:
+                    if word.__eq__(csv.replace(country + '-', '')):
+                        address['schema:addressRegion'] = csv
+                        address_line = address_line.replace(csv, '')
+                        return strip_line(address_line)
+        match = re.search(region_regex, word)
+        if match:
+            if not country:
+                country = match.group(1)
+            subdivisions = subdivisions_by_countries.get(country)
+            if subdivisions:
+                for subdivision in subdivisions:
+                    if word.__eq__(subdivision):
+                        address['schema:addressRegion'] = word
+                        address['schema:addressCountry'] = country
+                        address_line = address_line.replace(word, '')
+                        return strip_line(address_line)
+        # TODO: solution for fully worded regions?
+    return address_line
+
+
+def fill_pobox(address_line):
+    global address
+    match = re.search(pobox_regex, address_line)
+    if match:
+        address['schema:postOfficeBoxNumber'] = match.group(4)
+        address_line = address_line.replace(match.group(0), '')
+        return strip_line(address_line)
+    return address_line
+
+
+def fill_postalcode(address_line):
+    # NOTE: for the current implementation, it is important to run fill_pobox before fill_postalcode.
+    # Otherwise, pobox information will be matched as postalcode.
+    global address
+    match = re.search(postalcode_regex, address_line)
+    if match:
+        address['schema:postalCode'] = match.group(0)
+        address_line = address_line.replace(match.group(0), '')
+        return strip_line(address_line)
+    return address_line
+
+
+def strip_line(line):
+    line = re.sub(r', ?,', ',', line)
+    line = re.sub(r', ?,', ',', line)
+    line = line.strip()
+    line = re.sub(r',$', '', line)
+    return line
+
+
 def collect(url):
+    global address
     awarder = {
         "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
     }
@@ -186,13 +328,9 @@ def collect(url):
         address_split = re.split(address_split_regex, address_no_span.group(0))
         # TODO: addresses are formatted even more heterogeneous in the current hewlett page design
         # TODO: ==> find 'intelligent' rules to match street vs. locality vs. country
-        for i, splitpart in enumerate(address_split):
-            if i == 0:
-                address['schema:streetAddress'] = address_split[0]
-            if i == 1:
-                address['schema:addressLocality'] = address_split[1]
-            if i == 2:
-                address['schema:addressCountry'] = address_split[2]
+        for splitpart in address_split:
+            fill_address(splitpart)
+    # print('address: ' + `address`)
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
         result['schema:description'] = {
@@ -232,7 +370,6 @@ def crawl_page(url):
     if soup:
         for anchor in soup.findAll('a', {'class' : 'listing-highlight-link'}):
             link = anchor.get('href')
-            # print ('href: ' + `link`)
             links.append(link)
     return links
 
@@ -297,6 +434,7 @@ def main():
         # python import/hewlett/import.py 'http://www.hewlett.org/grants/?search=open+educational+resources' 'import/hewlett/search_open_educational_resources.json'
         return
     load_ids_file()
+    fill_subdivision_list()
     imports = import_hewlett_data(sys.argv[1])
     print('Hewlett import: found ' + `len(imports)` + ' items.')
     write_into_file(imports, sys.argv[2])
