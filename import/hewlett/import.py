@@ -43,7 +43,8 @@ def get_header():
             "rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
             "rdfs":"http://www.w3.org/2000/01/rdf-schema#",
             "schema":"http://schema.org/",
-            "xsd":"http://www.w3.org/2001/XMLSchema#"
+            "xsd":"http://www.w3.org/2001/XMLSchema#",
+            "ex": "http://example.org/"
         },
         "@type": "frapo:Grant"
     }
@@ -141,7 +142,9 @@ def collect(url):
     action = {
         "@type":"schema:Action"
     }
-    agent = {}
+    agent = {
+        "@type":"schema:Organization"
+    }
     location = {
         "@type":"schema:Place"
     }
@@ -161,7 +164,6 @@ def collect(url):
     grantee_url = get_grantee_url(soup)
     grantee_id = get_grantee_id(grantee_url)
     result = get_header()
-    result['frapo:hasGrantNumber'] = grant_id
     result['@id'] = get_uuid('hewlett_grant_' + grant_id)
     action['@id'] = get_uuid('hewlett_action_' + grant_id)
     agent['ex:granteeNumber'] = grantee_id
@@ -196,6 +198,12 @@ def collect(url):
         result['schema:description'] = {
             "@language":"en",
             "@value":overview.getText()
+        }
+    subtitles = soup.findAll('h3', { "class" : "large-subtitle" })
+    for subtitle in subtitles:
+        result['schema:name'] = {
+            "@language":"en",
+            "@value":subtitle.getText()
         }
     for highlight_li in highlight_lis:
         label = None
@@ -285,7 +293,8 @@ def main():
     if len(sys.argv) != 3:
         print 'Usage: python <path>/<to>/import.py <import_url> <path>/<to>/<destination_file.json>'
         # typical usage:
-        # python import/hewlett/import.py 'http://www.hewlett.org/grants/?search=&search_year=&search_program=31392' 'import/hewlett/testconsole_01.json'
+        # python import/hewlett/import.py 'http://www.hewlett.org/grants/?search=oer' 'import/hewlett/search_oer.json'
+        # python import/hewlett/import.py 'http://www.hewlett.org/grants/?search=open+educational+resources' 'import/hewlett/search_open_educational_resources.json'
         return
     load_ids_file()
     imports = import_hewlett_data(sys.argv[1])
