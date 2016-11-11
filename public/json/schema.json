@@ -314,6 +314,14 @@
             ]
           }
         },
+        "isFundedBy": {
+          "description": "The grant funding the action",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Grant"
+          }
+        }
+        },
         "agent": {
           "description": "The direct performer or driver of the action (i.e. also primary contact)",
           "type": "array",
@@ -1131,6 +1139,85 @@
         }
       }
       },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "Grant": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Grant",
+      "description": "A grant awarded to a project",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The grant's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Grant"
+          ]
+        },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "duration": {
+          "type": "string"
+        },
+        "hasMonetaryValue": {
+          "type": "string"
+        },
+        "description": {
+          "description": "The description of the grant",
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "isAwardedBy": {
+          "description": "An organization the grant is awarded by.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Organization"
+          }
+        },
+        "hasAwardDate": {
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "mentionedIn": {
+          "description": "An article that mentions the grant.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "mainEntityOf": {
+          "description": "An article that has the grant as its main entity.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Article"
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
       "required": [
         "name"
       ],
