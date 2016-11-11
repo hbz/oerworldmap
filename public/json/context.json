@@ -1,6 +1,7 @@
 {
   "@context": {
     "@vocab": "http://schema.org/",
+    "frapo": "http://purl.org/cerif/frapo/",
     "about": {
       "@container": "@set"
     },
@@ -63,6 +64,9 @@
       "@reverse": "funder",
       "@container": "@set"
     },
+    "Grant": "frapo:Grant",
+    "hasAwardDate": "frapo:hasAwardDate",
+    "hasMonetaryValue": "frapo:hasMonetaryValue",
     "hasTopConcept": {
       "@id": "http://www.w3.org/2004/02/skos/core#hasTopConcept",
       "@container": "@set",
@@ -84,6 +88,16 @@
     "instrumentIn": {
       "@reverse": "instrument",
       "@container": "@set"
+    },
+    "isAwardedBy": {
+      "@id": "frapo:isAwardedBy",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "isFundedBy": {
+      "@id": "frapo:isFundedBy",
+      "@container": "@set",
+      "@type": "@id"
     },
     "keywords": {
       "@container": "@set"
@@ -177,6 +191,6 @@
     },
     "url": {
       "@type": "@id"
-    }
+    }    
   }
 }
