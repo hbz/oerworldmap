@@ -359,6 +359,8 @@ public class ResourceIndex extends OERWorldMap {
 
     if (request().accepts("text/html")) {
       return ok(render(title, "ResourceIndex/read.mustache", scope));
+    } else if (request().accepts("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resource)).as("text/calendar");
     } else {
       return ok(resource.toString()).as("application/json");
     }
