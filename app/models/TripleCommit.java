@@ -1,15 +1,15 @@
 package models;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 
 import java.io.ByteArrayInputStream;
@@ -270,14 +270,17 @@ public class TripleCommit implements Commit {
     return this.mHeader;
   }
 
+  public String getId() {
+    return DigestUtils.sha1Hex(this.toString());
+  }
+
   public String toString() {
     return mHeader.toString().concat("\n").concat(mDiff.toString());
   }
 
   public boolean equals(Object aOther) {
 
-    return aOther instanceof TripleCommit
-      && DigestUtils.sha1Hex(this.toString()).equals(DigestUtils.sha1Hex(aOther.toString()));
+    return aOther instanceof TripleCommit && this.getId().equals(((TripleCommit) aOther).getId());
 
   }
 

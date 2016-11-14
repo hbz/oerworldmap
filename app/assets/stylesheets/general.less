@@ -21,7 +21,8 @@ hr.narrow {
 }
 
 .separated + .separated:before {
- content: " • ";
+  content: "–";
+  margin: 0 5px;
 }
 
 /* --- paragraph image --- */
@@ -31,6 +32,11 @@ hr.narrow {
   margin: 0 0 15px 10px;
   padding: 10px;
   border: 1px solid @blue-pale;
+
+  img {
+    max-width: 250px;
+    max-height: 250px;
+  }
 }
 
 
@@ -58,4 +64,9 @@ hr.narrow {
 
 .container-bottom {
   margin: 0 0 (@line-height-computed * 2) 0;
+}
+
+/* --- icons --- */
+img.icon {
+  height: @font-size-base;
 }

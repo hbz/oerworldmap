@@ -109,14 +109,23 @@ var Hijax = (function ($, Hijax) {
         }
       });
 
-      $('[data-behaviour="logout"]', context).click( logout );
-      $('[data-behaviour="logout-on-load"]', context).each(function(){
+      $('[data-behaviour~="logout"]', context)
+        .not('[data-dont-behave] [data-behaviour~="logout"]')
+        .click( logout );
+
+      $('[data-behaviour~="logout-on-load"]', context)
+        .not('[data-dont-behave] [data-behaviour~="logout-on-load"]')
+        .each(function()
+      {
         setTimeout(function(){
           logout();
         }, 5000);
       });
 
-      $('[data-behaviour="login"]', context).click(function(){
+      $('[data-behaviour~="login"]', context)
+        .not('[data-dont-behave] [data-behaviour~="login"]')
+        .click(function()
+      {
         var form = $(this).closest('form');
         var username = form.find('[name="email"]').val();
         var password = form.find('[name="password"]').val();
@@ -154,16 +163,51 @@ var Hijax = (function ($, Hijax) {
       });
 
       // global statistics
-      $('[data-behaviour="global-statistic"]', context).slice(1).hide();
-      $('[data-behaviour="global-statistic-switch"]', context).click(function(e) {
+/*
+      $('[data-behaviour~="global-statistic"]', context).slice(1).hide();
+      $('[data-behaviour~="global-statistic-switch"]', context).click(function(e) {
         var id = $(this).attr("href").slice(1);
-        $('[data-behaviour="global-statistic"]', context).hide();
+        $('[data-behaviour~="global-statistic"]', context).hide();
         $("[id='" + id + "']", context).show();
         e.preventDefault();
       });
+*/
+
+
+      $('[data-behaviour~="statistic"]', context)
+        .not('[data-dont-behave] [data-behaviour~="statistic"]')
+        .each(function()
+      {
+
+        var n = $(this).find('table tr').length;
+
+        log.info('found statistic', n);
+
+        var scale = d3.scale.linear()
+  		    .domain([0, (n-1)/2, (n-1)])
+          .range([
+            '#a0c846',
+            '#ffe600',
+            '#ff8c00'
+          ]);
+
+        for(var i = 0; i < n; i++) {
+          //log.info('coloring', $(this).find('div.color-' + i));
+          $(this).find('div.color-' + i).css({
+            background : scale(i)
+          });
+          $(this).find('path.color-' + i).css({
+            fill : scale(i)
+          });
+        }
+
+		  });
 
       // carousel
-      $('[data-behaviour="carousel"]', context).each(function() {
+      $('[data-behaviour~="carousel"]', context)
+        .not('[data-dont-behave] [data-behaviour~="carousel"]')
+        .each(function()
+      {
         var children = $(this).children();
         if (children.length > 1) {
           var i = 0;
@@ -176,6 +220,27 @@ var Hijax = (function ($, Hijax) {
             });
           }, 5000);
         }
+      });
+
+
+      $('[data-behaviour~="delete-resource"]', context)
+        .not('[data-dont-behave] [data-behaviour~="delete-resource"]')
+        .bind('click', function(e)
+      {
+        if (window.confirm("Delete resource?")) {
+          $.ajax({
+            url : this.getAttribute('href'),
+            type : 'DELETE',
+            success : function() {
+              alert('Resource deleted.');
+              window.location = window.location.hash ? window.location.pathname + window.location.search : '/';
+            },
+            error : function(jqXHR) {
+              alert('An error has occurred.');
+            }
+          });
+        }
+        return false;
       });
 
     }

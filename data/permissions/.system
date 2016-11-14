@@ -17,10 +17,17 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
 </Location>
 
 <Location /resource/>
-  <LimitExcept GET>
+  <LimitExcept GET DELETE>
     Require group editor
     Require group admin
   </LimitExcept>
+  <Limit DELETE>
+    Require group admin
+  </Limit>
+</Location>
+
+<Location /resource/*/comment>
+  Require valid-user
 </Location>
 
 <Location /log/>

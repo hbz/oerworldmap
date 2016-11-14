@@ -165,6 +165,29 @@
       }
     },
     {
+      "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-pd",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Other (Public Domain)",
+          "@language": "en"
+        }
+      ],
+      "alternateName": [
+        {
+          "@value": "Non-CC Public Domain Declaration",
+          "@language": "en"
+        }
+      ],
+      "image": "http://mirrors.creativecommons.org/presskit/icons/pd.png",
+      "topConceptOf": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      },
+      "inScheme": {
+        "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+      }
+    },
+    {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#other-by",
       "@type": "Concept",
       "name": [

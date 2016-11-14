@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,10 +28,11 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
-import play.Play;
 
 public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
 
@@ -44,7 +43,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept"));
+      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
+    "Comment"));
 
   private static JsonNode mSchemaNode = null;
 

@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.index.query.FilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
 /**
@@ -16,7 +16,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
  */
 public class QueryContext {
 
-  private Map<String, FilterBuilder> filters = new HashMap<>();
+  private Map<String, QueryBuilder> filters = new HashMap<>();
   private Map<String, List<AggregationBuilder<?>>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
   private String[] fetchSource = new String[] {};
@@ -27,12 +27,13 @@ public class QueryContext {
 
   public QueryContext(List<String> roles) {
 
-    FilterBuilder concepts = FilterBuilders
-        .notFilter(FilterBuilders.orFilter(FilterBuilders.termFilter("about.@type", "Concept"),
-            FilterBuilders.termFilter("about.@type", "ConceptScheme")));
+    QueryBuilder concepts = QueryBuilders.boolQuery()
+      .mustNot(QueryBuilders.termQuery("about.@type", "Concept"))
+      .mustNot(QueryBuilders.termQuery("about.@type", "ConceptScheme"));
+
     filters.put("concepts", concepts);
 
-    FilterBuilder emptyNames = FilterBuilders.existsFilter("about.name.@value");
+    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name.@value");
     filters.put("emptyNames", emptyNames);
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
@@ -75,9 +76,9 @@ public class QueryContext {
     this.fetchSource = fetchSource;
   }
 
-  public List<FilterBuilder> getFilters() {
-    List<FilterBuilder> appliedFilters = new ArrayList<>();
-    for (Map.Entry<String, FilterBuilder> entry : filters.entrySet()) {
+  public List<QueryBuilder> getFilters() {
+    List<QueryBuilder> appliedFilters = new ArrayList<>();
+    for (Map.Entry<String, QueryBuilder> entry : filters.entrySet()) {
       if (!roles.contains(entry.getKey())) {
         appliedFilters.add(entry.getValue());
       }

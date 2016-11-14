@@ -18,9 +18,9 @@
 
     {{> FormElements/input.mustache property=image property_path="image" title=(i18n "Event.image") tooltip=(i18n "Event.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
-    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Event.startDate") tooltip=(i18n "Event.startDate" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Event.startDate") tooltip=(i18n "Event.startDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
 
-    {{> FormElements/input.mustache property=endDate property_path="endDate" title=(i18n "Event.endDate") tooltip=(i18n "Event.endDate" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=endDate property_path="endDate" title=(i18n "Event.endDate") tooltip=(i18n "Event.endDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Event.location") tooltip=(i18n "Event.location" bundle="descriptions")}}
 
@@ -42,6 +42,8 @@
 
     {{> FormElements/input.mustache property=hashtag property_path="hashtag" title=(i18n "Event.hashtag") tooltip=(i18n "Event.hashtag" bundle="descriptions") hidden=false multiple=false input_type="text"}}
 
-    {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Event.keywords") tooltip=(i18n "Event.keywords" bundle="descriptions") hidden=false multiple=true input_type="text"}}
+    {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Event.keywords") tooltip=(i18n "Event.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
+
+    {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Event.comment") tooltip=(i18n "Event.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
 </fieldset>

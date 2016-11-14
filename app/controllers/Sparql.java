@@ -8,10 +8,13 @@ import models.Commit;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
 import play.mvc.Result;
 import play.twirl.api.Html;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -22,16 +25,18 @@ import java.util.Map;
  */
 public class Sparql extends OERWorldMap  {
 
-  private static TemplateLoader loader;
-  private static Handlebars handlebars;
-  static {
-    loader = new ResourceTemplateLoader();
+  private Handlebars handlebars;
+
+  @Inject
+  public Sparql(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+    TemplateLoader loader = new ResourceTemplateLoader(mEnv.classLoader());
     loader.setPrefix("public/mustache");
     loader.setSuffix("");
     handlebars = new Handlebars(loader);
   }
 
-  public static Result query(String q) throws IOException {
+  public Result query(String q) throws IOException {
 
     Map<String, Object> mustacheData = new HashMap<>();
     if (! StringUtils.isEmpty(q)) {
@@ -44,7 +49,7 @@ public class Sparql extends OERWorldMap  {
 
   }
 
-  public static Result update(String delete, String insert, String where) throws IOException {
+  public Result update(String delete, String insert, String where) throws IOException {
 
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("delete", delete);
@@ -57,9 +62,9 @@ public class Sparql extends OERWorldMap  {
 
   }
 
-  public static Result patch() throws IOException {
+  public Result patch() throws IOException {
 
-    String diffString = request().body().asFormUrlEncoded().get("diff")[0];
+    String diffString = ctx().request().body().asFormUrlEncoded().get("diff")[0];
 
     Commit.Diff diff = TripleCommit.Diff.fromString(diffString);
     TripleCommit.Header header = new TripleCommit.Header(getMetadata().get(TripleCommit.Header.AUTHOR_HEADER),

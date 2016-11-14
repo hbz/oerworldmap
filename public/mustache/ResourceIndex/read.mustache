@@ -1,7 +1,23 @@
 <div class="">
 
     {{#scope}}
+
         {{#resource}}
+            {{#if ../permissions.delete}}
+                <a data-behaviour="delete-resource" href="/resource/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
+                    <i class="fa fa-trash"></i>
+                </a>
+            {{/if}}
+            {{#if ../permissions.edit}}
+                <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours modal-protected">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {{/if}}
+            {{#if ../permissions.log}}
+                <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
+                    <i class="fa fa-history"></i>
+                </a>
+            {{/if}}
 
         <article class="resource" data-behaviour="populateMapHightlights">
 
@@ -11,20 +27,9 @@
 
             <div class="resource-header">
 
-                {{#if ../permissions.edit}}
-                    <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours modal-protected">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                {{/if}}
-                {{#if ../permissions.log}}
-                    <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
-                        <i class="fa fa-history"></i>
-                    </a>
-                {{/if}}
-
                 <h1 class="resource-title">
                     {{getIcon @type}}
-                    {{#localized name}}
+                    {{#localized name language=@root.language}}
                         {{[@value]}}
                     {{else}}
                         {{[@id]}}
@@ -52,7 +57,7 @@
                             {{#creator}}
                                 <li>
                                     <a href="/resource/{{@id}}">
-                                        {{#localized name}}
+                                        {{#localized name language=@root.language}}
                                             {{[@value]}}
                                         {{else}}
                                             {{[@id]}}
@@ -76,16 +81,14 @@
             {{#image}}
                 <div class="paragraph-image">
                     <a href="{{.}}" target="_blank">
-                        <img src="{{.}}" width="250" />
+                        <img src="{{.}}" />
                     </a>
                 </div>
             {{/image}}
 
-            {{#localized description}}
-                <p>{{{[@value]}}}</p>
-            {{/localized}}
+            {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
 
-            {{#localized articleBody}}{{{[@value]}}}{{/localized}}
+            {{#localized articleBody language=@root.language}}{{md [@value]}}{{/localized}}
 
             {{#url}}
                 <p>
@@ -107,9 +110,13 @@
                 {{/serviceUrl}}
             {{/availableChannel}}
 
-            {{#license}}
-                <img src="{{image}}" width="75" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
-            {{/license}}
+            {{#if license}}
+                <div class="licenses">
+                    {{#license}}
+                        <img src="{{image}}" alt="{{name.0.[@value]}}" title="{{name.0.[@value]}}" />
+                    {{/license}}
+                </div>
+            {{/if}}
 
             <table class="table resource-details-table">
 
@@ -127,7 +134,7 @@
                         <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
                         <td>
                             <ul class="comma-seperated-list">
-                                {{#localized alternateName}}
+                                {{#localized alternateName language=@root.language}}
                                     <li>{{[@value]}}</li>
                                 {{/localized}}
                             </ul>
@@ -217,7 +224,7 @@
                                     <li>
                                         {{getIcon @type}}
                                         <a href="/resource/?filter.about.audience.@id={{@id}}">
-                                            {{#localized this.name}}
+                                            {{#localized this.name language=@root.language}}
                                                 {{[@value]}}
                                             {{else}}
                                                 {{[@id]}}
@@ -265,7 +272,7 @@
                                     <li>
                                         {{getIcon @type}}
                                         <a href="/resource/?filter.about.about.@id={{@id}}">
-                                            {{#localized this.name}}
+                                            {{#localized this.name language=@root.language}}
                                                 {{[@value]}}
                                             {{else}}
                                                 {{[@id]}}
@@ -560,23 +567,78 @@
 
         {{#if ../permissions.edit}}
 
-            <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
+            <div data-dont-behave>
 
-                <h1 class="modal-title">Edit {{[@type]}}</h1>
+                <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
-                <div class="messages resource-form-widget"></div>
+                    <div class="modal-title">
+                        <h1>Edit {{[@type]}}</h1>
+                        <div class="right">
+                            <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                        </div>
+                    </div>
 
-                {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
+                    <div class="messages resource-form-widget"></div>
 
-                <div class="pull-right resource-form-top-padding">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                    <button type="submit" class="btn btn-inverted">Save Changes</button>
-                </div>
-            </form>
+                    {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
+
+                    <div class="pull-right resource-form-top-padding">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                        <button type="submit" class="btn btn-inverted">Save Changes</button>
+                    </div>
+
+                </form>
+
+            </div>
 
         {{/if}}
 
+        {{#if comment}}
+            <h2>Comments</h2>
+            {{#sort comment "dateCreated" "asc"}}
+                {{#if author.[0].name}}
+                    <hr>
+                    <div>
+                        <p>
+                            <small>
+                                <em>
+                                    {{#author}}
+                                        {{#localized this.name language=@root.language}}
+                                            <a href="/resource/{{[@id]}}">{{[@value]}}</a>
+                                        {{/localized}}
+                                    {{/author}}
+                                </em>
+                                on
+                                <em>{{this.dateCreated}}</em>
+                            </small>
+                        </p>
+                        <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
+                    </div>
+                {{/if}}
+            {{/sort}}
+        {{/if}}
+
+        {{#if ../permissions.comment}}
+            <h2>Add Comment</h2>
+            {{#if user.name}}
+                <form method="post" action="/resource/{{[@id]}}/comment">
+                    {{>ResourceIndex/Comment/edit.mustache}}
+                    <div class="pull-right resource-form-top-padding">
+                        <button class="btn btn-inverted" type="submit">Submit</button>
+                    </div>
+                </form>
+            {{else}}
+                <p>
+                    <em>
+                        You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
+                        comment.
+                    </em>
+                </p>
+            {{/if}}
+        {{/if}}
+
         {{/resource}}
+
     {{/scope}}
 
 </div>

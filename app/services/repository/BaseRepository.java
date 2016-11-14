@@ -10,14 +10,13 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.tdb.TDBFactory;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.json.simple.parser.ParseException;
 
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.tdb.TDBFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 
@@ -220,7 +219,7 @@ public class BaseRepository extends Repository
     ResourceList resourceList;
     try {
       resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
-    } catch (IOException | ParseException e) {
+    } catch (IOException e) {
       Logger.error(e.toString());
       return null;
     }
@@ -229,7 +228,12 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return mTriplestoreRepository.getResource(aId);
+    return getResource(aId, null);
+  }
+
+  @Override
+  public Resource getResource(@Nonnull String aId, String aVersion) {
+    return mTriplestoreRepository.getResource(aId, aVersion);
   }
 
   public Resource getRecord(@Nonnull String aId) {
@@ -250,8 +254,9 @@ public class BaseRepository extends Repository
     return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders) throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilders);
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
+      throws IOException {
+    return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
   }
 
   @Override

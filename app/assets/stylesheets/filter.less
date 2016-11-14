@@ -1,5 +1,5 @@
 @btn-append-width: 35px;
-@filter-gutter: 20px;
+@filter-gutter: 10px;
 
 #filter {
 
@@ -19,8 +19,12 @@
   .dropdown {
     width: 100%;
 
-    .btn:first-child {
+    .btn[data-filter-action]:first-child {
       width: calc(~'100% - ' @btn-append-width);
+    }
+
+    .btn.dropdown-toggle:first-child {
+      width: 100%;
     }
 
     .dropdown-menu {
@@ -47,6 +51,16 @@
     margin-bottom: 10px;
   }
 
+  .row {
+    margin-left: -(@filter-gutter / 2);
+    margin-right: -(@filter-gutter / 2);
+
+    .col {
+      padding-left: (@filter-gutter / 2);
+      padding-right: (@filter-gutter / 2);
+    }
+  }
+
   .col-1 .dropdown-menu {
     left: 0%;
     right: calc(~'-200% - ' (@filter-gutter * 2));
@@ -58,6 +72,15 @@
   .col-3 .dropdown-menu {
     left: calc(~'-200% - ' (@filter-gutter * 2));
     right: 0%;
+  }
+
+  .col-small-5 .dropdown-menu {
+    left: calc(~'-400% - ' (@filter-gutter * 4));
+    right: calc(~'-100% - ' @filter-gutter);
+  }
+  .col-small-6 .dropdown-menu {
+    left: calc(~'-500% - ' (@filter-gutter * 5));
+    right: 0;
   }
 
   #filter-search {

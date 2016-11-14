@@ -6,7 +6,10 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="input"] [data-behaviour~="input"]', context).each(function() {
+      $('[data-behaviour~="input"]', context)
+        .not('[data-dont-behave] [data-behaviour~="input"]')
+        .each(function()
+      {
 
         var widget = $(this);
 
@@ -37,6 +40,7 @@ var Hijax = (function ($, Hijax) {
               var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
               widget.find('.multiple-list').append( multiple_one_new );
               my.initOne( multiple_one_new );
+              multiple_one_new.find('input').focus();
             });
 
         }

@@ -3,7 +3,7 @@ package services;
 import helpers.JsonLdConstants;
 import models.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 
@@ -19,7 +19,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation(int aSize) {
     return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
-        .exclude("Concept|ConceptScheme");
+        .exclude("Concept|ConceptScheme|Comment");
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
@@ -81,7 +81,7 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
+            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
@@ -91,13 +91,13 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(FilterBuilders.existsFilter(Record.RESOURCE_KEY + ".countryChampionFor")));
+            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
     String id = aConcept.getAsString(JsonLdConstants.ID);
     AggregationBuilder conceptAggregation = AggregationBuilders.filter(id).filter(
-      FilterBuilders.termFilter(aField, id)
+      QueryBuilders.termQuery(aField, id)
     );
     for (Resource aNarrowerConcept : aConcept.getAsList("narrower")) {
       conceptAggregation.subAggregation(getNestedConceptAggregation(aNarrowerConcept, aField));
@@ -108,6 +108,16 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getLicenseAggregation(int aSize) {
     return AggregationBuilders.terms("about.license.@id").size(aSize)
       .field("about.license.@id");
+  }
+
+  public static AggregationBuilder<?> getProjectByLocationAggregation(int aSize) {
+    return AggregationBuilders.terms("about.agent.location.address.addressCountry").size(aSize)
+      .field("about.agent.location.address.addressCountry");
+  }
+
+  public static AggregationBuilder<?> getFunderAggregation(int aSize) {
+    return AggregationBuilders.terms("about.funder.@id").size(aSize)
+      .field("about.funder.@id");
   }
 
 }

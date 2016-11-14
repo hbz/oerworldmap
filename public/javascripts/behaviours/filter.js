@@ -100,14 +100,14 @@ var Hijax = (function ($, Hijax, page) {
       aggregation.show = true;
     } else {
       aggregation.show = false;
-      return;
+      // return;
     }
 
     // active ?
     aggregation.active = (typeof filters[ name ] !== 'undefined');
 
     // button title
-    if(aggregation.active) { console.log(i18nStrings);
+    if(aggregation.active) {
       var parts = [];
       for(var i = 0; i < filters[ name ].length; i++) {
         parts.push( get_option_label(name, filters[ name ][ i ]) );
@@ -135,9 +135,11 @@ var Hijax = (function ($, Hijax, page) {
 
     // sort buckets
     aggregation.buckets.sort(function(a,b) {
-      if(a.label_x < b.label_x) return -1;
-      if(a.label_x == b.label_x) return 0;
-      if(a.label_x > b.label_x) return 1;
+      var a_val = (typeof a.label_x === "string") ? a.label_x.toLowerCase() : a.label_x;
+      var b_val = (typeof b.label_x === "string") ? b.label_x.toLowerCase() : b.label_x;
+      if(a_val < b_val) return -1;
+      if(a_val == b_val) return 0;
+      if(a_val > b_val) return 1;
     });
 
     // use typeahead?
@@ -152,9 +154,11 @@ var Hijax = (function ($, Hijax, page) {
   function create_bloodhound(aggregation) {
     bloodhounds[ aggregation.name ] = new Bloodhound({
       datumTokenizer : function(d){
-        return Bloodhound.tokenizers.whitespace(d.label_x);
+        return Bloodhound.tokenizers.whitespace(
+          bloodhoundAccentFolding.normalize(d.label_x)
+        );
       },
-      queryTokenizer : Bloodhound.tokenizers.whitespace,
+      queryTokenizer : bloodhoundAccentFolding.queryTokenizer,
       local : aggregation.buckets,
       identify : function(result){
         return result.id;
@@ -289,6 +293,7 @@ var Hijax = (function ($, Hijax, page) {
   var my = {
 
     init : function(context) {
+      log.debug('FILTER initialized');
       my.initialized.resolve();
     },
 
@@ -304,8 +309,8 @@ var Hijax = (function ($, Hijax, page) {
         filters = JSON.parse( $(this).find('#json-filters').html() );
         aggregations = JSON.parse( $(this).find('#json-aggregations').html() );
 
-        console.log('filters', filters);
-        console.log('aggregations', aggregations);
+        // console.log('filters', filters);
+        // console.log('aggregations', aggregations);
 
         // prepare types
 
@@ -321,15 +326,23 @@ var Hijax = (function ($, Hijax, page) {
           pimp_aggregation(aggregations[ a ], a);
         }
 
-        // extract country
+        // extract country and tag
 
         var country_aggregation = aggregations['about.location.address.addressCountry'];
-        country_aggregation.column = 3;
+        country_aggregation.column = 'small-5';
+        country_aggregation.small = true;
+        country_aggregation.button_icon = 'globe';
+
+        var tag_aggregation = aggregations['about.keywords'];
+        tag_aggregation.column = 'small-6';
+        tag_aggregation.small = true;
+        tag_aggregation.button_icon = 'tag';
 
         // remove special treated aggregations
 
-        delete aggregations['about.location.address.addressCountry'];
         delete aggregations['about.@type'];
+        delete aggregations['about.keywords'];
+        delete aggregations['about.location.address.addressCountry'];
 
         // set columns
 
@@ -354,6 +367,7 @@ var Hijax = (function ($, Hijax, page) {
             aggregations : aggregations,
             resource_types : resource_types,
             country_aggregation : country_aggregation,
+            tag_aggregation : tag_aggregation,
             clear_filter_offset : clear_filter_offset
           })
         );
@@ -362,6 +376,7 @@ var Hijax = (function ($, Hijax, page) {
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
           init_filter(country_aggregation);
+          init_filter(tag_aggregation);
           for(name in aggregations) {
             init_filter(aggregations[ name ]);
           }

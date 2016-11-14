@@ -14,30 +14,30 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.ResultSetFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.shared.Lock;
-import com.hp.hpl.jena.tdb.TDB;
 import com.typesafe.config.Config;
 
 import models.Commit;
 import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
+import org.apache.jena.shared.Lock;
+import org.apache.jena.tdb.TDB;
 import play.Logger;
 import services.BroaderConceptEnricher;
 import services.InverseEnricher;
@@ -85,9 +85,15 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId) {
+  public Resource getResource(@Nonnull String aId, String aVersion) {
 
     Model dbstate = getExtendedDescription(aId, mDb);
+
+    if ((aVersion != null) && !("HEAD".equals(aVersion))) {
+      for (Commit commit : mGraphHistory.until(aVersion)) {
+        commit.getDiff().unapply(dbstate);
+      }
+    }
 
     Resource resource = null;
     if (!dbstate.isEmpty()) {
@@ -99,6 +105,13 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return resource;
+
+  }
+
+  @Override
+  public Resource getResource(@Nonnull String aId) {
+
+    return getResource(aId, null);
 
   }
 

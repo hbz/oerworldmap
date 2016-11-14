@@ -7,19 +7,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import helpers.JsonLdConstants;
-import models.Resource;
-import models.ResourceList;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import play.Configuration;
+import play.Environment;
 import play.mvc.Result;
 import services.AggregationProvider;
+import services.QueryContext;
+
+import javax.inject.Inject;
 
 /**
  * @author fo
  */
 public class AggregationIndex extends OERWorldMap {
 
-  public static Result list() throws IOException {
+  @Inject
+  public AggregationIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
+
+  public Result list() throws IOException {
 
     Map<String, Object> scope = new HashMap<>();
 
@@ -31,8 +38,10 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
     statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(5));
     statisticsAggregations.add(AggregationProvider.getLicenseAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getProjectByLocationAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getFunderAggregation(0));
 
-    scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations));
+    scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)));
     scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
       "#009380", "#627e45", "#6676b0", "#5ab18d"));
 

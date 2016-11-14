@@ -30,9 +30,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Economica:400,700,400italic,700italic" />
-    <link rel="stylesheet" type="text/css" href="/assets/vendor/ol-3.7/ol.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/v3.15.1-dist/ol.css">
 
-    <link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
     <!--<link rel="stylesheet" type="text/css" href="/assets/form.css">-->
 
     <script type="text/javascript" src="/assets/vendor/underscore.js"></script>
@@ -116,6 +116,11 @@
         <script type="application/ld+json" id="json-aggregations">
             {{json scope.globalAggregation}}
         </script>
+        <datalist id="keywords">
+        {{#scope.keywordAggregation.[about.keywords].buckets }}
+            <option value="{{key}}"></option>
+        {{/scope.keywordAggregation.[about.keywords].buckets}}
+        </datalist>
     </div>
 
 </header>
@@ -139,9 +144,11 @@
 <script type="text/javascript" src="/assets/vendor/handlebars.min.js"></script>
 <!--<script type="text/javascript" src="/assets/vendor/jquery.placeholder.min.js"></script>-->
 <script type="text/javascript" src="/assets/vendor/d3.v3.min.js"></script>
-<script type="text/javascript" src="/assets/vendor/ol-3.7/ol.js"></script>
+<script type="text/javascript" src="/assets/vendor/v3.15.1-dist/ol.js"></script>
 <script type="text/javascript" src="/assets/vendor/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="/assets/vendor/page.fork.js"></script>
+<script type="text/javascript" src="/assets/vendor/htmldiff.js"></script>
+<script type="text/javascript" src="/assets/vendor/loglevel/loglevel.min.js"></script>
 <script type="text/javascript" src="/assets/i18n.js"></script>
 
 <script type="text/javascript" src="/assets/javascripts/helpers.js"></script>
@@ -154,6 +161,7 @@
 <script type="text/javascript" src="/assets/javascripts/behaviours/map.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/charts.js"></script>
+<script type="text/javascript" src="/assets/javascripts/behaviours/resource-log.js"></script>
 
 {{#if scope.embed}}
     <script type="text/javascript" src="/assets/javascripts/behaviours/embed.js"></script>

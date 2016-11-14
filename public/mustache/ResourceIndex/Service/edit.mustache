@@ -14,7 +14,7 @@
 
     {{> FormElements/localizedTextarea.mustache property=description property_path="description" title=(i18n "Service.description") tooltip=(i18n "Service.description" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Service.startDate") tooltip=(i18n "Service.startDate" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Service.startDate") tooltip=(i18n "Service.startDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
 
     {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Service.email") tooltip=(i18n "Service.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
 
@@ -46,6 +46,8 @@
 
     {{> FormElements/input.mustache property=sameAs property_path="sameAs" title=(i18n "Service.sameAs") tooltip=(i18n "Service.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
-    {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Service.keywords") tooltip=(i18n "Service.keywords" bundle="descriptions") hidden=false multiple=true input_type="text"}}
+    {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Service.keywords") tooltip=(i18n "Service.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
+
+    {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Service.comment") tooltip=(i18n "Service.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
 </fieldset>
