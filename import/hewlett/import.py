@@ -14,8 +14,15 @@ address_without_span_regex = re.compile(r'(?<=(<div class="aboutgrantee-address"
 address_split_regex = re.compile(r'<br ?/?>')
 oer_regex = re.compile(r'([\W]*)(OER)([\W]*)')
 suite_regex = re.compile(r'((Suite #?)|#)(\d*)')
-street_regex = re.compile(r'(One|[\d]{1,5}).*([Aa]ve(nue)?|B(ou)?le?v(ar)?d\.?|Broadway|Building|Circle|Court|Dr(ive)?|H[ai]ll|Lane|Pa?r?kwa?y|Pl(a(ce|za))?|R(oad|d\.?)|(\bS|\ws)t((r(\.|eet|a(.|ss)e)?)|\.)?|[Ww](ay|eg)|(\bW|\ww)ood)(,? [NS]\.?[EW]\.?)?(?=(,|$| #))')
-region_regex = re.compile(r'^([A-Z]{2})-[A-Z]{2,3}$')
+room_regex = re.compile(r'R(oom|m\.?) (\d*)')
+floor_regex = re.compile(r'((1|Fir)st|(2|Seco)nd|(3|Thi)rd|([\d]|Four|Fif|Six|Seven|Eight|Nine|Ten|Eleven|Twelv){1,3}(th)?) Floor')
+block_regex = re.compile(r'[A-Z] Block')
+street_regex_1 = re.compile(r'(One|[\d]{1,5}).*([Aa]ve(nue)?|B(ou)?le?v(ar)?d\.?|Broadway|Building|Circle|Court|Dr(ive)?|H[ai]ll|Lane|Pa?r?kwa?y|Pl(a(ce|za))?|R(oad|d\.?|u[ea])|(\bS|\ws)t((r(\.|eet|a(.|ss)e)?)|\.)?|[Ww](ay|eg)|(\bW|\ww)ood)(,? [NS]\.?[EW]\.?)?(?=(,|$| #))')
+street_regex_2 = re.compile(r'[\d]{1,5},? ([Aa]venue|[Rr]u[ae]|[Pp]lace)( de)?( [^\d#,]*)')
+region_regex_1 = re.compile(r'([A-Z]{2})-([A-Z]{2,3})')
+region_regex_2 = re.compile(r'(?<=( ))[A-Z]{2}(?=( |$|,))')
+country_regex_1 = re.compile(r'(?<=( ))([A-Z]{2,3})(?=( |$|,))')
+country_regex_2 = re.compile(r'Afghanistan|Albania|Algeria|Andorra|Angola|Antigua and Barbuda|Argentina|Armenia|Australia|Austria|Azerbaijan|Bahamas|Bahrain|Bangladesh|Barbados|Belarus|Belgium|Belize|Benin|Bhutanh|Bolivia|Bosnia and Herzegovina|Botswana|Brazil|Brunei|Bulgaria|Burkina Faso|Burundi|Cabo Verde|Cambodia|Cameroon|Canada|Central African Republic (CAR)|Chad|Chile|China|Colombia|Comoros|Democratic Republic of the Congo|Republic of the Congo|Costa Rica|Cote d.Ivoire|Croatia|Cuba|Cyprus|Czech Republic|Denmark|Djibouti|Dominica|Dominican Republic|Ecuador|Egypt|El Salvador|Equatorial Guinea|Eritrea|Estonia|Ethiopia|Fiji|Finland|France|Gabon|Gambia|Georgia|Germany|Ghana|Greece|Grenada|Guatemala|Guinea|Guinea-Bissau|Guyana|Haiti|Honduras|Hungary|Iceland|India|Indonesia|Iran|Iraq|Ireland|Israel|Italy|Jamaica|Japan|Jordan|Kazakhstan|Kenya|Kiribati|Kosovo|Kuwait|Kyrgyzstan|Laos|Latvia|Lebanon|Lesotho|Liberia|Libya|Liechtenstein|Lithuania|Luxembourg|Macedonia|Madagascar|Malawi|Malaysia|Maldives|Mali|Malta|Marshall Islands|Mauritania|Mauritius|Mexico|Micronesia|Moldova|Monaco|Mongolia|Montenegro|Morocco|Mozambique|Myanmar (Burma)|Namibia|Nauru|Nepal|Netherlands|New Zealand|Nicaragua|Niger|Nigeria|North Korea|Norway|Oman|Pakistan|Palau|Palestine|Panama|Papua New Guinea|Paraguay|Peru|Philippines|Poland|Portugal|Qatar|Romania|Russia|Rwanda|Saint Kitts and Nevis|Saint Lucia|Saint Vincent and the Grenadines|Samoa|San Marino|Sao Tome and Principe|Saudi Arabia|Senegal|Serbia|Seychelles|Sierra Leone|Singapore|Slovakia|Slovenia|Solomon Islands|Somalia|South Africa|South Korea|South Sudan|Spain|Sri Lanka|Sudan|Suriname|Swaziland|Sweden|Switzerland|Syria|Taiwan|Tajikistan|Tanzania|Thailand|Timor-Leste|Togo|Tonga|Trinidad and Tobago|Tunisia|Turkey|Turkmenistan|Tuvalu|Uganda|Ukraine|United Arab Emirates|United Kingdom|United States of America|Uruguay|Uzbekistan|Vanuatu|Vatican City|Venezuela|Vietnam|Yemen|Zambia|Zimbabwe')
 pobox_regex = re.compile(r'((P\.?O\.? )?Box|Post(bus|fach)) ([\d]{2,6})')
 postalcode_regex = re.compile(r'[\d]{5}(-[\d]{4})?|[A-Z][0-9][A-Z] [0-9][A-Z][0-9]|[A-Z]{1,2}[0-9]{1,2} [0-9][A-Z]{2}')
 
@@ -151,102 +158,119 @@ def is_desired(strategies, highlight_lis):
     return has_strategy and has_support_type
 
 
-def fill_address(address_line):
+def extract_address(address_line):
     global address
     address_line = strip_line(address_line)
-    if address.get('schema:streetAddress', None) == None:
-        address_line = fill_street(address_line)
-    if address.get('schema:countryAddress', None) == None:
-        address_line = fill_country(address_line)
-    if address.get('schema:countryRegion', None) == None:
-        address_line = fill_region(address_line)
-    if address.get('schema:postOfficeBoxNumber', None) == None:
-        address_line = fill_pobox(address_line)
-    if address.get('schema:postalCode', None) == None:
-        address_line = fill_postalcode(address_line)
+    address_line = split_camel(address_line)
+    address_line = extract_street(address_line)
+    address_line = extract_region(address_line)
+    address_line = extract_country(address_line)
+    address_line = extract_pobox(address_line)
+    address_line = extract_postalcode(address_line)
+    extract_locality(address_line)
+    # print (address) # for extraction control
 
-def fill_street(address_line):
+
+def extract_street(address_line):
     global address
     # extract suite
     suite = None
     match = re.search(suite_regex, address_line)
     if match :
         suite = match.group(3)
-    address_line = re.sub(suite_regex, ', ', address_line)
+        address_line = strip_line(re.sub(match.group(0), ', ', address_line))
+    # extract floor
+    floor = None
+    match = re.search(floor_regex, address_line)
+    if match :
+        floor = match.group(0)
+        address_line = strip_line(re.sub(floor, ', ', address_line))
+    # extract room
+    room = None
+    match = re.search(room_regex, address_line)
+    if match :
+        room = match.group(2)
+        address_line = strip_line(re.sub(match.group(0), ', ', address_line))
+    # extract block
+    block = None
+    match = re.search(block_regex, address_line)
+    if match :
+        block = match.group(0)
+        address_line = strip_line(re.sub(block, ', ', address_line))
     # extract streetAddress
     street = None
-    match = re.search(street_regex, address_line)
+    match = re.search(street_regex_1, address_line)
+    if not match:
+        match = re.search(street_regex_2, address_line)
     if match :
-        street = match.group(0)
-    address_line = re.sub(street_regex, ', ', address_line)
-    if suite and street:
-        street = street + ", Suite " + suite
-    address['schema:streetAddress'] = street
-    return strip_line(address_line)
-
-
-def fill_country(address_line):
-    global address
-    subword = None
-    words = re.split(r'[ ,.\-_]', address_line)
-    for word in words:
-        length = len(word)
-        if length < 2:
-            continue
-        if length == 2:
-            for country in pycountry.countries:
-                if country.alpha_2 == word:
-                    address['schema:addressCountry'] = subword = word
-        else:
-            if length == 3:
-                for country in pycountry.countries:
-                    if country.alpha_3 == word:
-                        subword = word
-                        address['schema:addressCountry'] = str(country.alpha_2)
-            else:
-                for country in pycountry.countries:
-                    if country.name.encode('utf-8').strip().__eq__(word):
-                        subword = word
-                        address['schema:addressCountry'] = str(country.alpha_2)
-    if subword:
-        address_line = address_line.replace(subword, '')
-    return strip_line(address_line)
-
-
-def fill_region(address_line):
-    global address
-    country = str(address.get('schema:addressCountry'))
-    country_subdivisions = None
-    if country:
-        country_subdivisions = subdivisions_by_countries.get(country)
-    words = re.split(r'[ ,._]', address_line)
-    for word in words:
-        if len(word) < 2:
-            continue
-        if len(word) == 2:
-            if country_subdivisions:
-                for csv in country_subdivisions:
-                    if word.__eq__(csv.replace(country + '-', '')):
-                        address['schema:addressRegion'] = csv
-                        address_line = address_line.replace(csv, '')
-                        return strip_line(address_line)
-        match = re.search(region_regex, word)
-        if match:
-            if not country:
-                country = match.group(1)
-            subdivisions = subdivisions_by_countries.get(country)
-            if subdivisions:
-                for subdivision in subdivisions:
-                    if word.__eq__(subdivision):
-                        address['schema:addressRegion'] = word
-                        address['schema:addressCountry'] = country
-                        address_line = address_line.replace(word, '')
-                        return strip_line(address_line)
-        # TODO: solution for fully worded regions?
+        street = strip_line(match.group(0))
+    if street:
+        address_line = re.sub(street, ', ', address_line)
+        if room:
+            street = street + ", Room " + room
+        if suite:
+            street = street + ", Suite " + suite
+        if floor:
+            street = street + ", " + floor
+        if block:
+            street = street + ", " + block
+        address['schema:streetAddress'] = street
+        address_line = strip_line(address_line)
     return address_line
 
 
-def fill_pobox(address_line):
+def extract_country(address_line):
+    global address
+    match = re.search(country_regex_1, address_line)
+    if match:
+        if len(match.group(2)) == 2:
+            for country in pycountry.countries:
+                if country.alpha_2 == match.group(2) and not address.get('schema:addressCountry'):
+                    address['schema:addressCountry'] = match.group(2)
+                    address_line = address_line.replace(match.group(2), '')
+                    return strip_line(address_line)
+        else:
+            if len(match.group(2)) == 3:
+                for country in pycountry.countries:
+                    if country.alpha_3 == match.group(2) and not address.get('schema:addressCountry'):
+                        address['schema:addressCountry'] = match.group(2)
+                        address_line = address_line.replace(match.group(2), '')
+                        return strip_line(address_line)
+    for country in pycountry.countries:
+        match = re.search(country_regex_2, address_line)
+        if match:
+            if country.name.encode('utf-8').strip().__eq__(match.group(0)):
+                address['schema:addressCountry'] = str(country.alpha_2)
+                address_line = address_line.replace(match.group(0), '')
+    return strip_line(address_line)
+
+
+def extract_region(address_line):
+    global address
+    match = re.search(region_regex_1, address_line)
+    if match:
+        subdivisions = subdivisions_by_countries.get(match.group(1))
+        if subdivisions:
+            for subdivision in subdivisions:
+                if match.group(2).__eq__(subdivision):
+                    address['schema:addressRegion'] = match.group(2)
+                    address['schema:addressCountry'] = match.group(1)
+                    address_line = address_line.replace(match.group(0), '')
+                    return strip_line(address_line)
+    match = re.search(region_regex_2, address_line)
+    if match:
+        subdivisions = subdivisions_by_countries.get('US')
+        for subdivision in subdivisions:
+            if match.group(0).__eq__(re.search(r'(?<=-).*', subdivision)):
+                address['schema:addressRegion'] = match.group(0)
+                address['schema:addressCountry'] = 'US'
+                address_line = address_line.replace(match.group(0), '')
+                return strip_line(address_line)
+    # TODO: solution for fully worded regions?
+    return address_line
+
+
+def extract_pobox(address_line):
     global address
     match = re.search(pobox_regex, address_line)
     if match:
@@ -256,8 +280,8 @@ def fill_pobox(address_line):
     return address_line
 
 
-def fill_postalcode(address_line):
-    # NOTE: for the current implementation, it is important to run fill_pobox before fill_postalcode.
+def extract_postalcode(address_line):
+    # NOTE: for the current implementation, it is important to run extract_pobox before extract_postalcode.
     # Otherwise, pobox information will be matched as postalcode.
     global address
     match = re.search(postalcode_regex, address_line)
@@ -268,11 +292,31 @@ def fill_postalcode(address_line):
     return address_line
 
 
+def extract_locality(address_line):
+    global address
+    address['schema:addressLocality'] = strip_line(address_line)
+
+
 def strip_line(line):
+    line = re.sub(r'^, ?', '', line)
+    line = re.sub(r'^, ?', '', line)
     line = re.sub(r', ?,', ',', line)
     line = re.sub(r', ?,', ',', line)
     line = line.strip()
+    match = re.search(r' {2,}(?=[\w])', line)
+    while match and match.group(0):
+        line = re.sub(match.group(0), ' ', line)
+        match = re.search(r' {2,}(?=[\w])', line)
     line = re.sub(r',$', '', line)
+    return line
+
+
+def split_camel(line):
+    while (1):
+        match = re.match(r'(.*[a-z])([A-Z].*)', line)
+        if not match:
+            break
+        line = match.group(1) + ', ' + match.group(2)
     return line
 
 
@@ -325,12 +369,8 @@ def collect(url):
     address_tags = soup.findAll('div', { "class" : "aboutgrantee-address" })
     for address_tag in address_tags:
         address_no_span = re.search(address_without_span_regex, (str(address_tag)))
-        address_split = re.split(address_split_regex, address_no_span.group(0))
-        # TODO: addresses are formatted even more heterogeneous in the current hewlett page design
-        # TODO: ==> find 'intelligent' rules to match street vs. locality vs. country
-        for splitpart in address_split:
-            fill_address(splitpart)
-    # print('address: ' + `address`)
+        address_clean = re.sub(address_split_regex, ", ", address_no_span.group(0))
+        extract_address(address_clean)
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
         result['schema:description'] = {
