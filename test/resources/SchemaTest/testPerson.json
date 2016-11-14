@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:54e6d150-9f49-11e5-b0ff-001999ac7927",
   "@type": "Person",
   "name": [

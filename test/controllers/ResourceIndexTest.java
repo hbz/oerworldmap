@@ -36,7 +36,6 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     data.put("email", "foo1@bar.com");
     data.put("name[0][@value]", "Foo");
     data.put("name[0][@language]", "en");
-    data.put(JsonLdConstants.CONTEXT, "http://schema.org/");
     Result result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
       .bodyForm(data));
     assertEquals(201, result.status());
