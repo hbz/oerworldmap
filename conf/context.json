@@ -1,7 +1,9 @@
 {
   "@context": {
     "@vocab": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "frapo": "http://purl.org/cerif/frapo/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "about": {
       "@container": "@set"
     },
@@ -15,7 +17,6 @@
       "@container": "@set"
     },
     "agentIn": {
-      "@reverse": "agent",
       "@container": "@set"
     },
     "alternateName": {
@@ -31,15 +32,16 @@
       "@container": "@set"
     },
     "authorOf": {
-      "@reverse": "author",
       "@container": "@set"
     },
     "availableChannel": {
       "@container": "@set"
     },
+    "availableLanguage": {
+      "@container": "@set"
+    },
     "broader": {
-      "@id": "http://www.w3.org/2004/02/skos/core#broader",
-      "@type": "@id"
+      "@id": "skos:broader"
     },
     "contactPoint": {
       "@container": "@set"
@@ -48,7 +50,6 @@
       "@container": "@set"
     },
     "created": {
-      "@reverse": "creator",
       "@container": "@set"
     },
     "creator": {
@@ -61,16 +62,14 @@
       "@container": "@set"
     },
     "funderOf": {
-      "@reverse": "funder",
       "@container": "@set"
     },
     "Grant": "frapo:Grant",
     "hasAwardDate": "frapo:hasAwardDate",
     "hasMonetaryValue": "frapo:hasMonetaryValue",
     "hasTopConcept": {
-      "@id": "http://www.w3.org/2004/02/skos/core#hasTopConcept",
-      "@container": "@set",
-      "@type": "@id"
+      "@id": "skos:hasTopConcept",
+      "@container": "@set"
     },
     "image": {
       "@type": "@id"
@@ -79,25 +78,21 @@
       "@container": "@set"
     },
     "inScheme": {
-      "@id": "http://www.w3.org/2004/02/skos/core#inScheme",
-      "@type": "@id"
+      "@id": "skos:inScheme"
     },
     "instrument": {
       "@container": "@set"
     },
     "instrumentIn": {
-      "@reverse": "instrument",
       "@container": "@set"
     },
     "isAwardedBy": {
       "@id": "frapo:isAwardedBy",
-      "@container": "@set",
-      "@type": "@id"
+      "@container": "@set"
     },
     "isFundedBy": {
       "@id": "frapo:isFundedBy",
-      "@container": "@set",
-      "@type": "@id"
+      "@container": "@set"
     },
     "keywords": {
       "@container": "@set"
@@ -121,52 +116,45 @@
       "@container": "@set"
     },
     "mentionedIn": {
-      "@reverse": "mentions",
       "@container": "@set"
     },
     "name": {
       "@container": "@set"
     },
     "narrower": {
-      "@id": "http://www.w3.org/2004/02/skos/core#narrower",
-      "@container": "@set",
-      "@type": "@id"
+      "@id": "skos:narrower",
+      "@container": "@set"
     },
     "notation": {
-      "@id": "http://www.w3.org/2004/02/skos/core#notation",
+      "@id": "skos:notation",
       "@container": "@set"
     },
     "organizer": {
       "@container": "@set"
     },
     "organizerFor": {
-      "@reverse": "organizer",
       "@container": "@set"
     },
     "participant": {
       "@container": "@set"
     },
     "participantIn": {
-      "@reverse": "participant",
       "@container": "@set"
     },
     "performer": {
       "@container": "@set"
     },
     "performerIn": {
-      "@container": "@set",
-      "@embed": "@always"
+      "@container": "@set"
     },
     "provider": {
       "@container": "@set"
     },
     "provides": {
-      "@reverse": "provider",
       "@container": "@set"
     },
     "recordedIn": {
-      "@container": "@set",
-      "@type": "@id"
+      "@container": "@set"
     },
     "result": {
       "@container": "@set"
@@ -176,7 +164,7 @@
       "@type": "@id"
     },
     "scopeNote": {
-      "@id": "http://www.w3.org/2004/02/skos/core#scopeNote",
+      "@id": "skos:scopeNote",
       "@container": "@set"
     },
     "serviceType": {
@@ -186,11 +174,34 @@
       "@container": "@set"
     },
     "topConceptOf": {
-      "@id": "http://www.w3.org/2004/02/skos/core#topConceptOf",
-      "@type": "@id"
+      "@id": "skos:topConceptOf"
     },
     "url": {
       "@type": "@id"
-    }    
+    },
+    "serviceUrl": {
+      "@type": "@id"
+    },
+    "endDate": {
+      "@type" : "Date"
+    },
+    "startDate": {
+      "@type" : "Date"
+    },
+    "startTime": {
+      "@type" : "DateTime"
+    },
+    "endTime": {
+      "@type" : "DateTime"
+    },
+    "dateCreated": {
+      "@type" : "Date"
+    },
+    "text": {
+      "@container": "@set"
+    },
+    "comment": {
+      "@container": "@set"
+    }
   }
 }
