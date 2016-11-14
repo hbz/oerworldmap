@@ -29,6 +29,7 @@ public class SCHEMA {
 
   public static final Property about = property("about");
 
-  public static final Property broader = property("broader");
+  public static final Property comment = property("comment");
+
 
 }
