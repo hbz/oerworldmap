@@ -1,4 +1,4 @@
-import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, geotext
+import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry
 
 
 grant_mapping = {
