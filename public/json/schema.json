@@ -1149,15 +1149,6 @@
       "description": "A grant awarded to a project",
       "type": "object",
       "properties": {
-        "@context": {
-          "type": "string",
-          "format": "uri"
-        },
-        "@id": {
-          "description": "The grant's unique identifier",
-          "type": "string",
-          "format": "uri"
-        },
         "@type": {
           "type": "string",
           "enum": [
