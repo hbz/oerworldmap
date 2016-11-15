@@ -1017,6 +1017,37 @@ var Hijax = (function ($, Hijax) {
         );
       });
 
+      // Hide entries not in current map extent by examining all markers (including "indirect" ones)
+      // for each list entry
+      $('[data-behaviour~="geoFilteredList"]', context).each(function(){
+        var container = $(this);
+        var list = $(this).find('.resource-list');
+        world.getView().on('propertychange', function(e) {
+          switch (e.key) {
+            case 'resolution':
+            case 'center':
+              var extent = world.getView().calculateExtent(world.getSize());
+              list.children('li').each(function() {
+                var entry = $(this);
+                var id = entry.attr('about');
+                if (id in markers) {
+                  $.each(markers[id], function() {
+                    if(ol.extent.containsExtent(extent, this.getGeometry().getExtent())) {
+                      entry.show();
+                    } else {
+                      entry.hide();
+                    }
+                  });
+                } else {
+                  entry.hide();
+                }
+              });
+              container.find('.total-items').text(list.children('li:visible').length);
+              break;
+          }
+        });
+      });
+
       // Populate pin highlights
 
       $('[data-behaviour~="populateMapHightlights"]', context).each(function(){
