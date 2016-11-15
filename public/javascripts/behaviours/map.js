@@ -639,6 +639,7 @@ var Hijax = (function ($, Hijax) {
           geometry: point,
           url: "/resource/" + resource['@id'],
           type: resource['@type'],
+          origin_id: origin['@id'],
         };
 
         var feature = new ol.Feature(featureProperties);
@@ -1021,31 +1022,17 @@ var Hijax = (function ($, Hijax) {
       // for each list entry
       $('[data-behaviour~="geoFilteredList"]', context).each(function(){
         var container = $(this);
-        var list = $(this).find('.resource-list');
-        world.getView().on('propertychange', function(e) {
-          switch (e.key) {
-            case 'resolution':
-            case 'center':
-              var extent = world.getView().calculateExtent(world.getSize());
-              list.children('li').each(function() {
-                var entry = $(this);
-                var id = entry.attr('about');
-                if (id in markers) {
-                  $.each(markers[id], function() {
-                    if(ol.extent.containsExtent(extent, this.getGeometry().getExtent())) {
-                      entry.show();
-                    } else {
-                      entry.hide();
-                    }
-                  });
-                } else {
-                  entry.hide();
-                }
-              });
-              container.find('.total-items').text(list.children('li:visible').length);
-              break;
+        var list = container.find('.resource-list');
+        world.getView().on('propertychange', _.debounce(function(e) {
+          if (e.key == 'resolution' || e.key == 'center') {
+            var extent = world.getView().calculateExtent(world.getSize());
+            list.children('li').hide();
+            placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
+              list.children('li[about="' + feature.getProperties()['origin_id'] +'"]').show();
+            });
+            container.find('.total-items').text(list.children('li:visible').length);
           }
-        });
+        }, 150));
       });
 
       // Populate pin highlights
