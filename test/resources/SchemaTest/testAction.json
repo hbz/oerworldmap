@@ -134,6 +134,33 @@
     }
 
   ],
+  "isFundedBy": [ {
+    "@type": "Grant",
+    "sameAs": [ "http://example.org/grant" ],
+    "duration": "P12M",
+    "name": [
+      {
+        "@language": "en",
+        "@value": "Money$$$Grant"
+      }
+    ],
+    "description": [ {
+        "@language":"en",
+        "@value":"grant means money"
+     } ],
+    "hasMonetaryValue":"$100,000",
+    "hasAwardDate":"2011-11-11",
+    "isAwardedBy": [ {
+      "@id": "urn:uuid:90aca1d2-bb8d-11e5-8644-54ee7558c81f",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Testacle Inc."
+        }
+      ]
+    } ]
+  } ],
   "keywords": [
     "Policy",
     "Open Xland"
