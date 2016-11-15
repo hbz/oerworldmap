@@ -320,7 +320,6 @@
           "items": {
             "$ref": "#/definitions/Grant"
           }
-        }
         },
         "agent": {
           "description": "The direct performer or driver of the action (i.e. also primary contact)",
@@ -1217,7 +1216,8 @@
           "items": {
             "type": "string"
           }
-        },
+        }
+      },
       "required": [
         "name"
       ],
