@@ -10,13 +10,16 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log"];
 
   var init_app = true;
 
-  if( $.inArray(window.location.pathname, static_pages) !== -1) {
-    init_app = false;
-  };
+  $.each(static_pages, function() {
+    if (window.location.pathname.indexOf(this) == 0) {
+      init_app = false;
+      return false;
+    }
+  });
 
   Hijax.goto = function(url) {
     page(url);
@@ -270,6 +273,7 @@ var Hijax = (function ($, Hijax, page) {
     init : function(context) {
 
       if(!init_app) {
+        Hijax.attachBehaviours(context);
         page('*', function(pagejs_ctx){
           if(pagejs_ctx.path != initialization_source.pathname) {
             window.location = pagejs_ctx.path;
@@ -291,6 +295,9 @@ var Hijax = (function ($, Hijax, page) {
           permissions : permissions
         })
       );
+
+      // header & footer
+      Hijax.attachBehaviours($('body', context).find('#page-header').add('#page-footer'));
 
       $('body>header, body>main, body>footer', context).remove();
 

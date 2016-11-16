@@ -227,12 +227,12 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        return read(resource.getId());
+        return read(resource.getId(), "HEAD");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId()).absoluteURL(request()));
+      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD").absoluteURL(request()));
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
@@ -292,9 +292,9 @@ public class ResourceIndex extends OERWorldMap {
   }
 
 
-  public Result read(String id) throws IOException {
+  public Result read(String id, String version) throws IOException {
     Resource resource;
-    resource = mBaseRepository.getResource(id);
+    resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
@@ -383,13 +383,11 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result log(String aId) {
 
-    StringBuilder stringBuilder = new StringBuilder();
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("commits", mBaseRepository.log(aId));
+    scope.put("resource", aId);
 
-    for (Commit commit : mBaseRepository.log(aId)) {
-      stringBuilder.append(commit).append("\n\n");
-    }
-
-    return ok(stringBuilder.toString());
+    return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
 
   }
 

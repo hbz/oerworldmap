@@ -1,7 +1,23 @@
 <div class="">
 
     {{#scope}}
+
         {{#resource}}
+            {{#if ../permissions.delete}}
+                <a data-behaviour="delete-resource" href="/resource/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
+                    <i class="fa fa-trash"></i>
+                </a>
+            {{/if}}
+            {{#if ../permissions.edit}}
+                <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours modal-protected">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            {{/if}}
+            {{#if ../permissions.log}}
+                <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
+                    <i class="fa fa-history"></i>
+                </a>
+            {{/if}}
 
         <article class="resource" data-behaviour="populateMapHightlights">
 
@@ -10,22 +26,6 @@
             </script>
 
             <div class="resource-header">
-
-                {{#if ../permissions.delete}}
-                    <a data-behaviour="delete-resource" href="/resource/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                {{/if}}
-                {{#if ../permissions.edit}}
-                    <a href="#resource-edit" class="btn btn-inverted resource-edit-btn" data-app="to-modal-and-attach-behaviours modal-protected">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                {{/if}}
-                {{#if ../permissions.log}}
-                    <a target="_blank" href="/log/{{[@id]}}" class="btn btn-inverted resource-edit-btn">
-                        <i class="fa fa-history"></i>
-                    </a>
-                {{/if}}
 
                 <h1 class="resource-title">
                     {{getIcon @type}}
