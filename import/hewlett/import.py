@@ -337,11 +337,11 @@ def collect(url):
         return None
 
     grant_id = get_grant_id(url)
-    # grantee_url = get_grantee_url(soup)
-    # grantee_id = get_grantee_id(grantee_url)
+    grantee_url = get_grantee_url(soup)
+    grantee_id = get_grantee_id(grantee_url)
 
     action['@id'] = get_uuid('hewlett_action_' + grant_id)
-    # agent['granteeNumber'] = grantee_id
+    agent['@id'] = get_uuid('hewlett_grantee_' + grantee_id)
     # agent['hewlettGrantList'] = grantee_url
 
     if hasattr(soup, 'h1'):
