@@ -6,9 +6,7 @@ import models.ResourceList;
 import org.elasticsearch.common.Strings;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +56,6 @@ public class CalendarExporter implements Exporter {
   private static final Map<String, String> mFieldMap = new HashMap<>();
   static{
     mFieldMap.put(UID, JsonLdConstants.ID);
-    mFieldMap.put(COMMON_NAME, "organizer.name.@value");
     mFieldMap.put(SUMMARY, "name.@value");
     mFieldMap.put(DESCRIPTION, "description.@value");
     mFieldMap.put(URL, "url");
@@ -134,24 +131,26 @@ public class CalendarExporter implements Exporter {
 
   private String getExportedOrganizer(Resource aResource){
     StringBuilder result = new StringBuilder();
-    Resource organizer = aResource.getAsResource("organizer");
-    if (organizer != null){
+    List<Resource> organizers = aResource.getAsList("organizer");
+    if (organizers != null && !organizers.isEmpty()){
       result.append(ORGANIZER);
-      String name = organizer.get("name").toString();
-      boolean hasName = false;
-      if (name != null){
-        result.append(COMMON_NAME).append(name);
-        hasName = true;
-      }
-      String email = aResource.get("email").toString();
-      if (email == null){
-        email = organizer.get("email").toString();
-      }
-      if (email != null){
-        if (hasName){
-          result.append(KEY_SEPARATOR);
+      for (Resource organizer : organizers) {
+        String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
+        boolean hasName = false;
+        if (name != null) {
+          result.append(COMMON_NAME).append(name);
+          hasName = true;
         }
-        result.append(MAILTO).append(email);
+        String email = organizer.getAsString("email");
+        if (email == null) {
+          email = aResource.getAsString("email");
+        }
+        if (email != null) {
+          if (hasName) {
+            result.append(KEY_SEPARATOR);
+          }
+          result.append(MAILTO).append(email);
+        }
       }
       result.append("\n");
     }
