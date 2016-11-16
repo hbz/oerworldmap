@@ -14,14 +14,6 @@
                     </li>
                 {{/if}}
 
-                {{#if ../permissions.delete}}
-                    <li>
-                        <a data-behaviour="delete-resource" href="/resource/{{[@id]}}" class="icon-btn">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </li>
-                {{/if}}
-
                 {{#if ../permissions.edit}}
                     <li>
                         <a href="#resource-edit" class="icon-btn" data-app="to-modal-and-attach-behaviours modal-protected">
@@ -38,6 +30,9 @@
                         <li><a href="#resource-share" data-app="to-modal-and-attach-behaviours">Share <i class="fa fa-fw fa-share"></i></a></li>
                         <li><a href="#resource-export" data-app="to-modal-and-attach-behaviours">Export <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
                         <li><button onclick="window.print();">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                        {{#if ../permissions.delete}}
+                            <li><a data-behaviour="delete-resource" href="/resource/{{[@id]}}">Delete <i class="fa fa-fw fa-trash"></i></a></li>
+                        {{/if}}
                     </ul>
                 </li>
 
