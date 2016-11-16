@@ -18,7 +18,7 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
   private List<String> mDropFields = new ArrayList<>();
 
   @Override
-  public String exportResourceAsCsvLine(Resource aResource) {
+  public String export(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);

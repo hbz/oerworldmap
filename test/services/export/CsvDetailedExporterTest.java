@@ -37,8 +37,8 @@ public class CsvDetailedExporterTest implements JsonTest {
 
   @Test
   public void testPlainExport() throws IOException {
-    String csv1 = mCsvExporter.exportResourceAsCsvLine(in1);
-    String csv2 = mCsvExporter.exportResourceAsCsvLine(in2);
+    String csv1 = mCsvExporter.export(in1);
+    String csv2 = mCsvExporter.export(in2);
     assertEquals(
         "456;Person;123;Article;Super toll;456;Person;Hans Dampf;null;null;null;Ganz spannend!;987;Article;456;Person;Hans Dampf;Noch spannenderen!;null;Hans Dampf",
         csv1);

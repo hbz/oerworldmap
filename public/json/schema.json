@@ -1131,7 +1131,7 @@
         }
       },
       "comment": {
-        "description": "A comment about the Organization",
+        "description": "A comment about the Event",
         "type": "array",
         "items": {
           "$ref": "#/definitions/Comment"

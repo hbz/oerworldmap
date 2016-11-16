@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +52,13 @@ public interface JsonTest {
       Logger.error(e.toString());
     }
     return resources;
+  }
+
+  default String getStringFromFile(String aPath, Charset aEncoding)
+    throws IOException
+  {
+    byte[] encoded = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(aPath).toExternalForm().substring(5)));
+    return new String(encoded, aEncoding);
   }
 
 }
