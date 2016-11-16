@@ -2,8 +2,8 @@ import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry
 
 
 grant_mapping = {
-    'Amount': 'frapo:hasMonetaryValue',
-    'Date Awarded': 'frapo:hasAwardDate'
+    'Amount': 'hasMonetaryValue',
+    'Date Awarded': 'hasAwardDate'
 }
 
 url_page_regex = re.compile(r"page/([0-9]+)/")
@@ -58,20 +58,6 @@ def get_soup_from_page(url):
         soup = BeautifulSoup.BeautifulSoup(page)
         soup.prettify()
         return soup
-
-
-def get_header():
-    return {
-        "@context":{
-            "frapo":"http://purl.org/cerif/frapo/",
-            "rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-            "rdfs":"http://www.w3.org/2000/01/rdf-schema#",
-            "schema":"http://schema.org/",
-            "xsd":"http://www.w3.org/2001/XMLSchema#",
-            "ex": "http://example.org/"
-        },
-        "@type": "frapo:Grant"
-    }
 
 
 def get_uuid(key):
@@ -214,7 +200,7 @@ def extract_street(address_line):
             street = street + ", " + floor
         if block:
             street = street + ", " + block
-        address['schema:streetAddress'] = street
+        address['streetAddress'] = street
         address_line = strip_line(address_line)
     return address_line
 
@@ -225,22 +211,22 @@ def extract_country(address_line):
     if match:
         if len(match.group(2)) == 2:
             for country in pycountry.countries:
-                if country.alpha_2 == match.group(2) and not address.get('schema:addressCountry'):
-                    address['schema:addressCountry'] = match.group(2)
+                if country.alpha_2 == match.group(2) and not address.get('addressCountry'):
+                    address['addressCountry'] = match.group(2)
                     address_line = address_line.replace(match.group(2), '')
                     return strip_line(address_line)
         else:
             if len(match.group(2)) == 3:
                 for country in pycountry.countries:
-                    if country.alpha_3 == match.group(2) and not address.get('schema:addressCountry'):
-                        address['schema:addressCountry'] = match.group(2)
+                    if country.alpha_3 == match.group(2) and not address.get('addressCountry'):
+                        address['addressCountry'] = match.group(2)
                         address_line = address_line.replace(match.group(2), '')
                         return strip_line(address_line)
     for country in pycountry.countries:
         match = re.search(country_regex_2, address_line)
         if match:
             if country.name.encode('utf-8').strip().__eq__(match.group(0)):
-                address['schema:addressCountry'] = str(country.alpha_2)
+                address['addressCountry'] = str(country.alpha_2)
                 address_line = address_line.replace(match.group(0), '')
     return strip_line(address_line)
 
@@ -253,8 +239,8 @@ def extract_region(address_line):
         if subdivisions:
             for subdivision in subdivisions:
                 if match.group(2).__eq__(subdivision):
-                    address['schema:addressRegion'] = match.group(2)
-                    address['schema:addressCountry'] = match.group(1)
+                    address['addressRegion'] = match.group(2)
+                    address['addressCountry'] = match.group(1)
                     address_line = address_line.replace(match.group(0), '')
                     return strip_line(address_line)
     match = re.search(region_regex_2, address_line)
@@ -262,8 +248,8 @@ def extract_region(address_line):
         subdivisions = subdivisions_by_countries.get('US')
         for subdivision in subdivisions:
             if match.group(0).__eq__(re.search(r'(?<=-).*', subdivision)):
-                address['schema:addressRegion'] = match.group(0)
-                address['schema:addressCountry'] = 'US'
+                address['addressRegion'] = match.group(0)
+                address['addressCountry'] = 'US'
                 address_line = address_line.replace(match.group(0), '')
                 return strip_line(address_line)
     # TODO: solution for fully worded regions?
@@ -274,7 +260,7 @@ def extract_pobox(address_line):
     global address
     match = re.search(pobox_regex, address_line)
     if match:
-        address['schema:postOfficeBoxNumber'] = match.group(4)
+        address['postOfficeBoxNumber'] = match.group(4)
         address_line = address_line.replace(match.group(0), '')
         return strip_line(address_line)
     return address_line
@@ -286,7 +272,7 @@ def extract_postalcode(address_line):
     global address
     match = re.search(postalcode_regex, address_line)
     if match:
-        address['schema:postalCode'] = match.group(0)
+        address['postalCode'] = match.group(0)
         address_line = address_line.replace(match.group(0), '')
         return strip_line(address_line)
     return address_line
@@ -294,7 +280,7 @@ def extract_postalcode(address_line):
 
 def extract_locality(address_line):
     global address
-    address['schema:addressLocality'] = strip_line(address_line)
+    address['addressLocality'] = strip_line(address_line)
 
 
 def strip_line(line):
@@ -322,20 +308,24 @@ def split_camel(line):
 
 def collect(url):
     global address
+    action = {
+        "@context" : "https://oerworldmap.org/assets/json/context.json",
+        "@type" : "Action"
+    }
+    grant = {
+        "@type": "Grant"
+    }
     awarder = {
         "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
     }
-    action = {
-        "@type":"schema:Action"
-    }
     agent = {
-        "@type":"schema:Organization"
+        # "@type":"Organization"
     }
     location = {
-        "@type":"schema:Place"
+        "@type":"Place"
     }
     address = {
-        "@type":"schema:PostalAddress"
+        "@type":"PostalAddress"
     }
 
     soup = get_soup_from_page(url)
@@ -347,22 +337,21 @@ def collect(url):
         return None
 
     grant_id = get_grant_id(url)
-    grantee_url = get_grantee_url(soup)
-    grantee_id = get_grantee_id(grantee_url)
-    result = get_header()
-    result['@id'] = get_uuid('hewlett_grant_' + grant_id)
+    # grantee_url = get_grantee_url(soup)
+    # grantee_id = get_grantee_id(grantee_url)
+
     action['@id'] = get_uuid('hewlett_action_' + grant_id)
-    agent['ex:granteeNumber'] = grantee_id
-    agent['ex:hewlettGrantList'] = grantee_url
+    # agent['granteeNumber'] = grantee_id
+    # agent['hewlettGrantList'] = grantee_url
 
     if hasattr(soup, 'h1'):
-        agent['schema:name'] = {
+        agent['name'] = {
             "@language": "en",
             "@value": soup.find('h1').getText()
         }
         print(soup.find('h1').getText()) # for status control
     if hasattr(soup, 'h3'):
-        action['schema:name'] = {
+        action['name'] = {
             "@language": "en",
             "@value": soup.find('h3').getText()
         }
@@ -373,15 +362,15 @@ def collect(url):
         extract_address(address_clean)
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
-        result['schema:description'] = {
+        grant['description'] = {
             "@language":"en",
             "@value":overview.getText()
         }
     subtitles = soup.findAll('h3', { "class" : "large-subtitle" })
     for subtitle in subtitles:
-        result['schema:name'] = {
+        grant['name'] = {
             "@language":"en",
-            "@value":subtitle.getText()
+            "@value":soup.find('h1').getText() + ' - ' + subtitle.getText()
         }
     for highlight_li in highlight_lis:
         label = None
@@ -391,17 +380,19 @@ def collect(url):
         for highlight_value in highlight_li.findAll('div', {'class' : 'highlights-value'}):
             value = highlight_value.getText()
         if label in grant_mapping:
-            result[grant_mapping[label]] = value
+            grant[grant_mapping[label]] = value
         elif label.__eq__('Term'):
             duration = get_grant_duration(value)
-            result['schema:duration'] = duration
-            action['schema:duration'] = duration
-    location['schema:address'] = address
-    agent['schema:location'] = location
-    action['schema:agent'] = agent
-    result['frapo:funds'] = action
-    result['frapo:is_awarded_by'] = awarder
-    return json.dumps(result, indent=2)
+            grant['duration'] = duration
+            action['duration'] = duration
+    location['address'] = address
+    agent['location'] = location
+    action['agent'] = agent
+    grant['isAwardedBy'] = awarder
+    grant['sameAs'] = url
+    action['isFundedBy'] = grant
+
+    return json.dumps(action, indent=2)
 
 
 def crawl_page(url):
