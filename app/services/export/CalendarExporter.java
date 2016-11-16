@@ -3,10 +3,14 @@ package services.export;
 import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
+import org.elasticsearch.common.Strings;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by fo and pvb
@@ -44,9 +48,12 @@ public class CalendarExporter implements Exporter {
   private static final String GEO = "GEO:";
   private static final String URL = "URL:";
 
-  private static final String DATE_START = "DTSTART:";  // TODO format: 20060910T220000Z
-  private static final String DATE_END = "DTEND:";      // TODO format: 20060919T215900Z
-  private static final String DATE_STAMP = "DTSTAMP:";  // TODO format: 20060812T125900Z
+  private static final String DATE_START = "DTSTART:";
+  private static final String DATE_END = "DTEND:";
+  private static final String DATE_STAMP = "DTSTAMP:";
+
+  private static final String DATE_REGEX = "([\\d]{4})-([\\d]{2})-([\\d]{2})";
+  private static final Pattern mDatePattern = Pattern.compile(DATE_REGEX);
 
   private static final Map<String, String> mFieldMap = new HashMap<>();
   static{
@@ -55,8 +62,6 @@ public class CalendarExporter implements Exporter {
     mFieldMap.put(SUMMARY, "name.@value");
     mFieldMap.put(DESCRIPTION, "description.@value");
     mFieldMap.put(URL, "url");
-    mFieldMap.put(DATE_START, "startDate");
-    mFieldMap.put(DATE_END, "endDate");
     mFieldMap.put(LOCATION, "location.address.streetAddress".concat(VALUE_SEPARATOR)
                     .concat("location.address.postalCode").concat(VALUE_SEPARATOR)
                     .concat("location.address.addressLocality").concat(VALUE_SEPARATOR)
@@ -119,8 +124,10 @@ public class CalendarExporter implements Exporter {
       }
     }
     result.append(getExportedOrganizer(aResource));
+    result.append(getStartDate(aResource));
+    result.append(getEndDate(aResource));
+    result.append(getTimeStamp());
     result.append(CAL_CLASS);
-    result.append(DATE_STAMP).append(System.currentTimeMillis()).append("\n"); // TODO change time stamp format
     result.append(EVENT_END);
     return result.toString();
   }
@@ -150,4 +157,37 @@ public class CalendarExporter implements Exporter {
     }
     return result.toString();
   }
+
+  private String getStartDate(Resource aResource) {
+    String originalStartDate = aResource.getAsString("startDate");
+    if (originalStartDate == null || Strings.isEmpty(originalStartDate)){
+      return null;
+    }
+    StringBuffer result = new StringBuffer(DATE_START);
+    result.append(formatDate(originalStartDate)).append("\n");
+    return result.toString();
+  }
+
+  private String getEndDate(Resource aResource) {
+    String originalEndDate = aResource.getAsString("endDate");
+    if (originalEndDate == null || Strings.isEmpty(originalEndDate)){
+      return null;
+    }
+    StringBuffer result = new StringBuffer(DATE_END);
+    result.append(formatDate(originalEndDate)).append("\n");
+    return result.toString();
+  }
+
+  private String formatDate(String aDate){
+    Matcher matcher = mDatePattern.matcher(aDate);
+    if (matcher.find()){
+      return matcher.group(1).concat(matcher.group(2)).concat(matcher.group(3));
+    }
+    return aDate;
+  }
+
+  private String getTimeStamp() {
+    return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15)).concat("Z\n");
+  }
+
 }
