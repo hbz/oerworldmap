@@ -1,37 +1,18 @@
 package controllers;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
-import models.Record;
-import models.TripleCommit;
+import helpers.JsonLdConstants;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-
-import helpers.JsonLdConstants;
-import models.Commit;
-import models.Resource;
-import models.ResourceList;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -40,9 +21,18 @@ import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.AbstractCsvExporter;
+import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author fo
@@ -115,11 +105,16 @@ public class ResourceIndex extends OERWorldMap {
         case "csv":
           format = "text/csv";
           break;
+        case "ics":
+          format = "text/calendar";
+          break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
     } else if (request().accepts("text/csv")) {
       format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
     } else {
       format = "application/json";
     }
@@ -138,9 +133,11 @@ public class ResourceIndex extends OERWorldMap {
       csvExporter.setDropFields(dropFields);
       result.append(csvExporter.headerKeysToCsvString().concat("\n"));
       for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+        result.append(csvExporter.export(resource).concat("\n"));
       }
       return ok(result.toString()).as("text/csv");
+    } else if (format.equals("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     }
 
     return notFound("Not found");
@@ -398,9 +395,15 @@ public class ResourceIndex extends OERWorldMap {
           break;
         case "json":
           format = "application/json";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
     } else {
       format = "application/json";
     }
@@ -411,6 +414,8 @@ public class ResourceIndex extends OERWorldMap {
       return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json");
+    } else if (format.equals("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resource)).as("text/calendar");
     }
 
     return notFound("Not found");

@@ -16,7 +16,8 @@ public class CsvDetailedExporter extends AbstractCsvExporter {
   private String[] mValues = new String[0];
   private List<String> mDropFields = new ArrayList<>();
 
-  public String exportResourceAsCsvLine(Resource aResource) {
+  @Override
+  public String export(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);

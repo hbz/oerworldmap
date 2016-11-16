@@ -1,0 +1,85 @@
+{
+  "image" : "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
+  "endDate" : "2016-07-24",
+  "@type" : "Event",
+  "description" : [ {
+    "@value" : "Erschließung frei verfügbarer Lerninhalte für Bildung: Hier kommen erfahrene Entwickler(innen), Domainexpert(inn)en und kreative Querdenker(innen) zusammen, um nachhaltige Anwendungen und Konzepte für den Bildungsbereich zu entwerfen und zu entwickeln. Ziel ist die “Förderung der Verfügbarkeit und Qualität von Lern- & Wissensinhalten sowie Softwaretools für Bildung”. Damit sollen Bildungseinrichtungen bei der Erschließung, Benutzung und Verbreitung von frei verfügbaren Lerninhalten (z.B. OER) unterstützt werden.",
+    "@language" : "de"
+  } ],
+  "inLanguage" : [ "de" ],
+  "@context" : "http://schema.org/",
+  "url" : "http://hackathon2016.edu-sharing-network.org/",
+  "organizer" : [ {
+    "image" : "http://edu-sharing.net/portal/documents/800494/800770/logo_es_final4.png?t=1447407949673",
+    "organizerFor" : [ {
+      "@type" : "Event",
+      "name" : [ {
+        "@value" : "Hackathon 2016 Weimar",
+        "@language" : "de"
+      } ],
+      "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d"
+    } ],
+    "@type" : "Organization",
+    "agentIn" : [ {
+      "@type" : "Action",
+      "name" : [ {
+        "@value" : "edu-sharing open-source Entwicklungsprojekt -  2015/16",
+        "@language" : "de"
+      }, {
+        "@value" : "edu-sharing open-source Entwicklungsprojekt -  2015/16",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:06dc59ee-103b-42bb-bf2b-3326d6abd16a"
+    } ],
+    "name" : [ {
+      "@value" : "edu-sharing NETWORK e.V.",
+      "@language" : "en"
+    }, {
+      "@value" : "edu-sharing NETWORK e.V.",
+      "@language" : "de"
+    } ],
+    "description" : [ {
+      "@value" : "Als gemeinnütziger Verein kümmert sich das edu-sharing NETWORK um die Verfügbarkeit hochwertiger Inhalte, die Organisation des edu-sharing Netzwerkes, um Qualitätssicherung, Lizenz-Konzepte sowie die Erstberatung für nicht-kommerzielle Einrichtungen. Unter der Adresse www.edu-sharing.com bieten die Softwarehersteller eine separate Webseite an. Hier finden Sie Informationen zu Produkten und Dienstleistungen rund um die quelloffenen edu-sharing  Technologien.",
+      "@language" : "de"
+    }, {
+      "@value" : "As a non-profit organization the edu-sharing NETWORK takes care of the availability of high quality learning content, the network organization, quality assurance and the initial consulting for non-profit organizations. At www.edu-sharing.com you can find a separate website managed by the software developers of the open source system. There you will find information about products and services surrounding the edu-sharing open source technologies.",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : 11.329643,
+        "lat" : 50.973463
+      },
+      "address" : {
+        "addressCountry" : "DE",
+        "streetAddress" : "Bauhausstrasse 7c",
+        "postalCode" : 99423,
+        "addressLocality" : "Weimar",
+        "addressRegion" : "Thüringen"
+      }
+    },
+    "@id" : "urn:uuid:19cf20b0-91d0-4fe4-bcc4-2cd25286cc61",
+    "email" : "info@edu-sharing.net",
+    "url" : "http://edu-sharing.net/portal/web/edu-sharing.net",
+    "sameAs" : [ "https://plus.google.com/+Edu-sharingNet", "https://twitter.com/edusharing" ]
+  } ],
+  "name" : [ {
+    "@value" : "Hackathon 2016 Weimar",
+    "@language" : "de"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 11.329643,
+      "lat" : 50.973463
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "streetAddress" : "Bauhausstraße 7c",
+      "postalCode" : 99423,
+      "addressLocality" : "Weimar"
+    }
+  },
+  "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d",
+  "startDate" : "2016-07-23",
+  "hashtag" : "#hack4oer"
+}
