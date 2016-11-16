@@ -396,12 +396,17 @@ public class ResourceIndex extends OERWorldMap {
         case "json":
           format = "application/json";
           break;
+        case "csv":
+          format = "text/csv";
+          break;
         case "ics":
           format = "text/calendar";
           break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
     } else if (request().accepts("text/calendar")) {
       format = "text/calendar";
     } else {
@@ -414,6 +419,15 @@ public class ResourceIndex extends OERWorldMap {
       return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json");
+    } else if (format.equals("text/csv")) {
+      StringBuffer result = new StringBuffer();
+      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
+      csvExporter.defineHeaderColumns(Arrays.asList(resource));
+      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
+      csvExporter.setDropFields(dropFields);
+      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
+      result.append(csvExporter.export(resource).concat("\n"));
+      return ok(result.toString()).as("text/csv");
     } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resource)).as("text/calendar");
     }
