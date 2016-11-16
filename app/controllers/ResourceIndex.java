@@ -54,7 +54,7 @@ public class ResourceIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
-  public Result list(String q, int from, int size, String sort, boolean list)
+  public Result list(String q, int from, int size, String sort, boolean list, String extension)
       throws IOException {
 
     // Extract filters directly from query params
@@ -103,9 +103,34 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
 
-    if (request().accepts("text/html")) {
-      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
     } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else {
+      format = "application/json";
+    }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
+    } else if (format.equals("application/json")) {
+      return ok(resourceList.toResource().toString()).as("application/json");
+    } else if (format.equals("text/csv")) {
       StringBuffer result = new StringBuffer();
       AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
       csvExporter.defineHeaderColumns(resourceList.getItems());
@@ -116,9 +141,10 @@ public class ResourceIndex extends OERWorldMap {
         result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
       }
       return ok(result.toString()).as("text/csv");
-    } else {
-      return ok(resourceList.toResource().toString()).as("application/json");
     }
+
+    return notFound("Not found");
+
   }
 
   public Result importRecords() throws IOException {
@@ -234,12 +260,12 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        return read(resource.getId(), "HEAD");
+        return read(resource.getId(), "HEAD", "html");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD").absoluteURL(request()));
+      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", "").absoluteURL(request()));
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
@@ -299,7 +325,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
 
-  public Result read(String id, String version) throws IOException {
+  public Result read(String id, String version, String extension) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
@@ -364,11 +390,31 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resource", resource);
     scope.put("permissions", permissions);
 
-    if (request().accepts("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
     } else {
+      format = "application/json";
+    }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json");
     }
+
+    return notFound("Not found");
+
   }
 
   public Result export(String aId) {
