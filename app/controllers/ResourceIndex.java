@@ -429,7 +429,10 @@ public class ResourceIndex extends OERWorldMap {
       result.append(csvExporter.export(resource).concat("\n"));
       return ok(result.toString()).as("text/csv");
     } else if (format.equals("text/calendar")) {
-      return ok(new CalendarExporter(Locale.ENGLISH).export(resource)).as("text/calendar");
+      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
+      if (ical != null) {
+        return ok().as("text/calendar");
+      }
     }
 
     return notFound("Not found");
