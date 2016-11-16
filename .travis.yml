@@ -13,6 +13,7 @@ install:
   - cd node/json-frame/ && npm install && cd ../..
 before_script:
   - cp conf/travis.conf conf/test.conf
+  - (node node/json-frame/frame.js 8080 conf/context.json https://oerworldmap.org/assets/json/context.json &) && sleep 5s
 branches:
   only:
     - master
