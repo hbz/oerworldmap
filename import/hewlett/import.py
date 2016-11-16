@@ -1,9 +1,8 @@
-import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry
+import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime
 
 
 grant_mapping = {
-    'Amount': 'hasMonetaryValue',
-    'Date Awarded': 'hasAwardDate'
+    'Amount': 'hasMonetaryValue'
 }
 
 url_page_regex = re.compile(r"page/([0-9]+)/")
@@ -126,8 +125,10 @@ def get_grant_duration(value):
         return 'P' + match.group(1) + 'M'
     else:
         raise ValueError('Unknown duration format:' + value)
-        return value
 
+def get_grant_date(value):
+    date = value.split("/")
+    return datetime.date(int(date[2]), int(date[0]), int(date[1])).isoformat()
 
 def is_desired(strategies, highlight_lis):
     has_strategy = False
@@ -319,7 +320,7 @@ def collect(url):
         "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
     }
     agent = {
-        # "@type":"Organization"
+        "@type":"Organization"
     }
     location = {
         "@type":"Place"
@@ -381,6 +382,8 @@ def collect(url):
             value = highlight_value.getText()
         if label in grant_mapping:
             grant[grant_mapping[label]] = value
+        elif label.__eq__('Date Awarded'):
+            grant['hasAwardDate'] = get_grant_date(value)
         elif label.__eq__('Term'):
             duration = get_grant_duration(value)
             grant['duration'] = duration
@@ -446,7 +449,7 @@ def import_hewlett_data(url):
 
 def write_into_file(imports, filename):
     output_file = open(filename, "w")
-    count = 1;
+    count = 1
     output_file.write("[")
     for import_entry in imports:
         output_file.write(import_entry)
