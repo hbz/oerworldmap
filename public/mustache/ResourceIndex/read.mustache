@@ -613,7 +613,9 @@
 
                 {{/if}}
 
-                {{> share.mustache url=(stringFormat "https://oerworldmap.org/resource/%s" @id)}}
+                {{#localized this.name language=@root.language}}
+                    {{> share.mustache url=(stringFormat "https://oerworldmap.org/resource/%s" @id) name=[@value]}}
+                {{/localized}}
 
                 {{> export.mustache url=(stringFormat "https://oerworldmap.org/resource/%s" @id)}}
 
