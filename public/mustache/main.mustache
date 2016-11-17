@@ -38,21 +38,6 @@
     <script type="text/javascript" src="/assets/vendor/underscore.js"></script>
     <script type="text/javascript" src="/assets/vendor/jquery.min.js"></script>
 
-    {{#if scope.embed}}
-        <style>
-            div[data-view="map"].column-large {
-                width: 100%;
-            }
-            body.layout-fixed > div[role="complementary"] {
-                top: 0;
-            }
-            div[data-view="map"] ~ div,
-            header {
-                display: none;
-            }
-        </style>
-    {{/if}}
-
     <script>
         var user = {{json user}};
         var permissions = {{json permissions}};
@@ -63,64 +48,72 @@
 
 <header class="clearfix" id="page-header">
 
-    <nav class="main">
-        <ul>
-            <li><h1><a href="/" title="Home">OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
-            <li><a href="/contribute" title="Contribute">Contribute</a></li>
-            <li><a href="/FAQ" title="FAQ">FAQ</a></li>
-            <li><a href="/about" title="About">About</a></li>
-        </ul>
-    </nav>
+    <div class="visible-print">
+        <h1>OER W<i class="fa fa-globe"></i>RLD MAP</h1>
+    </div>
 
-    <nav class="social">
-        <ul>
-            <li><a href="https://oerworldmap.wordpress.com/" title="Blog" target="_blank"><i class="fa fa-wordpress"></i></a></li>
-            <li><a href="https://www.facebook.com/oerworldmap" title="Facebook" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
-            <li><a href="https://twitter.com/oerworldmap" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="https://github.com/hbz/oerworldmap" title="Github" target="_blank"><i class="fa fa-github-square"></i></a></li>
-        </ul>
-    </nav>
+    <div class="hidden-print">
 
-    <nav class="user">
-        <ul>
+        <nav class="main">
+            <ul>
+                <li><h1><a href="/" title="Home">OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+                <li><a href="/contribute" title="Contribute">Contribute</a></li>
+                <li><a href="/FAQ" title="FAQ">FAQ</a></li>
+                <li><a href="/about" title="About">About</a></li>
+            </ul>
+        </nav>
 
-            {{#if user}}
+        <nav class="social">
+            <ul>
+                <li><a href="https://oerworldmap.wordpress.com/" title="Blog" target="_blank"><i class="fa fa-wordpress"></i></a></li>
+                <li><a href="https://www.facebook.com/oerworldmap" title="Facebook" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
+                <li><a href="https://twitter.com/oerworldmap" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="https://github.com/hbz/oerworldmap" title="Github" target="_blank"><i class="fa fa-github-square"></i></a></li>
+            </ul>
+        </nav>
 
-                <li class="dropdown">
-                    <div class="a" type="button" data-toggle="dropdown" title="{{ username }}">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
-                        <li><a href="/resource/{{user.[@id]}}"><i class="fa fa-fw fa-user"></i> My Profile</a></li>
-                        <li><a href="/user/password"><i class="fa fa-fw fa-lock"></i> Change Password</a></li>
-                        <li><a href="#" data-behaviour="logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>
-                    </ul>
-                </li>
+        <nav class="user">
+            <ul>
 
-            {{else}}
+                {{#if user}}
 
-                <li><a href="/user/register">Login</a></li>
+                    <li class="dropdown">
+                        <div class="a" type="button" data-toggle="dropdown" title="{{ username }}">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
+                            <li><a href="/resource/{{user.[@id]}}"><i class="fa fa-fw fa-user"></i> My Profile</a></li>
+                            <li><a href="/user/password"><i class="fa fa-fw fa-lock"></i> Change Password</a></li>
+                            <li><a href="#" data-behaviour="logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>
+                        </ul>
+                    </li>
 
-            {{/if}}
+                {{else}}
 
-        </ul>
-    </nav>
+                    <li><a href="/user/register">Login</a></li>
 
-    {{#unless user}}
+                {{/if}}
 
-        <h2 class="slogan"><a href="/contribute">Join us in mapping the world of OER!</a></h2>
+            </ul>
+        </nav>
 
-    {{/unless}}
+        {{#unless user}}
 
-    <div class="hidden" id="global-statistics">
-        <script type="application/ld+json" id="json-aggregations">
-            {{json scope.globalAggregation}}
-        </script>
-        <datalist id="keywords">
-        {{#scope.keywordAggregation.[about.keywords].buckets }}
-            <option value="{{key}}"></option>
-        {{/scope.keywordAggregation.[about.keywords].buckets}}
-        </datalist>
+            <h2 class="slogan"><a href="/contribute">Join us in mapping the world of OER!</a></h2>
+
+        {{/unless}}
+
+        <div class="hidden" id="global-statistics">
+            <script type="application/ld+json" id="json-aggregations">
+                {{json scope.globalAggregation}}
+            </script>
+            <datalist id="keywords">
+            {{#scope.keywordAggregation.[about.keywords].buckets }}
+                <option value="{{key}}"></option>
+            {{/scope.keywordAggregation.[about.keywords].buckets}}
+            </datalist>
+        </div>
+
     </div>
 
 </header>
@@ -156,7 +149,9 @@
 <script type="text/javascript" src="/assets/javascripts/helpers/client.js"></script>
 <script type="text/javascript" src="/assets/javascripts/handlebars.form-helpers.js"></script>
 <script type="text/javascript" src="/assets/javascripts/hijax.js"></script>
-<script type="text/javascript" src="/assets/javascripts/behaviours/app.js"></script>
+{{#unless scope.embed}}
+    <script type="text/javascript" src="/assets/javascripts/behaviours/app.js"></script>
+{{/unless}}
 <script type="text/javascript" src="/assets/javascripts/behaviours/filter.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/map.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/other.js"></script>

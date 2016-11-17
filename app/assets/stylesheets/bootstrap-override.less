@@ -186,3 +186,20 @@ h3:first-child {
 .table tr:last-child td {
   border-bottom: 1px solid @table-border-color;
 }
+
+
+/* --- links @media print (unset visible hrefs)--- */
+
+@media print {
+
+  *,
+  *:before,
+  *:after {
+    color: @blue-darker !important;
+  }
+
+  a[href]:after {
+    content: "";
+  }
+
+}

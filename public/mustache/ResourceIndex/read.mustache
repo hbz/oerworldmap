@@ -29,7 +29,7 @@
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="#resource-share" data-app="to-modal-and-attach-behaviours">Share <i class="fa fa-fw fa-share"></i></a></li>
                         <li><a href="#resource-export" data-app="to-modal-and-attach-behaviours">Export <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
-                        <li><button onclick="window.print();">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                        <li><button onclick="return window.print();">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
                         {{#if ../permissions.delete}}
                             <li><a data-behaviour="delete-resource" href="/resource/{{[@id]}}">Delete <i class="fa fa-fw fa-trash"></i></a></li>
                         {{/if}}
@@ -617,7 +617,7 @@
                     {{> share.mustache url=(stringFormat "https://oerworldmap.org/resource/%s" @id) name=[@value]}}
                 {{/localized}}
 
-                {{> export.mustache url=(stringFormat "https://oerworldmap.org/resource/%s" @id)}}
+                {{> export.mustache url=(stringFormat "/resource/%s" @id)}}
 
             </div>
 
@@ -625,49 +625,58 @@
                 export
             </div>
 
-            {{#if comment}}
-                <h2>Comments</h2>
-                {{#sort comment "dateCreated" "asc"}}
-                    {{#if author.[0].name}}
-                        <hr>
-                        <div>
-                            <p>
-                                <small>
-                                    <em>
-                                        {{#author}}
-                                            {{#localized this.name language=@root.language}}
-                                                <a href="/resource/{{[@id]}}">{{[@value]}}</a>
-                                            {{/localized}}
-                                        {{/author}}
-                                    </em>
-                                    on
-                                    <em>{{this.dateCreated}}</em>
-                                </small>
-                            </p>
-                            <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
-                        </div>
-                    {{/if}}
-                {{/sort}}
-            {{/if}}
+            <div class="resource-comments">
 
-            {{#if ../permissions.comment}}
-                <h2>Add Comment</h2>
-                {{#if user.name}}
-                    <form method="post" action="/resource/{{[@id]}}/comment">
-                        {{>ResourceIndex/Comment/edit.mustache}}
-                        <div class="pull-right resource-form-top-padding">
-                            <button class="btn btn-inverted" type="submit">Submit</button>
-                        </div>
-                    </form>
-                {{else}}
-                    <p>
-                        <em>
-                            You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
-                            comment.
-                        </em>
-                    </p>
+                {{#if comment}}
+
+                    <h2>Comments</h2>
+
+                    {{#sort comment "dateCreated" "asc"}}
+                        {{#if author.[0].name}}
+                            <hr>
+                            <div>
+                                <p>
+                                    <small>
+                                        <em>
+                                            {{#author}}
+                                                {{#localized this.name language=@root.language}}
+                                                    <a href="/resource/{{[@id]}}">{{[@value]}}</a>
+                                                {{/localized}}
+                                            {{/author}}
+                                        </em>
+                                        on
+                                        <em>{{this.dateCreated}}</em>
+                                    </small>
+                                </p>
+                                <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
+                            </div>
+                        {{/if}}
+                    {{/sort}}
+
                 {{/if}}
-            {{/if}}
+
+                {{#if ../permissions.comment}}
+
+                    <h2>Add Comment</h2>
+                    {{#if user.name}}
+                        <form method="post" action="/resource/{{[@id]}}/comment">
+                            {{>ResourceIndex/Comment/edit.mustache}}
+                            <div class="pull-right resource-form-top-padding">
+                                <button class="btn btn-inverted" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    {{else}}
+                        <p>
+                            <em>
+                                You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
+                                comment.
+                            </em>
+                        </p>
+                    {{/if}}
+
+                {{/if}}
+
+            </div>
 
         {{/resource}}
 

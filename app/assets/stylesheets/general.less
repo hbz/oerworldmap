@@ -23,6 +23,20 @@ button:focus {
   margin: 0 5px;
 }
 
+.visible-print {
+  display: none;
+}
+
+@media print {
+
+  .visible-print {
+    display: block !important;
+  }
+
+  .hidden-print {
+    display: none;
+  }
+}
 
 /* --- paragraph image --- */
 
@@ -33,8 +47,8 @@ button:focus {
   border: 1px solid @blue-pale;
 
   img {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 250px !important; // important to override bootstrap @media print rules
+    max-height: 250px !important;
   }
 }
 

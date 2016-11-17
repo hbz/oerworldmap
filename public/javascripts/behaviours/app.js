@@ -69,6 +69,11 @@ var Hijax = (function ($, Hijax, page) {
     return Hijax.attachBehaviours(body_mock.find('main'), 'triggered for ' + url);
   }
 
+  function set_col_mode(col, mode) {
+    $('#app-col-' + col).attr('data-col-mode', mode);
+    $('#app').attr('data-col-' + col + '-mode', mode);
+  }
+
   function set_map_and_index_source(url, index_mode) {
     log.debug('APP set_map_and_index_source', url);
 
@@ -82,7 +87,7 @@ var Hijax = (function ($, Hijax, page) {
         map_and_index_loaded.resolve();
       });
     }
-    $('#app-col-index').attr('data-col-mode', index_mode);
+    set_col_mode('index', index_mode);
   }
 
   function set_detail_source(url) {
@@ -94,12 +99,12 @@ var Hijax = (function ($, Hijax, page) {
         $('#app-col-detail [data-app="col-content"]').html(
           get_main(data, url)
         );
-        $('#app-col-detail').attr('data-col-mode', 'expanded');
+        set_col_mode('detail', 'expanded');
         detail_source = url;
         detail_loaded.resolve();
       });
     } else {
-      $('#app-col-detail').attr('data-col-mode', 'expanded');
+      set_col_mode('detail', 'expanded');
     }
 
     // set focus to fit hightlighted
@@ -187,7 +192,7 @@ var Hijax = (function ($, Hijax, page) {
     if(pagejs_ctx.hash) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
-      $('#app-col-detail').attr('data-col-mode', 'hidden');
+      set_col_mode('detail', 'hidden');
       Hijax.behaviours.map.clearHighlights();
     }
 
@@ -199,7 +204,7 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
     set_map_and_index_source(pagejs_ctx.path, 'list');
-    $('#app-col-detail').attr('data-col-mode', 'hidden');
+    set_col_mode('detail', 'hidden');
 
     // set focus to country code (might be overwritten by set_detail_source
     $('#app-col-map [data-behaviour="map"]').attr('data-focus', pagejs_ctx.path.split("/").pop().toUpperCase() );
@@ -207,7 +212,7 @@ var Hijax = (function ($, Hijax, page) {
     if(pagejs_ctx.hash) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
-      $('#app-col-detail').attr('data-col-mode', 'hidden');
+      set_col_mode('detail', 'hidden');
       Hijax.behaviours.map.clearHighlights();
     }
 
