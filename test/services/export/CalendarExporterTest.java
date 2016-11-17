@@ -55,10 +55,6 @@ public class CalendarExporterTest implements JsonTest {
     compareLines(exported, expected);
   }
 
-  private static List<String> splitLines(String aString){
-    return Arrays.asList(aString.split("\n"));
-  }
-
   private void compareLines(List<String> aExported, List<String> aExpected) {
     for (String line : aExported){
       if (line.startsWith("DTSTAMP:")){
@@ -69,6 +65,5 @@ public class CalendarExporterTest implements JsonTest {
       }
     }
   }
-
 
 }

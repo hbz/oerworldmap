@@ -1,11 +1,16 @@
 package services.export;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import models.ResourceList;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +50,23 @@ public class CsvDetailedExporterTest implements JsonTest {
     assertEquals(
         "345;Person;123;Article;Super toll;456;Person;Hans Dampf;345;Person;Hans Wurst;Ganz spannend!;null;null;null;null;null;null;foo@bar.com;Hans Wurst",
         csv2);
+  }
+
+  @Test
+  public void testExportResourceList() throws IOException {
+    ResourceList multipleEvents = new ResourceList(Arrays.asList(in1, in2),
+      0, null, 0, 0, null, null, null);
+    List<String> exported = splitLines(mCsvExporter.export(multipleEvents));
+    List<String> expected = splitLines(getStringFromFile("CsvDetailedExporterTest/testExportResourceList.OUT.1.csv", Charset.forName("UTF-8")));
+    assertFalse("Export is too short.", expected.size() > exported.size());
+    assertFalse("Export is too long.", expected.size() < exported.size());
+    compareLines(exported, expected);
+  }
+
+  private void compareLines(List<String> aExported, List<String> aExpected) {
+    for (String line : aExported){
+      assertTrue("The CSV export line was not expected: ".concat(line), aExpected.contains(line));
+    }
   }
 
 }
