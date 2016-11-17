@@ -97,19 +97,12 @@ public class ResourceIndex extends OERWorldMap {
       return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
     } //
     else if (request().accepts("text/csv")) {
-      StringBuffer result = new StringBuffer();
-      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
-      csvExporter.defineHeaderColumns(resourceList.getItems());
-      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
-      csvExporter.setDropFields(dropFields);
-      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
-      for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.export(resource).concat("\n"));
-      }
-      return ok(result.toString()).as("text/csv");
-    } else if (request().accepts("text/calendar")) {
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+    } //
+    else if (request().accepts("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
-    } else {
+    } //
+    else {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
   }

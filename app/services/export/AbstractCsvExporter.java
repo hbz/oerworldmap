@@ -45,10 +45,7 @@ public abstract class AbstractCsvExporter implements Exporter{
    * @return a String containing all field contents of the given ResourceList including the CSV header
      */
   @Override
-  public String export(ResourceList aResourceList) {
-    // currently not implemented
-    return null;
-  }
+  public abstract String export(ResourceList aResourceList);
 
   /**
    * Export the header line as CSV string.
