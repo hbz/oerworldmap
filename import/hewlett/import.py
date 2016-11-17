@@ -26,6 +26,8 @@ pobox_regex = re.compile(r'((P\.?O\.? )?Box|Post(bus|fach)) ([\d]{2,6})')
 postalcode_regex = re.compile(r'[\d]{5}(-[\d]{4})?|[A-Z][0-9][A-Z] [0-9][A-Z][0-9]|[A-Z]{1,2}[0-9]{1,2} [0-9][A-Z]{2}')
 
 uuid_file = "id_map.json"
+agents_file = "import/hewlett/agents.json"
+agents = []
 uuids = {}
 address = {}
 subdivisions_by_countries = {}
@@ -59,15 +61,26 @@ def get_soup_from_page(url):
         return soup
 
 
+def get_and_put_uuid(key):
+    global uuids
+    uuid = get_uuid(key)
+    if not uuid:
+        uuid = create_uuid()
+    put_uuid(key, uuid)
+    return uuid
+
+
 def get_uuid(key):
     global uuids
     try:
         a_uuid = uuids[key]
     except KeyError, e:
-        # id does not yet exist
-        a_uuid = uuid.uuid4().urn
-        put_uuid(key, a_uuid)
+        return None
     return a_uuid
+
+
+def create_uuid():
+    return uuid.uuid4().urn
 
 
 def put_uuid(key, uuid):
@@ -91,6 +104,33 @@ def save_ids_file():
     global uuids, uuid_file
     with open(uuid_file, 'w') as file:
         file.write(json.dumps(uuids))
+
+
+def load_agents_file():
+    global agents, agents_file
+    if not os.path.isfile(agents_file):
+        open(agents_file, 'a').close()
+    try:
+        with open(agents_file, 'r') as file:
+            agents = json.loads(file.read())
+    except ValueError, e:
+        if not str(e).__eq__('No JSON object could be decoded'):
+            raise ValueError('Unexpected error while loading agents file: ' + str(e))
+
+
+def save_agents_file():
+    global agents, agents_file
+    with open(agents_file, 'w') as file:
+        file.write(json.dumps(agents))
+
+
+def get_agent_by_id(search_id):
+    global agents
+    for agent in agents:
+        id = agent.get('@id')
+        if id and id == search_id:
+            return agent
+    return None
 
 
 def get_grant_id(url):
@@ -308,7 +348,7 @@ def split_camel(line):
 
 
 def collect(url):
-    global address
+    global address, agents
     action = {
         "@context" : "https://oerworldmap.org/assets/json/context.json",
         "@type" : "Action"
@@ -319,9 +359,7 @@ def collect(url):
     awarder = {
         "@id":"urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
     }
-    agent = {
-        "@type":"Organization"
-    }
+    agent = {}
     location = {
         "@type":"Place"
     }
@@ -341,26 +379,23 @@ def collect(url):
     grantee_url = get_grantee_url(soup)
     grantee_id = get_grantee_id(grantee_url)
 
-    action['@id'] = get_uuid('hewlett_action_' + grant_id)
-    agent['@id'] = get_uuid('hewlett_grantee_' + grantee_id)
-    # agent['hewlettGrantList'] = grantee_url
+    action['@id'] = get_and_put_uuid('hewlett_action_' + grant_id)
+
+    agent_uuid = get_uuid('hewlett_grantee_' + grantee_id)
+    if not agent_uuid:
+        agent_uuid = create_uuid();
+    if not get_agent_by_id(agent_uuid):
+        put_agent(agent_uuid, grantee_id, soup, location)
+    agent['@id'] = agent_uuid
+    action['agent'] = [agent]
 
     if hasattr(soup, 'h1'):
-        agent['name'] = [{
-            "@language": "en",
-            "@value": soup.find('h1').getText()
-        }]
         print(soup.find('h1').getText()) # for status control
     if hasattr(soup, 'h3'):
         action['name'] = [{
             "@language": "en",
             "@value": soup.find('h3').getText()
         }]
-    address_tags = soup.findAll('div', { "class" : "aboutgrantee-address" })
-    for address_tag in address_tags:
-        address_no_span = re.search(address_without_span_regex, (str(address_tag)))
-        address_clean = re.sub(address_split_regex, ", ", address_no_span.group(0))
-        extract_address(address_clean)
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
         grant['description'] = [{
@@ -388,14 +423,31 @@ def collect(url):
             duration = get_grant_duration(value)
             grant['duration'] = duration
             action['duration'] = duration
-    location['address'] = address
-    agent['location'] = location
-    action['agent'] = [agent]
     grant['isAwardedBy'] = awarder
     grant['sameAs'] = url
     action['isFundedBy'] = [grant]
 
     return json.dumps(action, indent=2)
+
+
+def put_agent(agent_uuid, grantee_id, soup, location):
+    agent_detailled = {}
+    put_uuid('hewlett_grantee_' + grantee_id, agent_uuid)
+    agent_detailled['@type'] = 'Organization'
+    if hasattr(soup, 'h1'):
+        agent_detailled['name'] = [{
+            "@language": "en",
+            "@value": soup.find('h1').getText()
+        }]
+    address_tags = soup.findAll('div', { "class" : "aboutgrantee-address" })
+    for address_tag in address_tags:
+        address_no_span = re.search(address_without_span_regex, (str(address_tag)))
+        address_clean = re.sub(address_split_regex, ", ", address_no_span.group(0))
+        extract_address(address_clean)
+    location['address'] = address
+    agent_detailled['location'] = location
+    agent_detailled['@id'] = agent_uuid
+    agents.append(agent_detailled)
 
 
 def crawl_page(url):
@@ -461,6 +513,7 @@ def write_into_file(imports, filename):
 
 
 def main():
+    global agents
     if len(sys.argv) != 3:
         print 'Usage: python <path>/<to>/import.py <import_url> <path>/<to>/<destination_file.json>'
         # typical usage:
@@ -468,11 +521,13 @@ def main():
         # python import/hewlett/import.py 'http://www.hewlett.org/grants/?search=open+educational+resources' 'import/hewlett/search_open_educational_resources.json'
         return
     load_ids_file()
+    load_agents_file()
     fill_subdivision_list()
     imports = import_hewlett_data(sys.argv[1])
     print('Hewlett import: found ' + `len(imports)` + ' items.')
     write_into_file(imports, sys.argv[2])
     save_ids_file()
+    save_agents_file()
 
 
 if __name__ == "__main__":
