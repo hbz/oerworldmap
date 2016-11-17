@@ -346,16 +346,16 @@ def collect(url):
     # agent['hewlettGrantList'] = grantee_url
 
     if hasattr(soup, 'h1'):
-        agent['name'] = {
+        agent['name'] = [{
             "@language": "en",
             "@value": soup.find('h1').getText()
-        }
+        }]
         print(soup.find('h1').getText()) # for status control
     if hasattr(soup, 'h3'):
-        action['name'] = {
+        action['name'] = [{
             "@language": "en",
             "@value": soup.find('h3').getText()
-        }
+        }]
     address_tags = soup.findAll('div', { "class" : "aboutgrantee-address" })
     for address_tag in address_tags:
         address_no_span = re.search(address_without_span_regex, (str(address_tag)))
@@ -363,16 +363,16 @@ def collect(url):
         extract_address(address_clean)
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
-        grant['description'] = {
+        grant['description'] = [{
             "@language":"en",
             "@value":overview.getText()
-        }
+        }]
     subtitles = soup.findAll('h3', { "class" : "large-subtitle" })
     for subtitle in subtitles:
-        grant['name'] = {
+        grant['name'] = [{
             "@language":"en",
             "@value":soup.find('h1').getText() + ' - ' + subtitle.getText()
-        }
+        }]
     for highlight_li in highlight_lis:
         label = None
         value = None
@@ -390,10 +390,10 @@ def collect(url):
             action['duration'] = duration
     location['address'] = address
     agent['location'] = location
-    action['agent'] = agent
+    action['agent'] = [agent]
     grant['isAwardedBy'] = awarder
     grant['sameAs'] = url
-    action['isFundedBy'] = grant
+    action['isFundedBy'] = [grant]
 
     return json.dumps(action, indent=2)
 
