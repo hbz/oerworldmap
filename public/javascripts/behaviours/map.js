@@ -1021,18 +1021,34 @@ var Hijax = (function ($, Hijax) {
       // Hide entries not in current map extent by examining all markers (including "indirect" ones)
       // for each list entry
       $('[data-behaviour~="geoFilteredList"]', context).each(function(){
+
         var container = $(this);
         var list = container.find('.resource-list');
+
+        var enabled = $('<input type="checkbox" name="enabled" checked="checked" />').change(function() {
+          restrictListToExtent();
+        });
+        container.prepend($('<label> Restrict results to map</label>').prepend(enabled));
+
         world.getView().on('propertychange', _.debounce(function(e) {
           if (e.key == 'resolution' || e.key == 'center') {
+            restrictListToExtent();
+          }
+        }, 150));
+
+        function restrictListToExtent() {
+          if (enabled.prop("checked")) {
             var extent = world.getView().calculateExtent(world.getSize());
             list.children('li').hide();
             placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
               list.children('li[about="' + feature.getProperties()['origin_id'] +'"]').show();
             });
-            container.find('.total-items').text(list.children('li:visible').length);
+          } else {
+            list.children('li').show();
           }
-        }, 150));
+          container.find('.total-items').text(list.children('li:visible').length);
+        }
+
       });
 
       // Populate pin highlights
