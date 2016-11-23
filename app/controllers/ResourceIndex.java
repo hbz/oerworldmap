@@ -395,6 +395,9 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("commits", mBaseRepository.log(aId));
     scope.put("resource", aId);
 
+    if (StringUtils.isEmpty(aId)) {
+      return ok(mBaseRepository.log(aId).toString());
+    }
     return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
 
   }
