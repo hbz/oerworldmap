@@ -314,7 +314,6 @@ public class BaseRepository extends Repository
   public String update(String delete, String insert, String where) {
 
     Commit.Diff diff = mTriplestoreRepository.update(delete, insert, where);
-    index(diff);
     return diff.toString();
 
   }
