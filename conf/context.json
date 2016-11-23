@@ -43,6 +43,12 @@
     "broader": {
       "@id": "skos:broader"
     },
+    "Concept": {
+      "@id": "skos:Concept"
+    },
+    "ConceptScheme": {
+      "@id": "skos:ConceptScheme"
+    },
     "contactPoint": {
       "@container": "@set"
     },
