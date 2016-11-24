@@ -986,6 +986,13 @@
           "items": {
             "$ref": "#/definitions/Comment"
           }
+        },
+        "awards": {
+          "description": "A grant the organization awards.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Grant"
+          }
         }
       },
       "required": [
@@ -1210,6 +1217,13 @@
           "items": {
             "type": "string"
           }
+        },
+        "funds": {
+          "description": "The action being funded",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
         }
       },
       "required": [
@@ -1312,6 +1326,16 @@
             }
           ]
         },
+        "postOfficeBoxNumber": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "addressLocality": {
           "type": "string"
         },
@@ -1322,9 +1346,6 @@
           "$ref": "#/definitions/Country"
         }
       },
-      "required": [
-        "addressCountry"
-      ],
       "additionalProperties": false
     },
     "LocalizedString": {

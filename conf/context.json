@@ -40,6 +40,10 @@
     "availableLanguage": {
       "@container": "@set"
     },
+    "awards": {
+      "@container": "@set",
+      "@id": "frapo:awards"
+    },
     "broader": {
       "@id": "skos:broader"
     },
@@ -69,6 +73,10 @@
     },
     "funderOf": {
       "@container": "@set"
+    },
+    "funds": {
+      "@container": "@set",
+      "@id": "frapo:funds"
     },
     "Grant": "frapo:Grant",
     "hasAwardDate": "frapo:hasAwardDate",
