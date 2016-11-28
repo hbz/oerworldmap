@@ -65,7 +65,7 @@ var Hijax = (function ($, Hijax) {
       var value_input = $(value_input_html).get(0);
       if (value_input.getAttribute('data-pattern')) {
         value_input.oninput = function() {
-          this.setCustomValidity((this.value.match(new RegExp(this.getAttribute('data-pattern'))) ? "" : "Invalid " + this.placeholder));
+          this.setCustomValidity((!this.value || this.value.match(new RegExp(this.getAttribute('data-pattern'))) ? "" : "Invalid " + this.placeholder));
         };
       }
 
