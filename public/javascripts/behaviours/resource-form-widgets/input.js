@@ -62,7 +62,14 @@ var Hijax = (function ($, Hijax) {
         .addClass('form-control')
         .detach()[0].outerHTML;
 
-      $(one).append(value_input_html);
+      var value_input = $(value_input_html).get(0);
+      if (value_input.getAttribute('data-pattern')) {
+        value_input.oninput = function() {
+          this.setCustomValidity((this.value.match(new RegExp(this.getAttribute('data-pattern'))) ? "" : "Invalid " + this.placeholder));
+        };
+      }
+
+      $(one).append(value_input);
 
     }
 
