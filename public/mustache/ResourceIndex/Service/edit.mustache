@@ -14,7 +14,9 @@
 
     {{> FormElements/localizedTextarea.mustache property=description property_path="description" title=(i18n "Service.description") tooltip=(i18n "Service.description" bundle="descriptions")}}
 
-    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Service.startDate") tooltip=(i18n "Service.startDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD"}}
+    {{> FormElements/input.mustache property=startDate property_path="startDate" title=(i18n "Service.startDate") tooltip=(i18n "Service.startDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
+
+    {{> FormElements/input.mustache property=endDate property_path="endDate" title=(i18n "Service.endDate") tooltip=(i18n "Service.endDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
 
     {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Service.email") tooltip=(i18n "Service.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
 
