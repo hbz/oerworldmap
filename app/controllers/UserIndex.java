@@ -297,7 +297,7 @@ public class UserIndex extends OERWorldMap {
     }
 
     Resource person = new Resource("Person");
-    person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    person.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     mBaseRepository.addResource(person, getMetadata());
     mAccountService.setProfileId(aEmailAddress, person.getId());
     mAccountService.setPermissions(person.getId(), aEmailAddress);

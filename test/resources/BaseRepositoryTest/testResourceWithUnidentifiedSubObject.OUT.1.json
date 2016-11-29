@@ -4,5 +4,5 @@
 	}, 
 	"@type": "Person", 
 	"@id": "info:id002", 
-	"@context": "http://schema.org/"
+	"@context" : "https://oerworldmap.org/assets/json/context.json"
 }

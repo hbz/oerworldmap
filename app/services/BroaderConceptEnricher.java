@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import helpers.SCHEMA;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -12,6 +11,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
@@ -25,9 +25,11 @@ public class BroaderConceptEnricher implements ResourceEnricher {
 
   private final Model mConceptSchemes;
 
+  private static final Property mBroader = ResourceFactory.createProperty("http://www.w3.org/2004/02/skos/core#broader");
+
   private static final String SELECT_BROADER =
     "SELECT ?broader WHERE {" +
-    "  <%1$s> <http://schema.org/broader>+ ?broader " +
+    "  <%1$s> <" + mBroader + ">+ ?broader " +
     "}";
 
   public BroaderConceptEnricher() {
@@ -72,7 +74,7 @@ public class BroaderConceptEnricher implements ResourceEnricher {
             ResultSet resultSet = queryExecution.execSelect();
             while (resultSet.hasNext()) {
               QuerySolution querySolution = resultSet.next();
-              if (!stmt.getPredicate().equals(SCHEMA.broader)) {
+              if (!stmt.getPredicate().equals(mBroader)) {
                 Statement broaderConcept = ResourceFactory.createStatement(stmt.getSubject(), stmt.getPredicate(),
                   querySolution.get("broader").asResource());
                 broaderConcepts.add(broaderConcept);

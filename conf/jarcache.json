@@ -8,5 +8,10 @@
     "Content-Location": "http://schema.org",
     "X-Classpath": "schema.org.jsonld",
     "Content-Type": "application/ld+json"
+  },
+  {
+    "Content-Location": "https://oerworldmap.org/assets/json/context.json",
+    "X-Classpath": "context.json",
+    "Content-Type": "application/ld+json"
   }
 ]

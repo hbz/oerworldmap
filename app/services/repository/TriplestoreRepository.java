@@ -51,7 +51,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   public static final String EXTENDED_DESCRIPTION =
     "DESCRIBE <%1$s> ?o ?oo WHERE {" +
-    "  <%1$s> ?p ?o FILTER isIRI(?o) OPTIONAL { ?o ?pp ?oo FILTER isIRI(?oo) }" +
+    "  <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo }" +
     "}";
 
   public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
