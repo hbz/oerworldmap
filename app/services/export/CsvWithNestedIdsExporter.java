@@ -20,13 +20,22 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));
     for (Resource resource : aResourceList.getItems()) {
-      result.append(export(resource).concat("\n"));
+      result.append(buildRow(resource).concat("\n"));
     }
     return result.toString();
   }
 
   @Override
   public String export(Resource aResource) {
+    StringBuffer result = new StringBuffer();
+    defineHeaderColumns(Arrays.asList(aResource));
+    setDropFields(Arrays.asList(JsonLdConstants.TYPE));
+    result.append(headerKeysToCsvString().concat("\n"));
+    result.append(buildRow(aResource).concat("\n"));
+    return result.toString();
+  }
+
+  private String buildRow(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
