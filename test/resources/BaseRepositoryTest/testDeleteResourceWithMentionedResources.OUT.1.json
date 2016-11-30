@@ -14,5 +14,5 @@
 			}
 		}
 	], 
-	"@context": "http://schema.org/"
+	"@context" : "https://oerworldmap.org/assets/json/context.json"
 }

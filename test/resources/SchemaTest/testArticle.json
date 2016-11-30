@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:35b71b56-9dcc-11e5-bb97-54ee7558c81f",
   "@type": "Article",
   "creator": [

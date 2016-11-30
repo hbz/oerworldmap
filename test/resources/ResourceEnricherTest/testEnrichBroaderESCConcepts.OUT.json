@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@type" : "Service",
   "about" : [ {
     "@id" : "https://w3id.org/class/esc/n0532"

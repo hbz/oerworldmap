@@ -1,6 +1,6 @@
 {
   "@type" : "Organization",
-  "@context" : "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "name" : [ {
     "@value" : "OERWorldMap Provider 1",
     "@language" : "en"
