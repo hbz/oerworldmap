@@ -6,5 +6,5 @@
     "@type": "Person",
     "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456"
   },
-  "@context": "http://schema.org/"
+  "@context" : "https://oerworldmap.org/assets/json/context.json"
 }

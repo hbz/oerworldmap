@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
   "@type": "Event",
   "name": [

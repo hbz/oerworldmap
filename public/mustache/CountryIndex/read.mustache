@@ -198,7 +198,7 @@
 
     </div>
 
-    <div class="column-section-new last">
+    <div class="column-section-new last" data-behaviour="geoFilteredList">
 
         <div class="p">
             <form action="/resource/">
@@ -213,10 +213,10 @@
         </div>
 
         <p>
-            Found <span class="badge">{{resources.totalItems}}</span> entities for {{i18n scope.alpha-2 bundle="countries"}} ...
+            <span class="badge total-items">{{resources.totalItems}}</span> entries shown
         </p>
 
-        <ul class="resource-list truncated" data-app="link-to-fragment" data-behaviour="populateMap">
+        <ul class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
             <script type="application/ld+json">
                 {{{resources.member}}}
             </script>

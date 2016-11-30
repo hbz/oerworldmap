@@ -28,5 +28,5 @@
     "@language" : "en"
   } ],
   "@id" : "urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c",
-  "@context" : "http://schema.org/"
+  "@context" : "https://oerworldmap.org/assets/json/context.json"
 }

@@ -19,5 +19,5 @@
     }
   },
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-OERforever",
-  "@context": "http://schema.org/"
+  "@context" : "https://oerworldmap.org/assets/json/context.json"
 }
