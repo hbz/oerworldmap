@@ -35,7 +35,7 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
     return result.toString();
   }
 
-  private String buildRow(Resource aResource) {
+  public String buildRow(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
