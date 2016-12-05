@@ -219,19 +219,10 @@
                     <tr>
                         <td>{{i18n (stringFormat "%s.audience" @type)}}</td>
                         <td>
-                            <ul class="resource-list">
-                                {{#audience}}
-                                    <li>
-                                        {{getIcon @type}}
-                                        <a href="/resource/?filter.about.audience.@id={{@id}}">
-                                            {{#localized this.name language=@root.language}}
-                                                {{[@value]}}
-                                            {{else}}
-                                                {{[@id]}}
-                                            {{/localized}}
-                                        </a>
-                                    </li>
-                                {{/audience}}
+                            <ul>
+                                {{#each (reduceSkos @root.skos.isced audience)}}
+                                    <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                {{/each}}
                             </ul>
                         </td>
                     </tr>
@@ -267,19 +258,10 @@
                     <tr>
                         <td>{{i18n (stringFormat "%s.about" @type)}}</td>
                         <td>
-                            <ul class="resource-list">
-                                {{#about}}
-                                    <li>
-                                        {{getIcon @type}}
-                                        <a href="/resource/?filter.about.about.@id={{@id}}">
-                                            {{#localized this.name language=@root.language}}
-                                                {{[@value]}}
-                                            {{else}}
-                                                {{[@id]}}
-                                            {{/localized}}
-                                        </a>
-                                    </li>
-                                {{/about}}
+                            <ul>
+                                {{#each (reduceSkos @root.skos.esc about)}}
+                                    <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                {{/each}}
                             </ul>
                         </td>
                     </tr>
