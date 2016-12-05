@@ -177,6 +177,29 @@
 
 <div class="list-statistics-container floating-hidden">
 
+    <div class="p filter-state visible-print">
+        Showing entities
+
+        {{#if scope.resources.searchTerms}}
+            which match
+            "{{scope.resources.searchTerms}}"
+            <span class="comma">and</span>
+        {{/if}}
+
+        {{#if scope.resources.filters}}
+            where
+            {{#each scope.resources.filters}}
+                <span class="field">
+                    <strong>{{i18n (getField [@key])}}</strong> is
+                    {{#each .}}
+                        <em>{{i18n . bundle=(getBundle (getField ../[@key]))}}</em> <span class="comma">or</span>
+                    {{/each}}
+                </span>
+                <span class="comma">and</span>
+            {{/each}}
+        {{/if}}
+    </div>
+
     <div class="p clearfix">
 
         <div class="pull-left">
