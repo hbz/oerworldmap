@@ -206,6 +206,25 @@
             Found <span class="badge">{{scope.resources.totalItems}}</span> entities
         </div>
 
+        <div class="pull-right">
+
+            <ul class="resource-controls">
+
+                <li class="dropdown">
+                    <button type="button" class="icon-btn" data-toggle="dropdown" title="Share and Export">
+                        <i class="fa fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#resource-share-list" data-app="to-modal-and-attach-behaviours">Share <i class="fa fa-fw fa-share"></i></a></li>
+                        <li><a href="#resource-export-list" data-app="to-modal-and-attach-behaviours">Export <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
+                        <li><button onclick="return window.print();">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </div>
+
     </div>
 
     <div>
@@ -226,3 +245,13 @@
     </div>
 
 </div>
+
+<div data-dont-behave>
+
+    {{> share.mustache type="list" url=(stringFormat "https://oerworldmap.org%s" @root.requestUri) name=""}}
+
+    {{> export.mustache type="list" url=@root.requestUri}}
+
+</div>
+
+<pre>{{{scope}}}</pre>

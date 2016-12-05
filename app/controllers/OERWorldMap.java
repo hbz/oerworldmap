@@ -235,6 +235,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
     mustacheData.put("language", getLocale().toLanguageTag());
+    mustacheData.put("requestUri", request().uri());
 
     try {
       if (scope != null) {
