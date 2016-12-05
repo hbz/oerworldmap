@@ -250,6 +250,15 @@ var Hijax = (function ($, Hijax) {
         this.select();
       });
 
+      $('[data-behaviour~="print-index"]', context)
+        .not('[data-dont-behave] [data-behaviour~="print-index"]')
+        .bind('click', function(e)
+      {
+        $('#app').addClass('print-index');
+        window.print();
+        $('#app').removeClass('print-index');
+      });
+
     }
   }
 
