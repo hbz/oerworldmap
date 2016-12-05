@@ -1,4 +1,5 @@
-@prefix    : <http://schema.org/> .
+@prefix      : <http://schema.org/> .
+@prefix frapo: <http://purl.org/cerif/frapo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
 
 :author owl:inverseOf :authorOf .
@@ -24,3 +25,7 @@
 :mentionedIn owl:inverseOf :mentions .
 :mainEntity owl:inverseOf :mainEntityOf .
 :mainEntityOf owl:inverseOf :mainEntity .
+frapo:isAwardedBy owl:inverseOf frapo:awards .
+frapo:awards owl:inverseOf frapo:isAwardedBy .
+frapo:isFundedBy owl:inverseOf frapo:funds .
+frapo:funds owl:inverseOf frapo:isFundedBy .

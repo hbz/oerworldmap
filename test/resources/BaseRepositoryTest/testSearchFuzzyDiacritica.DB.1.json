@@ -62,5 +62,5 @@
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001",
   "startDate": "2012-01-01",
   "email": "faq@toobar.ao",
-  "@context": "http://schema.org/"
+  "@context" : "https://oerworldmap.org/assets/json/context.json"
 }

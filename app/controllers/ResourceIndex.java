@@ -7,7 +7,11 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
-import models.*;
+import helpers.SCHEMA;
+import models.Record;
+import models.Resource;
+import models.ResourceList;
+import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -230,7 +234,7 @@ public class ResourceIndex extends OERWorldMap {
 
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
-    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     // Person create /update only through UserIndex, which is restricted to admin
     if (!isUpdate && "Person".equals(resource.getType())) {
@@ -278,7 +282,7 @@ public class ResourceIndex extends OERWorldMap {
     List<Resource> resources = new ArrayList<>();
     for (JsonNode jsonNode : getJsonFromRequest()) {
       Resource resource = Resource.fromJson(jsonNode);
-      resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+      resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
       resources.add(resource);
     }
 
@@ -459,6 +463,9 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("commits", mBaseRepository.log(aId));
     scope.put("resource", aId);
 
+    if (StringUtils.isEmpty(aId)) {
+      return ok(mBaseRepository.log(aId).toString());
+    }
     return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
 
   }
@@ -471,7 +478,7 @@ public class ResourceIndex extends OERWorldMap {
   public Result commentResource(String aId) throws IOException {
 
     ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
-    jsonNode.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    jsonNode.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     Resource comment = Resource.fromJson(jsonNode);
 
     comment.put("author", getUser());
@@ -479,9 +486,7 @@ public class ResourceIndex extends OERWorldMap {
 
     TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
     diff.addStatement(ResourceFactory.createStatement(
-      ResourceFactory.createResource(aId),
-      ResourceFactory.createProperty("http://schema.org/comment"),
-      ResourceFactory.createResource(comment.getId())
+      ResourceFactory.createResource(aId), SCHEMA.comment, ResourceFactory.createResource(comment.getId())
     ));
 
     Map<String, String> metadata = getMetadata();

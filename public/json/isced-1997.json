@@ -183,7 +183,9 @@
       "@type": "Concept"
     }
   ],
-  "@context": "http://schema.org/",
+  "@context": {
+    "@vocab": "http://www.w3.org/2004/02/skos/core#"
+  },
   "@id": "https://w3id.org/isced/1997/scheme",
   "@type": "ConceptScheme"
 }

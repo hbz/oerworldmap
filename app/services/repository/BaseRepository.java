@@ -180,7 +180,7 @@ public class BaseRepository extends Repository
         date = ZonedDateTime.parse(aDefaultMetadata.get(TripleCommit.Header.DATE_HEADER));
       }
       Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      resource.put("@context", "http://schema.org/");
+      resource.put("@context", mConfiguration.getString("jsonld.context"));
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
       Commit commit = new TripleCommit(new TripleCommit.Header(author, date), diff);
       indexDiff.append(diff);
@@ -314,7 +314,6 @@ public class BaseRepository extends Repository
   public String update(String delete, String insert, String where) {
 
     Commit.Diff diff = mTriplestoreRepository.update(delete, insert, where);
-    index(diff);
     return diff.toString();
 
   }
