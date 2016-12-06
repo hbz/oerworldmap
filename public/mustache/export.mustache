@@ -3,12 +3,9 @@
     <h2>Export this Resource</h2>
 
     <div class="container-top-line">
-        <a class="btn btn-default" target="_blank" href="{{exportUrl type url "csv"}}">CSV</a>
-        <a class="btn btn-default" target="_blank" href="{{exportUrl type url "json"}}">JSON</a>
-        {{#ifCond @type '==' 'Event'}}
-            <a class="btn btn-default" target="_blank" href="{{exportUrl scope url "ics"}}">iCal</a>
-        {{/ifCond}}
-
+        {{#each @root.scope.alternates}}
+            <a class="btn btn-default" target="_blank" href="{{.}}">{{@key}}</a>
+        {{/each}}
     </div>
 
 </div>

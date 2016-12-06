@@ -95,10 +95,10 @@ public class ResourceIndex extends OERWorldMap {
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
-    alternates.put("json", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url()));
-    alternates.put("csv", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url()));
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url()));
     if (resourceList.containsType("Event")) {
-      alternates.put("ics", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url()));
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url()));
     }
 
     Map<String, Object> scope = new HashMap<>();
@@ -392,10 +392,10 @@ public class ResourceIndex extends OERWorldMap {
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
-    alternates.put("json", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
-    alternates.put("csv", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
     if (resource.getType().equals("Event")) {
-      alternates.put("ics", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
     }
 
     Map<String, Object> scope = new HashMap<>();
