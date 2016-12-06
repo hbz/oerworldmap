@@ -9,12 +9,15 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import models.Resource;
 
 import org.apache.commons.io.IOUtils;
 import play.Logger;
+
+import static org.junit.Assert.assertTrue;
 
 public interface JsonTest {
 
@@ -59,6 +62,10 @@ public interface JsonTest {
   {
     byte[] encoded = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(aPath).toExternalForm().substring(5)));
     return new String(encoded, aEncoding);
+  }
+
+  default List<String> splitLines(String aString){
+    return Arrays.asList(aString.split("\n"));
   }
 
 }

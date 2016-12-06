@@ -6,9 +6,7 @@ import models.ResourceList;
 import org.elasticsearch.common.Strings;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +36,7 @@ public class CalendarExporter implements Exporter {
   private static final String EVENT_END = "END:VEVENT\n";
 
   private static final String UID = "UID:";
-  private static final String ORGANIZER = "ORGANIZER:";
+  private static final String ORGANIZER = "ORGANIZER;";
   private static final String COMMON_NAME = "CN=";      // in line ORGANIZER
   private static final String MAILTO = "MAILTO:";       // in line ORGANIZER
   private static final String LOCATION = "LOCATION:";
@@ -58,9 +56,7 @@ public class CalendarExporter implements Exporter {
   private static final Map<String, String> mFieldMap = new HashMap<>();
   static{
     mFieldMap.put(UID, JsonLdConstants.ID);
-    mFieldMap.put(COMMON_NAME, "organizer.name.@value");
     mFieldMap.put(SUMMARY, "name.@value");
-    mFieldMap.put(DESCRIPTION, "description.@value");
     mFieldMap.put(URL, "url");
     mFieldMap.put(LOCATION, "location.address.streetAddress".concat(VALUE_SEPARATOR)
                     .concat("location.address.postalCode").concat(VALUE_SEPARATOR)
@@ -105,24 +101,28 @@ public class CalendarExporter implements Exporter {
     for (Map.Entry<String, String> mapping : mFieldMap.entrySet()){
       boolean hasAppendedSomething = false;
       String[] mappingValues = mapping.getValue().split(VALUE_SEPARATOR);
+      StringBuffer subResult = new StringBuffer();
       for (int i=0; i<mappingValues.length; i++){
-        final Object o = aResource.getNestedFieldValue(mappingValues[i], mPreferredLocale);
-        if (o != null) {
-          String value = o.toString();
-          if (i == 0){
-            result.append(mapping.getKey());
+        final String value = aResource.getNestedFieldValue(mappingValues[i], mPreferredLocale);
+        if (value != null && !Strings.isEmpty(value)) {
+          if (subResult.length() == 0){
+            subResult.append(mapping.getKey());
           } //
           else{
-            result.append(VALUE_SEPARATOR);
+            if (subResult.length() > mapping.getKey().length()) {
+              subResult.append(VALUE_SEPARATOR);
+            }
           }
-          result.append(value);
+          subResult.append(value);
           hasAppendedSomething = true;
         }
       }
+      result.append(subResult);
       if (hasAppendedSomething){
         result.append("\n");
       }
     }
+    result.append(getDescription(aResource));
     result.append(getExportedOrganizer(aResource));
     result.append(getStartDate(aResource));
     result.append(getEndDate(aResource));
@@ -134,24 +134,29 @@ public class CalendarExporter implements Exporter {
 
   private String getExportedOrganizer(Resource aResource){
     StringBuilder result = new StringBuilder();
-    Resource organizer = aResource.getAsResource("organizer");
-    if (organizer != null){
+    List<Resource> organizers = aResource.getAsList("organizer");
+    if (organizers != null && !organizers.isEmpty()){
       result.append(ORGANIZER);
-      String name = organizer.get("name").toString();
-      boolean hasName = false;
-      if (name != null){
-        result.append(COMMON_NAME).append(name);
-        hasName = true;
-      }
-      String email = aResource.get("email").toString();
-      if (email == null){
-        email = organizer.get("email").toString();
-      }
-      if (email != null){
-        if (hasName){
-          result.append(KEY_SEPARATOR);
+      for (Resource organizer : organizers) {
+        String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
+        boolean hasName = false;
+        if (name != null) {
+          result.append(COMMON_NAME).append("\"").append(name).append("\"");
+          hasName = true;
         }
-        result.append(MAILTO).append(email);
+        String email = organizer.getAsString("email");
+        if (email == null) {
+          email = aResource.getAsString("email");
+        }
+        if (email != null) {
+          if (hasName) {
+            result.append(KEY_SEPARATOR);
+          }
+          result.append(MAILTO).append(email);
+        }
+        if (hasName){
+          break;
+        }
       }
       result.append("\n");
     }
@@ -161,7 +166,7 @@ public class CalendarExporter implements Exporter {
   private String getStartDate(Resource aResource) {
     String originalStartDate = aResource.getAsString("startDate");
     if (originalStartDate == null || Strings.isEmpty(originalStartDate)){
-      return null;
+      return "";
     }
     StringBuffer result = new StringBuffer(DATE_START);
     result.append(formatDate(originalStartDate)).append("\n");
@@ -171,7 +176,7 @@ public class CalendarExporter implements Exporter {
   private String getEndDate(Resource aResource) {
     String originalEndDate = aResource.getAsString("endDate");
     if (originalEndDate == null || Strings.isEmpty(originalEndDate)){
-      return null;
+      return "";
     }
     StringBuffer result = new StringBuffer(DATE_END);
     result.append(formatDate(originalEndDate)).append("\n");
@@ -188,6 +193,16 @@ public class CalendarExporter implements Exporter {
 
   private String getTimeStamp() {
     return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15)).concat("Z\n");
+  }
+
+  private String getDescription(Resource aResource){
+    String description = aResource.getNestedFieldValue("description.@value", mPreferredLocale);
+    if (description == null || Strings.isEmpty(description)){
+      return "";
+    }
+    StringBuffer result = new StringBuffer(DESCRIPTION);
+    result.append(description.replaceAll("\r\n|\n|\r", "\\\\n")).append("\n");
+    return result.toString();
   }
 
 }

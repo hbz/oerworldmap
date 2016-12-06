@@ -24,7 +24,6 @@ import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
-import services.export.AbstractCsvExporter;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 
@@ -127,21 +126,15 @@ public class ResourceIndex extends OERWorldMap {
       return notFound("Not found");
     } else if (format.equals("text/html")) {
       return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
-    } else if (format.equals("application/json")) {
-      return ok(resourceList.toResource().toString()).as("application/json");
-    } else if (format.equals("text/csv")) {
-      StringBuffer result = new StringBuffer();
-      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
-      csvExporter.defineHeaderColumns(resourceList.getItems());
-      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
-      csvExporter.setDropFields(dropFields);
-      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
-      for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.export(resource).concat("\n"));
-      }
-      return ok(result.toString()).as("text/csv");
-    } else if (format.equals("text/calendar")) {
+    } //
+    else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+    } //
+    else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+    } //
+    else if (format.equals("application/json")) {
+      return ok(resourceList.toResource().toString()).as("application/json");
     }
 
     return notFound("Not found");
@@ -424,16 +417,12 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json");
     } else if (format.equals("text/csv")) {
-      StringBuffer result = new StringBuffer();
-      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
-      csvExporter.defineHeaderColumns(Arrays.asList(resource));
-      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
-      csvExporter.setDropFields(dropFields);
-      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
-      result.append(csvExporter.export(resource).concat("\n"));
-      return ok(result.toString()).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
     } else if (format.equals("text/calendar")) {
-      return ok(new CalendarExporter(Locale.ENGLISH).export(resource)).as("text/calendar");
+      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
+      if (ical != null) {
+        return ok(ical).as("text/calendar");
+      }
     }
 
     return notFound("Not found");
