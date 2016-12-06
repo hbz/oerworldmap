@@ -1,6 +1,7 @@
 @prefix      : <http://schema.org/> .
 @prefix frapo: <http://purl.org/cerif/frapo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
 
 :author owl:inverseOf :authorOf .
 :authorOf owl:inverseOf :author .
@@ -29,3 +30,5 @@ frapo:isAwardedBy owl:inverseOf frapo:awards .
 frapo:awards owl:inverseOf frapo:isAwardedBy .
 frapo:isFundedBy owl:inverseOf frapo:funds .
 frapo:funds owl:inverseOf frapo:isFundedBy .
+dcterms:isPartOf owl:inverseOf dcterms:hasPart .
+dcterms:hasPart owl:inverseOf dcterms:isPartOf .

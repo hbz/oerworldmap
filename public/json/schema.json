@@ -420,10 +420,21 @@
           }
         },
         "comment": {
-          "description": "A comment about the Organization",
+          "description": "A comment about the project",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Comment"
+          }
+        },
+        "isPartOf": {
+          "description": "A project that this project is part of",
+          "$ref": "#/definitions/Action"
+        },
+        "hasPart": {
+          "description": "A subproject of this project",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
           }
         }
       },
