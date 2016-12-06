@@ -314,10 +314,6 @@ Handlebars.registerHelper('getIcon', function (string, options) {
   );
 });
 
-Handlebars.registerHelper('json', function (obj, options) {
-  return new Handlebars.SafeString(JSON.stringify(obj, null, 2));
-});
-
 Handlebars.registerHelper('getBundle', function (field, options) {
   var bundles = {
     'availableLanguage': 'languages',
@@ -565,6 +561,28 @@ Handlebars.registerHelper('sort', function(context, field, direction, options) {
   return ret;
 
 });
+
+Handlebars.registerHelper('reduceSkos', function(tree, list, options) {
+  return filterTree(toNative(tree['hasTopConcept']), toNative(list).map(function(obj){ return obj['@id'] }));
+});
+
+function filterTree(tree, list) {
+  var res = [];
+  for (var i = 0; i < tree.length; i++) {
+    if (list.indexOf(tree[i]['@id']) != -1) {
+      var leaf = tree[i];
+      if (leaf['narrower']) {
+        leaf['narrower'] = filterTree(leaf['narrower'], list);
+      }
+      res.push(leaf);
+    }
+  }
+  return res;
+}
+
+function toNative(value) {
+  return JSON.parse(JSON.stringify(value));
+}
 
 /*
 Handlebars.registerHelper('ifIn', function(item, list, options) {
