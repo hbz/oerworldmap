@@ -511,6 +511,21 @@
                         </tr>
                     {{/if}}
 
+                    {{#awards}}
+                        {{#if funds}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.funds" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#funds}}
+                                            <li>{{>ResourceIndex/link.mustache}}</li>
+                                        {{/funds}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    {{/awards}}
+
                     {{#if organizer}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.organizer" @type)}}</td>
@@ -588,6 +603,79 @@
                             </td>
                         </tr>
                     {{/if}}
+
+                    {{#isFundedBy}}
+                        {{#if this.sameAs}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#sameAs}}
+                                            <li>{{externalLink .}}</li>
+                                        {{/sameAs}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.duration}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.duration" @type)}}</td>
+                                <td>
+                                    {{duration}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.hasMonetaryValue}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.hasMonetaryValue" @type)}}</td>
+                                <td>
+                                    {{hasMonetaryValue}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.description}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.description" @type)}}</td>
+                                <td>
+                                    {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.name}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.name" @type)}}</td>
+                                <td>
+                                    {{#localized name language=@root.language}}{{md [@value]}}{{/localized}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.alternateName}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
+                                <td>
+                                    {{#localized alternateName language=@root.language}}{{md [@value]}}{{/localized}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.hasAwardDate}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.hasAwardDate" @type)}}</td>
+                                <td>
+                                    {{hasAwardDate}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.keywords}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
+                                <td>
+                                    <ul class="comma-seperated-list">
+                                        {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    {{/isFundedBy}}
 
                 </table>
 
