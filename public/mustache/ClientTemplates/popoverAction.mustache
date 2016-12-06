@@ -3,7 +3,7 @@
     <div class="popover-section bg-blue-palest">
         <div class="icon-indented">
 
-            <i class="fa fa-gears"></i><strong>Project:</strong>
+            <i class="fa fa-fw fa-gears"></i><strong>Project:</strong>
           {{#resource.name}}{{[@value]}}{{/resource.name}}
 
         </div>
@@ -11,10 +11,10 @@
 
     {{#resource.referencedBy}}
 
-        <div class="popover-section bg-blue-paler">
+        <div class="popover-section linked bg-blue-paler">
             <div class="icon-indented">
 
-                <i class="fa fa-link"></i><strong>{{[@type]}}:</strong>
+                {{getIcon [@type]}}<strong>{{[@type]}}:</strong>
               {{#name}}{{[@value]}}{{/name}}
 
             </div>

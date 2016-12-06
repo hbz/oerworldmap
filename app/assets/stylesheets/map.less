@@ -99,6 +99,18 @@
 .popover-section {
   padding: 7px 12px;
   border-bottom: 1px solid @blue-pale;
+  position: relative;
+
+  &.linked:before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: -7px;
+    width: 14px;
+    height: 7px;
+    background-image: url('/assets/images/popover-link-arrow.svg');
+    background-repeat: no-repeat;
+  }
 }
 
 .popover-section:last-child {
@@ -109,11 +121,11 @@
   padding-left: 5px;
 }
 
-@icon-indent: 22px;
+@icon-indent: 30px;
 
 .icon-indented {
   text-indent: -(@icon-indent);
-  padding-left: @icon-indent;
+  padding-left: (@icon-indent - 6px);
 }
 
 .icon-indented .fa {
