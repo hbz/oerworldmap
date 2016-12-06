@@ -91,10 +91,20 @@ public class ResourceIndex extends OERWorldMap {
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
-    Map<String, Object> scope = new HashMap<>();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
+
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("json", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url()));
+    alternates.put("csv", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url()));
+    if (resourceList.containsType("Event")) {
+      alternates.put("ics", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url()));
+    }
+
+    Map<String, Object> scope = new HashMap<>();
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
+    scope.put("alternates", alternates);
 
     String format = null;
     if (! StringUtils.isEmpty(extension)) {
@@ -380,9 +390,18 @@ public class ResourceIndex extends OERWorldMap {
     permissions.put("comment", mayComment);
     permissions.put("delete", mayDelete);
 
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("json", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
+    alternates.put("csv", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
+    if (resource.getType().equals("Event")) {
+      alternates.put("ics", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+    }
+
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     scope.put("permissions", permissions);
+    scope.put("alternates", alternates);
 
     String format = null;
     if (! StringUtils.isEmpty(extension)) {
