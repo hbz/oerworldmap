@@ -47,6 +47,10 @@ public class ResourceIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
+  public Result listDefault(String q, int from, int size, String sort, boolean list) throws IOException {
+    return list(q, from, size, sort, list, null);
+  }
+
   public Result list(String q, int from, int size, String sort, boolean list, String extension)
       throws IOException {
 
@@ -269,7 +273,8 @@ public class ResourceIndex extends OERWorldMap {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", "").absoluteURL(request()));
+      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+        .absoluteURL(request()));
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
@@ -326,6 +331,10 @@ public class ResourceIndex extends OERWorldMap {
 
     return ok("Added resources");
 
+  }
+
+  public Result readDefault(String id, String version) throws IOException {
+    return read(id, version, null);
   }
 
 
