@@ -388,6 +388,6 @@ Handlebars.registerHelper('size', function(context) {
   return context ? "" + context.length : "0";
 });
 
-Handlebars.registerHelper('json', function(context) {
-  return new Handlebars.SafeString(JSON.stringify(context));
+Handlebars.registerHelper('json', function (obj, options) {
+  return new Handlebars.SafeString(JSON.stringify(obj, null, 2));
 });
