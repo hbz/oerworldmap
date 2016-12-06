@@ -1,26 +1,30 @@
-<div class="popover-section bg-blue-palest">
-  <strong>{{i18n key bundle="countries"}}</strong>
+<div class="popover-main-section">
 
-    {{#by_type.buckets}}
-        <span class="entity-count">
-            {{doc_count}}
-            {{getIcon key}}
-        </span>
-    {{/by_type.buckets}}
+    <div class="popover-section bg-blue-palest">
+      <strong>{{i18n key bundle="countries"}}</strong>
 
-</div>
+        {{#by_type.buckets}}
+            <span class="entity-count">
+                {{doc_count}}
+                {{getIcon key}}
+            </span>
+        {{/by_type.buckets}}
 
-<div class="popover-section bg-blue-paler">
+    </div>
 
-  {{#champions}}
-    {{#if doc_count}}
-      Country Champion: <i class="fa fa-check"></i>
-    {{else}}
-      Country Champion: <i class="fa fa-times"></i>
-    {{/if}}
-  {{/champions}}
-  {{^champions}}
-      Country Champion: <i class="fa fa-times"></i>
-  {{/champions}}
+    <div class="popover-section bg-blue-paler">
+
+      {{#champions}}
+        {{#if doc_count}}
+          Country Champion: <i class="fa fa-check"></i>
+        {{else}}
+          Country Champion: <i class="fa fa-times"></i>
+        {{/if}}
+      {{/champions}}
+      {{^champions}}
+          Country Champion: <i class="fa fa-times"></i>
+      {{/champions}}
+
+    </div>
 
 </div>

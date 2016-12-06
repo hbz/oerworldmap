@@ -205,10 +205,13 @@ var Hijax = (function ($, Hijax) {
 
     // get feature type and so on
     if(feature) {
+
       var type = getFeatureType( feature );
 
-      if(type == 'country' || type == 'placemark') {
+      if(type == 'country' || type == 'placemark' || type == 'cluster') {
         var show_popover = true;
+      } else {
+
       }
 
       if(feature.getId()) {
@@ -317,9 +320,7 @@ var Hijax = (function ($, Hijax) {
     var feature_type = getFeatureType( feature );
 
     if( feature_type == 'placemark' || feature_type == 'cluster' ) {
-      // console.log('feature', feature);
       var properties = feature.getProperties();
-      // console.log('properties', properties);
       if(! properties.highligted) {
         setFeatureStyle(
           feature,
@@ -359,21 +360,41 @@ var Hijax = (function ($, Hijax) {
   }
 
   function setPopoverContent(feature, type) {
+/*
     if( type == "placemark" ) {
       var properties = feature.get('features')[0].getProperties();
     } else {
       var properties = feature.getProperties();
     }
+*/
 
     if( type == "placemark" ) {
+      var properties = feature.get('features')[0].getProperties();
       var content = templates['popover' + properties.type](properties);
     }
 
     if( type == "cluster" ) {
-      var content = "cluster ...";
+      var content = '';
+      var features = feature.get('features');
+
+      if(features.length < 4) {
+        for(var i = 0; i < features.length; i++) {
+          var properties = features[i].getProperties();
+          content += templates['popover' + properties.type](properties);
+        }
+      } else {
+        var aggregation = {};
+        for(var i = 0; i < features.length; i++) {
+          var properties = features[i].getProperties();
+          aggregation[ properties.type ] = aggregation[ properties.type ] + 1 || 1;
+        }
+        content += templates['popoverCluster'](aggregation);
+      }
+
     }
 
     if( type == "country") {
+      var properties = feature.getProperties();
 
       // setup empty countrydata, if undefined
       if( typeof properties.country == 'undefined' ) {
@@ -926,11 +947,13 @@ var Hijax = (function ($, Hijax) {
         // precompile handlebar templates
         templates = {
           popoverAction : Handlebars.compile($('#popoverAction\\.mustache').html()),
-          popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
           popoverOrganization : Handlebars.compile($('#popoverOrganization\\.mustache').html()),
           popoverPerson : Handlebars.compile($('#popoverPerson\\.mustache').html()),
           popoverService : Handlebars.compile($('#popoverService\\.mustache').html()),
-          popoverEvent : Handlebars.compile($('#popoverEvent\\.mustache').html())
+          popoverEvent : Handlebars.compile($('#popoverEvent\\.mustache').html()),
+
+          popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
+          popoverCluster : Handlebars.compile($('#popoverCluster\\.mustache').html())
         };
 
       });
