@@ -594,3 +594,13 @@ Handlebars.registerHelper('ifIn', function(item, list, options) {
   return options.inverse(this);
 });
 */
+
+Handlebars.registerHelper('exportUrl', function (type, url, extension) {
+
+  if(type == 'list') {
+    return url.replace(/\/resource\//, '/resource.' + extension);
+  } else if(type == 'detail') {
+    return url + '.' + extension;
+  }
+
+});

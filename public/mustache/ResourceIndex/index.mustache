@@ -177,10 +177,52 @@
 
 <div class="list-statistics-container floating-hidden" data-behaviour="geoFilteredList">
 
+    <div class="p filter-state visible-print">
+        Showing entities
+
+        {{#if scope.resources.searchTerms}}
+            which match
+            "{{scope.resources.searchTerms}}"
+            <span class="comma">and</span>
+        {{/if}}
+
+        {{#if scope.resources.filters}}
+            where
+            {{#each scope.resources.filters}}
+                <span class="field">
+                    <strong>{{i18n (getField [@key])}}</strong> is
+                    {{#each .}}
+                        <em>{{i18n . bundle=(getBundle (getField ../[@key]))}}</em> <span class="comma">or</span>
+                    {{/each}}
+                </span>
+                <span class="comma">and</span>
+            {{/each}}
+        {{/if}}
+    </div>
+
     <div class="p clearfix">
 
         <div class="pull-left">
             <span class="badge total-items">{{scope.resources.totalItems}}</span> entries shown
+        </div>
+
+        <div class="pull-right">
+
+            <ul class="resource-controls">
+
+                <li class="dropdown">
+                    <button type="button" class="icon-btn" data-toggle="dropdown" title="Share and Export">
+                        <i class="fa fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#resource-share-list" data-app="to-modal-and-attach-behaviours">Share <i class="fa fa-fw fa-share"></i></a></li>
+                        <li><a href="#resource-export-list" data-app="to-modal-and-attach-behaviours">Export <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
+                        <li><button data-behaviour="print-index">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                    </ul>
+                </li>
+
+            </ul>
+
         </div>
 
     </div>
@@ -201,5 +243,13 @@
         </ul>
 
     </div>
+
+</div>
+
+<div data-dont-behave>
+
+    {{> share.mustache type="list" url=@root.requestUri name=""}}
+
+    {{> export.mustache type="list" url=@root.requestUri}}
 
 </div>

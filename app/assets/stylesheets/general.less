@@ -1,11 +1,9 @@
-hr.narrow {
-  margin: 12px 0px;
+/* --- remove button glow --- */
+
+button:focus {
+  outline:0;
 }
 
-
-[data-toggle] {
-  cursor: pointer;
-}
 
 /* --- helpers --- */
 
@@ -25,6 +23,21 @@ hr.narrow {
   margin: 0 5px;
 }
 
+.visible-print {
+  display: none;
+}
+
+@media print {
+
+  .visible-print {
+    display: block !important;
+  }
+
+  .hidden-print {
+    display: none;
+  }
+}
+
 /* --- paragraph image --- */
 
 .paragraph-image {
@@ -34,8 +47,8 @@ hr.narrow {
   border: 1px solid @blue-pale;
 
   img {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 250px !important; // important to override bootstrap @media print rules
+    max-height: 250px !important;
   }
 }
 
@@ -69,4 +82,17 @@ hr.narrow {
 /* --- icons --- */
 img.icon {
   height: @font-size-base;
+}
+
+
+/* --- horizontal list --- */
+
+.horizontal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    float: left;
+  }
 }

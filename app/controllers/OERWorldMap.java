@@ -233,6 +233,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
     mustacheData.put("language", getLocale().toLanguageTag());
+    mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
     Map<String, Object> skos = new HashMap<>();
     try {
       skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),

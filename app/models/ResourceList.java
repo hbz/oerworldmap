@@ -227,4 +227,16 @@ public class ResourceList {
     return pagedCollection;
   }
 
+  public boolean containsType(String aType) {
+
+    for (Resource item : items) {
+      if (item.getType().equals(aType)) {
+        return true;
+      }
+    }
+
+    return false;
+
+  }
+
 }

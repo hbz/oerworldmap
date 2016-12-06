@@ -1,24 +1,41 @@
 package services.export;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.TreeSet;
 
 import helpers.JsonLdConstants;
 import models.Resource;
+import models.ResourceList;
 
 public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
-
-  private static String mPathSeparator = ">";
 
   private TreeSet<String> mKeys = new TreeSet<>();
   private String[] mValues = new String[0];
   private List<String> mDropFields = new ArrayList<>();
 
   @Override
-  public String exportResourceAsCsvLine(Resource aResource) {
+  public String export(ResourceList aResourceList){
+    StringBuffer result = new StringBuffer();
+    defineHeaderColumns(aResourceList.getItems());
+    setDropFields(Arrays.asList(JsonLdConstants.TYPE));
+    result.append(headerKeysToCsvString().concat("\n"));
+    for (Resource resource : aResourceList.getItems()) {
+      result.append(buildRow(resource).concat("\n"));
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String export(Resource aResource) {
+    StringBuffer result = new StringBuffer();
+    defineHeaderColumns(Arrays.asList(aResource));
+    setDropFields(Arrays.asList(JsonLdConstants.TYPE));
+    result.append(headerKeysToCsvString().concat("\n"));
+    result.append(buildRow(aResource).concat("\n"));
+    return result.toString();
+  }
+
+  public String buildRow(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
