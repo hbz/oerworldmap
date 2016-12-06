@@ -1051,7 +1051,7 @@ var Hijax = (function ($, Hijax) {
         var enabled = $('<input type="checkbox" name="enabled" checked="checked" />').change(function() {
           restrictListToExtent();
         });
-        container.prepend($('<label> Restrict results to map</label>').prepend(enabled));
+        container.prepend($('<label> Search as I move the map</label>').prepend(enabled));
 
         world.getView().on('propertychange', _.debounce(function(e) {
           if (e.key == 'resolution' || e.key == 'center') {
