@@ -1,23 +1,24 @@
 <div class="popover-main-section">
 
     <div class="popover-section bg-blue-palest">
-      <div class="icon-indented">
+        <div class="icon-indented">
 
-        <i class="fa fa-fw fa-users"></i><strong>Organization:</strong>
-        {{#resource.name}}{{[@value]}}{{/resource.name}}
-      </div>
+            <i class="fa fa-fw fa-users"></i><strong>Organization:</strong>
+            {{#resource.name}}{{[@value]}}{{/resource.name}}
+
+        </div>
     </div>
 
     {{#resource.referencedBy}}
 
-      <div class="popover-section linked bg-blue-paler">
-        <div class="icon-indented">
+        <div class="popover-section linked bg-blue-paler">
+            <div class="icon-indented">
 
-          {{getIcon [@type]}}<strong>{{[@type]}}:</strong>
-          {{#name.[0]}}{{[@value]}}{{/name.[0]}}
+                {{getIcon [@type]}}<strong>{{[@type]}}:</strong>
+                {{#name.[0]}}{{[@value]}}{{/name.[0]}}
 
+            </div>
         </div>
-      </div>
 
     {{/resource.referencedBy}}
 
