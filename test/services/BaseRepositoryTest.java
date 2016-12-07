@@ -437,6 +437,26 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
+  public void testSearchHyphenWords() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query without special chars
+    List<Resource> completeWord = mBaseRepo.query("e-paideia", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 1);
+
+    // query with special chars
+    List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
+    Assert.assertTrue("Did not get proper result.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
   public void testSearchMissing() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
