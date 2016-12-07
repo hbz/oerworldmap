@@ -5663,6 +5663,42 @@
                     }
                   }
                 },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "@id": {
                   "index": "not_analyzed",
                   "type": "string"
