@@ -1014,10 +1014,7 @@ var Hijax = (function ($, Hijax) {
       current_highlights = [];
     },
 
-    attach : function(context) {
-
-      var _attached = new $.Deferred();
-      my.attached.push(_attached);
+    attach : function(context, attached) {
 
       function get_markers_from_json(json) {
         var _markers = [];
@@ -1048,10 +1045,13 @@ var Hijax = (function ($, Hijax) {
         var container = $(this);
         var list = container.find('.resource-list');
 
-        var enabled = $('<input type="checkbox" name="enabled" checked="checked" />').change(function() {
+        // var checked = $('#app-col-index').attr('data-col-mode') == 'list' ? 'checked="checked"' : '';
+        var checked = 'checked="checked"';
+
+        var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
           restrictListToExtent();
         });
-        container.prepend($('<label> Search as I move the map</label>').prepend(enabled));
+        container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
 
         world.getView().on('propertychange', _.debounce(function(e) {
           if (e.key == 'resolution' || e.key == 'center') {
@@ -1169,7 +1169,7 @@ var Hijax = (function ($, Hijax) {
       });
 */
 
-      _attached.resolve();
+      attached.resolve();
 
     },
 

@@ -41,6 +41,9 @@ var Hijax = (function ($, Hijax, page) {
   var map_and_index_loaded = $.Deferred().resolve();
   var detail_loaded = $.Deferred().resolve();
 
+  map_and_index_loaded.msg = 'map_and_index_loaded';
+  detail_loaded.msg = 'detail_loaded';
+
   var app_history = [];
 
   function get(url, callback) {
@@ -79,6 +82,7 @@ var Hijax = (function ($, Hijax, page) {
 
     if(url != map_and_index_source) {
       map_and_index_loaded = $.Deferred();
+      map_and_index_loaded.msg = 'map_and_index_loaded';
       get(url, function(data){
         $('#app-col-index [data-app="col-content"]').html(
           get_main(data, url)
@@ -105,10 +109,27 @@ var Hijax = (function ($, Hijax, page) {
       });
     } else {
       set_col_mode('detail', 'expanded');
+      // to reset hightlighted pins, reattach map behaviour to detail ...
+      var attached = new $.Deferred();
+      Hijax.behaviours.map.attach($('#app-col-detail [data-app="col-content"]'), attached);
     }
 
-    // set focus to fit hightlighted
-    $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
+    // set focus to fit highlighted
+    // therefor waiting for map_and_index_loaded and map attachments
+
+    var map_attached = new $.Deferred();
+    $.when.apply(null, Hijax.behaviours.map.attached).done(function(){
+      map_attached.resolve();
+    });
+
+    $.when(map_attached, map_and_index_loaded).done(function(){
+      if(
+        ! $('.geo-filtered-list-control input').prop('checked') ||
+        $('#app-col-index').attr('data-col-mode') === 'floating'
+      ) {
+        $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
+      }
+    });
   }
 
   function route_start(pagejs_ctx, next) {
@@ -278,7 +299,7 @@ var Hijax = (function ($, Hijax, page) {
     init : function(context) {
 
       if(!init_app) {
-        Hijax.attachBehaviours(context);
+        Hijax.attachBehaviours(context, 'without app');
         page('*', function(pagejs_ctx){
           if(pagejs_ctx.path != initialization_source.pathname) {
             window.location = pagejs_ctx.path;
@@ -302,7 +323,7 @@ var Hijax = (function ($, Hijax, page) {
       );
 
       // header & footer
-      Hijax.attachBehaviours($('body', context).find('#page-header').add('#page-footer'));
+      Hijax.attachBehaviours($('body', context).find('#page-header').add('#page-footer'), 'for header and footer');
 
       $('body>header, body>main, body>footer', context).remove();
 
@@ -612,6 +633,7 @@ var Hijax = (function ($, Hijax, page) {
     },
 
     initialized : new $.Deferred(),
+    attached : [],
 
     linkToFragment : function(fragment) {
       if (window.location.pathname.split('/')[1] == 'country') {

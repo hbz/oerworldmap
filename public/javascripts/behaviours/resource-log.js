@@ -35,7 +35,8 @@ var Hijax = (function ($, Hijax) {
         $("input:radio[name=to]:eq(0)", context).click();
       });
 
-    }
+    },
+    attached : []
 
   }
 

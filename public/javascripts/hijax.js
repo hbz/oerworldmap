@@ -8,15 +8,17 @@ var Hijax = (function (window) {
 
     attachBehaviour : function(context, behaviour, msg) {
       if ('function' == typeof(my.behaviours[behaviour].attach)) {
+        var attached = new $.Deferred();
+        my.behaviours[behaviour].attached.push(attached);
         if ('function' == typeof(my.behaviours[behaviour].init)) {
           // log.debug('there is an init to wait for ...', behaviour);
           my.behaviours[behaviour].initialized.done(function() {
             log.debug("attaching (" + msg + "):", behaviour, context);
-            my.behaviours[behaviour].attach(context);
+            my.behaviours[behaviour].attach(context, attached);
           });
         } else {
           log.debug("attaching (" + msg + "):", behaviour, context);
-          my.behaviours[behaviour].attach(context);
+          my.behaviours[behaviour].attach(context, attached);
         }
       }
     },
