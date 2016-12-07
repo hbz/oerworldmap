@@ -49,41 +49,16 @@ var Hijax = (function (window) {
       return context;
     },
 
-    layout : function() {
-/*
-
-      for (var behaviour_to_layout in my.behaviours) {
-
-        console.log('behaviour_to_layout', behaviour_to_layout);
-
-        if('function' == typeof my.behaviours[behaviour_to_layout].init) {
-
-          console.log('behaviour_to_layout init', behaviour_to_layout);
-          var foo = behaviour_to_layout;
-          my.behaviours[behaviour_to_layout].initialized.done(function() {
-            console.log('behaviour_to_layout deffered', foo);
-            if('function' == typeof my.behaviours[foo].layout) {
-              my.behaviours[foo].layout();
-            }
-          });
-        } else if('function' == typeof my.behaviours[behaviour_to_layout].layout) {
-          my.behaviours[behaviour_to_layout].layout();
-        }
-      }
-*/
-
+    layout : function(msg) {
+      log.debug('layouting (' + msg + ')');
       for (var behaviour in my.behaviours) {
-
         if('function' == typeof my.behaviours[behaviour].layout) {
-
+          log.debug('layouting (' + msg + ')', behaviour);
           if('function' == typeof my.behaviours[behaviour].init) {
-
             var _behaviour = behaviour;
-
             my.behaviours[behaviour].initialized.done(function() {
               my.behaviours[_behaviour].layout();
             });
-
           } else {
             my.behaviours[behaviour].layout();
           }
