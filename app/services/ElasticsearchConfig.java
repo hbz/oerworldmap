@@ -46,7 +46,8 @@ public class ElasticsearchConfig {
   private TransportClient mTransportClient;
 
   public ElasticsearchConfig(Config aConfiguration) {
-    init(aConfiguration);
+    mConfig = aConfiguration;
+    init();
   }
 
   private void init() {
@@ -96,13 +97,6 @@ public class ElasticsearchConfig {
 
     mClientSettingsBuilder = Settings.settingsBuilder().put(mClientSettings);
   }
-
-  private void init(Config aConfiguration) {
-    // CONFIG OBJECT
-    mConfig = aConfiguration;
-    init();
-  }
-
 
   public String getIndex() {
     return mClientSettings.get("index.name");
