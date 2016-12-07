@@ -27,7 +27,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   static {
     try {
-      mBaseRepo = new BaseRepository(mConfig);
+      mBaseRepo = new BaseRepository(mConfig, ElasticsearchTestGrid.getEsRepo());
     } catch (Exception e) {
       e.printStackTrace();
     }

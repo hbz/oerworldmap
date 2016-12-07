@@ -43,11 +43,16 @@ public class BaseRepository extends Repository
   private ActorRef mIndexQueue;
   private boolean mAsyncIndexing;
 
-  public BaseRepository(final Config aConfiguration) throws IOException {
+  public BaseRepository(final Config aConfiguration, final ElasticsearchRepository aElasticsearchRepo) throws IOException {
 
     super(aConfiguration);
 
-    mElasticsearchRepo = new ElasticsearchRepository(mConfiguration);
+    if (aElasticsearchRepo == null) {
+      mElasticsearchRepo = new ElasticsearchRepository(mConfiguration);
+    }
+    else {
+      mElasticsearchRepo = aElasticsearchRepo;
+    }
     Dataset dataset;
 
     try {
