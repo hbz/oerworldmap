@@ -444,14 +444,19 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
-    // query without special chars
+    // query complete word
     List<Resource> completeWord = mBaseRepo.query("e-paideia", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 1);
 
-    // query with special chars
+    // query abbreviated word
     List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
-    Assert.assertTrue("Did not get proper result.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+    Assert.assertTrue("Did not get proper result searching for e-pai.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+
+    // query without hyphen
+    List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"epai\".", withoutHyphen.size() == 1);
+    Assert.assertTrue("Did not get proper result searching for epai.", withoutHyphen.get(0).getId().equals(completeWord.get(0).getId()));
 
     mBaseRepo.deleteResource("", mMetadata);
   }
