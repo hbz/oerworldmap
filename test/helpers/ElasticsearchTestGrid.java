@@ -32,9 +32,9 @@ public class ElasticsearchTestGrid extends WithApplication {
   @BeforeClass
   public static void setup() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    mEsConfig = new ElasticsearchConfig(mConfig);
     mRepo = new ElasticsearchRepository(mConfig);
-
+    mEsConfig = mRepo.getConfig();
+    
     mClientSettings = Settings.settingsBuilder().put(mEsConfig.getClientSettings())
       .build();
     mClient = TransportClient.builder().settings(mClientSettings).build()

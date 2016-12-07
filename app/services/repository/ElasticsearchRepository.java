@@ -435,4 +435,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
+  public ElasticsearchConfig getConfig() {
+    return mConfig;
+  }
 }
