@@ -43,21 +43,21 @@ public class BaseRepository extends Repository
   private ActorRef mIndexQueue;
   private boolean mAsyncIndexing;
 
-  public BaseRepository(Config aConfiguration) throws IOException {
+  public BaseRepository(final Config aConfiguration) throws IOException {
 
     super(aConfiguration);
 
-    mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
+    mElasticsearchRepo = new ElasticsearchRepository(mConfiguration);
     Dataset dataset;
 
     try {
-      dataset = TDBFactory.createDataset(aConfiguration.getString("tdb.dir"));
+      dataset = TDBFactory.createDataset(mConfiguration.getString("tdb.dir"));
     } catch (ConfigException e) {
       Logger.warn("No persistent TDB configured", e);
       dataset = DatasetFactory.createMem();
     }
 
-    File commitDir = new File(aConfiguration.getString("graph.history.dir"));
+    File commitDir = new File(mConfiguration.getString("graph.history.dir"));
     if (!commitDir.exists()) {
       Logger.warn("Commit dir does not exist");
       if (!commitDir.mkdir()) {
@@ -65,7 +65,7 @@ public class BaseRepository extends Repository
       }
     }
 
-    File historyFile = new File(aConfiguration.getString("graph.history.file"));
+    File historyFile = new File(mConfiguration.getString("graph.history.file"));
     if (!historyFile.exists()) {
       Logger.warn("History file does not exist");
       if (!historyFile.createNewFile()) {
@@ -74,7 +74,7 @@ public class BaseRepository extends Repository
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
-    Integer framerPort = aConfiguration.getInt("node.framer.port");
+    Integer framerPort = mConfiguration.getInt("node.framer.port");
     ResourceFramer.setPort(framerPort);
     ResourceFramer.start();
 
@@ -93,9 +93,9 @@ public class BaseRepository extends Repository
     }
 
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, mDb, graphHistory);
+    mTriplestoreRepository = new TriplestoreRepository(mConfiguration, mDb, graphHistory);
 
-    mAsyncIndexing = aConfiguration.getBoolean("index.async");
+    mAsyncIndexing = mConfiguration.getBoolean("index.async");
 
   }
 
@@ -261,7 +261,7 @@ public class BaseRepository extends Repository
 
   @Override
   public List<Resource> getAll(@Nonnull String aType) {
-    List<Resource> resources = new ArrayList<Resource>();
+    List<Resource> resources = new ArrayList<>();
     try {
       resources = mElasticsearchRepo.getAll(aType);
     } catch (IOException e) {
