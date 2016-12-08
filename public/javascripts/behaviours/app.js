@@ -181,6 +181,14 @@ var Hijax = (function ($, Hijax, page) {
       });
     }
 
+    // set map focus mode
+
+    if( pagejs_ctx.pathname == "/resource/" ) {
+      $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
+    } else {
+      $('#app-col-map [data-behaviour="map"]').attr('data-focus', '');
+    }
+
     // determine index_mode
 
     if( pagejs_ctx.pathname == "/" ) {
@@ -199,19 +207,6 @@ var Hijax = (function ($, Hijax, page) {
 
     var url = '/resource/' + (pagejs_ctx.querystring ? '?' + pagejs_ctx.querystring : '');
     set_map_and_index_source(url, index_mode);
-
-    // set focus to fit if filtered and none if unfiltered (might be overwritten by set_detail_source)
-
-    /*
-    if( pagejs_ctx.querystring ) {
-      $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit');
-    } else {
-      $('#app-col-map [data-behaviour="map"]').attr('data-focus', '');
-    }
-    */
-
-    // FIXME: should this really be the default behavior
-    $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
 
     // set detail source
 

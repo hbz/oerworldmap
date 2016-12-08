@@ -1126,7 +1126,7 @@ var Hijax = (function ($, Hijax) {
         // FIXME: check when to exec initial restrict
         setTimeout(function() {
           restrictListToExtent();
-        }, 500);
+        }, 250);
 
         container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
 
