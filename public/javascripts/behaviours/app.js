@@ -283,7 +283,7 @@ var Hijax = (function ($, Hijax, page) {
       map_and_index_loaded,
       detail_loaded
     ).done(function(){
-      Hijax.layout();
+      Hijax.layout('triggered by routing_done');
       $('#app').removeClass('loading');
     });
   }
@@ -374,7 +374,7 @@ var Hijax = (function ($, Hijax, page) {
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'list') {
           page(window.location.pathname + window.location.search);
         }
-        Hijax.layout();
+        Hijax.layout('triggered by column toggle');
       });
 
       // catch links to fragments
@@ -500,7 +500,7 @@ var Hijax = (function ($, Hijax, page) {
               // if updated resource is currently lodaded in the detail column, update column and close modal
               $('#app-col-detail [data-app="col-content"]').html( contents );
               $('#app-modal').data('is_protected', false).modal('hide');
-              Hijax.layout();
+              Hijax.layout('triggered by modal submit because it updated the detail_source');
 
             } else {
 

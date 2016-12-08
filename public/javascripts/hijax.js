@@ -13,18 +13,18 @@ var Hijax = (function (window) {
         if ('function' == typeof(my.behaviours[behaviour].init)) {
           // log.debug('there is an init to wait for ...', behaviour);
           my.behaviours[behaviour].initialized.done(function() {
-            log.debug("attaching (" + msg + "):", behaviour, context);
+            log.debug("HIJAX attaching (" + msg + "):", behaviour, context);
             my.behaviours[behaviour].attach(context, attached);
           });
         } else {
-          log.debug("attaching (" + msg + "):", behaviour, context);
+          log.debug("HIJAX attaching (" + msg + "):", behaviour, context);
           my.behaviours[behaviour].attach(context, attached);
         }
       }
     },
 
     attachBehaviours : function(context, msg) {
-      log.debug('attaching behaviours (' + msg + ')');
+      log.debug('HIJAX attaching behaviours (' + msg + ')');
       for (var behaviour in my.behaviours) {
         my.attachBehaviour(context, behaviour, msg);
       }
@@ -33,7 +33,7 @@ var Hijax = (function (window) {
 
     initBehaviour : function(context, behaviour) {
       if ('function' == typeof(my.behaviours[behaviour].init)) {
-        log.debug("initializing:", behaviour, context);
+        log.debug("HIJAX initializing:", behaviour, context);
         my.behaviours[behaviour].init(context);
         // log.debug("initializing done:", behaviour, context);
         // my.attachBehaviour(context, behaviour);
@@ -50,10 +50,10 @@ var Hijax = (function (window) {
     },
 
     layout : function(msg) {
-      log.debug('layouting (' + msg + ')');
+      log.debug('HIJAX layouting (' + msg + ')');
       for (var behaviour in my.behaviours) {
         if('function' == typeof my.behaviours[behaviour].layout) {
-          log.debug('layouting (' + msg + ')', behaviour);
+          log.debug('HIJAX layouting (' + msg + ')', behaviour);
           if('function' == typeof my.behaviours[behaviour].init) {
             var _behaviour = behaviour;
             my.behaviours[behaviour].initialized.done(function() {

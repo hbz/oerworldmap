@@ -978,6 +978,8 @@ var Hijax = (function ($, Hijax) {
 
       $.when.apply(null, my.attached).done(function(){
 
+        log.debug('MAP layout started (waited to be attached therefor)');
+
         // Ensure that all current highlights are in current pins, too
         if (current_pins.length) {
           for (var i = 0; i < current_highlights.length; i++) {
@@ -1003,7 +1005,10 @@ var Hijax = (function ($, Hijax) {
         properties.country = aggregation;
         feature.setProperties(properties);
 */
+
         setBoundingBox($('[data-behaviour="map"]')[0]);
+
+        log.debug('MAP layout finished (only true if setBoundingBox doesn\'t run async navigator.geolocation.getCurrentPosition)');
 
       });
 
