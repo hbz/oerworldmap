@@ -975,6 +975,10 @@ var Hijax = (function ($, Hijax) {
               page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"));
+              if ($('#app-col-index').attr('data-col-mode') == 'floating') {
+                $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
+                page('/resource/?q=*');
+              }
             }
           }
         });
@@ -1118,6 +1122,11 @@ var Hijax = (function ($, Hijax) {
         var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
           restrictListToExtent();
         });
+
+        // FIXME: check when to exec initial restrict
+        setTimeout(function() {
+          restrictListToExtent();
+        }, 500);
 
         container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
 

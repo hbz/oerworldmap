@@ -202,11 +202,16 @@ var Hijax = (function ($, Hijax, page) {
 
     // set focus to fit if filtered and none if unfiltered (might be overwritten by set_detail_source)
 
+    /*
     if( pagejs_ctx.querystring ) {
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit');
     } else {
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', '');
     }
+    */
+
+    // FIXME: should this really be the default behavior
+    $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
 
     // set detail source
 
