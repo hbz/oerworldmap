@@ -130,7 +130,15 @@ public class CalendarExporter implements Exporter {
     result.append(getTimeStamp());
     result.append(CAL_CLASS);
     result.append(EVENT_END);
+    completeFields(result, aResource);
     return result.toString();
+  }
+
+  private void completeFields(final StringBuilder aStringBuilder, final Resource aResource){
+    if (aResource.getNestedFieldValue("name.@value", mPreferredLocale) == null){
+      // no summary could be added --> append empty summary to comply to ical specification
+      aStringBuilder.append("SUMMARY:\n");
+    }
   }
 
   private String getExportedOrganizer(Resource aResource){
