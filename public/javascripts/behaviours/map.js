@@ -712,7 +712,6 @@ var Hijax = (function ($, Hijax) {
           geometry: point,
           url: "/resource/" + resource['@id'],
           type: resource['@type'],
-          origin_id: origin['@id'],
         };
 
         var feature = new ol.Feature(featureProperties);
@@ -1119,21 +1118,28 @@ var Hijax = (function ($, Hijax) {
         var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
           restrictListToExtent();
         });
+
         container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
 
         world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
 
         function restrictListToExtent(e) {
           if (
-            (e.key == 'resolution' || e.key == 'center') &&
-            $('#app-col-index').attr('data-col-mode') == 'list'
+            typeof e == 'undefined' ||
+            ((e.key == 'resolution' || e.key == 'center') &&
+            $('#app-col-index').attr('data-col-mode') == 'list')
           ) {
             log.debug('MAP restrictListToExtent');
             if (enabled.prop("checked")) {
               var extent = world.getView().calculateExtent(world.getSize());
               list.children('li').hide();
               placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
-                list.children('li[about="' + feature.getProperties()['origin_id'] +'"]').show();
+                var resource = feature.getProperties()['resource'];
+                var ids = resource['referencedBy'] ? resource['referencedBy'].map(function(obj){return obj['@id']}) : [];
+                ids.push(resource['@id']);
+                for (var i = 0; i < ids.length; i++) {
+                  list.children('li[about="' + ids[i] + '"]').show();
+                }
               });
             } else {
               list.children('li').show();
