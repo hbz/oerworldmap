@@ -27,6 +27,7 @@ URL:http://www.edu-sharing.net
 UID:urn:uuid:e8eec470-e754-48af-adee-b78459badc3b
 CLASS:PUBLIC
 DTSTAMP:19980119T070000Z
+ORGANIZER:
 END:VEVENT
 BEGIN:VEVENT
 ORGANIZER;CN="edu-sharing NETWORK e.V.":MAILTO:info@edu-sharing.net
@@ -41,7 +42,7 @@ DTSTAMP:19980119T070000Z
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Cape Town Meeting
-ORGANIZER;CN="Open Society Foundations"
+ORGANIZER:Open Society Foundations
 DTSTART:20070914T000000
 DTEND:20070915T235959
 DESCRIPTION:The Cape Town Declaration arises from a small but lively meeting of open education activists in Cape Town during September 2007.\n\nEntitled Open Sourcing Education, the original aim of this meeting was to accelerate the international effort to promote open resources, technology and teaching practices in education. The participants represented many points of view, many disciplines and many nations. All are involved in ongoing open education initiatives.\n\nIn Cape Town, meeting participants explored how their separate initiatives could work together to achieve much broader, deeper impact. The Cape Town Open Education Declaration, authored jointly by all those who attended the meeting, was the first concrete outcome from these discussions. A number of additional collaborations on open education projects have also emerged.\n\n(Text taken from http://www.capetowndeclaration.org/cape-town-meeting, licensed CC-BY.)

@@ -39,8 +39,8 @@ public class CalendarExporter implements Exporter {
   private static final String EVENT_END = "END:VEVENT\n";
 
   private static final String UID = "UID:";
-  private static final String ORGANIZER = "ORGANIZER;";
-  private static final String COMMON_NAME = "CN=";      // in line ORGANIZER
+  private static final String ORGANIZER = "ORGANIZER";
+  private static final String COMMON_NAME = ";CN=";      // in line ORGANIZER
   private static final String MAILTO = "MAILTO:";       // in line ORGANIZER
   private static final String LOCATION = "LOCATION:";
   private static final String SUMMARY = "SUMMARY:";
@@ -97,8 +97,8 @@ public class CalendarExporter implements Exporter {
     return result.toString();
   }
 
-  private String exportResourceWithoutHeader(Resource aResource){
-    StringBuilder result = new StringBuilder(EVENT_BEGIN);
+  private String exportResourceWithoutHeader(final Resource aResource){
+    final StringBuilder result = new StringBuilder(EVENT_BEGIN);
     for (Map.Entry<String, String> mapping : mFieldMap.entrySet()){
       boolean hasAppendedSomething = false;
       String[] mappingValues = mapping.getValue().split(VALUE_SEPARATOR);
@@ -136,16 +136,23 @@ public class CalendarExporter implements Exporter {
   private String getExportedOrganizer(Resource aResource){
     StringBuilder result = new StringBuilder();
     List<Resource> organizers = aResource.getAsList("organizer");
+    result.append(ORGANIZER);
+    boolean hasOrganizer = false;
     if (organizers != null && !organizers.isEmpty()){
-      result.append(ORGANIZER);
       for (Resource organizer : organizers) {
         String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
+        String email = organizer.getAsString("email");
         boolean hasName = false;
         if (name != null) {
-          result.append(COMMON_NAME).append("\"").append(name).append("\"");
+          if (email == null){
+            result.append(":").append(name);
+          }
+          else {
+            result.append(COMMON_NAME).append("\"").append(name).append("\"");
+          }
+          hasOrganizer = true;
           hasName = true;
         }
-        String email = organizer.getAsString("email");
         if (email == null) {
           email = aResource.getAsString("email");
         }
@@ -160,6 +167,9 @@ public class CalendarExporter implements Exporter {
         }
       }
       result.append("\n");
+    }
+    if (!hasOrganizer){
+      result.append(":\n");
     }
     return result.toString();
   }
