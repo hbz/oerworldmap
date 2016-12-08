@@ -24,6 +24,7 @@ var Hijax = (function ($, Hijax) {
       standartMaxZoom = 15,
 
       defaultCenter = [0, 5000000],
+      currentCenter = false,
 
       iconCodes = {
         'organizations': 'users',
@@ -517,28 +518,44 @@ var Hijax = (function ($, Hijax) {
     current_highlights = placemarks;
   }
 
-  function setBoundingBox(element) {
+  function setBoundingBox(element, layouted) {
 
     var dataFocus = element.getAttribute("data-focus");
-
     var boundingBox;
 
-    if ("fit" == dataFocus) {
+    // determine boundingBox or focusIds from focus
+
+    if (dataFocus == "fit") {
 
       boundingBox = placemarksVectorSource.getExtent();
 
-    } else if("fit-highlighted" == dataFocus) {
+    } else if(dataFocus == "fit-highlighted") {
 
       var focusIds = [];
       $.each(current_highlights, function(i, v){
         focusIds.push(v.getId());
       });
 
+    } else if(dataFocus == "re-center") {
+
+      var focusIds = false;
+      if(! currentCenter) {
+        dataFocus == "fit";
+        boundingBox = placemarksVectorSource.getExtent();
+      }
+
+    } else if(dataFocus == "") {
+
+      var focusIds = false;
+
     } else {
 
-      var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
+      // should be list of ids in this case
+      var focusIds = dataFocus.trim().split(" ");
 
     }
+
+    // if focusIds are set, determine bounding box for them
 
     if (focusIds) {
 
@@ -576,34 +593,69 @@ var Hijax = (function ($, Hijax) {
 
     }
 
+    // if at this point there is a bounding box, that's not infinit, fit the view to it
+
     if (boundingBox && (boundingBox[0] != Infinity)) {
-      // Set extent of map view
+
+      log.debug('MAP setBoundingBox – fitting to bounding box');
       world.getView().fit(boundingBox, world.getSize(), {
         minResolution: 2
       });
+      currentCenter = world.getView().getCenter();
+
     } else {
 
-      // if no bounding box set center to user and zoom to initial again ...
+      // if no bounding box, look at dataFocus again
 
-      if (
-        navigator.geolocation
-      ) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var lon = position.coords.longitude;
-          var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
-          center[1] = defaultCenter[1];
-          world.getView().setCenter(center);
-        }, function(err){
+      if(dataFocus == 're-center') {
+
+        log.debug('MAP setBoundingBox – only updating the center');
+        world.getView().setCenter(currentCenter);
+
+      } else if(dataFocus == '') {
+
+        // set center to user and zoom to initial again ...
+
+        if ( navigator.geolocation ) {
+          var got_user_location = new $.Deferred();
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+            log.debug('MAP setBoundingBox – set center to user position');
+            var lon = position.coords.longitude;
+            var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
+            center[1] = defaultCenter[1];
+            world.getView().setCenter(center);
+            got_user_location.resolve();
+
+          }, function(err){
+
+            log.debug('MAP setBoundingBox – set center to default');
+            world.getView().setCenter(defaultCenter);
+            got_user_location.resolve();
+
+          });
+        } else {
+
+          log.debug('MAP setBoundingBox – set center to default');
           world.getView().setCenter(defaultCenter);
-        });
-      } else {
-        world.getView().setCenter(defaultCenter);
+
+        }
+
+        // Get zoom values adapted to map size
+        log.debug('MAP setBoundingBox – set zoom to initial');
+        var zoom_values = getZoomValues();
+        world.getView().setZoom(zoom_values.initialZoom);
+
+        currentCenter = defaultCenter;
+
+        if(typeof got_user_location !== 'undefined') {
+          got_user_location.done(function(){
+            layouted.resolve();
+          })
+        } else {
+          layouted.resolve();
+        }
       }
-
-      // Get zoom values adapted to map size
-      var zoom_values = getZoomValues();
-
-      world.getView().setZoom(zoom_values.initialZoom);
     }
   }
 
@@ -886,6 +938,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // User position
+/*
         if (
           navigator.geolocation &&
           ! $(this).attr('data-focus')
@@ -897,6 +950,7 @@ var Hijax = (function ($, Hijax) {
             world.getView().setCenter(center);
           });
         }
+*/
 
         // Bind hover events
         world.on('pointermove', function(evt) {
@@ -925,6 +979,13 @@ var Hijax = (function ($, Hijax) {
             }
           }
         });
+
+        // update currentCenter
+        world.getView().on('propertychange', _.debounce(function(e) {
+          if (e.key == 'center' || e.key == 'resolution') {
+            currentCenter = world.getView().getCenter();
+          }
+        }, 150));
 
         // init popover
         popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
@@ -1006,10 +1067,12 @@ var Hijax = (function ($, Hijax) {
         feature.setProperties(properties);
 */
 
-        setBoundingBox($('[data-behaviour="map"]')[0]);
+        var layouted = new $.Deferred();
+        setBoundingBox($('[data-behaviour="map"]')[0], layouted);
 
-        log.debug('MAP layout finished (only true if setBoundingBox doesn\'t run async navigator.geolocation.getCurrentPosition)');
-
+        layouted.done(function(){
+          log.debug('MAP layout finished');
+        });
       });
 
       world.updateSize();
@@ -1058,23 +1121,25 @@ var Hijax = (function ($, Hijax) {
         });
         container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
 
-        world.getView().on('propertychange', _.debounce(function(e) {
-          if (e.key == 'resolution' || e.key == 'center') {
-            restrictListToExtent();
-          }
-        }, 150));
+        world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
 
-        function restrictListToExtent() {
-          if (enabled.prop("checked")) {
-            var extent = world.getView().calculateExtent(world.getSize());
-            list.children('li').hide();
-            placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
-              list.children('li[about="' + feature.getProperties()['origin_id'] +'"]').show();
-            });
-          } else {
-            list.children('li').show();
+        function restrictListToExtent(e) {
+          if (
+            (e.key == 'resolution' || e.key == 'center') &&
+            $('#app-col-index').attr('data-col-mode') == 'list'
+          ) {
+            log.debug('MAP restrictListToExtent');
+            if (enabled.prop("checked")) {
+              var extent = world.getView().calculateExtent(world.getSize());
+              list.children('li').hide();
+              placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
+                list.children('li[about="' + feature.getProperties()['origin_id'] +'"]').show();
+              });
+            } else {
+              list.children('li').show();
+            }
+            container.find('.total-items').text(list.children('li:visible').length);
           }
-          container.find('.total-items').text(list.children('li:visible').length);
         }
 
       });

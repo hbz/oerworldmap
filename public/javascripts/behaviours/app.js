@@ -211,6 +211,7 @@ var Hijax = (function ($, Hijax, page) {
     // set detail source
 
     if(pagejs_ctx.hash) {
+      $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       set_col_mode('detail', 'hidden');
