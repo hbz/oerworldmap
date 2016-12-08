@@ -49,11 +49,14 @@ public class CalendarExporter implements Exporter {
   private static final String DATE_START = "DTSTART:";
   private static final String DATE_END = "DTEND:";
   private static final String DATE_STAMP = "DTSTAMP:";
+  private static final String DEFAULT_TIME_START = "T000000";
+  private static final String DEFAULT_TIME_END = "T235959";
 
-  private static final String DATE_REGEX = "([\\d]{4})-([\\d]{2})-([\\d]{2})";
-  private static final Pattern mDatePattern = Pattern.compile(DATE_REGEX);
+  private static final String SIMPLE_DATE_REGEX = "^([\\d]{4})-([\\d]{2})-([\\d]{2})$";
+  private static final Pattern mSimpleDatePattern = Pattern.compile(SIMPLE_DATE_REGEX);
 
   private static final Map<String, String> mFieldMap = new HashMap<>();
+
   static{
     mFieldMap.put(UID, JsonLdConstants.ID);
     mFieldMap.put(SUMMARY, "name.@value");
@@ -169,7 +172,7 @@ public class CalendarExporter implements Exporter {
       return "";
     }
     StringBuffer result = new StringBuffer(DATE_START);
-    result.append(formatDate(originalStartDate)).append("\n");
+    result.append(formatDate(originalStartDate, DEFAULT_TIME_START)).append("\n");
     return result.toString();
   }
 
@@ -179,14 +182,14 @@ public class CalendarExporter implements Exporter {
       return "";
     }
     StringBuffer result = new StringBuffer(DATE_END);
-    result.append(formatDate(originalEndDate)).append("\n");
+    result.append(formatDate(originalEndDate, DEFAULT_TIME_END)).append("\n");
     return result.toString();
   }
 
-  private String formatDate(String aDate){
-    Matcher matcher = mDatePattern.matcher(aDate);
+  private String formatDate(String aDate, String aTime){
+    Matcher matcher = mSimpleDatePattern.matcher(aDate);
     if (matcher.find()){
-      return matcher.group(1).concat(matcher.group(2)).concat(matcher.group(3));
+      return matcher.group(1).concat(matcher.group(2)).concat(matcher.group(3)).concat(aTime);
     }
     return aDate;
   }
