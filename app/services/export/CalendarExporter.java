@@ -289,7 +289,7 @@ public class CalendarExporter implements Exporter {
     if (description == null || Strings.isEmpty(description)){
       return "";
     }
-    return DESCRIPTION.concat(description.replaceAll("\r\n|\n|\r", "\\\\n")).concat("\n");
+    return DESCRIPTION.concat(description.replaceAll("\r\n|\n|\r", "\\\\r\\\\n")).concat("\n");
   }
 
 }
