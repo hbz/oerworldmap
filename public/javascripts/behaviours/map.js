@@ -1125,7 +1125,7 @@ var Hijax = (function ($, Hijax) {
 
         function restrictListToExtent(e) {
           if (
-            typeof e == 'undefined' ||
+            (typeof e == 'undefined') ||
             ((e.key == 'resolution' || e.key == 'center') &&
             $('#app-col-index').attr('data-col-mode') == 'list')
           ) {

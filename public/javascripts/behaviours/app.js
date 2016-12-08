@@ -232,6 +232,7 @@ var Hijax = (function ($, Hijax, page) {
     $('#app-col-map [data-behaviour="map"]').attr('data-focus', pagejs_ctx.path.split("/").pop().toUpperCase() );
 
     if(pagejs_ctx.hash) {
+      $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       set_col_mode('detail', 'hidden');
