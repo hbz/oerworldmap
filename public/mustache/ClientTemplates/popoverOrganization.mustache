@@ -4,7 +4,9 @@
         <div class="icon-indented">
 
             <i class="fa fa-fw fa-users"></i><strong>Organization:</strong>
-            {{#resource.name}}{{[@value]}}{{/resource.name}}
+            {{#localized resource.name language=@root.language}}
+                {{[@value]}}
+            {{/localized}}
 
         </div>
     </div>
@@ -15,7 +17,9 @@
             <div class="icon-indented">
 
                 {{getIcon [@type]}}<strong>{{[@type]}}:</strong>
-                {{#name.[0]}}{{[@value]}}{{/name.[0]}}
+                {{#localized this.name language=@root.language}}
+                    {{[@value]}}
+                {{/localized}}
 
             </div>
         </div>

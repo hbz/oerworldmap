@@ -250,7 +250,7 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('localized', function(list, options) {
 
-  language = options.hash.language || "en";
+  language = options.hash.language || navigator.language || navigator.userLanguage || "en";
 
   var result = '';
   // Empty list
