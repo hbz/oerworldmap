@@ -129,8 +129,8 @@ public class CalendarExporter implements Exporter {
     result.append(parseEndDate(aResource));
     result.append(getTimeStamp());
     result.append(CAL_CLASS);
-    result.append(EVENT_END);
     completeFields(result, aResource);
+    result.append(EVENT_END);
     return result.toString();
   }
 
