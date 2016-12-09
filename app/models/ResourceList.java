@@ -40,6 +40,20 @@ public class ResourceList {
     aggregations = aAggregations;
   }
 
+  public ResourceList(Resource aPagedCollection) {
+    items = aPagedCollection.getAsList("member");
+    totalItems = Long.valueOf(aPagedCollection.getAsString("totalItems"));
+    searchTerms = aPagedCollection.getAsString("searchTerms");
+    offset = Integer.valueOf(aPagedCollection.getAsString("from"));
+    if (offset > 0) {
+      offset--;
+      itemsPerPage = Integer.valueOf(aPagedCollection.getAsString("until")) - offset;
+    }
+    itemsPerPage = Integer.valueOf(aPagedCollection.getAsString("itemsPerPage"));
+    aggregations = aPagedCollection.getAsResource("aggregations");
+    filters = (Map<String, List<String>>) aPagedCollection.getAsMap("filters");
+  }
+
   public List<Resource> getItems() {
     return this.items;
   }
@@ -228,15 +242,12 @@ public class ResourceList {
   }
 
   public boolean containsType(String aType) {
-
     for (Resource item : items) {
       if (item.getType().equals(aType)) {
         return true;
       }
     }
-
     return false;
-
   }
 
 }
