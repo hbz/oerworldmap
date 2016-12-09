@@ -602,6 +602,7 @@ var Hijax = (function ($, Hijax) {
         minResolution: 2
       });
       currentCenter = world.getView().getCenter();
+      layouted.resolve();
 
     } else {
 
@@ -647,14 +648,16 @@ var Hijax = (function ($, Hijax) {
         world.getView().setZoom(zoom_values.initialZoom);
 
         currentCenter = defaultCenter;
+      }
 
-        if(typeof got_user_location !== 'undefined') {
-          got_user_location.done(function(){
-            layouted.resolve();
-          })
-        } else {
+      if(typeof got_user_location !== 'undefined') {
+        got_user_location.done(function(){
+          // restrictListToExtent();
           layouted.resolve();
-        }
+        })
+      } else {
+        // restrictListToExtent();
+        layouted.resolve();
       }
     }
   }
@@ -780,6 +783,45 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+  function restrictListToExtent(e) {
+
+    var container = $('[data-behaviour~="geoFilteredList"]');
+
+    if (
+      container.length &&
+      (
+        typeof e == 'undefined' ||
+        (
+          (e.key == 'resolution' || e.key == 'center') &&
+          $('#app-col-index').attr('data-col-mode') == 'list'
+        )
+      )
+    ) {
+
+      log.debug('MAP restrictListToExtent');
+
+      var list = container.find('.resource-list');
+      var enabled = container.find('.geo-filtered-list-control input');
+
+      if (enabled.prop("checked")) {
+        var extent = world.getView().calculateExtent(world.getSize());
+        list.children('li').hide();
+        placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
+          var resource = feature.getProperties()['resource'];
+          var ids = resource['referencedBy'] ? resource['referencedBy'].map(function(obj){return obj['@id']}) : [];
+          ids.push(resource['@id']);
+          for (var i = 0; i < ids.length; i++) {
+            list.children('li[about="' + ids[i] + '"]').show();
+          }
+        });
+      } else {
+        list.children('li').show();
+      }
+
+      container.find('.total-items').text(list.children('li:visible').length);
+    }
+  }
+
   var my = {
     init : function(context) {
 
@@ -886,7 +928,6 @@ var Hijax = (function ($, Hijax) {
           noWrap: true,
           wrapX: false
         });
-
         clusterLayer = new ol.layer.Vector({
           title: 'cluster',
           source: clusterSource,
@@ -983,6 +1024,9 @@ var Hijax = (function ($, Hijax) {
           }
         });
 
+        // restrict list to extent
+        world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
+
         // update currentCenter
         world.getView().on('propertychange', _.debounce(function(e) {
           if (e.key == 'center' || e.key == 'resolution') {
@@ -1038,6 +1082,8 @@ var Hijax = (function ($, Hijax) {
 
     },
 
+    layouted : false,
+
     layout : function() {
 
       $.when.apply(null, my.attached).done(function(){
@@ -1064,18 +1110,19 @@ var Hijax = (function ($, Hijax) {
 
         set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
 
-/*
-        var properties = feature.getProperties();
-        properties.country = aggregation;
-        feature.setProperties(properties);
-*/
-
-        var layouted = new $.Deferred();
-        setBoundingBox($('[data-behaviour="map"]')[0], layouted);
+        // check if the behaviours layouted (created at the beginning of attach is resolved already
+        // if so create a local one, otherwise pass the behaviours one ...
+        if(layouted.isResolved()) {
+          var layouted = new $.Deferred();
+          setBoundingBox($('[data-behaviour="map"]')[0], layouted);
+        } else {
+          setBoundingBox($('[data-behaviour="map"]')[0], layouted);
+        }
 
         layouted.done(function(){
           log.debug('MAP layout finished');
         });
+
       });
 
       world.updateSize();
@@ -1099,6 +1146,11 @@ var Hijax = (function ($, Hijax) {
         return _markers;
       }
 
+      // creating layouted deferred at the beginning of attached, to schedule actions from inside attach
+      // to happen after subsequent layout
+
+      layouted = $.Deferred();
+
       // Populate map with pins from resource listings
 
       markers = {};
@@ -1114,49 +1166,18 @@ var Hijax = (function ($, Hijax) {
       $('[data-behaviour~="geoFilteredList"]', context).each(function(){
 
         var container = $(this);
-        var list = container.find('.resource-list');
 
         // var checked = $('#app-col-index').attr('data-col-mode') == 'list' ? 'checked="checked"' : '';
         var checked = 'checked="checked"';
-
         var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
           restrictListToExtent();
         });
 
-        // FIXME: check when to exec initial restrict
-        setTimeout(function() {
+        layouted.done(function(){
           restrictListToExtent();
-        }, 250);
+        });
 
         container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
-
-        world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
-
-        function restrictListToExtent(e) {
-          if (
-            (typeof e == 'undefined') ||
-            ((e.key == 'resolution' || e.key == 'center') &&
-            $('#app-col-index').attr('data-col-mode') == 'list')
-          ) {
-            log.debug('MAP restrictListToExtent');
-            if (enabled.prop("checked")) {
-              var extent = world.getView().calculateExtent(world.getSize());
-              list.children('li').hide();
-              placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
-                var resource = feature.getProperties()['resource'];
-                var ids = resource['referencedBy'] ? resource['referencedBy'].map(function(obj){return obj['@id']}) : [];
-                ids.push(resource['@id']);
-                for (var i = 0; i < ids.length; i++) {
-                  list.children('li[about="' + ids[i] + '"]').show();
-                }
-              });
-            } else {
-              list.children('li').show();
-            }
-            container.find('.total-items').text(list.children('li:visible').length);
-          }
-        }
-
       });
 
       // Populate pin highlights
