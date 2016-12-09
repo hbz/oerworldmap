@@ -563,7 +563,31 @@
                         </tr>
                     {{/if}}
 
+                    {{#if isPartOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.isPartOf" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#isPartOf}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/isPartOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
+                    {{#if hasPart}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.hasPart" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#hasPart}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/hasPart}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
                 </table>
 
