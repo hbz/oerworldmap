@@ -147,7 +147,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public static Resource fromJson(InputStream aInputStream) throws IOException {
     String json = IOUtils.toString(aInputStream, "UTF-8");
     aInputStream.close();
-    return Resource.fromJson(json);
+    return fromJson(json);
   }
 
   public ProcessingReport validate() {
@@ -246,6 +246,11 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public Resource getAsResource(final Object aKey) {
     Object result = get(aKey);
     return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
+  }
+
+  public Map<?, ?> getAsMap(final String aKey) {
+    Object result = get(aKey);
+    return (null == result || !(result instanceof Map<?, ?>)) ? null : (Resource) result;
   }
 
 
