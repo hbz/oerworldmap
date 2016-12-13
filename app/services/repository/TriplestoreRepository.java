@@ -50,9 +50,7 @@ import services.ResourceFramer;
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
   public static final String EXTENDED_DESCRIPTION =
-    "DESCRIBE <%1$s> ?o ?oo WHERE {" +
-    "  <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo }" +
-    "}";
+    "DESCRIBE <%1$s> ?o ?oo ?ooo WHERE { <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo OPTIONAL { ?oo ?ppp ?ooo FILTER isBlank(?oo)} } }";
 
   public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
