@@ -924,12 +924,12 @@ var Hijax = (function ($, Hijax) {
 
         // precompile handlebar templates
         templates = {
-          popoverAction : Handlebars.compile($('#popoverAction\\.mustache').html()),
+          popoverAction : Handlebars.compile($('#popoverResource\\.mustache').html()),
           popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
-          popoverOrganization : Handlebars.compile($('#popoverOrganization\\.mustache').html()),
-          popoverPerson : Handlebars.compile($('#popoverPerson\\.mustache').html()),
-          popoverService : Handlebars.compile($('#popoverService\\.mustache').html()),
-          popoverEvent : Handlebars.compile($('#popoverEvent\\.mustache').html())
+          popoverOrganization : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverPerson : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverService : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverEvent : Handlebars.compile($('#popoverResource\\.mustache').html())
         };
 
       });
