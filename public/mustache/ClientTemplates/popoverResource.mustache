@@ -1,0 +1,23 @@
+{{#resource}}
+
+    <div class="popover-section bg-blue-palest">
+        <div class="icon-indented">
+            {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
+            {{#localized this.name language=@root.language}}
+                {{[@value]}}
+            {{/localized}}
+        </div>
+    </div>
+
+    {{#referencedBy}}
+        <div class="popover-section bg-blue-paler">
+            <div class="icon-indented">
+                {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
+                {{#localized this.name language=@root.language}}
+                    {{[@value]}}
+                {{/localized}}
+            </div>
+        </div>
+    {{/referencedBy}}
+
+{{/resource}}
