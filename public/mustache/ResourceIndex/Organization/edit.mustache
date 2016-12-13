@@ -56,4 +56,6 @@
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Organization.comment") tooltip=(i18n "Organization.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
+    {{> ResourceIndex/Grant/edit.mustache property=awards property_path="awards" hidden=true}}
+
 </fieldset>

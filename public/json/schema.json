@@ -1237,9 +1237,6 @@
           }
         }
       },
-      "required": [
-        "name"
-      ],
       "additionalProperties": false
     },
     "Place": {
