@@ -1,26 +1,102 @@
-<div class="hidden">
-    <legend>Grant</legend>
-    {{input "isFundedBy[@type]" "Grant" readonly="readonly"}}
+<div class="{{#if hidden}}hidden{{/if}}">
+
+{{#property}}
+    <div class="hidden">
+        <legend>Grant</legend>
+        {{input (stringFormat "%s[%s][@type]" property_path @index) "Grant" readonly="readonly"}}
+    </div>
+
+    {{> FormElements/localizedInput.mustache property=this.name property_path=(stringFormat "%s[%s][name]" property_path @index) title=(i18n "Grant.name") tooltip=(i18n "Grant.name" bundle="descriptions") hidden=true}}
+
+    {{> FormElements/localizedInput.mustache property=this.alternateName property_path=(stringFormat "%s[%s][alternateName]" property_path @index) title=(i18n "Grant.alternateName") tooltip=(i18n "Grant.alternateName" bundle="descriptions") hidden=true}}
+
+    {{#if this.duration}}
+        {{> FormElements/input.mustache property=this.duration property_path=(stringFormat "%s[%s][duration]" property_path @index) title=(i18n "Grant.duration") tooltip=(i18n "Grant.duration" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{ else }}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][duration]" property_path @index) title=(i18n "Grant.duration") tooltip=(i18n "Grant.duration" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{/if}}
+
+    {{#if this.hasMonetaryValue}}
+        {{> FormElements/input.mustache property=this.hasMonetaryValue property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{else}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{/if}}
+
+    {{> FormElements/localizedTextarea.mustache property=this.description property_path=(stringFormat "%s[%s][description]" property_path @index) title=(i18n "Grant.description") tooltip=(i18n "Grant.description" bundle="descriptions") hidden=true}}
+
+    {{#if this.sameAs}}
+        {{> FormElements/input.mustache property=this.sameAs property_path=(stringFormat "%s[%s][sameAs]" property_path @index) title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+    {{else}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][sameAs]" property_path @index) title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+    {{/if}}
+
+    {{#if this.isAwardedBy}}
+        {{> FormElements/id.mustache property=this.isAwardedBy property_path=(stringFormat "%s[%s][isAwardedBy]" property_path @index) title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{else}}
+        {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][isAwardedBy]" property_path @index) title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{/if}}
+
+    {{#if this.funds}}
+        {{> FormElements/id.mustache property=this.funds property_path=(stringFormat "%s[%s][funds]" property_path @index) title=(i18n "Grant.funds") tooltip=(i18n "Grant.funds" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+    {{else}}
+        {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][funds]" property_path @index) title=(i18n "Grant.funds") tooltip=(i18n "Grant.funds" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+    {{/if}}
+
+    {{#if this.hasAwardDate}}
+        {{> FormElements/input.mustache property=this.hasAwardDate property_path=(stringFormat "%s[%s][hasAwardDate]" property_path @index) title=(i18n "Grant.hasAwardDate") tooltip=(i18n "Grant.hasAwardDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
+    {{else}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasAwardDate]" property_path @index) title=(i18n "Grant.hasAwardDate") tooltip=(i18n "Grant.hasAwardDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
+    {{/if}}
+
+    {{#if this.mainEntityOf}}
+        {{> FormElements/id.mustache property=this.mainEntityOf property_path=(stringFormat "%s[%s][mainEntityOf]" property_path @index) title=(i18n "Grant.mainEntityOf") tooltip=(i18n "Grant.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{else}}
+        {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][mainEntityOf]" property_path @index) title=(i18n "Grant.mainEntityOf") tooltip=(i18n "Grant.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{/if}}
+
+    {{#if this.mentionedIn}}
+        {{> FormElements/id.mustache property=this.mentionedIn property_path=(stringFormat "%s[%s][mentionedIn]" property_path @index) title=(i18n "Grant.mentionedIn") tooltip=(i18n "Grant.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{else}}
+        {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][mentionedIn]" property_path @index) title=(i18n "Grant.mentionedIn") tooltip=(i18n "Grant.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+    {{/if}}
+
+    {{#if this.keywords}}
+        {{> FormElements/input.mustache property=this.keywords property_path=(stringFormat "%s[%s][keywords]" property_path @index) title=(i18n "Grant.keywords") tooltip=(i18n "Grant.keywords" bundle="descriptions") hidden=true multiple=true input_type="text" list="keywords"}}
+    {{else}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][keywords]" property_path @index) title=(i18n "Grant.keywords") tooltip=(i18n "Grant.keywords" bundle="descriptions") hidden=true multiple=true input_type="text" list="keywords"}}
+    {{/if}}
+{{/property}}
+
+{{^property}}
+    <div class="hidden">
+        <legend>Grant</legend>
+        {{input (stringFormat "%s[%s][@type]" property_path 0) "Grant" readonly="readonly"}}
+    </div>
+
+    {{> FormElements/localizedInput.mustache property=this.name property_path=(stringFormat "%s[%s][name]" property_path 0) title=(i18n "Grant.name") tooltip=(i18n "Grant.name" bundle="descriptions") hidden=true}}
+
+    {{> FormElements/localizedInput.mustache property=this.alternateName property_path=(stringFormat "%s[%s][alternateName]" property_path 0) title=(i18n "Grant.alternateName") tooltip=(i18n "Grant.alternateName" bundle="descriptions") hidden=true}}
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][duration]" property_path 0) title=(i18n "Grant.duration") tooltip=(i18n "Grant.duration" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path 0) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+
+    {{> FormElements/localizedTextarea.mustache property=this.description property_path=(stringFormat "%s[%s][description]" property_path 0) title=(i18n "Grant.description") tooltip=(i18n "Grant.description" bundle="descriptions") hidden=true}}
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][sameAs]" property_path 0) title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+
+    {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][isAwardedBy]" property_path 0) title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization"}}
+
+    {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][funds]" property_path 0) title=(i18n "Grant.funds") tooltip=(i18n "Grant.funds" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasAwardDate]" property_path 0) title=(i18n "Grant.hasAwardDate") tooltip=(i18n "Grant.hasAwardDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
+
+    {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][mainEntityOf]" property_path 0) title=(i18n "Grant.mainEntityOf") tooltip=(i18n "Grant.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+
+    {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][mentionedIn]" property_path 0) title=(i18n "Grant.mentionedIn") tooltip=(i18n "Grant.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][keywords]" property_path 0) title=(i18n "Grant.keywords") tooltip=(i18n "Grant.keywords" bundle="descriptions") hidden=true multiple=true input_type="text" list="keywords"}}
+
+{{/property}}
+
 </div>
-
-{{> FormElements/localizedInput.mustache property=isFundedBy.0.name property_path="isFundedBy[name]" title=(i18n "Grant.name") tooltip=(i18n "Grant.name" bundle="descriptions")}}
-
-{{> FormElements/localizedInput.mustache property=isFundedBy.0.alternateName property_path="isFundedBy[alternateName]" title=(i18n "Grant.alternateName") tooltip=(i18n "Grant.alternateName" bundle="descriptions")}}
-
-{{> FormElements/input.mustache property=isFundedBy.0.duration property_path="isFundedBy[duration]" title=(i18n "Grant.duration") tooltip=(i18n "Grant.duration" bundle="descriptions") hidden=false multiple=false input_type="text"}}
-
-{{> FormElements/input.mustache property=isFundedBy.0.hasMonetaryValue property_path="isFundedBy[hasMonetaryValue]" title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
-
-{{> FormElements/localizedTextarea.mustache property=isFundedBy.0.description property_path="isFundedBy[description]" title=(i18n "Grant.description") tooltip=(i18n "Grant.description" bundle="descriptions")}}
-
-{{> FormElements/input.mustache property=isFundedBy.0.sameAs property_path="isFundedBy[sameAs]" title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
-
-{{> FormElements/id.mustache property=isFundedBy.0.isAwardedBy property_path="isFundedBy[isAwardedBy]" title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
-
-{{> FormElements/input.mustache property=isFundedBy.0.hasAwardDate property_path="isFundedBy[hasAwardDate]" title=(i18n "Grant.hasAwardDate") tooltip=(i18n "Grant.hasAwardDate" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
-
-{{> FormElements/id.mustache property=isFundedBy.0.mainEntityOf property_path="isFundedBy[mainEntityOf]" title=(i18n "Grant.mainEntityOf") tooltip=(i18n "Grant.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
-
-{{> FormElements/id.mustache property=isFundedBy.0.mentionedIn property_path="isFundedBy[mentionedIn]" title=(i18n "Grant.mentionedIn") tooltip=(i18n "Grant.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
-
-{{> FormElements/input.mustache property=isFundedBy.0.keywords property_path="isFundedBy[keywords]" title=(i18n "Grant.keywords") tooltip=(i18n "Grant.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
