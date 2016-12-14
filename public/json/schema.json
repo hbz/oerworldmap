@@ -442,6 +442,13 @@
           "items": {
             "$ref": "#/definitions/Person"
           }
+        },
+        "organizerFor": {
+          "description": "An event the project is organizer for.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Event"
+          }
         }
       },
       "required": [
@@ -820,8 +827,8 @@
           "description": "An event the person is organizer for.",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Event"
-              }
+            "$ref": "#/definitions/Event"
+          }
         },
         "authorOf": {
           "description": "Comments by the Person",
@@ -1058,6 +1065,9 @@
               },
               {
                 "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Action"
               }
             ]
           }

@@ -52,4 +52,6 @@
 
     {{> FormElements/id.mustache property=hasPart property_path="hasPart" title=(i18n "Action.hasPart") tooltip=(i18n "Action.hasPart" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
+    {{> FormElements/id.mustache property=organizerFor property_path="organizerFor" title=(i18n "Action.organizerFor") tooltip=(i18n "Action.organizerFor" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
 </fieldset>

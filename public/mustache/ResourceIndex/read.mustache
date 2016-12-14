@@ -550,6 +550,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if organizerFor}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.organizerFor" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#organizerFor}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/organizerFor}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if performer}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.performer" @type)}}</td>
