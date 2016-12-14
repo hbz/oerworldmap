@@ -46,15 +46,7 @@ public class JSONForm {
           ArrayNode vals = new ArrayNode(JsonNodeFactory.instance);
           for (String value : values) {
             if (!value.isEmpty()) {
-              try {
-                vals.add(Integer.parseInt(value));
-              } catch (NumberFormatException notInt) {
-                try {
-                  vals.add(Double.parseDouble(value));
-                } catch (NumberFormatException notDouble) {
-                  vals.add(value);
-                }
-              }
+              vals.add(value);
             }
           }
           if (step.type == Step.Type.Array) {
