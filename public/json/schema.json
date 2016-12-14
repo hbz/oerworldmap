@@ -436,6 +436,12 @@
           "items": {
             "$ref": "#/definitions/Action"
           }
+        },
+        "affiliate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
         }
       },
       "required": [
@@ -712,6 +718,9 @@
               },
               {
                 "$ref": "#/definitions/Service"
+              },
+              {
+                "$ref": "#/definitions/Action"
               }
             ]
           }
