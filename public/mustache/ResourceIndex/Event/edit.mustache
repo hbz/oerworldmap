@@ -38,6 +38,8 @@
 
     {{> FormElements/id.mustache property=performer property_path="performer" title=(i18n "Event.performer") tooltip=(i18n "Event.performer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
+    {{> FormElements/id.mustache property=attendee property_path="attendee" title=(i18n "Event.attendee") tooltip=(i18n "Event.attendee" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+
     {{> FormElements/id.mustache property=about property_path="about" title=(i18n "Event.about") tooltip=(i18n "Event.about" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 
     {{> FormElements/input.mustache property=hashtag property_path="hashtag" title=(i18n "Event.hashtag") tooltip=(i18n "Event.hashtag" bundle="descriptions") hidden=false multiple=false input_type="text"}}

@@ -836,6 +836,12 @@
           "items": {
             "$ref": "#/definitions/Comment"
           }
+        },
+        "attends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Event"
+          }
         }
       },
       "additionalProperties": false
@@ -1076,7 +1082,7 @@
           "description": "People presenting, leading a workshop etc. at the event",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Person"
+            "$ref": "#/definitions/Person"
           }
         },
         "name": {
@@ -1142,43 +1148,50 @@
         "hashtag": {
           "type": "string"
         },
-      "keywords": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        }
-      },
-      "about": {
-        "type": "array",
-        "items": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            },
-            {
-              "properties": {
-                "inScheme": {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "enum": [
-                        "https://w3id.org/class/esc/scheme"
-                      ]
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "about": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/Concept"
+              },
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": [
+                          "https://w3id.org/class/esc/scheme"
+                        ]
+                      }
                     }
                   }
                 }
               }
-            }
-          ]
+            ]
+          }
+        },
+        "comment": {
+          "description": "A comment about the Event",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
+        "attendee": {
+          "description": "People attending the event",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
         }
-      },
-      "comment": {
-        "description": "A comment about the Event",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Comment"
-        }
-      }
       },
       "required": [
         "name"

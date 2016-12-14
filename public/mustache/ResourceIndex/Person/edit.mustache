@@ -56,4 +56,10 @@
 
     {{> FormElements/id.mustache property=authorOf property_path="authorOf" title=(i18n "Person.authorOf") tooltip=(i18n "Person.authorOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
+    {{> FormElements/id.mustache property=organizerFor property_path="organizerFor" title=(i18n "Person.organizerFor") tooltip=(i18n "Person.organizerFor" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
+    {{> FormElements/id.mustache property=performerIn property_path="performerIn" title=(i18n "Person.performerIn") tooltip=(i18n "Person.performerIn" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
+    {{> FormElements/id.mustache property=attends property_path="attends" title=(i18n "Person.attends") tooltip=(i18n "Person.attends" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
 </fieldset>

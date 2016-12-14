@@ -576,6 +576,45 @@
                         </tr>
                     {{/if}}
 
+                    {{#if performerIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.performerIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#performerIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/performerIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if attendee}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.attendee" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#attendee}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/attendee}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if attends}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.attends" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#attends}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/attends}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if inLanguage}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.inLanguage" @type)}}</td>

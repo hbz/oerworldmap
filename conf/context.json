@@ -29,6 +29,12 @@
     "articleBody": {
       "@container": "@set"
     },
+    "attendee": {
+      "@container": "@set"
+    },
+    "attends": {
+      "@container": "@set"
+    },
     "audience": {
       "@container": "@set"
     },
