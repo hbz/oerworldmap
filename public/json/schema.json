@@ -646,21 +646,20 @@
           "type": "array",
           "items": {
             "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
-            ]
+            "$ref": "#/definitions/Organization"
+          }
+        },
+        "affiliate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
           }
         },
         "memberOf": {
           "description": "An organization the service is member of.",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Organization"
+            "$ref": "#/definitions/Organization"
           }
         },
         "comment": {
@@ -703,8 +702,8 @@
         "description": {
           "$ref": "#/definitions/LocalizedString"
         },
-        "memberOf": {
-          "description": "An organization or service the person is member of.",
+        "affiliation": {
+          "description": "An organization or service the person is affiliated with.",
           "type": "array",
           "items": {
             "oneOf": [
@@ -939,15 +938,18 @@
             "type": "object",
             "oneOf": [
               {
-                "$ref": "#/definitions/Person"
-              },
-              {
                 "$ref": "#/definitions/Organization"
               },
               {
                 "$ref": "#/definitions/Service"
               }
             ]
+          }
+        },
+        "affiliate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
           }
         },
         "memberOf": {

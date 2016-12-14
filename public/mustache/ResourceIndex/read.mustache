@@ -328,6 +328,32 @@
                         </tr>
                     {{/if}}
 
+                    {{#if affiliation}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.affiliation" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliation}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/affiliation}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if affiliate}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.affiliate" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliate}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/affiliate}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if tag}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.tag" @type)}}</td>

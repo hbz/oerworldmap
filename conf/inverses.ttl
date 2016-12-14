@@ -32,3 +32,5 @@ frapo:isFundedBy owl:inverseOf frapo:funds .
 frapo:funds owl:inverseOf frapo:isFundedBy .
 dcterms:isPartOf owl:inverseOf dcterms:hasPart .
 dcterms:hasPart owl:inverseOf dcterms:isPartOf .
+:affiliation owl:inverseOf :affiliate .
+:affiliate owl:inverseOf :affiliation .
