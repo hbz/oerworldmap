@@ -181,10 +181,22 @@
       ]
     }
   ],
-  "member": [
+  "affiliate": [
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Jan"
+        }
+      ]
+    }
+  ],
+  "member": [
+    {
+      "@id": "urn:uuid:5a02169e-c2bc-11e6-b6a3-db9a03145ff2",
+      "@type": "Organization",
       "name": [
         {
           "@language": "en",
