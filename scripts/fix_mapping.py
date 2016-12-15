@@ -32,7 +32,7 @@ def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
     ngrams = ['@value']
-    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated']
+    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo = ['geo']
     copy_location = ['provider']
     for property in properties:
