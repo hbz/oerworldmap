@@ -14,6 +14,9 @@
     "affiliation": {
       "@container": "@set"
     },
+    "affiliate": {
+      "@container": "@set"
+    },
     "agent": {
       "@container": "@set"
     },
@@ -24,6 +27,12 @@
       "@container": "@set"
     },
     "articleBody": {
+      "@container": "@set"
+    },
+    "attendee": {
+      "@container": "@set"
+    },
+    "attends": {
       "@container": "@set"
     },
     "audience": {
