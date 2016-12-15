@@ -26,7 +26,8 @@ var Hijax = (function ($, Hijax, page) {
   };
 
   var templates = {
-    'app' : Handlebars.compile($('#app\\.mustache').html())
+    'app' : Handlebars.compile($('#app\\.mustache').html()),
+    'http_error' : Handlebars.compile($('#http_error\\.mustache').html())
   };
 
   var initialization_source = {
@@ -52,7 +53,15 @@ var Hijax = (function ($, Hijax, page) {
       log.debug('APP ... which needs to be ajaxed');
       $.ajax(url, {
         method : 'GET',
-        success : callback
+        success : callback,
+        error : function(jqXHR) {
+          console.log(jqXHR);
+          to_modal(templates['http_error']({
+            url : url,
+            error : jqXHR.status + ' / ' + jqXHR.responseText
+          }));
+          $('#app').removeClass('loading');
+        }
       });
     }
   }
@@ -272,6 +281,15 @@ var Hijax = (function ($, Hijax, page) {
     $('.notification');
   }
 */
+
+  function to_modal(content) {
+    var modal = $('#app-modal');
+    modal.find('.modal-body').append( content );
+    modal.data('is_protected', false);
+    modal.data('opened_on', 'click');
+    modal.data('url', window.location);
+    modal.modal('show');
+  }
 
   var my = {
 
