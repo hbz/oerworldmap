@@ -44,7 +44,7 @@ var Hijax = (function ($, Hijax, page) {
 
   var app_history = [];
 
-  function get(url, callback) {
+  function get(url, callback, callback_error) {
     log.debug('APP get:', url);
     if(url == initialization_source.pathname + initialization_source.search) {
       log.debug('APP ... which is the initialization_content');
@@ -55,12 +55,13 @@ var Hijax = (function ($, Hijax, page) {
         method : 'GET',
         success : callback,
         error : function(jqXHR) {
-          console.log(jqXHR);
           to_modal(templates['http_error']({
             url : url,
             error : jqXHR.status + ' / ' + jqXHR.responseText
-          }));
-          $('#app').removeClass('loading');
+          }), 'load');
+          if(typeof callback_error == 'function') {
+            callback_error();
+          }
         }
       });
     }
@@ -94,6 +95,8 @@ var Hijax = (function ($, Hijax, page) {
         );
         map_and_index_source = url;
         map_and_index_loaded.resolve();
+      }, function(){
+        map_and_index_loaded.resolve();
       });
     }
     set_col_mode('index', index_mode);
@@ -110,6 +113,8 @@ var Hijax = (function ($, Hijax, page) {
         );
         set_col_mode('detail', 'expanded');
         detail_source = url;
+        detail_loaded.resolve();
+      }, function(){
         detail_loaded.resolve();
       });
     } else {
@@ -282,12 +287,15 @@ var Hijax = (function ($, Hijax, page) {
   }
 */
 
-  function to_modal(content) {
+  function to_modal(content, opened_on) {
     var modal = $('#app-modal');
     modal.find('.modal-body').append( content );
     modal.data('is_protected', false);
-    modal.data('opened_on', 'click');
+    modal.data('opened_on', opened_on);
     modal.data('url', window.location);
+    if(opened_on == 'load') {
+      modal.data('url_before', app_history[app_history.length - 2].canonicalPath);
+    }
     modal.modal('show');
   }
 
