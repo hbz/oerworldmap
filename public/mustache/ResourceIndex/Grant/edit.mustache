@@ -17,9 +17,9 @@
     {{/if}}
 
     {{#if this.hasMonetaryValue}}
-        {{> FormElements/input.mustache property=this.hasMonetaryValue property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+        {{> FormElements/input.mustache property=this.hasMonetaryValue property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text" pattern="(\€|\$)\d{1,3}(,\d{3})*(\.\d+)?$"}}
     {{else}}
-        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text" pattern="(\€|\$)\d{1,3}(,\d{3})*(\.\d+)?$"}}
     {{/if}}
 
     {{> FormElements/localizedTextarea.mustache property=this.description property_path=(stringFormat "%s[%s][description]" property_path @index) title=(i18n "Grant.description") tooltip=(i18n "Grant.description" bundle="descriptions") hidden=true}}
@@ -79,7 +79,7 @@
 
     {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][duration]" property_path 0) title=(i18n "Grant.duration") tooltip=(i18n "Grant.duration" bundle="descriptions") hidden=false multiple=false input_type="text"}}
 
-    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path 0) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path 0) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text" pattern="(\€|\$)\d{1,3}(,\d{3})*(\.\d+)?$"}}
 
     {{> FormElements/localizedTextarea.mustache property=this.description property_path=(stringFormat "%s[%s][description]" property_path 0) title=(i18n "Grant.description") tooltip=(i18n "Grant.description" bundle="descriptions") hidden=true}}
 
