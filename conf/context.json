@@ -234,14 +234,6 @@
     },
     "comment": {
       "@container": "@set"
-    },
-    "lon": {
-      "@id": "http://schema.org/longitude",
-      "@type": "xsd:double"
-    },
-    "lat": {
-      "@id": "http://schema.org/latitude",
-      "@type": "xsd:double"
     }
   }
 }

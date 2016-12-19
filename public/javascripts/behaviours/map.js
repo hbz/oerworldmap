@@ -628,7 +628,7 @@ var Hijax = (function ($, Hijax) {
 
     for (var l in locations) {
       if (geo = locations[l].geo) {
-        var point = new ol.geom.Point(ol.proj.transform([Number(geo['lon']), Number(geo['lat'])], 'EPSG:4326', projection.getCode()));
+        var point = new ol.geom.Point(ol.proj.transform([geo['lon'], geo['lat']], 'EPSG:4326', projection.getCode()));
         if (resource['@id'] != origin['@id'] && resource.referencedBy) {
           resource.referencedBy.push(origin);
         } else if (resource['@id'] != origin['@id']) {
