@@ -171,25 +171,6 @@
           "type": "string",
           "format": "uri"
         },
-        "mainEntity": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/Person"
-            },
-            {
-              "$ref": "#/definitions/Organization"
-            },
-            {
-              "$ref": "#/definitions/Service"
-            },
-            {
-              "$ref": "#/definitions/Action"
-            },
-            {
-              "$ref": "#/definitions/Event"
-            }
-          ]
-        },
         "mentions": {
           "description": "Something mentioned in the article",
           "type": "array",
@@ -412,13 +393,6 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that mentions the project.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "comment": {
           "description": "A comment about the project",
           "type": "array",
@@ -627,13 +601,6 @@
             "type": "string"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that has the service as its main entity.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "mentionedIn": {
           "description": "An article that mentions the service.",
           "type": "array",
@@ -816,13 +783,6 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that mentions the person.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "organizerFor": {
           "description": "An event the person is organizer for.",
           "type": "array",
@@ -995,13 +955,6 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that has the organization as its main entity.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "keywords": {
           "type": "array",
           "items": {
@@ -1138,13 +1091,6 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that mentions the event as main topic.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "hashtag": {
           "type": "string"
         },
@@ -1245,13 +1191,6 @@
         },
         "mentionedIn": {
           "description": "An article that mentions the grant.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
-        "mainEntityOf": {
-          "description": "An article that has the grant as its main entity.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
