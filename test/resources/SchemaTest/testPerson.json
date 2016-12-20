@@ -170,18 +170,6 @@
       ]
     }
   ],
-  "mainEntityOf":  [
-    {
-      "@id": "urn:uuid:f3416c40-2c79-11e5-8a52-0f1d4e5d4d98",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "ÍndoEduca"
-        }
-      ]
-    }
-  ],
   "organizerFor": [
     {
       "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
