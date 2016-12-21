@@ -29,6 +29,7 @@ uuid_file = "id_map.json"
 agents_file = "import/hewlett/agents.json"
 agents = []
 uuids = {}
+new_uuids = []
 address = {}
 subdivisions_by_countries = {}
 
@@ -62,11 +63,10 @@ def get_soup_from_page(url):
 
 
 def get_and_put_uuid(key):
-    global uuids
     uuid = get_uuid(key)
     if not uuid:
         uuid = create_uuid()
-    put_uuid(key, uuid)
+        put_uuid(key, uuid)
     return uuid
 
 
@@ -342,7 +342,7 @@ def split_camel(line):
 
 
 def collect(url):
-    global address, agents
+    global address, agents, new_uuids
     action = {
         "@context" : "https://oerworldmap.org/assets/json/context.json",
         "@type" : "Action"
@@ -373,9 +373,13 @@ def collect(url):
     grantee_url = get_grantee_url(soup)
     grantee_id = get_grantee_id(grantee_url)
 
-    action['@id'] = get_and_put_uuid('hewlett_action_' + grant_id)
+    action_id = get_and_put_uuid('hewlett_action_' + grant_id)
+    if action_id in new_uuids:
+        return None
+    action['@id'] = action_id
+    new_uuids.append(action_id)
 
-    agent_uuid = get_uuid('hewlett_grantee_' + grantee_id)
+    agent_uuid = get_and_put_uuid('hewlett_grantee_' + grantee_id)
     if not agent_uuid:
         agent_uuid = create_uuid();
     if not get_agent_by_id(agent_uuid):
@@ -424,9 +428,19 @@ def calculate_end_date(awarddate, duration):
     match = re.search(month_duration_regex, duration)
     if match.group(1):
         months = int(match.group(1))
-    date = awarddate.split('/')
-    months += int(date[0])
-    return datetime.date(int(date[2]) + months/12, ((months-1)%12+1), int(date[1])).isoformat()
+    awarddate_split = awarddate.split('/')
+    months += int(awarddate_split[0])
+    days = int(awarddate_split[1])
+    while days > 0:
+        try:
+            date = datetime.date(int(awarddate_split[2]) + months/12, ((months-1)%12+1), days).isoformat()
+            return date
+        except ValueError, e:
+            if str(e).__eq__('day is out of range for month'):
+                days -= 1
+            else:
+                raise ValueError('Could not calculate end date: ' + str(e))
+    return None
 
 
 def put_agent(agent_uuid, grantee_id, soup, location):
