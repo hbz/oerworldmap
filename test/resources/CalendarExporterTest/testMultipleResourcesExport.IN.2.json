@@ -1,6 +1,6 @@
 {
   "image" : "https://pbs.twimg.com/profile_images/697376447128805378/cf7940lw_400x400.png",
-  "endDate" : "2015-11-10",
+  "endDate" : "2015-11-10T19:00:00+05",
   "@type" : "Event",
   "about" : [ {
     "inScheme" : {
@@ -80,6 +80,6 @@
   },
   "@id" : "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b",
   "email" : "workshop@edu-sharing.net",
-  "startDate" : "2015-11-09",
+  "startDate" : "2015-11-09T09:00:00+01:00",
   "sameAs" : [ "https://twitter.com/edusharing" ]
 }

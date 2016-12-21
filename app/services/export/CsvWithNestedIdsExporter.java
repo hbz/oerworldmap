@@ -35,7 +35,7 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
     return result.toString();
   }
 
-  public String buildRow(Resource aResource) {
+  private String buildRow(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
@@ -61,11 +61,11 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
       if (value instanceof List<?>) {
         ArrayList<?> values = (ArrayList<?>) value;
         if (!values.isEmpty()) {
-          String valueList = toExportString(values.get(0));
+          StringBuffer valueList = new StringBuffer(toExportString(values.get(0)));
           for (int i = 1; i < values.size(); i++) {
-            valueList.concat("; ").concat(toExportString(values.get(i)));
+            valueList.append(", ").append(toExportString(values.get(i)));
           }
-          mValues[index] = valueList;
+          mValues[index] = valueList.toString();
         }
       } //
       else {

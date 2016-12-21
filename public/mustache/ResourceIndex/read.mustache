@@ -47,7 +47,7 @@
                 <div class="resource-header">
 
                     <div class="topline">
-                        {{getIcon @type}} <strong>{{@type}}</strong>
+                        {{getIcon [@type]}} <strong>{{i18n [@type]}}</strong>
                     </div>
 
                     <h1 class="resource-title">
@@ -328,6 +328,32 @@
                         </tr>
                     {{/if}}
 
+                    {{#if affiliation}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.affiliation" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliation}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/affiliation}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if affiliate}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.affiliate" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliate}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/affiliate}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if tag}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.tag" @type)}}</td>
@@ -524,6 +550,19 @@
                         </tr>
                     {{/if}}
 
+                    {{#if organizerFor}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.organizerFor" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#organizerFor}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/organizerFor}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if performer}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.performer" @type)}}</td>
@@ -532,6 +571,45 @@
                                     {{#performer}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/performer}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if performerIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.performerIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#performerIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/performerIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if attendee}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.attendee" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#attendee}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/attendee}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if attends}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.attends" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#attends}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/attends}}
                                 </ul>
                             </td>
                         </tr>
@@ -563,7 +641,31 @@
                         </tr>
                     {{/if}}
 
+                    {{#if isPartOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.isPartOf" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#isPartOf}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/isPartOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
+                    {{#if hasPart}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.hasPart" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#hasPart}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/hasPart}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
                 </table>
 

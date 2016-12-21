@@ -42,9 +42,11 @@
 
     {{> FormElements/id.mustache property=agentIn property_path="agentIn" title=(i18n "Organization.agentIn") tooltip=(i18n "Organization.agentIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=member property_path="member" title=(i18n "Organization.member") tooltip=(i18n "Organization.member" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=member property_path="member" title=(i18n "Organization.member") tooltip=(i18n "Organization.member" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> FormElements/id.mustache property=memberOf property_path="memberOf" title=(i18n "Organization.memberOf") tooltip=(i18n "Organization.memberOf" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Service"}}
+
+    {{> FormElements/id.mustache property=affiliate property_path="affiliate" title=(i18n "Organization.affiliate") tooltip=(i18n "Organization.affiliate" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
     {{> FormElements/input.mustache property=sameAs property_path="sameAs" title=(i18n "Organization.sameAs") tooltip=(i18n "Organization.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 

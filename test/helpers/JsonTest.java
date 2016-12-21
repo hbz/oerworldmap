@@ -14,6 +14,7 @@ import java.util.List;
 
 import models.Resource;
 
+import models.ResourceList;
 import org.apache.commons.io.IOUtils;
 import play.Logger;
 
@@ -36,6 +37,12 @@ public interface JsonTest {
       Logger.error(e.toString());
       return new Resource(null);
     }
+  }
+
+  default ResourceList getResourcesFromPagedCollectionFile(String aPagedCollectionFile) throws IOException {
+    InputStream in = ClassLoader.getSystemResourceAsStream(aPagedCollectionFile);
+    String json = IOUtils.toString(in, "UTF-8");
+    return new ResourceList(Resource.fromJson(json));
   }
 
   default List<Resource> getResourcesFromJsonDir(String aDir) throws IOException {
