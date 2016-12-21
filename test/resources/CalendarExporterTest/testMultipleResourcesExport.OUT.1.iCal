@@ -1,0 +1,56 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:https://oerworldmap.org/
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:DigiLern 2012
+ORGANIZER;CN="Ottobrunn Grammar School":MAILTO:sekr@gymnasium-ottobrunn.de
+DTSTART:20120308T080000
+DTEND:20120310T180000
+DESCRIPTION:During the digital learning day 2012, the Grammar School Ottorunn (near Munich) hosted a nation wide congress "learning with digital media" under the sloagan: "shaping the future of tomorrow today".
+GEO:48.06375;11.68065
+LOCATION:Karl-Stieler-Str. 1;85521;Ottobrunn;Bayern;DE
+URL:http://wikis.zum.de/digilern2012/Hauptseite
+UID:urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb
+CLASS:PUBLIC
+DTSTAMP:19980119T070000Z
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:edu-sharing workshop
+DTSTART:20151109T090000
+DTEND:20151110T190000
+DESCRIPTION:The edu sharing workshop annualy connects educational experts from practice and science to generate and evolve solutions for educational causes. The participants work on specific concepts that are implemented in actual projects.
+GEO:50.973463;11.329643
+LOCATION:Bauhausstraße 7c;99423;Weimar;Thüringen;DE
+URL:http://www.edu-sharing.net
+UID:urn:uuid:e8eec470-e754-48af-adee-b78459badc3b
+CLASS:PUBLIC
+DTSTAMP:19980119T070000Z
+ORGANIZER:
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER;CN="edu-sharing NETWORK e.V.":MAILTO:info@edu-sharing.net
+DTSTART:20160723T000000
+DTEND:20160724T180000
+GEO:50.973463;11.329643
+LOCATION:Bauhausstraße 7c;99423;Weimar;DE
+URL:http://hackathon2016.edu-sharing-network.org/
+UID:urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d
+CLASS:PUBLIC
+DTSTAMP:19980119T070000Z
+SUMMARY:
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Cape Town Meeting
+ORGANIZER:Open Society Foundations
+DTSTART:20070914T000000
+DTEND:20070915T235959
+DESCRIPTION:The Cape Town Declaration arises from a small but lively meeting of open education activists in Cape Town during September 2007.\r\n\r\nEntitled Open Sourcing Education, the original aim of this meeting was to accelerate the international effort to promote open resources, technology and teaching practices in education. The participants represented many points of view, many disciplines and many nations. All are involved in ongoing open education initiatives.\r\n\r\nIn Cape Town, meeting participants explored how their separate initiatives could work together to achieve much broader, deeper impact. The Cape Town Open Education Declaration, authored jointly by all those who attended the meeting, was the first concrete outcome from these discussions. A number of additional collaborations on open education projects have also emerged.\r\n\r\n(Text taken from http://www.capetowndeclaration.org/cape-town-meeting, licensed CC-BY.)
+LOCATION:Cape Town;ZA
+URL:http://www.capetowndeclaration.org/cape-town-meeting
+UID:urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304
+CLASS:PUBLIC
+DTSTAMP:19980119T070000Z
+END:VEVENT
+END:VCALENDAR

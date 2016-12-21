@@ -24,6 +24,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.MarkdownHelper;
 import helpers.JSONForm;
 import models.TripleCommit;
@@ -45,8 +46,6 @@ import play.Configuration;
 import play.Environment;
 import play.Logger;
 
-import play.api.Application;
-import play.api.Play;
 import play.i18n.Lang;
 import play.mvc.Controller;
 import play.twirl.api.Html;
@@ -54,9 +53,9 @@ import services.AccountService;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
+import services.repository.ElasticsearchRepository;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 /**
  * @author fo
@@ -74,7 +73,7 @@ public abstract class OERWorldMap extends Controller {
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
       try {
-        mBaseRepository = new BaseRepository(aConf.underlying());
+        mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
       } catch (final Exception ex) {
         throw new RuntimeException("Failed to create Respository", ex);
       }
@@ -235,6 +234,17 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
     mustacheData.put("language", getLocale().toLanguageTag());
+    mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
+    Map<String, Object> skos = new HashMap<>();
+    try {
+      skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
+        HashMap.class));
+      skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
+        HashMap.class));
+    } catch (IOException e) {
+      Logger.error("Could not read SKOS file", e);
+    }
+    mustacheData.put("skos", skos);
 
     try {
       if (scope != null) {
@@ -259,6 +269,7 @@ public abstract class OERWorldMap extends Controller {
     loader.setPrefix("public/mustache");
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
+    handlebars.infiniteLoops(true);
 
     handlebars.registerHelpers(StringHelpers.class);
 

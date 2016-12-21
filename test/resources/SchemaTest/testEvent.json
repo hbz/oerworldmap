@@ -97,18 +97,6 @@
       ]
     }
   ],
-  "mainEntityOf": [
-    {
-      "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "His Story"
-        }
-      ]
-    }
-  ],
   "hashtag": "#exe2015",
   "keywords": [
     "example"

@@ -18,7 +18,7 @@
       "@value": "As Henry Steam i feel obliged to be active in as many alleys, ahem: OER project, as possible."
     }
   ],
-  "memberOf": [
+  "affiliation": [
     {
       "@id": "urn:uuid:822b87fc-2963-11e5-8198-001999ac7927",
       "@type": "Service",
@@ -166,18 +166,6 @@
         {
           "@language": "en",
           "@value": "Folhas: Public Textbook Project"
-        }
-      ]
-    }
-  ],
-  "mainEntityOf":  [
-    {
-      "@id": "urn:uuid:f3416c40-2c79-11e5-8a52-0f1d4e5d4d98",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "ÍndoEduca"
         }
       ]
     }

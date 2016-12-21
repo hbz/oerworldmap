@@ -35,11 +35,12 @@ public class CsvWithNestedIdsExporterTest implements JsonTest {
 
   @Test
   public void testPlainExport() throws IOException {
-    String csv1 = mCsvExporter.exportResourceAsCsvLine(in1);
-    String csv2 = mCsvExporter.exportResourceAsCsvLine(in2);
-    assertEquals("456;Person;Countrycountry, Streetstreet 1, Place, 123456;123;null;Hans Dampf",
-        csv1);
-    assertEquals("345;Person;null;123;foo@bar.com;Hans Wurst", csv2);
+    String csv1 = mCsvExporter.export(in1);
+    String csv2 = mCsvExporter.export(in2);
+    assertEquals("@id;@type;address;authorOf;name\n" +
+        "456;Person;Countrycountry, Streetstreet 1, 123456;123, 987;Hans Dampf\n", csv1);
+    assertEquals("@id;@type;authorOf;email;name\n" +
+      "345;Person;123;foo@bar.com;Hans Wurst\n", csv2);
   }
 
 }

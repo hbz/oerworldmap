@@ -1,0 +1,85 @@
+{
+  "image" : "https://pbs.twimg.com/profile_images/697376447128805378/cf7940lw_400x400.png",
+  "endDate" : "2015-11-10T19:00:00+05",
+  "@type" : "Event",
+  "about" : [ {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "06", "061" ],
+    "name" : [ {
+      "@value" : "Information and Communication Technologies (ICTs)",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Database and network design and administration",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0612"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Information and Communication Technologies (ICTs)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n06"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Software and applications development and analysis",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0613"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Computer use",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0611"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n06",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  } ],
+  "description" : [ {
+    "@value" : "The edu sharing workshop annualy connects educational experts from practice and science to generate and evolve solutions for educational causes. The participants work on specific concepts that are implemented in actual projects.",
+    "@language" : "en"
+  }, {
+    "@value" : "Der edu-sharing Workshop bringt jährlich Experten aus Bildungspraxis und Wissenschaft zusammen, um neue Lösungen für die Bildung zu entwickeln und vorhandene voranzutreiben. Die Teilnehmer arbeiten an konkreten Konzepten, die in den Folgejahren mehrheitlich in gemeinsamen Projekten umgesetzt werden.\r\n",
+    "@language" : "de"
+  } ],
+  "inLanguage" : [ "de" ],
+  "@context" : "http://schema.org/",
+  "url" : "http://www.edu-sharing.net",
+  "name" : [ {
+    "@value" : "edu-sharing workshop",
+    "@language" : "en"
+  }, {
+    "@value" : "edu-sharing Workshop",
+    "@language" : "de"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 11.329643,
+      "lat" : 50.973463
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "streetAddress" : "Bauhausstraße 7c",
+      "postalCode" : 99423,
+      "addressLocality" : "Weimar",
+      "addressRegion" : "Thüringen"
+    }
+  },
+  "@id" : "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b",
+  "email" : "workshop@edu-sharing.net",
+  "startDate" : "2015-11-09T09:00:00+01:00",
+  "sameAs" : [ "https://twitter.com/edusharing" ]
+}

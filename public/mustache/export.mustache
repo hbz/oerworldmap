@@ -1,0 +1,11 @@
+<div id="resource-export-{{type}}" class="clearfix visible-modal text-center">
+
+    <h2>Export this Resource</h2>
+
+    <div class="container-top-line">
+        {{#each @root.scope.alternates}}
+            <a class="btn btn-default" target="_blank" href="{{.}}">{{@key}}</a>
+        {{/each}}
+    </div>
+
+</div>

@@ -1,38 +1,22 @@
 package controllers;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
+import helpers.JsonLdConstants;
 import helpers.SCHEMA;
 import models.Record;
+import models.Resource;
+import models.ResourceList;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-
-import helpers.JsonLdConstants;
-import models.Commit;
-import models.Resource;
-import models.ResourceList;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -40,10 +24,18 @@ import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
-import services.export.AbstractCsvExporter;
+import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author fo
@@ -55,7 +47,11 @@ public class ResourceIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
-  public Result list(String q, int from, int size, String sort, boolean list)
+  public Result listDefault(String q, int from, int size, String sort, boolean list) throws IOException {
+    return list(q, from, size, sort, list, null);
+  }
+
+  public Result list(String q, int from, int size, String sort, boolean list, String extension)
       throws IOException {
 
     // Extract filters directly from query params
@@ -94,32 +90,70 @@ public class ResourceIndex extends OERWorldMap {
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
       "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
+      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
+      "about.startDate", "about.endDate"
     });
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
-    Map<String, Object> scope = new HashMap<>();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
+
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url()));
+    if (resourceList.containsType("Event")) {
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url()));
+    }
+
+    Map<String, Object> scope = new HashMap<>();
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
+    scope.put("alternates", alternates);
 
-    if (request().accepts("text/html")) {
-      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
-    } else if (request().accepts("text/csv")) {
-      StringBuffer result = new StringBuffer();
-      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
-      csvExporter.defineHeaderColumns(resourceList.getItems());
-      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
-      csvExporter.setDropFields(dropFields);
-      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
-      for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
       }
-      return ok(result.toString()).as("text/csv");
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
     } else {
+      format = "application/json";
+    }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
+    } //
+    else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+    } //
+    else if (format.equals("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+    } //
+    else if (format.equals("application/json")) {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
+
+    return notFound("Not found");
+
   }
 
   public Result importRecords() throws IOException {
@@ -235,12 +269,13 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        return read(resource.getId(), "HEAD");
+        return read(resource.getId(), "HEAD", "html");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD").absoluteURL(request()));
+      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+        .absoluteURL(request()));
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
@@ -299,8 +334,12 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
+  public Result readDefault(String id, String version) throws IOException {
+    return read(id, version, null);
+  }
 
-  public Result read(String id, String version) throws IOException {
+
+  public Result read(String id, String version, String extension) throws IOException {
     Resource resource;
     resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
@@ -361,15 +400,62 @@ public class ResourceIndex extends OERWorldMap {
     permissions.put("comment", mayComment);
     permissions.put("delete", mayDelete);
 
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
+    if (resource.getType().equals("Event")) {
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+    }
+
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     scope.put("permissions", permissions);
+    scope.put("alternates", alternates);
 
-    if (request().accepts("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
     } else {
-      return ok(resource.toString()).as("application/json");
+      format = "application/json";
     }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    } else if (format.equals("application/json")) {
+      return ok(resource.toString()).as("application/json");
+    } else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+    } else if (format.equals("text/calendar")) {
+      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
+      if (ical != null) {
+        return ok(ical).as("text/calendar");
+      }
+    }
+
+    return notFound("Not found");
+
   }
 
   public Result export(String aId) {

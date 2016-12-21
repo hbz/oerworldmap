@@ -22,6 +22,7 @@ For inital background information about this project please refer to the
     $ wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.4.0.zip
     $ unzip elasticsearch-2.4.0.zip
     $ cd elasticsearch-2.4.0
+    $ bin/plugin install 'http://xbib.org/repository/org/xbib/elasticsearch/plugin/elasticsearch-plugin-bundle/2.3.4.0/elasticsearch-plugin-bundle-2.3.4.0-plugin.zip'
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.

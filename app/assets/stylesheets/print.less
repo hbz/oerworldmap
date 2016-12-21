@@ -1,0 +1,118 @@
+.print-reset-box {
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  flex: none !important;
+}
+
+@media print {
+
+  #page-header {
+    .print-reset-box();
+
+    h1 {
+      display: block;
+      text-align: center;
+      font-size: 40px;
+    }
+  }
+
+  #app {
+    .print-reset-box();
+
+    #app-col-container {
+      .print-reset-box();
+      display: block !important;
+
+      [data-app="col"] {
+        .print-reset-box();
+
+        [data-app="col-content"] {
+          .print-reset-box();
+        }
+
+        min-width: auto !important;
+        border-left: none !important;
+      }
+    }
+
+    // hide index if detail expanded
+    &[data-col-detail-mode="expanded"] {
+      #app-col-index {
+        display: none;
+      }
+    }
+
+    &.print-index {
+      #app-col-index {
+        display: block !important;
+      }
+      #app-col-map,
+      #app-col-detail {
+        display: none !important;
+      }
+    }
+
+    #app-col-index,
+    #app-col-detail {
+      [data-app="col-content"] {
+        padding: 0px !important;
+      }
+    }
+
+    #app-col-map {
+      flex: none;
+
+      [data-app="col-content"] {
+
+        #map {
+          .print-reset-box();
+
+          .ol-viewport {
+            .print-reset-box();
+
+            canvas {
+              position: static;
+              display: block;
+              width: auto !important;
+              height: auto !important;
+              max-width: 100% !important;
+              max-height: 20cm !important;
+              margin: 0 auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #page-header,
+  [data-app="col"] {
+    padding: 30px 0;
+  }
+
+  #app-col-map,
+  #app-col-index,
+  #app-col-detail {
+    border-top: 1px solid @blue-darker;
+  }
+
+  #page-footer,
+  .nav-map,
+  .ol-zoom,
+  #filter-container,
+  .resource-controls,
+  .resource-comments,
+  [data-app="toggle-col"] {
+    display: none !important;
+  }
+
+  .list-statistics-container {
+    border-top: none;
+  }
+
+  .badge {
+    border: 1px solid @blue-darker;
+  }
+
+}

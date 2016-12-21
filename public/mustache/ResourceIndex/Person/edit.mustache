@@ -36,8 +36,6 @@
 
     {{> FormElements/id.mustache property=created property_path="created" title=(i18n "Person.created") tooltip=(i18n "Person.created" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
-    {{> FormElements/id.mustache property=mainEntityOf property_path="mainEntityOf" title=(i18n "Person.mainEntityOf") tooltip=(i18n "Person.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
-
     {{> FormElements/id.mustache property=mentionedIn property_path="mentionedIn" title=(i18n "Person.mentionedIn") tooltip=(i18n "Person.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/id.mustache property=participantIn property_path="participantIn" title=(i18n "Person.participantIn") tooltip=(i18n "Person.participantIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
@@ -46,7 +44,7 @@
 
     {{> FormElements/id.mustache property=agentIn property_path="agentIn" title=(i18n "Person.agentIn") tooltip=(i18n "Person.agentIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=memberOf property_path="memberOf" title=(i18n "Person.memberOf") tooltip=(i18n "Person.memberOf" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=affiliation property_path="affiliation" title=(i18n "Person.affiliation") tooltip=(i18n "Person.affiliation" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Service&filter.about.@type=Action"}}
 
     {{> FormElements/input.mustache property=sameAs property_path="sameAs" title=(i18n "Person.sameAs") tooltip=(i18n "Person.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
@@ -55,5 +53,11 @@
     {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Person.keywords") tooltip=(i18n "Person.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
 
     {{> FormElements/id.mustache property=authorOf property_path="authorOf" title=(i18n "Person.authorOf") tooltip=(i18n "Person.authorOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
+
+    {{> FormElements/id.mustache property=organizerFor property_path="organizerFor" title=(i18n "Person.organizerFor") tooltip=(i18n "Person.organizerFor" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
+    {{> FormElements/id.mustache property=performerIn property_path="performerIn" title=(i18n "Person.performerIn") tooltip=(i18n "Person.performerIn" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
+    {{> FormElements/id.mustache property=attends property_path="attends" title=(i18n "Person.attends") tooltip=(i18n "Person.attends" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
 
 </fieldset>
