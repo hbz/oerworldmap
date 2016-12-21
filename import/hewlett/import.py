@@ -392,7 +392,7 @@ def collect(url):
         }]
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
-        grant['description'] = [{
+        action['description'] = [{
             "@language":"en",
             "@value":overview.getText()
         }]
@@ -426,7 +426,7 @@ def calculate_end_date(awarddate, duration):
         months = int(match.group(1))
     date = awarddate.split('/')
     months += int(date[0])
-    return datetime.date(int(date[2]) + months/12, months%12, int(date[1])).isoformat()
+    return datetime.date(int(date[2]) + months/12, ((months-1)%12+1), int(date[1])).isoformat()
 
 
 def put_agent(agent_uuid, grantee_id, soup, location):
