@@ -402,12 +402,6 @@ def collect(url):
             "@language":"en",
             "@value":overview.getText()
         }]
-    subtitles = soup.findAll('h3', { "class" : "large-subtitle" })
-    for subtitle in subtitles:
-        grant['name'] = [{
-            "@language":"en",
-            "@value":soup.find('h1').getText() + ' - ' + subtitle.getText()
-        }]
     for highlight_li in highlight_lis:
         label = None
         value = None
