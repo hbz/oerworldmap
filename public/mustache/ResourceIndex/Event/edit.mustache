@@ -24,8 +24,6 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Event.location") tooltip=(i18n "Event.location" bundle="descriptions")}}
 
-    {{> FormElements/id.mustache property=mainEntityOf property_path="mainEntityOf" title=(i18n "Event.mainEntityOf") tooltip=(i18n "Event.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
-
     {{> FormElements/id.mustache property=mentionedIn property_path="mentionedIn" title=(i18n "Event.mentionedIn") tooltip=(i18n "Event.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/input.mustache property=sameAs property_path="sameAs" title=(i18n "Event.sameAs") tooltip=(i18n "Event.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
