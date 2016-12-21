@@ -159,16 +159,10 @@ def get_grantee_id(url):
     return 0
 
 
-def get_grant_duration(value):
-    match = re.search(month_duration_regex, value)
-    if match.group(1):
-        return 'P' + match.group(1) + 'M'
-    else:
-        raise ValueError('Unknown duration format:' + value)
-
 def get_grant_date(value):
     date = value.split("/")
     return datetime.date(int(date[2]), int(date[0]), int(date[1])).isoformat()
+
 
 def is_desired(strategies, highlight_lis):
     has_strategy = False
@@ -402,6 +396,8 @@ def collect(url):
             "@language":"en",
             "@value":overview.getText()
         }]
+    duration = None
+    awarddate = None
     for highlight_li in highlight_lis:
         label = None
         value = None
@@ -412,16 +408,25 @@ def collect(url):
         if label in grant_mapping:
             grant[grant_mapping[label]] = value
         elif label.__eq__('Date Awarded'):
-            grant['hasAwardDate'] = get_grant_date(value)
+            awarddate = value
+            action['startTime'] = get_grant_date(value) + 'T00:00:00'
         elif label.__eq__('Term'):
-            duration = get_grant_duration(value)
-            grant['duration'] = duration
-            action['duration'] = duration
+            duration = value
+    action['endTime'] = calculate_end_date(awarddate, duration) + 'T00:00:00'
     grant['isAwardedBy'] = awarder
     grant['sameAs'] = url
     action['isFundedBy'] = [grant]
 
     return json.dumps(action, indent=2)
+
+
+def calculate_end_date(awarddate, duration):
+    match = re.search(month_duration_regex, duration)
+    if match.group(1):
+        months = int(match.group(1))
+    date = awarddate.split('/')
+    months += int(date[0])
+    return datetime.date(int(date[2]) + months/12, months%12, int(date[1])).isoformat()
 
 
 def put_agent(agent_uuid, grantee_id, soup, location):
