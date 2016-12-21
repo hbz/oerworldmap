@@ -388,7 +388,7 @@ def collect(url):
     if hasattr(soup, 'h3'):
         action['name'] = [{
             "@language": "en",
-            "@value": soup.find('h3').getText()
+            "@value": (re.sub(r'^For ', '', soup.find('h3').getText())).title()
         }]
     overviews = soup.findAll('div', { "class" : "grant-overview" })
     for overview in overviews:
