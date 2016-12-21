@@ -4,6 +4,7 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "frapo": "http://purl.org/cerif/frapo/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcterms": "http://purl.org/dc/terms/",
     "about": {
       "@container": "@set"
     },
@@ -11,6 +12,9 @@
       "@container": "@set"
     },
     "affiliation": {
+      "@container": "@set"
+    },
+    "affiliate": {
       "@container": "@set"
     },
     "agent": {
@@ -23,6 +27,12 @@
       "@container": "@set"
     },
     "articleBody": {
+      "@container": "@set"
+    },
+    "attendee": {
+      "@container": "@set"
+    },
+    "attends": {
       "@container": "@set"
     },
     "audience": {
@@ -81,6 +91,10 @@
     "Grant": "frapo:Grant",
     "hasAwardDate": "frapo:hasAwardDate",
     "hasMonetaryValue": "frapo:hasMonetaryValue",
+    "hasPart": {
+      "@id": "dcterms:hasPart",
+      "@container": "@set"
+    },
     "hasTopConcept": {
       "@id": "skos:hasTopConcept",
       "@container": "@set"
@@ -108,6 +122,7 @@
       "@id": "frapo:isFundedBy",
       "@container": "@set"
     },
+    "isPartOf": "dcterms:isPartOf",
     "keywords": {
       "@container": "@set"
     },

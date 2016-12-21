@@ -1,7 +1,7 @@
 {
   "recordedIn" : [ "http://wikis.zum.de/digilern2012/Dokumentation" ],
   "image" : "http://wikis.zum.de/zum/images/thumb/a/af/DigiLern_2012_Banner.jpg/400px-DigiLern_2012_Banner.jpg",
-  "endDate" : "2012-03-10",
+  "endDate" : "2012-03-10T18:00+00:00",
   "@type" : "Event",
   "about" : [ {
     "inScheme" : {
@@ -226,5 +226,5 @@
   },
   "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb",
   "email" : "info@zum.de",
-  "startDate" : "2012-03-08"
+  "startDate" : "2012-03-08T08:00Z"
 }

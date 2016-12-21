@@ -1,29 +1,23 @@
-<div class="popover-main-section">
+{{#resource}}
 
     <div class="popover-section bg-blue-palest">
         <div class="icon-indented">
-
-            <i class="fa fa-fw fa-desktop"></i><strong>Service:</strong>
-            {{#localized resource.name language=@root.language}}
+            {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
+            {{#localized this.name language=@root.language}}
                 {{[@value]}}
             {{/localized}}
-
         </div>
     </div>
 
-    {{#resource.referencedBy}}
-
-        <div class="popover-section linked bg-blue-paler">
+    {{#referencedBy}}
+        <div class="popover-section bg-blue-paler">
             <div class="icon-indented">
-
-                {{getIcon [@type]}}<strong>{{[@type]}}:</strong>
+                {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
                 {{#localized this.name language=@root.language}}
                     {{[@value]}}
                 {{/localized}}
-
             </div>
         </div>
+    {{/referencedBy}}
 
-    {{/resource.referencedBy}}
-
-</div>
+{{/resource}}

@@ -24,8 +24,6 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Event.location") tooltip=(i18n "Event.location" bundle="descriptions")}}
 
-    {{> FormElements/id.mustache property=mainEntityOf property_path="mainEntityOf" title=(i18n "Event.mainEntityOf") tooltip=(i18n "Event.mainEntityOf" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
-
     {{> FormElements/id.mustache property=mentionedIn property_path="mentionedIn" title=(i18n "Event.mentionedIn") tooltip=(i18n "Event.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/input.mustache property=sameAs property_path="sameAs" title=(i18n "Event.sameAs") tooltip=(i18n "Event.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
@@ -34,9 +32,11 @@
 
     {{> FormElements/select.mustache property=inLanguage property_path="inLanguage" title=(i18n "Event.inLanguage") tooltip=(i18n "Event.inLanguage" bundle="descriptions") multiple=true input_type="text" options="languages"}}
 
-    {{> FormElements/id.mustache property=organizer property_path="organizer" title=(i18n "Event.organizer") tooltip=(i18n "Event.organizer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
+    {{> FormElements/id.mustache property=organizer property_path="organizer" title=(i18n "Event.organizer") tooltip=(i18n "Event.organizer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Action"}}
 
     {{> FormElements/id.mustache property=performer property_path="performer" title=(i18n "Event.performer") tooltip=(i18n "Event.performer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
+
+    {{> FormElements/id.mustache property=attendee property_path="attendee" title=(i18n "Event.attendee") tooltip=(i18n "Event.attendee" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
     {{> FormElements/id.mustache property=about property_path="about" title=(i18n "Event.about") tooltip=(i18n "Event.about" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 

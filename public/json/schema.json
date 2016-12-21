@@ -171,25 +171,6 @@
           "type": "string",
           "format": "uri"
         },
-        "mainEntity": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/Person"
-            },
-            {
-              "$ref": "#/definitions/Organization"
-            },
-            {
-              "$ref": "#/definitions/Service"
-            },
-            {
-              "$ref": "#/definitions/Action"
-            },
-            {
-              "$ref": "#/definitions/Event"
-            }
-          ]
-        },
         "mentions": {
           "description": "Something mentioned in the article",
           "type": "array",
@@ -412,18 +393,35 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that mentions the project.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "comment": {
-          "description": "A comment about the Organization",
+          "description": "A comment about the project",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Comment"
+          }
+        },
+        "isPartOf": {
+          "description": "A project that this project is part of",
+          "$ref": "#/definitions/Action"
+        },
+        "hasPart": {
+          "description": "A subproject of this project",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "affiliate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
+        },
+        "organizerFor": {
+          "description": "An event the project is organizer for.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Event"
           }
         }
       },
@@ -603,13 +601,6 @@
             "type": "string"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that has the service as its main entity.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "mentionedIn": {
           "description": "An article that mentions the service.",
           "type": "array",
@@ -635,21 +626,20 @@
           "type": "array",
           "items": {
             "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
-            ]
+            "$ref": "#/definitions/Organization"
+          }
+        },
+        "affiliate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
           }
         },
         "memberOf": {
           "description": "An organization the service is member of.",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Organization"
+            "$ref": "#/definitions/Organization"
           }
         },
         "comment": {
@@ -692,8 +682,8 @@
         "description": {
           "$ref": "#/definitions/LocalizedString"
         },
-        "memberOf": {
-          "description": "An organization or service the person is member of.",
+        "affiliation": {
+          "description": "An organization or service the person is affiliated with.",
           "type": "array",
           "items": {
             "oneOf": [
@@ -702,6 +692,9 @@
               },
               {
                 "$ref": "#/definitions/Service"
+              },
+              {
+                "$ref": "#/definitions/Action"
               }
             ]
           }
@@ -790,25 +783,24 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that mentions the person.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "organizerFor": {
           "description": "An event the person is organizer for.",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Event"
-              }
+            "$ref": "#/definitions/Event"
+          }
         },
         "authorOf": {
           "description": "Comments by the Person",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Comment"
+          }
+        },
+        "attends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Event"
           }
         }
       },
@@ -928,15 +920,18 @@
             "type": "object",
             "oneOf": [
               {
-                "$ref": "#/definitions/Person"
-              },
-              {
                 "$ref": "#/definitions/Organization"
               },
               {
                 "$ref": "#/definitions/Service"
               }
             ]
+          }
+        },
+        "affiliate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
           }
         },
         "memberOf": {
@@ -955,13 +950,6 @@
         },
         "mentionedIn": {
           "description": "An article that mentions the organization.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
-        "mainEntityOf": {
-          "description": "An article that has the organization as its main entity.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"
@@ -1036,6 +1024,9 @@
               },
               {
                 "$ref": "#/definitions/Organization"
+              },
+              {
+                "$ref": "#/definitions/Action"
               }
             ]
           }
@@ -1044,7 +1035,7 @@
           "description": "People presenting, leading a workshop etc. at the event",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Person"
+            "$ref": "#/definitions/Person"
           }
         },
         "name": {
@@ -1100,53 +1091,53 @@
             "$ref": "#/definitions/Article"
           }
         },
-        "mainEntityOf": {
-          "description": "An article that mentions the event as main topic.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
         "hashtag": {
           "type": "string"
         },
-      "keywords": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        }
-      },
-      "about": {
-        "type": "array",
-        "items": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            },
-            {
-              "properties": {
-                "inScheme": {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "enum": [
-                        "https://w3id.org/class/esc/scheme"
-                      ]
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "about": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/Concept"
+              },
+              {
+                "properties": {
+                  "inScheme": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "enum": [
+                          "https://w3id.org/class/esc/scheme"
+                        ]
+                      }
                     }
                   }
                 }
               }
-            }
-          ]
+            ]
+          }
+        },
+        "comment": {
+          "description": "A comment about the Event",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
+        "attendee": {
+          "description": "People attending the event",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
         }
-      },
-      "comment": {
-        "description": "A comment about the Event",
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Comment"
-        }
-      }
       },
       "required": [
         "name"
@@ -1200,13 +1191,6 @@
         },
         "mentionedIn": {
           "description": "An article that mentions the grant.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Article"
-          }
-        },
-        "mainEntityOf": {
-          "description": "An article that has the grant as its main entity.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Article"

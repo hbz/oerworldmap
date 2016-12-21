@@ -27,8 +27,8 @@ var Hijax = (function ($, Hijax, page) {
     'Person' : { 'icon' : 'user' },
     'Service' : { 'icon' : 'desktop' },
     'Action' : { 'icon' : 'gears' },
-    'Article' : { 'icon' : 'comment' },
-    'Event' : { 'icon' : 'calendar' }
+    'Event' : { 'icon' : 'calendar' },
+    'Article' : { 'icon' : 'comment' }
   };
 
   var i18n_bundles = {
