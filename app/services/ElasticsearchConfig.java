@@ -41,12 +41,12 @@ public class ElasticsearchConfig {
   private String mType;
   private String mCluster;
   private Map<String, String> mClientSettings;
-  private Settings.Builder mClientSettingsBuilder;
   private Client mClient;
   private TransportClient mTransportClient;
 
   public ElasticsearchConfig(Config aConfiguration) {
-    init(aConfiguration);
+    mConfig = aConfiguration;
+    init();
   }
 
   private void init() {
@@ -93,16 +93,7 @@ public class ElasticsearchConfig {
     mClientSettings.put("index.name", mIndex);
     mClientSettings.put("index.type", mType);
     mClientSettings.put("cluster.name", mCluster);
-
-    mClientSettingsBuilder = Settings.settingsBuilder().put(mClientSettings);
   }
-
-  private void init(Config aConfiguration) {
-    // CONFIG OBJECT
-    mConfig = aConfiguration;
-    init();
-  }
-
 
   public String getIndex() {
     return mClientSettings.get("index.name");
@@ -134,10 +125,6 @@ public class ElasticsearchConfig {
 
   public Map<String, String> getClientSettings() {
     return mClientSettings;
-  }
-
-  public Settings.Builder getClientSettingsBuilder() {
-    return mClientSettingsBuilder;
   }
 
   public Client getClient() {
