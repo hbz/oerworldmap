@@ -1110,14 +1110,15 @@ var Hijax = (function ($, Hijax) {
 
         set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
 
-        // check if the behaviours layouted (created at the beginning of attach is resolved already
+        // check if the behaviours layouted (created at the beginning of attach) is resolved already
         // if so create a local one, otherwise pass the behaviours one ...
-        if(layouted.isResolved()) {
-          var layouted = new $.Deferred();
-          setBoundingBox($('[data-behaviour="map"]')[0], layouted);
+        var layouted;
+        if(my.layouted.state() == 'resolved') {
+          layouted = new $.Deferred();
         } else {
-          setBoundingBox($('[data-behaviour="map"]')[0], layouted);
+          layouted = my.layouted;
         }
+        setBoundingBox($('[data-behaviour="map"]')[0], layouted);
 
         layouted.done(function(){
           log.debug('MAP layout finished');
@@ -1149,7 +1150,7 @@ var Hijax = (function ($, Hijax) {
       // creating layouted deferred at the beginning of attached, to schedule actions from inside attach
       // to happen after subsequent layout
 
-      layouted = $.Deferred();
+      my.layouted = $.Deferred();
 
       // Populate map with pins from resource listings
 
@@ -1173,7 +1174,7 @@ var Hijax = (function ($, Hijax) {
           restrictListToExtent();
         });
 
-        layouted.done(function(){
+        my.layouted.done(function(){
           restrictListToExtent();
         });
 
