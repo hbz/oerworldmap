@@ -1,4 +1,4 @@
-import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime
+import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib
 
 
 grant_mapping = {
@@ -25,8 +25,10 @@ country_regex_2 = re.compile(r'Afghanistan|Albania|Algeria|Andorra|Angola|Antigu
 pobox_regex = re.compile(r'((P\.?O\.? )?Box|Post(bus|fach)) ([\d]{2,6})')
 postalcode_regex = re.compile(r'[\d]{5}(-[\d]{4})?|[A-Z][0-9][A-Z] [0-9][A-Z][0-9]|[A-Z]{1,2}[0-9]{1,2} [0-9][A-Z]{2}')
 
-uuid_file = "id_map.json"
-agents_file = "import/hewlett/agents.json"
+path = os.path.dirname(__file__)
+uuid_file = path + "id_map.json"
+agents_file = path + "agents.json"
+cache_dir = path + "cache/"
 agents = []
 uuids = {}
 new_uuids = []
@@ -47,8 +49,19 @@ def fill_subdivision_list():
 
 
 def get_soup_from_page(url):
+    if not is_cached(url):
+        to_cache(url)
+    soup = BeautifulSoup.BeautifulSoup(from_cache(url))
+    soup.prettify()
+    return soup
+
+
+def to_cache(url):
+    print "To cache: " + url
     try:
-        page = urllib2.urlopen(url).read()
+        f = open(get_filename(url), 'w')
+        f.write(urllib2.urlopen(url).read())
+        f.close()
     except urllib2.URLError, e:
         if hasattr(e, 'reason'):
             print 'We failed to reach a server.'
@@ -56,10 +69,22 @@ def get_soup_from_page(url):
         elif hasattr(e, 'code'):
             print 'The server couldn\'t fulfill the request.'
             print 'Error code: ', e.code
-    else:
-        soup = BeautifulSoup.BeautifulSoup(page)
-        soup.prettify()
-        return soup
+
+
+def from_cache(url):
+    print "From cache: " + url
+    f = open(get_filename(url), 'r')
+    page = f.read()
+    f.close()
+    return page
+
+
+def is_cached(url):
+    return os.path.exists(get_filename(url))
+
+
+def get_filename(url):
+    return cache_dir + urllib.quote_plus(url)
 
 
 def get_and_put_uuid(key):
