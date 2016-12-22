@@ -1,0 +1,28 @@
+{{#each scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}
+
+    <li>
+        <div class="month">{{key_as_string}}</div>
+        <ul class="days">
+
+            {{#each [about.@id].hits.hits}}
+
+                <a href="#">
+                    <li>
+                        <div class="calendar-sheet">
+                            <div class="day"></div>
+                            <div class="weekday"></div>
+                        </div>
+                        {{#localized _source.about.name language=@root.language}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
+                    </li>
+                </a>
+
+            {{/each}}
+
+        </ul>
+    </li>
+
+{{/each}}

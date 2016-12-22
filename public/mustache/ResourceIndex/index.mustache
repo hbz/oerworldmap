@@ -231,6 +231,8 @@
 
         <ul id="list" class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
 
+            {{>ResourceIndex/calendar.mustache}}
+
             <script type="application/ld+json">
                 {{{scope.resources.member}}}
             </script>
@@ -241,6 +243,8 @@
             {{/scope.resources.member}}
 
         </ul>
+
+        <pre>{{json scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}</pre>
 
     </div>
 
