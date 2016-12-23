@@ -16396,7 +16396,7 @@
             "lowercase"
           ],
           "type": "custom",
-          "tokenizer": "standard"
+          "tokenizer": "hyphen"
         }
       }
     }
