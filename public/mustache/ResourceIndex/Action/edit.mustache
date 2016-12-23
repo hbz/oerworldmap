@@ -36,8 +36,6 @@
 
     {{> FormElements/id.mustache property=affiliate property_path="affiliate" title=(i18n "Action.affiliate") tooltip=(i18n "Action.affiliate" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=funder property_path="funder" title=(i18n "Action.funder") tooltip=(i18n "Action.funder" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
-
     {{> FormElements/id.mustache property=mentionedIn property_path="mentionedIn" title=(i18n "Action.mentionedIn") tooltip=(i18n "Action.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
     {{> FormElements/input.mustache property=sameAs property_path="sameAs" title=(i18n "Action.sameAs") tooltip=(i18n "Action.sameAs" bundle="descriptions") hidden=false multiple=true input_type="url"}}
