@@ -1,0 +1,59 @@
+ul.calendar {
+  .list-unstyled();
+  border-top: 1px solid @blue-paler;
+  margin-bottom: 30px;
+
+  h4 {
+    margin-top: 1.7em;
+  }
+
+  ul.days {
+    .list-unstyled();
+
+    li {
+      border-top: 1px solid @blue-paler;
+      clear: both;
+
+      &:last-child {
+        border-bottom: 1px solid @blue-paler;
+      }
+
+      a {
+        text-decoration: none;
+        .clearfix();
+
+        .sheet {
+          float: left;
+          margin: 0.6em 0.6em 0.6em 0;
+          border: 1px solid @blue-darker;
+          border-radius: @border-radius-base;
+          padding: 0.1em 0;
+          text-align: center;
+          width: 31px;
+
+          .day {
+            line-height: 1.38;
+          }
+
+          .weekday {
+            font-size: (@font-size-base * 0.7);
+            // line-height: 1.6;
+          }
+        }
+
+        .name {
+          margin-top: 0.4em;
+          margin-bottom: 0.35em;
+        }
+
+        .date-location {
+          .small();
+        }
+
+        &:hover .sheet {
+          border-color: @orange;
+        }
+      }
+    }
+  }
+}

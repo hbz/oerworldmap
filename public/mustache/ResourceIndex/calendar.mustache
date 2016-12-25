@@ -1,28 +1,41 @@
-{{#each scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}
+<ul class="calendar" data-app="link-to-fragment" data-behaviour="linkedListEntries">
 
-    <li>
-        <div class="month">{{key_as_string}}</div>
-        <ul class="days">
+    {{#each scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}
 
-            {{#each [about.@id].hits.hits}}
+        <li>
+            <h4 class="month">{{key_as_string}}</h4>
+            <ul class="days">
 
-                <a href="#">
-                    <li>
-                        <div class="calendar-sheet">
-                            <div class="day"></div>
-                            <div class="weekday"></div>
-                        </div>
-                        {{#localized _source.about.name language=@root.language}}
-                            {{[@value]}}
-                        {{else}}
-                            {{[@id]}}
-                        {{/localized}}
-                    </li>
-                </a>
+                {{#each [about.@id].hits.hits}}
+                    {{#_source.about}}
 
-            {{/each}}
+                        <li about="{{_id}}">
+                            <a href="/resource/{{_id}}">
+                                <div class="sheet">
+                                    <div class="day">23</div>
+                                    <div class="weekday">WED</div>
+                                </div>
+                                <div class="name">
+                                    {{#localized name language=@root.language}}
+                                        {{[@value]}}
+                                    {{else}}
+                                        {{[@id]}}
+                                    {{/localized}}
+                                </div>
+                                <div class="date-location">
+                                    9.-12. November – {{location "city_country" location}}
+                                </div>
+                            </a>
+                        </li>
 
-        </ul>
-    </li>
+                    {{/_source.about}}
+                {{/each}}
 
-{{/each}}
+            </ul>
+        </li>
+
+    {{/each}}
+
+</ul>
+
+<pre>{{json scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}</pre>

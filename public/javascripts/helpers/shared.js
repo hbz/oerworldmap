@@ -604,3 +604,27 @@ Handlebars.registerHelper('exportUrl', function (type, url, extension) {
   }
 
 });
+
+
+Handlebars.registerHelper('location', function (format, location) {
+
+  if(format == 'city_country') {
+    var elements = [];
+
+    if(location.address.addressLocality) {
+      elements.push(
+        location.address.addressLocality
+      );
+    }
+
+    if(location.address.addressCountry) {
+      elements.push(
+        //i18nStrings['countries'][ location.addressCountry.toUpperCase() ]
+        Packages.helpers.HandlebarsHelpers._i18n(location.address.addressCountry, null)
+      );
+    }
+
+    return elements.join(', ');
+  }
+
+});
