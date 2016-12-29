@@ -300,18 +300,6 @@ public abstract class OERWorldMap extends Controller {
     }
 
     try {
-      handlebars.registerHelpers(new File("public/vendor/moment/lodash.min.js"));
-    } catch (Exception e) {
-      Logger.error(e.toString());
-    }
-
-    try {
-      handlebars.registerHelpers(new File("public/vendor/moment/moment.min.js"));
-    } catch (Exception e) {
-      Logger.error(e.toString());
-    }
-
-    try {
       handlebars.registerHelpers(new File("public/vendor/moment/handlebars.moment.js"));
     } catch (Exception e) {
       Logger.error(e.toString());
