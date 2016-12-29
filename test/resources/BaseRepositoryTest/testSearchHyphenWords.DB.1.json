@@ -1,0 +1,139 @@
+{
+  "image" : "http://www.e-paideia.org/sites/default/files/logo2.png",
+  "audience" : [ {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:3" ],
+    "name" : [ {
+      "@value" : "Upper secondary education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 3",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level3",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:2" ],
+    "name" : [ {
+      "@value" : "Lower secondary education or second stage of basic education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 2",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level2",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:4" ],
+    "name" : [ {
+      "@value" : "Post-secondary non-tertiary education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 4",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level4",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:1" ],
+    "name" : [ {
+      "@value" : "Primary education or first stage of basic education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 1",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level1",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  } ],
+  "availableChannel" : [ {
+    "serviceUrl" : "http://www.e-paideia.org/",
+    "availableLanguage" : [ "el" ]
+  } ],
+  "@type" : "Service",
+  "member" : [ {
+    "image" : "http://lrf.gr/images/logo_en.png",
+    "@type" : "Organization",
+    "name" : [ {
+      "@value" : "Ίδρυμα Λαμπράκη",
+      "@language" : "el"
+    }, {
+      "@value" : "Lambrakis Foundation",
+      "@language" : "en"
+    } ],
+    "description" : [ {
+      "@value" : "The Lambrakis Foundation is a non-profit research and development private institution of public interest, founded in 1991 in Athens, Greece. The Foundation serves the common good by undertaking research, studies, pilot projects, training and awareness activities in critical areas for Greece and Europe and by creating educational resources. It addresses the increasing needs for human resources policies and human capital development, with a focus on the fields of education and culture within the framework of European initiatives.",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : 23.741149,
+        "lat" : 37.977864
+      },
+      "address" : {
+        "addressCountry" : "GR",
+        "streetAddress" : "5 Anagnostopoulou",
+        "postalCode" : "106 73 ",
+        "addressLocality" : "Athens"
+      }
+    },
+    "@id" : "urn:uuid:cdf6fb23-ac6f-4f19-b014-4822a0bf8815",
+    "memberOf" : [ {
+      "@type" : "Service",
+      "name" : [ {
+        "@value" : "e-paideia",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:6d16ca4f-b99c-4b46-9a54-fe42e6e2027d"
+    } ],
+    "email" : "info@lrf.gr",
+    "url" : "http://lrf.gr/"
+  } ],
+  "name" : [ {
+    "@value" : "e-paideia",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "The educational portal e-paideia is aimed at teachers of preschool primary and secondary education, students, researchers and parents, with a view to their valid information and enhance their access to sources of information on education. With emphasis on schooling, but through the perspective of lifelong learning, the e-paideia seeks to support, improve and enrich the learning process (formal, non-formal and informal) celebrated at school, at home and in general children's activity environment and new.",
+    "@language" : "en"
+  } ],
+  "location" : { },
+  "@id" : "urn:uuid:6d16ca4f-b99c-4b46-9a54-fe42e6e2027d",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "email" : "info@e-paideia.org"
+}

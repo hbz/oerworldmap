@@ -392,12 +392,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
-
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
       .setQuery(QueryBuilders.boolQuery().must(queryBuilder).filter(globalAndFilter));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
-
   }
 
   public boolean hasIndex(String aIndex) {
@@ -435,4 +433,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
+  public ElasticsearchConfig getConfig() {
+    return mConfig;
+  }
 }

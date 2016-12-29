@@ -18,8 +18,6 @@
 
     {{> FormElements/id.mustache property=creator property_path="creator" title=(i18n "Article.creator") tooltip=(i18n "Article.creator" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=mainEntity property_path="mainEntity" title=(i18n "Article.mainEntity") tooltip=(i18n "Article.mainEntity" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Service&filter.about.@type=Action"}}
-
     {{> FormElements/id.mustache property=mentions property_path="mentions" title=(i18n "Article.mentions") tooltip=(i18n "Article.mentions" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Service&filter.about.@type=Action"}}
 
     {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Article.keywords") tooltip=(i18n "Article.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}

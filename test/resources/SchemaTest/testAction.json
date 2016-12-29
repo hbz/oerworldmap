@@ -176,17 +176,5 @@
         }
       ]
     }
-  ],
-  "mainEntityOf": [
-    {
-      "@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "School of Open's \"Open Research\" course"
-        }
-      ]
-    }
   ]
 }

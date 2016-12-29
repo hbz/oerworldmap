@@ -204,8 +204,9 @@ var Hijax = (function ($, Hijax) {
         });
       });
 
-    }
+    },
 
+    attached : []
   };
 
   Hijax.behaviours.select = my;
