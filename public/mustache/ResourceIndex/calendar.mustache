@@ -1,11 +1,9 @@
-{{moment "2016-12-12" "YY, MM dd"}}
-
 <ul class="calendar" data-app="link-to-fragment" data-behaviour="linkedListEntries">
 
     {{#each scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}
 
         <li>
-            <h4 class="month">{{key_as_string}}</h4>
+            <h4 class="month">{{moment key_as_string "MMMM YYYY"}}</h4>
             <ul class="days">
 
                 {{#each [about.@id].hits.hits}}
@@ -14,8 +12,8 @@
                         <li about="{{_id}}">
                             <a href="/resource/{{_id}}">
                                 <div class="sheet">
-                                    <div class="day">23</div>
-                                    <div class="weekday">WED</div>
+                                    <div class="day">{{moment startDate "D"}}</div>
+                                    <div class="weekday">{{moment startDate "ddd"}}</div>
                                 </div>
                                 <div class="name">
                                     {{#localized name language=@root.language}}
@@ -25,7 +23,7 @@
                                     {{/localized}}
                                 </div>
                                 <div class="date-location">
-                                    9.-12. November – {{location "city_country" location}}
+                                    {{moment startDate "D."}}–{{moment endDate "D. MMMM"}} – {{location "city_country" location}}
                                 </div>
                             </a>
                         </li>
