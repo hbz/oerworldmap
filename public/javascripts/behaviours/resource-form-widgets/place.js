@@ -347,8 +347,9 @@ var Hijax = (function ($, Hijax) {
 
       });
 
-    }
+    },
 
+    attached : []
   };
 
   Hijax.behaviours.place = my;

@@ -259,8 +259,10 @@ var Hijax = (function ($, Hijax) {
         $('#app').removeClass('print-index');
       });
 
-    }
-  }
+    },
+
+    attached : []
+  };
 
   Hijax.behaviours.other = my;
   return Hijax;
