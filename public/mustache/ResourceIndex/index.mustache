@@ -175,7 +175,7 @@
 </div>
 
 
-<div class="list-statistics-container floating-hidden" data-behaviour="geoFilteredList">
+<div class="list-statistics-container floating-hidden" data-behaviour="{{#unless scope.resources.aggregations.calendar.buckets}}geoFilteredList{{/unless}}">
 
     <div class="p filter-state visible-print">
         Showing entities
@@ -230,21 +230,14 @@
     <div>
 
         {{#if scope.resources.aggregations.calendar.buckets}}
+
             {{>ResourceIndex/calendar.mustache}}
+
+        {{else}}
+
+            {{>ResourceIndex/list.mustache}}
+
         {{/if}}
-
-        <ul id="list" class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
-
-            <script type="application/ld+json">
-                {{{scope.resources.member}}}
-            </script>
-            {{#scope.resources.member}}
-                <li about="{{@id}}">
-                  {{>ResourceIndex/link.mustache}}
-                </li>
-            {{/scope.resources.member}}
-
-        </ul>
 
     </div>
 

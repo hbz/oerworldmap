@@ -1069,10 +1069,12 @@ var Hijax = (function ($, Hijax) {
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
 
-        $( this ).on("mouseenter", "li", function() {
+        var list = this;
+
+        $( this ).on("mouseenter", "li[about]", function() {
 
           var id = this.getAttribute("about");
-          var script = $(this).closest("ul").children('script[type="application/ld+json"]');
+          var script = $(list).children('script[type="application/ld+json"]');
 
           if (script.length) {
 
@@ -1087,10 +1089,10 @@ var Hijax = (function ($, Hijax) {
           }
         });
 
-        $( this ).on("mouseleave", "li", function() {
+        $( this ).on("mouseleave", "li[about]", function() {
 
           var id = this.getAttribute("about");
-          var script = $(this).closest("ul").children('script[type="application/ld+json"]');
+          var script = $(list).children('script[type="application/ld+json"]');
 
           if (script.length) {
 

@@ -340,6 +340,7 @@ var Hijax = (function ($, Hijax, page) {
 
         // remove special treated aggregations
 
+        delete aggregations['calendar'];
         delete aggregations['about.@type'];
         delete aggregations['about.keywords'];
         delete aggregations['about.location.address.addressCountry'];
