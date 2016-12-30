@@ -1191,3 +1191,25 @@ return rf.abs=Wc,rf.add=Yc,rf.subtract=Zc,rf.as=cd,rf.asMilliseconds=$e,rf.asSec
 }));
 
 HandlebarsMoment.registerHelpers(Handlebars);
+
+
+Handlebars.registerHelper('daterange', function (date_from, date_to) {
+
+  var from = moment(date_from);
+  var to = moment(date_to);
+
+  if( from.isSame(to, 'month') && from.isSame(to, 'year') ) {
+
+    return from.format('D.') + '–' + to.format('D. MMM');
+
+  } else if( from.isSame(to, 'year') ) {
+
+    return from.format('D. MMM') + ' – ' + to.format('D. MMM');
+
+  } else {
+
+    return from.format('D. MMM') + ' – ' + to.format('D. MMM YYYY');
+
+  }
+
+});

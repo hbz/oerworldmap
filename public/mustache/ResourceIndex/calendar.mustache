@@ -9,8 +9,8 @@
                 {{#each [about.@id].hits.hits}}
                     {{#_source.about}}
 
-                        <li about="{{_id}}">
-                            <a href="/resource/{{_id}}">
+                        <li about="{{[@id]}}">
+                            <a href="/resource/{{[@id]}}">
                                 <div class="sheet">
                                     <div class="day">{{moment startDate "D"}}</div>
                                     <div class="weekday">{{moment startDate "ddd"}}</div>
@@ -23,7 +23,7 @@
                                     {{/localized}}
                                 </div>
                                 <div class="date-location">
-                                    {{moment startDate "D."}}–{{moment endDate "D. MMMM"}} – {{location "city_country" location}}
+                                    {{daterange startDate endDate}} &mdash; {{location "city_country" location}}
                                 </div>
                             </a>
                         </li>
@@ -37,5 +37,3 @@
     {{/each}}
 
 </ul>
-
-<pre>{{json scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}</pre>
