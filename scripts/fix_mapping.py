@@ -12,6 +12,7 @@ def fix(endpoint_url, index_name, output_file):
 def fix_mappings(json):
     for index in json:
         json[index] = process_index(json[index])
+        json[index]["settings"] = settings()
     return json
 
 
@@ -29,19 +30,23 @@ def process_mapping(mapping):
 
 def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
-                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag']
-    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated']
+                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
+    ngrams = ['@value']
+    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
+    geo = ['geo']
+    copy_location = ['provider']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])
         elif property in date_time:
-            properties[property] = set_date_time(properties[property])
+            properties[property] = set_date_time()
+        elif property in geo:
+            properties[property] = set_geo_point()
+        elif property in ngrams:
+            properties[property] = set_ngram()
+        elif property in copy_location and 'location' in properties[property]:
+            properties[property]['location'] = copy_to(properties[property]['location'], 'about.location')
         elif 'properties' in properties[property]:
-            # Add a location field to all top-level types, populated by copy_to
-            if 'about' == property and not 'location' in properties[property]:
-                properties[property]['properties']['location'] = build_location_properties()
-            elif 'location' == property:
-                properties[property] = copy_to(properties[property], 'about.location')
             properties[property]['properties'] = process_properties(properties[property]['properties'])
 
     return properties
@@ -54,55 +59,81 @@ def copy_to(field, path):
             field['properties'][property]['copy_to'] = path + '.' + property
     return field
 
-def build_location_properties():
-    return {
-        "properties": {
-            "geo": {
-                "type": "geo_point",
-                "copy_to": "about.location.geo"
-            },
-            "@type": {
-                "index": "not_analyzed",
-                "type": "string"
-            },
-            "address": {
-                "properties": {
-                    "addressLocality": {
-                        "type": "string"
-                    },
-                    "addressCountry": {
-                        "index": "not_analyzed",
-                        "type": "string"
-                    },
-                    "addressRegion": {
-                        "type": "string"
-                    },
-                    "streetAddress": {
-                        "type": "string"
-                    },
-                    "postalCode": {
-                        "type": "string"
-                    },
-                    "@type": {
-                        "index": "not_analyzed",
-                        "type": "string"
-                    }
-                }
-            }
-        }
-    }
-
 def set_not_analyzed(field):
     field['type'] = 'string'
     field['index'] = 'not_analyzed'
     return field
 
-def set_date_time(field):
+def set_date_time():
     return {
         'type': 'date',
         'format': 'dateOptionalTime'
     }
 
+def set_geo_point():
+    return {
+        "type": "geo_point"
+    }
+
+def set_ngram():
+    return {
+        "type": "multi_field",
+        "fields": {
+            "@value": {
+                "type": "string"
+            },
+            "variations": {
+                "type": "string",
+                "analyzer": "title_analyzer",
+                "search_analyzer": "title_analyzer"
+            },
+            "simple_tokenized": {
+                "type": "string",
+                "analyzer": "simple",
+                "search_analyzer": "standard"
+            }
+        }
+    }
+
+def settings():
+    return {
+        "analysis": {
+            "filter": {
+                "title_filter": {
+                    "type": "word_delimiter",
+                    "preserve_original": True,
+                    "split_on_numerics": False,
+                    "split_on_case_change": True,
+                    "generate_word_parts": True,
+                    "generate_number_parts": False,
+                    "catenate_words": True,
+                    "catenate_numbers": False,
+                    "catenate_all": False
+                },
+                "asciifolding_preserve_original": {
+                    "type": "asciifolding",
+                    "preserve_original": True
+                },
+                "autocomplete_filter": {
+                    "type":     "edge_ngram",
+                    "min_gram": 2,
+                    "max_gram": 20
+                }
+            },
+            "analyzer": {
+                "title_analyzer": {
+                    "filter": [
+                        "title_filter",
+                        "asciifolding_preserve_original",
+                        "autocomplete_filter",
+                        "lowercase"
+                    ],
+                    "type": "custom",
+                    "tokenizer": "hyphen"
+                }
+            }
+        }
+    }
 
 def get_mapping(endpoint, index):
     response = urllib2.urlopen(endpoint + '/' + index + '/_mapping')

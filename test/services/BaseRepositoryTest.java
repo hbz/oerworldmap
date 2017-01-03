@@ -27,7 +27,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   static {
     try {
-      mBaseRepo = new BaseRepository(mConfig);
+      mBaseRepo = new BaseRepository(mConfig, ElasticsearchTestGrid.getEsRepo());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -437,6 +437,31 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
+  public void testSearchHyphenWords() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query complete word
+    List<Resource> completeWord = mBaseRepo.query("e-paideia", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 1);
+
+    // query abbreviated word
+    List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
+    Assert.assertTrue("Did not get proper result searching for e-pai.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+
+    // query without hyphen
+    List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"epai\".", withoutHyphen.size() == 1);
+    Assert.assertTrue("Did not get proper result searching for epai.", withoutHyphen.get(0).getId().equals(completeWord.get(0).getId()));
+
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
   public void testSearchMissing() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -456,6 +481,17 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
     Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
 
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testSearchKeyword() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> queryByKeyword = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
     mBaseRepo.deleteResource("", mMetadata);
   }
 

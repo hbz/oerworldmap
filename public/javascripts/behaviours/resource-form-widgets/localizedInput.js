@@ -177,7 +177,9 @@ var Hijax = (function ($, Hijax) {
       $( multiple_one ).find('.dropdown-toggle .text').text(
         language_code ? i18nStrings.languages[ language_code ] : 'Language'
       );
-    }
+    },
+
+    attached : []
   };
 
   Hijax.behaviours.localizedInput = my;

@@ -356,7 +356,9 @@ var Hijax = (function ($, Hijax) {
         })
       }
 
-    }
+    },
+
+    attached : []
   };
 
   Hijax.behaviours.resource = my;

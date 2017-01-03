@@ -5682,9 +5682,26 @@ div.page img {
 .popover-content {
   padding: 0px;
 }
+.popover-main-section {
+  border-bottom: 1px solid #325578;
+}
+.popover-main-section:last-child {
+  border-bottom: none;
+}
 .popover-section {
   padding: 7px 12px;
   border-bottom: 1px solid #aabed2;
+  position: relative;
+}
+.popover-section.linked:before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: -7px;
+  width: 14px;
+  height: 7px;
+  background-image: url('/assets/images/popover-link-arrow.svg');
+  background-repeat: no-repeat;
 }
 .popover-section:last-child {
   border-bottom: none;
@@ -5693,12 +5710,12 @@ div.page img {
   padding-left: 5px;
 }
 .icon-indented {
-  text-indent: -22px;
-  padding-left: 22px;
+  text-indent: -30px;
+  padding-left: 24px;
 }
 .icon-indented .fa {
   text-indent: 0px;
-  width: 22px;
+  width: 30px;
 }
 /* --- call for action --- */
 .map-view .call-for-actions-table {

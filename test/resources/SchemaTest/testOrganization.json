@@ -174,18 +174,6 @@
 			]
 		}
 	],
-	"mainEntityOf": [
-		{
-			"@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927",
-			"@type": "Article",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
 	"organizerFor": [
 		{
 			"@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
