@@ -9,7 +9,8 @@ var Hijax = (function ($, Hijax) {
         e.preventDefault();
       });
 
-    }
+    },
+    attached : []
 
   }
 

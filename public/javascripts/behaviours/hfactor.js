@@ -86,7 +86,9 @@ var Hijax = (function ($, Hijax) {
 
       });
 
-    }
+    },
+
+    attached : []
   };
 
   Hijax.behaviours.hfactor = my;

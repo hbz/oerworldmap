@@ -170,7 +170,9 @@ var Hijax = (function ($, Hijax) {
         });
       });
 
-    }
+    },
+
+    attached : []
   };
 
   Hijax.behaviours.availableChannel = my;
