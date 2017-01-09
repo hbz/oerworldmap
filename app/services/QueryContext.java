@@ -141,8 +141,9 @@ public class QueryContext {
     if (coordinates.length == 4) {
       mZoomTopLeft = new GeoPoint(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]));
       mZoomBottomRight = new GeoPoint(Double.parseDouble(coordinates[2]), Double.parseDouble(coordinates[3]));
+    } else {
+      throw new NumberFormatException();
     }
-    throw new NumberFormatException();
   }
 
 }

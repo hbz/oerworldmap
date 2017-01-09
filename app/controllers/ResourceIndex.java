@@ -69,7 +69,7 @@ public class ResourceIndex extends OERWorldMap {
     // Check for bounding box
     String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");
     if (boundingBoxParam != null && boundingBoxParam.length > 0) {
-      String boundingBox = boundingBoxParam[0];
+      String boundingBox = String.join(",", boundingBoxParam);
       if (boundingBox != null) {
         try {
           queryContext.setBoundingBox(boundingBox);
