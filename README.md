@@ -10,6 +10,7 @@ For inital background information about this project please refer to the
 ### Get Source
 
     $ git clone git@github.com:hbz/oerworldmap.git
+    $ npm install
     $ git submodule init
     $ git submodule update
     $ cd node/json-frame && npm install
