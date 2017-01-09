@@ -27,8 +27,12 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.location.address.addressCountry").size(aSize)
-        .field("about.location.address.addressCountry");
+    return AggregationBuilders.geohashGrid("about.location.geo").field("about.location.geo").precision(3).size(aSize)
+      .subAggregation(AggregationBuilders.geoCentroid("pin").field("about.location.geo"))
+      .subAggregation(AggregationBuilders.geoBounds("bounds"))
+      .subAggregation(AggregationBuilders.topHits("resources")
+        .setFetchSource(new String[]{"about.name", "about.@id", "about.@type"}, null))
+      .subAggregation(AggregationBuilders.terms("types").field("about.@type"));
   }
 
   public static AggregationBuilder<?> getServiceLanguageAggregation(int aSize) {
