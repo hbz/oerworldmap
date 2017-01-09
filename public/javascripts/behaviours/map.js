@@ -1254,6 +1254,13 @@ var Hijax = (function ($, Hijax) {
         });
       });
 
+      world.getView().on('propertychange', _.debounce(function(e){
+        var extent = world.getView().calculateExtent(world.getSize());
+        extent = ol.proj.transformExtent(extent, projection.getCode(), 'EPSG:4326');
+        $('input[name="boundingBox"]').val(extent[3] + ',' + extent[0] + ',' + extent[1] + ',' + extent[2]);
+        //$('#form-resource-filter').submit();
+      }, 150));
+
       // Add heat map data
       $('form#form-resource-filter', context).add($('#country-statistics', context)).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]#json-aggregations').html() );
