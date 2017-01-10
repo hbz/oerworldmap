@@ -49,17 +49,16 @@ var Hijax = (function ($, Hijax) {
 
           base : function() {
             return new ol.style.Style({
-              text: new ol.style.Text({
-                text: '\uf041',
-                font: 'normal 1.5em FontAwesome',
-                textBaseline: 'Bottom',
+              image: new ol.style.Circle({
                 fill: new ol.style.Fill({
-                  color: colors['blue-darker']
+                  // color: [255, 140, 0, 1] // orange
+                  color: [45, 86, 123, 1] // blue
                 }),
                 stroke: new ol.style.Stroke({
                   color: 'white',
-                  width: 4
-                })
+                  width: 1
+                }),
+                radius : 5
               })
             });
           },
@@ -473,23 +472,23 @@ var Hijax = (function ($, Hijax) {
         ! focused_country
       ) {
         var stroke_width = world.getView().getZoom() > 4 ? 1.5 : 0.5;
-        var stroke_color = '#0c75bf';
-        var zIndex = 1;
+        var stroke_color = [45, 86, 123, 0.3];
+        var zIndex = 0.5;
 
         var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
       } else if(
         focused_country != feature.getId()
       ) {
         var stroke_width = world.getView().getZoom() > 4 ? 1.5 : 0.5;
-        var stroke_color = '#0c75bf';
-        var zIndex = 1;
+        var stroke_color = [45, 86, 123, 0.3];
+        var zIndex = 0.5;
 
         var color_rgb = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
         var color_d3 = d3.rgb(color_rgb);
         var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.9)";
       } else {
         var stroke_width = world.getView().getZoom() > 4 ? 2 : 1.5;
-        var stroke_color = '#0c75bf';
+        var stroke_color = [45, 86, 123, 1];
         var zIndex = 2;
 
         var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
@@ -905,7 +904,7 @@ var Hijax = (function ($, Hijax) {
             '© <a href="http://www.openstreetmap.org/copyright">' +
             'OpenStreetMap contributors</a>',
           tileSize: [512, 512],
-          url: 'https://api.mapbox.com/styles/v1/literarymachine/ciq3njijr004kq7nduyya7hxg/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
+          url: 'https://api.mapbox.com/styles/v1/literarymachine/cixriqnmv00222rmnhyaa3vp4/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
         });
 
         // Mapbox tile layer
@@ -971,7 +970,7 @@ var Hijax = (function ($, Hijax) {
         // Map object
         world = new ol.Map({
           //layers: [subNationalVectorLayer, countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
-          layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
+          layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
