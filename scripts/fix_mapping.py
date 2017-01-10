@@ -1,3 +1,5 @@
+# python scripts/fix_mapping.py -e http://localhost:9200 -i oerworldmap -o conf/index-config.json
+
 __author__ = 'fo'
 
 import sys, getopt, json, os, urllib2
@@ -25,6 +27,7 @@ def process_index(index):
 def process_mapping(mapping):
     for properties in mapping:
         mapping[properties]['properties'] = process_properties(mapping[properties]['properties'])
+        mapping[properties]['transform'] = transform()
     return mapping
 
 
@@ -34,7 +37,6 @@ def process_properties(properties):
     ngrams = ['@value']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo = ['geo']
-    copy_location = ['provider']
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed(properties[property])
@@ -44,20 +46,10 @@ def process_properties(properties):
             properties[property] = set_geo_point()
         elif property in ngrams:
             properties[property] = set_ngram()
-        elif property in copy_location and 'location' in properties[property]:
-            properties[property]['location'] = copy_to(properties[property]['location'], 'about.location')
         elif 'properties' in properties[property]:
             properties[property]['properties'] = process_properties(properties[property]['properties'])
 
     return properties
-
-def copy_to(field, path):
-    for property in field['properties']:
-        if 'properties' in field['properties'][property]:
-            field['properties'][property] = copy_to(field['properties'][property], path + '.' + property)
-        else:
-            field['properties'][property]['copy_to'] = path + '.' + property
-    return field
 
 def set_not_analyzed(field):
     field['type'] = 'string'
@@ -93,6 +85,31 @@ def set_ngram():
                 "search_analyzer": "standard"
             }
         }
+    }
+
+def transform():
+    return {
+        "script": """
+            if (!ctx._source['about']['location']) {
+
+                ctx._source['about']['location'] = [];
+
+                if (ctx._source['about']['provider'] && ctx._source['about']['provider']['location'])
+                    ctx._source['about']['location'] << ctx._source['about']['provider']['location'];
+
+                if (ctx._source['about']['agent'] && ctx._source['about']['agent']['location'])
+                    ctx._source['about']['location'] << ctx._source['about']['agent']['location'];
+
+                if (ctx._source['about']['participant'] && ctx._source['about']['participant']['location'])
+                    ctx._source['about']['location'] << ctx._source['about']['participant']['location'];
+
+                if (ctx._source['about']['member'] && ctx._source['about']['member']['location'])
+                    ctx._source['about']['location'] << ctx._source['about']['member']['location'];
+
+                if (ctx._source['about']['mentions'] && ctx._source['about']['mentions']['location'])
+                    ctx._source['about']['location'] << ctx._source['about']['mentions']['location'];
+            };
+        """
     }
 
 def settings():
