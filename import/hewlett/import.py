@@ -175,6 +175,12 @@ def get_grantee_url(beautifulsoup):
             return "http://www.hewlett.org" + str(anchor['href'])
 
 
+def get_grantee_external_url(beautifulsoup):
+    grantee_urls = beautifulsoup.findAll('a', {'class' : 'aboutgrantee-extra-value is-lowercase'})
+    for grantee_url in grantee_urls:
+        return grantee_url['href']
+
+
 def get_grantee_id(url):
     parsed_url = urlparse.urlparse(url)
     if parsed_url[4]:
@@ -485,6 +491,7 @@ def put_agent(agent_uuid, grantee_id, soup, location):
     location['address'] = address
     agent_detailled['location'] = location
     agent_detailled['@id'] = agent_uuid
+    agent_detailled['url'] = get_grantee_external_url(soup)
     agents.append(agent_detailled)
 
 
