@@ -1,6 +1,9 @@
 {
   "mappings": {
     "WebPage": {
+      "transform": {
+        "script": "\n            if (!ctx._source['about']['location']) {\n\n                ctx._source['about']['location'] = [];\n\n                if (ctx._source['about']['provider'] && ctx._source['about']['provider']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['provider']['location'];\n\n                if (ctx._source['about']['agent'] && ctx._source['about']['agent']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['agent']['location'];\n\n                if (ctx._source['about']['participant'] && ctx._source['about']['participant']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['participant']['location'];\n\n                if (ctx._source['about']['member'] && ctx._source['about']['member']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['member']['location'];\n\n                if (ctx._source['about']['mentions'] && ctx._source['about']['mentions']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['mentions']['location'];\n            };\n        "
+      },
       "properties": {
         "about": {
           "properties": {
@@ -8754,52 +8757,31 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": [
-                        "about.location.@type"
-                      ]
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.addressLocality"
-                          ]
+                          "type": "string"
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.addressCountry"
-                          ]
+                          "type": "string"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.addressRegion"
-                          ]
+                          "type": "string"
                         },
                         "streetAddress": {
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.streetAddress"
-                          ]
+                          "type": "string"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.postalCode"
-                          ]
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.@type"
-                          ]
+                          "type": "string"
                         }
                       }
                     }
