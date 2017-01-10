@@ -25,10 +25,10 @@ country_regex_2 = re.compile(r'Afghanistan|Albania|Algeria|Andorra|Angola|Antigu
 pobox_regex = re.compile(r'((P\.?O\.? )?Box|Post(bus|fach)) ([\d]{2,6})')
 postalcode_regex = re.compile(r'[\d]{5}(-[\d]{4})?|[A-Z][0-9][A-Z] [0-9][A-Z][0-9]|[A-Z]{1,2}[0-9]{1,2} [0-9][A-Z]{2}')
 
-path = os.path.dirname(__file__)
+path = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
 uuid_file = path + "id_map.json"
 agents_file = path + "agents.json"
-cache_dir = path + "cache/"
+cache_dir = path + "cache" + os.path.sep
 agents = []
 uuids = {}
 new_uuids = []
