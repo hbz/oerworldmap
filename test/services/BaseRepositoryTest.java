@@ -499,6 +499,20 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
+  @Test
+  public void testRankKeyword() throws IOException, InterruptedException {
+    for (int i=1; i<=8; i++){
+      Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN."+i+".json");
+      mBaseRepo.addResource(db1, mMetadata);
+    }
+    Resource desired = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN.3.json");
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> rankedList = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find desired resource first while searching for keyword.", rankedList.get(0).getId().equals(desired.getId()));
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
