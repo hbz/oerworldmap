@@ -612,7 +612,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -1512,7 +1511,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -1644,7 +1642,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -2163,7 +2160,6 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
                       "type": "string",
                       "analyzer": "keywords_analyzer"
                     },
@@ -2626,7 +2622,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -3916,7 +3911,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -4800,7 +4794,6 @@
                   "format": "dateOptionalTime"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -5221,7 +5214,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -6197,7 +6189,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -6966,7 +6957,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -8102,7 +8092,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -8653,7 +8642,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -9530,7 +9518,6 @@
                   "format": "dateOptionalTime"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -10130,7 +10117,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -10353,7 +10339,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -11296,7 +11281,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -11534,7 +11518,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -11964,7 +11947,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -12196,7 +12178,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -12878,7 +12859,6 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
                       "type": "string",
                       "analyzer": "keywords_analyzer"
                     },
@@ -13034,7 +13014,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -13188,7 +13167,6 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
                       "type": "string",
                       "analyzer": "keywords_analyzer"
                     },
@@ -13396,7 +13374,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -13893,7 +13870,6 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
                       "type": "string",
                       "analyzer": "keywords_analyzer"
                     },
@@ -14681,7 +14657,6 @@
                   "format": "dateOptionalTime"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -15257,7 +15232,6 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -15336,7 +15310,6 @@
               }
             },
             "keywords": {
-              "index": "not_analyzed",
               "type": "string",
               "analyzer": "keywords_analyzer"
             },
@@ -16544,7 +16517,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
@@ -16973,7 +16945,6 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
                   "type": "string",
                   "analyzer": "keywords_analyzer"
                 },
