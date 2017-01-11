@@ -29,9 +29,10 @@ def process_mapping(mapping):
 
 
 def process_properties(properties):
-    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
+    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
     ngrams = ['@value']
+    keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo = ['geo']
     copy_location = ['provider']
@@ -44,6 +45,8 @@ def process_properties(properties):
             properties[property] = set_geo_point()
         elif property in ngrams:
             properties[property] = set_ngram()
+        elif property in keywords:
+            properties[property] = set_keywords_analyzer(properties[property])
         elif property in copy_location and 'location' in properties[property]:
             properties[property]['location'] = copy_to(properties[property]['location'], 'about.location')
         elif 'properties' in properties[property]:
@@ -62,6 +65,11 @@ def copy_to(field, path):
 def set_not_analyzed(field):
     field['type'] = 'string'
     field['index'] = 'not_analyzed'
+    return field
+
+def set_keywords_analyzer(field):
+    field['type'] = 'string'
+    field['analyzer'] = 'keywords_analyzer'
     return field
 
 def set_date_time():
@@ -130,6 +138,10 @@ def settings():
                     ],
                     "type": "custom",
                     "tokenizer": "hyphen"
+                },
+                "keywords_analyzer": {
+                    "filter": "lowercase",
+                    "tokenizer": "keyword"
                 }
             }
         }
