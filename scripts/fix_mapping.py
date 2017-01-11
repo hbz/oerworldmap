@@ -32,29 +32,39 @@ def process_mapping(mapping):
 
 
 def process_properties(properties):
-    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image', 'keywords',
+    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
     ngrams = ['@value']
+    keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo = ['geo']
     for property in properties:
         if property in not_analyzed:
-            properties[property] = set_not_analyzed(properties[property])
+            properties[property] = set_not_analyzed()
         elif property in date_time:
             properties[property] = set_date_time()
         elif property in geo:
             properties[property] = set_geo_point()
         elif property in ngrams:
             properties[property] = set_ngram()
+        elif property in keywords:
+            properties[property] = set_keywords_analyzer()
         elif 'properties' in properties[property]:
             properties[property]['properties'] = process_properties(properties[property]['properties'])
 
     return properties
 
-def set_not_analyzed(field):
-    field['type'] = 'string'
-    field['index'] = 'not_analyzed'
-    return field
+def set_not_analyzed():
+    return {
+        'type': 'string',
+        'index': 'not_analyzed'
+    }
+
+def set_keywords_analyzer():
+    return {
+        'type': 'string',
+        'analyzer': 'keywords_analyzer'
+    }
 
 def set_date_time():
     return {
@@ -147,6 +157,10 @@ def settings():
                     ],
                     "type": "custom",
                     "tokenizer": "hyphen"
+                },
+                "keywords_analyzer": {
+                    "filter": "lowercase",
+                    "tokenizer": "keyword"
                 }
             }
         }
