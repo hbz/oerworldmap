@@ -505,7 +505,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> rankedList = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Did not find desired resource first while searching for keyword.", rankedList.get(0).equals(desired));
+    Assert.assertTrue("Did not find desired resource first while searching for keyword.", rankedList.get(0).getId().equals(desired.getId()));
     mBaseRepo.deleteResource("", mMetadata);
   }
 
