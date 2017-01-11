@@ -613,7 +613,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -1512,7 +1513,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "mentions": {
                   "properties": {
@@ -1643,7 +1645,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -2161,7 +2164,8 @@
                     },
                     "keywords": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -2623,7 +2627,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participant": {
                   "properties": {
@@ -3912,7 +3917,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "funderOf": {
                   "properties": {
@@ -4795,7 +4801,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "funder": {
                   "properties": {
@@ -5215,7 +5222,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -6190,7 +6198,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "availableChannel": {
                   "properties": {
@@ -6958,7 +6967,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -8093,7 +8103,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "licenseConcept": {
                   "properties": {
@@ -8643,7 +8654,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -9519,7 +9531,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -10118,7 +10131,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -10340,7 +10354,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -11282,7 +11297,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "mentions": {
                   "properties": {
@@ -11519,7 +11535,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "hasMonetaryValue": {
                   "type": "string"
@@ -11948,7 +11965,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participantIn": {
                   "properties": {
@@ -12179,7 +12197,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "hasMonetaryValue": {
                   "type": "string"
@@ -12860,7 +12879,8 @@
                     },
                     "keywords": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -13015,7 +13035,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "mentions": {
                   "properties": {
@@ -13168,7 +13189,8 @@
                     },
                     "keywords": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -13375,7 +13397,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "licenseConcept": {
                   "properties": {
@@ -13871,7 +13894,8 @@
                     },
                     "keywords": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -14658,7 +14682,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "funder": {
                   "properties": {
@@ -15233,7 +15258,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participantIn": {
                   "properties": {
@@ -15311,7 +15337,8 @@
             },
             "keywords": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "string",
+              "analyzer": "keywords_analyzer"
             },
             "telephone": {
               "type": "string"
@@ -16518,7 +16545,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "isAwardedBy": {
                   "properties": {
@@ -16946,7 +16974,8 @@
                 },
                 "keywords": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "contactPoint": {
                   "properties": {
@@ -17164,6 +17193,10 @@
           ],
           "type": "custom",
           "tokenizer": "hyphen"
+        },
+        "keywords_analyzer": {
+          "filter": "lowercase",
+          "tokenizer": "keyword"
         }
       }
     }

@@ -492,6 +492,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> queryByKeyword = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
+    List<Resource> queryByLowercaseKeyword = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by lowercased keyword.", queryByLowercaseKeyword.size() == 1);
     mBaseRepo.deleteResource("", mMetadata);
   }
 
