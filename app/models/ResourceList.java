@@ -63,14 +63,6 @@ public class ResourceList {
     this.items = items;
   }
 
-  public long getTotalItems() {
-    return this.totalItems;
-  }
-
-  public long getItemsPerPage() {
-    return this.itemsPerPage;
-  }
-
   public String getCurrentPage() {
 
     ArrayList<String> params = new ArrayList<>();
@@ -195,19 +187,6 @@ public class ResourceList {
       }
     }
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
-  }
-
-  public String getSortOrder() {
-    return this.sortOrder;
-  }
-
-  // TODO: remove setter when filter appended to search terms becomes unnecessary
-  public void setSearchTerms(String searchTerms) {
-    this.searchTerms = searchTerms;
-  }
-
-  public String getSearchTerms() {
-    return this.searchTerms;
   }
 
   public String getFrom() {
