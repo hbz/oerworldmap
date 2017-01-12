@@ -181,10 +181,10 @@ var Hijax = (function ($, Hijax) {
   }
 
   function getFeatureType(feature) {
-    if(feature.getId() && feature.getId().length == 2) {
+    if(feature.getId()) {
       return 'country';
-    // } else if(feature.get('features').length > 1) {
-    //   return "cluster";
+    } else if(feature.get('features').length > 1) {
+      return "cluster";
     } else {
       return "placemark";
     }
@@ -460,12 +460,12 @@ var Hijax = (function ($, Hijax) {
 
     // setup d3 color callback
 
-    var white = '#D1E8F9';
+    var white = '#e8f2f9';
 
     var heats_arr = _.values(heat_data);
     var get_color = d3.scale.log()
       // .range(["#1991E6",'#D1E8F9']) // blau
-      .range(["#1991E6",'#D1E8F9']) // blau
+      .range(["#4ca5e5",'#D1E8F9']) // blau
       // .range(["#8ce042",'#ecf6e4']) // green
       .interpolate(d3.interpolateHcl)
       .domain([d3.quantile(heats_arr, .0), d3.quantile(heats_arr, .99)]);
@@ -1012,12 +1012,9 @@ var Hijax = (function ($, Hijax) {
 
         // Bind click events
         world.on('click', function(evt) {
-          var feature;
-          world.forEachFeatureAtPixel(evt.pixel, function(f, layer) {
-            console.log(f, getFeatureType(f));
-            feature = f;
+          var feature = world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+            return feature;
           });
-          // console.log(feature, getFeatureType(feature));
           if (feature) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
