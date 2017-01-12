@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import helpers.ResourceHelpers;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -170,7 +171,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
           "about.alternateName.@value^6.0",
           "about.alternateName.@value.variations^6.0", //
           "about.alternateName.@value.simple_tokenized^6.0"});
-      List<Resource> actualList = mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems();
+      List<Resource> actualList = ResourceHelpers.unwrapRecords(mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems());
       List<String> actualNameList = getNameList(actualList);
       // must provide 3 hits because search is reduced on "about.name.@value" and
       // "about.alternateName.@value"
@@ -211,7 +212,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
-    List<Resource> beforeZoomList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeZoomList = ResourceHelpers.unwrapRecords(mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue(beforeZoomList.size() == 3);
     List<String> beforeZoomNames = getNameList(beforeZoomList);
     Assert.assertTrue(beforeZoomNames.contains("In Zoom Organization 1"));
@@ -223,7 +224,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));
 
     // query after zooming
-    List<Resource> afterZoomList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterZoomList = ResourceHelpers.unwrapRecords(mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue(afterZoomList.size() == 2);
     List<String> afterZoomNames = getNameList(afterZoomList);
     Assert.assertTrue(afterZoomNames.contains("In Zoom Organization 1"));
@@ -248,7 +249,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before filtering
-    List<Resource> beforeFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeFilterList = ResourceHelpers.unwrapRecords(mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue(beforeFilterList.size() == 3);
     List<String> beforeFilterNames = getNameList(beforeFilterList);
     Assert.assertTrue(beforeFilterNames.contains("Out Of Polygon Organization 1"));
@@ -266,7 +267,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setPolygonFilter(polygon);
 
     // query after filtering
-    List<Resource> afterFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterFilterList = ResourceHelpers.unwrapRecords(mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue(afterFilterList.size() == 2);
     List<String> afterFilterNames = getNameList(afterFilterList);
     Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Organization 1"));
@@ -291,7 +292,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
 
     // query before zooming
-    List<Resource> beforeFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> beforeFilterList = ResourceHelpers.unwrapRecords(mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue(beforeFilterList.size() == 3);
     List<String> beforeFilterNames = getNameList(beforeFilterList);
     Assert.assertTrue(beforeFilterNames.contains("Out Of Polygon Zoom Organization 1"));
@@ -315,7 +316,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setZoomBottomRight(new GeoPoint(4.0, 8.0));
 
     // query after zooming
-    List<Resource> afterFilterList = mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems();
+    List<Resource> afterFilterList = ResourceHelpers.unwrapRecords(mBaseRepo.query("*", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue(afterFilterList.size() == 1);
     List<String> afterFilterNames = getNameList(afterFilterList);
     Assert.assertFalse(afterFilterNames.contains("Out Of Polygon Zoom Organization 1"));
@@ -336,11 +337,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     // query correct spelling:
-    List<Resource> correctQuery = mBaseRepo.query("Letest", 0, 10, null, null, queryContext).getItems();
+    List<Resource> correctQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Letest", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue("Could not find \"Letest\".", correctQuery.size() == 1);
 
     // query with white space inserted
-    List<Resource> alternateQuery = mBaseRepo.query("Le Test", 0, 10, null, null, queryContext).getItems();
+    List<Resource> alternateQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Le Test", 0, 10, null, null, queryContext).getItems());
     Assert.assertTrue("Could not find \"Le Test\".", alternateQuery.size() == 1);
 
     System.out.println("alternateName: " + getNameList(alternateQuery));
