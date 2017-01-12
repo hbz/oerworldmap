@@ -58,11 +58,6 @@ public class ResourceList {
     return this.items;
   }
 
-  // TODO: remove setter when unwrapping records in BaseRepository becomes unnecessary
-  public void setItems(List<Resource> items) {
-    this.items = items;
-  }
-
   private String getCurrentPage() {
     ArrayList<String> params = new ArrayList<>();
     if (!StringUtils.isEmpty(searchTerms)) {

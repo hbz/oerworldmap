@@ -84,14 +84,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    Map<String, Object> resourceMap = getDocument(Record.TYPE, aId);
-    if (resourceMap != null) {
-      return unwrapRecord(Resource.fromMap(resourceMap));
-    }
-    return null;
-  }
-
-  public Resource getRecord(@Nonnull String aId) {
     return Resource.fromMap(getDocument(Record.TYPE, aId));
   }
 
@@ -100,7 +92,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     for (Map<String, Object> doc : getDocuments(aField, aValue)) {
       resources.add(Resource.fromMap(doc));
     }
-    return unwrapRecords(resources);
+    return resources;
   }
 
   @Override
@@ -110,7 +102,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       .concat(JsonLdConstants.TYPE), aType)) {
       resources.add(Resource.fromMap(doc));
     }
-    return unwrapRecords(resources);
+    return resources;
   }
 
   @Override
@@ -179,7 +171,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
-      Resource match = unwrapRecord(Resource.fromMap(searchHits.next().sourceAsMap()));
+      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
     // FIXME: response.toString returns string serializations of scripted keys
@@ -187,18 +179,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
       aFilters, aAggregations);
 
-  }
-
-  private List<Resource> unwrapRecords(List<Resource> aRecords) {
-    List<Resource> resources = new ArrayList<>();
-    for (Resource rec : aRecords) {
-      resources.add(unwrapRecord(rec));
-    }
-    return resources;
-  }
-
-  private Resource unwrapRecord(Resource aRecord) {
-    return aRecord.getAsResource(Record.RESOURCE_KEY);
   }
 
   /**
