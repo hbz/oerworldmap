@@ -51,14 +51,16 @@ var Hijax = (function ($, Hijax) {
             return new ol.style.Style({
               image: new ol.style.Circle({
                 fill: new ol.style.Fill({
-                  // color: [255, 140, 0, 1] // orange
-                  color: [45, 86, 123, 1] // blue
+                  color: [255, 140, 0, 0.5] // orange
+                  // color: [45, 86, 123, 1] // blue
                 }),
+/*
                 stroke: new ol.style.Stroke({
                   color: 'white',
-                  width: 1
+                  width: 0
                 }),
-                radius : 5
+*/
+                radius : ( world.getView().getZoom() / 2 ) + 1
               })
             });
           },
@@ -179,10 +181,10 @@ var Hijax = (function ($, Hijax) {
   }
 
   function getFeatureType(feature) {
-    if(feature.getId()) {
+    if(feature.getId() && feature.getId().length == 2) {
       return 'country';
-    } else if(feature.get('features').length > 1) {
-      return "cluster";
+    // } else if(feature.get('features').length > 1) {
+    //   return "cluster";
     } else {
       return "placemark";
     }
@@ -458,40 +460,46 @@ var Hijax = (function ($, Hijax) {
 
     // setup d3 color callback
 
+    var white = '#D1E8F9';
+
     var heats_arr = _.values(heat_data);
     var get_color = d3.scale.log()
-      .range(["#a1cd3f", "#eaf0e2"])
+      // .range(["#1991E6",'#D1E8F9']) // blau
+      .range(["#1991E6",'#D1E8F9']) // blau
+      // .range(["#8ce042",'#ecf6e4']) // green
       .interpolate(d3.interpolateHcl)
-      .domain([d3.quantile(heats_arr, .01), d3.quantile(heats_arr, .99)]);
+      .domain([d3.quantile(heats_arr, .0), d3.quantile(heats_arr, .99)]);
 
     // set style callback
+    // qwe
 
     countryVectorLayer.setStyle(function(feature) {
 
       if(
         ! focused_country
       ) {
-        var stroke_width = world.getView().getZoom() > 4 ? 1.5 : 0.5;
+        var stroke_width = world.getView().getZoom() > 4 ? 1 : 0.5;
         var stroke_color = [45, 86, 123, 0.3];
         var zIndex = 0.5;
 
-        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : white;
       } else if(
         focused_country != feature.getId()
       ) {
-        var stroke_width = world.getView().getZoom() > 4 ? 1.5 : 0.5;
+        var stroke_width = world.getView().getZoom() > 4 ? 1 : 0.5;
         var stroke_color = [45, 86, 123, 0.3];
         var zIndex = 0.5;
 
-        var color_rgb = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+        var color_rgb = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : white;
         var color_d3 = d3.rgb(color_rgb);
         var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.9)";
       } else {
         var stroke_width = world.getView().getZoom() > 4 ? 2 : 1.5;
-        var stroke_color = [45, 86, 123, 1];
+        // var stroke_color = [45, 86, 123, 1];
+        var stroke_color = [255, 140, 0, 1];
         var zIndex = 2;
 
-        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : white;
       }
 
       return [new ol.style.Style({
@@ -718,7 +726,7 @@ var Hijax = (function ($, Hijax) {
 
         var feature = new ol.Feature(featureProperties);
         feature.setId(resource['@id']);
-        feature.setStyle(styles['placemark']['base']()); // ... seems not to be necessary
+        feature.setStyle(styles['placemark']['base']); // qwe ... seems not to be necessary
         _markers.push(feature);
       }
     }
@@ -958,8 +966,8 @@ var Hijax = (function ($, Hijax) {
           style: function(feature, resolution) {
             return [new ol.style.Style({
               stroke: new ol.style.Stroke({
-                color: '#0c75bf',
-                width: world.getView().getZoom() > 4 ? 2 : 1.5
+                color: '#284664', // qwe
+                width: world.getView().getZoom() > 4 ? 1.2 : 0.8
               })
             })];
           },
@@ -1004,9 +1012,12 @@ var Hijax = (function ($, Hijax) {
 
         // Bind click events
         world.on('click', function(evt) {
-          var feature = world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-            return feature;
+          var feature;
+          world.forEachFeatureAtPixel(evt.pixel, function(f, layer) {
+            console.log(f, getFeatureType(f));
+            feature = f;
           });
+          // console.log(feature, getFeatureType(feature));
           if (feature) {
             var type = getFeatureType(feature)
             if (type == "placemark") {
@@ -1030,6 +1041,9 @@ var Hijax = (function ($, Hijax) {
         world.getView().on('propertychange', _.debounce(function(e) {
           if (e.key == 'center' || e.key == 'resolution') {
             currentCenter = world.getView().getCenter();
+          }
+          if (e.key == 'resolution') {
+            // qwe
           }
         }, 150));
 

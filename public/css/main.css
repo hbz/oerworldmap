@@ -5613,10 +5613,47 @@ div.page img {
 #page-footer.container-static-page .inner:after {
   clear: both;
 }
+
 /* --- map view --- */
+
 #map {
-  background: #288cd2;
+  /*   background-image: url('https://images.unsplash.com/photo-1476897017502-219c9169bd6f?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop='); */
+/*   background: url(../images/Travel-Sea-Waves-icon-white.png) repeat; */
+/*   background-color: #c4d5e2; */
+/*   background-size: 35px; */
+  background: #eee;
+  position: relative;
+
 }
+/*
+
+#map:after {
+  content: '';
+  background-color: rgba(49, 112, 143, 0.62);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+*/
+
+.ol-viewport,
+.nav-map,
+#page-footer {
+  z-index: 3;
+}
+
+/*
+  background: -moz-radial-gradient(center, ellipse cover, #fff 0%, #fff6ec 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #fff), color-stop(100%, #fff6ec));
+  background: -webkit-radial-gradient(center, ellipse cover, #fff 0%, #fff6ec 100%);
+  background: -o-radial-gradient(center, ellipse cover, #fff 0%, #fff6ec 100%);
+  background: -ms-radial-gradient(center, ellipse cover, #fff 0%, #fff6ec 100%);
+  background: radial-gradient(ellipse at center, #fff 0%, #fff6ec 100%);
+*/
+
 /*
 .color-scheme-map {
   background: rgba(95,171,218,1);
