@@ -234,7 +234,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  public List<Map<String, Object>> getDocuments(final String aField, final Object aValue) {
+  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue) {
     final int docsPerPage = 1024;
     int count = 0;
     SearchResponse response = null;
@@ -258,20 +258,20 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aIdentifier
    * @return the document as Map of String/Object
    */
-  public Map<String, Object> getDocument(@Nonnull final String aType,
+  private Map<String, Object> getDocument(@Nonnull final String aType,
                                          @Nonnull final String aIdentifier) {
     final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
   }
 
-  public boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
     final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
       .execute().actionGet();
     return response.isFound();
   }
 
-  public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
+  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
@@ -290,7 +290,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
+  private SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
     aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
@@ -402,7 +402,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
-  public void refreshIndex(String aIndex) {
+  private void refreshIndex(String aIndex) {
     try {
       mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
     } catch (IndexNotFoundException e) {

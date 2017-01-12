@@ -63,8 +63,7 @@ public class ResourceList {
     this.items = items;
   }
 
-  public String getCurrentPage() {
-
+  private String getCurrentPage() {
     ArrayList<String> params = new ArrayList<>();
     if (!StringUtils.isEmpty(searchTerms)) {
       params.add("q=".concat(searchTerms));
@@ -84,8 +83,7 @@ public class ResourceList {
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
-  public String getNextPage() {
-
+  private String getNextPage() {
     if (offset + itemsPerPage >= totalItems) {
       return null;
     }
@@ -110,8 +108,7 @@ public class ResourceList {
   }
 
 
-  public String getPreviousPage() {
-
+  private String getPreviousPage() {
     if (offset - itemsPerPage < 0) {
       return null;
     }
@@ -135,8 +132,7 @@ public class ResourceList {
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
-  public String getFirstPage() {
-
+  private String getFirstPage() {
     if (offset <= 0) {
       return null;
     }
@@ -160,8 +156,7 @@ public class ResourceList {
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
-  public String getLastPage() {
-
+  private String getLastPage() {
     if (offset + itemsPerPage >= totalItems) {
       return null;
     }
@@ -189,11 +184,11 @@ public class ResourceList {
     return params.isEmpty() ? null : "/resource/?".concat(StringUtils.join(params, "&"));
   }
 
-  public String getFrom() {
+  private String getFrom() {
     return Integer.toString(this.offset + 1);
   }
 
-  public String getUntil() {
+  private String getUntil() {
     if(this.offset + this.itemsPerPage < this.totalItems) {
       return Long.toString(this.offset + this.itemsPerPage);
     } else {
