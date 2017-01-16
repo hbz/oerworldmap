@@ -1,5 +1,3 @@
-import com.typesafe.sbt.less.Import.LessKeys
-
 name := "oerworldmap"
 
 version := "0.1"
@@ -29,7 +27,7 @@ libraryDependencies ++= Seq(
   "io.apigee.trireme" % "trireme-node10src" % "0.8.9"
 )
 
-includeFilter in (Assets, LessKeys.less) := "main.less"
+PlayKeys.playRunHooks += Grunt(baseDirectory.value)
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Xmx3G"

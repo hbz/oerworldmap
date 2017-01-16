@@ -376,7 +376,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
         Logger.warn("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
       }
-      queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness).analyzer("title_analyzer")
+      queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness)
         .defaultOperator(QueryStringQueryBuilder.Operator.AND);
       if (fieldBoosts != null) {
         // TODO: extract fieldBoost parsing from loop in case

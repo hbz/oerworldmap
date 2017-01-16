@@ -62,6 +62,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
 
+  public static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
+
   private final Model mDb;
   private final GraphHistory mGraphHistory;
   private final ResourceEnricher mInverseEnricher = new InverseEnricher();
@@ -538,6 +540,29 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return diff;
+
+  }
+
+  public String label(String aId) {
+
+    String labelQuery = String.format(LABEL_RESOURCE, aId);
+
+    String result = aId;
+
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(labelQuery), mDb)) {
+        ResultSet resultSet = queryExecution.execSelect();
+        while (resultSet.hasNext()) {
+          QuerySolution querySolution = resultSet.next();
+          result = querySolution.get("name").asLiteral().getString();
+        }
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+    }
+
+    return result;
 
   }
 

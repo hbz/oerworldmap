@@ -71,8 +71,9 @@ var Hijax = (function ($, Hijax) {
 
       $(one).append(value_input);
 
-    }
+    },
 
+    attached : []
   };
 
   Hijax.behaviours.input = my;
