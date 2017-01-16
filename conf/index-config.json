@@ -421,9 +421,6 @@
                 },
                 "location": {
                   "properties": {
-                    "geo": {
-                      "type": "geo_point"
-                    },
                     "address": {
                       "properties": {
                         "addressCountry": {
@@ -4375,6 +4372,36 @@
                         "@id": {
                           "index": "not_analyzed",
                           "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "name": {
+                          "properties": {
+                            "@value": {
+                              "fields": {
+                                "simple_tokenized": {
+                                  "search_analyzer": "standard",
+                                  "type": "string",
+                                  "analyzer": "simple"
+                                },
+                                "variations": {
+                                  "search_analyzer": "title_analyzer",
+                                  "type": "string",
+                                  "analyzer": "title_analyzer"
+                                },
+                                "@value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "@language": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     },
@@ -5142,10 +5169,11 @@
             },
             "performerIn": {
               "properties": {
-                "inLanguage": {
-                  "type": "string"
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
-                "about": {
+                "attendee": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -5251,21 +5279,15 @@
                     }
                   }
                 },
-                "startDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
-                },
-                "sameAs": {
+                "url": {
+                  "index": "not_analyzed",
                   "type": "string"
                 },
                 "image": {
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "recordedIn": {
-                  "type": "string"
-                },
-                "attendee": {
+                "about": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -5303,14 +5325,6 @@
                     }
                   }
                 },
-                "email": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "url": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
                 "location": {
                   "properties": {
                     "geo": {
@@ -5341,44 +5355,6 @@
                   }
                 },
                 "hashtag": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "keywords": {
-                  "type": "string",
-                  "analyzer": "keywords_analyzer"
-                },
-                "alternateName": {
-                  "properties": {
-                    "@value": {
-                      "fields": {
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "string",
-                          "analyzer": "simple"
-                        },
-                        "variations": {
-                          "search_analyzer": "title_analyzer",
-                          "type": "string",
-                          "analyzer": "title_analyzer"
-                        },
-                        "@value": {
-                          "type": "string"
-                        }
-                      },
-                      "type": "multi_field"
-                    },
-                    "@language": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
                   "index": "not_analyzed",
                   "type": "string"
                 },
@@ -5420,6 +5396,14 @@
                     }
                   }
                 },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
                 "name": {
                   "properties": {
                     "@value": {
@@ -5450,18 +5434,6 @@
             },
             "participant": {
               "properties": {
-                "comment": {
-                  "properties": {
-                    "@id": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
                 "sameAs": {
                   "type": "string"
                 },
@@ -11734,6 +11706,13 @@
                         }
                       }
                     },
+                    "hasMonetaryValue": {
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
                     "isAwardedBy": {
                       "properties": {
                         "@id": {
@@ -11771,10 +11750,6 @@
                           }
                         }
                       }
-                    },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
                     }
                   }
                 },
@@ -11823,6 +11798,90 @@
                 "@id": {
                   "index": "not_analyzed",
                   "type": "string"
+                },
+                "isFundedBy": {
+                  "properties": {
+                    "funds": {
+                      "properties": {
+                        "@id": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "name": {
+                          "properties": {
+                            "@value": {
+                              "fields": {
+                                "simple_tokenized": {
+                                  "search_analyzer": "standard",
+                                  "type": "string",
+                                  "analyzer": "simple"
+                                },
+                                "variations": {
+                                  "search_analyzer": "title_analyzer",
+                                  "type": "string",
+                                  "analyzer": "title_analyzer"
+                                },
+                                "@value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "@language": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "isAwardedBy": {
+                      "properties": {
+                        "@id": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "name": {
+                          "properties": {
+                            "@value": {
+                              "fields": {
+                                "simple_tokenized": {
+                                  "search_analyzer": "standard",
+                                  "type": "string",
+                                  "analyzer": "simple"
+                                },
+                                "variations": {
+                                  "search_analyzer": "title_analyzer",
+                                  "type": "string",
+                                  "analyzer": "title_analyzer"
+                                },
+                                "@value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "@language": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
                 },
                 "about": {
                   "properties": {
@@ -12840,43 +12899,8 @@
                     }
                   }
                 },
-                "organizerFor": {
-                  "properties": {
-                    "@id": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "name": {
-                      "properties": {
-                        "@value": {
-                          "fields": {
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "string",
-                              "analyzer": "simple"
-                            },
-                            "variations": {
-                              "search_analyzer": "title_analyzer",
-                              "type": "string",
-                              "analyzer": "title_analyzer"
-                            },
-                            "@value": {
-                              "type": "string"
-                            }
-                          },
-                          "type": "multi_field"
-                        },
-                        "@language": {
-                          "index": "not_analyzed",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
+                "sameAs": {
+                  "type": "string"
                 },
                 "memberOf": {
                   "properties": {
@@ -12965,9 +12989,6 @@
                       }
                     }
                   }
-                },
-                "sameAs": {
-                  "type": "string"
                 },
                 "email": {
                   "index": "not_analyzed",
