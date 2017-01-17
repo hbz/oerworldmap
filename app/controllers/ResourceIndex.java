@@ -153,6 +153,8 @@ public class ResourceIndex extends OERWorldMap {
       ret.put("language", getLocale().getLanguage());
       if (!StringUtils.isEmpty(select)) {
         ret.put("select", mBaseRepository.getResource(select));
+      } else {
+        ret.put("select", null);
       }
       return ok(ret.toString()).as("application/json");
     }
