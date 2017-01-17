@@ -85,6 +85,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     queryContext.setFetchSource(new String[]{
+      "@id", "@type", "dateCreated", "author", "dateModified",
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",

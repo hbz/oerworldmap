@@ -212,7 +212,7 @@ public class ResourceList {
 
   public boolean containsType(String aType) {
     for (Resource item : items) {
-      if (item.getType().equals(aType)) {
+      if (item.getAsResource("about").getType().equals(aType)) {
         return true;
       }
     }
