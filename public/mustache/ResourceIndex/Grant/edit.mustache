@@ -1,0 +1,51 @@
+<div class="{{#if hidden}}hidden{{/if}}">
+
+{{#property}}
+    <div class="hidden">
+        <legend>Grant</legend>
+        {{input (stringFormat "%s[%s][@type]" property_path @index) "Grant" readonly="readonly"}}
+    </div>
+
+    {{#if this.hasMonetaryValue}}
+        {{> FormElements/input.mustache property=this.hasMonetaryValue property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text" pattern="(\€|\$)\d{1,3}(,\d{3})*(\.\d+)?$"}}
+    {{else}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path @index) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text" pattern="(\€|\$)\d{1,3}(,\d{3})*(\.\d+)?$"}}
+    {{/if}}
+
+    {{#if this.sameAs}}
+        {{> FormElements/input.mustache property=this.sameAs property_path=(stringFormat "%s[%s][sameAs]" property_path @index) title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+    {{else}}
+        {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][sameAs]" property_path @index) title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+    {{/if}}
+
+    {{#if this.isAwardedBy}}
+        {{> FormElements/id.mustache property=this.isAwardedBy property_path=(stringFormat "%s[%s][isAwardedBy]" property_path @index) title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{else}}
+        {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][isAwardedBy]" property_path @index) title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{/if}}
+
+    {{#if this.funds}}
+        {{> FormElements/id.mustache property=this.funds property_path=(stringFormat "%s[%s][funds]" property_path @index) title=(i18n "Grant.funds") tooltip=(i18n "Grant.funds" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+    {{else}}
+        {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][funds]" property_path @index) title=(i18n "Grant.funds") tooltip=(i18n "Grant.funds" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+    {{/if}}
+
+{{/property}}
+
+{{^property}}
+    <div class="hidden">
+        <legend>Grant</legend>
+        {{input (stringFormat "%s[%s][@type]" property_path 0) "Grant" readonly="readonly"}}
+    </div>
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][hasMonetaryValue]" property_path 0) title=(i18n "Grant.hasMonetaryValue") tooltip=(i18n "Grant.hasMonetaryValue" bundle="descriptions") hidden=false multiple=false input_type="text" pattern="(\€|\$)\d{1,3}(,\d{3})*(\.\d+)?$"}}
+
+    {{> FormElements/input.mustache property=false property_path=(stringFormat "%s[%s][sameAs]" property_path 0) title=(i18n "Grant.sameAs") tooltip=(i18n "Grant.sameAs" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+
+    {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][isAwardedBy]" property_path 0) title=(i18n "Grant.isAwardedBy") tooltip=(i18n "Grant.isAwardedBy" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization"}}
+
+    {{> FormElements/id.mustache property=false property_path=(stringFormat "%s[%s][funds]" property_path 0) title=(i18n "Grant.funds") tooltip=(i18n "Grant.funds" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+
+{{/property}}
+
+</div>

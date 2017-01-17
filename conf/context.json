@@ -89,7 +89,10 @@
       "@id": "frapo:funds"
     },
     "Grant": "frapo:Grant",
-    "hasAwardDate": "frapo:hasAwardDate",
+    "hasAwardDate": {
+      "@id": "frapo:hasAwardDate",
+      "@type" : "Date"
+    },
     "hasMonetaryValue": "frapo:hasMonetaryValue",
     "hasPart": {
       "@id": "dcterms:hasPart",

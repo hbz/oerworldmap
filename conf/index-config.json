@@ -377,6 +377,10 @@
                     }
                   }
                 },
+                "url": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
                 "attends": {
                   "properties": {
                     "@id": {
@@ -441,9 +445,9 @@
                     }
                   }
                 },
-                "url": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participantIn": {
                   "properties": {
@@ -612,8 +616,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -1511,8 +1515,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "mentions": {
                   "properties": {
@@ -1642,8 +1646,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -2160,8 +2164,8 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -2622,8 +2626,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participant": {
                   "properties": {
@@ -2723,6 +2727,44 @@
                           "type": "string"
                         },
                         "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "isPartOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
                           "index": "not_analyzed",
                           "type": "string"
                         }
@@ -3911,8 +3953,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "funderOf": {
                   "properties": {
@@ -4029,6 +4071,44 @@
                   }
                 },
                 "member": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "hasPart": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -4247,6 +4327,44 @@
                     }
                   }
                 },
+                "mentionedIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "awards": {
                   "properties": {
                     "funds": {
@@ -4254,6 +4372,36 @@
                         "@id": {
                           "index": "not_analyzed",
                           "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "name": {
+                          "properties": {
+                            "@value": {
+                              "fields": {
+                                "simple_tokenized": {
+                                  "search_analyzer": "standard",
+                                  "type": "string",
+                                  "analyzer": "simple"
+                                },
+                                "variations": {
+                                  "search_analyzer": "title_analyzer",
+                                  "type": "string",
+                                  "analyzer": "title_analyzer"
+                                },
+                                "@value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "@language": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     },
@@ -4300,6 +4448,10 @@
                       "type": "string"
                     }
                   }
+                },
+                "startTime": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
                 "alternateName": {
                   "properties": {
@@ -4437,6 +4589,44 @@
                     }
                   }
                 },
+                "participantIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "affiliate": {
                   "properties": {
                     "@id": {
@@ -4521,7 +4711,7 @@
             },
             "funderOf": {
               "properties": {
-                "participant": {
+                "organizerFor": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -4585,7 +4775,10 @@
                     }
                   }
                 },
-                "organizerFor": {
+                "sameAs": {
+                  "type": "string"
+                },
+                "hasPart": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -4665,6 +4858,10 @@
                     }
                   }
                 },
+                "url": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
                 "agent": {
                   "properties": {
                     "@id": {
@@ -4707,12 +4904,47 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "sameAs": {
-                  "type": "string"
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
-                "url": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "participant": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "affiliate": {
                   "properties": {
@@ -4793,9 +5025,43 @@
                   "type": "date",
                   "format": "dateOptionalTime"
                 },
-                "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "isPartOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "funder": {
                   "properties": {
@@ -5175,7 +5441,7 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "agentIn": {
+                "affiliation": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -5214,8 +5480,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -5474,7 +5740,7 @@
                     }
                   }
                 },
-                "affiliation": {
+                "organizerFor": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -5513,6 +5779,44 @@
                   }
                 },
                 "mentionedIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "agentIn": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -5823,6 +6127,44 @@
                     }
                   }
                 },
+                "affiliate": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "@type": {
                   "index": "not_analyzed",
                   "type": "string"
@@ -5970,6 +6312,48 @@
                 "countryChampionFor": {
                   "type": "string"
                 },
+                "url": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "attends": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "location": {
                   "properties": {
                     "geo": {
@@ -6011,9 +6395,9 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "url": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participantIn": {
                   "properties": {
@@ -6189,8 +6573,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "availableChannel": {
                   "properties": {
@@ -6957,8 +7341,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -7612,6 +7996,217 @@
             },
             "hasPart": {
               "properties": {
+                "participant": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "description": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "url": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "agent": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
+                },
+                "affiliate": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "startTime": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
                 "isPartOf": {
                   "properties": {
                     "@id": {
@@ -7650,15 +8245,45 @@
                     }
                   }
                 },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "funder": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "name": {
+                "alternateName": {
                   "properties": {
                     "@value": {
                       "fields": {
@@ -7683,6 +8308,18 @@
                       "type": "string"
                     }
                   }
+                },
+                "endTime": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "isFundedBy": {
                   "properties": {
@@ -7734,11 +8371,10 @@
             },
             "attends": {
               "properties": {
-                "startDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
+                "inLanguage": {
+                  "type": "string"
                 },
-                "attendee": {
+                "about": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -7844,15 +8480,21 @@
                     }
                   }
                 },
-                "url": {
-                  "index": "not_analyzed",
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
+                "sameAs": {
                   "type": "string"
                 },
                 "image": {
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "about": {
+                "recordedIn": {
+                  "type": "string"
+                },
+                "attendee": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -7890,6 +8532,14 @@
                     }
                   }
                 },
+                "email": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "url": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
                 "location": {
                   "properties": {
                     "geo": {
@@ -7920,6 +8570,44 @@
                   }
                 },
                 "hashtag": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
+                },
+                "alternateName": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
                   "index": "not_analyzed",
                   "type": "string"
                 },
@@ -7960,14 +8648,6 @@
                       }
                     }
                   }
-                },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
                 },
                 "name": {
                   "properties": {
@@ -8043,6 +8723,10 @@
                   "type": "date",
                   "format": "dateOptionalTime"
                 },
+                "endDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
                 "sameAs": {
                   "type": "string"
                 },
@@ -8092,8 +8776,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "licenseConcept": {
                   "properties": {
@@ -8642,8 +9326,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -8754,10 +9438,7 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string",
-                      "copy_to": [
-                        "about.location.@type"
-                      ]
+                      "type": "string"
                     },
                     "address": {
                       "properties": {
@@ -8769,17 +9450,11 @@
                         },
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.addressCountry"
-                          ]
+                          "type": "string"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.addressRegion"
-                          ]
+                          "type": "string"
                         },
                         "streetAddress": {
                           "type": "string",
@@ -8789,17 +9464,11 @@
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.postalCode"
-                          ]
+                          "type": "string"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string",
-                          "copy_to": [
-                            "about.location.address.@type"
-                          ]
+                          "type": "string"
                         }
                       }
                     }
@@ -9358,6 +10027,9 @@
                     }
                   }
                 },
+                "sameAs": {
+                  "type": "string"
+                },
                 "hasPart": {
                   "properties": {
                     "@id": {
@@ -9476,16 +10148,89 @@
                     }
                   }
                 },
-                "@type": {
+                "email": {
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "sameAs": {
-                  "type": "string"
+                "organizerFor": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "url": {
                   "index": "not_analyzed",
                   "type": "string"
+                },
+                "affiliate": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "location": {
                   "properties": {
@@ -9518,8 +10263,46 @@
                   "format": "dateOptionalTime"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
+                },
+                "funder": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "alternateName": {
                   "properties": {
@@ -9555,7 +10338,7 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "email": {
+                "@type": {
                   "index": "not_analyzed",
                   "type": "string"
                 },
@@ -9719,7 +10502,7 @@
                     }
                   }
                 },
-                "name": {
+                "description": {
                   "properties": {
                     "@value": {
                       "fields": {
@@ -9783,6 +10566,25 @@
                     }
                   }
                 },
+                "authorOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "sameAs": {
+                  "type": "string"
+                },
+                "email": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
                 "affiliation": {
                   "properties": {
                     "@id": {
@@ -9820,6 +10622,13 @@
                       }
                     }
                   }
+                },
+                "countryChampionFor": {
+                  "type": "string"
+                },
+                "url": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "attends": {
                   "properties": {
@@ -9859,6 +10668,43 @@
                     }
                   }
                 },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
+                },
                 "@id": {
                   "index": "not_analyzed",
                   "type": "string"
@@ -9866,6 +10712,32 @@
                 "@type": {
                   "index": "not_analyzed",
                   "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
                 }
               }
             },
@@ -10117,8 +10989,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -10262,6 +11134,9 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
+                "telephone": {
+                  "type": "string"
+                },
                 "agent": {
                   "properties": {
                     "@id": {
@@ -10339,8 +11214,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "alternateName": {
                   "properties": {
@@ -10365,6 +11240,44 @@
                     "@language": {
                       "index": "not_analyzed",
                       "type": "string"
+                    }
+                  }
+                },
+                "funderOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 },
@@ -10418,6 +11331,44 @@
                   }
                 },
                 "member": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "organizerFor": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -10568,6 +11519,44 @@
                     }
                   }
                 },
+                "isPartOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "email": {
                   "index": "not_analyzed",
                   "type": "string"
@@ -10598,7 +11587,7 @@
                     }
                   }
                 },
-                "organizerFor": {
+                "hasPart": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -10717,6 +11706,139 @@
                         }
                       }
                     },
+                    "hasMonetaryValue": {
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "isAwardedBy": {
+                      "properties": {
+                        "@id": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "name": {
+                          "properties": {
+                            "@value": {
+                              "fields": {
+                                "simple_tokenized": {
+                                  "search_analyzer": "standard",
+                                  "type": "string",
+                                  "analyzer": "simple"
+                                },
+                                "variations": {
+                                  "search_analyzer": "title_analyzer",
+                                  "type": "string",
+                                  "analyzer": "title_analyzer"
+                                },
+                                "@value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "@language": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "startTime": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
+                "contactPoint": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "isFundedBy": {
+                  "properties": {
+                    "funds": {
+                      "properties": {
+                        "@id": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "name": {
+                          "properties": {
+                            "@value": {
+                              "fields": {
+                                "simple_tokenized": {
+                                  "search_analyzer": "standard",
+                                  "type": "string",
+                                  "analyzer": "simple"
+                                },
+                                "variations": {
+                                  "search_analyzer": "title_analyzer",
+                                  "type": "string",
+                                  "analyzer": "title_analyzer"
+                                },
+                                "@value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "@language": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
                     "isAwardedBy": {
                       "properties": {
                         "@id": {
@@ -10760,48 +11882,6 @@
                       "type": "string"
                     }
                   }
-                },
-                "contactPoint": {
-                  "properties": {
-                    "@id": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "name": {
-                      "properties": {
-                        "@value": {
-                          "fields": {
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "string",
-                              "analyzer": "simple"
-                            },
-                            "variations": {
-                              "search_analyzer": "title_analyzer",
-                              "type": "string",
-                              "analyzer": "title_analyzer"
-                            },
-                            "@value": {
-                              "type": "string"
-                            }
-                          },
-                          "type": "multi_field"
-                        },
-                        "@language": {
-                          "index": "not_analyzed",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
                 },
                 "about": {
                   "properties": {
@@ -10868,6 +11948,44 @@
                   }
                 },
                 "license": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "created": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -11099,6 +12217,10 @@
                     }
                   }
                 },
+                "endTime": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
                 "@type": {
                   "index": "not_analyzed",
                   "type": "string"
@@ -11275,14 +12397,18 @@
                         "postalCode": {
                           "index": "not_analyzed",
                           "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
                         }
                       }
                     }
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "mentions": {
                   "properties": {
@@ -11518,8 +12644,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "hasMonetaryValue": {
                   "type": "string"
@@ -11913,6 +13039,44 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
+                "attends": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "location": {
                   "properties": {
                     "geo": {
@@ -11947,8 +13111,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participantIn": {
                   "properties": {
@@ -12178,8 +13342,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "hasMonetaryValue": {
                   "type": "string"
@@ -12859,8 +14023,8 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -13014,8 +14178,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "mentions": {
                   "properties": {
@@ -13167,8 +14331,8 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -13374,8 +14538,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "licenseConcept": {
                   "properties": {
@@ -13870,8 +15034,8 @@
                       }
                     },
                     "keywords": {
-                      "index": "not_analyzed",
-                      "type": "string"
+                      "type": "string",
+                      "analyzer": "keywords_analyzer"
                     },
                     "hasMonetaryValue": {
                       "type": "string"
@@ -14358,7 +15522,7 @@
             },
             "participantIn": {
               "properties": {
-                "participant": {
+                "organizerFor": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -14493,6 +15657,44 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
+                "participant": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "agent": {
                   "properties": {
                     "@id": {
@@ -14535,43 +15737,9 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
-                "organizerFor": {
-                  "properties": {
-                    "@id": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "name": {
-                      "properties": {
-                        "@value": {
-                          "fields": {
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "string",
-                              "analyzer": "simple"
-                            },
-                            "variations": {
-                              "search_analyzer": "title_analyzer",
-                              "type": "string",
-                              "analyzer": "title_analyzer"
-                            },
-                            "@value": {
-                              "type": "string"
-                            }
-                          },
-                          "type": "multi_field"
-                        },
-                        "@language": {
-                          "index": "not_analyzed",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
+                "keywords": {
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "url": {
                   "index": "not_analyzed",
@@ -14656,9 +15824,43 @@
                   "type": "date",
                   "format": "dateOptionalTime"
                 },
-                "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "isPartOf": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 },
                 "funder": {
                   "properties": {
@@ -14919,6 +16121,44 @@
             "affiliate": {
               "properties": {
                 "performerIn": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "mentionedIn": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -15232,8 +16472,8 @@
                   "type": "string"
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "participantIn": {
                   "properties": {
@@ -15310,8 +16550,8 @@
               }
             },
             "keywords": {
-              "index": "not_analyzed",
-              "type": "string"
+              "type": "string",
+              "analyzer": "keywords_analyzer"
             },
             "telephone": {
               "type": "string"
@@ -15615,6 +16855,44 @@
                     }
                   }
                 },
+                "hasPart": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "location": {
                   "properties": {
                     "geo": {
@@ -15735,6 +17013,44 @@
                 "serviceType": {
                   "type": "string"
                 },
+                "organizerFor": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "description": {
                   "properties": {
                     "@value": {
@@ -15761,7 +17077,7 @@
                     }
                   }
                 },
-                "hasPart": {
+                "affiliation": {
                   "properties": {
                     "@id": {
                       "index": "not_analyzed",
@@ -16517,8 +17833,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "isAwardedBy": {
                   "properties": {
@@ -16869,6 +18185,44 @@
                   "index": "not_analyzed",
                   "type": "string"
                 },
+                "affiliate": {
+                  "properties": {
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "location": {
                   "properties": {
                     "geo": {
@@ -16945,8 +18299,8 @@
                   }
                 },
                 "keywords": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                  "type": "string",
+                  "analyzer": "keywords_analyzer"
                 },
                 "contactPoint": {
                   "properties": {
@@ -17127,6 +18481,9 @@
           "type": "date",
           "format": "dateOptionalTime"
         }
+      },
+      "transform": {
+        "script": "\n            if (!ctx._source['about']['location']) {\n\n                ctx._source['about']['location'] = [];\n\n                if (ctx._source['about']['provider'] && ctx._source['about']['provider']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['provider']['location'];\n\n                if (ctx._source['about']['agent'] && ctx._source['about']['agent']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['agent']['location'];\n\n                if (ctx._source['about']['participant'] && ctx._source['about']['participant']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['participant']['location'];\n\n                if (ctx._source['about']['member'] && ctx._source['about']['member']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['member']['location'];\n\n                if (ctx._source['about']['mentions'] && ctx._source['about']['mentions']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['mentions']['location'];\n            };\n        "
       }
     }
   },
@@ -17155,6 +18512,10 @@
         }
       },
       "analyzer": {
+        "keywords_analyzer": {
+          "filter": "lowercase",
+          "tokenizer": "keyword"
+        },
         "title_analyzer": {
           "filter": [
             "title_filter",

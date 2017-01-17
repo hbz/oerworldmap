@@ -527,4 +527,10 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
+  public Result label(String aId) {
+
+    return ok(mBaseRepository.label(aId));
+
+  }
+
 }

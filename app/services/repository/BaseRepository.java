@@ -323,6 +323,12 @@ public class BaseRepository extends Repository
 
   }
 
+  public String label(String aId) {
+
+    return mTriplestoreRepository.label(aId);
+
+  }
+
   private void index(Commit.Diff aDiff) {
 
     if (mAsyncIndexing) {
