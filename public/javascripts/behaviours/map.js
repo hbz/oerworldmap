@@ -615,32 +615,9 @@ var Hijax = (function ($, Hijax) {
 
       } else if(dataFocus == '') {
 
-        // set center to user and zoom to initial again ...
-
-        if ( navigator.geolocation ) {
-          var got_user_location = new $.Deferred();
-          navigator.geolocation.getCurrentPosition(function(position) {
-
-            log.debug('MAP setBoundingBox – set center to user position');
-            var lon = position.coords.longitude;
-            var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
-            center[1] = defaultCenter[1];
-            world.getView().setCenter(center);
-            got_user_location.resolve();
-
-          }, function(err){
-
-            log.debug('MAP setBoundingBox – set center to default');
-            world.getView().setCenter(defaultCenter);
-            got_user_location.resolve();
-
-          });
-        } else {
-
-          log.debug('MAP setBoundingBox – set center to default');
-          world.getView().setCenter(defaultCenter);
-
-        }
+        // TODO: set center to user and zoom to initial again ...
+        log.debug('MAP setBoundingBox – set center to user', window.user_location);
+        world.getView().setCenter(defaultCenter);
 
         // Get zoom values adapted to map size
         log.debug('MAP setBoundingBox – set zoom to initial');

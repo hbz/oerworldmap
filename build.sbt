@@ -24,7 +24,8 @@ libraryDependencies ++= Seq(
   "org.apache.jena" % "apache-jena-libs" % "3.1.0",
   "io.apigee.trireme" % "trireme-kernel" % "0.8.9",
   "io.apigee.trireme" % "trireme-core" % "0.8.9",
-  "io.apigee.trireme" % "trireme-node10src" % "0.8.9"
+  "io.apigee.trireme" % "trireme-node10src" % "0.8.9",
+  "com.maxmind.geoip2" % "geoip2" % "2.8.0"
 )
 
 PlayKeys.playRunHooks += Grunt(baseDirectory.value)
