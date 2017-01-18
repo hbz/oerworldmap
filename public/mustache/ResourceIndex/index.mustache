@@ -155,12 +155,21 @@
                 {{#buckets}}
                     <li>
                         <label class="resource-filter">
-                            {{#ifIn [@key] key scope.resources.filters}}
-                                <input type="checkbox" checked class="filter" name="filter.{{../[@key]}}" value="{{key}}">
+                            {{#unless key_as_string}}
+                                {{#ifIn [@key] key scope.resources.filters}}
+                                    <input type="checkbox" checked class="filter" name="filter.{{../[@key]}}" value="{{key}}">
+                                {{ else }}
+                                    <input type="checkbox" class="filter" name="filter.{{../[@key]}}" value="{{key}}">
+                                {{/ifIn}}
+                                <span class="label">{{i18n key bundle=(getBundle (getField ../[@key]))}}</span> ({{doc_count}})
                             {{ else }}
-                                <input type="checkbox" class="filter" name="filter.{{../[@key]}}" value="{{key}}">
-                            {{/ifIn}}
-                            <span class="label">{{i18n key bundle=(getBundle (getField ../[@key]))}}</span> ({{doc_count}})
+                                {{#ifIn [@key] key_as_string scope.resources.filters}}
+                                    <input type="checkbox" checked class="filter" name="filter.{{../[@key]}}" value="{{key_as_string}}">
+                                {{ else }}
+                                    <input type="checkbox" class="filter" name="filter.{{../[@key]}}" value="{{key_as_string}}">
+                                {{/ifIn}}
+                                <span class="label">{{key_as_string}}</span> ({{doc_count}})
+                            {{/unless}}
                         </label>
                     </li>
                 {{/buckets}}

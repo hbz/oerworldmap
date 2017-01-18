@@ -4,7 +4,7 @@
         {{json scope.resources.member}}
     </script>
 
-    {{#each scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}
+    {{#each scope.resources.aggregations.[about.startDate.GTE].buckets}}
         {{#if [about.@id].hits.hits}}
 
             <li>
