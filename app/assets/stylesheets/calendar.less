@@ -12,6 +12,7 @@ ul.calendar {
 
     li {
       border-top: 1px solid @blue-paler;
+      padding: 0.6em 0;
       clear: both;
 
       &:last-child {
@@ -24,7 +25,7 @@ ul.calendar {
 
         .sheet {
           float: left;
-          margin: 0.6em 0.6em 0.6em 0;
+          margin: 0 0.6em 0 0;
           border: 1px solid @blue-darker;
           border-radius: @border-radius-base;
           padding: 0.1em 0;
@@ -42,13 +43,17 @@ ul.calendar {
           }
         }
 
-        .name {
-          margin-top: 0.5em;
-          margin-bottom: 0.25em;
-        }
+        .right {
+          margin-left: 40px;
 
-        .date-location {
-          .small();
+          .name {
+            margin-top: -0.15em;
+            margin-bottom: 0.25em;
+          }
+
+          .date-location {
+            .small();
+          }
         }
 
         &:hover .sheet {

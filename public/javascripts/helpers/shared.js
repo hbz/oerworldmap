@@ -606,7 +606,7 @@ Handlebars.registerHelper('exportUrl', function (type, url, extension) {
 });
 
 
-Handlebars.registerHelper('location', function (format, location) {
+Handlebars.registerHelper('formatLocation', function (format, location, prefix) {
 
   if(format == 'city_country') {
     var elements = [];
@@ -624,7 +624,27 @@ Handlebars.registerHelper('location', function (format, location) {
       );
     }
 
-    return elements.join(', ');
+    if(elements.length) {
+      return prefix + elements.join(', ');
+    }
+
+    return "";
+  }
+
+});
+
+
+Handlebars.registerHelper('showCalendar', function (scope, options) {
+
+  var filters = scope.resources.filters;
+
+  if(
+    filters["about.@type"] &&
+    filters["about.@type"][0] == "Event"
+  ) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
   }
 
 });
