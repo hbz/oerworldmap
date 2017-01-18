@@ -20,15 +20,18 @@
                                         <div class="day">{{moment startDate "D"}}</div>
                                         <div class="weekday">{{moment startDate "ddd"}}</div>
                                     </div>
-                                    <div class="name">
-                                        {{#localized name language=@root.language}}
-                                            {{[@value]}}
-                                        {{else}}
-                                            {{[@id]}}
-                                        {{/localized}}
-                                    </div>
-                                    <div class="date-location">
-                                        {{daterange startDate endDate}} &mdash; {{location "city_country" location}}
+                                    <div class="right">
+                                        <div class="name">
+                                            {{#localized name language=@root.language}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        </div>
+                                        <div class="date-location">
+                                            {{daterange startDate endDate}} {{formatLocation "city_country" location "— "}}
+                                            {{! the dash is a &mdash; ... not in markup, because helper knows best, if there is going to be something to seperate}}
+                                        </div>
                                     </div>
                                 </a>
                             </li>
