@@ -632,3 +632,19 @@ Handlebars.registerHelper('formatLocation', function (format, location, prefix) 
   }
 
 });
+
+
+Handlebars.registerHelper('showCalendar', function (scope, options) {
+
+  var filters = scope.resources.filters;
+
+  if(
+    filters["about.@type"] &&
+    filters["about.@type"][0] == "Event"
+  ) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+
+});

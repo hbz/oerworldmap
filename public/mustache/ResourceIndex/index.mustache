@@ -231,7 +231,7 @@
 
     <div>
 
-        {{#if scope.resources.aggregations.calendar.buckets}}
+        {{#showCalendar scope}}
 
             {{>ResourceIndex/calendar.mustache}}
 
@@ -239,7 +239,7 @@
 
             {{>ResourceIndex/list.mustache}}
 
-        {{/if}}
+        {{/showCalendar}}
 
     </div>
 
