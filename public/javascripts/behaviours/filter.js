@@ -418,15 +418,6 @@ var Hijax = (function ($, Hijax, page) {
           var checkbox = $(container).find('[name="filter.about.@type"][value="' + $(this).data('filter-value') + '"]');
           checkbox.prop("checked", active);
 
-          if($(this).data('filter-value') == 'Event') {
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            var date = yyyy + '-' + mm + '-' + dd;
-            $('[name="q"]').val( $('[name="q"]').val() + ' ' + 'about.startDate:[' + date + ' TO *]')
-          }
-
           $('#form-resource-filter').submit();
         });
 
