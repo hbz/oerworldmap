@@ -359,22 +359,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
 
     if (!(null == aFilters)) {
-      Pattern rangeFilterPattern = Pattern.compile("^.*(\\[(.*)\\])$");
       BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
       for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
         BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
         String filterName = entry.getKey();
         for (String filterValue : entry.getValue()) {
-          Matcher rangeFilterMatcher = rangeFilterPattern.matcher(filterName);
-          if (rangeFilterMatcher.matches()) {
-            filterName = filterName.substring(0, filterName.length()-rangeFilterMatcher.group(1).length());
-            switch (rangeFilterMatcher.group(2)) {
-              case "gte":
-                orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
-                break;
-              default:
-                Logger.warn("Unsupported range query: ".concat(rangeFilterMatcher.group(2)));
-            }
+          if (filterName.endsWith(".GTE")) {
+            filterName = filterName.substring(0, filterName.length()-".GTE".length());
+            orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
           } else {
             // This could also be 'must' queries, allowing to narrow down the result list
             orFilterBuilder.should(QueryBuilders.termQuery(filterName, filterValue));
