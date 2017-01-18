@@ -362,7 +362,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
         for (String filter : entry.getValue()) {
           // This could also be 'must' queries, allowing to narrow down the result list
-          orFilterBuilder.should(QueryBuilders.termQuery(entry.getKey(), filter));
+          if (!StringUtils.isEmpty(filter)) {
+            orFilterBuilder.should(QueryBuilders.termQuery(entry.getKey(), filter));
+          }
         }
         aggregationAndFilter.must(orFilterBuilder);
       }
