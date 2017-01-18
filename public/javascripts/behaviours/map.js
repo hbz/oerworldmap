@@ -615,27 +615,29 @@ var Hijax = (function ($, Hijax) {
 
       } else if(dataFocus == '') {
 
-        // TODO: set center to user and zoom to initial again ...
-        log.debug('MAP setBoundingBox – set center to user', window.user_location);
-        world.getView().setCenter(defaultCenter);
+        // set center to user and zoom to initial again ...
+
+        log.debug('MAP setBoundingBox – set center to user:', window.user_location);
+
+        var country_extent = countryVectorSource
+          .getFeatureById( window.user_location )
+          .getGeometry()
+          .getExtent();
+        var country_center_x = country_extent[0] + (country_extent[2] - country_extent[0]) / 2;
+        var center = [country_center_x, defaultCenter[1]]
+        world.getView().setCenter(center);
 
         // Get zoom values adapted to map size
+
         log.debug('MAP setBoundingBox – set zoom to initial');
+
         var zoom_values = getZoomValues();
         world.getView().setZoom(zoom_values.initialZoom);
 
-        currentCenter = defaultCenter;
+        currentCenter = center;
       }
 
-      if(typeof got_user_location !== 'undefined') {
-        got_user_location.done(function(){
-          // restrictListToExtent();
-          layouted.resolve();
-        })
-      } else {
-        // restrictListToExtent();
-        layouted.resolve();
-      }
+      layouted.resolve();
     }
   }
 
