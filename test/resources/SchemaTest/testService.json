@@ -145,18 +145,6 @@
       ]
     }
   ],
-  "mainEntityOf": [
-    {
-      "@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Ztory"
-        }
-      ]
-    }
-  ],
   "instrumentIn": [
     {
       "@id": "urn:uuid:e8cd9900-3b79-11e5-bd3d-54ee7558c81f",

@@ -53,6 +53,7 @@ import services.AccountService;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
+import services.repository.ElasticsearchRepository;
 
 import javax.inject.Inject;
 
@@ -72,7 +73,7 @@ public abstract class OERWorldMap extends Controller {
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
       try {
-        mBaseRepository = new BaseRepository(aConf.underlying());
+        mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
       } catch (final Exception ex) {
         throw new RuntimeException("Failed to create Respository", ex);
       }

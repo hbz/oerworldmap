@@ -440,6 +440,7 @@ var Hijax = (function ($, Hijax, page) {
     },
 
     initialized : new $.Deferred(),
+    attached : []
 
   };
 

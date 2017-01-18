@@ -1,0 +1,53 @@
+{
+  "image" : "https://www.bibb.de/system/layout/logo.png",
+  "keywords" : [ "berufliche Bildung", "vocational education and training", "TVET" ],
+  "@type" : "Organization",
+  "name" : [ {
+    "@value" : "Bundesinstitut fÃ¼r Berufsbildung",
+    "@language" : "de"
+  }, {
+    "@value" : "Federal Institute for Vocational Education and Training",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "##Kompetenzzentrum zur Erforschung und Weiterentwicklung der Berufsbildung\r\n\r\nDas Bundesinstitut fÃ¼r Berufsbildung (BIBB) ist das anerkannte Kompetenzzentrum zur Erforschung und Weiterentwicklung der beruflichen Aus- und Weiterbildung in Deutschland. Das BIBB identifiziert Zukunftsaufgaben der Berufsbildung, fÃ¶rdert Innovationen in der nationalen wie internationalen Berufsbildung und entwickelt neue, praxisorientierte LÃ¶sungsvorschlÃ¤ge fÃ¼r die berufliche Aus- und Weiterbildung.",
+    "@language" : "de"
+  }, {
+    "@value" : "##Federal Institute for Vocational Education and Training (BIBB)\r\n\r\nThe Federal Institute for Vocational Education and Training (BIBB) is recognized as a center of excellence for vocational research and for the progressive development of vocational education and training (VET) in Germany.\r\nBIBB works to identify future challenges in VET, stimulate innovation in national and international vocational systems, and develop new, practiceoriented solutions for both initial and continuing vocational education and training.",
+    "@language" : "en"
+  } ],
+  "alternateName" : [ {
+    "@value" : "BIBB",
+    "@language" : "de"
+  } ],
+  "comment" : [ {
+    "dateCreated" : "2016-12-19T09:14:51.52+01:00",
+    "@type" : "Comment",
+    "author" : [ {
+      "@type" : "Person",
+      "name" : [ {
+        "@value" : "Jan Neumann",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+    } ],
+    "@id" : "urn:uuid:a2b7e63a-bf14-4e74-a3ad-6ae3cde0024f"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 7.138207718089687,
+      "lat" : 50.706490785412115
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "streetAddress" : "Robert-Schuman-Platz 3  ",
+      "postalCode" : 53175,
+      "addressLocality" : "Bonn",
+      "addressRegion" : "DE.NW"
+    }
+  },
+  "@id" : "urn:uuid:efdeb7a5-4975-4ac0-b55b-00b9b371b579",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "email" : "zentrale@bibb.de",
+  "url" : "https://www.bibb.de"
+}

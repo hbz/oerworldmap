@@ -19,12 +19,12 @@ var Hijax = (function ($, Hijax) {
 
           // create fieldset template
 
-          var multiple_one_template = Handlebars.compile(
-            widget.find('.multiple-one').last()[0].outerHTML.replace(
-              /\[\d+\]/g,
-              '[{{index}}]'
-            )
-          );
+          var multiple_one_html = $(widget.find('.multiple-one').last()[0].outerHTML);
+          multiple_one_html.find('input').each(function() {
+            this.setAttribute('name', this.getAttribute('name').replace(/\[\d+\]$/g, '[{{index}}]'));
+            this.setAttribute('id', this.getAttribute('id').replace(/\[\d+\]$/g, '[{{index}}]'));
+          });
+          var multiple_one_template = Handlebars.compile(multiple_one_html[0].outerHTML);
 
           // if more than one, remove the last one
 
@@ -71,8 +71,9 @@ var Hijax = (function ($, Hijax) {
 
       $(one).append(value_input);
 
-    }
+    },
 
+    attached : []
   };
 
   Hijax.behaviours.input = my;
