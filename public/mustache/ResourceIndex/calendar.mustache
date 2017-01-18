@@ -5,39 +5,41 @@
     </script>
 
     {{#each scope.resources.aggregations.calendar.buckets.[0].[about.startDate].buckets}}
+        {{#if [about.@id].hits.hits}}
 
-        <li>
-            <h4 class="month">{{moment key_as_string "MMMM YYYY"}}</h4>
-            <ul class="days">
+            <li>
+                <h4 class="month">{{moment key_as_string "MMMM YYYY"}}</h4>
+                <ul class="days">
 
-                {{#each [about.@id].hits.hits}}
-                    {{#_source.about}}
+                    {{#each [about.@id].hits.hits}}
+                        {{#_source.about}}
 
-                        <li about="{{[@id]}}">
-                            <a href="/resource/{{[@id]}}">
-                                <div class="sheet">
-                                    <div class="day">{{moment startDate "D"}}</div>
-                                    <div class="weekday">{{moment startDate "ddd"}}</div>
-                                </div>
-                                <div class="name">
-                                    {{#localized name language=@root.language}}
-                                        {{[@value]}}
-                                    {{else}}
-                                        {{[@id]}}
-                                    {{/localized}}
-                                </div>
-                                <div class="date-location">
-                                    {{daterange startDate endDate}} &mdash; {{location "city_country" location}}
-                                </div>
-                            </a>
-                        </li>
+                            <li about="{{[@id]}}">
+                                <a href="/resource/{{[@id]}}">
+                                    <div class="sheet">
+                                        <div class="day">{{moment startDate "D"}}</div>
+                                        <div class="weekday">{{moment startDate "ddd"}}</div>
+                                    </div>
+                                    <div class="name">
+                                        {{#localized name language=@root.language}}
+                                            {{[@value]}}
+                                        {{else}}
+                                            {{[@id]}}
+                                        {{/localized}}
+                                    </div>
+                                    <div class="date-location">
+                                        {{daterange startDate endDate}} &mdash; {{location "city_country" location}}
+                                    </div>
+                                </a>
+                            </li>
 
-                    {{/_source.about}}
-                {{/each}}
+                        {{/_source.about}}
+                    {{/each}}
 
-            </ul>
-        </li>
+                </ul>
+            </li>
 
+        {{/if}}
     {{/each}}
 
 </ul>
