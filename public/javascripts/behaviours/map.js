@@ -1168,9 +1168,9 @@ var Hijax = (function ($, Hijax) {
 
         var container = $(this);
 
-        // var checked = $('#app-col-index').attr('data-col-mode') == 'list' ? 'checked="checked"' : '';
-        var checked = 'checked="checked"';
+        var checked = sessionStorage.getItem('geoFilteredList') == 'true' ? 'checked="checked"' : '';
         var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
+          sessionStorage.setItem('geoFilteredList', this.checked);
           restrictListToExtent();
         });
 

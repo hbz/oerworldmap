@@ -116,8 +116,8 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder<?> getFunderAggregation(int aSize) {
-    return AggregationBuilders.terms("about.funder.@id").size(aSize)
-      .field("about.funder.@id");
+    return AggregationBuilders.terms("about.isFundedBy.isAwardedBy.@id").size(aSize)
+      .field("about.isFundedBy.isAwardedBy.@id");
   }
 
 }
