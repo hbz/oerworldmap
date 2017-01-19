@@ -8,6 +8,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
+import models.Commit;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -367,6 +368,19 @@ public class ResourceIndex extends OERWorldMap {
     alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
     if (resource.getType().equals("Event")) {
       alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+    }
+
+    List<Commit> history = mBaseRepository.log(id);
+    resource = new Record(resource);
+    resource.put(Record.AUTHOR, history.get(0).getHeader().getAuthor());
+    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    if (history.size() == 1) {
+      resource.put(Record.DATE_CREATED, history.get(0).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    } else {
+      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     }
 
     Map<String, Object> scope = new HashMap<>();
