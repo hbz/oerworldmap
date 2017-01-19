@@ -56,8 +56,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
-  public static final String CONCISE_BOUNDED_DESCRIPTIONS = "DESCRIBE ?s WHERE { ?s a ?o . FILTER (%1$s) }";
-
   public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> ?p ?o FILTER isIRI(?o) }";
 
   public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
@@ -258,30 +256,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return extendedDescription;
-
-  }
-
-  private Model getConciseBoundedDescriptions(@Nonnull List<String> aIds, @Nonnull Model aModel) {
-
-    String filter = String.join(" || ", aIds.stream().map(id -> "?s = <".concat(id).concat(">"))
-        .collect(Collectors.toSet()));
-
-    String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTIONS, filter);
-    Model conciseBoundedDescriptions = ModelFactory.createDefaultModel();
-
-    conciseBoundedDescriptions.enterCriticalSection(Lock.WRITE);
-    aModel.enterCriticalSection(Lock.READ);
-
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
-        queryExecution.execDescribe(conciseBoundedDescriptions);
-      }
-    } finally {
-      aModel.leaveCriticalSection();
-      conciseBoundedDescriptions.leaveCriticalSection();
-    }
-
-    return conciseBoundedDescriptions;
 
   }
 
