@@ -524,6 +524,17 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
+  @Test
+  public void testSearchByEducationClassification() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() == 1);
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
