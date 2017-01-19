@@ -1,7 +1,10 @@
 <div class="">
 
     {{#scope}}
-        <p>Created {{resource.dateCreated}} by {{resource.author}}, last modified {{resource.dateModified}}</p>
+        <small>
+            Created {{resource.dateCreated}} by {{resource.author}},
+            last modified {{resource.dateModified}} by {{resource.contributor}}
+        </small>
 
         {{#resource.about}}
 

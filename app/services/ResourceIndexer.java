@@ -230,7 +230,10 @@ public class ResourceIndexer {
         Map<String, String> metadata = new HashMap<>();
         if (mGraphHistory != null) {
           List<Commit> history = mGraphHistory.log(aResource.getId());
-          metadata = history.get(0).getHeader().toMap();
+          metadata.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+          metadata.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+          metadata.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+            .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
           metadata.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }

@@ -86,7 +86,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     queryContext.setFetchSource(new String[]{
-      "@id", "@type", "dateCreated", "author", "dateModified",
+      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
@@ -372,16 +372,13 @@ public class ResourceIndex extends OERWorldMap {
 
     List<Commit> history = mBaseRepository.log(id);
     resource = new Record(resource);
-    resource.put(Record.AUTHOR, history.get(0).getHeader().getAuthor());
+    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
     resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    if (history.size() == 1) {
-      resource.put(Record.DATE_CREATED, history.get(0).getHeader().getTimestamp()
-        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    } else {
-      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
-        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    }
+    resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
