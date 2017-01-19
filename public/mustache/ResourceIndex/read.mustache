@@ -1,8 +1,9 @@
 <div class="">
 
     {{#scope}}
+        <p>Created {{resource.dateCreated}} by {{resource.author}}, last modified {{resource.dateModified}}</p>
 
-        {{#resource}}
+        {{#resource.about}}
 
             <ul class="resource-controls">
 
@@ -758,7 +759,7 @@
 
             </div>
 
-        {{/resource}}
+        {{/resource.about}}
 
     {{/scope}}
 
