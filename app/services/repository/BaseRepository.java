@@ -162,41 +162,6 @@ public class BaseRepository extends Repository
   }
 
   /**
-   * As opposed to {@link #addResources}, this method imports resources using individual commits with metadata
-   * extracted from a document surrounding the actual resource (a "record").
-   *
-   * @param aRecords
-   *          The resources to import
-   * @throws IOException
-   */
-  public void importRecords(@Nonnull List<Resource> aRecords, Map<String, String> aDefaultMetadata) throws IOException {
-
-    aRecords.sort(((o1, o2) -> ZonedDateTime.parse(o1.getAsString(Record.DATE_CREATED))
-      .compareTo(ZonedDateTime.parse(o2.getAsString(Record.DATE_CREATED)))));
-
-    Commit.Diff indexDiff = new TripleCommit.Diff();
-    for (Resource record : aRecords) {
-      String author = record.getAsString(Record.AUTHOR);
-      if (StringUtils.isEmpty(author)) {
-        author = aDefaultMetadata.get(TripleCommit.Header.AUTHOR_HEADER);
-      }
-      ZonedDateTime date = ZonedDateTime.parse(record.getAsString(Record.DATE_CREATED));
-      if (date == null) {
-        date = ZonedDateTime.parse(aDefaultMetadata.get(TripleCommit.Header.DATE_HEADER));
-      }
-      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      resource.put("@context", mConfiguration.getString("jsonld.context"));
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
-      Commit commit = new TripleCommit(new TripleCommit.Header(author, date), diff);
-      indexDiff.append(diff);
-      mTriplestoreRepository.commit(commit);
-    }
-
-    index(indexDiff);
-
-  }
-
-  /**
    * Import resources, extracting any embedded resources and adding those too, in the same commit
    * @param aResources
    *          The resources to flatten and import
@@ -239,10 +204,6 @@ public class BaseRepository extends Repository
   @Override
   public Resource getResource(@Nonnull String aId, String aVersion) {
     return mTriplestoreRepository.getResource(aId, aVersion);
-  }
-
-  public Resource getRecord(@Nonnull String aId) {
-    return mElasticsearchRepo.getResource(aId + "." + Record.RESOURCE_KEY);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {

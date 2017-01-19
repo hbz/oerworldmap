@@ -156,46 +156,6 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public Result importRecords() throws IOException {
-
-    // Import records
-    JsonNode json = ctx().request().body().asJson();
-    List<Resource> records = new ArrayList<>();
-    if (json.isArray()) {
-      for (JsonNode node : json) {
-        records.add(Resource.fromJson(node));
-      }
-    } else if (json.isObject()) {
-      records.add(Resource.fromJson(json));
-    } else {
-      return badRequest();
-    }
-    mBaseRepository.importRecords(records, getMetadata());
-
-    // Add user accounts
-    for (Resource record : records) {
-      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      if ("Person".equals(resource.getType())) {
-        String email = resource.getAsString("email");
-        if (StringUtils.isNotEmpty(email)) {
-          String password = new BigInteger(130, new SecureRandom()).toString(32);
-          String token = mAccountService.addUser(email, password);
-          if (StringUtils.isNotEmpty(token)) {
-            String id = mAccountService.verifyToken(token);
-            if (id.equals(email)) {
-              mAccountService.setPermissions(resource.getId(), email);
-            }
-          }
-        }
-      }
-    }
-
-    mAccountService.refresh();
-
-    return ok(Integer.toString(records.size()).concat(" records imported."));
-
-  }
-
   public Result importResources() throws IOException {
     JsonNode json = ctx().request().body().asJson();
     List<Resource> resources = new ArrayList<>();
@@ -456,14 +416,6 @@ public class ResourceIndex extends OERWorldMap {
 
     return notFound("Not found");
 
-  }
-
-  public Result export(String aId) {
-    Resource record = mBaseRepository.getRecord(aId);
-    if (null == record) {
-      return notFound("Not found");
-    }
-    return ok(record.toString()).as("application/json");
   }
 
   public Result delete(String aId) throws IOException {
