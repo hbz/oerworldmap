@@ -680,6 +680,7 @@ var Hijax = (function ($, Hijax) {
   function zoomToFeatures(features, cluster, pixel) {
     var zoom_values = getZoomValues();
     if(world.getView().getZoom() == zoom_values.maxZoom) {
+      updateHoverState(pixel);
       hoverState.persistent = true;
       $('#map').addClass('popover-persistent');
     } else {
