@@ -1,23 +1,27 @@
 {{#resource}}
 
-    <div class="popover-section bg-blue-palest">
-        <div class="icon-indented">
-            {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
-            {{#localized this.name language=@root.language}}
-                {{[@value]}}
-            {{/localized}}
+        <div class="popover-section bg-blue-palest">
+            <a href="#{{[@id]}}">
+                <div class="icon-indented">
+                    {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
+                    {{#localized this.name language=@root.language}}
+                        {{[@value]}}
+                    {{/localized}}
+                </div>
+            </a>
         </div>
-    </div>
 
-    {{#referencedBy}}
-        <div class="popover-section bg-blue-paler">
-            <div class="icon-indented">
-                {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
-                {{#localized this.name language=@root.language}}
-                    {{[@value]}}
-                {{/localized}}
+        {{#referencedBy}}
+            <div class="popover-section linked bg-blue-paler">
+                <a href="#{{[@id]}}">
+                    <div class="icon-indented">
+                        {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
+                        {{#localized this.name language=@root.language}}
+                            {{[@value]}}
+                        {{/localized}}
+                    </div>
+                </a>
             </div>
-        </div>
-    {{/referencedBy}}
+        {{/referencedBy}}
 
 {{/resource}}

@@ -154,7 +154,8 @@ var Hijax = (function ($, Hijax) {
       },
 
       hoverState = {
-        id : false
+        id : false,
+        persistent : false
       };
 
   function getZoomValues() {
@@ -175,7 +176,7 @@ var Hijax = (function ($, Hijax) {
     return {
       initialZoom: Math.ceil(standartInitialZoom * size_factor),
       minZoom: Math.round(standartMinZoom * size_factor),
-      maxZoom: Math.round(standartMaxZoom * size_factor)
+      maxZoom: standartMaxZoom
     };
   }
 
@@ -229,10 +230,12 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... nothing hovered yet, but now
 
-      if(show_popover) {
-        $(popoverElement).show();
-        setPopoverContent( feature, type );
-        setPopoverPosition( feature, type, pixel );
+      if(! hoverState.persistent) {
+        if(show_popover) {
+          $(popoverElement).show();
+          setPopoverContent( feature, type );
+          setPopoverPosition( feature, type, pixel );
+        }
       }
       setFeatureStyle( feature, 'hover' );
       hoverState.id = id;
@@ -246,8 +249,10 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... same feature was hovered
 
-      if(show_popover) {
-        setPopoverPosition( feature, type, pixel );
+      if(! hoverState.persistent) {
+        if(show_popover) {
+          setPopoverPosition( feature, type, pixel );
+        }
       }
 
     } else if(
@@ -257,12 +262,14 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... another feature was hovered
 
-      if(show_popover) {
-        $(popoverElement).show();
-        setPopoverContent( feature, type )
-        setPopoverPosition( feature, type, pixel );
-      } else {
-        $(popoverElement).hide();
+      if(! hoverState.persistent) {
+        if(show_popover) {
+          $(popoverElement).show();
+          setPopoverContent( feature, type )
+          setPopoverPosition( feature, type, pixel );
+        } else {
+          $(popoverElement).hide();
+        }
       }
       setFeatureStyle( feature, 'hover' );
       resetFeatureStyle( hoverState.feature );
@@ -276,7 +283,9 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... a feature was hovered but now noone is
 
-      $(popoverElement).hide();
+      if(! hoverState.persistent) {
+        $(popoverElement).hide();
+      }
       resetFeatureStyle( hoverState.feature );
       hoverState.id = false;
       hoverState.feature = false;
@@ -290,11 +299,15 @@ var Hijax = (function ($, Hijax) {
 
     // FIXME @j0hj0h: this should probably go somewhere else
     if (world.getView().getZoom() > 8 && (type == "country")) {
-      $(popoverElement).hide();
+      if(! hoverState.persistent) {
+        $(popoverElement).hide();
+      }
       hoveredCountriesOverlay.setVisible(false);
       world.getTarget().style.cursor = '';
     } else if (show_popover) {
-      $(popoverElement).show();
+      if(! hoverState.persistent) {
+        $(popoverElement).show();
+      }
       hoveredCountriesOverlay.setVisible(true);
       world.getTarget().style.cursor = 'pointer';
     } else {
@@ -371,6 +384,7 @@ var Hijax = (function ($, Hijax) {
 
     if( type == "placemark" ) {
       var properties = feature.get('features')[0].getProperties();
+      properties['@id'] = feature.getId();
       var content = templates['popover' + properties.type](properties);
     }
 
@@ -381,6 +395,7 @@ var Hijax = (function ($, Hijax) {
       if(features.length < 4) {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
+          properties['@id'] = features[i].getId();
           content += templates['popover' + properties.type](properties);
         }
       } else {
@@ -662,14 +677,20 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function zoomToFeatures(features) {
-    var extent = ol.extent.createEmpty();
-    for(var i = 0; i < features.length; i++) {
-      ol.extent.extend(extent, features[i].getGeometry().getExtent());
+  function zoomToFeatures(features, cluster, pixel) {
+    var zoom_values = getZoomValues();
+    if(world.getView().getZoom() == zoom_values.maxZoom) {
+      hoverState.persistent = true;
+      $('#map').addClass('popover-persistent');
+    } else {
+      var extent = ol.extent.createEmpty();
+      for(var i = 0; i < features.length; i++) {
+        ol.extent.extend(extent, features[i].getGeometry().getExtent());
+      }
+      world.getView().fit(extent, world.getSize(), {
+        minResolution: 2
+      });
     }
-    world.getView().fit(extent, world.getSize(), {
-      minResolution: 2
-    });
   }
 
   function getMarkers(resource, labelCallback, origin) {
@@ -1005,6 +1026,12 @@ var Hijax = (function ($, Hijax) {
 
         // Bind click events
         world.on('click', function(evt) {
+          if(hoverState.persistent) {
+            hoverState.persistent = false;
+            $('#map').removeClass('popover-persistent');
+            $(popoverElement).hide();
+            return;
+          }
           var feature = world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
             return feature;
           });
@@ -1015,11 +1042,7 @@ var Hijax = (function ($, Hijax) {
             } else if(type == "country" && world.getView().getZoom() < 9) {
               page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
-              zoomToFeatures(feature.get("features"));
-              if ($('#app-col-index').attr('data-col-mode') == 'floating') {
-                $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
-                page('/resource/?q=*');
-              }
+              zoomToFeatures(feature.get("features"), feature, evt.pixel);
             }
           }
         });
@@ -1044,7 +1067,7 @@ var Hijax = (function ($, Hijax) {
         });
         world.addOverlay(popover);
         $(container).mouseleave(function(){
-          if(hoverState.feature) {
+          if(hoverState.feature && ! hoverState.persistent) {
             $(popoverElement).hide();
             resetFeatureStyle( hoverState.feature );
             hoverState.id = false;
@@ -1089,6 +1112,11 @@ var Hijax = (function ($, Hijax) {
       $.when.apply(null, my.attached).done(function(){
 
         log.debug('MAP layout started (waited to be attached therefor)');
+
+        // clear eventually persistent popover
+        $('#map').removeClass('popover-persistent');
+        $(popoverElement).hide();
+        hoverState.persistent = false;
 
         // Ensure that all current highlights are in current pins, too
         if (current_pins.length) {
