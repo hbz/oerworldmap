@@ -1,7 +1,7 @@
 {{#resource}}
 
-        <div class="popover-section bg-blue-palest">
-            <a href="#{{[@id]}}">
+        <div class="popover-section bg-blue-palest" data-app="link-to-fragment">
+            <a href="/resource/{{[@id]}}">
                 <div class="icon-indented">
                     {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
                     {{#localized this.name language=@root.language}}
@@ -12,8 +12,8 @@
         </div>
 
         {{#referencedBy}}
-            <div class="popover-section linked bg-blue-paler">
-                <a href="#{{[@id]}}">
+            <div class="popover-section linked bg-blue-paler" data-app="link-to-fragment">
+                <a href="/resource/{{[@id]}}">
                     <div class="icon-indented">
                         {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
                         {{#localized this.name language=@root.language}}
