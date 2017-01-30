@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -516,7 +517,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchBySubjectClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchBySubjectClassification.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> searchBySubject = mBaseRepo.query("Mytestsubject", 0, 10, null, null, queryContext).getItems();
@@ -527,7 +528,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchByEducationClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
