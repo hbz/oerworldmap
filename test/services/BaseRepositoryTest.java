@@ -521,7 +521,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> searchBySubject = mBaseRepo.query("Mytestsubject", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Did not find resource by subject.", searchBySubject.size() == 1);
+    Assert.assertTrue("Did not find resource by subject.", searchBySubject.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
   }
 
@@ -532,7 +532,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() == 1);
+    Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
   }
 
