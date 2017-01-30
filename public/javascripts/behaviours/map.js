@@ -617,48 +617,27 @@ var Hijax = (function ($, Hijax) {
 
         // set center to user and zoom to initial again ...
 
-        if ( navigator.geolocation ) {
-          var got_user_location = new $.Deferred();
-          navigator.geolocation.getCurrentPosition(function(position) {
+        log.debug('MAP setBoundingBox – set center to user:', window.user_location);
 
-            log.debug('MAP setBoundingBox – set center to user position');
-            var lon = position.coords.longitude;
-            var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
-            center[1] = defaultCenter[1];
-            world.getView().setCenter(center);
-            got_user_location.resolve();
-
-          }, function(err){
-
-            log.debug('MAP setBoundingBox – set center to default');
-            world.getView().setCenter(defaultCenter);
-            got_user_location.resolve();
-
-          });
-        } else {
-
-          log.debug('MAP setBoundingBox – set center to default');
-          world.getView().setCenter(defaultCenter);
-
-        }
+        var country_extent = countryVectorSource
+          .getFeatureById( window.user_location )
+          .getGeometry()
+          .getExtent();
+        var country_center_x = country_extent[0] + (country_extent[2] - country_extent[0]) / 2;
+        var center = [country_center_x, defaultCenter[1]]
+        world.getView().setCenter(center);
 
         // Get zoom values adapted to map size
+
         log.debug('MAP setBoundingBox – set zoom to initial');
+
         var zoom_values = getZoomValues();
         world.getView().setZoom(zoom_values.initialZoom);
 
-        currentCenter = defaultCenter;
+        currentCenter = center;
       }
 
-      if(typeof got_user_location !== 'undefined') {
-        got_user_location.done(function(){
-          // restrictListToExtent();
-          layouted.resolve();
-        })
-      } else {
-        // restrictListToExtent();
-        layouted.resolve();
-      }
+      layouted.resolve();
     }
   }
 
