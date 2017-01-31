@@ -6,6 +6,7 @@ sudo: false
 cache:
   directories:
   - $HOME/.ivy2/cache
+  - $HOME/.sonar/cache
 before_install:
   - curl https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.1/elasticsearch-2.4.1.tar.gz | tar xz --directory=$HOME
   - "echo \"script.inline: on\" >> $HOME/elasticsearch-2.4.1/config/elasticsearch.yml"
@@ -17,6 +18,12 @@ install:
 before_script:
   - cp conf/travis.conf conf/test.conf
   - (node node/json-frame/frame.js 8080 conf/context.json https://oerworldmap.org/assets/json/context.json &) && sleep 5s
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+addons:
+  sonarqube:
+    token:
+      secure: "O3mnIElHHjHfG83ihUhxxq9oHDtZW9rh9rnMuw6zvHl/QC0zwEMNTykwZcNP24pNk4+sMLd8LyfRIRm/GRPAlakCAbCktFbkOHsm4Abk/s4jbiNLlV/WVn3N9zCDCE359zrDPSw9GIsgTnM015ZiATO+2zCpt26VFKLJrWHofuA="
 branches:
   only:
     - master
