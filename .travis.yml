@@ -24,6 +24,8 @@ addons:
   sonarqube:
     token:
       secure: "O3mnIElHHjHfG83ihUhxxq9oHDtZW9rh9rnMuw6zvHl/QC0zwEMNTykwZcNP24pNk4+sMLd8LyfRIRm/GRPAlakCAbCktFbkOHsm4Abk/s4jbiNLlV/WVn3N9zCDCE359zrDPSw9GIsgTnM015ZiATO+2zCpt26VFKLJrWHofuA="
+    github:
+      secure: "LqhCTSEh59uYgNgkOPgNIOJQ71gN+pt5yKP5qXFHdd0CsI03xDRgp8stmgjWgl7pBQ7Ti6gm6kdPbcikvGePC9Gj++6jsFrLDyFDm9GjqcbOGSGZpQfXK0NRzmyt4NmGBCVzmDtwMQfs/ZTvBhWM9epgGL2CZQH/bH30x71cptQ="
 branches:
   only:
     - master
