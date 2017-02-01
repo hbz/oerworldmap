@@ -21,12 +21,11 @@ before_script:
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 addons:
-  sonarqube:
-    token:
-      secure: "O3mnIElHHjHfG83ihUhxxq9oHDtZW9rh9rnMuw6zvHl/QC0zwEMNTykwZcNP24pNk4+sMLd8LyfRIRm/GRPAlakCAbCktFbkOHsm4Abk/s4jbiNLlV/WVn3N9zCDCE359zrDPSw9GIsgTnM015ZiATO+2zCpt26VFKLJrWHofuA="
+  sonarqube: true
 branches:
   only:
     - master
 env:
   global:
+    secure: "O3mnIElHHjHfG83ihUhxxq9oHDtZW9rh9rnMuw6zvHl/QC0zwEMNTykwZcNP24pNk4+sMLd8LyfRIRm/GRPAlakCAbCktFbkOHsm4Abk/s4jbiNLlV/WVn3N9zCDCE359zrDPSw9GIsgTnM015ZiATO+2zCpt26VFKLJrWHofuA="
     secure: "flK1dkGh7jGp4wVL1ahbk6Bn16eeZS/yZ/E2a518eIzLehIG7CooKn1ZrH4sMC3lRGB7XvklO9oqeRPTrw8HyQTyCUqrd0/cDQn59mjvXYnv6pP/ES0k354fjvAvFFFuSC88DdFF4fWGssP+GB1JwMSBzC5rXmYVqxbpEji5SMU="
