@@ -54,6 +54,15 @@ public class CalendarExporterTest implements JsonTest {
     compare(exported, expected);
   }
 
+  @Test
+  public void testExportMultiLanguage() throws IOException{
+    Resource resourceWithGermanDescription = getResourceFromJsonFile("CalendarExporterTest/testExportDescription.IN.1.json");
+    List<String> exported = splitLines(mExporter.export(resourceWithGermanDescription));
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testExportDescription.OUT.1.iCal",
+      Charset.forName("UTF-8")));
+    compare(exported, expected);
+  }
+
   private void compare(List<String> exported, List<String> expected) {
     assertFalse("Export is too short.", expected.size() > exported.size());
     assertFalse("Export is too long.", expected.size() < exported.size());
