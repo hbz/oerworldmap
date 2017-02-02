@@ -30,7 +30,7 @@
 
     {{> FormElements/id.mustache property=audience property_path="audience" title=(i18n "Service.audience") tooltip=(i18n "Service.audience" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/isced-1997.json"}}
 
-    {{> FormElements/id.mustache property=provider property_path="provider" title=(i18n "Service.provider") tooltip=(i18n "Service.provider" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
+    {{> FormElements/id.mustache property=provider property_path="provider" title=(i18n "Service.provider") tooltip=(i18n "Service.provider" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
     {{> ResourceIndex/ServiceChannel/edit.mustache property=availableChannel property_path="availableChannel" title=(i18n "Service.availableChannel") tooltip=(i18n "Service.availableChannel" bundle="descriptions")}}
 

@@ -29,7 +29,6 @@
         {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Person.countryChampionFor") tooltip=(i18n "Person.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="countries"}}
     {{/if}}
 
-
     {{> FormElements/input.mustache property=image property_path="image" title=(i18n "Person.image") tooltip=(i18n "Person.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
     {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Person.location") tooltip=(i18n "Person.location" bundle="descriptions")}}
@@ -40,7 +39,7 @@
 
     {{> FormElements/id.mustache property=participantIn property_path="participantIn" title=(i18n "Person.participantIn") tooltip=(i18n "Person.participantIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
-    {{> FormElements/id.mustache property=provides property_path="provides" title=(i18n "Person.provides") tooltip=(i18n "Person.provides" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=provides property_path="provides" title=(i18n "Person.provides") tooltip=(i18n "Person.provides" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
     {{> FormElements/id.mustache property=agentIn property_path="agentIn" title=(i18n "Person.agentIn") tooltip=(i18n "Person.agentIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
