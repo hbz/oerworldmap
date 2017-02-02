@@ -13,10 +13,8 @@ before_install:
   - $HOME/elasticsearch-2.4.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
 install:
   - npm install
-  - cd node/json-frame/ && npm install && cd ../..
 before_script:
   - cp conf/travis.conf conf/test.conf
-  - (node node/json-frame/frame.js 8080 conf/context.json https://oerworldmap.org/assets/json/context.json &) && sleep 5s
 branches:
   only:
     - master
