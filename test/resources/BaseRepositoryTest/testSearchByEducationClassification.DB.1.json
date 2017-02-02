@@ -1,0 +1,1867 @@
+{
+  "image" : "http://opencourses.gr/javax.faces.resource/logo.png.xhtml?ln=images",
+  "audience" : [ {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:5" ],
+    "name" : [ {
+      "@value" : "Mytestaudience",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 5",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level5",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:6" ],
+    "name" : [ {
+      "@value" : "Second stage of tertiary education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 6",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level6",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  } ],
+  "availableChannel" : [ {
+    "serviceUrl" : "http://opencourses.gr/index.xhtml",
+    "availableLanguage" : [ "el" ]
+  } ],
+  "@type" : "Service",
+  "about" : [ {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0222" ],
+    "name" : [ {
+      "@value" : "History and archaeology",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0222",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "081" ],
+    "name" : [ {
+      "@value" : "Agriculture",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Agriculture, forestry, fisheries and veterinary",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n08"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Agriculture",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n081"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Crop and livestock production",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0811"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Horticulture",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0812"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n081",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Agriculture, forestry, fisheries and veterinary",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n08"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "023" ],
+    "name" : [ {
+      "@value" : "Languages",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Language acquisition",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0231"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n023",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "022" ],
+    "name" : [ {
+      "@value" : "Humanities (except languages)",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Philosophy and ethics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0223"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Religion and theology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0221"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "History and archaeology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0222"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n022",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "071" ],
+    "name" : [ {
+      "@value" : "Engineering and engineering trades",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering, manufacturing and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n07"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Chemical engineering and processes",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0711"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Motor vehicles, ships and aircraft",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0716"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Environmental protection technology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0712"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Electricity and energy",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0713"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Electronics and automation",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0714"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Mechanics and metal trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0715"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n071",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering, manufacturing and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n07"
+    },
+    "scopeNote" : [ {
+      "@value" : "Manufacturing programmes should be classified in the detailed fields under 071 \\u2018Engineering and engineering trades\\u2019 if the emphasis is towards engineering, i.e. on metals, mechanics, machinery, engines, electrical devices, etc.",
+      "@language" : "en"
+    } ]
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "053" ],
+    "name" : [ {
+      "@value" : "Physical sciences",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Chemistry",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0531"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Physics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0533"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Earth sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0532"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Physical sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n053"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n053",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0314" ],
+    "name" : [ {
+      "@value" : "Sociology and cultural studies",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0314",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0711" ],
+    "name" : [ {
+      "@value" : "Chemical engineering and processes",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0711",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "03" ],
+    "name" : [ {
+      "@value" : "Social sciences, journalism and information",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n032"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n03",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0912" ],
+    "name" : [ {
+      "@value" : "Medicine",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0912",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Health",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n091"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0533" ],
+    "name" : [ {
+      "@value" : "Physics",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0533",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Physical sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n053"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0714" ],
+    "name" : [ {
+      "@value" : "Electronics and automation",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0714",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "09" ],
+    "name" : [ {
+      "@value" : "Health and welfare",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Health and welfare",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n09"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Welfare",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n092"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Health",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n091"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n09",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0223" ],
+    "name" : [ {
+      "@value" : "Philosophy and ethics",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0223",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "061", "06" ],
+    "name" : [ {
+      "@value" : "Information and Communication Technologies (ICTs)",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Information and Communication Technologies (ICTs)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n06"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Database and network design and administration",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0612"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Software and applications development and analysis",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0613"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Computer use",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0611"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n06",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "051" ],
+    "name" : [ {
+      "@value" : "Biological and related sciences",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Biological and related sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n051"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Biochemistry",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0512"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Biology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0511"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n051",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0511" ],
+    "name" : [ {
+      "@value" : "Biology",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0511",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Biological and related sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n051"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "01", "011" ],
+    "name" : [ {
+      "@value" : "Education",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Education",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n01"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Training for pre-school teachers",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0112"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Teacher training with subject specialisation",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0114"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Education science",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0111"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Teacher training without subject specialisation",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0113"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n01",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0311" ],
+    "name" : [ {
+      "@value" : "Economics",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0311",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "054" ],
+    "name" : [ {
+      "@value" : "Mathematics and statistics",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n054"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0542"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Mathematics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0541"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n054",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0531" ],
+    "name" : [ {
+      "@value" : "Chemistry",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0531",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Physical sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n053"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0712" ],
+    "name" : [ {
+      "@value" : "Environmental protection technology",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0712",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "07" ],
+    "name" : [ {
+      "@value" : "Engineering, manufacturing and construction",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering, manufacturing and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n07"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Manufacturing and processing",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n072"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Architecture and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n073"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n07",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "073" ],
+    "name" : [ {
+      "@value" : "Architecture and construction",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering, manufacturing and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n07"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Architecture and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n073"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Architecture and town planning",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0731"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Building and civil engineering",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0732"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n073",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering, manufacturing and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n07"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "041" ],
+    "name" : [ {
+      "@value" : "Business and administration",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Wholesale and retail sales",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0416"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Secretarial and office work",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0415"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Business, administration and law",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n04"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Management and administration",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0413"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Marketing and advertising",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0414"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Business and administration",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n041"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Finance, banking and insurance",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0412"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Accounting and taxation",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0411"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Work skills",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0417"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n041",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Business, administration and law",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n04"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "04" ],
+    "name" : [ {
+      "@value" : "Business, administration and law",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Business, administration and law",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n04"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Law",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n042"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Business and administration",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n041"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n04",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "084", "0841" ],
+    "name" : [ {
+      "@value" : "Veterinary",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0841",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Agriculture, forestry, fisheries and veterinary",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n08"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0715" ],
+    "name" : [ {
+      "@value" : "Mechanics and metal trades",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0715",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0521" ],
+    "name" : [ {
+      "@value" : "Environmental sciences",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0521",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Environment",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n052"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0731" ],
+    "name" : [ {
+      "@value" : "Architecture and town planning",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0731",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Architecture and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n073"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "031" ],
+    "name" : [ {
+      "@value" : "Social and behavioural sciences",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Sociology and cultural studies",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0314"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Psychology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0313"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Political sciences and civics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0312"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Economics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0311"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n031",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "021" ],
+    "name" : [ {
+      "@value" : "Arts",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n021"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Music and performing arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0215"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Fashion, interior and industrial design",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0212"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Fine arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0213"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Handicrafts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0214"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Audio-visual techniques and media production",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0211"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n021",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "052" ],
+    "name" : [ {
+      "@value" : "Environment",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Environment",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n052"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Environmental sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0521"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural environments and wildlife",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0522"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n052",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0541" ],
+    "name" : [ {
+      "@value" : "Mathematics",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0541",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n054"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0313" ],
+    "name" : [ {
+      "@value" : "Psychology",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0313",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "02" ],
+    "name" : [ {
+      "@value" : "Arts and humanities",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n021"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n02",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0312" ],
+    "name" : [ {
+      "@value" : "Political sciences and civics",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0312",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0532" ],
+    "name" : [ {
+      "@value" : "Earth sciences",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0532",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Physical sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n053"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0713" ],
+    "name" : [ {
+      "@value" : "Electricity and energy",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0713",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Engineering and engineering trades",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n071"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0232" ],
+    "name" : [ {
+      "@value" : "Literature and linguistics",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Spanish literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232-es"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "English literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232-en"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Portuguese literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232-pt"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0232",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "08" ],
+    "name" : [ {
+      "@value" : "Agriculture, forestry, fisheries and veterinary",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Agriculture, forestry, fisheries and veterinary",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n08"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Agriculture",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n081"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Forestry",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n082"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Veterinary",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0841"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Fisheries",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0831"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n08",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "042", "0421" ],
+    "name" : [ {
+      "@value" : "Law",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n042",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Business, administration and law",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n04"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "05" ],
+    "name" : [ {
+      "@value" : "Natural sciences, mathematics and statistics",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Biological and related sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n051"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Natural sciences, mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n05"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Physical sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n053"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Environment",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n052"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Mathematics and statistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n054"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n05",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "091" ],
+    "name" : [ {
+      "@value" : "Health",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Medicine",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0912"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Nursing and midwifery",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0913"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Medical diagnostic and treatment technology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0914"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Health",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n091"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Health and welfare",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n09"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Therapy and rehabilitation",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0915"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Pharmacy",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0916"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Dental studies",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0911"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Traditional and complementary medicine and therapy",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0917"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n091",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Health and welfare",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n09"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0732" ],
+    "name" : [ {
+      "@value" : "Building and civil engineering",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0732",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Architecture and construction",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n073"
+    }
+  } ],
+  "description" : [ {
+    "@value" : "National initiative for the development of digital open courseware in Greek universities. Courses taught at Universities and colleges, freely accessible and freely available on the Internet for everyone.",
+    "@language" : "en"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "license" : [ {
+    "image" : "https://cdn0.iconfinder.com/data/icons/glyphpack/34/question-circle-64.png",
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    },
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Unspecified",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "License not specified",
+      "@language" : "en"
+    } ],
+    "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    }
+  }, {
+    "image" : "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png",
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    },
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Creative Commons Attribution Non-Commercial Share-Alike",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "CC By-NC-SA",
+      "@language" : "en"
+    } ],
+    "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-sa",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    }
+  }, {
+    "image" : "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png",
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    },
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Creative Commons Attribution Non-Commercial No-Derivatives",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "CC By-NC-ND",
+      "@language" : "en"
+    } ],
+    "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-nd",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    }
+  } ],
+  "provider" : [ {
+    "@type" : "Organization",
+    "provides" : [ {
+      "@type" : "Service",
+      "name" : [ {
+        "@value" : "Open Cources",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:d3e54b9a-71ae-4a50-b50f-978f784519a0"
+    }, {
+      "@type" : "Service",
+      "name" : [ {
+        "@value" : "Open eClass",
+        "@language" : "en"
+      } ],
+      "@id" : "urn:uuid:28a6cf00-8eab-4801-88ff-c5698c186456"
+    } ],
+    "name" : [ {
+      "@value" : "Î‘ÎšÎ‘Î”Î—ÎœÎ‘ÎªÎšÎŸ Î”Î™Î‘Î”Î™ÎšÎ¤Î¥ÎŸ",
+      "@language" : "el"
+    }, {
+      "@value" : "Greek Academic Network",
+      "@language" : "en"
+    } ],
+    "description" : [ {
+      "@value" : "The non-profit civil company called \"ACADEMIC NETWORK\" (GUnet) was founded in September 12th 2000. GUnet has its central office in Athens and its members are all the Higher Education and Academic Institutions (20 Universities and 16 TEI). The aims of the company are determined by the broadband network needs and objectives of the Greek academic community in the framework of Information Society aiming at servicing research and education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "GUnet",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : 23.72936,
+        "lat" : 37.983917
+      },
+      "address" : {
+        "addressCountry" : "GR",
+        "streetAddress" : "Panepistimioupoli Ilissia",
+        "postalCode" : "157 84",
+        "addressLocality" : "Athens"
+      }
+    },
+    "@id" : "urn:uuid:172ef4cd-c512-487b-8612-06dd357610a8",
+    "email" : "info@gunet.gr",
+    "url" : "http://www.gunet.gr/"
+  } ],
+  "name" : [ {
+    "@value" : "Open Cources",
+    "@language" : "en"
+  } ],
+  "location" : { },
+  "@id" : "urn:uuid:d3e54b9a-71ae-4a50-b50f-978f784519a0",
+  "sameAs" : [ "https://www.facebook.com/OpenCourses.gr", "https://www.youtube.com/channel/UCMTuLfyXKQQ4AJDY_1EryYA", "https://twitter.com/OpenCoursesGR" ]
+}
