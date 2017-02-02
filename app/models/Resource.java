@@ -399,24 +399,29 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private String getNestedValueOfList(final String aKey, final ArrayList<?> aList, final Locale aPreferredLocale) {
     Object next;
     final Locale fallbackLocale = Locale.ENGLISH;
-    String fallbackValue = null;
+    String fallback1 = null;
+    String fallback2 = null;
+    String fallback3 = null;
     for (Iterator it = aList.iterator(); it.hasNext(); ){
       next = it.next();
       if (next instanceof Resource){
         Resource resource = (Resource) next;
         Object language = resource.get("@language");
-        if (language == null){
-          return resource.getNestedFieldValue(aKey, aPreferredLocale);
-        }
         if (language.equals(aPreferredLocale.getLanguage())){
           return resource.getNestedFieldValue(aKey, aPreferredLocale);
         }
-        if (language.equals(fallbackLocale.getLanguage())){
-          fallbackValue = getNestedFieldValue(aKey, fallbackLocale);
+        if (language == null){
+          fallback1 = resource.getNestedFieldValue(aKey, aPreferredLocale);
+        }
+        else if (language.equals(fallbackLocale.getLanguage())){
+          fallback2 = resource.getNestedFieldValue(aKey, fallbackLocale);
+        }
+        else {
+          fallback3 = resource.getNestedFieldValue(aKey, Locale.forLanguageTag(language.toString()));
         }
       }
     }
-    return fallbackValue;
+    return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
   }
 
 }
