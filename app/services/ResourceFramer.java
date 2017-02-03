@@ -131,7 +131,7 @@ public class ResourceFramer {
     } else {
       graph = ref;
     }
-    List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name");
+    List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image");
     if (graph != null && graph.isArray()) {
       ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
       Iterator<JsonNode> elements = graph.elements();
