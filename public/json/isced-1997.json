@@ -3,6 +3,58 @@
     {
       "name": [
         {
+          "@value": "Pre-Primary Education",
+          "@language": "en"
+        }
+      ],
+      "notation": [
+        "ISCED-1997:0"
+      ],
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      },
+      "@id": "https://w3id.org/isced/1997/level0",
+      "narrower": [],
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 0",
+          "@language": "en"
+        }
+      ],
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      },
+      "@type": "Concept"
+    },
+    {
+      "name": [
+        {
+          "@value": "Primary education or first stage of basic education",
+          "@language": "en"
+        }
+      ],
+      "notation": [
+        "ISCED-1997:1"
+      ],
+      "topConceptOf": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      },
+      "@id": "https://w3id.org/isced/1997/level1",
+      "narrower": [],
+      "alternateName": [
+        {
+          "@value": "ISCED 1997, Level 1",
+          "@language": "en"
+        }
+      ],
+      "inScheme": {
+        "@id": "https://w3id.org/isced/1997/scheme"
+      },
+      "@type": "Concept"
+    },
+    {
+      "name": [
+        {
           "@value": "Lower secondary education or second stage of basic education",
           "@language": "en"
         }
@@ -44,32 +96,6 @@
       "alternateName": [
         {
           "@value": "ISCED 1997, Level 3",
-          "@language": "en"
-        }
-      ],
-      "inScheme": {
-        "@id": "https://w3id.org/isced/1997/scheme"
-      },
-      "@type": "Concept"
-    },
-    {
-      "name": [
-        {
-          "@value": "Primary education or first stage of basic education",
-          "@language": "en"
-        }
-      ],
-      "notation": [
-        "ISCED-1997:1"
-      ],
-      "topConceptOf": {
-        "@id": "https://w3id.org/isced/1997/scheme"
-      },
-      "@id": "https://w3id.org/isced/1997/level1",
-      "narrower": [],
-      "alternateName": [
-        {
-          "@value": "ISCED 1997, Level 1",
           "@language": "en"
         }
       ],
@@ -133,32 +159,6 @@
     {
       "name": [
         {
-          "@value": "Pre-Primary Education",
-          "@language": "en"
-        }
-      ],
-      "notation": [
-        "ISCED-1997:0"
-      ],
-      "topConceptOf": {
-        "@id": "https://w3id.org/isced/1997/scheme"
-      },
-      "@id": "https://w3id.org/isced/1997/level0",
-      "narrower": [],
-      "alternateName": [
-        {
-          "@value": "ISCED 1997, Level 0",
-          "@language": "en"
-        }
-      ],
-      "inScheme": {
-        "@id": "https://w3id.org/isced/1997/scheme"
-      },
-      "@type": "Concept"
-    },
-    {
-      "name": [
-        {
           "@value": "Second stage of tertiary education",
           "@language": "en"
         }
@@ -183,7 +183,7 @@
       "@type": "Concept"
     }
   ],
-  "@context": "http://schema.org/",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "https://w3id.org/isced/1997/scheme",
   "@type": "ConceptScheme"
 }

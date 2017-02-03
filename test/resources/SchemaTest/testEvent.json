@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
   "@type": "Event",
   "email": "test@example.org",
@@ -93,18 +93,6 @@
         {
           "@language": "en",
           "@value": "Foobar story"
-        }
-      ]
-    }
-  ],
-  "mainEntityOf": [
-    {
-      "@id": "urn:uuid:878f36d6-15d5-11e5-bcc3-3700f09c76de",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "His Story"
         }
       ]
     }

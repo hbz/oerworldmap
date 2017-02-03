@@ -64,9 +64,13 @@ var Hijax = (function ($, Hijax) {
 
               my.bloodhounds[ lookup_url ] = new Bloodhound({
                 datumTokenizer: function(d){
-                  return Bloodhound.tokenizers.whitespace( d.name[0]['@value'] );
+                  return Bloodhound.tokenizers.whitespace(
+                    bloodhoundAccentFolding.normalize(
+                      d.name[0]['@value']
+                    )
+                  );
                 },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
                 local: my.datasets[ lookup_url ],
                 identify: function(result){
                   return result['@id'];
@@ -95,9 +99,13 @@ var Hijax = (function ($, Hijax) {
                   token_parts.push( d['@id'] );
                 }
 
-                return Bloodhound.tokenizers.whitespace( token_parts.join(' ') );
+                return Bloodhound.tokenizers.whitespace(
+                  bloodhoundAccentFolding.normalize(
+                    token_parts.join(' ')
+                  )
+                );
               },
-              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
               initialize: false,
               prefetch: {
                 url: lookup_url,
@@ -173,7 +181,10 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="resource"] [data-behaviour~="resource"]', context).each(function() {
+      $('[data-behaviour~="resource"]', context)
+        .not('[data-dont-behave] [data-behaviour~="resource"]')
+        .each(function()
+      {
 
         var widget = $(this);
         var lookup_url = $(this).data('lookup');
@@ -345,7 +356,9 @@ var Hijax = (function ($, Hijax) {
         })
       }
 
-    }
+    },
+
+    attached : []
   };
 
   Hijax.behaviours.resource = my;

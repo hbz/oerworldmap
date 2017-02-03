@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col col-sm-8">
 
             <div id="filter-type" class="btn-group">
                 {{#each resource_types}}
@@ -17,7 +17,7 @@
                         data-filter-action="set-type"
                         data-filter-name="filter.about.@type"
                         data-filter-value="{{@key}}"
-                        title="{{@key}}"
+                        title="{{i18n @key}}"
                     >
                         <i class="fa fa-fw fa-{{icon}}"></i>
                     </button>
@@ -27,26 +27,32 @@
         </div>
 
         {{#country_aggregation}}
-            {{#if show}}
 
-                <div class="col-sm-4 col-{{column}}">
-                    {{> filter-dropdown}}
-                </div>
+            <div class="col col-sm-2 col-{{column}}">
+                {{> filter-dropdown}}
+            </div>
 
-            {{/if}}
         {{/country_aggregation}}
+
+        {{#tag_aggregation}}
+
+            <div class="col col-sm-2 col-{{column}}">
+                {{> filter-dropdown}}
+            </div>
+
+        {{/tag_aggregation}}
 
         {{#each aggregations}}
             {{#if show}}
 
-                <div class="col-sm-4 col-{{column}} floating-hidden">
+                <div class="col col-sm-4 col-{{column}} floating-hidden">
                     {{> filter-dropdown}}
                 </div>
 
             {{/if}}
         {{/each}}
 
-        <div class="col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
+        <div class="col col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
             <div class="small clear-filter">
                 <a href="/">Clear Filter</a>
             </div>

@@ -6,33 +6,39 @@ var Hijax = (function (window) {
 
     behaviours : {},
 
-    attachBehaviour : function(context, behaviour) {
+    attachBehaviour : function(context, behaviour, msg) {
       if ('function' == typeof(my.behaviours[behaviour].attach)) {
-        // console.log("Attaching", behaviour, context);
+        var attached = new $.Deferred();
+        my.behaviours[behaviour].attached.push(attached);
         if ('function' == typeof(my.behaviours[behaviour].init)) {
+          // log.debug('there is an init to wait for ...', behaviour);
           my.behaviours[behaviour].initialized.done(function() {
-            my.behaviours[behaviour].attach(context);
+            log.debug("HIJAX attaching (" + msg + "):", behaviour, context);
+            my.behaviours[behaviour].attach(context, attached);
           });
         } else {
-          my.behaviours[behaviour].attach(context);
+          log.debug("HIJAX attaching (" + msg + "):", behaviour, context);
+          my.behaviours[behaviour].attach(context, attached);
         }
       }
     },
 
-    attachBehaviours : function(context) {
+    attachBehaviours : function(context, msg) {
+      log.debug('HIJAX attaching behaviours (' + msg + ')');
       for (var behaviour in my.behaviours) {
-        my.attachBehaviour(context, behaviour);
+        my.attachBehaviour(context, behaviour, msg);
       }
       return context;
     },
 
     initBehaviour : function(context, behaviour) {
       if ('function' == typeof(my.behaviours[behaviour].init)) {
-        // console.log("Initializing", behaviour, context);
+        log.debug("HIJAX initializing:", behaviour, context);
         my.behaviours[behaviour].init(context);
-        my.attachBehaviour(context, behaviour);
+        // log.debug("initializing done:", behaviour, context);
+        // my.attachBehaviour(context, behaviour);
       } else {
-        my.attachBehaviour(context, behaviour);
+        // my.attachBehaviour(context, behaviour);
       }
     },
 
@@ -43,41 +49,16 @@ var Hijax = (function (window) {
       return context;
     },
 
-    layout : function() {
-/*
-
-      for (var behaviour_to_layout in my.behaviours) {
-
-        console.log('behaviour_to_layout', behaviour_to_layout);
-
-        if('function' == typeof my.behaviours[behaviour_to_layout].init) {
-
-          console.log('behaviour_to_layout init', behaviour_to_layout);
-          var foo = behaviour_to_layout;
-          my.behaviours[behaviour_to_layout].initialized.done(function() {
-            console.log('behaviour_to_layout deffered', foo);
-            if('function' == typeof my.behaviours[foo].layout) {
-              my.behaviours[foo].layout();
-            }
-          });
-        } else if('function' == typeof my.behaviours[behaviour_to_layout].layout) {
-          my.behaviours[behaviour_to_layout].layout();
-        }
-      }
-*/
-
+    layout : function(msg) {
+      log.debug('HIJAX layouting (' + msg + ')');
       for (var behaviour in my.behaviours) {
-
         if('function' == typeof my.behaviours[behaviour].layout) {
-
+          log.debug('HIJAX layouting (' + msg + ')', behaviour);
           if('function' == typeof my.behaviours[behaviour].init) {
-
             var _behaviour = behaviour;
-
             my.behaviours[behaviour].initialized.done(function() {
               my.behaviours[_behaviour].layout();
             });
-
           } else {
             my.behaviours[behaviour].layout();
           }

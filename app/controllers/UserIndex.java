@@ -32,21 +32,30 @@ import org.apache.http.message.BasicNameValuePair;
 import helpers.Countries;
 import helpers.JSONForm;
 import models.Resource;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
 import play.mvc.Result;
 
+import javax.inject.Inject;
+
 public class UserIndex extends OERWorldMap {
 
-  public static Result signup() {
+  @Inject
+  public UserIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
+
+  public Result signup() {
 
     Map<String, Object> scope = new HashMap<>();
     return ok(render("Registration", "UserIndex/register.mustache", scope));
 
   }
 
-  public static Result register() {
+  public Result register() {
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     String username = user.getAsString("email");
     String password = user.getAsString("password");
@@ -69,9 +78,9 @@ public class UserIndex extends OERWorldMap {
       if (token == null) {
         result = badRequest("Failed to add " . concat(username));
       } else {
-        sendMail(username, MessageFormat.format(emails.getString("account.verify.message"),
+        sendMail(username, MessageFormat.format(getEmails().getString("account.verify.message"),
             mConf.getString("proxy.host").concat(routes.UserIndex.verify(token).url())),
-            emails.getString("account.verify.subject"));
+            getEmails().getString("account.verify.subject"));
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
         result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
@@ -82,7 +91,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result verify(String token) throws IOException {
+  public Result verify(String token) throws IOException {
 
     Result result;
 
@@ -106,19 +115,19 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result requestPassword() {
+  public Result requestPassword() {
     return ok(render("Reset Password", "UserIndex/password.mustache"));
   }
 
-  public static Result sendPassword() {
+  public Result sendPassword() {
 
     Result result;
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     String username;
-    if (ctx().args.get("username") != null) {
-      username = ctx().args.get("username").toString();
+    if (getHttpBasicAuthUser() != null) {
+      username = getHttpBasicAuthUser();
       String password = user.getAsString("password");
       String updated = user.getAsString("password-new");
       String confirm = user.getAsString("password-confirm");
@@ -140,8 +149,8 @@ public class UserIndex extends OERWorldMap {
       } else {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
         if (mAccountService.setPassword(username, password)) {
-          sendMail(username, MessageFormat.format(emails.getString("account.password.message"), password),
-              emails.getString("account.password.subject"));
+          sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
+              getEmails().getString("account.password.subject"));
           result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
         } else {
           result = badRequest("Failed to reset password.");
@@ -153,17 +162,17 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result newsletterSignup() {
+  public Result newsletterSignup() {
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(OERWorldMap.mLocale));
+    scope.put("countries", Countries.list(getLocale()));
     return ok(render("Registration", "UserIndex/newsletter.mustache", scope));
 
   }
 
-  public static Result newsletterRegister() {
+  public Result newsletterRegister() {
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(request().body().asFormUrlEncoded()));
+    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     if (!user.validate().isSuccess()) {
       return badRequest("Please provide a valid email address and select a country.");
@@ -206,7 +215,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result editGroups() {
+  public Result editGroups() {
 
     Map<String, Map<String, Boolean>> groups = new HashMap<>();
     for (String group : mAccountService.getGroups()) {
@@ -223,12 +232,12 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public static Result setGroups() {
+  public Result setGroups() {
 
     Map<String, List<String>> groupUsers = new HashMap<>();
 
-    if (request().body().asFormUrlEncoded() != null) {
-      JsonNode jsonNode = JSONForm.parseFormData(request().body().asFormUrlEncoded());
+    if (ctx().request().body().asFormUrlEncoded() != null) {
+      JsonNode jsonNode = JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded());
       Iterator<String> groupNames = jsonNode.fieldNames();
       while (groupNames.hasNext()) {
         String group = groupNames.next();
@@ -248,7 +257,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  private static void sendMail(String aEmailAddress, String aMessage, String aSubject) {
+  private void sendMail(String aEmailAddress, String aMessage, String aSubject) {
     Email mail = new SimpleEmail();
     try {
       mail.setMsg(aMessage);
@@ -274,7 +283,7 @@ public class UserIndex extends OERWorldMap {
     }
   }
 
-  private static void createProfile(String aEmailAddress) throws IOException {
+  private void createProfile(String aEmailAddress) throws IOException {
 
     // Check if person entry with corresponding email already exists
     List<Resource> users = mBaseRepository.getResources("about.email", aEmailAddress);
@@ -288,7 +297,7 @@ public class UserIndex extends OERWorldMap {
     }
 
     Resource person = new Resource("Person");
-    person.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    person.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     mBaseRepository.addResource(person, getMetadata());
     mAccountService.setProfileId(aEmailAddress, person.getId());
     mAccountService.setPermissions(person.getId(), aEmailAddress);

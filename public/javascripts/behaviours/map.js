@@ -24,6 +24,7 @@ var Hijax = (function ($, Hijax) {
       standartMaxZoom = 15,
 
       defaultCenter = [0, 5000000],
+      currentCenter = false,
 
       iconCodes = {
         'organizations': 'users',
@@ -205,10 +206,13 @@ var Hijax = (function ($, Hijax) {
 
     // get feature type and so on
     if(feature) {
+
       var type = getFeatureType( feature );
 
-      if(type == 'country' || type == 'placemark') {
+      if(type == 'country' || type == 'placemark' || type == 'cluster') {
         var show_popover = true;
+      } else {
+
       }
 
       if(feature.getId()) {
@@ -317,9 +321,7 @@ var Hijax = (function ($, Hijax) {
     var feature_type = getFeatureType( feature );
 
     if( feature_type == 'placemark' || feature_type == 'cluster' ) {
-      // console.log('feature', feature);
       var properties = feature.getProperties();
-      // console.log('properties', properties);
       if(! properties.highligted) {
         setFeatureStyle(
           feature,
@@ -359,21 +361,41 @@ var Hijax = (function ($, Hijax) {
   }
 
   function setPopoverContent(feature, type) {
+/*
     if( type == "placemark" ) {
       var properties = feature.get('features')[0].getProperties();
     } else {
       var properties = feature.getProperties();
     }
+*/
 
     if( type == "placemark" ) {
+      var properties = feature.get('features')[0].getProperties();
       var content = templates['popover' + properties.type](properties);
     }
 
     if( type == "cluster" ) {
-      var content = "cluster ...";
+      var content = '';
+      var features = feature.get('features');
+
+      if(features.length < 4) {
+        for(var i = 0; i < features.length; i++) {
+          var properties = features[i].getProperties();
+          content += templates['popover' + properties.type](properties);
+        }
+      } else {
+        var aggregation = {};
+        for(var i = 0; i < features.length; i++) {
+          var properties = features[i].getProperties();
+          aggregation[ properties.type ] = aggregation[ properties.type ] + 1 || 1;
+        }
+        content += templates['popoverCluster'](aggregation);
+      }
+
     }
 
     if( type == "country") {
+      var properties = feature.getProperties();
 
       // setup empty countrydata, if undefined
       if( typeof properties.country == 'undefined' ) {
@@ -392,6 +414,8 @@ var Hijax = (function ($, Hijax) {
   }
 
   function setCountryData(aggregations) {
+
+    if (!countryVectorSource) return;
 
     // attach aggregations to country features
 
@@ -494,28 +518,44 @@ var Hijax = (function ($, Hijax) {
     current_highlights = placemarks;
   }
 
-  function setBoundingBox(element) {
+  function setBoundingBox(element, layouted) {
 
     var dataFocus = element.getAttribute("data-focus");
-
     var boundingBox;
 
-    if ("fit" == dataFocus) {
+    // determine boundingBox or focusIds from focus
+
+    if (dataFocus == "fit") {
 
       boundingBox = placemarksVectorSource.getExtent();
 
-    } else if("fit-highlighted" == dataFocus) {
+    } else if(dataFocus == "fit-highlighted") {
 
       var focusIds = [];
       $.each(current_highlights, function(i, v){
         focusIds.push(v.getId());
       });
 
+    } else if(dataFocus == "re-center") {
+
+      var focusIds = false;
+      if(! currentCenter) {
+        dataFocus == "fit";
+        boundingBox = placemarksVectorSource.getExtent();
+      }
+
+    } else if(dataFocus == "") {
+
+      var focusIds = false;
+
     } else {
 
-      var focusIds = dataFocus ? dataFocus.trim().split(" ") : false;
+      // should be list of ids in this case
+      var focusIds = dataFocus.trim().split(" ");
 
     }
+
+    // if focusIds are set, determine bounding box for them
 
     if (focusIds) {
 
@@ -553,34 +593,51 @@ var Hijax = (function ($, Hijax) {
 
     }
 
+    // if at this point there is a bounding box, that's not infinit, fit the view to it
+
     if (boundingBox && (boundingBox[0] != Infinity)) {
-      // Set extent of map view
+
+      log.debug('MAP setBoundingBox – fitting to bounding box');
       world.getView().fit(boundingBox, world.getSize(), {
         minResolution: 2
       });
+      currentCenter = world.getView().getCenter();
+      layouted.resolve();
+
     } else {
 
-      // if no bounding box set center to user and zoom to initial again ...
+      // if no bounding box, look at dataFocus again
 
-      if (
-        navigator.geolocation
-      ) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var lon = position.coords.longitude;
-          var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
-          center[1] = defaultCenter[1];
-          world.getView().setCenter(center);
-        }, function(err){
-          world.getView().setCenter(defaultCenter);
-        });
-      } else {
-        world.getView().setCenter(defaultCenter);
+      if(dataFocus == 're-center') {
+
+        log.debug('MAP setBoundingBox – only updating the center');
+        world.getView().setCenter(currentCenter);
+
+      } else if(dataFocus == '') {
+
+        // set center to user and zoom to initial again ...
+
+        log.debug('MAP setBoundingBox – set center to user:', window.user_location);
+
+        var country_extent = countryVectorSource
+          .getFeatureById( window.user_location )
+          .getGeometry()
+          .getExtent();
+        var country_center_x = country_extent[0] + (country_extent[2] - country_extent[0]) / 2;
+        var center = [country_center_x, defaultCenter[1]]
+        world.getView().setCenter(center);
+
+        // Get zoom values adapted to map size
+
+        log.debug('MAP setBoundingBox – set zoom to initial');
+
+        var zoom_values = getZoomValues();
+        world.getView().setZoom(zoom_values.initialZoom);
+
+        currentCenter = center;
       }
 
-      // Get zoom values adapted to map size
-      var zoom_values = getZoomValues();
-
-      world.getView().setZoom(zoom_values.initialZoom);
+      layouted.resolve();
     }
   }
 
@@ -705,6 +762,45 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+  function restrictListToExtent(e) {
+
+    var container = $('[data-behaviour~="geoFilteredList"]');
+
+    if (
+      container.length &&
+      (
+        typeof e == 'undefined' ||
+        (
+          (e.key == 'resolution' || e.key == 'center') &&
+          $('#app-col-index').attr('data-col-mode') == 'list'
+        )
+      )
+    ) {
+
+      log.debug('MAP restrictListToExtent');
+
+      var list = container.find('.resource-list');
+      var enabled = container.find('.geo-filtered-list-control input');
+
+      if (enabled.prop("checked")) {
+        var extent = world.getView().calculateExtent(world.getSize());
+        list.children('li').hide();
+        placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
+          var resource = feature.getProperties()['resource'];
+          var ids = resource['referencedBy'] ? resource['referencedBy'].map(function(obj){return obj['@id']}) : [];
+          ids.push(resource['@id']);
+          for (var i = 0; i < ids.length; i++) {
+            list.children('li[about="' + ids[i] + '"]').show();
+          }
+        });
+      } else {
+        list.children('li').show();
+      }
+
+      container.find('.total-items').text(list.children('li:visible').length);
+    }
+  }
+
   var my = {
     init : function(context) {
 
@@ -811,7 +907,6 @@ var Hijax = (function ($, Hijax) {
           noWrap: true,
           wrapX: false
         });
-
         clusterLayer = new ol.layer.Vector({
           title: 'cluster',
           source: clusterSource,
@@ -862,6 +957,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // User position
+/*
         if (
           navigator.geolocation &&
           ! $(this).attr('data-focus')
@@ -873,6 +969,7 @@ var Hijax = (function ($, Hijax) {
             world.getView().setCenter(center);
           });
         }
+*/
 
         // Bind hover events
         world.on('pointermove', function(evt) {
@@ -898,9 +995,23 @@ var Hijax = (function ($, Hijax) {
               page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"));
+              if ($('#app-col-index').attr('data-col-mode') == 'floating') {
+                $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
+                page('/resource/?q=*');
+              }
             }
           }
         });
+
+        // restrict list to extent
+        world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
+
+        // update currentCenter
+        world.getView().on('propertychange', _.debounce(function(e) {
+          if (e.key == 'center' || e.key == 'resolution') {
+            currentCenter = world.getView().getCenter();
+          }
+        }, 150));
 
         // init popover
         popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
@@ -922,23 +1033,27 @@ var Hijax = (function ($, Hijax) {
 
         // precompile handlebar templates
         templates = {
-          popoverAction : Handlebars.compile($('#popoverAction\\.mustache').html()),
+          popoverAction : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverOrganization : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverPerson : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverService : Handlebars.compile($('#popoverResource\\.mustache').html()),
+          popoverEvent : Handlebars.compile($('#popoverResource\\.mustache').html()),
+
           popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
-          popoverOrganization : Handlebars.compile($('#popoverOrganization\\.mustache').html()),
-          popoverPerson : Handlebars.compile($('#popoverPerson\\.mustache').html()),
-          popoverService : Handlebars.compile($('#popoverService\\.mustache').html()),
-          popoverEvent : Handlebars.compile($('#popoverEvent\\.mustache').html())
+          popoverCluster : Handlebars.compile($('#popoverCluster\\.mustache').html())
         };
 
       });
 
       // Defer until vector source is loaded
       if (countryVectorSource.getFeatureById("US")) { // Is this a relieable test?
+        log.debug('MAP initialized');
         my.initialized.resolve();
       } else {
         var listener = countryVectorSource.on('change', function(e) {
           if (countryVectorSource.getState() == 'ready') {
             ol.Observable.unByKey(listener);
+            log.debug('MAP initialized');
             my.initialized.resolve();
           }
         });
@@ -946,9 +1061,13 @@ var Hijax = (function ($, Hijax) {
 
     },
 
+    layouted : false,
+
     layout : function() {
 
       $.when.apply(null, my.attached).done(function(){
+
+        log.debug('MAP layout started (waited to be attached therefor)');
 
         // Ensure that all current highlights are in current pins, too
         if (current_pins.length) {
@@ -970,12 +1089,19 @@ var Hijax = (function ($, Hijax) {
 
         set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
 
-/*
-        var properties = feature.getProperties();
-        properties.country = aggregation;
-        feature.setProperties(properties);
-*/
-        setBoundingBox($('[data-behaviour="map"]')[0]);
+        // check if the behaviours layouted (created at the beginning of attach) is resolved already
+        // if so create a local one, otherwise pass the behaviours one ...
+        var layouted;
+        if(my.layouted.state() == 'resolved') {
+          layouted = new $.Deferred();
+        } else {
+          layouted = my.layouted;
+        }
+        setBoundingBox($('[data-behaviour="map"]')[0], layouted);
+
+        layouted.done(function(){
+          log.debug('MAP layout finished');
+        });
 
       });
 
@@ -986,12 +1112,7 @@ var Hijax = (function ($, Hijax) {
       current_highlights = [];
     },
 
-    attach : function(context) {
-
-      console.log('map attach started');
-
-      var _attached = new $.Deferred();
-      my.attached.push(_attached);
+    attach : function(context, attached) {
 
       function get_markers_from_json(json) {
         var _markers = [];
@@ -1005,6 +1126,11 @@ var Hijax = (function ($, Hijax) {
         return _markers;
       }
 
+      // creating layouted deferred at the beginning of attached, to schedule actions from inside attach
+      // to happen after subsequent layout
+
+      my.layouted = $.Deferred();
+
       // Populate map with pins from resource listings
 
       markers = {};
@@ -1013,6 +1139,25 @@ var Hijax = (function ($, Hijax) {
         addPlacemarks(
           get_markers_from_json(json)
         );
+      });
+
+      // Hide entries not in current map extent by examining all markers (including "indirect" ones)
+      // for each list entry
+      $('[data-behaviour~="geoFilteredList"]', context).each(function(){
+
+        var container = $(this);
+
+        var checked = sessionStorage.getItem('geoFilteredList') == 'true' ? 'checked="checked"' : '';
+        var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
+          sessionStorage.setItem('geoFilteredList', this.checked);
+          restrictListToExtent();
+        });
+
+        my.layouted.done(function(){
+          restrictListToExtent();
+        });
+
+        container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
       });
 
       // Populate pin highlights
@@ -1110,8 +1255,7 @@ var Hijax = (function ($, Hijax) {
       });
 */
 
-      console.log('map attach done');
-      _attached.resolve();
+      attached.resolve();
 
     },
 

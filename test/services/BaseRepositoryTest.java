@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.common.geo.GeoPoint;
-import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   static {
     try {
-      mBaseRepo = new BaseRepository(mConfig);
+      mBaseRepo = new BaseRepository(mConfig, ElasticsearchTestGrid.getEsRepo());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -149,7 +149,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchRankingNameHitsFirst() throws IOException, ParseException, InterruptedException {
+  public void testSearchRankingNameHitsFirst() throws IOException, InterruptedException {
 
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.2.json");
@@ -438,6 +438,31 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
+  public void testSearchHyphenWords() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    // query complete word
+    List<Resource> completeWord = mBaseRepo.query("e-paideia", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 1);
+
+    // query abbreviated word
+    List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
+    Assert.assertTrue("Did not get proper result searching for e-pai.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+
+    // query without hyphen
+    List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Could not find \"epai\".", withoutHyphen.size() == 1);
+    Assert.assertTrue("Did not get proper result searching for epai.", withoutHyphen.get(0).getId().equals(completeWord.get(0).getId()));
+
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
   public void testSearchMissing() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -457,6 +482,57 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
     Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
 
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testSearchKeyword() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> queryByKeyword = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
+    List<Resource> queryByLowercaseKeyword = mBaseRepo.query("tvet", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by lowercased keyword.", queryByLowercaseKeyword.size() == 1);
+    List<Resource> queryByUppercaseKeyword = mBaseRepo.query("Vocational Education And Training", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by uppercased keyword.", queryByUppercaseKeyword.size() == 1);
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testRankKeyword() throws IOException, InterruptedException {
+    for (int i=1; i<=8; i++){
+      Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN."+i+".json");
+      mBaseRepo.addResource(db1, mMetadata);
+    }
+    Resource desired = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN.3.json");
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> rankedList = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find desired resource first while searching for keyword.", rankedList.get(0).getId().equals(desired.getId()));
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testSearchBySubjectClassification() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchBySubjectClassification.DB.1.json");
+    mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> searchBySubject = mBaseRepo.query("Mytestsubject", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by subject.", searchBySubject.size() > 0);
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testSearchByEducationClassification() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
+    mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
   }
 

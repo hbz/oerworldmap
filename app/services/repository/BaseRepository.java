@@ -10,14 +10,13 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.tdb.TDBFactory;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.json.simple.parser.ParseException;
 
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.tdb.TDBFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 
@@ -44,21 +43,26 @@ public class BaseRepository extends Repository
   private ActorRef mIndexQueue;
   private boolean mAsyncIndexing;
 
-  public BaseRepository(Config aConfiguration) throws IOException {
+  public BaseRepository(final Config aConfiguration, final ElasticsearchRepository aElasticsearchRepo) throws IOException {
 
     super(aConfiguration);
 
-    mElasticsearchRepo = new ElasticsearchRepository(aConfiguration);
+    if (aElasticsearchRepo == null) {
+      mElasticsearchRepo = new ElasticsearchRepository(mConfiguration);
+    }
+    else {
+      mElasticsearchRepo = aElasticsearchRepo;
+    }
     Dataset dataset;
 
     try {
-      dataset = TDBFactory.createDataset(aConfiguration.getString("tdb.dir"));
+      dataset = TDBFactory.createDataset(mConfiguration.getString("tdb.dir"));
     } catch (ConfigException e) {
       Logger.warn("No persistent TDB configured", e);
       dataset = DatasetFactory.createMem();
     }
 
-    File commitDir = new File(aConfiguration.getString("graph.history.dir"));
+    File commitDir = new File(mConfiguration.getString("graph.history.dir"));
     if (!commitDir.exists()) {
       Logger.warn("Commit dir does not exist");
       if (!commitDir.mkdir()) {
@@ -66,7 +70,7 @@ public class BaseRepository extends Repository
       }
     }
 
-    File historyFile = new File(aConfiguration.getString("graph.history.file"));
+    File historyFile = new File(mConfiguration.getString("graph.history.file"));
     if (!historyFile.exists()) {
       Logger.warn("History file does not exist");
       if (!historyFile.createNewFile()) {
@@ -74,10 +78,6 @@ public class BaseRepository extends Repository
       }
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
-
-    Integer framerPort = aConfiguration.getInt("node.framer.port");
-    ResourceFramer.setPort(framerPort);
-    ResourceFramer.start();
 
     Model mDb = dataset.getDefaultModel();
     mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
@@ -94,9 +94,9 @@ public class BaseRepository extends Repository
     }
 
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(aConfiguration, mDb, graphHistory);
+    mTriplestoreRepository = new TriplestoreRepository(mConfiguration, mDb, graphHistory);
 
-    mAsyncIndexing = aConfiguration.getBoolean("index.async");
+    mAsyncIndexing = mConfiguration.getBoolean("index.async");
 
   }
 
@@ -181,7 +181,7 @@ public class BaseRepository extends Repository
         date = ZonedDateTime.parse(aDefaultMetadata.get(TripleCommit.Header.DATE_HEADER));
       }
       Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      resource.put("@context", "http://schema.org/");
+      resource.put("@context", mConfiguration.getString("jsonld.context"));
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
       Commit commit = new TripleCommit(new TripleCommit.Header(author, date), diff);
       indexDiff.append(diff);
@@ -220,7 +220,7 @@ public class BaseRepository extends Repository
     ResourceList resourceList;
     try {
       resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
-    } catch (IOException | ParseException e) {
+    } catch (IOException e) {
       Logger.error(e.toString());
       return null;
     }
@@ -229,7 +229,12 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    return mTriplestoreRepository.getResource(aId);
+    return getResource(aId, null);
+  }
+
+  @Override
+  public Resource getResource(@Nonnull String aId, String aVersion) {
+    return mTriplestoreRepository.getResource(aId, aVersion);
   }
 
   public Resource getRecord(@Nonnull String aId) {
@@ -257,7 +262,7 @@ public class BaseRepository extends Repository
 
   @Override
   public List<Resource> getAll(@Nonnull String aType) {
-    List<Resource> resources = new ArrayList<Resource>();
+    List<Resource> resources = new ArrayList<>();
     try {
       resources = mElasticsearchRepo.getAll(aType);
     } catch (IOException e) {
@@ -310,8 +315,13 @@ public class BaseRepository extends Repository
   public String update(String delete, String insert, String where) {
 
     Commit.Diff diff = mTriplestoreRepository.update(delete, insert, where);
-    index(diff);
     return diff.toString();
+
+  }
+
+  public String label(String aId) {
+
+    return mTriplestoreRepository.label(aId);
 
   }
 

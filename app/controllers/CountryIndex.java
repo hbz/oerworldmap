@@ -15,21 +15,30 @@ import models.Resource;
 
 import models.ResourceList;
 
+import play.Configuration;
+import play.Environment;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
+
+import javax.inject.Inject;
 
 /**
  * @author fo
  */
 public class CountryIndex extends OERWorldMap {
 
-  public static Result read(String id, boolean embed) throws IOException {
+  @Inject
+  public CountryIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
+
+  public Result read(String id, boolean embed) throws IOException {
     if (!Arrays.asList(java.util.Locale.getISOCountries()).contains(id.toUpperCase())) {
       return notFound("Not found");
     }
 
-    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    QueryContext queryContext = getQueryContext();
 
     queryContext.setFetchSource(new String[]{
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
@@ -54,14 +63,14 @@ public class CountryIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     scope.put("alpha-2", id.toUpperCase());
-    scope.put("name", Countries.getNameFor(id, OERWorldMap.mLocale));
+    scope.put("name", Countries.getNameFor(id, getLocale()));
     scope.put("champions", champions.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
     scope.put("embed", embed);
 
-    if (request().accepts("text/html")) {
-      return ok(render(Countries.getNameFor(id, OERWorldMap.mLocale), "CountryIndex/read.mustache", scope));
+    if (ctx().request().accepts("text/html")) {
+      return ok(render(Countries.getNameFor(id, getLocale()), "CountryIndex/read.mustache", scope));
     } else {
       return ok(resources.toResource().toString()).as("application/json");
     }

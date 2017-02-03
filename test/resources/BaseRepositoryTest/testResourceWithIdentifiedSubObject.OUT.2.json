@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@type" : "Event",
   "@id" : "info:OER15"
 }

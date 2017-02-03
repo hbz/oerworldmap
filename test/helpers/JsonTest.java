@@ -5,13 +5,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import models.Resource;
 
+import models.ResourceList;
 import org.apache.commons.io.IOUtils;
 import play.Logger;
+
+import static org.junit.Assert.assertTrue;
 
 public interface JsonTest {
 
@@ -32,6 +39,12 @@ public interface JsonTest {
     }
   }
 
+  default ResourceList getResourcesFromPagedCollectionFile(String aPagedCollectionFile) throws IOException {
+    InputStream in = ClassLoader.getSystemResourceAsStream(aPagedCollectionFile);
+    String json = IOUtils.toString(in, "UTF-8");
+    return new ResourceList(Resource.fromJson(json));
+  }
+
   default List<Resource> getResourcesFromJsonDir(String aDir) throws IOException {
     List<Resource> resources = new ArrayList<>();
     try {
@@ -49,6 +62,17 @@ public interface JsonTest {
       Logger.error(e.toString());
     }
     return resources;
+  }
+
+  default String getStringFromFile(String aPath, Charset aEncoding)
+    throws IOException
+  {
+    byte[] encoded = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(aPath).toExternalForm().substring(5)));
+    return new String(encoded, aEncoding);
+  }
+
+  default List<String> splitLines(String aString){
+    return Arrays.asList(aString.split("\n"));
   }
 
 }

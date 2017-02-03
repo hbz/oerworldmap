@@ -1,84 +1,15 @@
-{{#scope}}
-
-    <div>
-
-        <script type="application/ld+json">
-            {{json .}}
-        </script>
-
-        <div class="resource-header">
-
-            <h1 class="resource-title">
-                {{getIcon @type}}
-                {{#localized name}}
-                    {{[@value]}}
-                {{else}}
-                    {{[@id]}}
-                {{/localized}}
-            </h1>
-
-        </div>
-
-        {{#localized description}}
-            <p>{{{[@value]}}}</p>
-        {{/localized}}
-
-        <table class="table resource-details-table">
-
-            {{#if inScheme}}
-                <tr>
-                    <td>{{i18n "Concept.inScheme"}}</td>
-                    <td>
-                        <ul class="resource-list">
-                            {{#inScheme}}
-                                <li>{{>ResourceIndex/link.mustache}}</li>
-                            {{/inScheme}}
-                        </ul>
-                    </td>
-                </tr>
-            {{/if}}
-
-            {{#if broader}}
-                <tr>
-                    <td>{{i18n "Concept.broader"}}</td>
-                    <td>
-                        <ul class="resource-list">
-                            {{#broader}}
-                                <li>{{>ResourceIndex/link.mustache}}</li>
-                            {{/broader}}
-                        </ul>
-                    </td>
-                </tr>
-            {{/if}}
-
-            {{#if narrower}}
-                <tr>
-                    <td>{{i18n "Concept.narrower"}}</td>
-                    <td>
-                        <ul class="resource-list" data-behaviour="sort">
-                            {{#narrower}}
-                                <li>{{>ResourceIndex/link.mustache}}</li>
-                            {{/narrower}}
-                        </ul>
-                    </td>
-                </tr>
-            {{/if}}
-
-            {{#if related}}
-                <tr>
-                    <td>{{i18n "Concept.related"}}</td>
-                    <td>
-                        <ul class="resource-list">
-                            {{#related}}
-                                <li>{{>ResourceIndex/link.mustache}}</li>
-                            {{/related}}
-                        </ul>
-                    </td>
-                </tr>
-            {{/if}}
-
-        </table>
-
-    </div>
-
-{{/scope}}
+{{getIcon @type}}
+<a href="/resource/?filter.about.about.@id={{[@id]}}">
+    {{#localized this.name language=@root.language}}
+        {{[@value]}}
+    {{else}}
+        {{[@id]}}
+    {{/localized}}
+</a>
+{{#if this.narrower}}
+    <ul style="list">
+        {{#narrower}}
+            <li>{{>ResourceIndex/Concept/read.mustache}}</li>
+        {{/narrower}}
+    </ul>
+{{/if}}

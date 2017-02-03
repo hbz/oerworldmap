@@ -31,9 +31,11 @@ var Hijax = (function ($, Hijax) {
 
       my.countries_bloodhoud = new Bloodhound({
         datumTokenizer: function(d){
-          return Bloodhound.tokenizers.whitespace(d.label);
+          return Bloodhound.tokenizers.whitespace(
+            bloodhoundAccentFolding.normalize(d.label)
+          );
         },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
         local: my.countries_array,
         identify: function(result){
           return result.id;
@@ -42,7 +44,10 @@ var Hijax = (function ($, Hijax) {
 
       // iterate over widgets
 
-      $('[data-attach~="place"] [data-behaviour~="place"]', context).each(function() {
+      $('[data-behaviour~="place"]', context)
+        .not('[data-dont-behave] [data-behaviour~="place"]')
+        .each(function()
+      {
 
         var widget = $(this);
 
@@ -300,6 +305,7 @@ var Hijax = (function ($, Hijax) {
           // the map
           var map = new ol.Map({
             target: 'location-lookup-map',
+            interactions: ol.interaction.defaults({mouseWheelZoom:false}),
             layers: [ regions, streets, markers ],
             view: new ol.View({
               center: [0, 5000000],
@@ -341,8 +347,9 @@ var Hijax = (function ($, Hijax) {
 
       });
 
-    }
+    },
 
+    attached : []
   };
 
   Hijax.behaviours.place = my;

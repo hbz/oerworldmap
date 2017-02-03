@@ -10,8 +10,6 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
@@ -20,6 +18,8 @@ import org.elasticsearch.node.NodeBuilder;
 import play.Logger;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class ElasticsearchConfig {
 
   // HOST
   private String mServer;
-  private String mJavaPort;
+  private Integer mJavaPort;
   private Node mInternalNode;
 
   // CLIENT
@@ -41,35 +41,40 @@ public class ElasticsearchConfig {
   private String mType;
   private String mCluster;
   private Map<String, String> mClientSettings;
-  private Builder mClientSettingsBuilder;
   private Client mClient;
   private TransportClient mTransportClient;
 
   public ElasticsearchConfig(Config aConfiguration) {
-    init(aConfiguration);
+    mConfig = aConfiguration;
+    init();
   }
 
   private void init() {
 
     // HOST
     mServer = mConfig.getString("es.host.server");
-    mJavaPort = mConfig.getString("es.host.port.java");
+    mJavaPort = mConfig.getInt("es.host.port.java");
 
     mIndex = mConfig.getString("es.index.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    if (mConfig.getBoolean("es.node.inmemory") || Strings.isNullOrEmpty(mJavaPort) || Strings.isNullOrEmpty(mServer)) {
+    if (mConfig.getBoolean("es.node.inmemory") || (mJavaPort == null) || Strings.isNullOrEmpty(mServer)) {
       mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
       mClient = mInternalNode.client();
     } //
     else {
-      Settings clientSettings = ImmutableSettings.settingsBuilder() //
+      Settings clientSettings = Settings.settingsBuilder() //
           .put("cluster.name", mCluster) //
           .put("client.transport.sniff", true) //
           .build();
-      mTransportClient = new TransportClient(clientSettings);
-      mClient = mTransportClient.addTransportAddress(new InetSocketTransportAddress(mServer, 9300));
+      mTransportClient = TransportClient.builder().settings(clientSettings).build();
+      try {
+        mClient = mTransportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mServer),
+          mJavaPort));
+      } catch (UnknownHostException ex) {
+        throw new RuntimeException(ex);
+      }
     }
 
     if (!indexExists(mIndex)) {
@@ -88,16 +93,7 @@ public class ElasticsearchConfig {
     mClientSettings.put("index.name", mIndex);
     mClientSettings.put("index.type", mType);
     mClientSettings.put("cluster.name", mCluster);
-
-    mClientSettingsBuilder = ImmutableSettings.settingsBuilder().put(mClientSettings);
   }
-
-  private void init(Config aConfiguration) {
-    // CONFIG OBJECT
-    mConfig = aConfiguration;
-    init();
-  }
-
 
   public String getIndex() {
     return mClientSettings.get("index.name");
@@ -115,7 +111,7 @@ public class ElasticsearchConfig {
     return mServer;
   }
 
-  public String getJavaPort() {
+  public Integer getJavaPort() {
     return mJavaPort;
   }
 
@@ -129,10 +125,6 @@ public class ElasticsearchConfig {
 
   public Map<String, String> getClientSettings() {
     return mClientSettings;
-  }
-
-  public Builder getClientSettingsBuilder() {
-    return mClientSettingsBuilder;
   }
 
   public Client getClient() {
@@ -163,7 +155,6 @@ public class ElasticsearchConfig {
       mTransportClient.close();
     }
     if (mInternalNode != null){
-      mInternalNode.stop();
       mInternalNode.close();
     }
   }

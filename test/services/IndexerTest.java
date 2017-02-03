@@ -8,8 +8,8 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 
 import helpers.JsonTest;
 import models.TripleCommit;
@@ -21,8 +21,6 @@ public class IndexerTest implements JsonTest {
 
   @Test
   public void testIndexNewResourceWithNewReference() throws IOException {
-
-    ResourceFramer.start();
 
     // The model for the indexer to SPARQL against
     Model db = ModelFactory.createDefaultModel();

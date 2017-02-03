@@ -1,8 +1,12 @@
 {
 	"@type": "Person",
 	"@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456",
-	"givenName": "Hans",
-	"familyName": "Wurst",
+  "name": [
+    {
+      "@value": "Hans Wurst",
+      "@language": "de"
+    }
+  ],
 	"affiliation": [
 		{
 			"@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"
@@ -11,5 +15,5 @@
 			"@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123"
 		}
 	],
-	"@context": "http://schema.org/"
+	"@context" : "https://oerworldmap.org/assets/json/context.json"
 }

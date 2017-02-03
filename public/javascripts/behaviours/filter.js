@@ -27,8 +27,8 @@ var Hijax = (function ($, Hijax, page) {
     'Person' : { 'icon' : 'user' },
     'Service' : { 'icon' : 'desktop' },
     'Action' : { 'icon' : 'gears' },
-    'Article' : { 'icon' : 'comment' },
-    'Event' : { 'icon' : 'calendar' }
+    'Event' : { 'icon' : 'calendar' },
+    'Article' : { 'icon' : 'comment' }
   };
 
   var i18n_bundles = {
@@ -100,7 +100,7 @@ var Hijax = (function ($, Hijax, page) {
       aggregation.show = true;
     } else {
       aggregation.show = false;
-      return;
+      // return;
     }
 
     // active ?
@@ -154,9 +154,11 @@ var Hijax = (function ($, Hijax, page) {
   function create_bloodhound(aggregation) {
     bloodhounds[ aggregation.name ] = new Bloodhound({
       datumTokenizer : function(d){
-        return Bloodhound.tokenizers.whitespace(d.label_x);
+        return Bloodhound.tokenizers.whitespace(
+          bloodhoundAccentFolding.normalize(d.label_x)
+        );
       },
-      queryTokenizer : Bloodhound.tokenizers.whitespace,
+      queryTokenizer : bloodhoundAccentFolding.queryTokenizer,
       local : aggregation.buckets,
       identify : function(result){
         return result.id;
@@ -291,6 +293,7 @@ var Hijax = (function ($, Hijax, page) {
   var my = {
 
     init : function(context) {
+      log.debug('FILTER initialized');
       my.initialized.resolve();
     },
 
@@ -323,15 +326,23 @@ var Hijax = (function ($, Hijax, page) {
           pimp_aggregation(aggregations[ a ], a);
         }
 
-        // extract country
+        // extract country and tag
 
         var country_aggregation = aggregations['about.location.address.addressCountry'];
-        country_aggregation.column = 3;
+        country_aggregation.column = 'small-5';
+        country_aggregation.small = true;
+        country_aggregation.button_icon = 'globe';
+
+        var tag_aggregation = aggregations['about.keywords'];
+        tag_aggregation.column = 'small-6';
+        tag_aggregation.small = true;
+        tag_aggregation.button_icon = 'tag';
 
         // remove special treated aggregations
 
-        delete aggregations['about.location.address.addressCountry'];
         delete aggregations['about.@type'];
+        delete aggregations['about.keywords'];
+        delete aggregations['about.location.address.addressCountry'];
 
         // set columns
 
@@ -356,6 +367,7 @@ var Hijax = (function ($, Hijax, page) {
             aggregations : aggregations,
             resource_types : resource_types,
             country_aggregation : country_aggregation,
+            tag_aggregation : tag_aggregation,
             clear_filter_offset : clear_filter_offset
           })
         );
@@ -364,6 +376,7 @@ var Hijax = (function ($, Hijax, page) {
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
           init_filter(country_aggregation);
+          init_filter(tag_aggregation);
           for(name in aggregations) {
             init_filter(aggregations[ name ]);
           }
@@ -426,6 +439,7 @@ var Hijax = (function ($, Hijax, page) {
     },
 
     initialized : new $.Deferred(),
+    attached : []
 
   };
 

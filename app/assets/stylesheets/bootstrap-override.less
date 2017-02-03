@@ -38,7 +38,6 @@ h3:first-child {
 
 
 .lead {
-  margin: (@line-height-computed * 1.7) 0;
 
   @media (min-width: @screen-sm-min) {
     font-size: (@font-size-base * 1.2);
@@ -79,16 +78,31 @@ h3:first-child {
       border-bottom: none;
     }
 
-    a {
+    a,
+    button {
       padding: 5px 30px 5px 8px;
-      text-decoration: none;
       position: relative;
-
       i {
         display: block;
         position: absolute;
         right: 8px;
         top: 8px;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    button {
+      border: none;
+      background: none;
+      display: block;
+      width: 100%;
+      text-align: left;
+
+      &:hover {
+        background: @blue-paler;
       }
     }
   }
@@ -119,6 +133,14 @@ h3:first-child {
 
 .modal-title {
   padding-bottom: 20px;
+  position: relative;
+
+  .right {
+    font-size: @font-size-small;
+    position: absolute;
+    right: 0;
+    bottom: 34px; // dirty
+  }
 }
 
 .modal .close {
@@ -162,4 +184,21 @@ h3:first-child {
 
 .table tr:last-child td {
   border-bottom: 1px solid @table-border-color;
+}
+
+
+/* --- links @media print (unset visible hrefs)--- */
+
+@media print {
+
+  *,
+  *:before,
+  *:after {
+    color: @blue-darker !important;
+  }
+
+  a[href]:after {
+    content: "";
+  }
+
 }

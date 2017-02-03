@@ -1,10 +1,20 @@
 {
   "@type": "Organization",
   "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123",
-  "legalName": "Oh Yeah Company",
+  "name": [
+    {
+      "@value": "Oh Yeah Company",
+      "@language": "de"
+    }
+  ],
   "employee": {
     "@type": "Person",
     "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456"
   },
-  "@context": "http://schema.org/"
+  "affiliate" : [
+    {
+      "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456"
+    }
+  ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json"
 }

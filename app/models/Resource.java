@@ -1,22 +1,5 @@
 package models;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import org.apache.commons.io.IOUtils;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,13 +10,21 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
+import org.apache.commons.io.IOUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
-import play.Play;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
 
@@ -156,7 +147,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public static Resource fromJson(InputStream aInputStream) throws IOException {
     String json = IOUtils.toString(aInputStream, "UTF-8");
     aInputStream.close();
-    return Resource.fromJson(json);
+    return fromJson(json);
   }
 
   public ProcessingReport validate() {
@@ -255,6 +246,11 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public Resource getAsResource(final Object aKey) {
     Object result = get(aKey);
     return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
+  }
+
+  public Map<?, ?> getAsMap(final String aKey) {
+    Object result = get(aKey);
+    return (null == result || !(result instanceof Map<?, ?>)) ? null : (Resource) result;
   }
 
 
@@ -370,6 +366,57 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       result.delete(result.length() - 2, result.length());
     }
     return result.toString();
+  }
+
+  public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale){
+    final String[] split = aNestedKey.split("\\.", 2);
+    if (split.length == 0){
+      return null;
+    }
+    if (split.length == 1){
+      Object o = get(split[0]);
+      if (o != null) {
+        return o.toString();
+      }
+      return null;
+    }
+    // split.length == 2
+    final Object o = get(split[0]);
+    if (o instanceof ArrayList<?>){
+      String next = getNestedValueOfList(split[1], (ArrayList<?>) o, aPreferredLocale);
+      if (next != null) return next;
+    } //
+    else if (o instanceof Resource){
+      Resource resource = (Resource) o;
+      if (resource.size() == 0){
+        return null;
+      }
+      return resource.getNestedFieldValue(split[1], aPreferredLocale);
+    }
+    return null;
+  }
+
+  private String getNestedValueOfList(final String aKey, final ArrayList<?> aList, final Locale aPreferredLocale) {
+    Object next;
+    final Locale fallbackLocale = Locale.ENGLISH;
+    String fallbackValue = null;
+    for (Iterator it = aList.iterator(); it.hasNext(); ){
+      next = it.next();
+      if (next instanceof Resource){
+        Resource resource = (Resource) next;
+        Object language = resource.get("@language");
+        if (language == null){
+          return resource.getNestedFieldValue(aKey, aPreferredLocale);
+        }
+        if (language.equals(aPreferredLocale.getLanguage())){
+          return resource.getNestedFieldValue(aKey, aPreferredLocale);
+        }
+        if (language.equals(fallbackLocale.getLanguage())){
+          fallbackValue = getNestedFieldValue(aKey, fallbackLocale);
+        }
+      }
+    }
+    return fallbackValue;
   }
 
 }

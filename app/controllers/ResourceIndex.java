@@ -1,70 +1,74 @@
 package controllers;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import helpers.JSONForm;
-import models.Record;
-import models.TripleCommit;
-import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.json.simple.parser.ParseException;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-
+import helpers.JSONForm;
 import helpers.JsonLdConstants;
-import models.Commit;
+import helpers.SCHEMA;
+import models.Record;
 import models.Resource;
 import models.ResourceList;
+import models.TripleCommit;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import play.Configuration;
+import play.Environment;
 import play.Logger;
-import play.Play;
 import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
 import services.TwitterNotification;
-import services.export.AbstractCsvExporter;
+import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
+
+import javax.inject.Inject;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author fo
  */
 public class ResourceIndex extends OERWorldMap {
 
-  public static Result list(String q, int from, int size, String sort, boolean list)
-      throws IOException, ParseException {
+  @Inject
+  public ResourceIndex(Configuration aConf, Environment aEnv) {
+    super(aConf, aEnv);
+  }
+
+  public Result listDefault(String q, int from, int size, String sort, boolean list) throws IOException {
+    return list(q, from, size, sort, list, null);
+  }
+
+  public Result list(String q, int from, int size, String sort, boolean list, String extension)
+      throws IOException {
 
     // Extract filters directly from query params
     Map<String, List<String>> filters = new HashMap<>();
     Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
-    for (Map.Entry<String, String[]> entry : request().queryString().entrySet()) {
+    for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
       Matcher filterMatcher = filterPattern.matcher(entry.getKey());
       if (filterMatcher.find()) {
         filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
     }
 
-    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
+    QueryContext queryContext = getQueryContext();
 
     // Check for bounding box
-    String[] boundingBoxParam = request().queryString().get("boundingBox");
+    String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");
     if (boundingBoxParam != null && boundingBoxParam.length > 0) {
       String boundingBox = boundingBoxParam[0];
       if (boundingBox != null) {
@@ -87,38 +91,76 @@ public class ResourceIndex extends OERWorldMap {
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
       "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location"
+      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
+      "about.startDate", "about.endDate"
     });
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
-    Map<String, Object> scope = new HashMap<>();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
+
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url()));
+    if (resourceList.containsType("Event")) {
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url()));
+    }
+
+    Map<String, Object> scope = new HashMap<>();
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
+    scope.put("alternates", alternates);
 
-    if (request().accepts("text/html")) {
-      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
-    } else if (request().accepts("text/csv")) {
-      StringBuffer result = new StringBuffer();
-      AbstractCsvExporter csvExporter = new CsvWithNestedIdsExporter();
-      csvExporter.defineHeaderColumns(resourceList.getItems());
-      List<String> dropFields = Arrays.asList(JsonLdConstants.TYPE);
-      csvExporter.setDropFields(dropFields);
-      result.append(csvExporter.headerKeysToCsvString().concat("\n"));
-      for (Resource resource : resourceList.getItems()) {
-        result.append(csvExporter.exportResourceAsCsvLine(resource).concat("\n"));
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
       }
-      return ok(result.toString()).as("text/csv");
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
     } else {
+      format = "application/json";
+    }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
+    } //
+    else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+    } //
+    else if (format.equals("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+    } //
+    else if (format.equals("application/json")) {
       return ok(resourceList.toResource().toString()).as("application/json");
     }
+
+    return notFound("Not found");
+
   }
 
-  public static Result importRecords() throws IOException {
+  public Result importRecords() throws IOException {
 
     // Import records
-    JsonNode json = request().body().asJson();
+    JsonNode json = ctx().request().body().asJson();
     List<Resource> records = new ArrayList<>();
     if (json.isArray()) {
       for (JsonNode node : json) {
@@ -155,8 +197,8 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result importResources() throws IOException {
-    JsonNode json = request().body().asJson();
+  public Result importResources() throws IOException {
+    JsonNode json = ctx().request().body().asJson();
     List<Resource> resources = new ArrayList<>();
     if (json.isArray()) {
       for (JsonNode node : json) {
@@ -171,7 +213,7 @@ public class ResourceIndex extends OERWorldMap {
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
-  public static Result addResource() throws IOException {
+  public Result addResource() throws IOException {
 
     JsonNode jsonNode = getJsonFromRequest();
 
@@ -185,7 +227,7 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result updateResource(String aId) throws IOException {
+  public Result updateResource(String aId) throws IOException {
 
     // If updating a resource, check if it actually exists
     Resource originalResource = mBaseRepository.getResource(aId);
@@ -197,11 +239,11 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private static Result upsertResource(boolean isUpdate) throws IOException {
+  private Result upsertResource(boolean isUpdate) throws IOException {
 
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
-    resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     // Person create /update only through UserIndex, which is restricted to admin
     if (!isUpdate && "Person".equals(resource.getType())) {
@@ -215,7 +257,7 @@ public class ResourceIndex extends OERWorldMap {
       List<Map<String, Object>> messages = new ArrayList<>();
       HashMap<String, Object> message = new HashMap<>();
       message.put("level", "warning");
-      message.put("message", OERWorldMap.messages.getString("schema_error")
+      message.put("message", getMessages().getString("schema_error")
         + "<pre>" + processingReport.toString() + "</pre>"
         + "<pre>" + staged + "</pre>");
       messages.add(message);
@@ -244,12 +286,13 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        return read(resource.getId());
+        return read(resource.getId(), "HEAD", "html");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId()).absoluteURL(request()));
+      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+        .absoluteURL(request()));
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
@@ -259,13 +302,13 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private static Result upsertResources() throws IOException {
+  private Result upsertResources() throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
     for (JsonNode jsonNode : getJsonFromRequest()) {
       Resource resource = Resource.fromJson(jsonNode);
-      resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+      resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
       resources.add(resource);
     }
 
@@ -295,7 +338,7 @@ public class ResourceIndex extends OERWorldMap {
       List<Map<String, Object>> messages = new ArrayList<>();
       HashMap<String, Object> message = new HashMap<>();
       message.put("level", "warning");
-      message.put("message", OERWorldMap.messages.getString("schema_error")
+      message.put("message", getMessages().getString("schema_error")
         + "<pre>" + listProcessingReport.toString() + "</pre>"
         + "<pre>" + resources + "</pre>");
       messages.add(message);
@@ -308,10 +351,14 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
+  public Result readDefault(String id, String version) throws IOException {
+    return read(id, version, null);
+  }
 
-  public static Result read(String id) throws IOException {
+
+  public Result read(String id, String version, String extension) throws IOException {
     Resource resource;
-    resource = mBaseRepository.getResource(id);
+    resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
@@ -327,15 +374,15 @@ public class ResourceIndex extends OERWorldMap {
       Resource conceptScheme = null;
       String field = null;
       if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/esc.json"));
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
         field = "about.about.@id";
       } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
         field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(Play.application().classloader().getResourceAsStream("public/json/isced-1997.json"));
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-            .filter(FilterBuilders.termFilter("about.@type", "Service"));
+            .filter(QueryBuilders.termQuery("about.@type", "Service"));
         for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
@@ -346,6 +393,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    List<Resource> comments = new ArrayList<>();
+    for (String commentId : resource.getIdList("comment")) {
+      comments.add(mBaseRepository.getResource(commentId));
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -353,34 +405,83 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    Resource user = (Resource) ctx().args.get("user");
-    boolean mayEdit = (user != null) && ((resource.getType().equals("Person") && user.getId().equals(id))
+    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
         || (!resource.getType().equals("Person")
-            && mAccountService.getGroups(request().username()).contains("editor"))
-        || mAccountService.getGroups(request().username()).contains("admin"));
-    boolean mayLog = (user != null) && (mAccountService.getGroups(request().username()).contains("admin")
-        || mAccountService.getGroups(request().username()).contains("editor"));
-    boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
-    boolean mayComment = (user != null) && (!resource.getType().equals("Person"));
+            && mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"))
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
+    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
     permissions.put("log", mayLog);
     permissions.put("administer", mayAdminister);
     permissions.put("comment", mayComment);
+    permissions.put("delete", mayDelete);
+
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
+    if (resource.getType().equals("Event")) {
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+    }
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
+    scope.put("comments", comments);
     scope.put("permissions", permissions);
+    scope.put("alternates", alternates);
 
-    if (request().accepts("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
     } else {
-      return ok(resource.toString()).as("application/json");
+      format = "application/json";
     }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    } else if (format.equals("application/json")) {
+      return ok(resource.toString()).as("application/json");
+    } else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+    } else if (format.equals("text/calendar")) {
+      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
+      if (ical != null) {
+        return ok(ical).as("text/calendar");
+      }
+    }
+
+    return notFound("Not found");
+
   }
 
-  public static Result export(String aId) {
+  public Result export(String aId) {
     Resource record = mBaseRepository.getRecord(aId);
     if (null == record) {
       return notFound("Not found");
@@ -388,7 +489,7 @@ public class ResourceIndex extends OERWorldMap {
     return ok(record.toString()).as("application/json");
   }
 
-  public static Result delete(String aId) throws IOException {
+  public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
       return ok("deleted resource " + resource.toString());
@@ -397,37 +498,36 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public static Result log(String aId) {
+  public Result log(String aId) {
 
-    StringBuilder stringBuilder = new StringBuilder();
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("commits", mBaseRepository.log(aId));
+    scope.put("resource", aId);
 
-    for (Commit commit : mBaseRepository.log(aId)) {
-      stringBuilder.append(commit).append("\n\n");
+    if (StringUtils.isEmpty(aId)) {
+      return ok(mBaseRepository.log(aId).toString());
     }
-
-    return ok(stringBuilder.toString());
+    return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
 
   }
 
-  public static Result index(String aId) {
+  public Result index(String aId) {
     mBaseRepository.index(aId);
     return ok("Indexed ".concat(aId));
   }
 
-  public static Result commentResource(String aId) throws IOException {
+  public Result commentResource(String aId) throws IOException {
 
     ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
-    jsonNode.put(JsonLdConstants.CONTEXT, "http://schema.org/");
+    jsonNode.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     Resource comment = Resource.fromJson(jsonNode);
 
-    comment.put("author", ctx().args.get("user"));
+    comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
     TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
     diff.addStatement(ResourceFactory.createStatement(
-      ResourceFactory.createResource(aId),
-      ResourceFactory.createProperty("http://schema.org/comment"),
-      ResourceFactory.createResource(comment.getId())
+      ResourceFactory.createResource(aId), SCHEMA.comment, ResourceFactory.createResource(comment.getId())
     ));
 
     Map<String, String> metadata = getMetadata();
@@ -440,14 +540,19 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public static Result feed() {
+  public Result feed() {
 
-    QueryContext queryContext = (QueryContext) ctx().args.get("queryContext");
-    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, queryContext);
+    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 
     return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
+
+  }
+
+  public Result label(String aId) {
+
+    return ok(mBaseRepository.label(aId));
 
   }
 

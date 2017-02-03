@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
   }
 
   @Test
-  public void testAddAndQueryResources() throws IOException, ParseException {
+  public void testAddAndQueryResources() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(
@@ -43,7 +42,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
   }
 
   @Test
-  public void testAddAndEsQueryResources() throws IOException, ParseException {
+  public void testAddAndEsQueryResources() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(
@@ -54,7 +53,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     ResourceList result = null;
     try {
       result = mElasticsearchRepo.query(aQueryString, 0, 10, null, null);
-    } catch (IOException | ParseException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     } finally {
       Assert.assertNotNull(result);
@@ -63,7 +62,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
   }
 
   @Test
-  public void testUniqueFields() throws IOException, ParseException {
+  public void testUniqueFields() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(

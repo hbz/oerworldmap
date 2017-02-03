@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +26,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.MarkdownHelper;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.record.Location;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -40,52 +47,174 @@ import helpers.UniversalFunctions;
 import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
+import play.Environment;
 import play.Logger;
-import play.Play;
+
+import play.i18n.Lang;
 import play.mvc.Controller;
-import play.mvc.With;
 import play.twirl.api.Html;
 import services.AccountService;
 import services.AggregationProvider;
+import services.QueryContext;
 import services.repository.BaseRepository;
+import services.repository.ElasticsearchRepository;
+
+import javax.inject.Inject;
 
 /**
  * @author fo
  */
-@With(Authorized.class)
+//FIXME: re-enable Authorized.class, currently solved by getHttpBasicAuthUser()
+// see https://github.com/playframework/playframework/issues/4706
+//@With(Authorized.class)
 public abstract class OERWorldMap extends Controller {
 
-  final protected static Configuration mConf = Global.getConfig();
+  Configuration mConf;
+  Environment mEnv;
   protected static BaseRepository mBaseRepository = null;
+  static AccountService mAccountService;
+  static DatabaseReader mLocationLookup;
 
-  public static Locale mLocale = new Locale("en", "US");
-
-  static {
-    AccountService.setApache2Ctl(Global.getConfig().getString("ht.apache2ctl.restart"));
-  }
-
-  protected static AccountService mAccountService = new AccountService(
-    new File(Global.getConfig().getString("user.token.dir")),
-    new File(Global.getConfig().getString("ht.passwd")),
-    new File(Global.getConfig().getString("ht.groups")),
-    new File(Global.getConfig().getString("ht.profiles")),
-    new File(Global.getConfig().getString("ht.permissions")));
-
-  // TODO final protected static FileRepository
-  // mUnconfirmedUserRepository;
-  static {
-    try {
-      mBaseRepository = new BaseRepository(Global.getConfig().underlying());
-    } catch (final Exception ex) {
-      throw new RuntimeException("Failed to create Respository", ex);
+  private static synchronized void createBaseRepository(Configuration aConf) {
+    if (mBaseRepository == null) {
+      try {
+        mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
+      } catch (final Exception ex) {
+        throw new RuntimeException("Failed to create Respository", ex);
+      }
     }
   }
 
-  protected static ResourceBundle messages = ResourceBundle.getBundle("messages", OERWorldMap.mLocale);
-  protected static ResourceBundle emails = ResourceBundle.getBundle("emails", OERWorldMap.mLocale);
+  private static synchronized void createAccountService(Configuration aConf) {
+    if (mAccountService == null) {
+      mAccountService = new AccountService(
+        new File(aConf.getString("user.token.dir")),
+        new File(aConf.getString("ht.passwd")),
+        new File(aConf.getString("ht.groups")),
+        new File(aConf.getString("ht.profiles")),
+        new File(aConf.getString("ht.permissions")));
+      mAccountService.setApache2Ctl(aConf.getString("ht.apache2ctl.restart"));
+    }
+  }
+
+  private static synchronized void createLocationLookup(Environment aEnv) {
+    if (mLocationLookup == null) {
+      try {
+        mLocationLookup = new DatabaseReader.Builder(aEnv.resourceAsStream("GeoLite2-Country.mmdb")).build();
+      } catch (final IOException ex) {
+        throw new RuntimeException("Failed to create location lookup", ex);
+      }
+    }
+  }
+
+  @Inject
+  public OERWorldMap(Configuration aConf, Environment aEnv) {
+
+    mConf = aConf;
+    mEnv = aEnv;
+
+    // Repository
+    createBaseRepository(mConf);
+
+    // Account service
+    createAccountService(mConf);
+
+    // Location lookup
+    createLocationLookup(mEnv);
+
+  }
+
+  Locale getLocale() {
+
+    Locale locale = new Locale("en", "US");
+    if (mConf.getBoolean("i18n.enabled")) {
+      List<Lang> acceptLanguages = request().acceptLanguages();
+      if (acceptLanguages.size() > 0) {
+        locale = acceptLanguages.get(0).toLocale();
+      }
+    }
+
+    return locale;
+
+  }
+
+  Resource getUser() {
+
+    Resource user = null;
+    System.out.println("username " + getHttpBasicAuthUser());
+    String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
+    if (!StringUtils.isEmpty(profileId)) {
+      user = getRepository().getResource(profileId);
+    }
+
+    return user;
+
+  }
+
+  String getHttpBasicAuthUser() {
+
+    String authHeader = ctx().request().getHeader(AUTHORIZATION);
+
+    if (null == authHeader) {
+      return null;
+    }
+
+    String auth = authHeader.substring(6);
+    byte[] decoded = Base64.getDecoder().decode(auth);
+
+    String[] credentials;
+    try {
+      credentials = new String(decoded, "UTF-8").split(":");
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+      return null;
+    }
+
+    if (credentials.length != 2) {
+      return null;
+    }
+
+    return credentials[0];
+
+  }
+
+  QueryContext getQueryContext() {
+
+    List<String> roles = new ArrayList<>();
+    roles.add("guest");
+    if (getUser() != null) {
+      roles.add("authenticated");
+    }
+
+    return new QueryContext(roles);
+
+  }
+
+  ResourceBundle getMessages() {
+
+    return ResourceBundle.getBundle("messages", getLocale());
+
+  }
+
+  ResourceBundle getEmails() {
+
+    return ResourceBundle.getBundle("emails", getLocale());
+
+  }
+
+  String getLocation() {
+
+    try {
+      return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry().getIsoCode();
+    } catch (Exception ex) {
+      Logger.error("Could not read host", ex);
+      return "GB";
+    }
+
+  }
 
   //TODO: is this right here? how else to implement?
-  public static String getLabel(String aId) {
+  public String getLabel(String aId) {
 
     Resource resource = mBaseRepository.getResource(aId);
     if (null == resource) {
@@ -97,7 +226,7 @@ public abstract class OERWorldMap extends Controller {
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
           String language = ((Resource) n).getAsString("@language");
-          if (language.equals(OERWorldMap.mLocale.getLanguage())) {
+          if (language.equals(getLocale().getLanguage())) {
             return ((Resource) n).getAsString("@value");
           }
         }
@@ -122,42 +251,56 @@ public abstract class OERWorldMap extends Controller {
     return aId;
   }
 
-  protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope,
+  protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put("scope", scope);
     mustacheData.put("messages", messages);
-    mustacheData.put("user", ctx().args.get("user"));
-    mustacheData.put("username", ctx().args.get("username"));
+    mustacheData.put("user", getUser());
+    mustacheData.put("username", getHttpBasicAuthUser());
     mustacheData.put("pageTitle", pageTitle);
     mustacheData.put("template", templatePath);
     mustacheData.put("config", mConf.asMap());
     mustacheData.put("templates", getClientTemplates());
-
+    mustacheData.put("language", getLocale().toLanguageTag());
+    mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
+    mustacheData.put("location", getLocation());
+    Logger.debug(getLocation());
+    Map<String, Object> skos = new HashMap<>();
+    try {
+      skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
+        HashMap.class));
+      skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
+        HashMap.class));
+    } catch (IOException e) {
+      Logger.error("Could not read SKOS file", e);
+    }
+    mustacheData.put("skos", skos);
 
     try {
       if (scope != null) {
         Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
+        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0));
         scope.put("globalAggregation", globalAggregation);
+        scope.put("keywordAggregation", keywordAggregation);
       }
     } catch (IOException e) {
       Logger.error("Could not add global statistics", e);
     }
 
-
-    Resource user = (Resource) ctx().args.get("user");
-    boolean mayAdd = (user != null) && (mAccountService.getGroups(request().username()).contains("admin")
-      || mAccountService.getGroups(request().username()).contains("editor"));
-    boolean mayAdminister = (user != null) && mAccountService.getGroups(request().username()).contains("admin");
+    boolean mayAdd = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+      || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
+    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("add", mayAdd);
     permissions.put("administer", mayAdminister);
     mustacheData.put("permissions", permissions);
 
-    TemplateLoader loader = new ResourceTemplateLoader();
+    TemplateLoader loader = new ResourceTemplateLoader(mEnv.classLoader());
     loader.setPrefix("public/mustache");
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
+    handlebars.infiniteLoops(true);
 
     handlebars.registerHelpers(StringHelpers.class);
 
@@ -173,6 +316,7 @@ public abstract class OERWorldMap extends Controller {
       Logger.error(e.toString());
     }
 
+    HandlebarsHelpers.setController(this);
     handlebars.registerHelpers(new HandlebarsHelpers());
 
     try {
@@ -199,19 +343,19 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  protected static Html render(String pageTitle, String templatePath, Map<String, Object> scope) {
+  protected Html render(String pageTitle, String templatePath, Map<String, Object> scope) {
     return render(pageTitle, templatePath, scope, null);
   }
 
-  protected static Html render(String pageTitle, String templatePath) {
+  protected Html render(String pageTitle, String templatePath) {
     return render(pageTitle, templatePath, null, null);
   }
 
-  protected static BaseRepository getRepository() {
+  protected BaseRepository getRepository() {
     return mBaseRepository;
   }
 
-  protected static AccountService getAccountService() {
+  protected AccountService getAccountService() {
     return mAccountService;
   }
 
@@ -219,11 +363,11 @@ public abstract class OERWorldMap extends Controller {
    * Get resource from JSON body or form data
    * @return The JSON node
    */
-  protected static JsonNode getJsonFromRequest() {
+  protected JsonNode getJsonFromRequest() {
 
-    JsonNode jsonNode = request().body().asJson();
+    JsonNode jsonNode = ctx().request().body().asJson();
     if (jsonNode == null) {
-      Map<String, String[]> formUrlEncoded = request().body().asFormUrlEncoded();
+      Map<String, String[]> formUrlEncoded = ctx().request().body().asFormUrlEncoded();
       if (formUrlEncoded != null) {
         jsonNode = JSONForm.parseFormData(formUrlEncoded, true);
       }
@@ -235,13 +379,13 @@ public abstract class OERWorldMap extends Controller {
   /**
    * Get metadata suitable for record provinence
    *
-   * @return Map containing current user in author and current time in date field.
+   * @return Map containing current getUser() in author and current time in date field.
    */
-  protected static Map<String, String> getMetadata() {
+  protected Map<String, String> getMetadata() {
 
     Map<String, String> metadata = new HashMap<>();
-    if (!StringUtils.isEmpty(request().username())) {
-      metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
+    if (!StringUtils.isEmpty(getHttpBasicAuthUser())) {
+      metadata.put(TripleCommit.Header.AUTHOR_HEADER, getHttpBasicAuthUser());
     } else {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, "System");
     }
@@ -251,11 +395,11 @@ public abstract class OERWorldMap extends Controller {
   }
 
 
-  private static String getClientTemplates() {
+  private String getClientTemplates() {
 
     final List<String> templates = new ArrayList<>();
     final String dir = "public/mustache/ClientTemplates/";
-    final ClassLoader classLoader = Play.application().classloader();
+    final ClassLoader classLoader = mEnv.classLoader();
 
     String[] paths = new String[0];
     try {
@@ -297,14 +441,13 @@ public abstract class OERWorldMap extends Controller {
    * @throws URISyntaxException
    * @throws IOException
    */
-  private static String[] getResourceListing(String path, ClassLoader classLoader)
+  private String[] getResourceListing(String path, ClassLoader classLoader)
       throws URISyntaxException, IOException {
 
     URL dirURL = classLoader.getResource(path);
 
     if (dirURL == null) {
-      return new File(play.Play.application().path().getAbsolutePath().concat("/").concat(path))
-          .list();
+      return mEnv.getFile(path).list();
     } else if (dirURL.getProtocol().equals("jar")) {
       String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); // strip
                                                                                      // out

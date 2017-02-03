@@ -1,5 +1,5 @@
 {
-  "@context": "http://schema.org/",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
   "@type": "Action",
   "additionalType": ["Repository development"],
@@ -134,6 +134,33 @@
     }
 
   ],
+  "isFundedBy": [ {
+    "@type": "Grant",
+    "sameAs": [ "http://example.org/grant" ],
+    "duration": "P12M",
+    "name": [
+      {
+        "@language": "en",
+        "@value": "Money$$$Grant"
+      }
+    ],
+    "description": [ {
+        "@language":"en",
+        "@value":"grant means money"
+     } ],
+    "hasMonetaryValue":"$100,000",
+    "hasAwardDate":"2011-11-11",
+    "isAwardedBy": [ {
+      "@id": "urn:uuid:90aca1d2-bb8d-11e5-8644-54ee7558c81f",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Testacle Inc."
+        }
+      ]
+    } ]
+  } ],
   "keywords": [
     "Policy",
     "Open Xland"
@@ -146,18 +173,6 @@
         {
           "@language": "en",
           "@value": "OER Research Hub"
-        }
-      ]
-    }
-  ],
-  "mainEntityOf": [
-    {
-      "@id": "urn:uuid:645be71a-50a2-11e5-b47d-001999ac7927",
-      "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "School of Open's \"Open Research\" course"
         }
       ]
     }

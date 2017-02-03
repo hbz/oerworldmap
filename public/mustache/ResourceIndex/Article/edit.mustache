@@ -10,19 +10,17 @@
 
     {{> FormElements/localizedTextarea.mustache property=description property_path="description" title=(i18n "Article.description") tooltip=(i18n "Article.description" bundle="descriptions")}}
 
-    {{> FormElements/localizedTextarea.mustache property=articleBody property_path="articleBody" title=(i18n "Article.articleBody") tooltip=(i18n "Article.articleBody" bundle="descriptions")}}
+    {{> FormElements/localizedTextarea.mustache property=articleBody property_path="articleBody" title=(i18n "Article.articleBody") tooltip=(i18n "Article.articleBody" bundle="descriptions") rows=20}}
 
-    {{> FormElements/input.mustache property=dateCreated property_path="dateCreated" title=(i18n "Article.dateCreated") tooltip=(i18n "Article.dateCreated" bundle="descriptions") hidden=false multiple=false input_type="text"}}
+    {{> FormElements/input.mustache property=dateCreated property_path="dateCreated" title=(i18n "Article.dateCreated") tooltip=(i18n "Article.dateCreated" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
 
     {{> FormElements/input.mustache property=image property_path="image" title=(i18n "Article.image") tooltip=(i18n "Article.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
     {{> FormElements/id.mustache property=creator property_path="creator" title=(i18n "Article.creator") tooltip=(i18n "Article.creator" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
-    {{> FormElements/id.mustache property=mainEntity property_path="mainEntity" title=(i18n "Article.mainEntity") tooltip=(i18n "Article.mainEntity" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Service&filter.about.@type=Action"}}
-
     {{> FormElements/id.mustache property=mentions property_path="mentions" title=(i18n "Article.mentions") tooltip=(i18n "Article.mentions" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Service&filter.about.@type=Action"}}
 
-    {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Article.keywords") tooltip=(i18n "Article.keywords" bundle="descriptions") hidden=false multiple=true input_type="text"}}
+    {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Article.keywords") tooltip=(i18n "Article.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Article.comment") tooltip=(i18n "Article.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
