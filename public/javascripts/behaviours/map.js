@@ -1038,8 +1038,15 @@ var Hijax = (function ($, Hijax) {
           });
           if (feature) {
             var type = getFeatureType(feature)
+            var properties = feature.get("features")[0].getProperties()
             if (type == "placemark") {
-              Hijax.behaviours.app.linkToFragment( feature.get("features")[0].getProperties()['resource']['@id'] );
+              if(properties['resource']['referencedBy']) {
+                updateHoverState(evt.pixel);
+                hoverState.persistent = true;
+                $('#map').addClass('popover-persistent');
+              } else {
+                Hijax.behaviours.app.linkToFragment( properties['resource']['@id'] );
+              }
             } else if(type == "country" && world.getView().getZoom() < 9) {
               page("/country/" + feature.getId().toLowerCase());
             } else if(type == "cluster") {
