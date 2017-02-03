@@ -198,7 +198,7 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function updateHoverState(pixel) {
+  function updateHoverState(pixel, eventType) {
 
     // get feature at pixel
     var feature = world.forEachFeatureAtPixel(pixel, function(feature, layer) {
@@ -233,7 +233,7 @@ var Hijax = (function ($, Hijax) {
       if(! hoverState.persistent) {
         if(show_popover) {
           $(popoverElement).show();
-          setPopoverContent( feature, type );
+          setPopoverContent( feature, type, eventType );
           setPopoverPosition( feature, type, pixel );
         }
       }
@@ -251,6 +251,7 @@ var Hijax = (function ($, Hijax) {
 
       if(! hoverState.persistent) {
         if(show_popover) {
+          setPopoverContent( feature, type, eventType );
           setPopoverPosition( feature, type, pixel );
         }
       }
@@ -265,7 +266,7 @@ var Hijax = (function ($, Hijax) {
       if(! hoverState.persistent) {
         if(show_popover) {
           $(popoverElement).show();
-          setPopoverContent( feature, type )
+          setPopoverContent( feature, type, eventType );
           setPopoverPosition( feature, type, pixel );
         } else {
           $(popoverElement).hide();
@@ -373,14 +374,9 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function setPopoverContent(feature, type) {
-/*
-    if( type == "placemark" ) {
-      var properties = feature.get('features')[0].getProperties();
-    } else {
-      var properties = feature.getProperties();
-    }
-*/
+  function setPopoverContent(feature, type, eventType) {
+
+    eventType = eventType || 'hover';
 
     if( type == "placemark" ) {
       var properties = feature.get('features')[0].getProperties();
@@ -391,8 +387,16 @@ var Hijax = (function ($, Hijax) {
     if( type == "cluster" ) {
       var content = '';
       var features = feature.get('features');
-
-      if(features.length < 4) {
+      var total_resources = 0;
+      var zoom_values = getZoomValues();
+      for(var i = 0; i < features.length; i++) {
+        total_resources++;
+        var properties = features[i].getProperties();
+        if(properties.resource.referencedBy) {
+          total_resources += properties.resource.referencedBy.length;
+        }
+      }
+      if(total_resources < 6 || eventType == 'click') {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
           properties['@id'] = features[i].getId();
@@ -680,7 +684,7 @@ var Hijax = (function ($, Hijax) {
   function zoomToFeatures(features, cluster, pixel) {
     var zoom_values = getZoomValues();
     if(world.getView().getZoom() == zoom_values.maxZoom) {
-      updateHoverState(pixel);
+      updateHoverState(pixel, 'click');
       hoverState.persistent = true;
       $('#map').addClass('popover-persistent');
     } else {
@@ -1038,10 +1042,10 @@ var Hijax = (function ($, Hijax) {
           });
           if (feature) {
             var type = getFeatureType(feature)
-            var properties = feature.get("features")[0].getProperties()
             if (type == "placemark") {
+              var properties = feature.get("features")[0].getProperties();
               if(properties['resource']['referencedBy']) {
-                updateHoverState(evt.pixel);
+                updateHoverState(evt.pixel, 'click');
                 hoverState.persistent = true;
                 $('#map').addClass('popover-persistent');
               } else {
