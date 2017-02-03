@@ -2,8 +2,18 @@
 
     {{#scope}}
         <small>
-            Created {{resource.dateCreated}} by {{resource.author}},
-            last modified {{resource.dateModified}} by {{resource.contributor}}
+            Created {{resource.dateCreated}} by
+            {{#getUser resource.author}}
+                {{>ResourceIndex/link.mustache}},
+            {{else}}
+                {{resource.author}},
+            {{/getUser}}
+            last modified {{resource.dateModified}} by
+            {{#getUser resource.contributor}}
+                {{>ResourceIndex/link.mustache}}
+            {{else}}
+                {{resource.contributor}}
+            {{/getUser}}
         </small>
 
         {{#resource.about}}
