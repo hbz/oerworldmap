@@ -8,6 +8,7 @@
           "@language": "en"
         }
       ],
+      "image" : "http://graphthinking.com/img/logo.png",
       "@id": "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"
     }
   ],
