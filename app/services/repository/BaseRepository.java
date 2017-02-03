@@ -79,10 +79,6 @@ public class BaseRepository extends Repository
     }
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
-    Integer framerPort = mConfiguration.getInt("node.framer.port");
-    ResourceFramer.setPort(framerPort);
-    ResourceFramer.start();
-
     Model mDb = dataset.getDefaultModel();
     mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
 

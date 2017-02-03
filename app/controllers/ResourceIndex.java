@@ -338,6 +338,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    List<Resource> comments = new ArrayList<>();
+    for (String commentId : resource.getIdList("comment")) {
+      comments.add(mBaseRepository.getResource(commentId));
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -382,6 +387,7 @@ public class ResourceIndex extends OERWorldMap {
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
+    scope.put("comments", comments);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 

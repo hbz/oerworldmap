@@ -44,9 +44,8 @@ public class ResourceIndexer {
     "}";
 
   private final static String SCOPE_QUERY_TEMPLATE =
-    "SELECT DISTINCT ?s1 ?s2 WHERE {" +
+    "SELECT DISTINCT ?s1 WHERE {" +
     "    ?s1 ?p1 <%1$s> ." +
-    "    OPTIONAL { ?s2 ?p2 ?s1 . } ." +
     "}";
 
   // TODO: evaluate if there are other properties to exclude from triggering indexing
