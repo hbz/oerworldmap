@@ -13,7 +13,6 @@ For inital background information about this project please refer to the
     $ npm install
     $ git submodule init
     $ git submodule update
-    $ cd node/json-frame && npm install
 
 ### Setup Elasticsearch
 
@@ -73,3 +72,8 @@ Guide](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
 ### Bug reports
 
 Please file bugs as an issue labeled "Bug" [here](https://github.com/hbz/oerworldmap/issues/new). Include browser information and screenshot(s) when applicable.
+
+## Attributions
+
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
