@@ -552,21 +552,6 @@
                         </tr>
                     {{/if}}
 
-                    {{#if isFundedBy}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.isFundedBy" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#isFundedBy}}
-                                        {{#isAwardedBy}}
-                                            <li>{{>ResourceIndex/link.mustache}}</li>
-                                        {{/isAwardedBy}}
-                                    {{/isFundedBy}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
                     {{#if organizer}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.organizer" @type)}}</td>
@@ -698,6 +683,18 @@
                     {{/if}}
 
                     {{#isFundedBy}}
+                        {{#if this.isAwardedBy}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.isAwardedBy" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#isAwardedBy}}
+                                            <li>{{>ResourceIndex/link.mustache}}</li>
+                                        {{/isAwardedBy}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
                         {{#if this.sameAs}}
                             <tr>
                                 <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
