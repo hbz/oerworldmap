@@ -343,6 +343,12 @@ public abstract class OERWorldMap extends Controller {
       Logger.error(e.toString());
     }
 
+    try {
+      handlebars.registerHelpers(new File("public/vendor/moment/handlebars.moment.js"));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
+
     handlebars.registerHelper("md", new MarkdownHelper());
 
     try {

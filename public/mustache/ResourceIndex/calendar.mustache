@@ -1,0 +1,48 @@
+<ul class="calendar" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
+
+    <script type="application/ld+json">
+        {{json (unwrapResources scope.resources.member)}}
+    </script>
+
+    {{#each scope.resources.aggregations.[about.startDate.GTE].buckets}}
+        {{#if [about.@id].hits.hits}}
+
+            <li>
+                <h4 class="month">{{moment key_as_string "MMMM YYYY"}}</h4>
+                <ul class="days">
+
+                    {{#each [about.@id].hits.hits}}
+                        {{#_source.about}}
+
+                            <li about="{{[@id]}}">
+                                <a href="/resource/{{[@id]}}">
+                                    <div class="sheet">
+                                        <div class="day">{{moment startDate "D"}}</div>
+                                        <div class="weekday">{{moment startDate "ddd"}}</div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="name">
+                                            {{#localized name language=@root.language}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        </div>
+                                        <div class="date-location">
+                                            {{daterange startDate endDate}} {{formatLocation "city_country" location "— "}}
+                                            {{! the dash is a &mdash; ... not in markup, because helper knows best, if there is going to be something to seperate}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        {{/_source.about}}
+                    {{/each}}
+
+                </ul>
+            </li>
+
+        {{/if}}
+    {{/each}}
+
+</ul>

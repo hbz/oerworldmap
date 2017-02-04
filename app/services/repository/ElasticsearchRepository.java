@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
@@ -340,9 +342,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
       for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
         BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
-        for (String filter : entry.getValue()) {
-          // This could also be 'must' queries, allowing to narrow down the result list
-          orFilterBuilder.should(QueryBuilders.termQuery(entry.getKey(), filter));
+        String filterName = entry.getKey();
+        for (String filterValue : entry.getValue()) {
+          if (filterName.endsWith(".GTE")) {
+            filterName = filterName.substring(0, filterName.length()-".GTE".length());
+            orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
+          } else {
+            // This could also be 'must' queries, allowing to narrow down the result list
+            orFilterBuilder.should(QueryBuilders.termQuery(filterName, filterValue));
+          }
         }
         aggregationAndFilter.must(orFilterBuilder);
       }
