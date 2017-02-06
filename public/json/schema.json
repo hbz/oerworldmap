@@ -802,6 +802,13 @@
           "items": {
             "$ref": "#/definitions/Event"
           }
+        },
+        "provides": {
+          "description": "Services provided by this Person.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
         }
       },
       "additionalProperties": false

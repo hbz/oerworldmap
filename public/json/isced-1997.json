@@ -183,9 +183,7 @@
       "@type": "Concept"
     }
   ],
-  "@context": {
-    "@vocab": "http://www.w3.org/2004/02/skos/core#"
-  },
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "https://w3id.org/isced/1997/scheme",
   "@type": "ConceptScheme"
 }

@@ -14,7 +14,6 @@ For inital background information about this project please refer to the
     $ npm install
     $ git submodule init
     $ git submodule update
-    $ cd node/json-frame && npm install
 
 ### Setup Elasticsearch
 
