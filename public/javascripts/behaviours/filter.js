@@ -350,6 +350,7 @@ var Hijax = (function ($, Hijax, page) {
         delete aggregations['about.@type'];
         delete aggregations['about.keywords'];
         delete aggregations['about.location.address.addressCountry'];
+        delete aggregations['about.startDate.GTE'];
 
         // set columns
 
