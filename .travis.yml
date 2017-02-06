@@ -6,6 +6,7 @@ sudo: false
 cache:
   directories:
   - $HOME/.ivy2/cache
+  - $HOME/.sonar/cache
 before_install:
   - curl https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.1/elasticsearch-2.4.1.tar.gz | tar xz --directory=$HOME
   - "echo \"script.inline: on\" >> $HOME/elasticsearch-2.4.1/config/elasticsearch.yml"
@@ -13,10 +14,14 @@ before_install:
   - $HOME/elasticsearch-2.4.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
 install:
   - npm install
-  - cd node/json-frame/ && npm install && cd ../..
 before_script:
   - cp conf/travis.conf conf/test.conf
-  - (node node/json-frame/frame.js 8080 conf/context.json https://oerworldmap.org/assets/json/context.json &) && sleep 5s
+addons:
+  sonarqube: true
 branches:
   only:
     - master
+env:
+  global:
+    secure: "O3mnIElHHjHfG83ihUhxxq9oHDtZW9rh9rnMuw6zvHl/QC0zwEMNTykwZcNP24pNk4+sMLd8LyfRIRm/GRPAlakCAbCktFbkOHsm4Abk/s4jbiNLlV/WVn3N9zCDCE359zrDPSw9GIsgTnM015ZiATO+2zCpt26VFKLJrWHofuA="
+    secure: "flK1dkGh7jGp4wVL1ahbk6Bn16eeZS/yZ/E2a518eIzLehIG7CooKn1ZrH4sMC3lRGB7XvklO9oqeRPTrw8HyQTyCUqrd0/cDQn59mjvXYnv6pP/ES0k354fjvAvFFFuSC88DdFF4fWGssP+GB1JwMSBzC5rXmYVqxbpEji5SMU="
