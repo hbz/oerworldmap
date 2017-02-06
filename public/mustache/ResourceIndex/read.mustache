@@ -1,20 +1,6 @@
 <div class="">
 
     {{#scope}}
-        <small>
-            Created {{resource.dateCreated}} by
-            {{#getUser resource.author}}
-                {{>ResourceIndex/link.mustache}},
-            {{else}}
-                {{resource.author}},
-            {{/getUser}}
-            last modified {{resource.dateModified}} by
-            {{#getUser resource.contributor}}
-                {{>ResourceIndex/link.mustache}}
-            {{else}}
-                {{resource.contributor}}
-            {{/getUser}}
-        </small>
 
         {{#resource.about}}
 
@@ -62,6 +48,7 @@
 
                     <div class="topline">
                         {{getIcon [@type]}} <strong>{{i18n [@type]}}</strong>
+                        &nbsp;(last modified {{moment resource.dateModified "D. MMM YYYY"}})
                     </div>
 
                     <h1 class="resource-title">
