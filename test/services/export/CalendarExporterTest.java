@@ -3,7 +3,6 @@ package services.export;
 import helpers.JsonTest;
 import models.Resource;
 import models.ResourceList;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -56,9 +55,9 @@ public class CalendarExporterTest implements JsonTest {
 
   @Test
   public void testExportMultiLanguage() throws IOException{
-    Resource resourceWithGermanDescription = getResourceFromJsonFile("CalendarExporterTest/testExportDescription.IN.1.json");
+    Resource resourceWithGermanDescription = getResourceFromJsonFile("CalendarExporterTest/testExportMultiLanguage.IN.1.json");
     List<String> exported = splitLines(mExporter.export(resourceWithGermanDescription));
-    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testExportDescription.OUT.1.iCal",
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testExportMultiLanguage.OUT.1.iCal",
       Charset.forName("UTF-8")));
     compare(exported, expected);
   }
