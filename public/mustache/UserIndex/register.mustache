@@ -48,18 +48,33 @@
             <input type="hidden" name="@type" value="Person">
 
             <div class="form-group">
+                <label class="sr-only" for="register-email">Name</label>
+                <input type="text" name="name[0][@value]" class="form-control" required id="register-name-value" placeholder="{{i18n "placeholder_name"}}">
+                <input type="hidden" name="name[0][@language]" value="en" id="register-name-language">
+            </div>
+
+            <div class="form-group">
+                <select class="form-control" name="location[address][addressCountry]" required id="register-country">
+                    <option value="">{{i18n "placeholder_country"}}</option>
+                    {{#scope.countries}}
+                    <option value="{{alpha-2}}">{{name}}</option>
+                    {{/scope.countries}}
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label class="sr-only" for="register-email">Email address</label>
-                <input type="email" name="email" class="form-control" id="register-email" placeholder="{{i18n "placeholder_email"}}">
+                <input type="email" name="email" class="form-control" required id="register-email" placeholder="{{i18n "placeholder_email"}}">
             </div>
 
             <div class="form-group">
                 <label class="sr-only" for="register-password">Password</label>
-                <input type="password" name="password" class="form-control" id="register-password" placeholder="Choose Password ...">
+                <input type="password" name="password" class="form-control" required id="register-password" placeholder="Choose Password ...">
             </div>
 
             <div class="form-group">
                 <label class="sr-only" for="register-password-confirm">Repeat Password</label>
-                <input type="password" name="password-confirm" class="form-control" id="register-password-confirm" placeholder="Repeat Password ...">
+                <input type="password" name="password-confirm" class="form-control" required id="register-password-confirm" placeholder="Repeat Password ...">
             </div>
 
             <button type="submit" class="btn btn-default">Register</button>

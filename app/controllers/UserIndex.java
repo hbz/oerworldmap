@@ -1,7 +1,9 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -15,7 +17,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -41,14 +45,18 @@ import javax.inject.Inject;
 
 public class UserIndex extends OERWorldMap {
 
+  private File mProfiles;
+
   @Inject
   public UserIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
+    mProfiles = new File(mConf.getString("user.profile.dir"));
   }
 
   public Result signup() {
 
     Map<String, Object> scope = new HashMap<>();
+    scope.put("countries", Countries.list(getLocale()));
     return ok(render("Registration", "UserIndex/register.mustache", scope));
 
   }
@@ -56,12 +64,15 @@ public class UserIndex extends OERWorldMap {
   public Result register() {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
+    user.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     String username = user.getAsString("email");
     String password = user.getAsString("password");
     String confirm = user.getAsString("password-confirm");
     user.remove("password");
     user.remove("password-confirm");
+
+    ProcessingReport processingReport = user.validate();
 
     Result result;
 
@@ -73,11 +84,19 @@ public class UserIndex extends OERWorldMap {
       result = badRequest("Passwords must match.");
     } else if (password.length() < 8) {
       result = badRequest("Password must be at least 8 characters long.");
+    } else if (!processingReport.isSuccess()) {
+      result = badRequest(processingReport.toString());
     } else {
       String token = mAccountService.addUser(username, password);
       if (token == null) {
         result = badRequest("Failed to add " . concat(username));
       } else {
+        try {
+          saveProfile(token, user);
+        } catch (IOException e) {
+          Logger.error("Could not save profile", e);
+          return badRequest("An error occurred");
+        }
         sendMail(username, MessageFormat.format(getEmails().getString("account.verify.message"),
             mConf.getString("proxy.host").concat(routes.UserIndex.verify(token).url())),
             getEmails().getString("account.verify.subject"));
@@ -101,7 +120,7 @@ public class UserIndex extends OERWorldMap {
       String username = mAccountService.verifyToken(token);
       if (username != null) {
 
-        createProfile(username);
+        saveProfileToDb(token);
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
         result = ok(render("User verified", "UserIndex/verified.mustache", scope));
@@ -283,24 +302,21 @@ public class UserIndex extends OERWorldMap {
     }
   }
 
-  private void createProfile(String aEmailAddress) throws IOException {
+  private void saveProfile(String aToken, Resource aPerson) throws IOException {
 
-    // Check if person entry with corresponding email already exists
-    List<Resource> users = mBaseRepository.getResources("about.email", aEmailAddress);
-    for (Resource user : users) {
-      if (user.getType().equals("Person")) {
-        Logger.warn("Profile for ".concat(aEmailAddress).concat(" already exists."));
-        mAccountService.setProfileId(aEmailAddress, user.getId());
-        mAccountService.setPermissions(user.getId(), aEmailAddress);
-        return;
-      }
+    FileUtils.writeStringToFile(new File(mProfiles, aToken), aPerson.toString(), StandardCharsets.UTF_8);
+
+  }
+
+  private void saveProfileToDb(String aToken) throws IOException {
+
+    File profile = new File(mProfiles, aToken);
+    Resource person = Resource.fromJson(FileUtils.readFileToString(profile, StandardCharsets.UTF_8));
+    if (person == null || !profile.delete()) {
+      throw new IOException("Could not process profile for " + aToken);
     }
-
-    Resource person = new Resource("Person");
-    person.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     mBaseRepository.addResource(person, getMetadata());
-    mAccountService.setProfileId(aEmailAddress, person.getId());
-    mAccountService.setPermissions(person.getId(), aEmailAddress);
+    mAccountService.setProfileId(person.getAsString("email"), person.getId());
 
   }
 
