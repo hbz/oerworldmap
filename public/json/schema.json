@@ -335,6 +335,13 @@
             ]
           }
         },
+        "memberOf": {
+          "description": "An organization the project is member of.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Organization"
+          }
+        },
         "name": {
           "$ref": "#/definitions/LocalizedString"
         },
@@ -931,6 +938,9 @@
               },
               {
                 "$ref": "#/definitions/Service"
+              },
+              {
+                "$ref": "#/definitions/Action"
               }
             ]
           }
