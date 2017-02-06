@@ -70,6 +70,10 @@
   z-index: 10000;
 }
 
+#map.popover-persistent canvas {
+  opacity: 0.6;
+}
+
 .popover hr {
   margin-top: (@line-height-computed / 3);
   margin-bottom: (@line-height-computed / 3);
@@ -79,17 +83,30 @@
   color: @blue-darker;
   position: static;
   display: block;
-  //border: none;
+  // border: none;
   padding: 0px;
-  pointer-events: none;
+  // pointer-events: none;
 }
 
 .popover-content {
   padding: 0px;
+
+  a {
+    color: @blue-darker;
+    text-decoration: none;
+
+    &:hover {
+      color: @orange;
+
+      i.fa {
+        color: @blue-darker;
+      }
+    }
+  }
 }
 
 .popover-main-section {
-  border-bottom: 1px solid @blue-dark;
+  border-bottom: 1px solid @blue-darker;
 }
 
 .popover-main-section:last-child {
