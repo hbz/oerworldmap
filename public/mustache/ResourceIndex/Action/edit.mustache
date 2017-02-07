@@ -33,6 +33,8 @@
     {{> FormElements/id.mustache property=agent property_path="agent" title=(i18n "Action.agent") tooltip=(i18n "Action.agent" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
     {{> FormElements/id.mustache property=participant property_path="participant" title=(i18n "Action.participant") tooltip=(i18n "Action.participant" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
+    
+    {{> FormElements/id.mustache property=memberOf property_path="memberOf" title=(i18n "Action.memberOf") tooltip=(i18n "Action.memberOf" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> FormElements/id.mustache property=affiliate property_path="affiliate" title=(i18n "Action.affiliate") tooltip=(i18n "Action.affiliate" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}
 
