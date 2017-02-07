@@ -18,7 +18,7 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
 
 <Location /resource/>
   <LimitExcept GET DELETE>
-    Require group editor
+    Require valid-user
     Require group admin
   </LimitExcept>
   <Limit DELETE>

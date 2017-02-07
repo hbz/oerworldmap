@@ -300,8 +300,7 @@ public abstract class OERWorldMap extends Controller {
       Logger.error("Could not add global statistics", e);
     }
 
-    boolean mayAdd = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
-      || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
+    boolean mayAdd = (getUser() != null);
     boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("add", mayAdd);
