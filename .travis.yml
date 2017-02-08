@@ -18,6 +18,8 @@ before_script:
   - cp conf/travis.conf conf/test.conf
 addons:
   sonarqube: true
+after_script:
+  - sonar-scanner
 branches:
   only:
     - master
