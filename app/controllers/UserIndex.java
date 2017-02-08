@@ -123,6 +123,9 @@ public class UserIndex extends OERWorldMap {
         saveProfileToDb(token);
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
+        String profileUrl = mConf.getString("proxy.host").concat(
+          routes.ResourceIndex.readDefault(mAccountService.getProfileId(username), "HEAD").url());
+        scope.put("url", profileUrl);
         result = ok(render("User verified", "UserIndex/verified.mustache", scope));
 
       } else {
