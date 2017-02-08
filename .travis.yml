@@ -17,11 +17,9 @@ install:
 before_script:
   - cp conf/travis.conf conf/test.conf
 addons:
-  sonarqube:
-    token:
-      secure: "O3mnIElHHjHfG83ihUhxxq9oHDtZW9rh9rnMuw6zvHl/QC0zwEMNTykwZcNP24pNk4+sMLd8LyfRIRm/GRPAlakCAbCktFbkOHsm4Abk/s4jbiNLlV/WVn3N9zCDCE359zrDPSw9GIsgTnM015ZiATO+2zCpt26VFKLJrWHofuA="
+  sonarqube: true
 after_script:
-  - sonar-scanner
+  - sonar-scanner -Dsonar.login=$SONAR_TOKEN
 branches:
   only:
     - master
