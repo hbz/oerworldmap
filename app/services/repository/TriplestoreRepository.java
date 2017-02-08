@@ -1,6 +1,7 @@
 package services.repository;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
@@ -459,7 +460,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(q), mDb)) {
         switch (queryExecution.getQuery().getQueryType()) {
           case Query.QueryTypeSelect:
-            result = ResultSetFormatter.asXMLString(queryExecution.execSelect());
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ResultSetFormatter.outputAsCSV(byteArrayOutputStream, queryExecution.execSelect());
+            result = byteArrayOutputStream.toString();
             break;
           case Query.QueryTypeConstruct:
             out = new StringWriter();
