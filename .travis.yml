@@ -19,7 +19,7 @@ before_script:
 addons:
   sonarqube: true
 after_script:
-  - sonar-scanner -Dsonar.login=$SONAR_TOKEN
+  - sonar-scanner -Dsonar.login=$SONAR_GITHUB_TOKEN
 branches:
   only:
     - master
