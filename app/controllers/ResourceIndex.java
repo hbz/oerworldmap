@@ -8,6 +8,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
+import models.Commit;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -85,6 +86,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     queryContext.setFetchSource(new String[]{
+      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
@@ -153,46 +155,6 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     return notFound("Not found");
-
-  }
-
-  public Result importRecords() throws IOException {
-
-    // Import records
-    JsonNode json = ctx().request().body().asJson();
-    List<Resource> records = new ArrayList<>();
-    if (json.isArray()) {
-      for (JsonNode node : json) {
-        records.add(Resource.fromJson(node));
-      }
-    } else if (json.isObject()) {
-      records.add(Resource.fromJson(json));
-    } else {
-      return badRequest();
-    }
-    mBaseRepository.importRecords(records, getMetadata());
-
-    // Add user accounts
-    for (Resource record : records) {
-      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      if ("Person".equals(resource.getType())) {
-        String email = resource.getAsString("email");
-        if (StringUtils.isNotEmpty(email)) {
-          String password = new BigInteger(130, new SecureRandom()).toString(32);
-          String token = mAccountService.addUser(email, password);
-          if (StringUtils.isNotEmpty(token)) {
-            String id = mAccountService.verifyToken(token);
-            if (id.equals(email)) {
-              mAccountService.setPermissions(resource.getId(), email);
-            }
-          }
-        }
-      }
-    }
-
-    mAccountService.refresh();
-
-    return ok(Integer.toString(records.size()).concat(" records imported."));
 
   }
 
@@ -413,6 +375,16 @@ public class ResourceIndex extends OERWorldMap {
       alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
     }
 
+    List<Commit> history = mBaseRepository.log(id);
+    resource = new Record(resource);
+    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     scope.put("comments", comments);
@@ -462,14 +434,6 @@ public class ResourceIndex extends OERWorldMap {
 
     return notFound("Not found");
 
-  }
-
-  public Result export(String aId) {
-    Resource record = mBaseRepository.getRecord(aId);
-    if (null == record) {
-      return notFound("Not found");
-    }
-    return ok(record.toString()).as("application/json");
   }
 
   public Result delete(String aId) throws IOException {

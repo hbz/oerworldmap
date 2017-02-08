@@ -141,7 +141,7 @@ public abstract class OERWorldMap extends Controller {
   Resource getUser() {
 
     Resource user = null;
-    System.out.println("username " + getHttpBasicAuthUser());
+    Logger.debug("Username " + getHttpBasicAuthUser());
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
       user = getRepository().getResource(profileId);
@@ -251,6 +251,18 @@ public abstract class OERWorldMap extends Controller {
     return aId;
   }
 
+  public Resource getUser(String aId) {
+
+    Resource user = null;
+    String profileId = mAccountService.getProfileId(aId);
+    if (!StringUtils.isEmpty(profileId)) {
+      user = getRepository().getResource(profileId);
+    }
+
+    return user;
+
+  }
+
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
@@ -326,6 +338,12 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/handlebars.form-helpers.js"));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
+
+    try {
+      handlebars.registerHelpers(new File("public/vendor/moment/handlebars.moment.js"));
     } catch (Exception e) {
       Logger.error(e.toString());
     }

@@ -136,29 +136,31 @@
         {{#if champions}}
             <div data-behaviour="carousel">
                 {{#champions}}
-                    <div class="country-champion">
+                    {{#about}}
+                        <div class="country-champion">
 
-                        {{#image}}
-                            <img src="{{.}}" class="img" />
-                        {{/image}}
-                        {{^image}}
-                            <div class="img placeholder-image-qmark"></div>
-                        {{/image}}
+                            {{#image}}
+                                <img src="{{.}}" class="img" />
+                            {{/image}}
+                            {{^image}}
+                                <div class="img placeholder-image-qmark"></div>
+                            {{/image}}
 
-                        <div class="text">
-                            <h4>Country Champion</h4>
+                            <div class="text">
+                                <h4>Country Champion</h4>
 
-                            <ul class="resource-list truncated"><li>
-                                {{>ResourceIndex/link.mustache}}
-                            </li></ul>
+                                <ul class="resource-list truncated"><li>
+                                    {{>ResourceIndex/link.mustache}}
+                                </li></ul>
 
-                            <p>
-                                <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                            </p>
+                                <p>
+                                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                                </p>
+
+                            </div>
 
                         </div>
-
-                    </div>
+                    {{/about}}
                 {{/champions}}
             </div>
         {{else}}
@@ -223,9 +225,11 @@
                 {{{resources.member}}}
             </script>
             {{#resources.member}}
-                <li about="{{@id}}">
-                    {{>ResourceIndex/link.mustache}}
-                </li>
+                {{#about}}
+                    <li about="{{@id}}">
+                        {{>ResourceIndex/link.mustache}}
+                    </li>
+                {{/about}}
             {{/resources.member}}
         </ul>
         {{^resources}}

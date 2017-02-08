@@ -604,3 +604,50 @@ Handlebars.registerHelper('exportUrl', function (type, url, extension) {
   }
 
 });
+
+Handlebars.registerHelper('unwrapResources', function (obj) {
+  return toNative(obj).map( function(record) { return record.about } );
+});
+
+Handlebars.registerHelper('formatLocation', function (format, location, prefix) {
+
+  if(format == 'city_country') {
+    var elements = [];
+
+    if(location && location.address && location.address.addressLocality) {
+      elements.push(
+        location.address.addressLocality
+      );
+    }
+
+    if(location && location.address && location.address.addressCountry) {
+      elements.push(
+        //i18nStrings['countries'][ location.addressCountry.toUpperCase() ]
+        Packages.helpers.HandlebarsHelpers._i18n(location.address.addressCountry, null)
+      );
+    }
+
+    if(elements.length) {
+      return prefix + elements.join(', ');
+    }
+
+    return "";
+  }
+
+});
+
+
+Handlebars.registerHelper('showCalendar', function (scope, options) {
+
+  var filters = scope.resources.filters;
+
+  if(
+    filters["about.@type"] &&
+    filters["about.@type"][0] == "Event"
+  ) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+
+});
