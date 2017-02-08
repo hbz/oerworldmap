@@ -19,7 +19,7 @@ before_script:
 addons:
   sonarqube:
     token:
-      secure: secure: "flK1dkGh7jGp4wVL1ahbk6Bn16eeZS/yZ/E2a518eIzLehIG7CooKn1ZrH4sMC3lRGB7XvklO9oqeRPTrw8HyQTyCUqrd0/cDQn59mjvXYnv6pP/ES0k354fjvAvFFFuSC88DdFF4fWGssP+GB1JwMSBzC5rXmYVqxbpEji5SMU="
+      secure: "flK1dkGh7jGp4wVL1ahbk6Bn16eeZS/yZ/E2a518eIzLehIG7CooKn1ZrH4sMC3lRGB7XvklO9oqeRPTrw8HyQTyCUqrd0/cDQn59mjvXYnv6pP/ES0k354fjvAvFFFuSC88DdFF4fWGssP+GB1JwMSBzC5rXmYVqxbpEji5SMU="
 after_script:
   - sonar-scanner
 branches:
