@@ -1,27 +1,22 @@
 package services;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import helpers.ElasticsearchTestGrid;
+import helpers.JsonLdConstants;
+import helpers.JsonTest;
 import helpers.ResourceHelpers;
 import models.Record;
+import models.Resource;
+import models.TripleCommit;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import helpers.ElasticsearchTestGrid;
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import models.Resource;
-import models.TripleCommit;
 import services.repository.BaseRepository;
+
+import java.io.IOException;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
@@ -536,6 +531,25 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testNoGroundlessHits() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testNoGroundlessHits.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> noHit = mBaseRepo.query("Schokolade", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"Schokolade\".", noHit.size() == 0);
+    noHit = mBaseRepo.query("Cape Town", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"Cape Town\".", noHit.size() == 0);
+    noHit = mBaseRepo.query("Paris", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"Paris\".", noHit.size() == 0);
+    noHit = mBaseRepo.query("London", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"London\".", noHit.size() == 0);
+    List<Resource> aHit = mBaseRepo.query("Education", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Missing hit for \"Education\".", aHit.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
   }
 
