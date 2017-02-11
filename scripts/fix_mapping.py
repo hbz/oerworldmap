@@ -32,8 +32,9 @@ def process_mapping(mapping):
 
 
 def process_properties(properties):
-    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
+    not_analyzed = ['@id', '@type', '@context', '@language', 'email', 'url', 'image',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
+    country_name = ['addressCountry']
     ngrams = ['@value']
     keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
@@ -49,6 +50,8 @@ def process_properties(properties):
             properties[property] = set_ngram()
         elif property in keywords:
             properties[property] = set_keywords_analyzer()
+        elif property in country_name:
+            properties[property] = set_country_name()
         elif 'properties' in properties[property]:
             properties[property]['properties'] = process_properties(properties[property]['properties'])
 
@@ -93,6 +96,22 @@ def set_ngram():
                 "type": "string",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
+            }
+        }
+    }
+
+def set_country_name():
+    return {
+        "type": "multi_field",
+        "fields": {
+            "addressCountry": {
+                "type": "string",
+                'index': 'not_analyzed'
+            },
+            "name": {
+                "type": "string",
+                "analyzer": "country_synonyms_analyzer",
+                "search_analyzer": "country_synonyms_analyzer"
             }
         }
     }
@@ -145,6 +164,10 @@ def settings():
                     "type":     "edge_ngram",
                     "min_gram": 2,
                     "max_gram": 20
+                },
+                "country_synonyms_filter": {
+                    "type": "synonym",
+                    "synonyms": open(sys.path[0] + '/country_synonyms.txt', 'r').readlines()
                 }
             },
             "analyzer": {
@@ -161,6 +184,13 @@ def settings():
                 "keywords_analyzer": {
                     "filter": "lowercase",
                     "tokenizer": "keyword"
+                },
+                "country_synonyms_analyzer": {
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "country_synonyms_filter"
+                    ]
                 }
             }
         }

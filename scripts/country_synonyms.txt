@@ -1,0 +1,250 @@
+ad,ανδόρα,andóra,andorre,安道尔,андора,อันดอร์รา,andorra,アンドラ,андорра,안도라,andora
+ae,các tiểu vương quốc a-rập thống nhất,ηνωμένα αραβικά εμιράτα,アラブ首長国連邦,emirati għarab maqgħuda,zjednoczone emiraty arabskie,emirados árabes unidos,aontas na néimíríochtaí arabacha,united arab emirates,阿拉伯联合酋长国,아랍에미리트,الإمارات,unió dels emirats àrabs,emirats arabes unis,emirati arabi uniti,uni emirat arab,vereinigte arabische emirate,emiratos árabes unidos,уједињени арапски емирати,สหรัฐอาหรับเอมิเรตส์,emiriah arab bersatu,объединенные арабские эмираты,verenigde arabische emiraten,förenade arabemiraten
+af,an afganastáin,아프가니스탄,авганистан,afghanistan,афганистан,αφγανιστάν,áp-ga-ni-xtan,アフガニスタン,阿富汗,อัฟกานิสถาน,afganistan,afganistán,afeganistão
+ag,antigua and barbuda,安提瓜和巴布达,antigua agus barbuda,antigua y barbuda,αντίγκουα και μπαρμπούντα,antigua dan barbuda,an-ti-gu-a và ba-bu-đa,앤티가 바부다,antigua e barbuda,antigua und barbuda,antigua et barbuda,antigua en barbuda,antígua e barbuda,アンチグアバーブーダ,antigua och barbuda
+ai,アンギラ,안길라,ангуила,安圭拉,อันกิล่า,anguilla,ανγκουίλα,angwilla,anguila
+al,албания,알바니아,shqipëria,albanija,albania,แอลเบเนีย,albània,albanie,アルバニア,albanië,albânia,an albáin,阿尔巴尼亚,αλβανία,albanien,an-ba-ni,албанија
+am,アルメニア,อาร์มีเนีย,армения,an airméin,armenië,αρμενία,armenia,armenja,armênia,арменија,armènia,아르메니아,arménie,亚美尼亚,armenien,ác-mê-ni-a
+an,antillas holandesas,네덜란드령 안틸레스,antilhas holandesas,荷属安的列斯群岛,nederlandse antillen,niederländische antillen,antillí na hísiltíre,antilles belanda,ολλανδικές αντίλλες,antilles néerlandaises,เนเธอร์แลนด์แอนทิลล์,オランダ領アンティル諸島,antilles holandeses,нидерландские антильские острова,netherlands antilles,холандски антили,nederländska antillerna ,antyle holenderskie,antille olandesi,antilles olandiżi
+ao,angola,ăng-gô-la,angóla,อันโกลา,ανγκόλα,앙골라,アンゴラ,ангола,安哥拉
+aq,an antartaice,南極,antartika,남극,antarktis,antártida,antartide,antarctica,antarktika,ανταρκτική,南极洲,antarctique
+ar,อาร์เจนติน่า,argentina,argentinien,argentinië,arġentina,аргентина,argentine,an airgintín,αργεντινή,argentyna,ác-hen-ti-na,アルゼンチン,阿根廷,아르헨티나
+as,samoa amerikana,samoa americane,东萨摩亚,samoa amerika,american samoa,amerikanisch-samoa,amerikanska samoa,αμερικανική σαμόα,samoa americana,samó meiriceánach,미국령 사모아,アメリカンサモア,samoa américaines,amerikaans samoa
+at,오스트리아,awstrija,австрия,奥地利,аустрија,autriche,österreich,áo,an ostair,oostenrijk,áustria,österrike,austria,オーストリア,αυστρία,âustria,ออสเตรีย
+au,awstralja,オーストラリア,αυστραλία,오스트레일리아,úc,австралия,ออสเตรเลีย,australien,australië,austrália,austràlia,australie,аустралија,澳大利亚,australia,an astráil
+aw,αρούμπα,อารูบา,阿鲁巴,アルバ島,aruba,아루바,аруба
+ax,ilhas aland,alandeilanden,奥兰群岛,올란드 제도,オーランド諸島,åland islands,islas aland,aaland-inseln,аландска острва,νήσοι aland,åland,îles åland,isole aland
+az,azerbaidjan,azerbaiyán,อาเซอร์ไบจัน,azerbaigian,азербејџан,an asarbaiseáin,azerbaïdjan,阿塞拜疆,アゼルバイジャン,azerbaijão,ai-déc-bai-gian,azerbaijan,αζερμπαϊτζάν,아제르바이잔,ażerbajġan,aserbaidschan,azerbadjan,azerbejdżan,azerbeidzjan,азербайджан
+ba,보스니아 헤르체고비나,bosnie-herzégovine,bosnien und herzegowina,bósnia-herzegovina,bosnia y hercegovina,bòsnia i hercegovina,an bhoisnia-heirseagaivéin,bô-xni-a héc-xê-gô-vi-na,bosnien och herzegovina,ボスニア・ヘルツェゴビナ,βοσνία - ερζεγοβίνη,босна и херцеговина,波斯尼亚和黑山共和国,bośnia i hercegowina,bożnija ħerżegovina,bosnia dan herzegovina,bosnië en herzegovina,bosnia-erzegovina,bosnia and herzegovina,босния и герцеговина,บอสเนีย และ เฮิร์ซโกวิเนีย
+bb,バルバドス,bác-ba-đốt,barbados,巴巴多斯,barbade,바베이도스,barbadós,барбадос,μπαρμπάντος,บาร์บาดอส
+bd,băng-la-đét,bangladesz,бангладеш,bangladesch,孟加拉,an bhanglaidéis,μπανγκλαντές,bangladesh,방글라데시,บังคลาเทศ,bangla desh,バングラデシュ,bangladexx
+be,belgië,belgien,βέλγιο,belgio,bèlgica,belġju,bỉ,an bheilg,ベルギー,벨기에,bélgica,belgium,белгија,belgia,เบลเยี่ยม,бельгия,belgique,比利时
+bf,μπουρκίνα φάσο,burkina faso,ブルキナファソ,부르키나파소,буркина фасо,burquina faso,เบอร์กินาฟาโซ,布基纳法索,buircíne fasó,буркина-фасо,buốc-ki-na pha-xô
+bg,bun-ga-ri,ブルガリア,болгария,бугарска,bulgarien,българия,bulgarie,bulgária,불가리아,bułgaria,保加利亚,βουλγαρία,bulgarije,bulgaria,bulgària,an bhulgáir,บัลแกเรีย,bulgarija
+bh,ba-ren,bairéin,μπαχρέιν,baħrajn,巴林,バーレーン,bahreïn,бахреин,bahrajn,bahrain,bahráin,البحرين,bahrein,бахрейн,บาห์เรน,바레인
+bi,μπουρούντι,บูรันดิ,burundi,布隆迪,부룬디,bu-run-đi,an bhurúin,ブルンジ,бурунди
+bj,benin,bê-nanh,贝宁,μπένιν,бенин,เบนิน,ベニン,benín,beinin,베넹
+bl,圣巴泰勒米岛,san bartolomé,são bartolomeu,saint barthélemy,saint-barthélemy,생 바르텔레미,サンバルテルミー
+bm,бермудские острова,bermudy,бермуда,バーミューダ諸島,百慕大,bermudes,bermuda,βερμούδες,beirmiúda,bermudas,버뮤다,เบอร์มิวด้า
+bn,brunei,brúiné,brunej,brunéi,бруней,брунеј,文莱,bru-nây,μπρουνέι νταρουσαλάμ,브루나이,ブルネイ,บรูไน
+bo,bolivie,βολιβία,боливия,bô-li-vi-a,bolívia,볼리비아,bolivja,玻利维亚,bolivia,bolivien,an bholaiv,boliwia,ボリビア,โบลิเวีย,боливија
+bq,bonaire, saint-eustache et saba,bonaire, sint eustatius und saba,ボネール、シントユースタティウスおよびサバ,bonaire, saint eustatius och saba,bonaire, sint eustatius and saba,보네르, 신트유스타티우스, 사바 제도,bonaire, san eustaquio y saba,bonaire, sint eustatius e saba,博奈尔岛, 圣尤斯特歇斯岛和萨巴岛
+br,巴西,brasilia,บราซิล,brésil,brazilië,βραζιλία,an bhrasaíl,brasile,brasil,bra-xin,brasilien,ブラジル,brażil,браѕил,brazil,브라질,brazylia,бразилия
+bs,ba-ha-ma,na bahámaí,バハマ,bahamy,bahama’s,baħamas,bahames,бахами,bahamas,μπαχάμες,巴哈马,багамские острова,바하마,บาฮามาส
+bt,bhutan,μπουτάν,an bhútáin,bhoutan,부탄,бутан,butão,不丹,butan,bután,ภูฐาน,ブータン
+bv,bouveteiland,bouvetön,kepulauan bouvet,νήσος μπουβέ,isola di bouvet,布韦岛,ilha bouvet,bouvet island,부베이 섬,ブーベ島,bouvet-insel,буве,isla bouvet,île bouvet,oileáin bouvet
+bw,ボツワナ,bốt-xoa-na,botsuana,博茨瓦纳,botswana,보츠와나,an bhotsuáin,บอตสวานา,μποτσουάνα,боцвана,ботсвана
+by,vitryssland,белорусија,an bhealarúis,ベラルーシ,bielorússia,白俄罗斯,λευκορωσία,bielorussia,belarus,wit-rusland,belarusia,bê-la-rút,беларусь,biélo-russie,bielorrusia,벨라루스,bjelorussja,เบลลารัส,białoruś
+bz,μπελίζ,belice,伯里兹,beliże,belize,bélize,เบลิซ,белиз,bê-li-xê,an bheilís,ベリーズ,벨리즈,белисе
+ca,canada,καναδάς,canadá,캐나다,canadà,kanada,канада,ceanada,加拿大,ca-na-đa,カナダ,แคนาดา
+cc,cocoseilanden,νήσοι κόκος (κήλινγκ),코코스 군도,ilhas coco,kepulauan cocos,科库斯群岛,isole cocos,кокосова острва,kokos-inseln,cocos (keeling) islands,cocos islands,oileáin cocos (keeling),ココス諸島,îles cocos,cocosöarna,islas cocos
+cd,콩고 민주 공화국,repubblica democratica del congo,刚果民主共和国,république démocratique du congo,コンゴ民主共和国,república democrática del congo,republik demokratik kongo,κονγκό, λαϊκή δημοκρατία του,congo-kinshasa,демократска република конго,democratic republic of the congo,demokratiska republiken kongo,the democratic republic of congo,demokratische republik kongo,poblacht dhaonlathach an chongó
+cf,centralafrikanska republiken,república centro-africana,центральноафриканская республика,poblacht na hafraice láir,중앙 아프리카,cộng hòa trung phi,centraal-afrikaanse republiek,republika środkowoafrykańska,สาธารณรัฐแอฟริกากลาง,república centrafricana,república centroafricana,republik afrika tengah,κεντροαφρικανική δημοκρατία,repubblika afrikana ċentrali,central african republic,république centre-africaine,централно афричка република,repubblica centrafricana,zentralafrikanische republik,中央アフリカ共和国,中非共和国
+cg,κονγκό,an congó,คองโก,kongo,コンゴ,刚果,congo - brazzaville,công-gô,congo,콩고,конго
+ch,zwitserland,sveitsi,瑞士,szwajcaria,suiza,an eilvéis,swiss,switzerland,suíça,schweiz,スイス,svizzera,สวิสเซอร์แลนด์,швейцария,스위스,thụy sĩ,ελβετία,suisse,швајцарска
+ci,elfenbeinküste,kosta ta’ l-avorju,elfenbenskusten,côte d'ivoire,costa d'ivori,costa do marfim,ακτή ελεφαντόδοντος,costa de marfil,ฝั่งทะเลไอวอริ,an cósta eabhair,コートジボアール,象牙海岸,ivoorkust,pantai gading,обала слоноваче,bờ biển ngà,кот-д'ивуар,코트디부와르,wybrzeże kości słoniowej,costa d'avorio
+ck,cook islands,isole cook,クック諸島,kepulauan cook,νήσοι κουκ,库克群岛,cook-inseln,cookeilanden,ilhas cook,îles cook,oileáin cook,cooköarna,islas cook,쿡 제도
+cl,chili,ชิลี,xile,智利,ċili,an tsile,チリ,칠레,χιλή,чиле,chi-lê,chile,чили,cile
+cm,camarún,cameroon,camerun,camerún,คาเมรูน,καμερούν,カメルーン,kameroen,카메룬,kamerun,камерун,喀麦隆,república dos camarões,cameroun,ca-mơ-run
+cn,중국,ċina,китай,kiina,xina,chiny,an tsín,中華人民共和国,kina,china,κίνα,cina,中国,chine,จีน,кина,trung quốc
+co,colombia,kolumbia,kolumbja,κολομβία,колумбия,cô-lôm-bi-a,哥伦比亚,colòmbia,колумбија,colômbia,โคลัมเบีย,kolombia,kolumbien,コロンビア,colombie,콜롬비아,an cholóim
+cr,κόστα ρίκα,kostaryka,cósta ríce,коста-рика,cốt-xta ri-ca,костарика,코스타리카,คอสตาริก้า,kosta rika,costa rica,コスタリカ,哥斯达黎加
+cu,cuba,キューバ,คิวบา,κούβα,cúba,куба,cu ba,kuba,古巴,쿠바
+cv,cáp-ve,佛得角,kap verde,tanjung verde,capo verde,cap vert,νήσοι πράσινου ακρωτηρίου,カーボベルデ,зеленый мыс,cape verde,rinn verde,kaapverdië,republika zielonego przylądka,cap verd,капе верде,เคพเวอร์ด,cabo verde,까뽀베르데,kape verde
+cw,퀴라소,キュラソー,curaçao,库拉索岛
+cx,isola di natale,isla christmas,île christmas,νήσος χριστουγέννων,christmaseiland,pulau christmas,christmas island,божићно острво,julön,ilhas natal,크리스마스 섬,クリスマス島,oileán na nollag,圣诞岛,weihnachtsinsel
+cy,chipre,an chipir,zypern,ċipru,cyprus,cipro,siprus,chypre,kibris,キプロス,사이프러스,ไซปรัส,κύπρος,кипр,cypern,кипар,síp,cypr,xipre,塞浦路斯
+cz,tjeckiska republiken,สาธารณรัฐเช็ค,chequia,poblacht na seice,republika czeska,republik ceko,republik czech,república tcheca,tsekin tasavalta,repubblika ċeka,česká republika,república txeca,repubblica ceca,чешка,tsjechië,チェコ,république tchèque,czech republic,tschechische republik,чехия,τσεχία,체코,捷克共和国,cộng hòa séc
+de,tyskland,γερμανία,allemagne,germania,독일,an ghearmáin,jerman,niemcy,немачка,alemania,alemanha,đức,德国,deutschland,saksa,ドイツ,เยอรมนี,ġermanja,alemanya,duitsland,germany,германия
+dj,gi-bu-ti,джибути,ดิโบติ,yibuti,jibouti,djibouti,吉布提,gibuti,djibuti,dschibuti,dżibuti,џибути,ġibuti,τζιμπουτί,지부티,ジブチ
+dk,덴마크,danemark,เดนมาร์ก,danimarca,dania,丹麦,tanska,δανία,denemarken,dinamarca,danmark,dänemark,an danmhairg,данска,đan mạch,дания,denmark,danimarka,デンマーク
+dm,ντομίνικα,dominika,доминика,多米尼加联邦,ドミニカ国,dominique,โดมินิก้า,doiminice,dominica,도미니카
+do,république dominicaine,republikka domenikana,dominikanska republiken,dominikanische republik,republik dominika,república dominicana,доминиканска република,repubblica dominicana,도미니카 공화국,an phoblacht dhoiminiceach,多米尼加共和国,dominican republic,republik dominican,δομινικανή δημοκρατία,ドミニカ共和国,dominicaanse republiek,สาธารณรัฐโดมินิกัน,republika dominikany,доминиканская республика
+dz,알제리,an ailgéir,argélia,alġerija,algèria,αλγερία,aljazair,argelia,algerije,алжир,an-giê-ri,แอลจีเรีย,algérie,アルジェリア,algeria,الجزائر,algeriet,阿尔及利亚,algerien
+ec,ισημερινός,ecuador,equateur,เอกวาดอร์,에쿠아도르,ekwador,ê-cu-a-đo,厄瓜多尔,eacuadór,equador,еквадор,ekuador,エクアドル,эквадор
+ee,เอสโตเนีย,estonie,エストニア,에스토니아,estônia,estònia,εσθονία,爱沙尼亚,естонија,estland,eesti,e-xtô-ni-a,эстония,an eastóin,estonja,estonia
+eg,egipte,египт,ägypten,an éigipt,egypt,egypte,mesir,egypten,อียิปต์,ai cập,埃及,eġittu,αίγυπτος,egitto,egipt,египат,مصر,エジプト,이집트,egito,egipto
+eh,δυτική σαχάρα,western sahara,an sahára thiar,서사하라,sahara tal-punent,западная сахара,västra sahara,ซาฮาร่าตะวันตก,saara ocidental,tây sahara,sahara occidentale,sahara barat,西サハラ,西撒哈拉,westsahara,западна сахара,westelijke sahara,sahara zachodnia,sahara occidental,sàhara occidental
+er,eritrea,ερυθραία,에리트리아,ê-ri-tơ-rê-a,erythrée,эритрея,厄里特尼亚,erytrea,еритреја,อิริทรี,eritreja,エリトリア,eritreia
+es,spanyol,hiszpania,espanja,an spáinn,spanien,шпанија,испания,españa,sepanyol,espanha,spagna,ισπανία,spain,스페인,スペイン,สเปน,espanya,西班牙,spanja,espagne,tây ban nha,spanje
+et,ethiopië,an aetóip,etiòpia,etiopia,етиопија,αιθιοπία,äthiopien,エチオピア,etijopja,埃塞俄比亚,etiopía,이디오피아,etiopien,etiópia,เอธิโอเปีย,ethiopie,ê-ti-ô-pi-a,эфиопия,ethiopia
+fi,suomi,finlândia,phần lan,핀란드,フィンランド,финска,an fhionlainn,финляндия,ฟินแลนด์,芬兰,finland,finnland,finlandja,finlande,φινλανδία,finlandia,finlàndia
+fj,fiji,ฟิจิ,figi,fidżi,fidschi,fiġi,fidji,fidsí,fiyi,斐济,phi-gi,фиджи,φίτζι,フィジー,피지,фиџи
+fk,kepulauan falkland,富克兰群岛,falkland islands,νήσοι φώκλαντ,falklandeilanden,フォークランド諸島,falkland-inseln,ilhas malvinas,îles malouines,oileáin fháclainne,falklandsöarna,islas malvinas,isole falkland,фолкландска острва,포클랜드 제도
+fm,마이크로네시아,микронезија,micronésia,micronèsia,микронезия,μικρονησία, ομόσπονδες πολιτείες της,ミクロネシア,micronesië,mi-crô-nê-xi-a,mikronesja,mikronesien,micronésie,micronesia,an mhicrinéis,mikronezja,ไมโครนิเซีย,密克罗尼西亚,mikronesia
+fo,페로 제도,ilhas faroe,oileáin fharó,isole færoer,gżejjer faroe,îles féroé,フェロー諸島,islas feroe,faroe islands,νήσοι φερόες,färöarna,faeröer,färöer-inseln,kepulauan faroe,фарска острва,法罗群岛
+fr,프랑스,pháp,ฝรั่งเศส,frankrike,francia,perancis,法国,francja,γαλλία,franza,an fhrainc,フランス,frankrijk,ranska,франция,frankreich,frança,француска,france
+ga,gabon,gabão,габон,กาบอน,ga-bông,γκαμπόν,gabón,an ghabúin,加蓬,gabun,가봉,ガボン
+gb,an ríocht aontaithe,イギリス,wielka brytania,storbritannien,iso-britannia,verenigd koninkrijk,regne unit,united kingdom,royaume-uni,reino unido,vương quốc anh,영국,regno unito,ingilterra,соединенное королевство,велика британија,สหราชอาณาจักร,ηνωμένο βασίλειο,英国,inggris raya,vereinigtes königreich
+gd,格林纳达,그레나다,гренада,γρενάδα,granada,grenade,grê-na-đa,グレナダ,grenada
+ge,格鲁吉亚,gruzja,georgien,an tseoirsia,그루지야,грузия,грузија,geórgia,georgië,จอร์เจีย,gru-di-a,geòrgia,グルジア,georgia,géorgie,γεωργία,ġorġja
+gf,guyane française,γαλλική γουιάνα,仏領ギアナ,french guiana,frans-guyana,franska guyana,gujana francuska,an ghuáin fhrancach,французская гвинея,gujana franċiża,guiana francesa,französisch-guayana,guyana perancis,เฟร็นชกิวน่า,guayana francese,француска гвајана,프랑스령 기아나,guayana francesa,guaiana francesa,法属圭亚那
+gg,guernsey,ガーンジー,格恩西岛,건지,guernesey
+gh,กาน่า,γκάνα,ガーナ,加纳,ghana,гана,gana,가나,gána,gha-na
+gi,gibilterra,gibraltar,гибралтар,直布罗陀,γιβραλτάρ,giobráltar,ジブラルタル,지브롤터
+gl,γροιλανδία,grinlandja,groenland,groenlandia,グリーンランド,an ghraonlainn,grönland,그린랜드,greenland,гренланд,格陵兰,groênlandia
+gm,an ghaimbia,gâmbia,แกมเบีย,гамбия,gàmbia,ガンビア,гамбија,감비아,冈比亚,gambja,gambia,γκάμπια,gambie,găm-bi-a
+gn,гвинеја,guinea,guinée,几内亚,guiné,기니,กิวนี,gineja,ghi-nê,гвинея,gwinea,ギニア,guinee,γουινέα,an ghuine
+gp,guadalupe,과달로프,γουαδελούπη,guadalupa,gwadelupa,瓜德罗普岛,гваделупе,กัวเดอลูป,гваделупа,guadalúip,guadeloupe,gwadelupe,グアドループ
+gq,экваториальная гвинея,äquatorial-guinea,екваторијална гвинеја,ισημερινή γουινέα,เอควาโทเรียลกินี,equatoriaal-guinea,equatorial guinea,guinea ecuatorial,guinée equatoriale,적도 기니,赤道几内亚,guinea khatulistiwa,guiné equatorial,ekvatorialguinea,gwinea równikowa,guinea equatorial,guinea equatoriale,ghi-nê xích-đạo,ginea ekwatorjali,赤道ギニア,an ghuine mheánchriosach
+gr,grèce,grécia,grècia,griekenland,an ghréig,greċja,ελλάδα,yunani,kreikka,กรีซ,greece,griechenland,그리스,grekland,hy lạp,希腊,грчка,ギリシア,греция,grecia,grecja
+gs,georgia del sud e isole sandwich meridionali,zuid-georgië en zuidelijke sandwicheilanden,јужна џорџија и јужна сендвич острва,süd-georgia und die südlichen sandwich-inseln,géorgie du sud et îles sandwich du sud,사우스 조지아 및 사우스 샌드위치 제도,an tseoirsia theas agus oileáin sandwich theas,サウスジョージア島・サウスサンドウィッチ島,georgia selatan dan kepulauan sandwich selatan,南乔治亚岛和南桑德韦奇岛,south georgia and the south sandwich islands,south georgia and the south sandwich islands,geórgia do sul e ilhas sandwich do sul,islas georgia del sur y sandwich del sur,sydgeorgien och sydsandwichöarna,νότια γεωργία και νήσοι νότιες σάντουιτς
+gt,goa-tê-ma-la,гватемала,危地马拉,guatamala,과테말라,guatemala,γουατεμάλα,gwatemala,กัวเตมาลา,グアテマラ
+gu,グアム,关岛,γκουάμ,гуам,guam,괌,gwam
+gw,guinée-bissau,an ghuine-bhissau,гвинея-бисау,ギニアビサウ,ginea-bissaw,几内亚比绍共和国,guiné bissau,guinea-bissau,ghi-nê bít-xao,guinea bissau,기네비쏘,gwinea bissau,กิวนี-บิสโซ,guinee-bissau,гвинеја-бисао,γουινέα-μπισάου
+gy,gujana,guiana,an ghuáin,圭亚那,guyana,гвајана,กูยาน่า,γουιάνα,гайана,ガイアナ,guy-a-na,가이아나
+hk,hong kong s.a.r., china,hong kong,гонконг,香港,ฮ่องกง,hongkong,홍콩,χονγκ κονγκ, ειδική διοικητική περιφέρεια της κίνας,hong kong s.a.r., cina,hong kong, região admin. especial da china,хонг конг (с. а. р. кина),ħong kong s.a.r., ċina,hong-kong,hongkong sar van china
+hm,heard island and mcdonald islands,ハード・マクドナルド諸島,heard- en mcdonaldeilanden,pulau heard dan kepulauan mcdonald,赫德和麦克唐纳群岛,islas heard y mcdonald,heard island and mcdonald islands,heard- und mcdonald-inseln,ilha heard e ilhas mcdonald,νήσοι χερντ και μακντόναλντ,херд и мекдоналд острва,허드 섬 및 맥도널드 제도,île heard et îles mcdonald,isole heard e mcdonald,heardöch mcdonaldöarna,oileán heard agus oileáin mcdonald
+hn,ονδούρα,ħonduras,洪都拉斯,hondúras,honduras,hôn-đu-rát,ホンジュラス,hondures,хондурас,гондурас,온두라스,ฮอนดูรัส
+hr,クロアチア,kroatien,crô-a-ti-a,croazia,croacia,хорватия,an chróit,克罗地亚,hrvatska,โครเอเชีย,chorwacja,κροατία,croàcia,kroasia,croácia,kroatië,croatie,kroazja,croatia,크로아티아,хрватска
+ht,haiti,haití,haïti,하이티,αϊτή,гаити,ハイチ,海地,háití,ไฮตี,хаити,ha-i-ti,ħaiti
+hu,ουγγαρία,ungheria,hungria,hongria,hungary,ungarn,hungría,hongrie,węgry,hongarije,ハンガリー,헝가리,hungaria,hungari,мађарска,ฮังการี,hung-ga-ri,ungern,an ungáir,ungerija,magyarország,венгрия,匈牙利
+id,อินโดนีเซีย,인도네시아,индонезија,an indinéis,indonezja,индонезия,ινδονησία,indonésie,indoneżja,インドネシア,indonesië,indonèsia,indonésia,indonesien,印度尼西亚,nam dương,indonesia
+ie,ирска,irlanda,irlanti,アイルランド,éire,ирландия,ไอร์แลนด์,爱尔兰,ireland,아일랜드,ierland,ai-len,irlandia,irland,ιρλανδία,irlande
+il,israël,израиль,ισραήλ,イスラエル,ישראל,израел,이스라엘,以色列,i-xra-en,อิสราเอล,iżrael,iosrael,izrael,israel,israele
+im,isle of man,ilha de man,曼岛,isola di man,isle of man,ile de man,isla de man,マン島,맨 섬
+in,ινδία,indie,inde,ấn độ,インド,índia,индија,an india,भारत,индия,indja,india,인도,hindia,อินเดีย,印度,indien
+io,英属印度洋领地,territorio britannico dell'oceano indiano,영인도 제도,territoires britanniques de l'océan indien,britse gebieden in de indische oceaan,territorio británico del océano índico,críocha briotanacha an aigéin indiagh,brittiska territoriet i indiska oceanen,βρετανικά έδάφη ινδικού ωκεανού,british indian ocean territory,britische territorien im indischen ozean,英領インド洋地域,território britânico do oceano índico
+iq,irak,อิรัก,イラク,ιράκ,이라크,العراق,伊拉克,iraq,an iaráic,i-rắc,ирак,iraque
+ir,i-ran,イラン,iran,irán,이란,伊朗,ιράν, ισλαμική δημοκρατία του,อิหร่าน,an iaráin,иран,irã
+is,冰岛,아이슬란드,ísland,アイスランド,ijsland,ισλανδία,island,iceland,исландия,islanda,исланд,ไอซแลนด์,islande,islandia,ai-xơ-len,islàndia,an íoslainn,islândia
+it,италия,意大利,itali,イタリア,italia,italja,italie,itália,อิตาลี,włochy,itàlia,italy,italië,ιταλία,이탈리아,ý,italien,an iodáil,италија
+je,泽西岛,ジャージー,저지,jersey
+jm,giamaica,jamaïque,ジャマイカ,จาไมก้า,iamáice,자메이카,jamaika,τζαμάικα,jamajka,ямайка,ha-mai-ca,jamaica,ġamajka,牙买加,јамајка
+jo,an iordáin,jordanie,jordanië,giordania,jordània,jordânia,จอร์แดน,요르단,gióc-đa-ni,ġordan,الأردن,jordanien,ヨルダン,约旦,иордания,јордан,ιορδανία,jordan,jordania,yordania
+jp,giappone,japonia,јапан,ιαπωνία,일본,ġappun,japão,japan,an tseapáin,日本,jepun,япония,jepang,japani,japón,ญี่ปุ่น,japon,japó,nhật bản
+ke,肯尼亚,кенија,케냐,kenya,κένυα,kê-ni-a,ケニア,quênia,เคนย่า,kenja,kenia,an chéinia,кения
+kg,kirgisistan,cư-rơ-gư-xtan,an chirgeastáin,เคอร์กิสถาน,吉尔吉克斯坦,kirgistan,kirgizië,quirguistão,киргизстан,キルギスタン,키르기스스탄,kirghizistan,kyrgyzstan,kirgizistan,kirguizistán,κιργιζία
+kh,καμπότζη,cambodge,กัมพูชา,cambodia,camboja,камбоджа,cambogia,kambodża,an chambóid,kemboja,camboya,カンボジア,campuchia,柬埔寨,камбоџа,kambodja,cambodja,kambodscha,kamboja,캄보디아
+ki,基里巴斯,кирибати,cireabaití,キリバス,키리바시,คิรีบาติ,ki-ri-ba-ti,kiribati,quiribati,κιριμπάτι
+km,komoros,코모르,コモロ,komoren,comore,komory,κομόρες,科摩罗,โคโมรอส,comores,коморска острва,oileáin chomóra,comoren,comoros,коморос,komorerna,cô-mô
+kn,saint kitts en nevis,セントクリストファー・ネイビス,saint kitts och nevis,saint kitts and nevis,saint kitts und nevis,são cristovão e nevis,сент китс и невис,saint kitts agus nevis,σαιντ κιτς και νέβις,圣基茨和尼维斯,saint kitts dan nevis,세인트 크리스토퍼 니비스,san cristóbal y nieves,saint kitts e nevis,saint kitts and nevis,xan-kít và nê-vi,saint-christophe-et-niévès
+kp,corée du nord,朝鮮民主主義人民共和国,corea del norte,an chóiré thuaidh,nordkorea,korea północna,koreja ta’ fuq,bắc triều tiên,북한,utara korea,north korea,coreia do norte,северная корея,朝鲜,corea del nord,κορέα, βόρεια,noord-korea,северна кореја,เกาหลีเหนือ,korea utara
+kr,coreia do sul,κορέα, νότια,韩国,an chóiré theas,korea selatan,koreja t’isfel,hàn quốc,јужна кореја,corea del sud,südkorea,южная корея,zuid-korea,south korea,korea południowa,大韓民国,selatan korea,corée du sud,대한민국,sydkorea,corea del sur,เกาหลีใต้,korea
+kw,kuwejt,κουβέιτ,cô-oét,쿠웨이트,koweit,cuáit,кувейт,кувајт,คูเวต,クウェート,kuwait,kuwajt,科威特,koeweit,الكويت
+ky,νήσοι κέιμαν,islas caimán,caymaneilanden,oileáin cayman,kepulauan kayman,caymanöarna,ilhas caiman,cayman islands,ケイマン諸島,开曼群岛,îles caïmans,케이맨 제도,кајманска острва,isole cayman,kaiman-inseln
+kz,każakstan,kasachstan,カザフスタン,casaquistão,an chasacstáin,kazakstan,哈萨克斯坦,kazakhstan,kazachstan,카자흐스탄,คาซัคสถาน,ka-dắc-xtan,καζακστάν,kazajstán,казахстан
+la,老挝,república popular democrática do laos,ラオス,라오스,лаос,λατινική αμερική,lào,ลาว,laos
+lb,เลบานอน,an liobáin,libanu,libanon,líbano,lubnan,لبنان,lebanon,líban,liban,レバノン,либан,ливан,libano,레바논,li-băng,黎巴嫩,λίβανος
+lc,st. lucia,santa lusia,セントルシア,αγία λουκία,сент луција,saint lucia,sainte lucia,santa luċija,santa lucia,sainte-lucie,santa lúcia,圣卢西亚,세인트 루시아,xan lu-xi
+li,lichtinstéin,liechtenstein,лихтенштајн,리히텐슈타인,ไลเทนสไตน์,列支敦士登,λιχτενστάιν,lich-ten-xtên,リヒテンシュタイン,лихтенштейн
+lk,σρι λάνκα,スリランカ,스리랑카,ศรีลังกา,шри-ланка,sri lanka,xri lan-ca,srí lanca,斯里兰卡,шри ланка
+lr,λιβερία,라이베리아,利比里亚,либерия,an libéir,liberia,libèria,libéria,liberja,li-bê-ri-a,либерија,リベリア,ลิเบอร์เลีย
+ls,เลโซโท,λεσότο,leosóta,lesoto,레소토,lê-xô-thô,レソト,莱索托,lesotho,лесото
+lt,litwa,litauen,リトアニア,ลิเทอร์เนีย,litouwen,立陶宛,litwanja,lituânia,литванија,λιθουανία,lituània,литва,lithuanie,리투아니아,lietuva,lituania,lithuania,an liotuáin,li-tu-a-ni-a
+lu,luxemburgo,luksembourg,луксембург,lucsamburg,ลักซ์เซมเบอร์ก,luksemburg,lúc-xăm-bua,룩셈부르크,люксембург,lussemburgu,luxemburg,λουξεμβούργο,卢森堡,luxembourg,lussemburgo,ルクセンブルク
+lv,lettonie,lát-vi-a,lettonia,letònia,an laitvia,라트비아,letônia,латвия,ลาตเวีย,letland,łotwa,latvija,latvia,lettland,拉脱维亚,latvja,ラトビア,λετονία,letonia,летонија
+ly,ليبيا,リビア,ลิเบีย,líbia,libië,li-bi,libya,利比亚,λιβύη,libye,ливия,libyen,리비아,libja,либија,libia,an libia
+ma,marokk,maracó,โมรอคโค,μαρόκο,maroko,марокко,モロッコ,모로코,morocco,المغرب,marruecos,marrocos,摩洛哥,marocko,maroc,marroc,maghribi,мароко,marokko,marocco,ma-rốc
+mc,μονακό,mônaco,โมนาโค,mô-na-cô,monako,mònaco,monacó,摩纳哥,monaco,モナコ,모나코,монако,mónaco
+md,молдова,moldavie,moldávia,モルドバ,โมลโดวา,mołdawia,maldova,moldavien,moldova,moldàvia,môn-đô-va,μολδαβία, δημοκρατία της,moldavia,몰도바,moldavië,молдавија,an mholdóiv,moldau,摩尔多瓦
+me,monténégro,モンテネグロ,黑山,몬테네그로,montenegro
+mf,saint martin,圣马丁,サンマルタン,생 마르탱,saint-martin,st. martin,san martín,são martinho
+mg,马达加斯加,ma-đa-gát-xca,madagaskar,มาดากาสก้า,マダガスカル,мадагаскар,madagascar,마다가스카르,μαδαγασκάρη
+mh,νήσοι μάρσαλ,маршалска острва,马绍尔群岛,îles marshall,마셜 제도,kepulauan marshall,marshalleilanden,marshall-inseln,oileáin marshall,gżejjer ta’ marshall,marshall islands,isole marshall,quần đảo mác-san,マーシャル諸島,marshallöarna,islas marshall,ilhas marshall
+mk,macédoine,마케도니아어,マケドニア,แมซีโดเนีย,马其顿王国,mazedonien,macedonië,makedonien,πγδ μακεδονίας,an mhacadóin,macedònia,maċedonja,macedonia,macedônia,ma-xê-đô-ni-a,македонија,македония
+ml,malí,มาลี,马里,mali,マリ,말리,μάλι,mailí,мали,ma-li
+mm,myanmar,mianmar [birmânia],μιανμάρ,ミャンマー,mjanmar,мијанмар,maenmar,미얀마,สหภาพพม่า,缅甸,мьянма,mi-an-ma
+mn,монголия,an mhongóil,mông cổ,mongolja,монголија,mongolia,mongólia,mongòlia,mongolie,μογγολία,mongoliet,mongolië,มองโกเลีย,蒙古,몽골,mongolei,モンゴル
+mo,マカオ,澳门特区,makao s.a.r. cina,макао (с. а. р. кина),macao,마카오,μακάο, ειδική διοικητική περιφέρεια της κίνας,macao s.a.r., china,macao sar van china,macau, região admin. especial da china
+mp,северна маријанска острва,νήσοι βόρειες μαριάνες,북마리아나 제도,oileáin mariana thuaidh,northern mariana islands,islas marianas del norte,nordmarianerna,北マリアナ諸島,isole marianne settentrionali,美属北马里亚纳群岛,nördliche mariannen-inseln,noordelijke marianeneilanden,kepualuan mariana utara,îles mariannes du nord,ilhas marianas do norte,gżejjer marjana ta’ fuq
+mq,말티니크,мартиника,马提尼克岛,martinica,μαρτινίκα,martynika,martinique,マルティニーク島,мартиник,มาร์ตินิก,martinik
+mr,모리타니,мауританија,μαυριτανία,мавритания,モーリタニア,an mharatáin,mauritània,mawritanja,mauritânia,มอริทาเนีย,mauritania,mô-ri-ta-ni,mauritanie,mauretanien,mauritanië,mauretania,毛里塔尼亚
+ms,モントセラト島,มอนต์เซอราต,montserrat,蒙特塞拉群岛,montsarat,μονσεράτ,몬트세라트,монсерат,монтсерат
+mt,málta,มัลต้า,malte,малта,몰타,мальта,马耳他,μάλτα,man-ta,malta,マルタ
+mu,mauricio,маврикий,毛里求斯,oileán mhuirís,mauritius,มอริเตียส,maurici,mô-ri-xơ,mawrizju,maurice,モーリシャス,maurício,маурицијус,maurizio,μαυρίκιος,모리셔스
+mv,モルディブ,马尔代夫,maldive,малдиви,maldives,μαλδίβες,maldiven,maldiv,maldiverna,몰디브,man-đi-vơ,mhaildiví,maldivas
+mw,μαλάουι,malaui,an mhaláiv,malawi,малави,马拉维,말라위,ma-la-uy,マラウイ
+mx,mexiko,мексико,méxico,meicsiceo,mê-hi-cô,мексика,墨西哥,meksyk,messiku,mexico,μεξικό,メキシコ,mexique,messico,멕시코,แม็กซิโก,mèxic,meksiko
+my,malàisia,マレーシア,malezja,malasja,malaisie,малайзия,malasia,малезија,malaysia,ma-lay-xi-a,มาเลเซีย,μαλαισία,an mhalaeisia,马来西亚,maleisië,말레이지아,malásia
+mz,mósaimbíc,โมแซมบิค,mozambik,モザンビーク,mô-dăm-bích,moçambic,moçambique,μοζαμβίκη,mosambik,мозамбик,莫桑比克,mozambique,mozambico,możambik,모잠비크
+na,ναμίμπια,namibië,намибия,ナミビア,nam-mi-bi-a,намибија,namibie,นามิเบีย,namibia,namibja,namíbia,纳米比亚,an namaib,나미비아
+nc,nueva caledonia,нова каледонија,νέα καληδονία,nova caledônia,nya kaledonien,ニューカレドニア,nova caledònia,neukaledonien,nowa kaledonia,новая каледония,new caledonia,an nua-chaladóin,kaledonia baru,nouvelle-calédonie,뉴 칼레도니아,นิวคาลิโดเนีย,nieuw-caledonië,新克里多尼亚群岛,nuova caledonia
+ne,ni-giê,нигер,an nígir,ไนเจอร์,niger,니제르,niġer,níger,尼日尔,νίγηρ,ニジェール
+nf,ノーフォーク島,isla norfolk,oileán norfolk,ilha norfolk,kepulauan norfolk,норфолк острво,norfolkeiland,norfolkön,norfolk island,île norfolk,νήσος νόρφολκ,norfolk-insel,诺福克岛,노퍽 섬,isola norfolk
+ng,нигерия,나이지리아,niġerja,ナイジェリア,nigéria,an nigéir,nigèria,尼日利亚,ไนจีเรีย,ni-giê-ri-a,nigeria,нигерија,νιγηρία
+ni,尼加拉瓜,ニカラグア,νικαράγουα,นิคารากัว,니카라과,никарагуа,nicaragua,nicearagua,ni-ca-ra-goa,nikaragua,nicarágua,nikaragwa,никарагва
+nl,ολλανδία,holanda,belanda,olanda,荷兰,alankomaat,네덜란드,pays-bas,เนเธอร์แลนด์,オランダ,hà lan,netherlands,niederlande,holandia,nederländerna,an ísiltír,nederland,нидерланды,països baixos,холандија,paesi bassi
+no,norwegen,ノルウェー,na uy,an iorua,noorwegen,норвешка,นอร์เวย์,norvège,norveġja,norge,norwegia,norway,노르웨이,noruega,norja,νορβηγία,norvegia,挪威,норвегия
+np,尼泊尔,непал,népal,네팔,neipeal,เนปาล,nê-pan,nepal,νεπάλ,ネパール
+nr,ナウル,瑙鲁,nauru,nárú,науру,ναούρου,나우루
+nu,νιούε,ниуе,ニウエ島,纽埃岛,нию,นียู,niue,니우에
+nz,nieuw-zeeland,nouvelle-zélande,nuova zelanda,ニュージーランド,nova zelândia,新西兰,new zealand,neuseeland,an nua-shéalainn,новая зеландия,นิวซีแลนด์,nova zelanda,νέα ζηλανδία,selandia baru,nueva zelanda,nowa zelandia,niu di-lân,нови зеланд,뉴질랜드,nya zeeland
+om,오만,ô-man,omã,оман,オマーン,سلطنة عمان,ομάν,oman,omán,โอมาน,阿曼
+pa,панама,파나마,ปานามา,panama,panamá,パナマ,panamà,παναμάς,巴拿马,pa-na-ma
+pe,เปรู,pê-ru,ペルー,перу,秘鲁,perú,περού,perù,페루,peiriú,peru,pérou
+pf,an pholainéis fhrancach,polynésie française,γαλλική πολυνησία,polynesia perancis,polinesja franċiża,polinesia francese,프랑스령 폴리네시아,polinesia francesa,法属玻利尼西亚,polinezja francuska,เฟร็นชโพลินีเซีย,french polynesia,француска полинезија,französisch-polynesien,仏領ポリネシア,franska polynesien,polinèsia francesa,polinésia francesa,французская полинезия,frans-polynesië
+pg,papua new guinea,παπούα - νέα γουινέα,파푸아뉴기니,ปาปัวนิวกีนี,pa-pu-a niu ghi-nê,papoea-nieuw-guinea,巴布亚新几内亚,papua nova guinea,papua nya guinea,papúa new guinea,papua nugini,papua nuova guinea,папуа - новая гвинея,パプアニューギニア,papua-neuguinea,nua-ghuine phapua,papua nowa gwinea,papua-nova guiné,papouasie-nouvelle-guinée,papwa-ginea ġdida,папуа нова гвинеја
+ph,フィリピン,ฟิลิปปินส์,φιλιππίνες,filipina,na hoileáin fhilipíneacha,philippines,филиппины,filipiny,филипини,filipijnen,필리핀,filippinerna,filipines,filippini,philippinen,filipinas,phi-lip-pin,filippine,菲律宾
+pk,巴基斯坦,pakistan,пакистан,パキスタン,paquistão,paquistán,pa-ki-xtan,πακιστάν,an phacastáin,파키스탄,ปากีสถาน
+pl,puola,polonja,polônia,폴란드,波兰,polandia,polonia,пољска,polen,an pholainn,polska,โปแลนด์,πολωνία,ポーランド,польша,poland,pologne,ba lan,polònia
+pm,saint pierre and miquelon,圣皮埃尔和密克隆群岛,サンピエール島・ミクロン島,saint pierre och miquelon,san pedro y miquelón,сен пјер и микелон,세인트 피에르 미켈론,saint pierre e miquelon,saint pierre en miquelon,st. pierre und miquelon,saint pierre agus miquelon,saint pierre and miquelon,saint-pierre-et-miquelon,σαιντ πιέρ και μικελόν,saint pierre dan miquelon
+pn,ピトケアン島,pitcairn,islas pitcairn,핏케언 제도,πίτκερν,питкерн,皮特克恩岛
+pr,puerto rico,เปอร์โตริโก,portó ríce,プエルトリコ,푸에르토리코,portoryko,porto rico,πουέρτο ρίκο,puerto riko,пуэрто-рико,порто рико,波多黎哥
+ps,palästina,パレスチナ,territórios palestinos,otoritas palestina,palestina,palestijns gebied,巴勒斯坦,palestine,na críocha pailistíneacha,палестинска територија,palestinian territory,παλαιστινιακά εδάφη,팔레스타인
+pt,πορτογαλία,португалия,portugal,portugis,portugalia,포르투칼,portugall,bồ đào nha,portugali,ポルトガル,an phortaingéil,葡萄牙,feringgi,โปตุกัล,portogallo,португал
+pw,帕劳,palaos,팔라우,палау,palau,belau,παλάου,パラオ
+py,paragwaj,ปารากวัย,巴拉圭,παραγουάη,パラグアイ,paraguay,paraguai,парагвај,парагвай,파라과이,paragua,pa-ra-goay
+qa,ca-ta,katar,กาตาร์,قطر,卡塔尔,qatar,катар,카타르,catar,κατάρ,カタール
+re,reunion,la réunion,reunión,réunion,reunião,реинион,レユニオン,留尼汪岛,ρεϋνιόν,리유니언
+ro,루마니아,罗马尼亚,romania,rumänien,românia,румунија,an rómáin,rumunia,รูเมเนีย,rumanija,roemenië,ρουμανία,roumanie,romênia,румыния,ru-ma-ni,rumania,ルーマニア
+rs,serbien,serbie,塞尔维亚,세르비아,sérvia,セルビア,serbia,servië
+ru,รัสเซีย,ryssland,ロシア,rússia,俄罗斯,nga,cónaidhm na rúise,russie,russja,russia,россия,rusia,russland,rusland,ρωσία,русија,venäjä,rosja,러시아
+rw,ราวัลดา,卢旺达,르완다,ruanda,rwanda,ρουάντα,ルワンダ,ru-an-đa,руанда
+sa,arabia saudita,aràbia saudí,arabie saoudite,saoedi-arabië,사우디아라비아,saudiarabien,沙特阿拉伯,a-rập xê-út,għarabja sawdita,ซาอุดิอาระเบีย,السعودية,σαουδική αραβία,saudi arabia,arab saudi,саудовская аравия,サウジアラビア,arábia saudita,saudi-arabien,саудијска арабија,arabia saudyjska,an araib shádach
+sb,ilhas salomão,isole solomon,솔로몬 제도,所罗门群岛,islas salomón,kepulauan solomon,ソロモン諸島,solomon-inseln,oileáin solomon,νήσοι σολομώντος,solomon islands,salomonseilanden,соломонска острва,salomonöarna,îles salomon,quần đảo xô-lô-mông
+sc,seychellen,seychellerna,σεϋχέλλες,쉐이쉘,seychelles,сејшели,seszele,сейшельские острова,na séiséil,เซย์แชลล์,xây-sen,塞舌尔群岛,セイシェル
+sd,σουδάν,soedan,sudão,sudan,sudán,수단,soudan,судан,an tsúdáin,スーダン,苏丹,ซูดาน,السودان,xu-đăng
+se,svezia,스웨덴,an tsualainn,suècia,suécia,ruotsi,żvezja,suède,thụy điển,швеция,sweden,sverige,สวีเดน,шведска,瑞典,zweden,szwecja,σουηδία,schweden,suecia,スウェーデン
+sg,singapura,singapore,singapur,σιγκαπούρη,singapour,싱가포르,สิงคโปร์,xin-ga-po,シンガポール,cingapura,新加坡,сингапур,singeapór,singapor
+sh,圣赫勒拿岛,sainte-hélène,san héilin,st. helena,sant'elena,santa helena,света јелена,sint-helena,세인트 헬레나,αγία ελένη,セントヘレナ島,saint helena
+si,słowenia,slovenien,словенија,eslovènia,スロベニア,สโลวิเนีย,eslovênia,斯洛文尼亚,an tslóvéin,slovenië,словения,eslovenia,slovenija,slovénie,σλοβενία,slovenja,slovenia,슬로베니아,xlô-ven-ni-a,slowenien
+sj,svalbard agus jan mayen,svalbard e jan mayen,свалбард и јанмајен острва,svalbard och jan mayen,svalbard en jan mayen,svalbard and jan mayen,svalbard and jan mayen,νήσοι σβάλμπαρ και γιαν μαγιέν,svalbard et jan mayen,스발바르 및 얀마웬,スバールバル諸島・ヤンマイエン島,svalbard y jan mayen,斯瓦尔巴特和扬马延岛,svalbard dan jan mayen,svalbard und jan mayen
+sk,an tslóvaic,スロバキア,slovenská republika,slowakije,slovacchia,словачка,slowakei,slovaquie,słowacja,slovakien,словакия,สโลวาเกีย,슬로바키아,eslovàquia,eslováquia,slovakia,eslovaquia,斯洛伐克,σλοβακία,xlô-va-ki-a,slovakkja
+sl,сьерра-леоне,sierra leone,σιέρα λεόνε,xi-ê-ra lê-ôn,เซียร์ร่าลีออน,sierra leona,siarra leon,siera leon,塞拉里昂,シエラレオネ,serra leoa,시에라리온,сијера леоне
+sm,άγιος μαρίνος,xan ma-ri-nô,圣马力诺,saint-marin,산마리노,сан марино,サンマリノ,san marino,san mairíne
+sn,xê-nê-gan,сенегал,senegal,セネガル,sénégal,세네갈,σενεγάλη,ซินีกัล,an tseineagáil,塞内加尔
+so,somalië,somàlia,somália,somalie,somalia,сомалија,โซมาเลีย,xô-ma-li,索马里,an tsomáil,somalja,σομαλία,소말리아,сомали,ソマリア
+sr,ซูรินามิ,σουρινάμ,スリナム,surinam,苏里南,suranam,suriname,xu-ri-nam,수리남,суринам
+ss,sudan del sud,南スーダン,sydsudan,south sudan,südsudan,남수단,南苏丹,sud-soudan,sudán del sur
+st,santo tomé y príncipe,sao tome and principe,sao tome agus principe,sao tomé en principe,상투메 프린시페,サントメ・プリンシペ,xao tô-mê và prin-xi-pê,sao tome and principe,são tomé e príncipe,σάο τομέ και πρίνσιπε,sao tomé et principe,são tomé e principe,圣多美和普林西比,sao tome und principe,são tomé och príncipe,sao tome dan principe,сао томе и принципи
+sv,ελ σαλβαδόρ,엘살바도르,el salvador,エルサルバドル,салвадор,сальвадор,เอลซาวาดอร์,萨尔瓦多,salwador,en-san-va-đo,an tsalvadóir
+sx,sint maarten (nederländska delen),sint maarten (parte olandese),sint maarten (dutch part),신트마르텐(네덜란드령),sint maarten (niederländischer teil),荷属圣马丁岛,san martín (región holandesa),シントマールテン(オランダ領),saint-martin (partie néerlandaise)
+sy,syrie,сирија,syrië,syrien,시리아,συρία, αραβική δημοκρατία της,сирия,an tsiria,syria,síria,叙利亚,sirja,シリア,سوريا,siria,ซีเรีย,xi-ri
+sz,suazilândia,斯威士兰,σουαζιλάνδη,an tsuasalainn,swazilàndia,suazi,xoa-di-len,suazilandia,스와질랜드,สวาซิแลนด์,свазиленд,swasiland,sważiland,swaziland,スワジランド
+tc,oileáin turks agus caicos,turks- och caicosöarna,islas turcas y caicos,туркс и кајкос острва,turks- en caicoseilanden,特克斯群岛和凯科斯群岛,터크스 케이커스 제도,νήσοι τερκς και κάικος,タークス諸島・カイコス諸島,îles turks et caicos,turks- und caicos-inseln,isole turks e caicos,turks and caicos islands,ilhas turks e caicos,turks and caicos islands
+td,txad,乍得,tsjaad,cad,sát,chad,τσαντ,ciad,차드,ċad,tchad,sead,チャド,czad,ชาด,чад,tschad,chade
+tf,француске јужне територије,territorios franceses del sur,territori francesi d'oltremare,французские южные территории,อาณาเขตทางใต้ของฝรั่งเศส,french southern territories,französische südgebiete,フランス領極南諸島,franska södra territorierna,territoris meridionals francesos ??,γαλλικά νότια εδάφη,franse gebieden in de zuidelijke indische oceaan,críocha francacha theas,francuskie terytoria zamorskie,法属南特立尼达,프랑스 남부 지방,territorji franċiżi ta’ nofsinhar,territoires français du sud,territórios franceses do sul
+tg,tóga,多哥,โตโก,togo,τόγκο,tô-gô,того,토고,トーゴ
+th,泰国,thái lan,ταϊλάνδη,thailandia,タイ,tailândia,태국,тајланд,thailand,таиланд,tajlandja,tajlandia,ประเทศไทย,tailandia,tailàndia,thaïlande,an téalainn
+tj,tadschikistan,таџикистан,타지키스탄,tadjiquistão,タジキスタン,塔吉克斯坦,an táidsíceastáin,tadzjikistan,τατζικιστάν,таджикистан,tagikistan,tadjikistan,taġikistan,tát-gi-ki-xtan,tajikistan,tayikistán,tadżykistan,ทาจิกิสถาน
+tk,τοκελάου,โทกิโล,tokelau,トケラウ諸島,tokelaw,토켈라우,tócalá,联合群岛,токелау
+tl,東ティモール,timor oriental,동티모르,oost-timor,东帝汶,timor-leste,ανατολικό τιμόρ,timor tal-lvant,timor leste,тимор-лесте,tíomór-leste
+tm,土库曼斯坦,turkménistan,туркменистан,เติร์กเมนิสถาน,tuốc-mê-ni-xtan,투르크메니스탄,an tuircméanastáin,τουρκμενιστάν,トルクメニスタン,turkmenistán,turcomenistão,turkmenistan
+tn,tunesien,tunisie,an túinéis,突尼斯,tunísia,tunezja,tunesië,تونس,túnez,チュニジア,ตูนิเซีย,tuneż,튀니지,tunisien,тунис,tuy-ni-di,τυνησία,tunisia
+to,통가,汤加,τόνγκα,тонга,tông-ga,ทองก้า,トンガ,tonga
+tr,turkije,turquia,turkki,turquía,turchia,турция,ตุรกี,τουρκία,турска,an tuirc,トルコ,turkija,türkei,터키,turkey,turcja,土耳其,turkiet,turki,türkiye,thổ nhĩ kỳ,turquie
+tt,特立尼达和多巴哥,trinitat i tobago,tri-ni-đát và tô-ba-gô,trinité-et-tobago,トリニダード・トバゴ,trinidad und tobago,trinidad och tobago,oileáin na tríonóide agus tobága,트리니다드 토바고,тринидад и тобаго,trinidad dan tobago,trinidad y tobago,trynidad i tobago,trinidad e tobago,trinidad en tobago,trinidad and tobago,trinidad u tobago,τρινιδάδ και τομπάγκο,ทรินิแดด และโทบาโก
+tv,τουβαλού,ツバル,tuvalú,투발루,тувалу,tuvalu,tu-va-lu,图瓦卢
+tw,đài loan,台湾,ไต้หวัน,ταϊβάν,тајван,taiwan,taiwán,tajwan,台湾地区,대만,тайвань,an téaváin
+tz,tansania,탄자니아,坦桑尼亚,танзания,tanzania,τανζανία,an tansáin,tanzània,tan-da-ni-a,tanzânia,タンザニア,ทานซาเนีย,tanżanija,tanzanie,танзанија
+ua,우크라이나,乌克兰,an úcráin,ukraine,ucraina,ουκρανία,ukraina,ยูเครน,ウクライナ,украјина,ucraïna,u-crai-na,ucrânia,украина,ucrania,oekraïne,україна
+ug,ουγκάντα,oeganda,ouganda,u-gan-đa,uganda,ウガンダ,уганда,乌干达,อูกานดา,우간다
+um,απομακρυσμένες νησίδες των ηνωμένων πολιτειών,美属小奥特兰群岛,übrige inseln im pazifik der usa,ilhas menores distantes dos estados unidos,amerikaanse kleinere afgelegen eilanden,isole minori lontane degli stati uniti,dépendances américaines du pacifique,united states minor outlying islands,islas menores alejadas de los estados unidos,米領太平洋諸島,미국령 군도,mion-oileáin imeallacha s.a.m.,мања удаљена острва сад,förenta staternas mindre öar i oceanien och västindien
+us,amerika serikat,美国,ηνωμένες πολιτείες,미국,stáit aontaithe mheiriceá,amerikas förenta stater,united states,сједињене америчке државе,estados unidos,hoa kỳ,アメリカ合衆国,estats units,etats-unis,amerika syarikat,verenigde staten,stati uniti,संयुक्त राज्य अमेरिका,stany zjednoczone ameryki,соединенные штаты,yhdysvallat,vereinigte staaten von amerika,สหรัฐอเมริกา
+uy,urugua,乌拉圭,ουρουγουάη,uruguay,uruguai,u-ru-goay,уругвай,ウルグアイ,urugwaj,уругвај,우루과이,อุรูกวัย
+uz,użbekistan,ウズベキスタン,乌兹别克斯坦,uzbekistan,uzbekistán,우즈베키스탄,ουζμπεκιστάν,usbekistan,ouzbékistan,oezbekistan,узбекистан,อุซเบกิสถาน,uzbequistão,u-dơ-bê-ki-xtan,úisbéiceastáin
+va,바티칸,vatican,vatikanen,梵蒂冈,vaticaanstad,วาติกัน,αγία έδρα (βατικανό),vatikan,an chathaoir naofa (stát chathair na vatacáine),vaticà,vatikanstadt,ватикан,バチカン,watykan,vaticano,va-ti-căng,città del vaticano,ciudad del vaticano
+vc,άγιος βικέντιος και γρεναδίνες,saint vincent e grenadine,saint vincent and the grenadines,saint vincent agus na grenadines,saint vincent dan grenadines,saint-vincent-et-les grenadines,セントビンセントおよびグレナディーン諸島,세인트 빈센트 그레나딘스,saint vincent och grenadinerna,xan vin-xen và grê-na-din,сент винсент и гренадини,st. vincent und die grenadinen,san vicente y las granadinas,saint vincent and the grenadines,são vicente e granadinas,saint vincent en de grenadines,圣文森特和格林纳丁斯
+ve,венецуела,ベネズエラ,венесуэла,委内瑞拉,veiniséala,βενεζουέλα,veneçuela,베네수엘라,venezuela,vénézuela,wenezuela,vê-nê-zu-ê-la,เวเนซูเอล่า,venezwela
+vg,英領バージン諸島,βρετανικές παρθένοι νήσοι,isole vergini (gb),британска девичанска острва,ilhas virgens britânicas,บริทิชเวอร์จินไอส์แลนด์,британские виргинские острова,britische jungferninseln,dziewicze wyspy brytyjskie,oileáin bhriotanacha na maighdean,iles vierges britanniques,英属维京群岛,illes verges britàniques,brittiska virgin islands,britse maagdeneilanden,kepulauan british virgin,british virgin islands,영국령 버진 아일랜드,islas vírgenes británicas
+vi,amerikanische jungferninseln,米領バージン諸島,isole vergini (usa),ilhas virgens dos eua,미국령 버진 아일랜드,виргинские острова соединенных штатов,amerikanska virgin islands,iles vierges américaines,kepulauan u.s. virgin,amerikaanse maagdeneilanden,islas vírgenes americanas,oileáin na maighdean s.a.m.,ยูเอสเวอร์จินไอส์แลนด์,美属维京群岛,с.а.д. девичанска острва,αμερικανικές παρθένοι νήσοι,illes verges dels usa,u.s. virgin islands,dziewicze wyspy stanów zjednoczonych
+vn,вијетнам,việt nam,vjetnam,wietnam,βιετνάμ,베트남,vietnã,vietnam,ベトナム,เวียดนาม,vítneam,вьетнам,越南
+vu,vanuatu,バヌアツ,βανουάτου,vanuatú,วานัวตู,바누아투,va-nu-a-tu,vanwatu,вануату,瓦努阿图
+wf,νήσοι ουαλλίς και φουτουνά,oileáin vailís agus futúna,wallis-et-futuna,瓦利斯群岛和富图纳群岛,wallis y futuna,윌리스 푸투나,wallis and futuna,wallis e futuna,валис и футуна острва,wallis und futuna,wallis och futuna,ワリス・フテュナ諸島,wallis en futuna,wallis dan futuna,wallis and futuna
+ws,사모아,samó,东萨摩亚,σαμόα,самоа,西サモア,xa-moa,samoa
+ye,yaman,也门,เยเมน,iêmen,예멘,اليمن,υεμένη,iemen,イエメン,йемен,éimin,y-ê-men,yémen,jemen,yemen,јемен
+yt,majotte,mayotta,마요티,马约特岛,mayotte,майотте,мајоте,μαγιότ,มายอต,マヨット島
+za,南アフリカ,an afraic theas,afrique du sud,южная африка,südafrika,南非,afrika t’isfel,republika południowej afryki,nam phi,sudáfrica,sud-àfrica,แอฟริกาใต้,sydafrika,south africa,νότια αφρική,남아프리카,áfrica do sul,sudafrica,zuid-afrika,јужноафричка република,afrika selatan
+zm,zâmbia,замбия,赞比亚,잠비아,แซมเบีย,zambie,zàmbia,замбија,zambia,ザンビア,ζάμπια,żambja,sambia,an tsaimbia,dăm-bi-a
+zw,ジンバブエ,ζιμπάμπουε,żimbabwe,zimbábue,dim-ba-bu-ê,an tsiombáib,짐바브웨,simbabwe,zimbabwe,津巴布韦,ซิมบาบเว,zimbabue,зимбабве

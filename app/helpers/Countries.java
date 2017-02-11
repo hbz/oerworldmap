@@ -32,6 +32,19 @@ public class Countries {
 
   }
 
+  public static List<String> synonyms() {
+    List<String> countries = new ArrayList<>();
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale locale = new Locale("en", countryCode);
+      Set<String> country = new HashSet<>();
+      for (String languageCode : Locale.getISOLanguages()) {
+        country.add(locale.getDisplayCountry(new Locale(languageCode)));
+      }
+      countries.add(countryCode.concat(",").concat(String.join(",", country)).toLowerCase());
+    }
+    return countries;
+  }
+
   public static Map<String,String> map(Locale aLocale) {
     Map<String,String> countryMap = new HashMap<>();
     for (String countryCode : Locale.getISOCountries()) {
