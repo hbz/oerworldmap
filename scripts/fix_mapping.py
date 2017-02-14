@@ -26,16 +26,17 @@ def process_index(index):
 
 def process_mapping(mapping):
     for properties in mapping:
-        mapping[properties]['properties'] = process_properties(mapping[properties]['properties'])
+        mapping[properties]['properties'] = process_properties(mapping[properties]['properties'], False)
         mapping[properties]['transform'] = transform()
     return mapping
 
 
-def process_properties(properties):
+def process_properties(properties, is_name_branch):
     not_analyzed = ['@id', '@type', '@context', '@language', 'email', 'url', 'image',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
     country_name = ['addressCountry']
     ngrams = ['@value']
+    name = ['name']
     keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo = ['geo']
@@ -47,13 +48,18 @@ def process_properties(properties):
         elif property in geo:
             properties[property] = set_geo_point()
         elif property in ngrams:
-            properties[property] = set_ngram()
+            if is_name_branch:
+                properties[property] = set_ngram("title_analyzer")
+            else:
+                properties[property] = set_ngram("standard")
         elif property in keywords:
             properties[property] = set_keywords_analyzer()
         elif property in country_name:
             properties[property] = set_country_name()
         elif 'properties' in properties[property]:
-            properties[property]['properties'] = process_properties(properties[property]['properties'])
+            if property in name:
+                is_name_branch = True
+            properties[property]['properties'] = process_properties(properties[property]['properties'], is_name_branch)
 
     return properties
 
@@ -80,7 +86,7 @@ def set_geo_point():
         "type": "geo_point"
     }
 
-def set_ngram():
+def set_ngram(variations_search_analyzer):
     return {
         "type": "multi_field",
         "fields": {
@@ -90,7 +96,7 @@ def set_ngram():
             "variations": {
                 "type": "string",
                 "analyzer": "title_analyzer",
-                "search_analyzer": "title_analyzer"
+                "search_analyzer": variations_search_analyzer
             },
             "simple_tokenized": {
                 "type": "string",
