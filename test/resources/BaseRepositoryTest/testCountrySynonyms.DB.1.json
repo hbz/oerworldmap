@@ -1,0 +1,23 @@
+{
+  "image" : "http://cms.oleghana.org/wp-content/uploads/2014/07/logo-300x50.png",
+  "keywords" : [ "Open Education " ],
+  "@type" : "Organization",
+  "name" : [ {
+    "@value" : "Open Learning Exchange",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : -0.1969,
+      "lat" : 5.55602
+    },
+    "address" : {
+      "addressCountry" : "GH",
+      "addressLocality" : "Accra",
+      "addressRegion" : "GH.AA"
+    }
+  },
+  "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-909083305804",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "sameAs" : [ "https://www.youtube.com/channel/UCSSq60F_HFF3P2KS5s4zkVA" ]
+}

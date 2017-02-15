@@ -80,7 +80,7 @@ gd,格林纳达,그레나다,гренада,γρενάδα,granada,grenade,grê-
 ge,格鲁吉亚,gruzja,georgien,an tseoirsia,그루지야,грузия,грузија,geórgia,georgië,จอร์เจีย,gru-di-a,geòrgia,グルジア,georgia,géorgie,γεωργία,ġorġja
 gf,guyane française,γαλλική γουιάνα,仏領ギアナ,french guiana,frans-guyana,franska guyana,gujana francuska,an ghuáin fhrancach,французская гвинея,gujana franċiża,guiana francesa,französisch-guayana,guyana perancis,เฟร็นชกิวน่า,guayana francese,француска гвајана,프랑스령 기아나,guayana francesa,guaiana francesa,法属圭亚那
 gg,guernsey,ガーンジー,格恩西岛,건지,guernesey
-gh,กาน่า,γκάνα,ガーナ,加纳,ghana,гана,gana,가나,gána,gha-na
+gh,ghana,กาน่า,γκάνα,ガーナ,加纳,гана,gana,가나,gána,gha-na
 gi,gibilterra,gibraltar,гибралтар,直布罗陀,γιβραλτάρ,giobráltar,ジブラルタル,지브롤터
 gl,γροιλανδία,grinlandja,groenland,groenlandia,グリーンランド,an ghraonlainn,grönland,그린랜드,greenland,гренланд,格陵兰,groênlandia
 gm,an ghaimbia,gâmbia,แกมเบีย,гамбия,gàmbia,ガンビア,гамбија,감비아,冈比亚,gambja,gambia,γκάμπια,gambie,găm-bi-a

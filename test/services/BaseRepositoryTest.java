@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.repository.BaseRepository;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -551,6 +553,34 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> aHit = mBaseRepo.query("Education", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Missing hit for \"Education\".", aHit.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testCountrySynonyms() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    BufferedReader countrySynonyms = new BufferedReader(new FileReader("scripts/country_synonyms.txt"));
+    String countryLine = countrySynonyms.readLine();
+    while (countryLine != null){
+      String[] split = countryLine.split(",", 2);
+      List<String> countries = Arrays.asList(split[1].split(","));
+      for (String country : countries) {
+        // check all variants of "Ghana" are found
+        if (split[0].equals("gh")){
+          List<Resource> hit = mBaseRepo.query(country, 0, 10, null, null, queryContext).getItems();
+          Assert.assertTrue("Missing hit for " + country + " while searching for country synonyms.", hit.size() == 1);
+        }
+        // check no other country variants are found
+        else{
+          List<Resource> noHit = mBaseRepo.query(country, 0, 10, null, null, queryContext).getItems();
+          Assert.assertTrue("Unexpected hit for " + country + " while searching for country synonyms.", noHit.size() == 0);
+        }
+      }
+      countryLine = countrySynonyms.readLine();
+    }
+    mBaseRepo.deleteResource("urn:uuid:167b8283-fff2-4b4e-b0a0-909083305804", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {
