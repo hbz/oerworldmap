@@ -96,7 +96,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -188,7 +188,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -351,7 +351,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -433,7 +433,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -688,7 +688,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -770,7 +770,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -851,7 +851,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -932,7 +932,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1028,7 +1028,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1109,7 +1109,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1221,7 +1221,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1303,7 +1303,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1395,7 +1395,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1448,7 +1448,7 @@
                           "type": "string"
                         },
                         "name": {
-                          "search_analyzer": "country_synonyms_analyzer",
+                          "search_analyzer": "standard",
                           "type": "string",
                           "analyzer": "country_synonyms_analyzer"
                         }
@@ -1528,7 +1528,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1616,7 +1616,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1695,7 +1695,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1796,7 +1796,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1880,7 +1880,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -1997,7 +1997,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -2079,7 +2079,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -2210,7 +2210,7 @@
                                   "type": "string"
                                 },
                                 "name": {
-                                  "search_analyzer": "country_synonyms_analyzer",
+                                  "search_analyzer": "standard",
                                   "type": "string",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
@@ -2301,7 +2301,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -2429,7 +2429,7 @@
                                   "type": "string"
                                 },
                                 "name": {
-                                  "search_analyzer": "country_synonyms_analyzer",
+                                  "search_analyzer": "standard",
                                   "type": "string",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
@@ -2618,7 +2618,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -2710,7 +2710,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -2792,7 +2792,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -2914,7 +2914,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -3005,7 +3005,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -3094,7 +3094,7 @@
                               "type": "string"
                             },
                             "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
+                              "search_analyzer": "standard",
                               "type": "string",
                               "analyzer": "country_synonyms_analyzer"
                             }
@@ -3456,11 +3456,11 @@
           "tokenizer": "hyphen"
         },
         "country_synonyms_analyzer": {
+          "tokenizer": "standard",
           "filter": [
             "lowercase",
             "country_synonyms_filter"
-          ],
-          "tokenizer": "standard"
+          ]
         }
       }
     }
