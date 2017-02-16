@@ -378,12 +378,19 @@ public class ResourceIndex extends OERWorldMap {
     List<Commit> history = mBaseRepository.log(id);
     resource = new Record(resource);
     resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
-    resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    try {
+      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    } catch (NullPointerException e) {
+      Logger.error("Could not read author from commit " + history.get(history.size() - 1), e);
+    }
     resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
-      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-
+    try {
+      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    } catch (NullPointerException e) {
+      Logger.error("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+    }
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
