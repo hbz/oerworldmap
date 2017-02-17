@@ -1,27 +1,22 @@
 package services;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import helpers.ElasticsearchTestGrid;
+import helpers.JsonLdConstants;
+import helpers.JsonTest;
 import helpers.ResourceHelpers;
 import models.Record;
+import models.Resource;
+import models.TripleCommit;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import helpers.ElasticsearchTestGrid;
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import models.Resource;
-import models.TripleCommit;
 import services.repository.BaseRepository;
+
+import java.io.IOException;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
@@ -199,6 +194,22 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       mBaseRepo.deleteResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00004", mMetadata);
       mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-980666500001", mMetadata);
     }
+  }
+
+  @Test
+  public void testExactPersonRankedFirst() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.2.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addResource(db2, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Did not get expected number of hits (2).", searchResults.size() == 2);
+    Assert.assertTrue("Exact search hit was not ranked first.",
+      ((Resource)searchResults.get(0).get("about")).getId().equals(db1.getId()));
+    mBaseRepo.deleteResource("urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2", mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6", mMetadata);
   }
 
   @Test
