@@ -148,6 +148,8 @@ def transform():
     }
 
 def settings():
+    with open(sys.path[0] + '/country_synonyms.txt', 'r') as f:
+        country_list = f.read().splitlines()
     return {
         "analysis": {
             "filter": {
@@ -173,7 +175,7 @@ def settings():
                 },
                 "country_synonyms_filter": {
                     "type": "synonym",
-                    "synonyms": open(sys.path[0] + '/country_synonyms.txt', 'r').readlines()
+                    "synonyms": country_list
                 }
             },
             "analyzer": {
