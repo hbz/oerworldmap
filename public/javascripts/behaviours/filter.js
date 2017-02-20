@@ -425,6 +425,11 @@ var Hijax = (function ($, Hijax, page) {
           var checkbox = $(container).find('[name="filter.about.@type"][value="' + $(this).data('filter-value') + '"]');
           checkbox.prop("checked", active);
 
+          // unset type specific filters
+          for(aggregation in aggregations) {
+            $(container).find('input[name="filter.' + aggregation + '"]').prop("checked", false);
+          }
+
           $('#form-resource-filter').submit();
         });
 
