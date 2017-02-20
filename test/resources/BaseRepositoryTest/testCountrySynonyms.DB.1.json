@@ -1,9 +1,8 @@
 {
-  "image" : "http://cms.oleghana.org/wp-content/uploads/2014/07/logo-300x50.png",
-  "keywords" : [ "Open Education " ],
+  "keywords" : [ "Open Education" ],
   "@type" : "Organization",
   "name" : [ {
-    "@value" : "Open Learning Exchange",
+    "@value" : "Open Exchange",
     "@language" : "en"
   } ],
   "location" : {
