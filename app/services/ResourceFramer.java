@@ -131,7 +131,7 @@ public class ResourceFramer {
     } else {
       graph = ref;
     }
-    List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image");
+    List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image", "location");
     if (graph != null && graph.isArray()) {
       ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
       Iterator<JsonNode> elements = graph.elements();
@@ -149,7 +149,12 @@ public class ResourceFramer {
       while(fieldNames.hasNext()) {
         String fieldName = fieldNames.next();
         if (linkProperties.contains(fieldName)) {
-          result.set(fieldName, graph.get(fieldName));
+          JsonNode value = graph.get(fieldName);
+          if (value.isObject() || value.isArray()) {
+            result.set(fieldName, link(value, graphs));
+          } else {
+            result.set(fieldName, value);
+          }
         }
       }
       return result;
