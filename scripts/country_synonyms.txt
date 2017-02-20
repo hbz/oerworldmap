@@ -144,7 +144,7 @@ mg,马达加斯加,ma-đa-gát-xca,madagaskar,มาดากาสก้า,マ
 mh,νήσοι μάρσαλ,маршалска острва,马绍尔群岛,îles marshall,마셜 제도,kepulauan marshall,marshalleilanden,marshall-inseln,oileáin marshall,gżejjer ta’ marshall,marshall islands,isole marshall,quần đảo mác-san,マーシャル諸島,marshallöarna,islas marshall,ilhas marshall
 mk,macédoine,마케도니아어,マケドニア,แมซีโดเนีย,马其顿王国,mazedonien,macedonië,makedonien,πγδ μακεδονίας,an mhacadóin,macedònia,maċedonja,macedonia,macedônia,ma-xê-đô-ni-a,македонија,македония
 ml,malí,มาลี,马里,mali,マリ,말리,μάλι,mailí,мали,ma-li
-mm,myanmar,mianmar [birmânia],μιανμάρ,ミャンマー,mjanmar,мијанмар,maenmar,미얀마,สหภาพพม่า,缅甸,мьянма,mi-an-ma
+mm,myanmar,mianmar,birmânia,μιανμάρ,ミャンマー,mjanmar,мијанмар,maenmar,미얀마,สหภาพพม่า,缅甸,мьянма,mi-an-ma
 mn,монголия,an mhongóil,mông cổ,mongolja,монголија,mongolia,mongólia,mongòlia,mongolie,μογγολία,mongoliet,mongolië,มองโกเลีย,蒙古,몽골,mongolei,モンゴル
 mo,マカオ,澳门特区,makao s.a.r. cina,макао (с. а. р. кина),macao,마카오,μακάο, ειδική διοικητική περιφέρεια της κίνας,macao s.a.r., china,macao sar van china,macau, região admin. especial da china
 mp,северна маријанска острва,νήσοι βόρειες μαριάνες,북마리아나 제도,oileáin mariana thuaidh,northern mariana islands,islas marianas del norte,nordmarianerna,北マリアナ諸島,isole marianne settentrionali,美属北马里亚纳群岛,nördliche mariannen-inseln,noordelijke marianeneilanden,kepualuan mariana utara,îles mariannes du nord,ilhas marianas do norte,gżejjer marjana ta’ fuq
