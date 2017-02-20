@@ -194,7 +194,7 @@ def settings():
                     "tokenizer": "keyword"
                 },
                 "country_synonyms_analyzer": {
-                    "tokenizer": "standard",
+                    "tokenizer": "icu_tokenizer",
                     "filter": [
                         "lowercase",
                         "country_synonyms_filter"

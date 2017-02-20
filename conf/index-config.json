@@ -3460,7 +3460,7 @@
             "lowercase",
             "country_synonyms_filter"
           ],
-          "tokenizer": "standard"
+          "tokenizer": "icu_tokenizer"
         }
       }
     }
