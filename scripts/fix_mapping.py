@@ -117,7 +117,7 @@ def set_country_name():
             "name": {
                 "type": "string",
                 "analyzer": "country_synonyms_analyzer",
-                "search_analyzer": "standard"
+                "search_analyzer": "country_synonyms_analyzer"
             }
         }
     }
