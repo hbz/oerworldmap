@@ -22,6 +22,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   private static Map<String, String> mMetadata = new HashMap<>();
   private static BaseRepository mBaseRepo;
+  final private static QueryContext mDefaultQueryContext;
 
   static {
     try {
@@ -29,6 +30,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     } catch (Exception e) {
       e.printStackTrace();
     }
+    mDefaultQueryContext = new QueryContext(null);
+    mDefaultQueryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
   }
 
   @BeforeClass
@@ -202,9 +205,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.2.json");
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, queryContext).getItems();
+    List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not get expected number of hits (2).", searchResults.size() == 2);
     Assert.assertTrue("Exact search hit was not ranked first.",
       ((Resource)searchResults.get(0).get("about")).getId().equals(db1.getId()));
@@ -346,15 +347,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyWordSplit.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query correct spelling:
-    List<Resource> correctQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Letest", 0, 10, null, null, queryContext).getItems());
+    List<Resource> correctQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Letest", 0, 10, null, null, mDefaultQueryContext).getItems());
     Assert.assertTrue("Could not find \"Letest\".", correctQuery.size() == 1);
 
     // query with white space inserted
-    List<Resource> alternateQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Le Test", 0, 10, null, null, queryContext).getItems());
+    List<Resource> alternateQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Le Test", 0, 10, null, null, mDefaultQueryContext).getItems());
     Assert.assertTrue("Could not find \"Le Test\".", alternateQuery.size() == 1);
 
     System.out.println("alternateName: " + getNameList(alternateQuery));
@@ -368,15 +366,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyExtension.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query correct spelling:
-    List<Resource> correctQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, queryContext).getItems();
+    List<Resource> correctQuery = mBaseRepo.query("foobar.ao", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"foobar.ao\".", correctQuery.size() == 1);
 
     // query with extension being dropped
-    List<Resource> alternateQuery = mBaseRepo.query("foobar", 0, 10, null, null, queryContext).getItems();
+    List<Resource> alternateQuery = mBaseRepo.query("foobar", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"foobar\".", alternateQuery.size() == 1);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfea00001", mMetadata);
@@ -388,15 +383,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyDiacritica.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query with diacritica
-    List<Resource> correctQuery = mBaseRepo.query("tóobar.ao", 0, 10, null, null, queryContext).getItems();
+    List<Resource> correctQuery = mBaseRepo.query("tóobar.ao", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"tóobar.ao\".", correctQuery.size() == 1);
 
     // query without diacritica
-    List<Resource> alternateQuery = mBaseRepo.query("toobar.ao", 0, 10, null, null, queryContext).getItems();
+    List<Resource> alternateQuery = mBaseRepo.query("toobar.ao", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"toobar.ao\".", alternateQuery.size() == 1);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00001", mMetadata);
@@ -408,23 +400,20 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testThreeLetterSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query with first letter only --> no hit
-    List<Resource> oneLetterQuery = mBaseRepo.query("f", 0, 10, null, null, queryContext).getItems();
+    List<Resource> oneLetterQuery = mBaseRepo.query("f", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Search result given by one letter search.", oneLetterQuery.size() == 0);
 
     // query with first two letters only --> no hit
-    List<Resource> twoLettersQuery = mBaseRepo.query("fi", 0, 10, null, null, queryContext).getItems();
+    List<Resource> twoLettersQuery = mBaseRepo.query("fi", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("No search result given by two letter search.", twoLettersQuery.size() == 1);
 
     // query with first first three letters --> hit
-    List<Resource> threeLettersQuery = mBaseRepo.query("fin", 0, 10, null, null, queryContext).getItems();
+    List<Resource> threeLettersQuery = mBaseRepo.query("fin", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("No search result given by three letter search.", threeLettersQuery.size() == 1);
 
     // query with first first four letters --> hit
-    List<Resource> fourLettersQuery = mBaseRepo.query("find", 0, 10, null, null, queryContext).getItems();
+    List<Resource> fourLettersQuery = mBaseRepo.query("find", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("No search result given by four letter search.", threeLettersQuery.size() == 1);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001", mMetadata);
@@ -436,15 +425,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query without special chars
-    List<Resource> withoutChars = mBaseRepo.query("OERforever", 0, 10, null, null, queryContext).getItems();
+    List<Resource> withoutChars = mBaseRepo.query("OERforever", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"OERforever\".", withoutChars.size() == 1);
 
     // query with special chars
-    List<Resource> withChars = mBaseRepo.query("OERforever!", 0, 10, null, null, queryContext).getItems();
+    List<Resource> withChars = mBaseRepo.query("OERforever!", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"OERforever!\".", withChars.size() == 1);
 
     mBaseRepo.deleteResource("", mMetadata);
@@ -455,20 +441,17 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query complete word
-    List<Resource> completeWord = mBaseRepo.query("e-paideia", 0, 10, null, null, queryContext).getItems();
+    List<Resource> completeWord = mBaseRepo.query("e-paideia", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 1);
 
     // query abbreviated word
-    List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, queryContext).getItems();
+    List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
     Assert.assertTrue("Did not get proper result searching for e-pai.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
 
     // query without hyphen
-    List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, queryContext).getItems();
+    List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"epai\".", withoutHyphen.size() == 1);
     Assert.assertTrue("Did not get proper result searching for epai.", withoutHyphen.get(0).getId().equals(completeWord.get(0).getId()));
 
@@ -483,15 +466,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.2.json");
     mBaseRepo.addResource(db2, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     // query all by name
-    List<Resource> queryByName = mBaseRepo.query("Service", 0, 10, null, null, queryContext).getItems();
+    List<Resource> queryByName = mBaseRepo.query("Service", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find all by name.", queryByName.size() == 2);
 
     // query with special chars
-    List<Resource> queryMissingChannel = mBaseRepo.query("_missing_:about.availableChannel", 0, 10, null, null, queryContext).getItems();
+    List<Resource> queryMissingChannel = mBaseRepo.query("_missing_:about.availableChannel", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
     Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
 
@@ -502,13 +482,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testSearchKeyword() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    List<Resource> queryByKeyword = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    List<Resource> queryByKeyword = mBaseRepo.query("TVET", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
-    List<Resource> queryByLowercaseKeyword = mBaseRepo.query("tvet", 0, 10, null, null, queryContext).getItems();
+    List<Resource> queryByLowercaseKeyword = mBaseRepo.query("tvet", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find resource by lowercased keyword.", queryByLowercaseKeyword.size() == 1);
-    List<Resource> queryByUppercaseKeyword = mBaseRepo.query("Vocational Education And Training", 0, 10, null, null, queryContext).getItems();
+    List<Resource> queryByUppercaseKeyword = mBaseRepo.query("Vocational Education And Training", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find resource by uppercased keyword.", queryByUppercaseKeyword.size() == 1);
     mBaseRepo.deleteResource("", mMetadata);
   }
@@ -520,9 +498,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       mBaseRepo.addResource(db1, mMetadata);
     }
     Resource desired = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN.3.json");
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    List<Resource> rankedList = mBaseRepo.query("TVET", 0, 10, null, null, queryContext).getItems();
+    List<Resource> rankedList = mBaseRepo.query("TVET", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find desired resource first while searching for keyword.",
       rankedList.get(0).getAsResource(Record.RESOURCE_KEY).getId().equals(desired.getId()));
     mBaseRepo.deleteResource("", mMetadata);
@@ -532,9 +508,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testSearchBySubjectClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchBySubjectClassification.DB.1.json");
     mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    List<Resource> searchBySubject = mBaseRepo.query("Mytestsubject", 0, 10, null, null, queryContext).getItems();
+    List<Resource> searchBySubject = mBaseRepo.query("Mytestsubject", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find resource by subject.", searchBySubject.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
   }
@@ -543,9 +517,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testSearchByEducationClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
     mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
+    List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
   }
