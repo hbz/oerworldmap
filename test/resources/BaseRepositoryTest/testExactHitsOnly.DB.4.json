@@ -1,0 +1,54 @@
+{
+  "image" : "https://www.uni-freiburg.de/",
+  "@type" : "Organization",
+  "participantIn" : [ {
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "Einrichtung des zentralen OER-Repositoriums aller Hochschulen des Landes Baden Würtemberg",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:822ef755-4722-4f82-8440-7bf4ada179c7"
+  } ],
+  "description" : [ {
+    "@value" : "Already a comprehensive university at its founding in 1457, the University of Freiburg still offers undergraduate and graduate studies as well as professorial qualification in all important disciplines today: the humanities, natural and engineering sciences, medicine, law, and theology. This diversity also provides an ideal environment for innovative interdisciplinary studies.",
+    "@language" : "en"
+  } ],
+  "alternateName" : [ {
+    "@value" : "Albert-Ludwigs-Universität Freiburg",
+    "@language" : "en"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "https://www.uni-freiburg.de/",
+  "provides" : [ {
+    "image" : "http://freimore.uni-freiburg.de/templates/master/template_mycoresample-1/IMAGES/freimore.gif",
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "FREIburger Multimedia Object Repository",
+      "@language" : "en"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:c3424c92-7f00-11e5-a636-c48e8ff4ea31"
+  } ],
+  "name" : [ {
+    "@value" : "Universität Freiburg",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 7.8463482,
+      "lat" : 47.9989415
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "streetAddress" : "Friedrichstr. 39",
+      "@type" : "PostalAddress",
+      "postalCode" : "79098",
+      "addressLocality" : "Freiburg",
+      "addressRegion" : ""
+    },
+    "@type" : "Place"
+  },
+  "@id" : "urn:uuid:f6cebce0-d04b-436a-b43d-871388728c7e",
+  "email" : "info@verwaltung.uni-freiburg.de",
+  "sameAs" : [ "https://instagram.com/unifreiburg/", "https://www.facebook.com/presseunifreiburg", "https://twitter.com/PresseUniFR" ]
+}

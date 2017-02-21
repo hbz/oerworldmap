@@ -1,0 +1,57 @@
+{
+  "image" : "http://wildfirecomms-images.co.uk/img/low_uol-logo-full-colour-2-1443020162.jpg",
+  "@type" : "Organization",
+  "provides" : [ {
+    "image" : "http://www2.le.ac.uk/otter_banner.jpg",
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "Open, Transferable and Technology-enabled Educational Resources",
+      "@language" : "en"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:0d6151d8-c196-46e9-8e53-d3f3c4ce04af"
+  }, {
+    "image" : "http://wildfirecomms-images.co.uk/img/low_uol-logo-full-colour-2-1443020162.jpg",
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "University of Leicester OER Repository",
+      "@language" : "en"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:c7046e14-7f00-11e5-a636-c48e8ff4ea31"
+  }, {
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "The Virtual Genetics Education Centre",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:0070c472-7a66-438e-b28c-4f08c1fc7e81"
+  } ],
+  "name" : [ {
+    "@value" : "University of Leicester",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "The University of Leicester provides an OER Repository.",
+    "@language" : "en"
+  } ],
+  "alternateName" : [ {
+    "@value" : "University of Leicester",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : -1.125011,
+      "lat" : 52.623086
+    },
+    "address" : {
+      "addressCountry" : "GB",
+      "streetAddress" : "University Road",
+      "postalCode" : "LE1 7RH",
+      "addressLocality" : "Leicester"
+    }
+  },
+  "@id" : "urn:uuid:1e5625dd-6241-4cdf-86ff-c93d0c738ee7",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "sameAs" : [ "https://www.youtube.com/user/UniversityLeicester", "https://soundcloud.com/university-of-leicester/sets", "https://www.flickr.com/photos/universityleicester/", "https://plus.google.com/117567742134339880689/posts", "https://www.facebook.com/UniofLeicester/", "https://twitter.com/uniofleicester" ]
+}
