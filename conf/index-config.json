@@ -87,6 +87,9 @@
                 },
                 "location": {
                   "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
                     "address": {
                       "properties": {
                         "addressCountry": {
@@ -923,8 +926,15 @@
                     "geo": {
                       "type": "geo_point"
                     },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
                     "address": {
                       "properties": {
+                        "addressLocality": {
+                          "type": "string"
+                        },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
@@ -939,7 +949,8 @@
                           },
                           "type": "multi_field"
                         },
-                        "addressLocality": {
+                        "addressRegion": {
+                          "index": "not_analyzed",
                           "type": "string"
                         },
                         "streetAddress": {
@@ -949,7 +960,7 @@
                           "index": "not_analyzed",
                           "type": "string"
                         },
-                        "addressRegion": {
+                        "@type": {
                           "index": "not_analyzed",
                           "type": "string"
                         }
@@ -2117,51 +2128,10 @@
               "properties": {
                 "funds": {
                   "properties": {
-                    "@id": {
+                    "image": {
                       "index": "not_analyzed",
                       "type": "string"
                     },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
-                    "name": {
-                      "properties": {
-                        "@value": {
-                          "fields": {
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "string",
-                              "analyzer": "simple"
-                            },
-                            "variations": {
-                              "search_analyzer": "title_analyzer",
-                              "type": "string",
-                              "analyzer": "title_analyzer"
-                            },
-                            "@value": {
-                              "type": "string"
-                            }
-                          },
-                          "type": "multi_field"
-                        },
-                        "@language": {
-                          "index": "not_analyzed",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                },
-                "hasMonetaryValue": {
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "isAwardedBy": {
-                  "properties": {
                     "@id": {
                       "index": "not_analyzed",
                       "type": "string"
@@ -2228,6 +2198,102 @@
                               "type": "string"
                             },
                             "addressRegion": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "hasMonetaryValue": {
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "isAwardedBy": {
+                  "properties": {
+                    "image": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@id": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
+                    "name": {
+                      "properties": {
+                        "@value": {
+                          "fields": {
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "string",
+                              "analyzer": "simple"
+                            },
+                            "variations": {
+                              "search_analyzer": "title_analyzer",
+                              "type": "string",
+                              "analyzer": "title_analyzer"
+                            },
+                            "@value": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "@language": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "location": {
+                      "properties": {
+                        "geo": {
+                          "type": "geo_point"
+                        },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "address": {
+                          "properties": {
+                            "addressLocality": {
+                              "type": "string"
+                            },
+                            "addressCountry": {
+                              "fields": {
+                                "addressCountry": {
+                                  "index": "not_analyzed",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "search_analyzer": "country_synonyms_analyzer",
+                                  "type": "string",
+                                  "analyzer": "country_synonyms_analyzer"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "addressRegion": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "streetAddress": {
+                              "type": "string"
+                            },
+                            "postalCode": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "@type": {
                               "index": "not_analyzed",
                               "type": "string"
                             }
@@ -2336,6 +2402,10 @@
               "properties": {
                 "funds": {
                   "properties": {
+                    "image": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
                     "@id": {
                       "index": "not_analyzed",
                       "type": "string"
@@ -2369,6 +2439,45 @@
                           "type": "string"
                         }
                       }
+                    },
+                    "location": {
+                      "properties": {
+                        "geo": {
+                          "type": "geo_point"
+                        },
+                        "address": {
+                          "properties": {
+                            "addressCountry": {
+                              "fields": {
+                                "addressCountry": {
+                                  "index": "not_analyzed",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "search_analyzer": "country_synonyms_analyzer",
+                                  "type": "string",
+                                  "analyzer": "country_synonyms_analyzer"
+                                }
+                              },
+                              "type": "multi_field"
+                            },
+                            "addressLocality": {
+                              "type": "string"
+                            },
+                            "streetAddress": {
+                              "type": "string"
+                            },
+                            "postalCode": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "addressRegion": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 },
@@ -2381,6 +2490,10 @@
                 },
                 "isAwardedBy": {
                   "properties": {
+                    "image": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
                     "@id": {
                       "index": "not_analyzed",
                       "type": "string"
