@@ -69,7 +69,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -154,7 +154,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -272,7 +272,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -317,7 +317,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -406,7 +406,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -487,7 +487,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -528,7 +528,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -574,7 +574,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -654,7 +654,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -743,7 +743,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -824,7 +824,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -905,7 +905,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1009,7 +1009,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1090,7 +1090,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1195,7 +1195,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1284,7 +1284,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1365,7 +1365,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1509,7 +1509,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1590,7 +1590,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1679,7 +1679,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1777,7 +1777,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1861,7 +1861,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -1971,7 +1971,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2060,7 +2060,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2150,7 +2150,7 @@
                               "analyzer": "simple"
                             },
                             "variations": {
-                              "search_analyzer": "title_analyzer",
+                              "search_analyzer": "title_search_analyzer",
                               "type": "string",
                               "analyzer": "title_analyzer"
                             },
@@ -2238,7 +2238,7 @@
                               "analyzer": "simple"
                             },
                             "variations": {
-                              "search_analyzer": "title_analyzer",
+                              "search_analyzer": "title_search_analyzer",
                               "type": "string",
                               "analyzer": "title_analyzer"
                             },
@@ -2337,7 +2337,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2424,7 +2424,7 @@
                               "analyzer": "simple"
                             },
                             "variations": {
-                              "search_analyzer": "title_analyzer",
+                              "search_analyzer": "title_search_analyzer",
                               "type": "string",
                               "analyzer": "title_analyzer"
                             },
@@ -2512,7 +2512,7 @@
                               "analyzer": "simple"
                             },
                             "variations": {
-                              "search_analyzer": "title_analyzer",
+                              "search_analyzer": "title_search_analyzer",
                               "type": "string",
                               "analyzer": "title_analyzer"
                             },
@@ -2591,7 +2591,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2619,7 +2619,7 @@
                       "analyzer": "simple"
                     },
                     "variations": {
-                      "search_analyzer": "title_analyzer",
+                      "search_analyzer": "title_search_analyzer",
                       "type": "string",
                       "analyzer": "title_analyzer"
                     },
@@ -2659,7 +2659,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2701,7 +2701,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2786,7 +2786,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2875,7 +2875,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2955,7 +2955,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -2997,7 +2997,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -3081,7 +3081,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -3170,7 +3170,7 @@
                           "analyzer": "simple"
                         },
                         "variations": {
-                          "search_analyzer": "title_analyzer",
+                          "search_analyzer": "title_search_analyzer",
                           "type": "string",
                           "analyzer": "title_analyzer"
                         },
@@ -3574,6 +3574,15 @@
             "country_synonyms_filter"
           ],
           "tokenizer": "icu_tokenizer"
+        },
+        "title_search_analyzer": {
+          "filter": [
+            "title_filter",
+            "asciifolding_preserve_original",
+            "lowercase"
+          ],
+          "type": "custom",
+          "tokenizer": "hyphen"
         }
       }
     }
