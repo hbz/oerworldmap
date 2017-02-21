@@ -26,15 +26,17 @@ def process_index(index):
 
 def process_mapping(mapping):
     for properties in mapping:
-        mapping[properties]['properties'] = process_properties(mapping[properties]['properties'])
+        mapping[properties]['properties'] = process_properties(mapping[properties]['properties'], False)
         mapping[properties]['transform'] = transform()
     return mapping
 
 
-def process_properties(properties):
-    not_analyzed = ['@id', '@type', '@context', '@language', 'addressCountry', 'email', 'url', 'image',
+def process_properties(properties, is_name_branch):
+    not_analyzed = ['@id', '@type', '@context', '@language', 'email', 'url', 'image',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
+    country_name = ['addressCountry']
     ngrams = ['@value']
+    name = ['name']
     keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo = ['geo']
@@ -46,11 +48,18 @@ def process_properties(properties):
         elif property in geo:
             properties[property] = set_geo_point()
         elif property in ngrams:
-            properties[property] = set_ngram()
+            if is_name_branch:
+                properties[property] = set_ngram("title_analyzer")
+            else:
+                properties[property] = set_ngram("standard")
         elif property in keywords:
             properties[property] = set_keywords_analyzer()
+        elif property in country_name:
+            properties[property] = set_country_name()
         elif 'properties' in properties[property]:
-            properties[property]['properties'] = process_properties(properties[property]['properties'])
+            if property in name:
+                is_name_branch = True
+            properties[property]['properties'] = process_properties(properties[property]['properties'], is_name_branch)
 
     return properties
 
@@ -77,7 +86,7 @@ def set_geo_point():
         "type": "geo_point"
     }
 
-def set_ngram():
+def set_ngram(variations_search_analyzer):
     return {
         "type": "multi_field",
         "fields": {
@@ -87,12 +96,28 @@ def set_ngram():
             "variations": {
                 "type": "string",
                 "analyzer": "title_analyzer",
-                "search_analyzer": "title_analyzer"
+                "search_analyzer": variations_search_analyzer
             },
             "simple_tokenized": {
                 "type": "string",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
+            }
+        }
+    }
+
+def set_country_name():
+    return {
+        "type": "multi_field",
+        "fields": {
+            "addressCountry": {
+                "type": "string",
+                'index': 'not_analyzed'
+            },
+            "name": {
+                "type": "string",
+                "analyzer": "country_synonyms_analyzer",
+                "search_analyzer": "country_synonyms_analyzer"
             }
         }
     }
@@ -123,6 +148,8 @@ def transform():
     }
 
 def settings():
+    with open(sys.path[0] + '/country_synonyms.txt', 'r') as f:
+        country_list = f.read().splitlines()
     return {
         "analysis": {
             "filter": {
@@ -145,6 +172,10 @@ def settings():
                     "type":     "edge_ngram",
                     "min_gram": 2,
                     "max_gram": 20
+                },
+                "country_synonyms_filter": {
+                    "type": "synonym",
+                    "synonyms": country_list
                 }
             },
             "analyzer": {
@@ -161,6 +192,13 @@ def settings():
                 "keywords_analyzer": {
                     "filter": "lowercase",
                     "tokenizer": "keyword"
+                },
+                "country_synonyms_analyzer": {
+                    "tokenizer": "icu_tokenizer",
+                    "filter": [
+                        "lowercase",
+                        "country_synonyms_filter"
+                    ]
                 }
             }
         }
