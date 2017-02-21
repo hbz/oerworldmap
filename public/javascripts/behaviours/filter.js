@@ -425,19 +425,26 @@ var Hijax = (function ($, Hijax, page) {
           var checkbox = $(container).find('[name="filter.about.@type"][value="' + $(this).data('filter-value') + '"]');
           checkbox.prop("checked", active);
 
+          // unset type specific filters
+          for(aggregation in aggregations) {
+            $(container).find('input[name="filter.' + aggregation + '"]').prop("checked", false);
+          }
+
           $('#form-resource-filter').submit();
         });
 
         // bind text search
 
         $('[data-filter-action="search"]').click(function(){
-          $('[name="q"]').val( $('[data-filter-name="q"]').val() );
           $('#form-resource-filter').submit();
+        });
+
+        $('[data-filter-name="q"]').on('propertychange click change keyup input paste', function(e) {
+          $('[name="q"]').val( $('[data-filter-name="q"]').val() );
         });
 
         $('[data-filter-name="q"]').keypress(function(e) {
           if(e.which == 13) {
-            $('[name="q"]').val( $(this).val() );
             $('#form-resource-filter').submit();
           }
         });
