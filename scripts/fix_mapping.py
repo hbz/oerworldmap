@@ -49,7 +49,7 @@ def process_properties(properties, is_name_branch):
             properties[property] = set_geo_point()
         elif property in ngrams:
             if is_name_branch:
-                properties[property] = set_ngram("title_analyzer")
+                properties[property] = set_ngram("title_search_analyzer")
             else:
                 properties[property] = set_ngram("standard")
         elif property in keywords:
@@ -184,6 +184,15 @@ def settings():
                         "title_filter",
                         "asciifolding_preserve_original",
                         "autocomplete_filter",
+                        "lowercase"
+                    ],
+                    "type": "custom",
+                    "tokenizer": "hyphen"
+                },
+                "title_search_analyzer": {
+                    "filter": [
+                        "title_filter",
+                        "asciifolding_preserve_original",
                         "lowercase"
                     ],
                     "type": "custom",
