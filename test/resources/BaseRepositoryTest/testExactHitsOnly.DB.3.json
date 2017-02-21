@@ -1,0 +1,33 @@
+{
+  "image" : "http://www.uni-bremen.de/typo3conf/ext/skeleton/Resources/Public/Images/logo-uni-bremen-EXZELLENT.png",
+  "keywords" : [ "OERinfo" ],
+  "@type" : "Organization",
+  "agentIn" : [ {
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "Ein integrativer Ansatz zur OER-Kompetenzentwicklung an der Universität Bremen",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:97c3df6f-1651-4fe4-9a2e-0ea19b0229a2"
+  } ],
+  "name" : [ {
+    "@value" : "Universität Bremen",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 8.852972,
+      "lat" : 53.105974
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "streetAddress" : "Bibliothekstraße 1",
+      "postalCode" : 28359,
+      "addressLocality" : "Bremen",
+      "addressRegion" : "DE.HB"
+    }
+  },
+  "@id" : "urn:uuid:10212015-6df2-440e-96d6-d2388fada064",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://www.uni-bremen.de/"
+}

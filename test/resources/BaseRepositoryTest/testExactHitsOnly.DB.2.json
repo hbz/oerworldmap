@@ -1,0 +1,82 @@
+{
+  "image" : "https://www.hf.uni-koeln.de/data/eso27/Image/Uni%20Koeln_Schriftzug_Logo.jpg",
+  "@type" : "Organization",
+  "provides" : [ {
+    "image" : "http://segu-geschichte.de/wp-content/uploads/2016/01/seguhint12.jpg",
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "segu Geschichte",
+      "@language" : "en"
+    }, {
+      "@value" : "segu Geschichte",
+      "@language" : "de"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:56ad064e-491b-4b8b-9453-e6c6c47f0da4"
+  } ],
+  "agentIn" : [ {
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "OERinForm - ein Verbundprojekt der Medieneinrichtungen an Hochschulen",
+      "@language" : "de"
+    } ],
+    "@id" : "urn:uuid:77cb5ce9-c23e-4449-9644-e4f152e1bc4a"
+  }, {
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "OERlabs - (Lehramts-)Studierende gemeinsam für OER ausbilden",
+      "@language" : "de"
+    } ],
+    "@id" : "urn:uuid:e9290203-3068-4fb0-90e0-ec5f10b2a721"
+  } ],
+  "name" : [ {
+    "@value" : "Universität zu Köln",
+    "@language" : "de"
+  }, {
+    "@value" : "University of Cologne",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "Die Universität bietet mit ihren sechs Fakultäten ein breites Spektrum wissenschaftlicher Disziplinen und international herausragender Profilbereiche.",
+    "@language" : "de"
+  }, {
+    "@value" : "The University of Cologne offers studies in six different faculties and therewith provides a wide spread spectrum of scientific disciplines and international outstanding university profiling.  ",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 6.930804,
+      "lat" : 50.925952
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "postalCode" : 50923,
+      "addressLocality" : "Köln",
+      "addressRegion" : "Nordrhein-Westfalen"
+    }
+  },
+  "@id" : "urn:uuid:4fd91ca1-4253-4e53-bb97-f18a7af7f388",
+  "affiliate" : [ {
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Jun.-Prof. Dr. Sandra Hofhues",
+      "@language" : "de"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : 6.95427,
+        "lat" : 50.93835
+      },
+      "address" : {
+        "addressCountry" : "DE",
+        "streetAddress" : "Köln",
+        "addressLocality" : "Köln",
+        "addressRegion" : "DE.NW"
+      }
+    },
+    "@id" : "urn:uuid:f41cfd62-66a6-49ba-856d-9e812fcf6f23"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://www.uni-koeln.de/",
+  "sameAs" : [ "https://twitter.com/UniCologne", "http://www.youtube.com/user/UniversitaetzuKoeln", "https://www.linkedin.com/company/university-of-cologne?trk=biz-companies-cym", "http://itunes.apple.com/de/institution/universitat-zu-koln/id426341691", "http://www.xing.com/net/universitaetzukoeln/", "https://www.facebook.com/pages/Universit%C3%A4t-zu-K%C3%B6ln/180703865199", "https://instagram.com/universityofcologne/" ]
+}
