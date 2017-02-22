@@ -102,6 +102,10 @@ def set_ngram(variations_search_analyzer):
                 "type": "string",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
+            },
+            "original": {
+                "type": "string",
+                "index": "not_analyzed"
             }
         }
     }
