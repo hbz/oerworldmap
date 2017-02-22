@@ -1303,7 +1303,23 @@ var Hijax = (function ($, Hijax) {
 
     initialized : new $.Deferred(),
 
-    attached : []
+    attached : [],
+
+    debugShowCountry : function(id){
+      var feature = countryVectorSource.getFeatureById(id);
+
+      feature.setStyle([new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: '#ff0000'
+        })
+      })]);
+
+      var extent = ol.extent.createEmpty();
+      ol.extent.extend(extent, feature.getGeometry().getExtent());
+      world.getView().fit(extent, world.getSize(), {
+        minResolution: 2
+      });
+    }
 
   };
 
