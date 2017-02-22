@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.repository.BaseRepository;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -207,7 +209,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Did not get expected number of hits (2).", searchResults.size() == 2);
     Assert.assertTrue("Exact search hit was not ranked first.",
-      ((Resource)searchResults.get(0).get("about")).getId().equals(db1.getId()));
+      ((Resource) searchResults.get(0).get("about")).getId().equals(db1.getId()));
     mBaseRepo.deleteResource("urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6", mMetadata);
   }
@@ -548,6 +550,63 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> searchBySubject = mBaseRepo.query("Mytestaudience", 0, 10, null, null, queryContext).getItems();
     Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
     mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testNoGroundlessHits() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testNoGroundlessHits.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> noHit = mBaseRepo.query("Schokolade", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"Schokolade\".", noHit.size() == 0);
+    noHit = mBaseRepo.query("Cape Town", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"Cape Town\".", noHit.size() == 0);
+    noHit = mBaseRepo.query("Paris", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"Paris\".", noHit.size() == 0);
+    noHit = mBaseRepo.query("London", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Unintended hit for \"London\".", noHit.size() == 0);
+    List<Resource> aHit = mBaseRepo.query("Education", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Missing hit for \"Education\".", aHit.size() > 0);
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testCountrySynonyms() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    BufferedReader countrySynonyms = new BufferedReader(new FileReader("scripts/country_synonyms.txt"));
+    String countryLine = countrySynonyms.readLine();
+    while (countryLine != null){
+      String[] split = countryLine.split(",", 2);
+      List<String> countries = Arrays.asList(split[1].split(","));
+      for (String country : countries) {
+        // check all variants of "Ghana" are found
+        if (split[0].equals("gh")){
+          List<Resource> hit = mBaseRepo.query(country, 0, 10, null, null, queryContext).getItems();
+          Assert.assertTrue("Missing hit for " + country + " while searching for country synonyms.", hit.size() == 1);
+        }
+        // check no other country variants are found
+        else{
+          List<Resource> noHit = mBaseRepo.query(country, 0, 10, null, null, queryContext).getItems();
+          Assert.assertTrue("Unexpected hit for " + country + " while searching for country synonyms.", noHit.size() == 0);
+        }
+      }
+      countryLine = countrySynonyms.readLine();
+    }
+    mBaseRepo.deleteResource("urn:uuid:167b8283-fff2-4b4e-b0a0-909083305804", mMetadata);
+  }
+
+  @Test
+  public void testLocalityNameSearch()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> hit = mBaseRepo.query("Accra", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals(1, hit.size());
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {
