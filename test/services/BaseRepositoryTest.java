@@ -611,24 +611,23 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testExactHitsOnly()  throws IOException {
+  public void testExactHitsFirst()  throws IOException {
     for (int i=1; i<=8; i++){
-      Resource db = getResourceFromJsonFile("BaseRepositoryTest/testExactHitsOnly.DB."+i+".json");
+      Resource db = getResourceFromJsonFile("BaseRepositoryTest/testExactHitsFirst.DB."+i+".json");
       mBaseRepo.addResource(db, mMetadata);
     }
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> hit = mBaseRepo.query("Universität", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Too many hits.", hit.size() < 5);
-    Assert.assertTrue("Too less hits.", hit.size() > 3);
-    List<String> expectedIds = Arrays.asList(
+    Assert.assertTrue("Too less hits.", hit.size() > 7);
+    List<String> expectedFirstIds = Arrays.asList(
       "urn:uuid:f6cebce0-d04b-436a-b43d-871388728c7e.about",
       "urn:uuid:10212015-6df2-440e-96d6-d2388fada064.about",
       "urn:uuid:0886b934-0b85-45c3-bb10-94e5804966e6.about",
       "urn:uuid:4fd91ca1-4253-4e53-bb97-f18a7af7f388.about"
       );
     List<String> returnedIds = getIdList(hit);
-    Assert.assertTrue("Unexpected hits.", CollectionUtils.isEqualCollection(expectedIds, returnedIds));
+    Assert.assertTrue("Unexpected hits.", CollectionUtils.isEqualCollection(expectedFirstIds, returnedIds.subList(0, 4)));
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {
