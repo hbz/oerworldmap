@@ -1,20 +1,14 @@
 package services;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * @author pvb
@@ -30,23 +24,9 @@ public class SearchConfig {
   }
 
   public SearchConfig(String aConfigFile) {
-    File configFile;
-    if (!StringUtils.isEmpty(aConfigFile)) {
-      configFile = new File(aConfigFile);
-    } else {
-      configFile = new File(DEFAULT_CONFIG_FILE);
-    }
-    init(configFile);
-  }
-
-  private void init(File aConfigFile) {
-    // CONFIG FILE
-    checkFileExists(aConfigFile);
-    mConfig = ConfigFactory.parseFile(aConfigFile).resolve();
-    init();
-  }
-
-  private void init() {
+    File configFile = new File(aConfigFile);
+    checkFileExists(configFile);
+    mConfig = ConfigFactory.parseFile(configFile).resolve();
     mEntries = mConfig.entrySet();
   }
 
@@ -60,12 +40,12 @@ public class SearchConfig {
     }
   }
 
-  public Map<String, Double> getBoosts() {
+  private Map<String, Double> getBoosts() {
     Map<String, Double> result = new HashMap<>();
     for (Entry<String, ConfigValue> entry : mEntries) {
       if (entry.getKey().startsWith("\"boost:")) {
         String key = entry.getKey().replaceAll("\"", "").substring(6);
-        Double value = Double.valueOf(((ConfigValue) entry.getValue()).render(ConfigRenderOptions.defaults()));
+        Double value = Double.valueOf((entry.getValue()).render(ConfigRenderOptions.defaults()));
         result.put(key, value);
       }
     }
@@ -76,9 +56,7 @@ public class SearchConfig {
     List<String> result = new ArrayList<>();
     Map<String, Double> boostMap = getBoosts();
     for (Map.Entry<String, Double> boost : boostMap.entrySet()) {
-      StringBuilder esboost = new StringBuilder(boost.getKey());
-      esboost.append("^").append(boost.getValue());
-      result.add(esboost.toString());
+      result.add(boost.getKey() + "^" + boost.getValue());
     }
     return result.toArray(new String[0]);
   }
