@@ -1,0 +1,51 @@
+{
+  "keywords" : [ "midwifery", "healthcare", "nursing" ],
+  "@type" : "Organization",
+  "name" : [ {
+    "@value" : "University of Nottingham",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "Wide range of open educational resources supporting health education - nursing, biology, research methodology and healthcare. Over 250 openly licensed learning objects in accessible formats.",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : -1.164711,
+      "lat" : 52.974203
+    },
+    "address" : {
+      "addressCountry" : "GB",
+      "streetAddress" : "Nottingham",
+      "postalCode" : "NG7 2RD",
+      "addressLocality" : "Nottingham",
+      "addressRegion" : "GB.NG"
+    }
+  },
+  "@id" : "urn:uuid:c1a92f13-5407-46cc-acc7-e683634c3fad",
+  "memberOf" : [ {
+    "image" : "http://www.oeconsortium.org/media/logos/UofN_logo_WebSmall_f9a45ec9fcd3904a1ef05c31e4e83e91.gif",
+    "@type" : "Organization",
+    "name" : [ {
+      "@value" : "The University of Nottingham",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -1.2044401,
+        "lat" : 52.9405086
+      },
+      "address" : {
+        "addressCountry" : "GB",
+        "streetAddress" : "Beeston Lane",
+        "@type" : "PostalAddress",
+        "postalCode" : "NG7 2QT",
+        "addressLocality" : "Nottingham"
+      },
+      "@type" : "Place"
+    },
+    "@id" : "urn:uuid:706aa724-77eb-11e5-9f9f-c48e8ff4ea31"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://www.nottingham.ac.uk/helm/home.aspx"
+}

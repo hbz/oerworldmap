@@ -1,0 +1,140 @@
+{
+  "image" : "https://www.uni-hamburg.de/assets/uhh-logo-e8743ae8819893e7a79b99540eda2e4b223eaa6433affb246b3a6ca011cc9f45.gif",
+  "organizerFor" : [ {
+    "image" : "https://i1.wp.com/wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/06/OERCamp-Logo-Text_unten.jpg?resize=209%2C225",
+    "@type" : "Event",
+    "name" : [ {
+      "@value" : "OERcamp Nord",
+      "@language" : "de"
+    } ],
+    "location" : {
+      "address" : {
+        "addressCountry" : "DE",
+        "addressLocality" : "Hamburg"
+      }
+    },
+    "@id" : "urn:uuid:7237e8db-fe4d-41ef-9d05-cd7fb7e3b5af"
+  } ],
+  "@type" : "Organization",
+  "agentIn" : [ {
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "Synergie für Lehre und Lernen durch OER-Materialien",
+      "@language" : "de"
+    } ],
+    "@id" : "urn:uuid:5314276e-c2d1-4b9b-afbb-0cc23bd20c86"
+  }, {
+    "image" : "http://www.hoou.de/p/wp-content/uploads/2015/11/logo-hoou_blog1-e1448543799408.png",
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "Hamburg Open Online University",
+      "@language" : "en"
+    }, {
+      "@value" : "Hamburg Open Online University",
+      "@language" : "de"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:ac5d5269-6449-43c0-b43b-2ed372763a0e"
+  } ],
+  "description" : [ {
+    "@value" : "Als größte Forschungs- und Ausbildungseinrichtung Norddeutschlands und einer der größten Universitäten in Deutschland vereint die Universität Hamburg ein vielfältiges Lehrangebot mit exzellenter Forschung.\r\n\r\nSie bietet ein breites Fächerspektrum mit zahlreichen interdisziplinären Schwerpunkten und verfügt über ein weitreichendes Kooperationsnetzwerk mit Spitzeneinrichtungen auf regionaler, nationaler und internationaler Ebene.",
+    "@language" : "de"
+  }, {
+    "@value" : "The Hamburg University is the largest institution for research and education in the north of Germany. As one of the country's largest universities, we offer a diverse course spectrum and excellent research opportunities.\r\n\r\nThe University boasts numerous interdisciplinary projects in a broad range of subjects and an extensive partner network with leading institutions on a regional, national and international scale.",
+    "@language" : "en"
+  } ],
+  "alternateName" : [ {
+    "@value" : "UHH",
+    "@language" : "en"
+  }, {
+    "@value" : "UHH",
+    "@language" : "de"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "https://www.uni-hamburg.de",
+  "awards" : [ {
+    "isAwardedBy" : [ {
+      "image" : "https://www.uni-hamburg.de/assets/uhh-logo-e8743ae8819893e7a79b99540eda2e4b223eaa6433affb246b3a6ca011cc9f45.gif",
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "Universität Hamburg",
+        "@language" : "de"
+      }, {
+        "@value" : "Hamburg University",
+        "@language" : "en"
+      } ],
+      "location" : {
+        "geo" : {
+          "lon" : 9.99492,
+          "lat" : 53.56446
+        },
+        "address" : {
+          "addressCountry" : "DE",
+          "streetAddress" : "Mittelweg 177",
+          "postalCode" : 20148,
+          "addressLocality" : "Hamburg",
+          "addressRegion" : "Hamburg"
+        }
+      },
+      "@id" : "urn:uuid:0886b934-0b85-45c3-bb10-94e5804966e6"
+    } ],
+    "@type" : "Grant",
+    "funds" : [ {
+      "image" : "https://www.hs-owl.de/kom/fileadmin/_processed_/csm_optes-logo_b18e4dee03.jpg",
+      "@type" : "Action",
+      "name" : [ {
+        "@value" : "optes - Optimierung der Selbststudiumsphase",
+        "@language" : "de"
+      }, {
+        "@value" : "optes - Optimierung der Selbststudiumsphase",
+        "@language" : "en"
+      } ],
+      "location" : { },
+      "@id" : "urn:uuid:56605dcb-9064-4266-8259-8eedafc6bf38"
+    } ]
+  } ],
+  "name" : [ {
+    "@value" : "Universität Hamburg",
+    "@language" : "de"
+  }, {
+    "@value" : "Hamburg University",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 9.99492,
+      "lat" : 53.56446
+    },
+    "address" : {
+      "addressCountry" : "DE",
+      "streetAddress" : "Mittelweg 177",
+      "postalCode" : 20148,
+      "addressLocality" : "Hamburg",
+      "addressRegion" : "Hamburg"
+    }
+  },
+  "@id" : "urn:uuid:0886b934-0b85-45c3-bb10-94e5804966e6",
+  "affiliate" : [ {
+    "image" : "http://www.rcmc-hamburg.de/wp-content/uploads/2013/07/phdstud/tobias_steiner.jpg",
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Tobias Steiner",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : 9.985506699999974,
+        "lat" : 53.5684084
+      },
+      "address" : {
+        "addressCountry" : "DE",
+        "streetAddress" : "Schlüterstr. 51",
+        "postalCode" : 20146,
+        "addressLocality" : "Hamburg",
+        "addressRegion" : "DE.HH"
+      }
+    },
+    "@id" : "urn:uuid:0e3d180e-73c3-42ec-8971-aabe20d4fc50"
+  } ],
+  "sameAs" : [ "http://lecture2go.uni-hamburg.de/veranstaltungen", "http://www.podcampus.de/institutions/universitaet-hamburg", "https://www.uni-hamburg.de/beschaeftigtenportal/services/oeffentlichkeitsarbeit/online-services/apps", "https://de-de.facebook.com/uni.hamburg", "https://twitter.com/unihh", "https://instagram.com/uni_hamburg", "https://www.youtube.com/c/unihamburg" ]
+}

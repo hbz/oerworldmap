@@ -7,6 +7,7 @@ import helpers.ResourceHelpers;
 import models.Record;
 import models.Resource;
 import models.TripleCommit;
+import org.apache.commons.collections.CollectionUtils;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -207,7 +208,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, queryContext).getItems();
-    Assert.assertTrue("Did not get expected number of hits (2).", searchResults.size() == 2);
+    Assert.assertTrue("Did not get expected number of hits (1 or 2).", 1 <= searchResults.size() && searchResults.size() <= 2);
     Assert.assertTrue("Exact search hit was not ranked first.",
       ((Resource) searchResults.get(0).get("about")).getId().equals(db1.getId()));
     mBaseRepo.deleteResource("urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2", mMetadata);
@@ -609,12 +610,40 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(1, hit.size());
   }
 
+  @Test
+  public void testExactHitsFirst()  throws IOException {
+    for (int i=1; i<=8; i++){
+      Resource db = getResourceFromJsonFile("BaseRepositoryTest/testExactHitsFirst.DB."+i+".json");
+      mBaseRepo.addResource(db, mMetadata);
+    }
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> hit = mBaseRepo.query("Universität", 0, 10, null, null, queryContext).getItems();
+    Assert.assertTrue("Too less hits.", hit.size() > 7);
+    List<String> expectedFirstIds = Arrays.asList(
+      "urn:uuid:f6cebce0-d04b-436a-b43d-871388728c7e.about",
+      "urn:uuid:10212015-6df2-440e-96d6-d2388fada064.about",
+      "urn:uuid:0886b934-0b85-45c3-bb10-94e5804966e6.about",
+      "urn:uuid:4fd91ca1-4253-4e53-bb97-f18a7af7f388.about"
+      );
+    List<String> returnedIds = getIdList(hit);
+    Assert.assertTrue("Unexpected hits.", CollectionUtils.isEqualCollection(expectedFirstIds, returnedIds.subList(0, 4)));
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
       List<?> nameList = (List<?>) r.get("name");
       Resource name = (Resource) nameList.get(0);
       result.add(name.getAsString("@value"));
+    }
+    return result;
+  }
+
+  private List<String> getIdList(List<Resource> aResourceList) {
+    List<String> result = new ArrayList<>();
+    for (Resource r : aResourceList) {
+      result.add(r.getAsString("@id"));
     }
     return result;
   }

@@ -1,0 +1,86 @@
+{
+  "image" : "http://www.oeconsortium.org/media/logos/hokkaido.gif",
+  "@type" : "Organization",
+  "name" : [ {
+    "@value" : "Hokkaido University",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "Hokkaido University is a mainstay comprehensive university that places importance on its graduate schools. The university started out in 1876 as the Sapporo Agricultural College, the first modern academic institute in Japan. Over a long period of history, we have declared and cultivated our basic philosophies of education and research, namely \"Frontier Spirit,\" \"Global Perspectives,\" \"All-round Education,\" and \"Practical Learning.\"",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 141.3415121,
+      "lat" : 43.0732858
+    },
+    "address" : {
+      "addressCountry" : "JP",
+      "streetAddress" : "メインストリート",
+      "@type" : "PostalAddress",
+      "addressLocality" : "Sapporo"
+    },
+    "@type" : "Place"
+  },
+  "@id" : "urn:uuid:7069f356-77eb-11e5-9f9f-c48e8ff4ea31",
+  "memberOf" : [ {
+    "image" : "http://www.oeconsortium.org/wp-content/themes/ocwc-mainsite/images/logo.png",
+    "@type" : "Organization",
+    "name" : [ {
+      "@value" : "Open Education Consortium",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -71.35834,
+        "lat" : 42.45709
+      },
+      "address" : {
+        "addressCountry" : "US",
+        "streetAddress" : "60 Thoreau St, Suite 238",
+        "@type" : "PostalAddress",
+        "postalCode" : "01742",
+        "addressLocality" : "Concord",
+        "addressRegion" : "MA"
+      },
+      "@type" : "Place"
+    },
+    "@id" : "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f"
+  } ],
+  "affiliate" : [ {
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Tomohiro Nagashima",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : 138.252924,
+        "lat" : 36.204824
+      },
+      "address" : {
+        "addressCountry" : "JP"
+      }
+    },
+    "@id" : "urn:uuid:a3c26054-15b1-11e5-bde4-001999ac7930"
+  }, {
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Katsusuke Shigeta",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "address" : {
+        "addressCountry" : "JP",
+        "streetAddress" : "Hokkaido University ",
+        "postalCode" : 600817,
+        "addressLocality" : "Sapporo-shi",
+        "addressRegion" : "JP.HK"
+      }
+    },
+    "@id" : "urn:uuid:48986262-8442-4bb4-94f0-3135e17bd430"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://www.hokudai.ac.jp",
+  "sameAs" : [ "http://www.oeconsortium.org/members/view/151/" ]
+}

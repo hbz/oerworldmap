@@ -1,0 +1,88 @@
+{
+  "image" : "http://sites.ifi.unicamp.br/alegre/files/2011/07/unicamp_logo-267x300.jpg",
+  "@type" : "Organization",
+  "participantIn" : [ {
+    "image" : "http://educacaoaberta.org/wp-content/uploads/2014/10/cropped-unitwin_br_unicamp_pt_web-s.png",
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "UNESCO Chair in Open Education",
+      "@language" : "en"
+    }, {
+      "@value" : "Cátedra UNESCO em Educação Aberta",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -47.06772,
+        "lat" : -22.823738
+      },
+      "address" : {
+        "addressCountry" : "BR",
+        "addressRegion" : "BR.SP"
+      }
+    },
+    "@id" : "urn:uuid:75d2a5fa-a223-4424-992b-708d1513a6d1"
+  } ],
+  "provides" : [ {
+    "image" : "https://lh4.googleusercontent.com/-0zLzR5ePsQg/TWh5_KM_CnI/AAAAAAAABN8/UyFpAwTY4C4/s1600/M3.png",
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "Matematica Mutimidia",
+      "@language" : "en"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:c429a59c-7f00-11e5-a636-c48e8ff4ea31"
+  } ],
+  "name" : [ {
+    "@value" : "Universidade Estadual de Campinas",
+    "@language" : "pt"
+  }, {
+    "@value" : "University of Campinas",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "Unicamp is an independent and autonomous university in terms of its educational policies, but financially, the university is subordinated to the State Government of SÃ£o Paulo that provides funds for its operation. Thus, financial resources are derived mainly from the State Government of Sao Paulo and also from national and international institutions that promove the development through education and research.",
+    "@language" : "en"
+  } ],
+  "alternateName" : [ {
+    "@value" : "UNICAMP",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : -47.069592,
+      "lat" : -22.817304
+    },
+    "address" : {
+      "addressCountry" : "BR",
+      "streetAddress" : "Barão Geraldo",
+      "postalCode" : "CEP: 13083-970",
+      "addressLocality" : "Cidade Universitária ",
+      "addressRegion" : "SÃ£o Paulo"
+    }
+  },
+  "@id" : "urn:uuid:371c94e0-1708-45e5-816f-44cb680beb84",
+  "affiliate" : [ {
+    "image" : "https://oerworldmap.org/assets/images/tel.jpg",
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Tel Amiel",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -47.067554,
+        "lat" : -22.823729
+      },
+      "address" : {
+        "addressCountry" : "BR",
+        "streetAddress" : "Cidade Universitária \"Zeferino Vaz\"",
+        "addressLocality" : "Campinas",
+        "addressRegion" : "BR.SP"
+      }
+    },
+    "@id" : "urn:uuid:ca037478-15b2-11e5-9331-001999ac7930"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://www.unicamp.br/"
+}
