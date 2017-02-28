@@ -12,6 +12,11 @@ public class Countries {
 
     List<Map<String,String>> countryList = new ArrayList<>();
 
+    // Hard-coded workaround for Kosovo
+    Map<String, String> kosovo = new HashMap<>();
+    kosovo.put("name", "Kosovo");
+    kosovo.put("alpha-2", "XK");
+
     for (String countryCode : Locale.getISOCountries()) {
       Locale country = new Locale("en", countryCode);
       Map<String, String> entry = new HashMap<>();
@@ -47,6 +52,10 @@ public class Countries {
 
   public static Map<String,String> map(Locale aLocale) {
     Map<String,String> countryMap = new HashMap<>();
+
+    // Hard-coded workaround for Kosovo
+    countryMap.put("XK", "Kosovo");
+
     for (String countryCode : Locale.getISOCountries()) {
       Locale country = new Locale("en", countryCode);
       countryMap.put(country.getCountry(), country.getDisplayCountry(aLocale));

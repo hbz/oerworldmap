@@ -34,7 +34,8 @@ public class CountryIndex extends OERWorldMap {
   }
 
   public Result read(String id, boolean embed) throws IOException {
-    if (!Arrays.asList(java.util.Locale.getISOCountries()).contains(id.toUpperCase())) {
+
+    if (!Countries.map(getLocale()).keySet().contains(id.toUpperCase())) {
       return notFound("Not found");
     }
 
