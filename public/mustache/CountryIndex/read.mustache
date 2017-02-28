@@ -200,6 +200,21 @@
 
     </div>
 
+    {{#if scope.reports}}
+        <div class="column-section-new" id="country-statistics">
+            <h3>Country reports</h3>
+            <ul class="resource-list" data-app="link-to-fragment">
+                {{#scope.reports}}
+                    {{#about}}
+                        <li about="{{@id}}">
+                            {{>ResourceIndex/link.mustache}}
+                        </li>
+                    {{/about}}
+                {{/scope.reports}}
+            </ul>
+        </div>
+    {{/if}}
+
     <div class="column-section-new last" data-behaviour="geoFilteredList">
 
         <div class="p">
