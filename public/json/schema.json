@@ -28,6 +28,22 @@
     }
   ],
   "definitions": {
+    "Link": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "A link to another entity",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "description": "The referenced entities unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string"
+        }
+      },
+      "required": ["@id", "@type"]
+    },
     "ConceptScheme": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Concept Scheme",
@@ -52,7 +68,10 @@
         "hasTopConcept": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Concept"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] } } }
+            ]
           }
         }
       },
@@ -97,11 +116,17 @@
         "narrower": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Concept"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] } } }
+            ]
           }
         },
         "broader": {
-          "$ref": "#/definitions/Concept"
+          "allOf": [
+            { "$ref": "#/definitions/Link" },
+            { "properties": { "@type": { "enum": [ "Concept" ] } } }
+          ]
         },
         "notation": {
           "type": "array",
@@ -141,14 +166,9 @@
           "description": "The author of the article",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
             ]
           }
         },
@@ -175,23 +195,9 @@
           "description": "Something mentioned in the article",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Service"
-              },
-              {
-                "$ref": "#/definitions/Action"
-              },
-              {
-                "$ref": "#/definitions/Event"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event" ] } } }
             ]
           }
         },
@@ -202,7 +208,10 @@
           "description": "A comment about the Organization",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Comment"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
           }
         },
         "location": {
@@ -236,7 +245,10 @@
           "description": "The author of the comment",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         },
         "text": {
@@ -284,14 +296,9 @@
           "description": "The funder of the action",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
             ]
           }
         },
@@ -309,14 +316,9 @@
           "description": "The direct performer or driver of the action (i.e. also primary contact)",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
             ]
           }
         },
@@ -324,14 +326,9 @@
           "description": "Other co-agents that participated in the action",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
             ]
           }
         },
@@ -339,7 +336,10 @@
           "description": "An organization the project is member of.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization" ] } } }
+            ]
           }
         },
         "name": {
@@ -378,13 +378,19 @@
         "instrument": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Service"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
           }
         },
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Service"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
           }
         },
         "keywords": {
@@ -397,38 +403,56 @@
           "description": "An article that mentions the project.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "comment": {
           "description": "A comment about the project",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Comment"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
           }
         },
         "isPartOf": {
           "description": "A project that this project is part of",
-          "$ref": "#/definitions/Action"
+          "allOf": [
+            { "$ref": "#/definitions/Link" },
+            { "properties": { "@type": { "enum": [ "Action" ] } } }
+          ]
         },
         "hasPart": {
           "description": "A subproject of this project",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "affiliate": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         },
         "organizerFor": {
           "description": "An event the project is organizer for.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Event"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Event" ] } } }
+            ]
           }
         }
       },
@@ -481,14 +505,9 @@
           "description": "The person or organization responsible for provision of the service.",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
             ]
           }
         },
@@ -534,23 +553,17 @@
           "type": "array",
           "items": {
             "allOf": [
-              {
-                "$ref": "#/definitions/Concept"
-              },
-              {
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
                 "properties": {
-                  "inScheme": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "enum": [
-                          "https://w3id.org/class/esc/scheme"
-                        ]
-                      }
-                    }
+                  "@id": {
+                    "enum": [
+                      "https://w3id.org/class/esc/scheme"
+                    ]
                   }
                 }
-              }
+              } } }
             ]
           }
         },
@@ -558,23 +571,17 @@
           "type": "array",
           "items": {
             "allOf": [
-              {
-                "$ref": "#/definitions/Concept"
-              },
-              {
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
                 "properties": {
-                  "inScheme": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "enum": [
-                          "https://github.com/hbz/oerworldmap/public/json/licenses.json"
-                        ]
-                      }
-                    }
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                    ]
                   }
                 }
-              }
+              } } }
             ]
           }
         },
@@ -582,23 +589,17 @@
           "type": "array",
           "items": {
             "allOf": [
-              {
-                "$ref": "#/definitions/Concept"
-              },
-              {
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
                 "properties": {
-                  "inScheme": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "enum": [
-                          "https://w3id.org/isced/1997/scheme"
-                        ]
-                      }
-                    }
+                  "@id": {
+                    "enum": [
+                      "https://w3id.org/isced/1997/scheme"
+                    ]
                   }
                 }
-              }
+              } } }
             ]
           }
         },
@@ -612,48 +613,68 @@
           "description": "An article that mentions the service.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "instrumentIn": {
           "description": "A project that has the service as an instrument.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "resultOf": {
           "description": "A project that has the service as its result.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "member": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "#/definitions/Organization"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization" ] } } }
+            ]
           }
         },
         "affiliate": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         },
         "memberOf": {
           "description": "An organization the service is member of.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization" ] } } }
+            ]
           }
         },
         "comment": {
           "description": "A comment about the Organization",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Comment"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
           }
         }
       },
@@ -693,23 +714,19 @@
           "description": "An organization or service the person is affiliated with.",
           "type": "array",
           "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Service"
-              },
-              {
-                "$ref": "#/definitions/Action"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Service", "Action" ] } } }
             ]
           }
         },
         "performerIn": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Event"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Event" ] } } }
+            ]
           }
         },
         "image": {
@@ -740,13 +757,6 @@
             "format": "uri"
           }
         },
-        "provides": {
-          "description": "Services provided by this Person.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Service"
-          }
-        },
         "countryChampionFor": {
           "type": "array",
           "items": {
@@ -756,25 +766,37 @@
         "agentIn": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "participantIn": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "funderOf": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "created": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "keywords": {
@@ -787,34 +809,49 @@
           "description": "An article that mentions the person.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "organizerFor": {
           "description": "An event the person is organizer for.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Event"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Event" ] } } }
+            ]
           }
         },
         "authorOf": {
           "description": "Comments by the Person",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Comment"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
           }
         },
         "attends": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Event"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Event" ] } } }
+            ]
           }
         },
         "provides": {
           "description": "Services provided by this Person.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Service"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
           }
         }
       },
@@ -881,7 +918,10 @@
           "description": "A contact person",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         },
         "additionalType": {
@@ -895,7 +935,10 @@
           "description": "Services provided by this Organization.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Service"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
           }
         },
         "countryChampionFor": {
@@ -907,61 +950,64 @@
         "agentIn": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "participantIn": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "funderOf": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         },
         "created": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "member": {
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Service"
-              },
-              {
-                "$ref": "#/definitions/Action"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Service", "Action" ] } } }
             ]
           }
         },
         "affiliate": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         },
         "memberOf": {
           "description": "An organization or service the organization is member of.",
           "type": "array",
           "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Service"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Service" ] } } }
             ]
           }
         },
@@ -969,7 +1015,10 @@
           "description": "An article that mentions the organization.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "keywords": {
@@ -982,14 +1031,20 @@
           "description": "An event the organization is organizer for.",
           "type": "array",
           "items": {
-                "$ref": "#/definitions/Event"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Event" ] } } }
+            ]
+          }
         },
         "comment": {
           "description": "A comment about the Organization",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Comment"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
           }
         },
         "awards": {
@@ -1034,17 +1089,9 @@
           "description": "The event's organizer ",
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Person"
-              },
-              {
-                "$ref": "#/definitions/Organization"
-              },
-              {
-                "$ref": "#/definitions/Action"
-              }
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization", "Action" ] } } }
             ]
           }
         },
@@ -1052,7 +1099,10 @@
           "description": "People presenting, leading a workshop etc. at the event",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         },
         "name": {
@@ -1105,7 +1155,10 @@
           "description": "An article that mentions the event.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "hashtag": {
@@ -1121,23 +1174,17 @@
           "type": "array",
           "items": {
             "allOf": [
-              {
-                "$ref": "#/definitions/Concept"
-              },
-              {
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
                 "properties": {
-                  "inScheme": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "enum": [
-                          "https://w3id.org/class/esc/scheme"
-                        ]
-                      }
-                    }
+                  "@id": {
+                    "enum": [
+                      "https://w3id.org/class/esc/scheme"
+                    ]
                   }
                 }
-              }
+              } } }
             ]
           }
         },
@@ -1145,14 +1192,20 @@
           "description": "A comment about the Event",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Comment"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
           }
         },
         "attendee": {
           "description": "People attending the event",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Person"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
           }
         }
       },
@@ -1200,7 +1253,10 @@
           "description": "An organization the grant is awarded by.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Organization"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization" ] } } }
+            ]
           }
         },
         "hasAwardDate": {
@@ -1210,7 +1266,10 @@
           "description": "An article that mentions the grant.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Article"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article" ] } } }
+            ]
           }
         },
         "keywords": {
@@ -1223,7 +1282,10 @@
           "description": "The action being funded",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Action"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
           }
         }
       },
