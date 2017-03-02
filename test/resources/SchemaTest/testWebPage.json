@@ -1,0 +1,19 @@
+{
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@id": "urn:uuid:fa0b36f4-ff55-11e6-8ed8-374f53ecaca7",
+  "@type": "WebPage",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "My OER Bookmark"
+    }
+  ],
+  "description": [
+      {
+        "@language": "en",
+        "@value": "This is a bookmark of a web page about a wonderful afternoon in OER-Erkenschwick"
+      }
+    ],
+  "keywords": [ "OER", "Erkenschwick", "afternoon" ],
+  "url": "http://example.org"
+}

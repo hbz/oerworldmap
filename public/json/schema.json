@@ -25,6 +25,9 @@
     },
     {
       "$ref": "#/definitions/Event"
+    },
+    {
+      "$ref": "#/definitions/WebPage"
     }
   ],
   "definitions": {
@@ -43,6 +46,56 @@
         }
       },
       "required": ["@id", "@type"]
+    },
+    "WebPage": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Bookmark",
+      "description": "A bookmark",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "WebPage"
+          ]
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "description": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "description": "A comment about the bookmark",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        }
+      },
+      "required": [ "name", "url" ],
+      "additionalProperties": false
     },
     "ConceptScheme": {
       "$schema": "http://json-schema.org/draft-04/schema#",
