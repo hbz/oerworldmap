@@ -240,7 +240,7 @@
                             <td>
                                 <ul>
                                     {{#each (reduceSkos @root.skos.isced audience)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="audience"}}</li>
                                     {{/each}}
                                 </ul>
                             </td>
@@ -279,7 +279,7 @@
                             <td>
                                 <ul>
                                     {{#each (reduceSkos @root.skos.esc about)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="about"}}</li>
                                     {{/each}}
                                 </ul>
                             </td>

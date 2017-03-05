@@ -1,5 +1,5 @@
 {{getIcon @type}}
-<a href="/resource/?filter.about.about.@id={{[@id]}}">
+<a href="/resource/?filter.about.{{filter}}.@id={{[@id]}}">
     {{#localized this.name language=@root.language}}
         {{[@value]}}
     {{else}}
