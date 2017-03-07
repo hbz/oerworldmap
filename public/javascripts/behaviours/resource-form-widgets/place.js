@@ -230,14 +230,28 @@ var Hijax = (function ($, Hijax) {
               minResolution: 2
             });
 
-            // populate remaining form inputs
             var properties = suggestion.feature.properties;
+
+            // kosovo workaround
+            if (properties.id == "85633259") {
+              properties.country_a = "UNK";
+            }
+
+            // set iso3166 alpha2 code
+            properties.country_a2 = iso3166.filter(function(country) {
+              return country['alpha-3'] == properties.country_a;
+            })[0]['alpha-2'];
+
+            // populate remaining form inputs
             widget.find('[name="location[address][streetAddress]"]').val(properties.name || '');
             widget.find('[name="location[address][postalCode]"]').val(properties.postalcode || '');
             widget.find('[name="location[address][addressLocality]"]').val(properties.locality || '');
-            widget.find('[name="location[address][addressCountry]"]').val(properties.country_a.substring(0, 2));
-            setCoordinatesFromLonLat(suggestion.feature.geometry.coordinates)
-            country_dropdown_button.find('.text').text(i18nStrings.countries[properties.country_a.substring(0, 2)]);
+            widget.find('[name="location[address][addressCountry]"]').val(properties.country_a2);
+
+
+
+            setCoordinatesFromLonLat(suggestion.feature.geometry.coordinates);
+            country_dropdown_button.find('.text').text(i18nStrings.countries[properties.country_a2]);
 
           });
 
