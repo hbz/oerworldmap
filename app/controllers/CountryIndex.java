@@ -1,13 +1,12 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import helpers.Countries;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import models.Record;
@@ -80,4 +79,10 @@ public class CountryIndex extends OERWorldMap {
     }
 
   }
+
+  public Result iso3166() throws IOException {
+    return ok("window.iso3166 = ".concat(new ObjectMapper().writeValueAsString(Countries.list(getLocale()))))
+      .as("application/javascript");
+  }
+
 }

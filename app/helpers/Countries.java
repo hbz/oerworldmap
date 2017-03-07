@@ -16,12 +16,15 @@ public class Countries {
     Map<String, String> kosovo = new HashMap<>();
     kosovo.put("name", "Kosovo");
     kosovo.put("alpha-2", "XK");
+    kosovo.put("alpha-3", "UNK");
+    countryList.add(kosovo);
 
     for (String countryCode : Locale.getISOCountries()) {
       Locale country = new Locale("en", countryCode);
       Map<String, String> entry = new HashMap<>();
       entry.put("name", country.getDisplayCountry(aLocale));
       entry.put("alpha-2", country.getCountry());
+      entry.put("alpha-3", country.getISO3Country());
       countryList.add(entry);
     }
 

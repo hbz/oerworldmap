@@ -45,7 +45,7 @@ public class I18n extends OERWorldMap {
     i18n.put("languages", Languages.map(getLocale()));
 
     String countryMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
-    return ok("i18nStrings = ".concat(countryMap)).as("application/javascript");
+    return ok("window.i18nStrings = ".concat(countryMap)).as("application/javascript");
   }
 
 }
