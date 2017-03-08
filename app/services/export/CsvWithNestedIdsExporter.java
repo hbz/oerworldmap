@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import helpers.JsonLdConstants;
+import models.Record;
 import models.Resource;
 import models.ResourceList;
 
@@ -16,10 +17,14 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
   @Override
   public String export(ResourceList aResourceList){
     StringBuffer result = new StringBuffer();
-    defineHeaderColumns(aResourceList.getItems());
+    List<Resource> resources = new ArrayList<>();
+    for (Resource record : aResourceList.getItems()) {
+      resources.add(record.getAsResource(Record.RESOURCE_KEY));
+    }
+    defineHeaderColumns(resources);
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));
-    for (Resource resource : aResourceList.getItems()) {
+    for (Resource resource : resources) {
       result.append(buildRow(resource).concat("\n"));
     }
     return result.toString();
@@ -28,10 +33,11 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
   @Override
   public String export(Resource aResource) {
     StringBuffer result = new StringBuffer();
-    defineHeaderColumns(Arrays.asList(aResource));
+    Resource resource = aResource.getAsResource(Record.RESOURCE_KEY);
+    defineHeaderColumns(Arrays.asList(resource));
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));
-    result.append(buildRow(aResource).concat("\n"));
+    result.append(buildRow(resource).concat("\n"));
     return result.toString();
   }
 
