@@ -93,7 +93,7 @@ public class ResourceIndex extends OERWorldMap {
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
       "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate"
+      "about.startDate", "about.endDate", "about.organizer", "about.description"
     });
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
