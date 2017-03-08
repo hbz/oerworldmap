@@ -109,7 +109,6 @@ public class BaseRepository extends Repository
       mElasticsearchRepo.deleteResource(aId, aMetadata);
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
       index(diff);
-
     }
 
     return resource;
