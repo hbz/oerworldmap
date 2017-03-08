@@ -119,7 +119,14 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
     Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
+  }
 
+  @Test
+  public void testDeletedResourceIsRemovedFromIndex() throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeletedResourceIsRemovedFromIndex.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.deleteResource(db1.getId(), mMetadata);
+    Assert.assertEquals(0, mBaseRepo.getResources("about.@id", db1.getId()).size());
   }
 
   @Test
