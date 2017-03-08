@@ -1,6 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
+import models.Record;
 import models.Resource;
 import models.ResourceList;
 import org.elasticsearch.common.Strings;
@@ -81,17 +82,18 @@ public class CalendarExporter implements Exporter {
 
   @Override
   public String export(Resource aResource) {
-    if (!aResource.getType().equals("Event")) {
+    if (!aResource.getAsResource(Record.RESOURCE_KEY).getType().equals("Event")) {
       return null;
     }
-    return HEADER.concat(exportResourceWithoutHeader(aResource)).concat(FOOTER);
+    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsResource(Record.RESOURCE_KEY))).concat(FOOTER);
   }
 
   @Override
   public String export(ResourceList aResourceList) {
     StringBuilder result = new StringBuilder(HEADER);
-    aResourceList.getItems().stream().filter(resource -> resource.getType().equals("Event")).forEach(resource ->
-      result.append(exportResourceWithoutHeader(resource))
+    aResourceList.getItems().stream().filter(resource -> resource.getAsResource(Record.RESOURCE_KEY).getType()
+      .equals("Event")).forEach(resource ->
+        result.append(exportResourceWithoutHeader(resource.getAsResource(Record.RESOURCE_KEY)))
     );
     result.append(FOOTER);
     return result.toString();
