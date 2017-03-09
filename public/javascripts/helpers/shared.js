@@ -307,7 +307,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'action': 'gears',
     'concept': 'tag',
     'conceptscheme': 'sitemap',
-    'event': 'calendar'
+    'event': 'calendar',
+    'webpage': 'bookmark'
   };
   return new Handlebars.SafeString(
     '<i class="fa fa-fw fa-' + (icons[type.toLowerCase()] || 'question') + '"></i>'
