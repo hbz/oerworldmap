@@ -1192,8 +1192,12 @@ return rf.abs=Wc,rf.add=Yc,rf.subtract=Zc,rf.as=cd,rf.asMilliseconds=$e,rf.asSec
 
 HandlebarsMoment.registerHelpers(Handlebars);
 
+/**
+* Daterange helper to use in context of a calendar, where the start month and year
+* are clear from the calendar layout
+*/
 
-Handlebars.registerHelper('daterange', function (date_from, date_to) {
+Handlebars.registerHelper('daterangeCalendar', function (date_from, date_to) {
 
   var from = moment(date_from);
   var to = moment(date_to);
