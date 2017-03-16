@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:https://oerworldmap.org/
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:OER-Festival 2016
+GEO:52.5125;13.37828
+LOCATION:In den Ministergärten 8;10117;Berlin;DE
+URL:http://open-educational-resources.de/16/
+UID:urn:uuid:abc8c7e9-4738-433c-8550-7af52996085e
+ORGANIZER:J&K - Jöran und Konsorten
+DTSTART:20160228T000000
+DTEND:20160301T235959
+DTSTAMP:20170202T132025Z
+CLASS:PUBLIC
+DESCRIPTION:"Im deutschsprachigen Raum sind wir in Sachen Open Educational Resources im internationalen Vergleich eher noch rückständig." Diesen oder ähnliche Sätze äußern Experten in Interviews oder auf Podien gerne, und zwar seit Jahren. Der Satz stimmt heute nicht mehr. Es gibt inzwischen zahlreiche Ideen, Initiativen, Akteure, Projekte und Institutionen zu OER in allen Bildungsbereichen.\r\n\r\nDas OER-Festival 2016 #OERde16 macht die Breite und Vielfalt von Open Educational Resources sichtbar. Wir wollen gleichzeitig die bisherigen Aktivitäten feiern und die nächste Phase der OER-Entwicklung einleiten. Das "de" in #OERde16 steht dabei nicht für "Deutschland", sondern für "deutschsprachig". Wenn Lehr-Lern-Inhalte offen zur Übernahme und Anpassung sind, dann verlieren Ländergrenzen an Bedeutung.\r\n\r\nOER-Festival KomponentenDas OER-Festival setzt sich aus mehreren Aktivitäten zusammen, die gemeinsam geplant und vorbereitet, aber unabhängig voneinander genutzt und wahrgenommen werden können.
+END:VEVENT
+END:VCALENDAR

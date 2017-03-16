@@ -128,9 +128,15 @@ var Hijax = (function ($, Hijax, page) {
 
     // pimp buckets
     for(var i = 0; i < aggregation.buckets.length; i++) {
-      aggregation.buckets[ i ].id = aggregation.buckets[ i ].key;
-      aggregation.buckets[ i ].label_x = get_label(aggregation.buckets[ i ].key, name); // just label doesn't work for some reason
-      aggregation.buckets[ i ].active = is_active(aggregation.buckets[ i ].key, name);
+      aggregation.buckets[ i ].id = aggregation.buckets[ i ].key_as_string
+        ? aggregation.buckets[ i ].key_as_string
+        : aggregation.buckets[ i ].key;
+      aggregation.buckets[ i ].label_x = aggregation.buckets[ i ].key_as_string
+        ? get_label(aggregation.buckets[ i ].key_as_string, name)
+        : get_label(aggregation.buckets[ i ].key, name); // just label doesn't work for some reason
+      aggregation.buckets[ i ].active = aggregation.buckets[ i ].key_as_string
+        ? is_active(aggregation.buckets[ i ].key_as_string, name)
+        : is_active(aggregation.buckets[ i ].key, name);
     }
 
     // sort buckets
@@ -340,9 +346,11 @@ var Hijax = (function ($, Hijax, page) {
 
         // remove special treated aggregations
 
+        delete aggregations['calendar'];
         delete aggregations['about.@type'];
         delete aggregations['about.keywords'];
         delete aggregations['about.location.address.addressCountry'];
+        delete aggregations['about.startDate.GTE'];
 
         // set columns
 
@@ -417,19 +425,26 @@ var Hijax = (function ($, Hijax, page) {
           var checkbox = $(container).find('[name="filter.about.@type"][value="' + $(this).data('filter-value') + '"]');
           checkbox.prop("checked", active);
 
+          // unset type specific filters
+          for(aggregation in aggregations) {
+            $(container).find('input[name="filter.' + aggregation + '"]').prop("checked", false);
+          }
+
           $('#form-resource-filter').submit();
         });
 
         // bind text search
 
         $('[data-filter-action="search"]').click(function(){
-          $('[name="q"]').val( $('[data-filter-name="q"]').val() );
           $('#form-resource-filter').submit();
+        });
+
+        $('[data-filter-name="q"]').on('propertychange click change keyup input paste', function(e) {
+          $('[name="q"]').val( $('[data-filter-name="q"]').val() );
         });
 
         $('[data-filter-name="q"]').keypress(function(e) {
           if(e.which == 13) {
-            $('[name="q"]').val( $(this).val() );
             $('#form-resource-filter').submit();
           }
         });

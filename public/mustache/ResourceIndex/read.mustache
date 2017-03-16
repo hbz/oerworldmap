@@ -2,17 +2,9 @@
 
     {{#scope}}
 
-        {{#resource}}
+        {{#resource.about}}
 
             <ul class="resource-controls">
-
-                {{#if ../permissions.log}}
-                    <li>
-                        <a target="_blank" href="/log/{{[@id]}}" class="icon-btn">
-                            <i class="fa fa-history"></i>
-                        </a>
-                    </li>
-                {{/if}}
 
                 {{#if ../permissions.edit}}
                     <li>
@@ -48,6 +40,11 @@
 
                     <div class="topline">
                         {{getIcon [@type]}} <strong>{{i18n [@type]}}</strong>
+                        {{#if ../permissions.log}}
+                            &nbsp;(last modified <a target="_blank" href="/log/{{[@id]}}">{{moment resource.dateModified "D. MMM YYYY"}}</a>)
+                        {{else}}
+                            &nbsp;(last modified {{moment resource.dateModified "D. MMM YYYY"}})
+                        {{/if}}
                     </div>
 
                     <h1 class="resource-title">
@@ -243,7 +240,7 @@
                             <td>
                                 <ul>
                                     {{#each (reduceSkos @root.skos.isced audience)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="audience"}}</li>
                                     {{/each}}
                                 </ul>
                             </td>
@@ -282,7 +279,7 @@
                             <td>
                                 <ul>
                                     {{#each (reduceSkos @root.skos.esc about)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="about"}}</li>
                                     {{/each}}
                                 </ul>
                             </td>
@@ -537,6 +534,21 @@
                         </tr>
                     {{/if}}
 
+                    {{#if awards.0.funds}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.funds" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#awards}}
+                                        {{#funds}}
+                                            <li>{{>ResourceIndex/link.mustache}}</li>
+                                        {{/funds}}
+                                    {{/awards}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if organizer}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.organizer" @type)}}</td>
@@ -667,6 +679,91 @@
                         </tr>
                     {{/if}}
 
+                    {{#isFundedBy}}
+                        {{#if this.isAwardedBy}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.isAwardedBy" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#isAwardedBy}}
+                                            <li>{{>ResourceIndex/link.mustache}}</li>
+                                        {{/isAwardedBy}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.sameAs}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#sameAs}}
+                                            <li>{{externalLink .}}</li>
+                                        {{/sameAs}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.duration}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.duration" @type)}}</td>
+                                <td>
+                                    {{duration}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.hasMonetaryValue}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.hasMonetaryValue" @type)}}</td>
+                                <td>
+                                    {{hasMonetaryValue}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.description}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.description" @type)}}</td>
+                                <td>
+                                    {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.name}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.name" @type)}}</td>
+                                <td>
+                                    {{#localized name language=@root.language}}{{md [@value]}}{{/localized}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.alternateName}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
+                                <td>
+                                    {{#localized alternateName language=@root.language}}{{md [@value]}}{{/localized}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.hasAwardDate}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.hasAwardDate" @type)}}</td>
+                                <td>
+                                    {{hasAwardDate}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                        {{#if this.keywords}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
+                                <td>
+                                    <ul class="comma-seperated-list">
+                                        {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    {{/isFundedBy}}
+
                 </table>
 
             </article>
@@ -707,11 +804,11 @@
 
             <div class="resource-comments">
 
-                {{#if comment}}
+                {{#if comments}}
 
                     <h2>Comments</h2>
 
-                    {{#sort comment "dateCreated" "asc"}}
+                    {{#sort comments "dateCreated" "asc"}}
                         {{#if author.[0].name}}
                             <hr>
                             <div>
@@ -758,7 +855,7 @@
 
             </div>
 
-        {{/resource}}
+        {{/resource.about}}
 
     {{/scope}}
 

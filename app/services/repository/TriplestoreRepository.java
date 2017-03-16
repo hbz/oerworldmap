@@ -1,6 +1,7 @@
 package services.repository;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
@@ -50,19 +51,17 @@ import services.ResourceFramer;
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
   public static final String EXTENDED_DESCRIPTION =
-    "DESCRIBE <%1$s> ?o ?oo WHERE {" +
-    "  <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo }" +
-    "}";
+    "DESCRIBE <%1$s> ?o ?oo WHERE { <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo FILTER isBlank(?o)} }";
 
   public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
-  public static final String CONCISE_BOUNDED_DESCRIPTIONS = "DESCRIBE ?s WHERE { ?s a ?o . FILTER (%1$s) }";
-
-  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> ?p ?o FILTER isIRI(?o) }";
+  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> (<>|!<>)* ?o FILTER isIRI(?o) }";
 
   public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
 
   public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
+
+  public static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
@@ -261,30 +260,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   }
 
-  private Model getConciseBoundedDescriptions(@Nonnull List<String> aIds, @Nonnull Model aModel) {
-
-    String filter = String.join(" || ", aIds.stream().map(id -> "?s = <".concat(id).concat(">"))
-        .collect(Collectors.toSet()));
-
-    String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTIONS, filter);
-    Model conciseBoundedDescriptions = ModelFactory.createDefaultModel();
-
-    conciseBoundedDescriptions.enterCriticalSection(Lock.WRITE);
-    aModel.enterCriticalSection(Lock.READ);
-
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
-        queryExecution.execDescribe(conciseBoundedDescriptions);
-      }
-    } finally {
-      aModel.leaveCriticalSection();
-      conciseBoundedDescriptions.leaveCriticalSection();
-    }
-
-    return conciseBoundedDescriptions;
-
-  }
-
   private Model getConciseBoundedDescription(String aId, Model aModel) {
 
     String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTION, aId);
@@ -459,7 +434,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(q), mDb)) {
         switch (queryExecution.getQuery().getQueryType()) {
           case Query.QueryTypeSelect:
-            result = ResultSetFormatter.asXMLString(queryExecution.execSelect());
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ResultSetFormatter.outputAsCSV(byteArrayOutputStream, queryExecution.execSelect());
+            result = byteArrayOutputStream.toString();
             break;
           case Query.QueryTypeConstruct:
             out = new StringWriter();
@@ -540,6 +517,29 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return diff;
+
+  }
+
+  public String label(String aId) {
+
+    String labelQuery = String.format(LABEL_RESOURCE, aId);
+
+    String result = aId;
+
+    mDb.enterCriticalSection(Lock.READ);
+    try {
+      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(labelQuery), mDb)) {
+        ResultSet resultSet = queryExecution.execSelect();
+        while (resultSet.hasNext()) {
+          QuerySolution querySolution = resultSet.next();
+          result = querySolution.get("name").asLiteral().getString();
+        }
+      }
+    } finally {
+      mDb.leaveCriticalSection();
+    }
+
+    return result;
 
   }
 

@@ -1,0 +1,643 @@
+{
+  "license" : [ {
+    "image" : "https://cdn0.iconfinder.com/data/icons/glyphpack/34/question-circle-64.png",
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    },
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Unspecified",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "License not specified",
+      "@language" : "en"
+    } ],
+    "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#unspecified",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+    }
+  } ],
+  "audience" : [ {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:3" ],
+    "name" : [ {
+      "@value" : "Upper secondary education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 3",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level3",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "ISCED-1997:5" ],
+    "name" : [ {
+      "@value" : "First stage of tertiary education",
+      "@language" : "en"
+    } ],
+    "alternateName" : [ {
+      "@value" : "ISCED 1997, Level 5",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/isced/1997/level5",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/isced/1997/scheme"
+    }
+  } ],
+  "availableChannel" : [ {
+    "serviceUrl" : "http://www.tvdu.lt/",
+    "availableLanguage" : [ "en", "lt" ]
+  } ],
+  "@type" : "Service",
+  "about" : [ {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "03" ],
+    "name" : [ {
+      "@value" : "Social sciences, journalism and information",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n032"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n03",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "022" ],
+    "name" : [ {
+      "@value" : "Humanities (except languages)",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Philosophy and ethics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0223"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Religion and theology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0221"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "History and archaeology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0222"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n022",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0314" ],
+    "name" : [ {
+      "@value" : "Sociology and cultural studies",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0314",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "032" ],
+    "name" : [ {
+      "@value" : "Journalism and information",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n032"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Library, information and archival studies",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0322"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Journalism and reporting",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0321"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n032",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0222" ],
+    "name" : [ {
+      "@value" : "History and archaeology",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0222",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "02" ],
+    "name" : [ {
+      "@value" : "Arts and humanities",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n021"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n02",
+    "topConceptOf" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0232" ],
+    "name" : [ {
+      "@value" : "Literature and linguistics",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Spanish literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232-es"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "English literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232-en"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Portuguese literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232-pt"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0232",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "021" ],
+    "name" : [ {
+      "@value" : "Arts",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n021"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Music and performing arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0215"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Fashion, interior and industrial design",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0212"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Fine arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0213"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Handicrafts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0214"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Audio-visual techniques and media production",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0211"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n021",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0313" ],
+    "name" : [ {
+      "@value" : "Psychology",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0313",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0321" ],
+    "name" : [ {
+      "@value" : "Journalism and reporting",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0321",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n032"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0211" ],
+    "name" : [ {
+      "@value" : "Audio-visual techniques and media production",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0211",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n021"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "023" ],
+    "name" : [ {
+      "@value" : "Languages",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Languages",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n023"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Language acquisition",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0231"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Literature and linguistics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0232"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n023",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Arts and humanities",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n02"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "031" ],
+    "name" : [ {
+      "@value" : "Social and behavioural sciences",
+      "@language" : "en"
+    } ],
+    "narrower" : [ {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Sociology and cultural studies",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0314"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social and behavioural sciences",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n031"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Psychology",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0313"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Political sciences and civics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0312"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Economics",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n0311"
+    }, {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n031",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Social sciences, journalism and information",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n03"
+    }
+  }, {
+    "inScheme" : {
+      "@type" : "ConceptScheme",
+      "@id" : "https://w3id.org/class/esc/scheme"
+    },
+    "@type" : "Concept",
+    "notation" : [ "0223" ],
+    "name" : [ {
+      "@value" : "Philosophy and ethics",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n0223",
+    "broader" : {
+      "@type" : "Concept",
+      "name" : [ {
+        "@value" : "Humanities (except languages)",
+        "@language" : "en"
+      } ],
+      "@id" : "https://w3id.org/class/esc/n022"
+    }
+  } ],
+  "name" : [ {
+    "@value" : "tVDU",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "Supports the idea of developing OER content and suggest video lectures and video integrating formal education content, as well as informal education content for public use in embedded format.",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : 23.881275,
+      "lat" : 55.169438
+    },
+    "address" : {
+      "addressCountry" : "LT"
+    }
+  },
+  "@id" : "urn:uuid:c364df8c-aa1b-4322-82b6-4a435400fa75",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "startDate" : "2010"
+}

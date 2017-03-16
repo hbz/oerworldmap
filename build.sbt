@@ -1,5 +1,3 @@
-import com.typesafe.sbt.less.Import.LessKeys
-
 name := "oerworldmap"
 
 version := "0.1"
@@ -31,13 +29,14 @@ libraryDependencies ++= Seq(
   "org.pegdown" % "pegdown" % "1.6.0",
   "com.github.jknack" % "handlebars" % "4.0.6",
   "com.github.jknack" % "handlebars-markdown" % "4.0.6",
-  "org.apache.jena" % "apache-jena-libs" % "3.1.0",
+  "org.apache.jena" % "apache-jena-libs" % "3.1.1",
   "io.apigee.trireme" % "trireme-kernel" % "0.8.9",
   "io.apigee.trireme" % "trireme-core" % "0.8.9",
-  "io.apigee.trireme" % "trireme-node10src" % "0.8.9"
+  "io.apigee.trireme" % "trireme-node10src" % "0.8.9",
+  "com.maxmind.geoip2" % "geoip2" % "2.8.0"
 )
 
-includeFilter in (Assets, LessKeys.less) := "main.less"
+PlayKeys.playRunHooks += Grunt(baseDirectory.value)
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Xmx3G"

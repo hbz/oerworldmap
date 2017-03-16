@@ -5,9 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ import java.util.jar.JarFile;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.MarkdownHelper;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.record.Location;
 import helpers.JSONForm;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -69,6 +73,7 @@ public abstract class OERWorldMap extends Controller {
   Environment mEnv;
   protected static BaseRepository mBaseRepository = null;
   static AccountService mAccountService;
+  static DatabaseReader mLocationLookup;
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
@@ -92,6 +97,16 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
+  private static synchronized void createLocationLookup(Environment aEnv) {
+    if (mLocationLookup == null) {
+      try {
+        mLocationLookup = new DatabaseReader.Builder(aEnv.resourceAsStream("GeoLite2-Country.mmdb")).build();
+      } catch (final IOException ex) {
+        throw new RuntimeException("Failed to create location lookup", ex);
+      }
+    }
+  }
+
   @Inject
   public OERWorldMap(Configuration aConf, Environment aEnv) {
 
@@ -103,6 +118,9 @@ public abstract class OERWorldMap extends Controller {
 
     // Account service
     createAccountService(mConf);
+
+    // Location lookup
+    createLocationLookup(mEnv);
 
   }
 
@@ -123,7 +141,7 @@ public abstract class OERWorldMap extends Controller {
   Resource getUser() {
 
     Resource user = null;
-    System.out.println("username " + getHttpBasicAuthUser());
+    Logger.debug("Username " + getHttpBasicAuthUser());
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
       user = getRepository().getResource(profileId);
@@ -184,6 +202,17 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
+  String getLocation() {
+
+    try {
+      return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry().getIsoCode();
+    } catch (Exception ex) {
+      Logger.error("Could not read host", ex);
+      return "GB";
+    }
+
+  }
+
   //TODO: is this right here? how else to implement?
   public String getLabel(String aId) {
 
@@ -222,6 +251,18 @@ public abstract class OERWorldMap extends Controller {
     return aId;
   }
 
+  public Resource getUser(String aId) {
+
+    Resource user = null;
+    String profileId = mAccountService.getProfileId(aId);
+    if (!StringUtils.isEmpty(profileId)) {
+      user = getRepository().getResource(profileId);
+    }
+
+    return user;
+
+  }
+
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
@@ -235,6 +276,8 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("templates", getClientTemplates());
     mustacheData.put("language", getLocale().toLanguageTag());
     mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
+    mustacheData.put("location", getLocation());
+    Logger.debug(getLocation());
     Map<String, Object> skos = new HashMap<>();
     try {
       skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
@@ -257,8 +300,7 @@ public abstract class OERWorldMap extends Controller {
       Logger.error("Could not add global statistics", e);
     }
 
-    boolean mayAdd = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
-      || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
+    boolean mayAdd = (getUser() != null);
     boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("add", mayAdd);
@@ -296,6 +338,12 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/handlebars.form-helpers.js"));
+    } catch (Exception e) {
+      Logger.error(e.toString());
+    }
+
+    try {
+      handlebars.registerHelpers(new File("public/vendor/moment/handlebars.moment.js"));
     } catch (Exception e) {
       Logger.error(e.toString());
     }

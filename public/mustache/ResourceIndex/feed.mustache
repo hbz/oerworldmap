@@ -4,9 +4,11 @@
 
     <ul class="resource-list">
         {{#scope.resources.member}}
+            {{#about}}
             <li>
                 {{>ResourceIndex/link.mustache}}
             </li>
+            {{/about}}
         {{/scope.resources.member}}
     </ul>
 

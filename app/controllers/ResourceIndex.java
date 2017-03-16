@@ -8,6 +8,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
+import models.Commit;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -85,13 +86,14 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     queryContext.setFetchSource(new String[]{
+      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
       "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
       "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
       "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
       "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate"
+      "about.startDate", "about.endDate", "about.organizer", "about.description"
     });
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
@@ -100,10 +102,18 @@ public class ResourceIndex extends OERWorldMap {
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url()));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url()));
+    String filterString = "";
+    for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
+      String filterKey = "filter.".concat(filter.getKey());
+      for (String filterValue : filter.getValue()) {
+        filterString = filterString.concat("&".concat(filterKey).concat("=").concat(filterValue));
+      }
+    }
+
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url().concat(filterString)));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url().concat(filterString)));
     if (resourceList.containsType("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url()));
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url().concat(filterString)));
     }
 
     Map<String, Object> scope = new HashMap<>();
@@ -153,46 +163,6 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     return notFound("Not found");
-
-  }
-
-  public Result importRecords() throws IOException {
-
-    // Import records
-    JsonNode json = ctx().request().body().asJson();
-    List<Resource> records = new ArrayList<>();
-    if (json.isArray()) {
-      for (JsonNode node : json) {
-        records.add(Resource.fromJson(node));
-      }
-    } else if (json.isObject()) {
-      records.add(Resource.fromJson(json));
-    } else {
-      return badRequest();
-    }
-    mBaseRepository.importRecords(records, getMetadata());
-
-    // Add user accounts
-    for (Resource record : records) {
-      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
-      if ("Person".equals(resource.getType())) {
-        String email = resource.getAsString("email");
-        if (StringUtils.isNotEmpty(email)) {
-          String password = new BigInteger(130, new SecureRandom()).toString(32);
-          String token = mAccountService.addUser(email, password);
-          if (StringUtils.isNotEmpty(token)) {
-            String id = mAccountService.verifyToken(token);
-            if (id.equals(email)) {
-              mAccountService.setPermissions(resource.getId(), email);
-            }
-          }
-        }
-      }
-    }
-
-    mAccountService.refresh();
-
-    return ok(Integer.toString(records.size()).concat(" records imported."));
 
   }
 
@@ -376,6 +346,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    List<Resource> comments = new ArrayList<>();
+    for (String commentId : resource.getIdList("comment")) {
+      comments.add(mBaseRepository.getResource(commentId));
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -384,14 +359,14 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
-        || (!resource.getType().equals("Person")
-            && mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"))
+        || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
     boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
     boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
     boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -408,8 +383,26 @@ public class ResourceIndex extends OERWorldMap {
       alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
     }
 
+    List<Commit> history = mBaseRepository.log(id);
+    resource = new Record(resource);
+    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    try {
+      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    } catch (NullPointerException e) {
+      Logger.error("Could not read author from commit " + history.get(history.size() - 1), e);
+    }
+    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    try {
+      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    } catch (NullPointerException e) {
+      Logger.error("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+    }
+
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
+    scope.put("comments", comments);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 
@@ -456,14 +449,6 @@ public class ResourceIndex extends OERWorldMap {
 
     return notFound("Not found");
 
-  }
-
-  public Result export(String aId) {
-    Resource record = mBaseRepository.getRecord(aId);
-    if (null == record) {
-      return notFound("Not found");
-    }
-    return ok(record.toString()).as("application/json");
   }
 
   public Result delete(String aId) throws IOException {
@@ -524,6 +509,12 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resources", resourceList.toResource());
 
     return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
+
+  }
+
+  public Result label(String aId) {
+
+    return ok(mBaseRepository.label(aId));
 
   }
 

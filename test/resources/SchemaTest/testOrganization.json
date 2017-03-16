@@ -143,6 +143,16 @@
           "@value": "Foobar"
         }
       ]
+    },
+    {
+      "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
+      "@type": "Action",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Foobar"
+        }
+      ]
     }
   ],
 	"memberOf": [

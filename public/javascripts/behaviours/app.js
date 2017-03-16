@@ -578,9 +578,9 @@ var Hijax = (function ($, Hijax, page) {
           notification.data('dismissable') &&
           notification.find('[name="dismiss"]')[0].checked
         ) {
-          var dismissed = JSON.parse( sessionStorage.getItem('dismissed-notifications') ) || [];
+          var dismissed = JSON.parse( localStorage.getItem('dismissed-notifications') ) || [];
           dismissed.push(notification.data('id'));
-          sessionStorage.setItem('dismissed-notifications', JSON.stringify(dismissed));
+          localStorage.setItem('dismissed-notifications', JSON.stringify(dismissed));
         }
 
         notification.fadeOut(function(){
@@ -634,7 +634,7 @@ var Hijax = (function ($, Hijax, page) {
       /* --- notifications --- */
 
       $(context).find('[data-app~="notification"]').each(function(){
-        var dismissed = JSON.parse( sessionStorage.getItem('dismissed-notifications') ) || [];
+        var dismissed = JSON.parse( localStorage.getItem('dismissed-notifications') ) || [];
         if(dismissed.indexOf( this.id ) > -1) {
           return;
         }

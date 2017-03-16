@@ -11,7 +11,10 @@ data/*/
 !data/ingest/
 !data/pages/
 !data/travis/
-!data/permissions/
 repo-deb-build*.*
 .idea/
 import/hewlett/*.json
+/node_modules/
+/public/css/main.css
+data/permissions/*
+!data/permissions/.system

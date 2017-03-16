@@ -44,9 +44,8 @@ public class ResourceIndexer {
     "}";
 
   private final static String SCOPE_QUERY_TEMPLATE =
-    "SELECT DISTINCT ?s1 ?s2 WHERE {" +
+    "SELECT DISTINCT ?s1 WHERE {" +
     "    ?s1 ?p1 <%1$s> ." +
-    "    OPTIONAL { ?s2 ?p2 ?s1 . } ." +
     "}";
 
   // TODO: evaluate if there are other properties to exclude from triggering indexing
@@ -230,7 +229,10 @@ public class ResourceIndexer {
         Map<String, String> metadata = new HashMap<>();
         if (mGraphHistory != null) {
           List<Commit> history = mGraphHistory.log(aResource.getId());
-          metadata = history.get(0).getHeader().toMap();
+          metadata.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+          metadata.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+          metadata.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+            .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
           metadata.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }

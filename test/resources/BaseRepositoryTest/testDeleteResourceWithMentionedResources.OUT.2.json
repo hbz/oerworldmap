@@ -1,30 +1,31 @@
 {
   "@type": "Organization",
   "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123",
-  "legalName": "Oh Yeah Company",
+  "name": [
+    {
+      "@value": "Oh Yeah Company",
+      "@language": "de"
+    }
+  ],
   "affiliate": [
     {
-      "affiliation": [
+      "@type": "Person",
+      "name": [
         {
-          "@type": "Organization",
-          "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123"
+          "@value": "Hans Wurst",
+          "@language": "de"
         }
       ],
-      "@type": "Person",
-      "familyName": "Wurst",
-      "givenName": "Hans",
       "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456"
     }
   ],
   "employee": {
     "@type": "Person",
     "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456",
-    "givenName": "Hans",
-    "familyName": "Wurst",
-    "affiliation": [
+    "name": [
       {
-        "@type": "Organization",
-        "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123"
+        "@value": "Hans Wurst",
+        "@language": "de"
       }
     ]
   },

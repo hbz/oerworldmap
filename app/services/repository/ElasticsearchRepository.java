@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
@@ -61,9 +63,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
     Record record = new Record(aResource);
-    record.put(Record.DATE_CREATED, aMetadata.get(Record.DATE_CREATED));
-    record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
-    record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
+    for (String key : aMetadata.keySet()) {
+      record.put(key, aMetadata.get(key));
+    }
     addJson(record.toString(), record.getId(), Record.TYPE);
     refreshIndex(mConfig.getIndex());
   }
@@ -73,9 +75,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Map<String, String> records = new HashMap<>();
     for (Resource resource : aResources) {
       Record record = new Record(resource);
-      record.put(Record.DATE_CREATED, aMetadata.get(Record.DATE_CREATED));
-      record.put(Record.DATE_MODIFIED, aMetadata.get(TripleCommit.Header.DATE_HEADER));
-      record.put(Record.AUTHOR, aMetadata.get(TripleCommit.Header.AUTHOR_HEADER));
+      for (String key : aMetadata.keySet()) {
+        record.put(key, aMetadata.get(key));
+      }
       records.put(record.getId(), record.toString());
     }
     addJson(records, Record.TYPE);
@@ -84,14 +86,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-    Map<String, Object> resourceMap = getDocument(Record.TYPE, aId);
-    if (resourceMap != null) {
-      return unwrapRecord(Resource.fromMap(resourceMap));
-    }
-    return null;
-  }
-
-  public Resource getRecord(@Nonnull String aId) {
     return Resource.fromMap(getDocument(Record.TYPE, aId));
   }
 
@@ -100,7 +94,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     for (Map<String, Object> doc : getDocuments(aField, aValue)) {
       resources.add(Resource.fromMap(doc));
     }
-    return unwrapRecords(resources);
+    return resources;
   }
 
   @Override
@@ -110,7 +104,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       .concat(JsonLdConstants.TYPE), aType)) {
       resources.add(Resource.fromMap(doc));
     }
-    return unwrapRecords(resources);
+    return resources;
   }
 
   @Override
@@ -120,7 +114,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       return null;
     }
     Logger.debug("DELETING " + aId);
-    boolean found = deleteDocument(Record.TYPE, resource.getId().concat(".").concat(Record.RESOURCE_KEY));
+    boolean found = deleteDocument(Record.TYPE, resource.getId());
     refreshIndex(mConfig.getIndex());
     if (found) {
       return resource;
@@ -179,7 +173,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
-      Resource match = unwrapRecord(Resource.fromMap(searchHits.next().sourceAsMap()));
+      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
     // FIXME: response.toString returns string serializations of scripted keys
@@ -187,18 +181,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
       aFilters, aAggregations);
 
-  }
-
-  private List<Resource> unwrapRecords(List<Resource> aRecords) {
-    List<Resource> resources = new ArrayList<>();
-    for (Resource rec : aRecords) {
-      resources.add(unwrapRecord(rec));
-    }
-    return resources;
-  }
-
-  private Resource unwrapRecord(Resource aRecord) {
-    return aRecord.getAsResource(Record.RESOURCE_KEY);
   }
 
   /**
@@ -234,7 +216,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  public List<Map<String, Object>> getDocuments(final String aField, final Object aValue) {
+  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue) {
     final int docsPerPage = 1024;
     int count = 0;
     SearchResponse response = null;
@@ -258,20 +240,20 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aIdentifier
    * @return the document as Map of String/Object
    */
-  public Map<String, Object> getDocument(@Nonnull final String aType,
+  private Map<String, Object> getDocument(@Nonnull final String aType,
                                          @Nonnull final String aIdentifier) {
     final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
   }
 
-  public boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
     final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
       .execute().actionGet();
     return response.isFound();
   }
 
-  public SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
+  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
 
@@ -290,7 +272,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  public SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
+  private SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
     aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
@@ -360,9 +342,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
       for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
         BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
-        for (String filter : entry.getValue()) {
-          // This could also be 'must' queries, allowing to narrow down the result list
-          orFilterBuilder.should(QueryBuilders.termQuery(entry.getKey(), filter));
+        String filterName = entry.getKey();
+        for (String filterValue : entry.getValue()) {
+          if (filterName.endsWith(".GTE")) {
+            filterName = filterName.substring(0, filterName.length()-".GTE".length());
+            orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
+          } else {
+            // This could also be 'must' queries, allowing to narrow down the result list
+            orFilterBuilder.should(QueryBuilders.termQuery(filterName, filterValue));
+          }
         }
         aggregationAndFilter.must(orFilterBuilder);
       }
@@ -402,7 +390,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
-  public void refreshIndex(String aIndex) {
+  private void refreshIndex(String aIndex) {
     try {
       mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
     } catch (IndexNotFoundException e) {
