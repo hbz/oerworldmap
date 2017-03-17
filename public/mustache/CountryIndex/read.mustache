@@ -121,6 +121,25 @@
             </div>
         </form>
 
+        <form id="form-resource-add-webpage" method="post" class="clearfix visible-modal" action="/resource/">
+
+            <div class="modal-title">
+                <h1>Add Bookmark</h1>
+                <div class="right">
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                </div>
+            </div>
+
+            <div class="messages resource-form-widget"></div>
+
+            {{> ResourceIndex/WebPage/edit.mustache}}
+
+            <div class="pull-right resource-form-top-padding">
+                <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
+                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            </div>
+        </form>
+
     </div>
 
 {{/if}}
@@ -136,29 +155,31 @@
         {{#if champions}}
             <div data-behaviour="carousel">
                 {{#champions}}
-                    <div class="country-champion">
+                    {{#about}}
+                        <div class="country-champion">
 
-                        {{#image}}
-                            <img src="{{.}}" class="img" />
-                        {{/image}}
-                        {{^image}}
-                            <div class="img placeholder-image-qmark"></div>
-                        {{/image}}
+                            {{#image}}
+                                <img src="{{.}}" class="img" />
+                            {{/image}}
+                            {{^image}}
+                                <div class="img placeholder-image-qmark"></div>
+                            {{/image}}
 
-                        <div class="text">
-                            <h4>Country Champion</h4>
+                            <div class="text">
+                                <h4>Country Champion</h4>
 
-                            <ul class="resource-list truncated"><li>
-                                {{>ResourceIndex/link.mustache}}
-                            </li></ul>
+                                <ul class="resource-list truncated"><li>
+                                    {{>ResourceIndex/link.mustache}}
+                                </li></ul>
 
-                            <p>
-                                <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                            </p>
+                                <p>
+                                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                                </p>
+
+                            </div>
 
                         </div>
-
-                    </div>
+                    {{/about}}
                 {{/champions}}
             </div>
         {{else}}
@@ -198,6 +219,21 @@
 
     </div>
 
+    {{#if scope.reports}}
+        <div class="column-section-new" id="country-statistics">
+            <h3>Country reports</h3>
+            <ul class="resource-list" data-app="link-to-fragment">
+                {{#scope.reports}}
+                    {{#about}}
+                        <li about="{{@id}}">
+                            {{>ResourceIndex/link.mustache}}
+                        </li>
+                    {{/about}}
+                {{/scope.reports}}
+            </ul>
+        </div>
+    {{/if}}
+
     <div class="column-section-new last" data-behaviour="geoFilteredList">
 
         <div class="p">
@@ -220,12 +256,14 @@
 
         <ul class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
             <script type="application/ld+json">
-                {{{resources.member}}}
+                {{json (unwrapResources scope.resources.member)}}
             </script>
             {{#resources.member}}
-                <li about="{{@id}}">
-                    {{>ResourceIndex/link.mustache}}
-                </li>
+                {{#about}}
+                    <li about="{{@id}}">
+                        {{>ResourceIndex/link.mustache}}
+                    </li>
+                {{/about}}
             {{/resources.member}}
         </ul>
         {{^resources}}

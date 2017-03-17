@@ -1,0 +1,55 @@
+{
+  "recordedIn" : [ "https://docs.google.com/spreadsheets/d/14xlMTyv1yJOCUFC94hKN_maM7Q53h96WVDNeV6q2PNg/edit#gid=8743918", "http://www.slideshare.net/search/slideshow?searchfrom=header&q=opened16" ],
+  "image" : "http://openedconference.org/2016/wp-content/uploads/2016/03/opened-logo.png",
+  "attendee" : [ {
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Michele P Howard",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:ff73ca5f-c39d-4f12-b838-3e6b759e2aa4"
+  } ],
+  "performer" : [ {
+    "@type" : "Person",
+    "name" : [ {
+      "@value" : "Jamison R. Miller",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:ecfa38aa-e45b-49a6-a2d3-af075967ae55"
+  } ],
+  "@type" : "Event",
+  "about" : [ {
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Education",
+      "@language" : "en"
+    } ],
+    "@id" : "https://w3id.org/class/esc/n01"
+  } ],
+  "inLanguage" : [ "en" ],
+  "alternateName" : [ {
+    "@value" : "OpenEd16",
+    "@language" : "en"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://openedconference.org/2016/",
+  "name" : [ {
+    "@value" : "13th Annual Open Education Conference",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : -77.437407,
+      "lat" : 37.543797
+    },
+    "address" : {
+      "addressCountry" : "US",
+      "streetAddress" : "Greater Richmond Convention Center",
+      "addressLocality" : "Richmond",
+      "addressRegion" : "US.VA"
+    }
+  },
+  "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4",
+  "hashtag" : "#OpenEd16",
+  "sameAs" : [ "https://openeducation2016.sched.org/" ]
+}

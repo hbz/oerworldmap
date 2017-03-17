@@ -176,5 +176,17 @@
         }
       ]
     }
+  ],
+  "memberOf": [
+    {
+      "@id": "urn:uuid:f00efbcc-ed21-11e6-8c46-6724b618a486",
+      "@type": "Organization",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Test Organization"
+        }
+      ]
+    }
   ]
 }

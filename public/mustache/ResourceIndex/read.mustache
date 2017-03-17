@@ -2,17 +2,9 @@
 
     {{#scope}}
 
-        {{#resource}}
+        {{#resource.about}}
 
             <ul class="resource-controls">
-
-                {{#if ../permissions.log}}
-                    <li>
-                        <a target="_blank" href="/log/{{[@id]}}" class="icon-btn">
-                            <i class="fa fa-history"></i>
-                        </a>
-                    </li>
-                {{/if}}
 
                 {{#if ../permissions.edit}}
                     <li>
@@ -48,6 +40,11 @@
 
                     <div class="topline">
                         {{getIcon [@type]}} <strong>{{i18n [@type]}}</strong>
+                        {{#if ../permissions.log}}
+                            &nbsp;(last modified <a target="_blank" href="/log/{{[@id]}}">{{moment resource.dateModified "D. MMM YYYY"}}</a>)
+                        {{else}}
+                            &nbsp;(last modified {{moment resource.dateModified "D. MMM YYYY"}})
+                        {{/if}}
                     </div>
 
                     <h1 class="resource-title">
@@ -243,7 +240,7 @@
                             <td>
                                 <ul>
                                     {{#each (reduceSkos @root.skos.isced audience)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="audience"}}</li>
                                     {{/each}}
                                 </ul>
                             </td>
@@ -282,7 +279,7 @@
                             <td>
                                 <ul>
                                     {{#each (reduceSkos @root.skos.esc about)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache .}}</li>
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="about"}}</li>
                                     {{/each}}
                                 </ul>
                             </td>
@@ -858,7 +855,7 @@
 
             </div>
 
-        {{/resource}}
+        {{/resource.about}}
 
     {{/scope}}
 

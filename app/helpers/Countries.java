@@ -12,11 +12,19 @@ public class Countries {
 
     List<Map<String,String>> countryList = new ArrayList<>();
 
+    // Hard-coded workaround for Kosovo
+    Map<String, String> kosovo = new HashMap<>();
+    kosovo.put("name", "Kosovo");
+    kosovo.put("alpha-2", "XK");
+    kosovo.put("alpha-3", "UNK");
+    countryList.add(kosovo);
+
     for (String countryCode : Locale.getISOCountries()) {
       Locale country = new Locale("en", countryCode);
       Map<String, String> entry = new HashMap<>();
       entry.put("name", country.getDisplayCountry(aLocale));
       entry.put("alpha-2", country.getCountry());
+      entry.put("alpha-3", country.getISO3Country());
       countryList.add(entry);
     }
 
@@ -32,8 +40,25 @@ public class Countries {
 
   }
 
+  public static List<String> synonyms() {
+    List<String> countries = new ArrayList<>();
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale locale = new Locale("en", countryCode);
+      Set<String> country = new HashSet<>();
+      for (String languageCode : Locale.getISOLanguages()) {
+        country.add(locale.getDisplayCountry(new Locale(languageCode)));
+      }
+      countries.add(countryCode.concat(",").concat(String.join(",", country)).toLowerCase());
+    }
+    return countries;
+  }
+
   public static Map<String,String> map(Locale aLocale) {
     Map<String,String> countryMap = new HashMap<>();
+
+    // Hard-coded workaround for Kosovo
+    countryMap.put("XK", "Kosovo");
+
     for (String countryCode : Locale.getISOCountries()) {
       Locale country = new Locale("en", countryCode);
       countryMap.put(country.getCountry(), country.getDisplayCountry(aLocale));

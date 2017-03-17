@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.github.jknack.handlebars.Options;
 
 import controllers.OERWorldMap;
+import models.Resource;
 import play.Logger;
 
 /**
@@ -85,6 +86,11 @@ public class HandlebarsHelpers {
         }
       }
     }
+  }
+
+  public static CharSequence getUser(String aAccount, Options options) throws IOException {
+    Resource user = mController.getUser(aAccount);
+    return user != null ? options.fn(user) : options.inverse();
   }
 
 }

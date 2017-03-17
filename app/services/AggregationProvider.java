@@ -8,6 +8,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 import models.Record;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.sort.SortOrder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,8 +82,8 @@ public class AggregationProvider {
         .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(aSize)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
-            .filter("champions")
-            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+          .filter("champions")
+          .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
@@ -118,6 +120,17 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getFunderAggregation(int aSize) {
     return AggregationBuilders.terms("about.isFundedBy.isAwardedBy.@id").size(aSize)
       .field("about.isFundedBy.isAwardedBy.@id");
+  }
+
+  public static AggregationBuilder<?> getEventCalendarAggregation() {
+    return AggregationBuilders
+        .dateHistogram("about.startDate.GTE")
+        .field("about.startDate")
+        .interval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
+            .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
+              "about.location"}, null)
+              .addSort("about.startDate", SortOrder.ASC).setSize(Integer.MAX_VALUE)
+          );
   }
 
 }

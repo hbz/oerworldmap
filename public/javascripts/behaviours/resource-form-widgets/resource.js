@@ -117,7 +117,7 @@ var Hijax = (function ($, Hijax) {
                   return settings;
                 },
                 transform: function(response) {
-                  return response.member;
+                  return response.member.map(function(member) { return member.about });
                 }
               },
               identify: function(result){
