@@ -69,8 +69,11 @@ public class UserIndex extends OERWorldMap {
     String username = user.getAsString("email");
     String password = user.getAsString("password");
     String confirm = user.getAsString("password-confirm");
+    boolean emailToProfile = user.getAsString("add-email") != null;
+
     user.remove("password");
     user.remove("password-confirm");
+    user.remove("add-email");
 
     ProcessingReport processingReport = user.validate();
 
@@ -91,6 +94,7 @@ public class UserIndex extends OERWorldMap {
       if (token == null) {
         result = badRequest("Failed to add " . concat(username));
       } else {
+        user.put("add-email", emailToProfile);
         try {
           saveProfile(token, user);
         } catch (IOException e) {
@@ -119,7 +123,6 @@ public class UserIndex extends OERWorldMap {
     } else {
       String username = mAccountService.verifyToken(token);
       if (username != null) {
-
         saveProfileToDb(token);
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
@@ -318,8 +321,14 @@ public class UserIndex extends OERWorldMap {
     if (person == null || !profile.delete()) {
       throw new IOException("Could not process profile for " + aToken);
     }
+    String username = person.getAsString("email");
+    boolean addEmailToProfile = (boolean) person.get("add-email");
+    person.remove("add-email");
+    if (!addEmailToProfile) {
+      person.remove("email");
+    }
     mBaseRepository.addResource(person, getMetadata());
-    mAccountService.setProfileId(person.getAsString("email"), person.getId());
+    mAccountService.setProfileId(username, person.getId());
 
   }
 
