@@ -13,6 +13,8 @@ data/*/
 !data/travis/
 repo-deb-build*.*
 .idea/
+import/ical/*.json
+import/**/*.pyc
 /node_modules/
 /public/css/main.css
 data/permissions/*
