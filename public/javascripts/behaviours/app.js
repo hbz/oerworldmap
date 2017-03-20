@@ -10,7 +10,7 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login"];
 
   var init_app = true;
 
@@ -273,14 +273,6 @@ var Hijax = (function ($, Hijax, page) {
     }
   }
 
-  function route_login(pagejs_ctx) {
-    log.debug('APP route_login', pagejs_ctx);
-
-    $.get('/.login', function(){
-      window.location = "/";
-    });
-  }
-
   function route_default(pagejs_ctx, next) {
     log.debug('APP route_default', pagejs_ctx);
     if(! pagejs_ctx.native_fragment) {
@@ -367,7 +359,6 @@ var Hijax = (function ($, Hijax, page) {
       // setup non-app (currently static) and login routes
 
       page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_start, route_static, routing_done);
-      page('/.login', route_start, route_login, routing_done);
 
       // after all app routes ...
 

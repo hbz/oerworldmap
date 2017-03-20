@@ -567,7 +567,7 @@ var Hijax = (function ($, Hijax) {
 
       var focusIds = false;
 
-    } else {
+    } else if (dataFocus) {
 
       // should be list of ids in this case
       var focusIds = dataFocus.trim().split(" ");
