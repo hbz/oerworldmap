@@ -13,7 +13,7 @@ data/*/
 !data/travis/
 repo-deb-build*.*
 .idea/
-import/ical/*.json
+import/iCal/*.json
 import/**/*.pyc
 /node_modules/
 /public/css/main.css
