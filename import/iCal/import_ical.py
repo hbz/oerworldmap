@@ -30,7 +30,12 @@ def read_next_event(buffer):
 
 
 def format_date(date_string):
-    # TODO
+    # TODO: For now, this function always returns a date time as UTC formatted. Implement time zone reference.
+    if not date_string.endswith('Z'):
+        date_string = date_string + 'Z'
+    match = re.search(re.compile(r"([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})Z"), date_string)
+    if match:
+        return str(match.group(1) + '-' + match.group(2) + '-' + match.group(3) + 'T' + match.group(4) + ':' + match.group(5) + ':' + match.group(6) + 'Z')
     return date_string
 
 
