@@ -457,9 +457,10 @@ public class ResourceIndex extends OERWorldMap {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {
         String username = mAccountService.getUsername(aId);
-        if (mAccountService.removePermissions(aId)
-          && mAccountService.setProfileId(username, null)
-          && mAccountService.deleteUser(username)) {
+        boolean permissionRemoved = mAccountService.removePermissions(aId);
+        boolean profileIdRemoved = mAccountService.setProfileId(username, null);
+        boolean userDeleted = mAccountService.deleteUser(username);
+        if (permissionRemoved && profileIdRemoved && userDeleted) {
           return ok("deleted user " + aId);
         } else {
           return badRequest("Failed to delete user " + aId);
