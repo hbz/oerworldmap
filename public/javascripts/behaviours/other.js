@@ -263,7 +263,7 @@ var Hijax = (function ($, Hijax) {
         .not('[data-dont-behave] [data-behaviour~="continue-link"]')
         .each(function()
       {
-        $(this).attr("href", $(this).attr("href") + "?continue=" + $('#app-modal').data('url_before'));
+        $(this).attr("href", $(this).attr("href") + "?continue=" + encodeURIComponent($('#app-modal').data('url_before')));
       });
 
     },

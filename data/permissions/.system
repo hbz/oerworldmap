@@ -1,10 +1,11 @@
 ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a href=/user/password>reset password</a>."
 
 RewriteEngine On
+RewriteMap unescape int:unescape
 RewriteCond %{LA-U:REMOTE_USER} !^$
 RewriteCond %{REQUEST_URI}  ^/.login$
 RewriteCond %{QUERY_STRING} ^continue=(.*)$
-RewriteRule ^/.login$ %1 [R=302,L,QSD,NE]
+RewriteRule ^/.login$ ${unescape:%1} [R=302,L,QSD,NE]
 
 <proxy *>
   Redirect "/.login" "/"
