@@ -29,11 +29,46 @@ def read_next_event(buffer):
     return read_until(buffer, "BEGIN:END\n")
 
 
+def format_date(date_string):
+    # TODO
+    return date_string
+
+
 def lines_to_resource(header, event, language):
-    resource = {}
+    resource = {'@type': 'Event', '@context': 'https://oerworldmap.org/assets/json/context.json'}
+    location = {}
     for line in event:
+        if line.endswith('\n'):
+            line = line[:-1]
         if line.startswith("SUMMARY:"):
-            resource['@value'] = line
+            name = {'@value': line[8:], '@language': language}
+            resource['name'] = [name]
+        elif line.startswith("DTSTART:"):
+            resource['startDate'] = format_date(line[8:])
+        elif line.startswith("DTEND:"):
+            resource['endDate'] = format_date(line[6:])
+        elif line.startswith("GEO:"):
+            coordinates = line[4:].split(";")
+            geo = {'lat': coordinates[0], 'lon': coordinates[1]}
+            location['geo'] = geo
+        elif line.startswith("LOCATION:"):
+            # TODO: split address into "addressCountry", "streetAddress", "postalCode" and "addressLocality"
+            location['address'] = line[9:]
+        elif line.startswith("ORGANIZER:"):
+            name = {'@value': line[10:], '@language': language}
+            organizer = {'name': [name]}
+            # TODO: determine '@type' and '@id' of organizer
+            resource['organizer'] = organizer
+        elif line.startswith("UID:"):
+            line = line[4:]
+            if line.startswith("urn:uuid:"):
+                resource['@id'] = line
+            else:
+                resource['@id'] = uuid.uuid4().urn
+        elif line.startswith("URL:"):
+            resource['url'] = line[4:]
+        if location:
+            resource['location'] = location
     return resource
 
 
