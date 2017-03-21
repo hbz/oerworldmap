@@ -1,0 +1,31 @@
+{{#if serviceType}}
+    <span>
+        {{#serviceType}}
+            {{.}}{{#unless @last}},{{/unless}}
+        {{/serviceType}}
+    </span>
+{{/if}}
+
+{{#if provider}}
+    <span>
+        Provider:
+        {{#provider}}
+            <a href="/resource/{{@id}}">
+                {{#localized this.name language=@root.language}}
+                    {{[@value]}}
+                {{else}}
+                    {{[@id]}}
+                {{/localized}}
+            </a>{{#unless @last}},{{/unless}}
+        {{/provider}}
+    </span>
+{{/if}}
+
+{{#if additionalType}}
+    <span>
+        Additional Type:
+        {{#additionalType}}
+            {{.}}{{#unless @last}},{{/unless}}
+        {{/additionalType}}
+    </span>
+{{/if}}

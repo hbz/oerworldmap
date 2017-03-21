@@ -55,45 +55,9 @@
                         {{/localized}}
                     </h1>
 
-                    {{#serviceType}}
-                        <div class="resource-subline">
-                            <div class="resource-subline-label">Service Type</div>
-                            {{.}}
-                        </div>
-                    {{/serviceType}}
-
-                    {{#additionalType}}
-                        <div class="resource-subline">
-                            <div class="resource-subline-label">Additional Type</div>
-                            {{.}}
-                        </div>
-                    {{/additionalType}}
-
-                    {{#if creator}}
-                        <div class="resource-subline">
-                            <div class="resource-subline-label">Contributed</div>{{#dateCreated}} on {{.}} {{/dateCreated}}by
-                            <ul class="comma-seperated-list">
-                                {{#creator}}
-                                    <li>
-                                        <a href="/resource/{{@id}}">
-                                            {{#localized name language=@root.language}}
-                                                {{[@value]}}
-                                            {{else}}
-                                                {{[@id]}}
-                                            {{/localized}}
-                                        </a>
-                                    </li>
-                                {{/creator}}
-                            </ul>
-                        </div>
-                    {{/if}}
-
-                    {{#countryChampionFor}}
-                        <div class="resource-subline">
-                            {{i18n (stringFormat "%s.countryChampionFor" @type)}}
-                            <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
-                        </div>
-                    {{/countryChampionFor}}
+                    <div class="subtitle">
+                        {{> (stringFormat "ResourceIndex/%s/subtitle.mustache" @type)}}
+                    </div>
 
                 </div>
 
