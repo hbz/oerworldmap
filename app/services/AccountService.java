@@ -21,6 +21,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 /**
@@ -65,6 +66,15 @@ public class AccountService {
     }
 
     refresh();
+
+  }
+
+  public boolean removePermissions(String aId) {
+
+    String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
+    boolean status = FileUtils.deleteQuietly(new File(mPermissionsDir, fileName));
+    refresh();
+    return status;
 
   }
 
@@ -316,12 +326,18 @@ public class AccountService {
       List<String> profileDb = Files.readAllLines(mProfileFile.toPath());
       for (final ListIterator<String> i = profileDb.listIterator(); i.hasNext();) {
         if (i.next().startsWith(username)) {
-          i.set(username.concat(" ").concat(profileId));
+          if (StringUtils.isEmpty(profileId)) {
+            i.remove();
+          } else {
+            i.set(username.concat(" ").concat(profileId));
+          }
           FileUtils.writeLines(mProfileFile, profileDb);
           return true;
         }
       }
-      FileUtils.writeLines(mProfileFile, Collections.singletonList(username.concat(" ").concat(profileId)), true);
+      if (!StringUtils.isEmpty(profileId)) {
+        FileUtils.writeLines(mProfileFile, Collections.singletonList(username.concat(" ").concat(profileId)), true);
+      }
       return true;
     } catch (IOException e) {
       Logger.error(e.toString());
@@ -343,6 +359,25 @@ public class AccountService {
       }
     } catch (IOException e) {
       Logger.error("Failed to get profile ID", e);
+    }
+
+    return null;
+
+  }
+
+  public String getUsername(String profileId) {
+
+    try {
+      List<String> lines = Files.readAllLines(mProfileFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(" ");
+        String id = entry[1].trim();
+        if (id.equals(profileId)) {
+          return entry[0].trim();
+        }
+      }
+    } catch (IOException e) {
+      Logger.error("Failed to get user name", e);
     }
 
     return null;
