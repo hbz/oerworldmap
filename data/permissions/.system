@@ -2,14 +2,12 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
 
 RewriteEngine On
 RewriteMap unescape int:unescape
-RewriteCond %{LA-U:REMOTE_USER} !^$
-RewriteCond %{REQUEST_URI}  ^/.login$
+RewriteCond %{REQUEST_URI}  ^/.loggedIn$
 RewriteCond %{QUERY_STRING} ^continue=(.*)$
-RewriteRule ^/.login$ ${unescape:%1} [R=302,L,QSD,NE]
+RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
 
-<proxy *>
-  Redirect "/.login" "/"
-</proxy>
+RewriteCond %{REQUEST_URI}  ^/.loggedIn$
+RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 
 <Location />
   AuthType Basic
@@ -21,6 +19,7 @@ RewriteRule ^/.login$ ${unescape:%1} [R=302,L,QSD,NE]
 
 <Location /.login>
   Require valid-user
+  Redirect "/.login" "/.loggedIn"
 </Location>
 
 <Location /resource/>
