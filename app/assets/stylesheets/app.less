@@ -2,6 +2,86 @@
 @index-min-width: 470px;
 @notification-width: 400px;
 
+
+/* --- columns --- */
+
+#app {
+
+  [data-app="col"] {
+    float: left;
+  }
+
+  // initial state
+  &[data-col-index-mode="floating"][data-col-detail-mode="hidden"] {
+    #app-col-map {
+      width: 100%;
+    }
+  }
+
+  // index visible, detail hidden
+  &[data-col-index-mode="list"][data-col-detail-mode="hidden"] {
+    #app-col-map {
+      width: calc(100% ~"-" @index-min-width);
+    }
+  }
+
+  // index floating, detail expanded
+  &[data-col-index-mode="floating"][data-col-detail-mode="expanded"] {
+    #app-col-map {
+      width: calc(100% ~"-" @index-min-width);
+    }
+  }
+
+  // index visible, detail expanded
+  &[data-col-index-mode="list"][data-col-detail-mode="expanded"] {
+    #app-col-map {
+      width: calc(100% ~"-" (@index-min-width * 2));
+    }
+  }
+
+  #app-col-index {
+    width: @index-min-width;
+    &[data-col-mode="floating"] {
+      margin-left: (@index-min-width * -1);
+    }
+  }
+
+  #app-col-detail {
+    &[data-col-mode="hidden"] {
+      width: 0%;
+    }
+    &[data-col-mode="expanded"] {
+      width: @index-min-width;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+
+    #app-col-detail[data-col-mode="expanded"] {
+      width: calc(100% ~"-" @index-min-width ~"-" 260px);
+    }
+
+    // index floating, detail expanded
+    &[data-col-index-mode="floating"][data-col-detail-mode="expanded"] {
+      #app-col-map {
+        width: (260px + @index-min-width);
+      }
+    }
+
+    // index visible, detail expanded
+    &[data-col-index-mode="list"][data-col-detail-mode="expanded"] {
+      #app-col-map {
+        width: 260px;
+      }
+    }
+
+  }
+
+}
+
+
+/* --- else --- */
+
 .app-visible {
   opacity: 0;
 }
@@ -18,8 +98,6 @@
 
   #app-col-container {
     position: fixed;
-    display: flex;
-    justify-content: center;
 
     left: 0px;
     top: @header-height;
@@ -29,8 +107,6 @@
     background: @blue-palest;
 
     [data-app="col"] {
-      flex-basis: 33.3333%;
-      min-width: 33.333%;
       position: relative;
       height: 100%;
       z-index: 1;
@@ -79,8 +155,6 @@
     #app-col-detail {
       &[data-col-mode="hidden"],
       &[data-col-mode="collapsed"] {
-        flex-basis: 0%;
-        min-width: 0%;
         border-left: none;
       }
     }
@@ -96,9 +170,6 @@
     }
 
     #app-col-index {
-      width: @index-min-width;
-      min-width: @index-min-width;
-      flex-basis: @index-min-width;
 
       &[data-col-mode="floating"] {
         background: transparent;
@@ -140,7 +211,6 @@
     }
 
     #app-col-map {
-      flex: 1 1 auto !important;
 
       #page-footer {
         position: absolute;
