@@ -329,6 +329,7 @@ public class UserIndex extends OERWorldMap {
       person.remove("email");
     }
     mBaseRepository.addResource(person, getMetadata());
+    mAccountService.setPermissions(person.getId(), username);
     mAccountService.setProfileId(username, person.getId());
 
   }
