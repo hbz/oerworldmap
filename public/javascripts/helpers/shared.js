@@ -251,7 +251,8 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('localized', function(list, options) {
 
-  language = options.hash.language.split('-')[0] || navigator.language || navigator.userLanguage || "en";
+  language = options.hash.language || navigator.language || navigator.userLanguage || "en";
+  language = language.split('-')[0];
 
   var result = '';
 
@@ -296,7 +297,8 @@ Handlebars.registerHelper('localized', function(list, options) {
 
 Handlebars.registerHelper('localized_inplace', function(l10n, language_parameter, fallback, prefix, postfix) {
 
-  language = language_parameter.split('-')[0] || navigator.language || navigator.userLanguage || "en";
+  language = language_parameter || navigator.language || navigator.userLanguage || "en";
+  language = language.split('-')[0];
 
   if(l10n && l10n.length) {
 
