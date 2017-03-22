@@ -57,6 +57,17 @@ button:focus {
     max-width: 250px !important; // important to override bootstrap @media print rules
     max-height: 250px !important;
   }
+
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+
+    img {
+      max-width: none !important;
+      max-height: none !important;
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 
 
