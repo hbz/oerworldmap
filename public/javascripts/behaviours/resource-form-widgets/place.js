@@ -143,6 +143,9 @@ var Hijax = (function ($, Hijax) {
           widget.find('[name="location[address][addressCountry]"]').val(
             suggestion.id
           );
+          if(! suggestion.id) {
+            widget.find('[name="location[address][addressRegion]"]').val('');
+          }
           country_dropdown_button.find('.text').text(
             suggestion.label
           );
