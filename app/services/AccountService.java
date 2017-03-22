@@ -318,7 +318,7 @@ public class AccountService {
 
   public boolean setProfileId(String username, String profileId) {
 
-    if (!userExists(username)) {
+    if (!userExists(username) && !StringUtils.isEmpty(profileId)) {
       return false;
     }
 
