@@ -95,7 +95,11 @@ def import_ical_from_string(page_content, language):
 
 def import_ical_from_url(url, language):
     # this function expects a url purely providing a or several iCal event(s)
-    page_content = read_content_from_url(url)
+    if url.startswith('file://'):
+        page_content = read_content_from_file(url, 'utf-8')
+        # TODO: do we need file encoding as a parameter?
+    else:
+        page_content = read_content_from_url(url)
     if not language:
         language = 'en'
     imports = import_ical_from_string(page_content, language)

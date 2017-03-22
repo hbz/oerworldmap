@@ -1,4 +1,4 @@
-import BeautifulSoup, urllib2, json, re, os, sys, urlparse, pycountry, datetime, base64, urllib
+import BeautifulSoup, urllib2, json, re, os, sys, urlparse, pycountry, datetime, base64, urllib, codecs
 
 
 def load_ids_from_file(id_file, ids):
@@ -29,3 +29,10 @@ def write_list_into_file(import_list, filename):
             count += 1
     output_file.write("]")
     output_file.close()
+
+
+def read_content_from_file(file, encoding):
+    if file.startswith('file://'):
+        file = file[7:]
+    f = codecs.open(file, 'r', encoding)
+    return f.read()
