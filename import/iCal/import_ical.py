@@ -102,7 +102,7 @@ def import_ical_from_string(page_content, language):
             break
         else:
             event = read_next_event(buffer)
-    return imports
+    return json.dumps(imports, indent=2)
 
 
 def import_ical_from_url(url, language):
