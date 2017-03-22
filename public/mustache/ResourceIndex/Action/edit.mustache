@@ -8,6 +8,8 @@
 
     {{> FormElements/localizedInput.mustache property=name property_path="name" title=(i18n "Action.name") tooltip=(i18n "Action.name" bundle="descriptions")}}
 
+    {{> FormElements/localizedInput.mustache property=displayName property_path="displayName" title=(i18n "Action.displayName") tooltip=(i18n "Action.displayName" bundle="descriptions")}}
+
     {{> FormElements/input.mustache property=additionalType property_path="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
     {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Action.email") tooltip=(i18n "Action.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
@@ -33,7 +35,7 @@
     {{> FormElements/id.mustache property=agent property_path="agent" title=(i18n "Action.agent") tooltip=(i18n "Action.agent" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
     {{> FormElements/id.mustache property=participant property_path="participant" title=(i18n "Action.participant") tooltip=(i18n "Action.participant" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
-    
+
     {{> FormElements/id.mustache property=memberOf property_path="memberOf" title=(i18n "Action.memberOf") tooltip=(i18n "Action.memberOf" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> FormElements/id.mustache property=affiliate property_path="affiliate" title=(i18n "Action.affiliate") tooltip=(i18n "Action.affiliate" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}

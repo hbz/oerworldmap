@@ -48,10 +48,14 @@
                     </div>
 
                     <h1 class="resource-title">
-                        {{#localized name language=@root.language}}
+                        {{#localized displayName language=@root.language}}
                             {{[@value]}}
                         {{else}}
-                            {{[@id]}}
+                            {{#localized name language=@root.language}}
+                                {{[@value]}}
+                            {{else}}
+                                {{[@id]}}
+                            {{/localized}}
                         {{/localized}}
                         {{localized_inplace alternateName @root.language "" "(" ")"}}
                     </h1>

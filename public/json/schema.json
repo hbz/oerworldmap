@@ -401,6 +401,9 @@
         "alternateName": {
           "$ref": "#/definitions/LocalizedString"
         },
+        "displayName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
         "description": {
           "$ref": "#/definitions/LocalizedString"
         },
@@ -961,6 +964,9 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "displayName": {
           "$ref": "#/definitions/LocalizedString"
         },
         "image": {

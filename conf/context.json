@@ -78,6 +78,10 @@
     "description": {
       "@container": "@set"
     },
+    "displayName": {
+      "@container": "@set",
+      "@id": "https://oerworldmap.org/assets/json/vocab.json#displayName"
+    },
     "funder": {
       "@container": "@set"
     },
