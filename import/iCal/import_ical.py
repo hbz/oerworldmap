@@ -33,7 +33,7 @@ def read_header(buffer):
 
 
 def read_next_event(buffer):
-    return read_until(buffer, "BEGIN:END")
+    return read_until(buffer, "END:VEVENT")
 
 
 def split_address(address_string):
