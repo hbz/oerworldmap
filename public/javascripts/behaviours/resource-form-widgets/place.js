@@ -46,6 +46,7 @@ var Hijax = (function ($, Hijax) {
 
       $('[data-behaviour~="place"]', context)
         .not('[data-dont-behave] [data-behaviour~="place"]')
+        .not('[data-behaviour="collapsed-form-field"]:not(.in) [data-behaviour~="place"]')
         .each(function()
       {
 

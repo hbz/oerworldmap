@@ -259,6 +259,17 @@ var Hijax = (function ($, Hijax) {
         $('#app').removeClass('print-index');
       });
 
+      /* --- collapsed form field --- */
+
+      $('[data-behaviour~="collapsed-form-field"] button', context)
+        .not('[data-dont-behave] [data-behaviour~="print-index"]')
+        .bind('click', function(e)
+      {
+        var $el = $(this).closest('[data-behaviour~="collapsed-form-field"]');
+        $el.addClass('in');
+        Hijax.attachBehaviours($el.find('.collapse'), 'triggered by collapsed-form-field');
+      });
+
     },
 
     attached : []

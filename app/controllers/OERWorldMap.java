@@ -276,7 +276,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("templates", getClientTemplates());
     mustacheData.put("language", getLocale().toLanguageTag());
     mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
-    mustacheData.put("location", getLocation());
+    mustacheData.put("userLocation", getLocation());
     Logger.debug(getLocation());
     Map<String, Object> skos = new HashMap<>();
     try {
