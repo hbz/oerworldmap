@@ -1095,7 +1095,7 @@ var Hijax = (function ($, Hijax) {
         // dirty fix, because us isn't there but countryVectorSource is already ready – WHAT?
         setTimeout(function(){
           my.layout();
-        }, 0);
+        }, 300);
       }
 
     },
