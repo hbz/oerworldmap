@@ -29,6 +29,13 @@ def read_next_event(buffer):
     return read_until(buffer, "BEGIN:END\n")
 
 
+def split_address(address_string):
+    # TODO: split address into "addressCountry", "streetAddress", "postalCode" and "addressLocality"
+    # split = address_string.split(';')
+    # ...
+    return address_string
+
+
 def format_date(date_string):
     # TODO: For now, this function always returns a date time as UTC formatted. Implement time zone reference.
     if not date_string.endswith('Z'):
@@ -57,7 +64,7 @@ def lines_to_resource(header, event, language):
             geo = {'lat': coordinates[0], 'lon': coordinates[1]}
             location['geo'] = geo
         elif line.startswith("LOCATION:"):
-            # TODO: split address into "addressCountry", "streetAddress", "postalCode" and "addressLocality"
+            line = split_address(line)
             location['address'] = line[9:]
         elif line.startswith("ORGANIZER:"):
             name = {'@value': line[10:], '@language': language}
