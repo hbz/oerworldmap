@@ -9,24 +9,31 @@ uuids = {}
 import_list = []
 
 
+def readline(buffer):
+    line = buffer.readline()
+    if line.endswith('\n'):
+        line = line[:-1]
+    return line
+
+
 def read_until(buffer, delimiter_line):
     result = []
-    line = buffer.readline()
+    line = readline(buffer)
     while line:
         if line.__eq__(delimiter_line):
             break
         else:
             result.append(line)
-            line = buffer.readline()
+            line = readline(buffer)
     return result
 
 
 def read_header(buffer):
-    return read_until(buffer, "BEGIN:VEVENT\n")
+    return read_until(buffer, "BEGIN:VEVENT")
 
 
 def read_next_event(buffer):
-    return read_until(buffer, "BEGIN:END\n")
+    return read_until(buffer, "BEGIN:END")
 
 
 def split_address(address_string):
@@ -50,8 +57,6 @@ def lines_to_resource(header, event, language):
     resource = {'@type': 'Event', '@context': 'https://oerworldmap.org/assets/json/context.json'}
     location = {}
     for line in event:
-        if line.endswith('\n'):
-            line = line[:-1]
         if line.startswith("SUMMARY:"):
             name = {'@value': line[8:], '@language': language}
             resource['name'] = [name]
@@ -92,7 +97,7 @@ def import_ical_from_string(page_content, language):
     while event:
         resource = lines_to_resource(header, event, language)
         imports.append(resource)
-        line = buffer.readline()
+        line = readline(buffer)
         if line.__eq__("END:VCALENDAR"):
             break
         else:
