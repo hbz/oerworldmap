@@ -1,16 +1,20 @@
 import BeautifulSoup, urllib2, json, re, os, sys, urlparse, pycountry, datetime, base64, urllib
 
 
-def analyze_location_with_mapzen(location, mapzen_api_key):
-    result = get_json_from_mapzen(location, mapzen_api_key)
+def analyze_location_with_mapzen(location, focus, mapzen_api_key):
+    result = get_json_from_mapzen(location, focus, mapzen_api_key)
     if result and result['features']:
         first_hit = result['features'][0]
         return first_hit_to_json_schema(first_hit)
     return None
 
 
-def get_json_from_mapzen(location, mapzen_api_key):
+def get_json_from_mapzen(location, focus, mapzen_api_key):
     url = 'https://search.mapzen.com/v1/autocomplete?api_key=' + mapzen_api_key + '&text=' + location.encode('utf-8')
+    if not focus is None:
+        url = url + '&focus.point.lat=' + str(focus['lat'])
+        url = url + '&focus.point.lon=' + str(focus['lon'])
+    print 'url: ' + url
     response = urllib2.urlopen(url)
     return json.loads(response.read())
 

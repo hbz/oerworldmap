@@ -37,12 +37,10 @@ def read_next_event(buffer):
     return read_until(buffer, "END:VEVENT")
 
 
-def split_address(address_string):
-    print 'api-key: ' + `sys.argv[5]`
+def split_address(address_string, focus):
     if address_string.startswith('LOCATION:'):
         address_string = address_string[9:]
-    analyze_location_with_mapzen(address_string, sys.argv[5])
-    return address_string
+    return analyze_location_with_mapzen(address_string, focus, sys.argv[5])
 
 
 def format_date(date_string):
@@ -71,8 +69,11 @@ def lines_to_resource(header, event, language):
             geo = {'lat': coordinates[0], 'lon': coordinates[1]}
             location['geo'] = geo
         elif line.startswith("LOCATION:"):
-            line = split_address(line)
-            location['address'] = line[9:]
+            if 'geo' in location:
+                line = split_address(line, location['geo'])
+            else:
+                line = split_address(line, None)
+            location['address'] = line
         elif line.startswith("ORGANIZER:"):
             name = {'@value': line[10:], '@language': language}
             organizer = {'name': [name]}
