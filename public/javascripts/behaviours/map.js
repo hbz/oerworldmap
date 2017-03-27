@@ -1175,7 +1175,8 @@ var Hijax = (function ($, Hijax) {
 
       markers = {};
       $('[data-behaviour~="populateMap"]', context).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        var wrapped = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        var json = wrapped.map(function(record) { return record.about; });
         addPlacemarks(
           get_markers_from_json(json)
         );
@@ -1209,7 +1210,6 @@ var Hijax = (function ($, Hijax) {
         );
       });
 
-
       // Link list entries to pins
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
@@ -1224,7 +1224,8 @@ var Hijax = (function ($, Hijax) {
           if (script.length) {
 
             // first get the markers that represent hovered resource
-            var json = JSON.parse( script.html() );
+            var wrapped = JSON.parse( script.html() );
+            var json = wrapped.map(function(record) { return record.about; });
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];
