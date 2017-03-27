@@ -27,6 +27,7 @@ import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
+import services.export.GeoJsonExporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -136,6 +137,9 @@ public class ResourceIndex extends OERWorldMap {
         case "ics":
           format = "text/calendar";
           break;
+        case "geojson":
+          format = "application/geo+json";
+          break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
@@ -143,6 +147,8 @@ public class ResourceIndex extends OERWorldMap {
       format = "text/csv";
     } else if (request().accepts("text/calendar")) {
       format = "text/calendar";
+    } else if (request().accepts("application/geo+json")) {
+      format = "application/geo+json";
     } else {
       format = "application/json";
     }
@@ -160,6 +166,9 @@ public class ResourceIndex extends OERWorldMap {
     } //
     else if (format.equals("application/json")) {
       return ok(resourceList.toResource().toString()).as("application/json");
+    }
+    else if (format.equals("application/geo+json")) {
+      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
     }
 
     return notFound("Not found");

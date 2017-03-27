@@ -920,6 +920,8 @@ var Hijax = (function ($, Hijax) {
 
         // Placemark Layer
         placemarksVectorSource = new ol.source.Vector({
+          url: '/resource.geojson',
+          format: new ol.format.GeoJSON(),
           wrapX: true
         });
         placemarksVectorLayer = new ol.layer.Vector({
@@ -976,7 +978,7 @@ var Hijax = (function ($, Hijax) {
         // Map object
         world = new ol.Map({
           //layers: [subNationalVectorLayer, countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
-          layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
+          layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           target: container,
           view: view,
           controls: ol.control.defaults({ attribution: false })
