@@ -1,6 +1,44 @@
 var Hijax = (function ($, Hijax) {
 
-  var container = null,
+  var styles = {
+        placemark : {
+
+          base : function() {
+            return new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 4,
+                stroke: new ol.style.Stroke({
+                  color: '#fff',
+                  width: 1
+                }),
+                fill: new ol.style.Fill({
+                  color: colors["blue-darker-transparent"]
+                })
+              }),
+              zIndex: 1
+            });
+          },
+
+          hover : function() {
+            return new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 6,
+                stroke: new ol.style.Stroke({
+                  color: '#fff',
+                  width: 1
+                }),
+                fill: new ol.style.Fill({
+                  color: colors["orange"]
+                })
+              }),
+              zIndex: 2
+            });
+          }
+
+        },
+      },
+
+      container = null,
       world = null,
       view = null,
       projection = null,
@@ -11,7 +49,9 @@ var Hijax = (function ($, Hijax) {
       subNationalVectorSource = null,
       subNationalVectorLayer = null,
       placemarksVectorSource = null,
-      placemarksVectorLayer = null,
+      placemarksVectorLayer = new ol.layer.Vector({
+        style: styles.placemark.base
+      }),
       clusterSource = null,
       clusterLayer = null,
       mapboxTileSource = null,
@@ -34,124 +74,14 @@ var Hijax = (function ($, Hijax) {
 
       colors = {
         'blue-darker': '#2d567b',
+        'blue-darker-transparent': [45, 86, 123, 0.5],
         'orange': '#fe8a00'
       },
-
-      markers = {},
 
       current_pins = [],
       current_highlights = [],
 
       templates = {},
-
-      styles = {
-        placemark : {
-
-          base : function() {
-            return new ol.style.Style({
-              text: new ol.style.Text({
-                text: '\uf041',
-                font: 'normal 1.5em FontAwesome',
-                textBaseline: 'Bottom',
-                fill: new ol.style.Fill({
-                  color: colors['blue-darker']
-                }),
-                stroke: new ol.style.Stroke({
-                  color: 'white',
-                  width: 4
-                })
-              })
-            });
-          },
-
-          hover : function() {
-            return new ol.style.Style({
-              text: new ol.style.Text({
-                text: '\uf041',
-                font: 'normal 2em FontAwesome',
-                textBaseline: 'Bottom',
-                fill: new ol.style.Fill({
-                  color: colors['orange']
-                }),
-                stroke: new ol.style.Stroke({
-                  color: 'white',
-                  width: 4
-                })
-              })
-            });
-          }
-
-        },
-        cluster : {
-
-          base : function(count) {
-            return new ol.style.Style({
-              image: new ol.style.Circle({
-                radius: 13,
-                stroke: new ol.style.Stroke({
-                  color: '#fff',
-                  width: 2
-                }),
-                fill: new ol.style.Fill({
-                  color: '#244267'
-                })
-              }),
-              text: new ol.style.Text({
-                text: count.toString(),
-                textAlign: 'center',
-                font: 'normal 13px "Source Sans Pro"',
-                fill: new ol.style.Fill({
-                  color: '#fff'
-                })
-              })
-            });
-          },
-
-          hover : function(count) {
-            return new ol.style.Style({
-              image: new ol.style.Circle({
-                radius: 13,
-                stroke: new ol.style.Stroke({
-                  color: '#fff',
-                  width: 2
-                }),
-                fill: new ol.style.Fill({
-                  color: '#fe8a00'
-                })
-              }),
-              text: new ol.style.Text({
-                text: count.toString(),
-                textAlign: 'center',
-                font: 'normal 13px "Source Sans Pro"',
-                fill: new ol.style.Fill({
-                  color: '#fff'
-                })
-              })
-            });
-          }
-
-        },
-        placemark_cluster : {
-
-          base : function(feature) {
-            var count = feature.get('features').length;
-            if(count > 1) {
-              return styles.cluster.base(count);
-            } else {
-              return styles.placemark.base();
-            }
-          },
-
-          hover : function(feature) {
-            var count = feature.get('features').length;
-            if(count > 1) {
-              return styles.cluster.hover(count);
-            } else {
-              return styles.placemark.hover();
-            }
-          }
-        }
-      },
 
       hoverState = {
         id : false,
@@ -677,90 +607,6 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function getMarkers(resource, labelCallback, origin) {
-    origin = origin || resource;
-
-    if (markers[resource['@id']]) {
-      for (var i = 0; i < markers[resource['@id']].length; i++) {
-        var properties = markers[resource['@id']][i].getProperties();
-        if (properties.resource['@id'] != origin['@id'] && properties.resource.referencedBy) {
-          var referenced = properties.resource.referencedBy.reduce(function(previousValue, currentValue, index, array) {
-            return (previousValue || ( currentValue['@id'] == origin['@id'] ));
-          }, false);
-          if (!referenced) {
-            properties.resource.referencedBy.push(origin);
-          }
-        } else if (resource['@id'] != origin['@id']) {
-          properties.resource.referencedBy = [origin];
-        }
-        markers[resource['@id']][i].setProperties(properties);
-      }
-      return markers[resource['@id']];
-    }
-
-    var locations = [];
-    var _markers = [];
-
-    if (resource.location && resource.location instanceof Array) {
-      locations = locations.concat(resource.location);
-    } else if (resource.location) {
-      locations.push(resource.location);
-    }
-
-    for (var l in locations) {
-      if (geo = locations[l].geo) {
-        var point = new ol.geom.Point(ol.proj.transform([geo['lon'], geo['lat']], 'EPSG:4326', projection.getCode()));
-        if (resource['@id'] != origin['@id'] && resource.referencedBy) {
-          resource.referencedBy.push(origin);
-        } else if (resource['@id'] != origin['@id']) {
-          resource.referencedBy = [origin];
-        }
-        var featureProperties = {
-          resource: resource,
-          geometry: point,
-          url: "/resource/" + resource['@id'],
-          type: resource['@type'],
-        };
-
-        var feature = new ol.Feature(featureProperties);
-        feature.setId(resource['@id']);
-        feature.setStyle(styles['placemark']['base']()); // ... seems not to be necessary
-        _markers.push(feature);
-      }
-    }
-
-    var traverse = [ "mainEntity", "mentions", "member", "agent", "participant", "provider" ]
-
-    if (!_markers.length) {
-      for (var key in resource) {
-        if (traverse.indexOf(key) == -1) {
-          continue;
-        }
-        var value = resource[key];
-        if (value instanceof Array) {
-          for (var i = 0; i < value.length; i++) {
-            if (typeof value[i] == 'object') {
-              _markers = _markers.concat(
-                getMarkers(value[i], labelCallback, origin)
-              );
-            }
-          }
-        } else if (typeof value == 'object') {
-          _markers = _markers.concat(
-            getMarkers(value, labelCallback, origin)
-          );
-        }
-      }
-    }
-
-    if (_markers.length && resource['@id']) {
-      markers[resource['@id']] = _markers;
-    }
-
-    return _markers;
-
-  }
-
   function restrictListToExtent(e) {
 
     var container = $('[data-behaviour~="geoFilteredList"]');
@@ -860,22 +706,6 @@ var Hijax = (function ($, Hijax) {
           source: countryVectorSource
         });
 
-        // Subnational vector source
-        /*
-        subNationalVectorSource = new ol.source.Vector({
-          url: '/assets/json/ne_10m_admin_1_states_provinces_topo.json',
-          format: new ol.format.TopoJSON(),
-          // noWrap: true,
-          wrapX: true
-        });
-
-        // Subnational vector layer
-        subNationalVectorLayer = new ol.layer.Vector({
-          title: 'sub',
-          source: subNationalVectorSource
-        });
-        */
-
         // Mapbox tile source
         var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
         mapboxTileSource = new ol.source.XYZ({
@@ -889,16 +719,6 @@ var Hijax = (function ($, Hijax) {
         // Mapbox tile layer
         mapboxTileLayer = new ol.layer.Tile({
           source: mapboxTileSource
-        });
-
-        // Placemark Layer
-        placemarksVectorSource = new ol.source.Vector({
-          url: '/resource.geojson',
-          format: new ol.format.GeoJSON(),
-          wrapX: true
-        });
-        placemarksVectorLayer = new ol.layer.Vector({
-          source: placemarksVectorSource
         });
 
         // Cluster layer
@@ -955,21 +775,6 @@ var Hijax = (function ($, Hijax) {
           view: view,
           controls: ol.control.defaults({ attribution: false })
         });
-
-        // User position
-/*
-        if (
-          navigator.geolocation &&
-          ! $(this).attr('data-focus')
-        ) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var lon = position.coords.longitude;
-            var center = ol.proj.transform([lon, 0], 'EPSG:4326', projection.getCode());
-            center[1] = defaultCenter[1];
-            world.getView().setCenter(center);
-          });
-        }
-*/
 
         // Bind hover events
         world.on('pointermove', function(evt) {
@@ -1118,33 +923,10 @@ var Hijax = (function ($, Hijax) {
 
     attach : function(context, attached) {
 
-      function get_markers_from_json(json) {
-        var _markers = [];
-        if(json instanceof Array) {
-          for (i in json) {
-            _markers = _markers.concat( getMarkers(json[i]) );
-          }
-        } else {
-          _markers = getMarkers(json, Hijax.behaviours.map.getResourceLabel);
-        }
-        return _markers;
-      }
-
       // creating layouted deferred at the beginning of attached, to schedule actions from inside attach
       // to happen after subsequent layout
 
       my.layouted = $.Deferred();
-
-      // Populate map with pins from resource listings
-
-      markers = {};
-      $('[data-behaviour~="populateMap"]', context).each(function(){
-        var wrapped = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
-        var json = wrapped.map(function(record) { return record.about; });
-        addPlacemarks(
-          get_markers_from_json(json)
-        );
-      });
 
       // Hide entries not in current map extent by examining all markers (including "indirect" ones)
       // for each list entry
@@ -1169,52 +951,27 @@ var Hijax = (function ($, Hijax) {
 
       $('[data-behaviour~="populateMapHightlights"]', context).each(function(){
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
-        highlightPlacemarks(
-          get_markers_from_json(json)
-        );
+        //TODO: re-implement
       });
 
       // Link list entries to pins
-      // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
 
-        var list = this;
-
         $( this ).on("mouseenter", "li[about]", function() {
-
-          var id = this.getAttribute("about");
-          var script = $(list).children('script[type="application/ld+json"]');
-
-          if (script.length) {
-
-            // first get the markers that represent hovered resource
-            var wrapped = JSON.parse( script.html() );
-            var json = wrapped.map(function(record) { return record.about; });
-            var resource = json.filter(function(resource) {
-              return resource['@id'] == id;
-            })[0];
-            var markers = getMarkers(resource);
-
+          var id = $(this).attr("about");
+          var feature = placemarksVectorSource.getFeatureById(id);
+          if (feature) {
+            console.log(feature);
+            feature.setStyle(styles.placemark.hover);
           }
         });
 
         $( this ).on("mouseleave", "li[about]", function() {
-
-          var id = this.getAttribute("about");
-          var script = $(list).children('script[type="application/ld+json"]');
-
-          if (script.length) {
-
-            // first get the markers that represent hovered resource
-            var json = JSON.parse( script.html() );
-            var resource = json.filter(function(resource) {
-              return resource['@id'] == id;
-            })[0];
-            var markers = getMarkers(resource);
-
-
+          var id = $(this).attr("about");
+          var feature = placemarksVectorSource.getFeatureById(id);
+          if (feature) {
+            feature.setStyle(styles.placemark.base);
           }
-
         });
       });
 
@@ -1231,14 +988,6 @@ var Hijax = (function ($, Hijax) {
         var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
         setCountryData( json );
       });
-
-      // Set zoom
-/*
-      $('[data-behaviour="map"]', context).each(function() {
-        // zoom to bounding box, if focus is set
-        setBoundingBox(this);
-      });
-*/
 
       attached.resolve();
 
@@ -1267,8 +1016,15 @@ var Hijax = (function ($, Hijax) {
     setPlacemarksVectorSource : function(url) {
       var parser = document.createElement('a');
       parser.href = url;
+      var source;
+      if (parser.pathname.indexOf("/country/") == 0) {
+        source = "/resource.geojson?filter.about.location.address.addressCountry="
+          + parser.pathname.split("/")[2].toUpperCase();
+      } else {
+        source = parser.pathname.slice(0, -1) + ".geojson" + parser.search;
+      }
       placemarksVectorSource = new ol.source.Vector({
-        url: parser.pathname.slice(0, -1) + ".geojson" + parser.search,
+        url: source,
         format: new ol.format.GeoJSON(),
         wrapX: true
       });
