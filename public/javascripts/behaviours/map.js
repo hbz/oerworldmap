@@ -761,33 +761,6 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function set_style_for_clusters_containing_markers(markers, style, highligted){
-    highligted = highligted || false;
-
-    // iterate over markers and collect the clusters, they are in
-    var clusters = [];
-    for(var i = 0; i < markers.length; i++) {
-      clusterLayer.getSource().forEachFeature(function(f){
-        var cfeatures = f.get('features');
-        for(var j = 0; j < cfeatures.length; j++) {
-          if(markers[i].getId() == cfeatures[j].getId()) {
-            clusters.push(f);
-          }
-        }
-      });
-    }
-
-    // last but not least, change the style of the clusters, we found
-    for(var i = 0; i < clusters.length; i++) {
-      clusters[i].setStyle( styles.placemark_cluster[ style ]( clusters[i] ) );
-      if(highligted) {
-        var properties = clusters[i].getProperties();
-        properties.highligted = true;
-        clusters[i].setProperties(properties);
-      }
-    }
-  }
-
   function restrictListToExtent(e) {
 
     var container = $('[data-behaviour~="geoFilteredList"]');
@@ -977,7 +950,6 @@ var Hijax = (function ($, Hijax) {
 
         // Map object
         world = new ol.Map({
-          //layers: [subNationalVectorLayer, countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, clusterLayer],
           layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           target: container,
           view: view,
@@ -1004,10 +976,6 @@ var Hijax = (function ($, Hijax) {
           if (evt.dragging) { return; }
           var pixel = world.getEventPixel(evt.originalEvent);
           updateHoverState(pixel);
-        });
-
-        world.on('moveend', function(evt) {
-          set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
         });
 
         // Bind click events
@@ -1125,12 +1093,6 @@ var Hijax = (function ($, Hijax) {
           current_pins = current_highlights;
         }
 
-        clusterSource.clear();
-        placemarksVectorSource.clear();
-        placemarksVectorSource.addFeatures(current_pins);
-
-        set_style_for_clusters_containing_markers(current_highlights, 'hover', true);
-
         // check if the behaviours layouted (created at the beginning of attach) is resolved already
         // if so create a local one, otherwise pass the behaviours one ...
         var layouted;
@@ -1233,7 +1195,6 @@ var Hijax = (function ($, Hijax) {
             })[0];
             var markers = getMarkers(resource);
 
-            set_style_for_clusters_containing_markers(markers, 'hover');
           }
         });
 
@@ -1251,27 +1212,6 @@ var Hijax = (function ($, Hijax) {
             })[0];
             var markers = getMarkers(resource);
 
-            set_style_for_clusters_containing_markers(markers, 'base');
-
-/*
-            // iterate over markers and collect the clusters, they are in
-            var clusters = [];
-            for(var i = 0; i < markers.length; i++) {
-              clusterLayer.getSource().forEachFeature(function(f){
-                var cfeatures = f.get('features');
-                for(var j = 0; j < cfeatures.length; j++) {
-                  if(markers[i].getId() == cfeatures[j].getId()) {
-                    clusters.push(f);
-                  }
-                }
-              });
-            }
-
-            // last but not least, change the style of the clusters, we found
-            for(var i = 0; i < clusters.length; i++) {
-              clusters[i].setStyle(styles.placemark_cluster.base(clusters[i]));
-            }
-*/
 
           }
 
@@ -1322,6 +1262,17 @@ var Hijax = (function ($, Hijax) {
       world.getView().fit(extent, world.getSize(), {
         minResolution: 2
       });
+    },
+
+    setPlacemarksVectorSource : function(url) {
+      var parser = document.createElement('a');
+      parser.href = url;
+      placemarksVectorSource = new ol.source.Vector({
+        url: parser.pathname.slice(0, -1) + ".geojson" + parser.search,
+        format: new ol.format.GeoJSON(),
+        wrapX: true
+      });
+      placemarksVectorLayer.setSource(placemarksVectorSource);
     }
 
   };

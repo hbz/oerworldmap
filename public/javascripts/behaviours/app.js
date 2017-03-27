@@ -98,6 +98,7 @@ var Hijax = (function ($, Hijax, page) {
           get_main(data, url)
         );
         map_and_index_source = url;
+        Hijax.behaviours.map.setPlacemarksVectorSource(url);
         map_and_index_loaded.resolve();
       }, function(){
         map_and_index_loaded.resolve();
