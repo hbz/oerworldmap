@@ -1,6 +1,7 @@
 import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib, StringIO
 from ..common.OerWmFiles import *
 from ..common.OerWmUrls import *
+from ..common.OerWmLocations import *
 
 
 path = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
@@ -37,9 +38,10 @@ def read_next_event(buffer):
 
 
 def split_address(address_string):
-    # TODO: split address into "addressCountry", "streetAddress", "postalCode" and "addressLocality"
-    # split = address_string.split(';')
-    # ...
+    print 'api-key: ' + `sys.argv[5]`
+    if address_string.startswith('LOCATION:'):
+        address_string = address_string[9:]
+    analyze_location_with_mapzen(address_string, sys.argv[5])
     return address_string
 
 
@@ -120,8 +122,8 @@ def import_ical_from_url(url, language):
 
 def main():
     global path, uuids, import_list
-    if len(sys.argv) != 5:
-        print 'Usage: python -m import.iCal.import_ical <path>/<to>/import_ical.py <import_url> <language> <path>/<to>/<destination_file.json>'
+    if len(sys.argv) != 6:
+        print 'Usage: python -m import.iCal.import_ical <path>/<to>/import_ical.py <import_url> <language> <path>/<to>/<destination_file.json> <mapzen-api-key>'
         print 'Please provide the iCal event language as ISO 3166 ALPHA 2 country code.'
         return
     load_ids_from_file(path + "id_map.json", uuids)
