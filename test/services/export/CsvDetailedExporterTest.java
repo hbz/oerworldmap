@@ -50,6 +50,19 @@ public class CsvDetailedExporterTest implements JsonTest {
   }
 
   @Test
+  public void testEscapedStringExport() throws IOException {
+    AbstractCsvExporter csvExporter = new CsvDetailedExporter();
+    Resource resource = getResourceFromJsonFile("CsvDetailedExporterTest/testEscapedStringExport.IN.1.json");
+    List<Resource> asList = new ArrayList<>();
+    asList.add(resource);
+    csvExporter.defineHeaderColumns(asList);
+    String csv = csvExporter.export(resource);
+    assertEquals(
+      "456;\"Person\";\"Hans is a very sophisticated person, one you would need delimiters to tell his abilities; real delimiters| I mean: many of them. Plenty.\";\"Hans Dampf\"",
+      csv);
+  }
+
+  @Test
   public void testExportResourceList() throws IOException {
     ResourceList multipleEvents = new ResourceList(Arrays.asList(in1, in2),
       0, null, 0, 0, null, null, null);
