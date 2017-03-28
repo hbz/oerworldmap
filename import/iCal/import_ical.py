@@ -41,7 +41,9 @@ def read_next_event(buffer):
 
 def split_address(address_string, focus):
     if address_string.startswith('LOCATION:'):
-        address_string = address_string[9:]
+        address_string = address_string[9:].strip()
+    if address_string.__eq__(''):
+        return None
     return analyze_location_with_mapzen(address_string, focus, sys.argv[5])
 
 
@@ -75,7 +77,8 @@ def lines_to_resource(header, event, language):
                 line = split_address(line, location['geo'])
             else:
                 line = split_address(line, None)
-            location['address'] = line
+            if not line is None:
+                location['address'] = line
         elif line.startswith("ORGANIZER:"):
             name = {'@value': line[10:], '@language': language}
             organizer = {'name': [name]}
