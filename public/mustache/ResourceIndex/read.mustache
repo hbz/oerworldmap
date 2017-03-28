@@ -190,17 +190,6 @@
 
                     {{! --- content --- }}
 
-                    {{#if hashtag}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
-                            <td>
-                                <a href="https://twitter.com/search?q={{encodeURIComponent hashtag}}" target="_blank">
-                                    {{hashtag}}
-                                </a>
-                            </td>
-                        </tr>
-                    {{/if}}
-
                     {{#if about}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.about" @type)}}</td>
@@ -251,6 +240,17 @@
                                         <li>{{i18n . bundle = "languages"}}</li>
                                     {{/inLanguage}}
                                 </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if hashtag}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
+                            <td>
+                                <a href="https://twitter.com/search?q={{encodeURIComponent hashtag}}" target="_blank">
+                                    {{hashtag}}
+                                </a>
                             </td>
                         </tr>
                     {{/if}}
@@ -392,6 +392,34 @@
 
                     {{! --- }}
 
+                    {{#isFundedBy}}
+
+                        {{#if this.isAwardedBy}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.isAwardedBy" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#isAwardedBy}}
+                                            <li>{{>ResourceIndex/link.mustache}}</li>
+                                        {{/isAwardedBy}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+
+                        {{#if this.hasMonetaryValue}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.hasMonetaryValue" @type)}}</td>
+                                <td>
+                                    {{hasMonetaryValue}}
+                                </td>
+                            </tr>
+                        {{/if}}
+
+                    {{/isFundedBy}}
+
+                    {{! --- }}
+
                     {{#if hasPart}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.hasPart" @type)}}</td>
@@ -434,32 +462,6 @@
                             </td>
                         </tr>
                     {{/if}}
-
-                    {{#isFundedBy}}
-
-                        {{#if this.isAwardedBy}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.isAwardedBy" @type)}}</td>
-                                <td>
-                                    <ul class="resource-list">
-                                        {{#isAwardedBy}}
-                                            <li>{{>ResourceIndex/link.mustache}}</li>
-                                        {{/isAwardedBy}}
-                                    </ul>
-                                </td>
-                            </tr>
-                        {{/if}}
-
-                        {{#if this.hasMonetaryValue}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.hasMonetaryValue" @type)}}</td>
-                                <td>
-                                    {{hasMonetaryValue}}
-                                </td>
-                            </tr>
-                        {{/if}}
-
-                    {{/isFundedBy}}
 
                     {{! --- }}
 
