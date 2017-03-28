@@ -52,7 +52,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
       while (it.hasNext()) {
         flattenResourceElement(it.next());
       }
-      return fieldValuesToCsvString();
+      return fieldValuesToCsvString(mValues);
     }
   }
 
@@ -119,17 +119,6 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
 
   private int getIndexInHeader(String aFieldName) {
     return mKeys.contains(aFieldName) ? mKeys.headSet(aFieldName).size() : -1;
-  }
-
-  private String fieldValuesToCsvString() {
-    StringBuffer csv = new StringBuffer("");
-    if (mValues.length > 0) {
-      csv.append(mValues[0]);
-    }
-    for (int i = 1; i < mValues.length; i++) {
-      csv.append(";").append(mValues[i]);
-    }
-    return csv.toString();
   }
 
   @Override

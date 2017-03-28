@@ -2,6 +2,7 @@ package services.export;
 
 import models.Resource;
 import models.ResourceList;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -53,4 +54,25 @@ public interface AbstractCsvExporter extends Exporter{
    * @return a String containing all columns, resp. field names of the data set
    */
   String headerKeysToCsvString();
+
+
+  default String fieldValuesToCsvString(String[] aValues) {
+    StringBuffer csv = new StringBuffer("");
+    if (aValues.length > 0) {
+      csv.append(formatCellContent(aValues[0]));
+    }
+    for (int i = 1; i < aValues.length; i++) {
+      csv.append(";").append(formatCellContent(aValues[i]));
+    }
+    return csv.toString();
+  }
+
+
+  default String formatCellContent(String aContent){
+    if (aContent == null || StringUtils.isNumeric(aContent)){
+      return aContent;
+    }
+    String result = aContent.replaceAll("\"", "\\\"");
+    return "\"".concat(result).concat("\"");
+  }
 }
