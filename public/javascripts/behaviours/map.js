@@ -1243,7 +1243,8 @@ var Hijax = (function ($, Hijax) {
           if (script.length) {
 
             // first get the markers that represent hovered resource
-            var json = JSON.parse( script.html() );
+            var wrapped = JSON.parse( script.html() );
+            var json = wrapped.map(function(record) { return record.about; });
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];
