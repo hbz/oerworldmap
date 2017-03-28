@@ -131,6 +131,10 @@ var Hijax = (function ($, Hijax) {
 
   function updateHoverState(pixel, eventType) {
 
+    if(hoverState.persistent) {
+      return;
+    }
+
     // get unique features at pixel
     var features = [];
     var processed = [];
@@ -144,10 +148,12 @@ var Hijax = (function ($, Hijax) {
     // get feature type and so on
     if(features.length) {
 
-      var type = getPopoverType( features );
+      var popoverType = getPopoverType( features );
 
-      if (type == 'placemark') {
-        features = features.filter(function(feature) {return getFeatureType(feature) == "placemark" } );
+      if (popoverType == 'placemark') {
+        features = features.filter(function(feature) {
+          return (getFeatureType(feature) == "placemark");
+        });
       }
 
       var show_popover = true;
@@ -156,17 +162,6 @@ var Hijax = (function ($, Hijax) {
       for (var i = 0; i < features.length; i++) {
         ids += features[i].getId();
       }
-      console.log(ids);
-
-      /*
-      if(type == 'country' || type == 'placemark' || type == 'cluster') {
-        var show_popover = true;
-      } else {
-
-      }
-      */
-
-
     }
 
     // the statemachine ...
@@ -176,16 +171,15 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... nothing hovered yet, but now
 
-      if(! hoverState.persistent) {
-        if(show_popover) {
-          $(popoverElement).show();
-          setPopoverContent( features, type, eventType );
-          setPopoverPosition( features, type, pixel );
-        }
+      if(show_popover) {
+        $(popoverElement).show();
+        setPopoverContent( features, popoverType, eventType );
+        setPopoverPosition( features, popoverType, pixel );
       }
       setFeaturesStyle( features, 'hover' );
       hoverState.ids = ids;
       hoverState.features = features;
+      hoverState.popoverType = popoverType;
       world.getTarget().style.cursor = 'pointer';
 
     } else if(
@@ -195,11 +189,9 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... same features were hovered
 
-      if(! hoverState.persistent) {
-        if(show_popover) {
-          setPopoverContent( features, type, eventType );
-          setPopoverPosition( features, type, pixel );
-        }
+      if(show_popover) {
+        setPopoverContent( features, popoverType, eventType );
+        setPopoverPosition( features, popoverType, pixel );
       }
 
     } else if(
@@ -209,21 +201,19 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... other features were hovered
 
-      if(! hoverState.persistent) {
-        if(show_popover) {
-          $(popoverElement).show();
-          setPopoverContent( features, type, eventType );
-          setPopoverPosition( features, type, pixel );
-        } else {
-          $(popoverElement).hide();
-        }
+      if(show_popover) {
+        $(popoverElement).show();
+        setPopoverContent( features, popoverType, eventType );
+        setPopoverPosition( features, popoverType, pixel );
+      } else {
+        $(popoverElement).hide();
       }
       resetFeaturesStyle( hoverState.features );
       setFeaturesStyle( features, 'hover' );
 
       hoverState.ids = ids;
       hoverState.features = features;
-      console.log("hoverstate features", features);
+      hoverState.popoverType = popoverType;
 
     } else if(
       hoverState.ids &&
@@ -231,12 +221,11 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... features were hovered but now none is
 
-      if(! hoverState.persistent) {
-        $(popoverElement).hide();
-      }
+      $(popoverElement).hide();
       resetFeaturesStyle( hoverState.features );
       hoverState.ids = false;
       hoverState.features = false;
+      hoverState.popoverType = false;
       world.getTarget().style.cursor = '';
 
     } else {
@@ -246,10 +235,8 @@ var Hijax = (function ($, Hijax) {
     }
 
     // FIXME @j0hj0h: this should probably go somewhere else
-    if (world.getView().getZoom() > 8 && (type == "country")) {
-      if(! hoverState.persistent) {
-        $(popoverElement).hide();
-      }
+    if (world.getView().getZoom() > 8 && (popoverType == "country")) {
+      $(popoverElement).hide();
       hoveredCountriesOverlay.setVisible(false);
       world.getTarget().style.cursor = '';
     } else if (show_popover) {
@@ -286,8 +273,6 @@ var Hijax = (function ($, Hijax) {
 
   function resetFeatureStyle( feature ) {
     var feature_type = getFeatureType( feature );
-
-    console.log(feature_type, feature);
 
     if( feature_type == 'placemark') {
       var properties = feature.getProperties();
@@ -347,8 +332,7 @@ var Hijax = (function ($, Hijax) {
       if(total_resources < 6 || eventType == 'click') {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
-          console.log('popover' + properties["@type"], properties);
-          content += templates['popover' + properties["@type"]]({ resource: properties });
+          content += templates['popoverResource']({ resource: properties });
         }
       } else {
         var aggregation = {};
@@ -607,20 +591,13 @@ var Hijax = (function ($, Hijax) {
   }
 
   function zoomToFeatures(features, cluster, pixel) {
-    var zoom_values = getZoomValues();
-    if(world.getView().getZoom() == zoom_values.maxZoom) {
-      updateHoverState(pixel, 'click');
-      hoverState.persistent = true;
-      $('#map').addClass('popover-persistent');
-    } else {
-      var extent = ol.extent.createEmpty();
-      for(var i = 0; i < features.length; i++) {
-        ol.extent.extend(extent, features[i].getGeometry().getExtent());
-      }
-      world.getView().fit(extent, world.getSize(), {
-        minResolution: 2
-      });
+    var extent = ol.extent.createEmpty();
+    for(var i = 0; i < features.length; i++) {
+      ol.extent.extend(extent, features[i].getGeometry().getExtent());
     }
+    world.getView().fit(extent, world.getSize(), {
+      minResolution: 2
+    });
   }
 
   function restrictListToExtent(e) {
@@ -662,7 +639,60 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+  function onPointermove(evt) {
+    if (evt.dragging) { return; }
+    var pixel = world.getEventPixel(evt.originalEvent);
+    updateHoverState(pixel);
+  }
+
+  // #features == 1 : link
+  // #features 2 - 6 : persistent
+  // #features > 6 : zoom
+
+  function onClick(evt) {
+
+    var pixel = world.getEventPixel(evt.originalEvent);
+
+    if(hoverState.persistent) {
+      // persistent popover – just close it
+
+      hoverState.persistent = false;
+      $('#map').removeClass('popover-persistent');
+      $(popoverElement).hide();
+
+    } else if(hoverState.popoverType == "country") {
+      // it's a country – link to it if zoom is not to high, otherwise do nothing
+
+      if(world.getView().getZoom() < 9) {
+        page("/country/" + hoverState.features[0].getId().toLowerCase());
+      }
+
+    } else if(hoverState.features.length == 1) {
+      // just one feature – link to it ...
+
+      Hijax.behaviours.app.linkToFragment( features[0].getProperties()['resource']['@id'] );
+
+    } else if(hoverState.features.length < 7 || world.getView().getZoom() == getZoomValues().maxZoom) {
+      // less then 7 or maximum zoom level – show stacked popover for all hovered features ...
+
+      hoverState.persistent = true;
+      $('#map').addClass('popover-persistent');
+      setPopoverContent(hoverState.features, 'placemark');
+      setPopoverPosition(hoverState.features, 'placemark', pixel);
+
+    } else {
+      // more then 7 and we can zoom – let's do so ...
+
+      zoomToFeatures(hoverState.features);
+      setTimeout(function(){
+        updateHoverState(pixel);
+      }, 300);
+
+    }
+  }
+
   var my = {
+
     init : function(context) {
 
       if (!$('div[data-behaviour="map"]', context).length) {
@@ -705,10 +735,12 @@ var Hijax = (function ($, Hijax) {
         // $('body').removeClass("layout-scroll").addClass("layout-fixed");
 
         // Map container
+
         container = $('<div id="map"></div>')[0];
         $(this).prepend(container);
 
         // Country vector source
+
         countryVectorSource = new ol.source.Vector({
           url: '/assets/json/ne_50m_admin_0_countries_topo.json',
           format: new ol.format.TopoJSON(),
@@ -717,12 +749,14 @@ var Hijax = (function ($, Hijax) {
         });
 
         // Country vector layer
+
         countryVectorLayer = new ol.layer.Vector({
           title: 'country',
           source: countryVectorSource
         });
 
         // Mapbox tile source
+
         var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
         mapboxTileSource = new ol.source.XYZ({
           attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
@@ -733,14 +767,17 @@ var Hijax = (function ($, Hijax) {
         });
 
         // Mapbox tile layer
+
         mapboxTileLayer = new ol.layer.Tile({
           source: mapboxTileSource
         });
 
         // Get zoom values adapted to map size
+
         var zoom_values = getZoomValues();
 
         // View
+
         view = new ol.View({
           center: defaultCenter,
           projection: projection,
@@ -750,6 +787,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // overlay for country hover style
+
         var collection = new ol.Collection();
         hoveredCountriesOverlay = new ol.layer.Vector({
           title: 'country-hover',
@@ -770,6 +808,7 @@ var Hijax = (function ($, Hijax) {
         });
 
         // Map object
+
         world = new ol.Map({
           layers: [countryVectorLayer, mapboxTileLayer, hoveredCountriesOverlay, placemarksVectorLayer],
           target: container,
@@ -777,47 +816,17 @@ var Hijax = (function ($, Hijax) {
           controls: ol.control.defaults({ attribution: false })
         });
 
-        // Bind hover events
-        world.on('pointermove', function(evt) {
-          if (evt.dragging) { return; }
-          var pixel = world.getEventPixel(evt.originalEvent);
-          updateHoverState(pixel);
-        });
+        // bind events
 
-        // Bind click events
-        world.on('click', function(evt) {
-          if(hoverState.persistent) {
-            hoverState.persistent = false;
-            $('#map').removeClass('popover-persistent');
-            $(popoverElement).hide();
-            return;
-          }
-          var feature = world.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-            return feature;
-          });
-          if (feature) {
-            var type = getFeatureType(feature)
-            if (type == "placemark") {
-              var properties = feature.get("features")[0].getProperties();
-              if(properties['resource']['referencedBy']) {
-                updateHoverState(evt.pixel, 'click');
-                hoverState.persistent = true;
-                $('#map').addClass('popover-persistent');
-              } else {
-                Hijax.behaviours.app.linkToFragment( properties['resource']['@id'] );
-              }
-            } else if(type == "country" && world.getView().getZoom() < 9) {
-              page("/country/" + feature.getId().toLowerCase());
-            } else if(type == "cluster") {
-              zoomToFeatures(feature.get("features"), feature, evt.pixel);
-            }
-          }
-        });
+        world.on('pointermove', onPointermove);
+        world.on('click', onClick);
 
         // restrict list to extent
+
         world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
 
         // update currentCenter
+
         world.getView().on('propertychange', _.debounce(function(e) {
           if (e.key == 'center' || e.key == 'resolution') {
             currentCenter = world.getView().getCenter();
@@ -825,6 +834,7 @@ var Hijax = (function ($, Hijax) {
         }, 150));
 
         // init popover
+
         popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
         popover = new ol.Overlay({
           element: popoverElement,
@@ -832,24 +842,22 @@ var Hijax = (function ($, Hijax) {
           stopEvent: false,
           wrapX: true
         });
+
         world.addOverlay(popover);
+
         $(container).mouseleave(function(){
           if(hoverState.features && ! hoverState.persistent) {
             $(popoverElement).hide();
-            resetFeatureStyle( hoverState.features );
+            resetFeaturesStyle( hoverState.features );
             hoverState.ids = false;
             hoverState.features = false;
           }
         });
 
         // precompile handlebar templates
-        templates = {
-          popoverAction : Handlebars.compile($('#popoverResource\\.mustache').html()),
-          popoverOrganization : Handlebars.compile($('#popoverResource\\.mustache').html()),
-          popoverPerson : Handlebars.compile($('#popoverResource\\.mustache').html()),
-          popoverService : Handlebars.compile($('#popoverResource\\.mustache').html()),
-          popoverEvent : Handlebars.compile($('#popoverResource\\.mustache').html()),
 
+        templates = {
+          popoverResource : Handlebars.compile($('#popoverResource\\.mustache').html()),
           popoverCountry : Handlebars.compile($('#popoverCountry\\.mustache').html()),
           popoverCluster : Handlebars.compile($('#popoverCluster\\.mustache').html())
         };
@@ -962,7 +970,6 @@ var Hijax = (function ($, Hijax) {
           var id = $(this).attr("about");
           var feature = placemarksVectorSource.getFeatureById(id);
           if (feature) {
-            console.log(feature);
             feature.setStyle(styles.placemark.hover);
           }
         });
