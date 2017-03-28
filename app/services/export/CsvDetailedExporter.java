@@ -1,13 +1,13 @@
 package services.export;
 
-import java.util.*;
-import java.util.Map.Entry;
-
 import helpers.JsonLdConstants;
 import models.Resource;
 import models.ResourceList;
 
-public class CsvDetailedExporter extends AbstractCsvExporter {
+import java.util.*;
+import java.util.Map.Entry;
+
+public class CsvDetailedExporter implements AbstractCsvExporter {
 
   private static String mPathSeparator = ">";
 

@@ -1,14 +1,14 @@
 package services.export;
 
-import java.util.*;
-import java.util.Map.Entry;
-
 import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
 
-public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
+import java.util.*;
+import java.util.Map.Entry;
+
+public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
 
   private TreeSet<String> mKeys = new TreeSet<>();
   private String[] mValues = new String[0];
