@@ -619,9 +619,9 @@
                             <td>{{i18n (stringFormat "%s.attends" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#attends}}
+                                    {{#sort attends "startDate" "desc"}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/attends}}
+                                    {{/sort}}
                                 </ul>
                             </td>
                         </tr>
