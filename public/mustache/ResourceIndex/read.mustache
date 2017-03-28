@@ -137,9 +137,9 @@
                         <tr>
                             <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
                             <td>
-                                <ul class="resource-list">
+                                <ul class="horizontal-list">
                                     {{#sameAs}}
-                                        <li>{{externalLink .}}</li>
+                                        <li>{{externalLink . format="icon"}}</li>
                                     {{/sameAs}}
                                 </ul>
                             </td>

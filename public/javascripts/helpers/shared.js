@@ -376,7 +376,9 @@ Handlebars.registerHelper('externalLink', function (url, options) {
     icon = 'fa-youtube-square';
   }
 
-  return new Handlebars.SafeString('<i class="fa fa-fw ' + icon + '"></i><a href="' + url + '">' + url + '</a>');
+  return options.hash.format == "icon"
+    ? new Handlebars.SafeString('<a href="' + url + '" target="_blank"><i class="fa fa-fw ' + icon + '"></i></a>')
+    : new Handlebars.SafeString('<i class="fa fa-fw ' + icon + '"></i><a href="' + url + '" target="_blank">' + url + '</a>');
 
 });
 
