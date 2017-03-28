@@ -1,40 +1,48 @@
 var Hijax = (function ($, Hijax) {
 
-  var styles = {
+  var iconCodes = {
+    'organizations': 'users',
+    'users': 'user',
+    'stories': 'comment'
+  },
+
+  colors = {
+    'blue-darker': '#2d567b',
+    'blue-darker-transparent': [45, 86, 123, 0.5],
+    'orange': '#fe8a00',
+    'orange-transparent': [254, 138, 0, 0.5]
+  },
+
+  styles = {
         placemark : {
 
-          base : function() {
-            return new ol.style.Style({
-              image: new ol.style.Circle({
-                radius: 4,
-                stroke: new ol.style.Stroke({
-                  color: '#fff',
-                  width: 1
-                }),
-                fill: new ol.style.Fill({
-                  color: colors["blue-darker-transparent"]
-                })
-              }),
-              zIndex: 1
-            });
-          },
+          base : new ol.style.Style({
+           image: new ol.style.Circle({
+             radius: 4,
+             stroke: new ol.style.Stroke({
+               color: '#fff',
+               width: 1
+             }),
+             fill: new ol.style.Fill({
+               color: colors["blue-darker-transparent"]
+             })
+           }),
+           zIndex: 1
+          }),
 
-          hover : function() {
-            return new ol.style.Style({
-              image: new ol.style.Circle({
-                radius: 6,
-                stroke: new ol.style.Stroke({
-                  color: '#fff',
-                  width: 1
-                }),
-                fill: new ol.style.Fill({
-                  color: colors["orange"]
-                })
+          hover : new ol.style.Style({
+            image: new ol.style.Circle({
+              radius: 7,
+              stroke: new ol.style.Stroke({
+                color: '#fff',
+                width: 1
               }),
-              zIndex: 2
-            });
-          }
-
+              fill: new ol.style.Fill({
+                color: colors["orange-transparent"]
+              })
+            }),
+            zIndex: 2
+          })
         },
       },
 
@@ -52,8 +60,6 @@ var Hijax = (function ($, Hijax) {
       placemarksVectorLayer = new ol.layer.Vector({
         style: styles.placemark.base
       }),
-      clusterSource = null,
-      clusterLayer = null,
       mapboxTileSource = null,
       mapboxTileLayer = null,
       hoveredCountriesOverlay = null,
@@ -65,18 +71,6 @@ var Hijax = (function ($, Hijax) {
 
       defaultCenter = [0, 5000000],
       currentCenter = false,
-
-      iconCodes = {
-        'organizations': 'users',
-        'users': 'user',
-        'stories': 'comment'
-      },
-
-      colors = {
-        'blue-darker': '#2d567b',
-        'blue-darker-transparent': [45, 86, 123, 0.5],
-        'orange': '#fe8a00'
-      },
 
       current_pins = [],
       current_highlights = [],
@@ -111,12 +105,10 @@ var Hijax = (function ($, Hijax) {
   }
 
   function getFeatureType(feature) {
-    if(feature.getId()) {
-      return 'country';
-    } else if(feature.get('features').length > 1) {
-      return "cluster";
-    } else {
+    if(feature.getId().indexOf("urn:uuid") == 0) {
       return "placemark";
+    } else {
+      return 'country';
     }
   }
 
@@ -128,98 +120,123 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+  function getPopoverType(features) {
+    for (var i = 0; i < features.length; i++) {
+      if (getFeatureType(features[i]) == "placemark") {
+        return "placemark";
+      }
+    }
+    return "country";
+  }
+
   function updateHoverState(pixel, eventType) {
 
-    // get feature at pixel
-    var feature = world.forEachFeatureAtPixel(pixel, function(feature, layer) {
-      return feature;
+    // get unique features at pixel
+    var features = [];
+    var processed = [];
+    world.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      if (processed.indexOf(feature.getId()) == -1) {
+        processed.push(feature.getId());
+        features.push(feature);
+      }
     });
 
     // get feature type and so on
-    if(feature) {
+    if(features.length) {
 
-      var type = getFeatureType( feature );
+      var type = getPopoverType( features );
 
+      if (type == 'placemark') {
+        features = features.filter(function(feature) {return getFeatureType(feature) == "placemark" } );
+      }
+
+      var show_popover = true;
+      var ids = "";
+
+      for (var i = 0; i < features.length; i++) {
+        ids += features[i].getId();
+      }
+      console.log(ids);
+
+      /*
       if(type == 'country' || type == 'placemark' || type == 'cluster') {
         var show_popover = true;
       } else {
 
       }
+      */
 
-      if(feature.getId()) {
-        var id = feature.getId();
-      } else {
-        var id = feature.get('features')[0].getId();
-      }
+
     }
 
     // the statemachine ...
     if(
-      ! hoverState.id &&
-      feature
+      ! hoverState.ids &&
+      features.length
     ) {
       // ... nothing hovered yet, but now
 
       if(! hoverState.persistent) {
         if(show_popover) {
           $(popoverElement).show();
-          setPopoverContent( feature, type, eventType );
-          setPopoverPosition( feature, type, pixel );
+          setPopoverContent( features, type, eventType );
+          setPopoverPosition( features, type, pixel );
         }
       }
-      setFeatureStyle( feature, 'hover' );
-      hoverState.id = id;
-      hoverState.feature = feature;
+      setFeaturesStyle( features, 'hover' );
+      hoverState.ids = ids;
+      hoverState.features = features;
       world.getTarget().style.cursor = 'pointer';
 
     } else if(
-      hoverState.id &&
-      feature &&
-      id == hoverState.id
+      hoverState.ids &&
+      features.length &&
+      ids == hoverState.ids
     ) {
-      // ... same feature was hovered
+      // ... same features were hovered
 
       if(! hoverState.persistent) {
         if(show_popover) {
-          setPopoverContent( feature, type, eventType );
-          setPopoverPosition( feature, type, pixel );
+          setPopoverContent( features, type, eventType );
+          setPopoverPosition( features, type, pixel );
         }
       }
 
     } else if(
-      hoverState.id &&
-      feature &&
-      id != hoverState.id
+      hoverState.ids &&
+      features.length &&
+      ids != hoverState.ids
     ) {
-      // ... another feature was hovered
+      // ... other features were hovered
 
       if(! hoverState.persistent) {
         if(show_popover) {
           $(popoverElement).show();
-          setPopoverContent( feature, type, eventType );
-          setPopoverPosition( feature, type, pixel );
+          setPopoverContent( features, type, eventType );
+          setPopoverPosition( features, type, pixel );
         } else {
           $(popoverElement).hide();
         }
       }
-      setFeatureStyle( feature, 'hover' );
-      resetFeatureStyle( hoverState.feature );
+      resetFeaturesStyle( hoverState.features );
+      setFeaturesStyle( features, 'hover' );
 
-      hoverState.id = id;
-      hoverState.feature = feature;
+      hoverState.ids = ids;
+      hoverState.features = features;
+      console.log("hoverstate features", features);
 
     } else if(
-      hoverState.id &&
-      ! feature
+      hoverState.ids &&
+      ! features.length
     ) {
-      // ... a feature was hovered but now noone is
+      // ... features were hovered but now none is
 
       if(! hoverState.persistent) {
         $(popoverElement).hide();
       }
-      resetFeatureStyle( hoverState.feature );
-      hoverState.id = false;
-      hoverState.feature = false;
+      resetFeaturesStyle( hoverState.features );
+      hoverState.ids = false;
+      hoverState.features = false;
       world.getTarget().style.cursor = '';
 
     } else {
@@ -257,14 +274,22 @@ var Hijax = (function ($, Hijax) {
     }
 
     feature.setStyle(
-      styles[ "placemark_cluster" ][ style ](feature)
+      styles[ "placemark" ][ style ]
     );
+  }
+
+  function setFeaturesStyle( features, style ) {
+    for (var i = 0; i < features.length; i++) {
+      setFeatureStyle(features[i], style);
+    }
   }
 
   function resetFeatureStyle( feature ) {
     var feature_type = getFeatureType( feature );
 
-    if( feature_type == 'placemark' || feature_type == 'cluster' ) {
+    console.log(feature_type, feature);
+
+    if( feature_type == 'placemark') {
       var properties = feature.getProperties();
       if(! properties.highligted) {
         setFeatureStyle(
@@ -282,7 +307,13 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function setPopoverPosition(feature, type, pixel) {
+  function resetFeaturesStyle( features ) {
+    for (var i = 0; i < features.length; i++) {
+      resetFeatureStyle(features[i]);
+    }
+  }
+
+  function setPopoverPosition(features, type, pixel) {
 
     var coord = world.getCoordinateFromPixel(pixel);
 
@@ -291,12 +322,12 @@ var Hijax = (function ($, Hijax) {
       popover.setOffset([0, -20]);
     }
 
-    if( type == 'placemark' || type == 'cluster' ) {
+    if( type == 'placemark' ) {
       // calculate offset first
       // ... see http://gis.stackexchange.com/questions/151305/get-correct-coordinates-of-feature-when-projection-is-wrapped-around-dateline
       // ... old offest code until commit ae99f9886bdef1c3c517cd8ea91c28ad23126551
       var offset = Math.floor((coord[0] / 40075016.68) + 0.5);
-      var popup_coord = feature.getGeometry().getCoordinates();
+      var popup_coord = features[0].getGeometry().getCoordinates();
       popup_coord[0] += (offset * 20037508.34 * 2);
 
       popover.setPosition(popup_coord);
@@ -304,52 +335,37 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function setPopoverContent(feature, type, eventType) {
+  function setPopoverContent(features, type, eventType) {
 
     eventType = eventType || 'hover';
 
     if( type == "placemark" ) {
-      var properties = feature.get('features')[0].getProperties();
-      properties['@id'] = feature.getId();
-      var content = templates['popover' + properties.type](properties);
-    }
-
-    if( type == "cluster" ) {
+      //features = features.map(function(feature) { return getFeatureType(feature) == 'placemark' ? feature : null } );
       var content = '';
-      var features = feature.get('features');
-      var total_resources = 0;
+      var total_resources = features.length;
       var zoom_values = getZoomValues();
-      for(var i = 0; i < features.length; i++) {
-        total_resources++;
-        var properties = features[i].getProperties();
-        if(properties.resource.referencedBy) {
-          total_resources += properties.resource.referencedBy.length;
-        }
-      }
       if(total_resources < 6 || eventType == 'click') {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
-          properties['@id'] = features[i].getId();
-          content += templates['popover' + properties.type](properties);
+          console.log('popover' + properties["@type"], properties);
+          content += templates['popover' + properties["@type"]]({ resource: properties });
         }
       } else {
         var aggregation = {};
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
-          aggregation[ properties.type ] = aggregation[ properties.type ] + 1 || 1;
+          aggregation[ properties["@type"] ] = aggregation[ properties["@type"] ] + 1 || 1;
         }
         content += templates['popoverCluster'](aggregation);
       }
 
-    }
-
-    if( type == "country") {
-      var properties = feature.getProperties();
+    } else if( type == "country") {
+      var properties = features[0].getProperties();
 
       // setup empty countrydata, if undefined
       if( typeof properties.country == 'undefined' ) {
         properties.country = {
-          key : feature.getId()
+          key : features[0].getId()
         }
       }
 
@@ -721,21 +737,6 @@ var Hijax = (function ($, Hijax) {
           source: mapboxTileSource
         });
 
-        // Cluster layer
-        clusterSource = new ol.source.Cluster({
-          distance: 40,
-          source: placemarksVectorSource,
-          noWrap: true,
-          wrapX: false
-        });
-        clusterLayer = new ol.layer.Vector({
-          title: 'cluster',
-          source: clusterSource,
-          style: function(feature, resolution) {
-            return [styles.placemark_cluster.base(feature)];
-          }
-        });
-
         // Get zoom values adapted to map size
         var zoom_values = getZoomValues();
 
@@ -833,11 +834,11 @@ var Hijax = (function ($, Hijax) {
         });
         world.addOverlay(popover);
         $(container).mouseleave(function(){
-          if(hoverState.feature && ! hoverState.persistent) {
+          if(hoverState.features && ! hoverState.persistent) {
             $(popoverElement).hide();
-            resetFeatureStyle( hoverState.feature );
-            hoverState.id = false;
-            hoverState.feature = false;
+            resetFeatureStyle( hoverState.features );
+            hoverState.ids = false;
+            hoverState.features = false;
           }
         });
 
