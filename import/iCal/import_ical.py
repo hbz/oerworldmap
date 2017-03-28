@@ -14,6 +14,8 @@ def readline(buffer):
     line = buffer.readline()
     if line.endswith('\n'):
         line = line[:-1]
+    if line.endswith('\r'):
+        line = line[:-1]
     return line
 
 
