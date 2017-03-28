@@ -658,7 +658,8 @@ var Hijax = (function ($, Hijax) {
         list.children('li').show();
       }
 
-      container.find('.total-items').text(list.children('li:visible').length);
+      // FIXME: how to deal with this?
+      //container.find('.total-items').text(list.children('li:visible').length);
     }
   }
 
@@ -1019,10 +1020,13 @@ var Hijax = (function ($, Hijax) {
       parser.href = url;
       var source;
       if (parser.pathname.indexOf("/country/") == 0) {
-        source = "/resource.geojson?filter.about.location.address.addressCountry="
+        source = "/resource.geojson?size=9999&filter.about.location.address.addressCountry="
           + parser.pathname.split("/")[2].toUpperCase();
       } else {
-        source = parser.pathname.slice(0, -1) + ".geojson" + parser.search;
+        var params = queryString(parser);
+        params.size = 9999;
+        params.from = 0;
+        source = parser.pathname.slice(0, -1) + ".geojson?" + $.param(params);
       }
       placemarksVectorSource = new ol.source.Vector({
         url: source,

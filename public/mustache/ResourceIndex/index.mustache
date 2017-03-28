@@ -198,6 +198,8 @@
 
         </div>
 
+        <input type="hidden" name="size" value="20">
+
     </form>
 
 </div>
@@ -233,7 +235,7 @@
     <div class="p clearfix">
 
         <div class="pull-left">
-            <span class="badge total-items">{{scope.resources.totalItems}}</span> entries shown
+            <span class="badge total-items">{{scope.resources.totalItems}}</span> results
         </div>
 
         <div class="pull-right">
@@ -270,6 +272,13 @@
         {{/showCalendar}}
 
     </div>
+
+    {{#if scope.resources.previousPage}}
+        <a href="{{scope.resources.previousPage}}"><i class="fa fa-step-backward" aria-hidden="true"></i> previous</a>
+    {{/if}}
+    {{#if scope.resources.nextPage}}
+        <a href="{{scope.resources.nextPage}}">next <i class="fa fa-step-forward" aria-hidden="true"></i></a>
+    {{/if}}
 
 </div>
 

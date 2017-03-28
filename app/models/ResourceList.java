@@ -160,10 +160,12 @@ public class ResourceList {
     if (!StringUtils.isEmpty(searchTerms)) {
       params.add("q=".concat(searchTerms));
     }
-    if ((totalItems / itemsPerPage) * itemsPerPage == totalItems) {
+    if (itemsPerPage > 0 && (totalItems / itemsPerPage) * itemsPerPage == totalItems) {
       params.add("from=".concat(Long.toString((totalItems / itemsPerPage) * itemsPerPage - itemsPerPage)));
-    } else {
+    } else if (itemsPerPage > 0) {
       params.add("from=".concat(Long.toString((totalItems / itemsPerPage) * itemsPerPage)));
+    } else {
+      params.add("from=0");
     }
     params.add("size=".concat(Long.toString(itemsPerPage)));
     if (!StringUtils.isEmpty(sortOrder)) {
