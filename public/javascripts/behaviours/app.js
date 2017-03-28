@@ -71,7 +71,7 @@ var Hijax = (function ($, Hijax, page) {
   }
 
   function get_main(data, url) {
-    log.debug('APP get_main (and attach behaviours)');
+    log.debug('APP get_main (and attach behaviours)', url);
     document.title = $(data).filter('title').text();
     // http://stackoverflow.com/a/12848798/1060128
     var body_mock = $(
