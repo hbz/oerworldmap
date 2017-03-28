@@ -259,6 +259,13 @@ var Hijax = (function ($, Hijax) {
         $('#app').removeClass('print-index');
       });
 
+      $('[data-behaviour~="continue-link"]', context)
+        .not('[data-dont-behave] [data-behaviour~="continue-link"]')
+        .each(function()
+      {
+        $(this).attr("href", $(this).attr("href") + "?continue=" + encodeURIComponent($('#app-modal').data('url_before')));
+      });
+
     },
 
     attached : []

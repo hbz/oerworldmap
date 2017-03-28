@@ -11,6 +11,7 @@ data/*/
 !data/ingest/
 !data/pages/
 !data/travis/
+!data/profiles/
 repo-deb-build*.*
 .idea/
 /node_modules/
