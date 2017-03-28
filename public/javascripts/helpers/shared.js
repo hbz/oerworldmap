@@ -248,21 +248,26 @@ if (!Object.keys) {
   return new UrlTemplate();
 }));
 
+
 Handlebars.registerHelper('localized', function(list, options) {
 
   language = options.hash.language || navigator.language || navigator.userLanguage || "en";
+  language = language.split('-')[0];
 
   var result = '';
+
   // Empty list
   if (!list) {
     return options.inverse(this);
   }
+
   // Check for entries in requested language
   for (var i = 0; i < list.length; i++) {
     if (list[i]['@language'] == language) {
       result = result + options.fn(list[i]);
     }
   }
+
   // Requested language not available, default to en
   if (result.trim() == '') {
     for (var i = 0; i < list.length; i++) {
@@ -271,6 +276,7 @@ Handlebars.registerHelper('localized', function(list, options) {
       }
     }
   }
+
   // Neither requested language nor en available, return all of first available
   if (result.trim() == '') {
     for (var i = 0; i < list.length; i++) {
@@ -287,6 +293,33 @@ Handlebars.registerHelper('localized', function(list, options) {
   }
 
 });
+
+
+Handlebars.registerHelper('localized_inplace', function(l10n, language_parameter, fallback, prefix, postfix) {
+
+  language = language_parameter || navigator.language || navigator.userLanguage || "en";
+  language = language.split('-')[0];
+
+  if(l10n && l10n.length) {
+
+    for(var i = 0; i < l10n.length; i++) {
+      if(l10n[i]['@language'] == language) {
+        return prefix + l10n[i]['@value'] + postfix;
+      }
+    }
+
+    return prefix + l10n[0]['@value'] + postfix;
+
+  }
+
+  if(fallback != "") {
+    return prefix + fallback + postfix;
+  } else {
+    return "";
+  }
+
+});
+
 
 Handlebars.registerHelper('getField', function (string, options) {
   var parts = string.split('.');
@@ -308,7 +341,7 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'concept': 'tag',
     'conceptscheme': 'sitemap',
     'event': 'calendar',
-    'webpage': 'bookmark'
+    'webpage': 'book'
   };
   return new Handlebars.SafeString(
     '<i class="fa fa-fw fa-' + (icons[type.toLowerCase()] || 'question') + '"></i>'
@@ -343,7 +376,9 @@ Handlebars.registerHelper('externalLink', function (url, options) {
     icon = 'fa-youtube-square';
   }
 
-  return new Handlebars.SafeString('<i class="fa fa-fw ' + icon + '"></i><a href="' + url + '">' + url + '</a>');
+  return options.hash.format == "icon"
+    ? new Handlebars.SafeString('<a href="' + url + '" target="_blank"><i class="fa fa-fw ' + icon + '"></i></a>')
+    : new Handlebars.SafeString('<i class="fa fa-fw ' + icon + '"></i><a href="' + url + '" target="_blank">' + url + '</a>');
 
 });
 

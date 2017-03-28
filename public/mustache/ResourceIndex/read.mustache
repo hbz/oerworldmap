@@ -48,52 +48,21 @@
                     </div>
 
                     <h1 class="resource-title">
-                        {{#localized name language=@root.language}}
+                        {{#localized displayName language=@root.language}}
                             {{[@value]}}
                         {{else}}
-                            {{[@id]}}
+                            {{#localized name language=@root.language}}
+                                {{[@value]}}
+                            {{else}}
+                                {{[@id]}}
+                            {{/localized}}
                         {{/localized}}
+                        {{localized_inplace alternateName @root.language "" "(" ")"}}
                     </h1>
 
-                    {{#serviceType}}
-                        <div class="resource-subline">
-                            <div class="resource-subline-label">Service Type</div>
-                            {{.}}
-                        </div>
-                    {{/serviceType}}
-
-                    {{#additionalType}}
-                        <div class="resource-subline">
-                            <div class="resource-subline-label">Additional Type</div>
-                            {{.}}
-                        </div>
-                    {{/additionalType}}
-
-                    {{#if creator}}
-                        <div class="resource-subline">
-                            <div class="resource-subline-label">Contributed</div>{{#dateCreated}} on {{.}} {{/dateCreated}}by
-                            <ul class="comma-seperated-list">
-                                {{#creator}}
-                                    <li>
-                                        <a href="/resource/{{@id}}">
-                                            {{#localized name language=@root.language}}
-                                                {{[@value]}}
-                                            {{else}}
-                                                {{[@id]}}
-                                            {{/localized}}
-                                        </a>
-                                    </li>
-                                {{/creator}}
-                            </ul>
-                        </div>
-                    {{/if}}
-
-                    {{#countryChampionFor}}
-                        <div class="resource-subline">
-                            {{i18n (stringFormat "%s.countryChampionFor" @type)}}
-                            <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>
-                        </div>
-                    {{/countryChampionFor}}
+                    <div class="subtitle">
+                        {{> (stringFormat "ResourceIndex/%s/subtitle.mustache" @type)}}
+                    </div>
 
                 </div>
 
@@ -139,11 +108,51 @@
 
                 <table class="table resource-details-table">
 
+
+                    {{! --- contact --- (section titles refer to karin's google doc) }}
+
+                    {{#if contactPoint}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.contactPoint" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#contactPoint}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/contactPoint}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                     {{#if email}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.email" @type)}}</td>
                             <td>
                                 <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if sameAs}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
+                            <td>
+                                <ul class="horizontal-list">
+                                    {{#sameAs}}
+                                        <li>{{externalLink . format="icon"}}</li>
+                                    {{/sameAs}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if location.address}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.location" @type)}}</td>
+                            <td>
+                                {{#location}}
+                                    {{>ResourceIndex/Place/read.mustache}}
+                                {{/location}}
                             </td>
                         </tr>
                     {{/if}}
@@ -161,63 +170,51 @@
                         </tr>
                     {{/if}}
 
-                    {{#if hashtag}}
+
+                    {{! --- time --- }}
+
+                    {{#if startTime}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
-                            <td>
-                                {{ hashtag }}
-                            </td>
+                            <td>{{i18n (stringFormat "%s.startTime" @type)}} - {{i18n (stringFormat "%s.endTime" @type)}}</td>
+                            <td>{{startTime}} &ndash; {{endTime}}</td>
                         </tr>
                     {{/if}}
 
-                    {{#if location.address}}
+                    {{#if startDate}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.location" @type)}}</td>
-                            <td>
-                                {{#location}}
-                                    {{>ResourceIndex/Place/read.mustache}}
-                                {{/location}}
-                            </td>
+                            <td>{{i18n (stringFormat "%s.startDate" @type)}} {{#if endDate}}- {{i18n (stringFormat "%s.endDate" @type)}}{{/if}}</td>
+                            <td>{{startDate}} {{#if endDate}}&ndash; {{endDate}} {{/if}}</td>
                         </tr>
                     {{/if}}
 
-                    {{#if contactPoint}}
+
+                    {{! --- content --- }}
+
+                    {{#if about}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.contactPoint" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.about" @type)}}</td>
                             <td>
-                                <ul class="resource-list">
-                                    {{#contactPoint}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/contactPoint}}
+                                <ul>
+                                    {{#each (reduceSkos @root.skos.esc about)}}
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="about"}}</li>
+                                    {{/each}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
 
-                    {{#if created}}
+                    {{#if audience}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.created" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.audience" @type)}}</td>
                             <td>
-                                <ul class="resource-list">
-                                    {{#created}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/created}}
+                                <ul>
+                                    {{#each (reduceSkos @root.skos.isced audience)}}
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="audience"}}</li>
+                                    {{/each}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
-
-                    {{#if keywords}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
-                            <td>
-                                <ul class="comma-seperated-list">
-                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
 
                     {{#if availableChannel}}
                         <tr>
@@ -234,14 +231,91 @@
                         </tr>
                     {{/if}}
 
-                    {{# if audience}}
+                    {{#if inLanguage}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.audience" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.inLanguage" @type)}}</td>
                             <td>
-                                <ul>
-                                    {{#each (reduceSkos @root.skos.isced audience)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="audience"}}</li>
-                                    {{/each}}
+                                <ul class="comma-seperated-list">
+                                    {{#inLanguage}}
+                                        <li>{{i18n . bundle = "languages"}}</li>
+                                    {{/inLanguage}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if hashtag}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.hashtag" @type)}}</td>
+                            <td>
+                                <a href="https://twitter.com/search?q={{encodeURIComponent hashtag}}" target="_blank">
+                                    {{hashtag}}
+                                </a>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if keywords}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
+                            <td>
+                                <ul class="comma-seperated-list">
+                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if recordedIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.recordedIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#recordedIn}}
+                                        <li>{{externalLink .}}</li>
+                                    {{/recordedIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if result}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.result" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#result}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/result}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if resultOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.result" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#result}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/result}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+
+                    {{! --- links --- }}
+
+                    {{#if provides}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.provides" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#provides}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/provides}}
                                 </ul>
                             </td>
                         </tr>
@@ -260,175 +334,7 @@
                         </tr>
                     {{/if}}
 
-                    {{#if provides}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.provides" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#provides}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/provides}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if about}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.about" @type)}}</td>
-                            <td>
-                                <ul>
-                                    {{#each (reduceSkos @root.skos.esc about)}}
-                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="about"}}</li>
-                                    {{/each}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if sameAs}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#sameAs}}
-                                        <li>{{externalLink .}}</li>
-                                    {{/sameAs}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if memberOf}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.memberOf" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#memberOf}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/memberOf}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if member}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.member" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#member}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/member}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if affiliation}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.affiliation" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#affiliation}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/affiliation}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if affiliate}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.affiliate" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#affiliate}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/affiliate}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if tag}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.tag" @type)}}</td>
-                            <td>
-                                <ul class="comma-seperated-list">
-                                    {{#tag}}
-                                        <li><a href="/resource/?filter.about.tag={{.}}">{{.}}</a></li>
-                                    {{/tag}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if mainEntity}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.mainEntity" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#mainEntity}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/mainEntity}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if mainEntityOf}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.mainEntityOf" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#mainEntityOf}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/mainEntityOf}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if mentions}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#mentions}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/mentions}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if mentionedIn}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.mentionedIn" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#mentionedIn}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/mentionedIn}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if startTime}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.startTime" @type)}} - {{i18n (stringFormat "%s.endTime" @type)}}</td>
-                            <td>{{startTime}} &ndash; {{endTime}}</td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if startDate}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.startDate" @type)}} {{#if endDate}}- {{i18n (stringFormat "%s.endDate" @type)}}{{/if}}</td>
-                            <td>{{startDate}} {{#if endDate}}&ndash; {{endDate}} {{/if}}</td>
-                        </tr>
-                    {{/if}}
+                    {{! --- }}
 
                     {{#if agent}}
                         <tr>
@@ -456,6 +362,8 @@
                         </tr>
                     {{/if}}
 
+                    {{! --- }}
+
                     {{#if participant}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.participant" @type)}}</td>
@@ -482,57 +390,63 @@
                         </tr>
                     {{/if}}
 
-                    {{#if instrument}}
+                    {{! --- }}
+
+                    {{#isFundedBy}}
+
+                        {{#if this.isAwardedBy}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.isAwardedBy" @type)}}</td>
+                                <td>
+                                    <ul class="resource-list">
+                                        {{#isAwardedBy}}
+                                            <li>{{>ResourceIndex/link.mustache}}</li>
+                                        {{/isAwardedBy}}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {{/if}}
+
+                        {{#if this.hasMonetaryValue}}
+                            <tr>
+                                <td>{{i18n (stringFormat "%s.hasMonetaryValue" @type)}}</td>
+                                <td>
+                                    {{hasMonetaryValue}}
+                                </td>
+                            </tr>
+                        {{/if}}
+
+                    {{/isFundedBy}}
+
+                    {{! --- }}
+
+                    {{#if hasPart}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.instrument" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.hasPart" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#instrument}}
+                                    {{#hasPart}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/instrument}}
+                                    {{/hasPart}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
 
-                    {{#if result}}
+                    {{#if isPartOf}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.result" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.isPartOf" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#result}}
+                                    {{#isPartOf}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/result}}
+                                    {{/isPartOf}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
 
-                    {{#if funder}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.funder" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#funder}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/funder}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if funderOf}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.funderOf" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#funderOf}}
-                                        <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/funderOf}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
+                    {{! --- }}
 
                     {{#if awards.0.funds}}
                         <tr>
@@ -548,6 +462,64 @@
                             </td>
                         </tr>
                     {{/if}}
+
+                    {{! --- }}
+
+                    {{#if member}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.member" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#member}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/member}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if memberOf}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.memberOf" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#memberOf}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/memberOf}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
+                    {{#if affiliation}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.affiliation" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliation}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/affiliation}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if affiliate}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.affiliate" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#affiliate}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/affiliate}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
 
                     {{#if organizer}}
                         <tr>
@@ -575,6 +547,8 @@
                         </tr>
                     {{/if}}
 
+                    {{! --- }}
+
                     {{#if performer}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.performer" @type)}}</td>
@@ -600,6 +574,8 @@
                             </td>
                         </tr>
                     {{/if}}
+
+                    {{! --- }}
 
                     {{#if attendee}}
                         <tr>
@@ -627,142 +603,89 @@
                         </tr>
                     {{/if}}
 
-                    {{#if inLanguage}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.inLanguage" @type)}}</td>
-                            <td>
-                                <ul class="comma-seperated-list">
-                                    {{#inLanguage}}
-                                        <li>{{i18n . bundle = "languages"}}</li>
-                                    {{/inLanguage}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
+                    {{! --- }}
 
-                    {{#if recordedIn}}
+                    {{#if created}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.recordedIn" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.created" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#recordedIn}}
-                                        <li>{{externalLink .}}</li>
-                                    {{/recordedIn}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if isPartOf}}
-                        <tr>
-                            <td>{{i18n (stringFormat "%s.isPartOf" @type)}}</td>
-                            <td>
-                                <ul class="resource-list">
-                                    {{#isPartOf}}
+                                    {{#created}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/isPartOf}}
+                                    {{/created}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
 
-                    {{#if hasPart}}
+                    {{#if creator}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.hasPart" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.creator" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#hasPart}}
+                                    {{#creator}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/hasPart}}
+                                    {{/creator}}
                                 </ul>
                             </td>
                         </tr>
                     {{/if}}
 
-                    {{#isFundedBy}}
-                        {{#if this.isAwardedBy}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.isAwardedBy" @type)}}</td>
-                                <td>
-                                    <ul class="resource-list">
-                                        {{#isAwardedBy}}
-                                            <li>{{>ResourceIndex/link.mustache}}</li>
-                                        {{/isAwardedBy}}
-                                    </ul>
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.sameAs}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.sameAs" @type)}}</td>
-                                <td>
-                                    <ul class="resource-list">
-                                        {{#sameAs}}
-                                            <li>{{externalLink .}}</li>
-                                        {{/sameAs}}
-                                    </ul>
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.duration}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.duration" @type)}}</td>
-                                <td>
-                                    {{duration}}
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.hasMonetaryValue}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.hasMonetaryValue" @type)}}</td>
-                                <td>
-                                    {{hasMonetaryValue}}
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.description}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.description" @type)}}</td>
-                                <td>
-                                    {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.name}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.name" @type)}}</td>
-                                <td>
-                                    {{#localized name language=@root.language}}{{md [@value]}}{{/localized}}
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.alternateName}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.alternateName" @type)}}</td>
-                                <td>
-                                    {{#localized alternateName language=@root.language}}{{md [@value]}}{{/localized}}
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.hasAwardDate}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.hasAwardDate" @type)}}</td>
-                                <td>
-                                    {{hasAwardDate}}
-                                </td>
-                            </tr>
-                        {{/if}}
-                        {{#if this.keywords}}
-                            <tr>
-                                <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
-                                <td>
-                                    <ul class="comma-seperated-list">
-                                        {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
-                                    </ul>
-                                </td>
-                            </tr>
-                        {{/if}}
-                    {{/isFundedBy}}
+                    {{! --- }}
+
+                    {{#if mentions}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mentions}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/mentions}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if mentionedIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.mentionedIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#mentionedIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/mentionedIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
+                    {{#if instrument}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.instrument" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#instrument}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/instrument}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if instrumentIn}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.instrumentIn" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#instrumentIn}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/instrumentIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
 
                 </table>
 
