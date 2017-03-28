@@ -35,27 +35,46 @@ public class GeoJsonExporter implements Exporter {
   }
 
   private JsonNode toGeoJson(Resource aResource) {
+
     Resource resource = aResource.getAsResource(Record.RESOURCE_KEY);
-    if (resource.getAsResource("location") == null || resource.getAsResource("location").getAsResource("geo") == null) {
-      System.out.println("Nope");
+    Resource location = resource.getAsResource("location");
+    if (location == null || location.getAsResource("geo") == null) {
+      String[] traverse = new String[] {"mentions", "member", "agent", "participant", "provider"};
+      for (String property : traverse) {
+        Resource ref = aResource.getAsResource(property);
+        if (ref != null && ref.getAsResource("location") != null
+            && ref.getAsResource("location").getAsResource("geo") != null) {
+          location = ref.getAsResource("location");
+          break;
+        }
+      }
+    }
+
+    if (location == null || location.getAsResource("geo") == null) {
       return null;
     }
-    System.out.println("Yes");
+
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
     ObjectNode geometry = new ObjectNode(JsonNodeFactory.instance);
     ArrayNode coordinates = new ArrayNode(JsonNodeFactory.instance);
     ObjectNode properties = new ObjectNode(JsonNodeFactory.instance);
-    coordinates.add(Double.valueOf(resource.getAsResource("location").getAsResource("geo").getAsString("lon")));
-    coordinates.add(Double.valueOf(resource.getAsResource("location").getAsResource("geo").getAsString("lat")));
+    coordinates.add(Double.valueOf(location.getAsResource("geo").getAsString("lon")));
+    coordinates.add(Double.valueOf(location.getAsResource("geo").getAsString("lat")));
     node.put("type", "Feature");
     node.set("geometry", geometry);
     node.set("properties", properties);
+    node.put("id", resource.getId());
     geometry.put("type", "Point");
     geometry.set("coordinates", coordinates);
     properties.put("@id", resource.getId());
     properties.put("@type", resource.getType());
-    //properties.set("name", resource.getAsResource("name").toJson());
+    if (resource.getAsResource("name") != null) {
+      properties.set("name", resource.getAsResource("name").toJson());
+    } else {
+      properties.put("name", resource.getId());
+    }
     return node;
+
   }
 
 }
