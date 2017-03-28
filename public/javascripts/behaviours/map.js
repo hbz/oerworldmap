@@ -129,7 +129,7 @@ var Hijax = (function ($, Hijax) {
     return "country";
   }
 
-  function updateHoverState(pixel, eventType) {
+  function updateHoverState(pixel) {
 
     if(hoverState.persistent) {
       return;
@@ -145,20 +145,24 @@ var Hijax = (function ($, Hijax) {
       }
     });
 
-    // get feature type and so on
-    if(features.length) {
 
+    if(features.length) {
       var popoverType = getPopoverType( features );
 
+      // sort out countries if popover style is placemark
       if (popoverType == 'placemark') {
         features = features.filter(function(feature) {
           return (getFeatureType(feature) == "placemark");
         });
       }
 
-      var show_popover = true;
-      var ids = "";
+      // unset features, if zoomlevel is to high
+      if (world.getView().getZoom() > 8 && (popoverType == "country")) {
+        features = [];
+      }
 
+      // create ids-string
+      var ids = "";
       for (var i = 0; i < features.length; i++) {
         ids += features[i].getId();
       }
@@ -171,12 +175,11 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... nothing hovered yet, but now
 
-      if(show_popover) {
-        $(popoverElement).show();
-        setPopoverContent( features, popoverType, eventType );
-        setPopoverPosition( features, popoverType, pixel );
-      }
-      setFeaturesStyle( features, 'hover' );
+      $(popoverElement).show();
+      setPopoverContent(features, popoverType);
+      setPopoverPosition(features, popoverType, pixel);
+      setFeaturesStyle(features, 'hover' );
+
       hoverState.ids = ids;
       hoverState.features = features;
       hoverState.popoverType = popoverType;
@@ -189,10 +192,7 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... same features were hovered
 
-      if(show_popover) {
-        setPopoverContent( features, popoverType, eventType );
-        setPopoverPosition( features, popoverType, pixel );
-      }
+      setPopoverPosition(features, popoverType, pixel );
 
     } else if(
       hoverState.ids &&
@@ -201,15 +201,11 @@ var Hijax = (function ($, Hijax) {
     ) {
       // ... other features were hovered
 
-      if(show_popover) {
-        $(popoverElement).show();
-        setPopoverContent( features, popoverType, eventType );
-        setPopoverPosition( features, popoverType, pixel );
-      } else {
-        $(popoverElement).hide();
-      }
-      resetFeaturesStyle( hoverState.features );
-      setFeaturesStyle( features, 'hover' );
+      $(popoverElement).show();
+      setPopoverContent(features, popoverType);
+      setPopoverPosition(features, popoverType, pixel);
+      resetFeaturesStyle(hoverState.features);
+      setFeaturesStyle(features, 'hover');
 
       hoverState.ids = ids;
       hoverState.features = features;
@@ -222,7 +218,7 @@ var Hijax = (function ($, Hijax) {
       // ... features were hovered but now none is
 
       $(popoverElement).hide();
-      resetFeaturesStyle( hoverState.features );
+      resetFeaturesStyle(hoverState.features);
       hoverState.ids = false;
       hoverState.features = false;
       hoverState.popoverType = false;
@@ -233,48 +229,29 @@ var Hijax = (function ($, Hijax) {
       // ... do nothing probably – or did i miss somehting?
 
     }
-
-    // FIXME @j0hj0h: this should probably go somewhere else
-    if (world.getView().getZoom() > 8 && (popoverType == "country")) {
-      $(popoverElement).hide();
-      hoveredCountriesOverlay.setVisible(false);
-      world.getTarget().style.cursor = '';
-    } else if (show_popover) {
-      if(! hoverState.persistent) {
-        $(popoverElement).show();
-      }
-      hoveredCountriesOverlay.setVisible(true);
-      world.getTarget().style.cursor = 'pointer';
-    } else {
-      hoveredCountriesOverlay.setVisible(true);
-    }
-
   }
 
-  function setFeatureStyle( feature, style ) {
-
+  function setFeatureStyle(feature, style) {
     var feature_type = getFeatureType( feature );
-
-    if( feature_type == 'country' ) {
+    if(feature_type == 'country') {
       hoveredCountriesOverlay.getSource().addFeature(feature);
       return;
     }
-
     feature.setStyle(
       styles[ "placemark" ][ style ]
     );
   }
 
-  function setFeaturesStyle( features, style ) {
+  function setFeaturesStyle(features, style) {
     for (var i = 0; i < features.length; i++) {
       setFeatureStyle(features[i], style);
     }
   }
 
-  function resetFeatureStyle( feature ) {
-    var feature_type = getFeatureType( feature );
+  function resetFeatureStyle(feature) {
+    var feature_type = getFeatureType(feature);
 
-    if( feature_type == 'placemark') {
+    if(feature_type == 'placemark') {
       var properties = feature.getProperties();
       if(! properties.highligted) {
         setFeatureStyle(
@@ -284,12 +261,11 @@ var Hijax = (function ($, Hijax) {
       }
     }
 
-    if( feature_type == 'country' ) {
+    if(feature_type == 'country') {
       hoveredCountriesOverlay.getSource().removeFeature(
         feature
       );
     }
-
   }
 
   function resetFeaturesStyle( features ) {
@@ -320,16 +296,12 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function setPopoverContent(features, type, eventType) {
-
-    eventType = eventType || 'hover';
-
+  function setPopoverContent(features, type) {
     if( type == "placemark" ) {
-      //features = features.map(function(feature) { return getFeatureType(feature) == 'placemark' ? feature : null } );
       var content = '';
       var total_resources = features.length;
       var zoom_values = getZoomValues();
-      if(total_resources < 6 || eventType == 'click') {
+      if(total_resources < 6) {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
           content += templates['popoverResource']({ resource: properties });
@@ -358,7 +330,7 @@ var Hijax = (function ($, Hijax) {
       var content = templates.popoverCountry(country);
     }
 
-    $(popoverElement).find('.popover-content').html( content );
+    $(popoverElement).find('.popover-content').html(content);
 
   }
 
@@ -670,7 +642,7 @@ var Hijax = (function ($, Hijax) {
     } else if(hoverState.features.length == 1) {
       // just one feature – link to it ...
 
-      Hijax.behaviours.app.linkToFragment( features[0].getProperties()['resource']['@id'] );
+      Hijax.behaviours.app.linkToFragment( hoverState.features[0].getId() );
 
     } else if(hoverState.features.length < 7 || world.getView().getZoom() == getZoomValues().maxZoom) {
       // less then 7 or maximum zoom level – show stacked popover for all hovered features ...
