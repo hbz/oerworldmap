@@ -49,11 +49,16 @@ def split_address(address_string, focus):
 
 def format_date(date_string):
     # TODO: For now, this function always returns a date time as UTC formatted. Implement time zone reference.
+    if date_string.startswith('VALUE=DATE:'):
+        date_string = date_string[11:]
     if not date_string.endswith('Z'):
         date_string = date_string + 'Z'
     match = re.search(re.compile(r"([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})Z"), date_string)
     if match:
         return str(match.group(1) + '-' + match.group(2) + '-' + match.group(3) + 'T' + match.group(4) + ':' + match.group(5) + ':' + match.group(6) + 'Z')
+    match = re.search(re.compile(r"([0-9]{4})([0-9]{2})([0-9]{2})Z"), date_string)
+    if match:
+        return str(match.group(1) + '-' + match.group(2) + '-' + match.group(3) + 'T00:00:00Z:')
     return date_string
 
 
@@ -64,9 +69,9 @@ def lines_to_resource(header, event, language):
         if line.startswith("SUMMARY:"):
             name = {'@value': line[8:], '@language': language}
             resource['name'] = [name]
-        elif line.startswith("DTSTART:"):
+        elif line.startswith("DTSTART"):
             resource['startDate'] = format_date(line[8:])
-        elif line.startswith("DTEND:"):
+        elif line.startswith("DTEND"):
             resource['endDate'] = format_date(line[6:])
         elif line.startswith("GEO:"):
             coordinates = line[4:].split(";")
