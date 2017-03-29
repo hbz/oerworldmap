@@ -62,14 +62,17 @@ public interface AbstractCsvExporter extends Exporter{
       csv.append(formatCellContent(aValues[0]));
     }
     for (int i = 1; i < aValues.length; i++) {
-      csv.append(";").append(formatCellContent(aValues[i]));
+      csv.append(";");
+      if (aValues[i] != null) {
+        csv.append(formatCellContent(aValues[i]));
+      }
     }
     return csv.toString();
   }
 
 
   default String formatCellContent(String aContent){
-    if (aContent == null || StringUtils.isNumeric(aContent)){
+    if (StringUtils.isNumeric(aContent)){
       return aContent;
     }
     String result = aContent.replaceAll("\"", "\\\"");

@@ -42,10 +42,10 @@ public class CsvDetailedExporterTest implements JsonTest {
     String csv1 = mCsvExporter.export(in1);
     String csv2 = mCsvExporter.export(in2);
     assertEquals(
-        "456;\"Person\";123;\"Article\";\"Super toll\";456;\"Person\";\"Hans Dampf\";null;null;null;\"Ganz spannend!\";987;\"Article\";456;\"Person\";\"Hans Dampf\";\"Noch spannenderen!\";null;\"Hans Dampf\"",
+        "456;\"Person\";123;\"Article\";\"Super toll\";456;\"Person\";\"Hans Dampf\";;;;\"Ganz spannend!\";987;\"Article\";456;\"Person\";\"Hans Dampf\";\"Noch spannenderen!\";;\"Hans Dampf\"",
         csv1);
     assertEquals(
-        "345;\"Person\";123;\"Article\";\"Super toll\";456;\"Person\";\"Hans Dampf\";345;\"Person\";\"Hans Wurst\";\"Ganz spannend!\";null;null;null;null;null;null;\"foo@bar.com\";\"Hans Wurst\"",
+        "345;\"Person\";123;\"Article\";\"Super toll\";456;\"Person\";\"Hans Dampf\";345;\"Person\";\"Hans Wurst\";\"Ganz spannend!\";;;;;;;\"foo@bar.com\";\"Hans Wurst\"",
         csv2);
   }
 
