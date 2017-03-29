@@ -653,6 +653,12 @@ Handlebars.registerHelper('showCalendar', function (scope, options) {
 
 });
 
+Handlebars.registerHelper("inc", function(value, options) {
+
+    return parseInt(parseInt(value) + 1).toString();
+
+});
+
 window.queryString = function(url) {
   a = url ? url.search.substr(1).split('&') : window.location.search.substr(1).split('&');
   if (a == "") return {};
