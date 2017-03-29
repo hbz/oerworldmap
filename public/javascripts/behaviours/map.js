@@ -72,7 +72,6 @@ var Hijax = (function ($, Hijax) {
       defaultCenter = [0, 5000000],
       currentCenter = false,
 
-      current_pins = [],
       current_highlights = [],
 
       templates = {},
@@ -431,10 +430,6 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function addPlacemarks(placemarks) {
-    current_pins = placemarks;
-  }
-
   function highlightPlacemarks(placemarks) {
     current_highlights = placemarks;
   }
@@ -562,7 +557,7 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  function zoomToFeatures(features, cluster, pixel) {
+  function zoomToFeatures(features) {
     var extent = ol.extent.createEmpty();
     for(var i = 0; i < features.length; i++) {
       ol.extent.extend(extent, features[i].getGeometry().getExtent());
@@ -860,20 +855,6 @@ var Hijax = (function ($, Hijax) {
       $(popoverElement).hide();
       hoverState.persistent = false;
 
-      // Ensure that all current highlights are in current pins, too
-      if (current_pins.length) {
-        for (var i = 0; i < current_highlights.length; i++) {
-          for (var j = 0; j < current_pins.length; j++) {
-            if (current_highlights[i].getId() == current_pins[j].getId()) {
-              current_pins.splice(j, 1);
-            }
-          }
-          current_pins.push(current_highlights[i]);
-        }
-      } else {
-        current_pins = current_highlights;
-      }
-
       // check if the behaviours layouted (created at the beginning of attach) is resolved already
       // if so create a local one, otherwise pass the behaviours one ...
       var layouted;
@@ -923,8 +904,24 @@ var Hijax = (function ($, Hijax) {
     // Populate pin highlights
 
     $('[data-behaviour~="populateMapHightlights"]', context).each(function(){
-      var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
-      //TODO: re-implement
+      var id = $(this).attr("about");
+
+      // dirty hack: retry until feature found, but stop after 10 iterations
+      var retriedOnVectorSource = 0;
+      var retryOnVectorSource = setInterval(function(){
+        retriedOnVectorSource++;
+        if(retriedOnVectorSource > 10) {
+          clearInterval(retryOnVectorSource);
+        }
+        if(placemarksVectorSource) {
+          var feature = placemarksVectorSource.getFeatureById(id);
+          if (feature) {
+            clearInterval(retryOnVectorSource);
+            feature.setStyle(styles.placemark.hover);
+            zoomToFeatures([feature]);
+          }
+        }
+      }, 300);
     });
 
     // Link list entries to pins
