@@ -641,10 +641,6 @@ Handlebars.registerHelper('exportUrl', function (type, url, extension) {
 
 });
 
-Handlebars.registerHelper('unwrapResources', function (obj) {
-  return toNative(obj).map( function(record) { return record.about } );
-});
-
 Handlebars.registerHelper('formatLocation', function (format, location, prefix) {
 
   if(format == 'city_country') {

@@ -1,7 +1,7 @@
 <ul class="calendar" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
 
     <script type="application/ld+json">
-        {{json (unwrapResources scope.resources.member)}}
+        {{json scope.resources.member}}
     </script>
 
     {{#each scope.resources.aggregations.[about.startDate.GTE].buckets}}
