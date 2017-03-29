@@ -1215,7 +1215,7 @@ Handlebars.registerHelper('daterange', function (date_from, date_to) {
     from.isSame(to, 'year')
   ) {
 
-    return from.format( formats_by_precision[ precesion_max ] );
+    return from.format( formats_by_precision[ precision_max ] );
 
   } else if(
     from.isSame(to, 'month') &&
