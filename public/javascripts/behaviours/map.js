@@ -90,6 +90,8 @@ var Hijax = (function ($, Hijax) {
 
     defaultCenter = [0, 5000000],
 
+    maxPopoverStackSize = 6,
+
     templates = {},
 
     state = {
@@ -334,7 +336,7 @@ var Hijax = (function ($, Hijax) {
       var content = '';
       var total_resources = features.length;
       var zoom_values = getZoomValues();
-      if(total_resources < 6) {
+      if(total_resources <= maxPopoverStackSize) {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
           content += templates['popoverResource']({ resource: properties });
@@ -619,7 +621,7 @@ var Hijax = (function ($, Hijax) {
 
       Hijax.behaviours.app.linkToFragment( state.hover.features[0].getId() );
 
-    } else if(state.hover.features.length < 7 || world.getView().getZoom() == getZoomValues().maxZoom) {
+    } else if(state.hover.features.length <= maxPopoverStackSize || world.getView().getZoom() == getZoomValues().maxZoom) {
       // less then 7 or maximum zoom level – show stacked persistent popover for all hovered features ...
       log.debug('MAP onClick – show persistent popover');
 
