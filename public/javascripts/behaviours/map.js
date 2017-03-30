@@ -494,12 +494,13 @@ var Hijax = (function ($, Hijax) {
       return;
     }
 
+    $('[data-behaviour~="linkedListEntries"] li').removeClass('active');
     for(var i = 0; i < state.highlights.length; i++) {
       setFeatureStyle(
-        placemarksVectorSource.getFeatureById(
-          state.highlights[i]
-        )
-      , 'highlight');
+        placemarksVectorSource.getFeatureById(state.highlights[i]),
+        'highlight'
+      );
+      $('[data-behaviour~="linkedListEntries"] li[about="' + state.highlights[i] + '"]').addClass('active');
     }
   }
 
@@ -817,12 +818,6 @@ var Hijax = (function ($, Hijax) {
     // to happen after subsequent layout
     my.layouted = $.Deferred();
 
-    // Populate pin highlights
-    $('[data-behaviour~="populateMapHighlights"]', context).each(function(){
-      var id = $(this).attr("about");
-      setHighlights([id]);
-    });
-
     // Link list entries to pins
     $('[data-behaviour~="linkedListEntries"]', context).each(function(){
 
@@ -969,7 +964,6 @@ var Hijax = (function ($, Hijax) {
 
   function setHighlights(ids) {
     var old_highlights = getFeaturesById(placemarksVectorSource, state.highlights);
-    console.log('old_highlights', old_highlights);
     state.highlights = ids;
     resetFeaturesStyle(old_highlights);
   }
