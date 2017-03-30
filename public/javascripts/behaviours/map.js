@@ -932,10 +932,13 @@ var Hijax = (function ($, Hijax) {
     parser.href = url;
     var url_geojson;
     if (parser.pathname.indexOf("/country/") == 0) {
-      url_geojson = "/resource.geojson?filter.about.location.address.addressCountry="
+      url_geojson = "/resource.geojson?size=9999&filter.about.location.address.addressCountry="
         + parser.pathname.split("/")[2].toUpperCase();
     } else {
-      url_geojson = parser.pathname.slice(0, -1) + ".geojson" + parser.search;
+      var params = queryString(parser);
+      params.size = 9999;
+      params.from = 0;
+      url_geojson = parser.pathname.slice(0, -1) + ".geojson?" + $.param(params);
     }
 
     placemarksVectorSource = new ol.source.Vector({

@@ -198,6 +198,8 @@
 
         </div>
 
+        <input type="hidden" name="size" value="20">
+
     </form>
 
 </div>
@@ -233,7 +235,7 @@
     <div class="p clearfix">
 
         <div class="pull-left">
-            <span class="badge total-items">{{scope.resources.totalItems}}</span> entries shown
+            <span class="badge total-items">{{scope.resources.totalItems}}</span> results
         </div>
 
         <div class="pull-right">
@@ -267,9 +269,46 @@
 
             {{>ResourceIndex/list.mustache}}
 
+            <nav aria-label="Page navigation">
+                <ul class="pagination horizontal-list">
+                    {{#if scope.resources.firstPage}}
+                        <li>
+                            <a href="{{scope.resources.firstPage}}" aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {{/if}}
+                    {{#if scope.resources.previousPage}}
+                        <li>
+                            <a href="{{scope.resources.previousPage}}" aria-label="Previous">
+                                    <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                    {{/if}}
+                    {{#scope.resources.pages}}
+                        <li><a href="{{.}}">{{inc @index}}</a></li>
+                    {{/scope.resources.pages}}
+                    {{#if scope.resources.nextPage}}
+                        <li>
+                            <a href="{{scope.resources.nextPage}}" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                    {{/if}}
+                    {{#if scope.resources.lastPage}}
+                        <li>
+                            <a href="{{scope.resources.lastPage}}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+
         {{/showCalendar}}
 
     </div>
+
 
 </div>
 

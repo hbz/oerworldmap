@@ -111,10 +111,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url().concat(filterString)));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url().concat(filterString)));
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "json").url().concat(filterString)));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "csv").url().concat(filterString)));
+    alternates.put("GeoJSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "geojson").url().concat(filterString)));
     if (resourceList.containsType("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url().concat(filterString)));
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "ics").url().concat(filterString)));
     }
 
     Map<String, Object> scope = new HashMap<>();

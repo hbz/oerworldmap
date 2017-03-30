@@ -652,3 +652,29 @@ Handlebars.registerHelper('showCalendar', function (scope, options) {
   }
 
 });
+
+Handlebars.registerHelper("inc", function(value, options) {
+
+    return parseInt(parseInt(value) + 1).toString();
+
+});
+
+window.queryString = function(url) {
+  a = url ? url.search.substr(1).split('&') : window.location.search.substr(1).split('&');
+  if (a == "") return {};
+  var b = {};
+  for (var i = 0; i < a.length; ++i) {
+      var p = a[i].split('=', 2);
+      var param = decodeURIComponent(p[0]);
+      if (p.length == 1) {
+        b[param] = "";
+      } else if (b[p[0]] instanceof Array) {
+        b[param].push(decodeURIComponent(p[1].replace(/\+/g, " ")));
+      } else if (b[p[0]]) {
+        b[param] = [b[p[0]], decodeURIComponent(p[1].replace(/\+/g, " "))];
+      } else {
+        b[param] = decodeURIComponent(p[1].replace(/\+/g, " "));
+      }
+  }
+  return b;
+};
