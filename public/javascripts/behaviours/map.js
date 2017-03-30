@@ -44,6 +44,20 @@ var Hijax = (function ($, Hijax) {
             })
           }),
           zIndex: 2
+        }),
+
+        highlight : new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 9,
+            stroke: new ol.style.Stroke({
+              color: '#fff',
+              width: 1.5
+            }),
+            fill: new ol.style.Fill({
+              color: colors["orange"]
+            })
+          }),
+          zIndex: 3
         })
 
       },
@@ -75,9 +89,6 @@ var Hijax = (function ($, Hijax) {
     standartMaxZoom = 15,
 
     defaultCenter = [0, 5000000],
-    currentCenter = false,
-
-    current_highlights = [],
 
     templates = {},
 
@@ -88,11 +99,12 @@ var Hijax = (function ($, Hijax) {
         popoverType : '' // country, placemark
       },
       scope : 'world',
-      hightlights : [],
-      viewChange : false, // world, country, placemarks, hightlights
+      highlights : [],
+      viewChange : false, // world, country, placemarks, highlights
       persistentPopover : false
     }
   ;
+
 
   function getZoomValues() {
     if(
@@ -116,13 +128,19 @@ var Hijax = (function ($, Hijax) {
     };
   }
 
+
   function getFeatureType(feature) {
+    if(! feature) {
+      log.error('MAP getFeatureType – invalid feature', feature);
+      return;
+    }
     if(feature.getId().indexOf("urn:uuid") == 0) {
       return "placemark";
     } else {
       return 'country';
     }
   }
+
 
   function getFeatureTypeById(id) {
     if(id.length == 2) {
@@ -132,6 +150,7 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+
   function getPopoverType(features) {
     for (var i = 0; i < features.length; i++) {
       if (getFeatureType(features[i]) == "placemark") {
@@ -140,6 +159,7 @@ var Hijax = (function ($, Hijax) {
     }
     return "country";
   }
+
 
   function updateHoverState(pixel) {
 
@@ -243,16 +263,29 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+
   function setFeatureStyle(feature, style) {
-    var feature_type = getFeatureType( feature );
+    var feature_type = getFeatureType(feature);
+
     if(feature_type == 'country') {
-      countryVectorLayerHovered.getSource().addFeature(feature);
-      return;
+
+      if(style == 'hover') {
+        countryVectorLayerHovered.getSource().addFeature(feature);
+      } else if(style == 'base') {
+        countryVectorLayerHovered.getSource().removeFeature(feature);
+      }
+
+    } else if(feature_type == 'placemark') {
+
+      if(state.highlights.indexOf(feature.getId()) !== -1) {
+        feature.setStyle(styles['placemark']['highlight']);
+      } else {
+        feature.setStyle(styles['placemark'][ style ]);
+      }
+
     }
-    feature.setStyle(
-      styles[ "placemark" ][ style ]
-    );
   }
+
 
   function setFeaturesStyle(features, style) {
     for (var i = 0; i < features.length; i++) {
@@ -260,31 +293,18 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
+
   function resetFeatureStyle(feature) {
-    var feature_type = getFeatureType(feature);
-
-    if(feature_type == 'placemark') {
-      var properties = feature.getProperties();
-      if(! properties.highligted) {
-        setFeatureStyle(
-          feature,
-          'base'
-        );
-      }
-    }
-
-    if(feature_type == 'country') {
-      countryVectorLayerHovered.getSource().removeFeature(
-        feature
-      );
-    }
+    setFeatureStyle(feature, 'base');
   }
+
 
   function resetFeaturesStyle( features ) {
     for (var i = 0; i < features.length; i++) {
       resetFeatureStyle(features[i]);
     }
   }
+
 
   function setPopoverPosition(features, type, pixel) {
 
@@ -307,6 +327,7 @@ var Hijax = (function ($, Hijax) {
       popover.setOffset([0, -30]);
     }
   }
+
 
   function setPopoverContent(features, type) {
     if( type == "placemark" ) {
@@ -346,6 +367,7 @@ var Hijax = (function ($, Hijax) {
 
   }
 
+
   function setCountryData(aggregations) {
 
     if (!countryVectorSource) return;
@@ -365,6 +387,7 @@ var Hijax = (function ($, Hijax) {
     }
 
   }
+
 
   function setHeatmapColors(aggregations) {
 
@@ -443,9 +466,6 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function highlightPlacemarks(placemarks) {
-    current_highlights = placemarks;
-  }
 
   function userCenterWorld() {
 
@@ -463,261 +483,104 @@ var Hijax = (function ($, Hijax) {
     world.getView().setZoom(zoom_values.initialZoom);
   }
 
-  function retry(when_callback, do_callback) {
 
-  }
+  function updateHighlights() {
+    log.debug('MAP updateHighlights', state.highlights);
+    placemarksVectorLayer.setStyle(styles.placemark.base);
 
-  function updateHightlights() {
-    if(!state.highlights) {
+    if(! state.highlights || state.highlights.length == 0) {
       return;
     }
 
-    var id = state.highlights[0];
-
-    // dirty hack: retry until feature found, but stop after 10 iterations
-    var retriedOnVectorSource = 0;
-    var retryOnVectorSource = setInterval(function(){
-      retriedOnVectorSource++;
-      if(retriedOnVectorSource > 10) {
-        clearInterval(retryOnVectorSource);
-      }
-      if(placemarksVectorSource) {
-        var feature = placemarksVectorSource.getFeatureById(id);
-        if (feature) {
-          clearInterval(retryOnVectorSource);
-          feature.setStyle(styles.placemark.hover);
-          // zoomToFeatures([feature]);
-        }
-      }
-    }, 300);
+    for(var i = 0; i < state.highlights.length; i++) {
+      setFeatureStyle(
+        placemarksVectorSource.getFeatureById(
+          state.highlights[i]
+        )
+      , 'highlight');
+    }
   }
 
-  function zoomToFeatures(features) {
-    retry(when, do)
 
-    if(! features) {
-      log.debug('MAP zoomToFeatures – empty set');
+  function zoomToFeatures(features) {
+    if(! features || features.length == 0) {
+      log.debug('MAP zoomToFeatures – empty set, doing nothing', features);
+      return;
+    }
+    if(! Array.isArray(features)) {
+      log.error('MAP zoomToFeatures – features must be an array');
       return;
     }
     var extent = ol.extent.createEmpty();
     for(var i = 0; i < features.length; i++) {
       ol.extent.extend(extent, features[i].getGeometry().getExtent());
     }
+    if(extent[0] == Infinity) {
+      log.error('MAP zoomToFeatures – extent is infinity', extent, features);
+    }
     world.getView().fit(extent, world.getSize(), {
       minResolution: 2
     });
   }
+
+
+  function getFeaturesById(source, ids) {
+    features = [];
+    for(var i = 0; i < ids.length; i++) {
+      features.push(
+        source.getFeatureById(ids[i])
+      );
+    }
+    return features;
+  }
+
 
   function updateBoundingBox(layouted) {
 
     switch (state.viewChange) {
 
       case 'world':
-        log.debug('MAP setBoundingBox – set center to user:', window.user_location);
+        log.debug('MAP updateBoundingBox – set center to user:', window.user_location);
         userCenterWorld();
         break;
 
       case 'country':
-        log.debug('MAP setBoundingBox – focus country');
+        log.debug('MAP updateBoundingBox – focus country', state.scope);
         zoomToFeatures(
-          countryVectorSource.getFeatureById(state.scope)
+          [countryVectorSource.getFeatureById(state.scope)]
         );
         break;
 
       case 'placemarks':
-        log.debug('MAP setBoundingBox – focus placemarks');
-        retry(function(){
-          zoomToFeatures(
-            placemarksVectorSource.getFeatures()
-          )
-        });
+        log.debug('MAP updateBoundingBox – focus placemarks');
+        zoomToFeatures(
+          placemarksVectorSource.getFeatures()
+        );
         break;
 
       case 'highlights':
-        log.debug('MAP setBoundingBox – focus hightlights', state.highlights);
+        log.debug('MAP updateBoundingBox – focus highlights', state.highlights);
         zoomToFeatures(
-          placemarksVectorSource.getFeatureById(state.highlights)
+          getFeaturesById(placemarksVectorSource, state.highlights)
         );
         break;
 
       case false:
-        log.debug('MAP setBoundingBox – no view change');
+        log.debug('MAP updateBoundingBox – no view change');
         break;
     }
 
     state.viewChange = false;
     layouted.resolve(); // probably not needed anymore because no async calls left
-
-    return;
-
-
-
-    var dataFocus = element.getAttribute("data-focus");
-    var boundingBox;
-
-    // determine boundingBox or focusIds from focus
-
-    if (dataFocus == "fit") {
-
-      boundingBox = placemarksVectorSource.getExtent();
-
-    } else if(dataFocus == "fit-highlighted") {
-
-      var focusIds = [];
-      $.each(current_highlights, function(i, v){
-        focusIds.push(v.getId());
-      });
-
-    } else if(dataFocus == "re-center") {
-
-      var focusIds = false;
-      if(! currentCenter) {
-        dataFocus == "fit";
-        boundingBox = placemarksVectorSource.getExtent();
-      }
-
-    } else if(dataFocus == "") {
-
-      var focusIds = false;
-
-    } else {
-
-      // should be list of ids in this case
-      var focusIds = dataFocus.trim().split(" ");
-
-    }
-
-    // if focusIds are set, determine bounding box for them
-
-    if (focusIds) {
-
-      // Init bounding box and transformation function
-      var boundingBox = ol.extent.createEmpty();
-      var tfn = ol.proj.getTransform('EPSG:4326', projection.getCode());
-
-      // Look for features on all layers and extend bounding box
-      world.getLayers().forEach(function(layer) {
-
-        for (var i = 0; i < focusIds.length; i++) {
-
-          if(layer.get('title') == 'cluster') {
-
-            var clusters = layer.getSource().getFeatures();
-            for(var j = 0; j < clusters.length; j++) {
-              var features = clusters[ j ].get('features');
-               for(var k = 0; k < features.length; k++) {
-                if (features[ k ].getId() == focusIds[i]) {
-                  ol.extent.extend(boundingBox, features[ k ].getGeometry().getExtent());
-                }
-               }
-            }
-
-          } else if (layer.getSource().getFeatureById) {
-
-            var feature = layer.getSource().getFeatureById(focusIds[i]);
-            if (feature) {
-              ol.extent.extend(boundingBox, feature.getGeometry().getExtent());
-            }
-
-          }
-        }
-      });
-
-    }
-
-    // if at this point there is a bounding box, that's not infinit, fit the view to it
-
-    if (boundingBox && (boundingBox[0] != Infinity)) {
-
-      log.debug('MAP setBoundingBox – fitting to bounding box');
-      world.getView().fit(boundingBox, world.getSize(), {
-        minResolution: 2
-      });
-      currentCenter = world.getView().getCenter();
-      layouted.resolve();
-
-    } else {
-
-      // if no bounding box, look at dataFocus again
-
-      if(dataFocus == 're-center') {
-
-        log.debug('MAP setBoundingBox – only updating the center');
-        world.getView().setCenter(currentCenter);
-
-      } else if(dataFocus == '') {
-
-        // set center to user and zoom to initial again ...
-
-        log.debug('MAP setBoundingBox – set center to user:', window.user_location);
-
-        var country_extent = countryVectorSource
-          .getFeatureById( window.user_location )
-          .getGeometry()
-          .getExtent();
-        var country_center_x = country_extent[0] + (country_extent[2] - country_extent[0]) / 2;
-        var center = [country_center_x, defaultCenter[1]]
-        world.getView().setCenter(center);
-
-        // Get zoom values adapted to map size
-
-        log.debug('MAP setBoundingBox – set zoom to initial');
-
-        var zoom_values = getZoomValues();
-        world.getView().setZoom(zoom_values.initialZoom);
-
-        currentCenter = center;
-      }
-
-      layouted.resolve();
-    }
   }
 
-
-  function restrictListToExtent(e) {
-
-    var container = $('[data-behaviour~="geoFilteredList"]');
-
-    if (
-      container.length &&
-      (
-        typeof e == 'undefined' ||
-        (
-          (e.key == 'resolution' || e.key == 'center') &&
-          $('#app-col-index').attr('data-col-mode') == 'list'
-        )
-      )
-    ) {
-
-      log.debug('MAP restrictListToExtent');
-
-      var list = container.find('.resource-list');
-      var enabled = container.find('.geo-filtered-list-control input');
-
-      if (enabled.prop("checked")) {
-        var extent = world.getView().calculateExtent(world.getSize());
-        list.children('li').hide();
-        placemarksVectorSource.forEachFeatureInExtent(extent, function(feature) {
-          var resource = feature.getProperties()['resource'];
-          var ids = resource['referencedBy'] ? resource['referencedBy'].map(function(obj){return obj['@id']}) : [];
-          ids.push(resource['@id']);
-          for (var i = 0; i < ids.length; i++) {
-            list.children('li[about="' + ids[i] + '"]').show();
-          }
-        });
-      } else {
-        list.children('li').show();
-      }
-
-      container.find('.total-items').text(list.children('li:visible').length);
-    }
-  }
 
   function onPointermove(evt) {
     if (evt.dragging) { return; }
     var pixel = world.getEventPixel(evt.originalEvent);
     updateHoverState(pixel);
   }
+
 
   // #features == 1 : link
   // #features 2 - 6 : persistent
@@ -726,16 +589,25 @@ var Hijax = (function ($, Hijax) {
   function onClick(evt) {
 
     var pixel = world.getEventPixel(evt.originalEvent);
+    updateHoverState(pixel);
+
+    log.debug('MAP onClick – state:', state);
 
     if(state.persistentPopover) {
       // persistent popover – just close it
+      log.debug('MAP onClick – close persistent popover');
 
       state.persistentPopover = false;
       $('#map').removeClass('popover-persistent');
       $(popoverElement).hide();
 
+    } else if(state.hover.popoverType == false) {
+      // water or country in high zoom level
+      log.debug('MAP onClick – do nothing');
+
     } else if(state.hover.popoverType == "country") {
       // it's a country – link to it if zoom is not to high, otherwise do nothing
+      log.debug('MAP onClick – page to country, if zoom is less then 9');
 
       if(world.getView().getZoom() < 9) {
         page("/country/" + state.hover.features[0].getId().toLowerCase());
@@ -743,11 +615,13 @@ var Hijax = (function ($, Hijax) {
 
     } else if(state.hover.features.length == 1) {
       // just one feature – link to it ...
+      log.debug('MAP onClick – page to resource');
 
       Hijax.behaviours.app.linkToFragment( state.hover.features[0].getId() );
 
     } else if(state.hover.features.length < 7 || world.getView().getZoom() == getZoomValues().maxZoom) {
-      // less then 7 or maximum zoom level – show stacked popover for all hovered features ...
+      // less then 7 or maximum zoom level – show stacked persistent popover for all hovered features ...
+      log.debug('MAP onClick – show persistent popover');
 
       state.persistentPopover = true;
       $('#map').addClass('popover-persistent');
@@ -756,6 +630,7 @@ var Hijax = (function ($, Hijax) {
 
     } else {
       // more then 7 and we can zoom – let's do so ...
+      log.debug('MAP onClick – zoom to features');
 
       zoomToFeatures(state.hover.features);
       setTimeout(function(){
@@ -765,17 +640,9 @@ var Hijax = (function ($, Hijax) {
     }
   }
 
-  // world, country, feature, features
-  function scheduleViewChange(viewChange) {
-    state.viewChange = viewChange;
-  }
-
-  function setHighlights(ids) {
-    state.highlights = ids;
-  }
-
 
   /* --- public functions --- */
+
 
   function init(context) {
 
@@ -819,48 +686,14 @@ var Hijax = (function ($, Hijax) {
       container = $('<div id="map"></div>')[0];
       $(this).prepend(container);
 
-      // Country vector source
-
-      countryVectorSource = new ol.source.Vector({
-        wrapX: true,
-        loader: function(){
-          var url = '/assets/json/ne_50m_admin_0_countries_topo.json';
-          var format = new ol.format.TopoJSON();
-          var source = this;
-
-          //dispatch your custom event
-          this.set('loadstart', Math.random());
-
-          $.getJson(url, '', function(response){
-
-            if(Object.keys(response).length > 0){
-              var features = format.readFeatures(response, {
-                featureProjection: 'EPSG:3857'
-              });
-              source.addFeatures(features);
-              //dispatch your custom event
-              source.set('loadend', Math.random());
-            }
-          });
-        }
-      });
-
-      countryVectorSource.set('loadstart', '');
-      countryVectorSource.set('loadend', '');
-
-      source.on('change:loadstart', function(evt){
-        console.info('loadstart');
-      });
-      source.on('change:loadend', function(evt){
-        console.info('loadend');
-      });
-
       // Country vector layer
 
       countryVectorLayer = new ol.layer.Vector({
         title: 'country',
         source: countryVectorSource
       });
+
+      setCountryVectorSource();
 
       // Mapbox tile source
 
@@ -897,16 +730,16 @@ var Hijax = (function ($, Hijax) {
 
       var collection = new ol.Collection();
       countryVectorLayerHovered = new ol.layer.Vector({
-        title: 'country-hover',
-        source: new ol.source.Vector({
-          features: collection,
-          useSpatialIndex: false // optional, might improve performance
+        title : 'country-hover',
+        source : new ol.source.Vector({
+          features : collection,
+          useSpatialIndex : false // optional, might improve performance
         }),
-        style: function(feature, resolution) {
+        style : function(feature, resolution) {
           return [new ol.style.Style({
-            stroke: new ol.style.Stroke({
-              color: '#0c75bf',
-              width: world.getView().getZoom() > 4 ? 2 : 1.5
+            stroke : new ol.style.Stroke({
+              color : '#0c75bf',
+              width : world.getView().getZoom() > 4 ? 2 : 1.5
             })
           })];
         },
@@ -917,10 +750,10 @@ var Hijax = (function ($, Hijax) {
       // Map object
 
       world = new ol.Map({
-        layers: [countryVectorLayer, mapboxTileLayer, countryVectorLayerHovered, placemarksVectorLayer],
-        target: container,
-        view: view,
-        controls: ol.control.defaults({ attribution: false })
+        layers : [countryVectorLayer, mapboxTileLayer, countryVectorLayerHovered, placemarksVectorLayer],
+        target : container,
+        view : view,
+        controls : ol.control.defaults({ attribution: false })
       });
 
       // bind events
@@ -928,26 +761,14 @@ var Hijax = (function ($, Hijax) {
       world.on('pointermove', onPointermove);
       world.on('click', onClick);
 
-      // restrict list to extent
-
-      world.getView().on('propertychange', _.debounce(restrictListToExtent, 500));
-
-      // update currentCenter
-
-      world.getView().on('propertychange', _.debounce(function(e) {
-        if (e.key == 'center' || e.key == 'resolution') {
-          currentCenter = world.getView().getCenter();
-        }
-      }, 150));
-
       // init popover
 
       popoverElement = $('<div class="popover fade top in layout-typo-small" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>')[0];
       popover = new ol.Overlay({
-        element: popoverElement,
-        positioning: 'bottom-center',
-        stopEvent: false,
-        wrapX: true
+        element : popoverElement,
+        positioning : 'bottom-center',
+        stopEvent : false,
+        wrapX : true
       });
 
       world.addOverlay(popover);
@@ -987,89 +808,17 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function layout() {
-
-    $.when.apply(null, my.attached).done(function(){
-
-      log.debug('MAP layout started (waited to be attached therefor)');
-
-      // clear eventually persistent popover
-      $('#map').removeClass('popover-persistent');
-      $(popoverElement).hide();
-      state.persistentPopover = false;
-
-      // check if the behaviours layouted (created at the beginning of attach) is resolved already
-      // if so create a local one, otherwise pass the behaviours one ...
-      var layouted;
-      if(my.layouted.state() == 'resolved') {
-        layouted = new $.Deferred();
-      } else {
-        layouted = my.layouted;
-      }
-
-      updateHightlights();
-      updateBoundingBox(layouted);
-
-      layouted.done(function(){
-        log.debug('MAP layout finished');
-      });
-
-    });
-
-    world.updateSize();
-
-  }
 
   function attach(context, attached) {
 
     // creating layouted deferred at the beginning of attached, to schedule actions from inside attach
     // to happen after subsequent layout
-
     my.layouted = $.Deferred();
 
-    // Hide entries not in current map extent by examining all markers (including "indirect" ones)
-    // for each list entry
-    $('[data-behaviour~="geoFilteredList"]', context).each(function(){
-
-      var container = $(this);
-
-      var checked = sessionStorage.getItem('geoFilteredList') == 'true' ? 'checked="checked"' : '';
-      var enabled = $('<input type="checkbox" name="enabled" ' + checked + ' />').change(function() {
-        sessionStorage.setItem('geoFilteredList', this.checked);
-        restrictListToExtent();
-      });
-
-      my.layouted.done(function(){
-        restrictListToExtent();
-      });
-
-      container.find('.geo-filtered-list-control').prepend($('<label> Search as I move the map</label>').prepend(enabled));
-    });
-
     // Populate pin highlights
-
-    $('[data-behaviour~="populateMapHightlights"]', context).each(function(){
+    $('[data-behaviour~="populateMapHighlights"]', context).each(function(){
       var id = $(this).attr("about");
       setHighlights([id]);
-
-/*
-      // dirty hack: retry until feature found, but stop after 10 iterations
-      var retriedOnVectorSource = 0;
-      var retryOnVectorSource = setInterval(function(){
-        retriedOnVectorSource++;
-        if(retriedOnVectorSource > 10) {
-          clearInterval(retryOnVectorSource);
-        }
-        if(placemarksVectorSource) {
-          var feature = placemarksVectorSource.getFeatureById(id);
-          if (feature) {
-            clearInterval(retryOnVectorSource);
-            feature.setStyle(styles.placemark.hover);
-            zoomToFeatures([feature]);
-          }
-        }
-      }, 300);
-*/
     });
 
     // Link list entries to pins
@@ -1079,7 +828,7 @@ var Hijax = (function ($, Hijax) {
         var id = $(this).attr("about");
         var feature = placemarksVectorSource.getFeatureById(id);
         if (feature) {
-          feature.setStyle(styles.placemark.hover);
+          setFeatureStyle(feature, 'hover');
         }
       });
 
@@ -1087,7 +836,7 @@ var Hijax = (function ($, Hijax) {
         var id = $(this).attr("about");
         var feature = placemarksVectorSource.getFeatureById(id);
         if (feature) {
-          feature.setStyle(styles.placemark.base);
+          resetFeatureStyle(feature);
         }
       });
     });
@@ -1110,9 +859,125 @@ var Hijax = (function ($, Hijax) {
 
   }
 
-  function clearHighlights() {
-    current_highlights = [];
+
+  function layout() {
+
+    $.when.apply(null, my.attached).done(function(){
+
+      log.debug('MAP layout started (waited to be attached therefor)');
+
+      // clear eventually persistent popover
+      $('#map').removeClass('popover-persistent');
+      $(popoverElement).hide();
+      state.persistentPopover = false;
+
+      // check if the behaviours layouted (created at the beginning of attach) is resolved already
+      // if so create a local one, otherwise pass the behaviours one ...
+      var layouted;
+      if(my.layouted.state() == 'resolved') {
+        layouted = new $.Deferred();
+      } else {
+        layouted = my.layouted;
+      }
+
+      $.when(countrySourceLoaded, placemarksSourceLoaded).done(function(){
+        setTimeout(function(){
+          updateHighlights();
+          updateBoundingBox(layouted);
+        }, 0);
+      });
+
+      layouted.done(function(){
+        log.debug('MAP layout finished');
+      });
+
+    });
+
+    world.updateSize();
+
   }
+
+
+  // not public, just here to be next to setPlacemarksVectorSource
+  function setCountryVectorSource() {
+    countrySourceLoaded = $.Deferred();
+
+    countryVectorSource = new ol.source.Vector({
+      wrapX : true,
+      loader : function(){
+        var url = '/assets/json/ne_50m_admin_0_countries_topo.json';
+        var format = new ol.format.TopoJSON();
+        var source = this;
+
+        $.getJSON(url, '', function(response){
+          if(Object.keys(response).length > 0){
+            var features = format.readFeatures(response, {
+              featureProjection: 'EPSG:3857'
+            });
+            source.addFeatures(features);
+            countrySourceLoaded.resolve();
+          }
+        });
+      }
+    });
+
+    countryVectorLayer.setSource(countryVectorSource);
+  }
+
+
+  function setPlacemarksVectorSource(url) {
+    placemarksSourceLoaded = $.Deferred();
+
+    var parser = document.createElement('a');
+    parser.href = url;
+    var url_geojson;
+    if (parser.pathname.indexOf("/country/") == 0) {
+      url_geojson = "/resource.geojson?filter.about.location.address.addressCountry="
+        + parser.pathname.split("/")[2].toUpperCase();
+    } else {
+      url_geojson = parser.pathname.slice(0, -1) + ".geojson" + parser.search;
+    }
+
+    placemarksVectorSource = new ol.source.Vector({
+      wrapX : true,
+      loader : function(){
+        var format = new ol.format.GeoJSON();
+        var source = this;
+
+        $.getJSON(url_geojson, '', function(response){
+          if(Object.keys(response).length > 0){
+            var features = format.readFeatures(response, {
+              featureProjection: 'EPSG:3857'
+            });
+            source.addFeatures(features);
+            placemarksSourceLoaded.resolve();
+          }
+        });
+      }
+    });
+
+    placemarksVectorLayer.setSource(placemarksVectorSource);
+  }
+
+
+  function setScope(scope) {
+    state.scope = scope;
+  }
+
+
+  function setHighlights(ids) {
+    var old_highlights = getFeaturesById(placemarksVectorSource, state.highlights);
+    console.log('old_highlights', old_highlights);
+    state.highlights = ids;
+    resetFeaturesStyle(old_highlights);
+  }
+
+
+  // world, country, feature, features
+  function scheduleViewChange(viewChange) {
+    state.viewChange = viewChange;
+  }
+
 
   function debugShowCountry(id) {
     var feature = countryVectorSource.getFeatureById(id);
@@ -1130,23 +995,6 @@ var Hijax = (function ($, Hijax) {
     });
   }
 
-  function setPlacemarksVectorSource(url) {
-    var parser = document.createElement('a');
-    parser.href = url;
-    var source;
-    if (parser.pathname.indexOf("/country/") == 0) {
-      source = "/resource.geojson?filter.about.location.address.addressCountry="
-        + parser.pathname.split("/")[2].toUpperCase();
-    } else {
-      source = parser.pathname.slice(0, -1) + ".geojson" + parser.search;
-    }
-    placemarksVectorSource = new ol.source.Vector({
-      url: source,
-      format: new ol.format.GeoJSON(),
-      wrapX: true
-    });
-    placemarksVectorLayer.setSource(placemarksVectorSource);
-  }
 
   var my = {
 
@@ -1158,14 +1006,19 @@ var Hijax = (function ($, Hijax) {
     layouted : false,
     attached : [],
 
-    clearHighlights : clearHighlights,
-    debugShowCountry : debugShowCountry,
+    placemarksSourceLoaded : new $.Deferred(),
+    countrySourceLoaded : new $.Deferred(),
+
     setPlacemarksVectorSource : setPlacemarksVectorSource,
 
+    setScope : setScope,
     setHighlights : setHighlights,
-    scheduleViewChange : scheduleViewChange
+    scheduleViewChange : scheduleViewChange,
+
+    debugShowCountry : debugShowCountry
 
   };
+
 
   Hijax.behaviours.map = my;
 
