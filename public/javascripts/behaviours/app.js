@@ -137,6 +137,7 @@ var Hijax = (function ($, Hijax, page) {
       map_attached.resolve();
     });
 
+/*
     $.when(map_attached, map_and_index_loaded).done(function(){
       if(
         ! $('.geo-filtered-list-control input').prop('checked') ||
@@ -145,6 +146,9 @@ var Hijax = (function ($, Hijax, page) {
         $('#app-col-map [data-behaviour="map"]').attr('data-focus', 'fit-highlighted');
       }
     });
+*/
+    // var id = url.split('/').pop();
+    // Hijax.behaviours.map.setHighlights([  ]);
   }
 
   function route_start(pagejs_ctx, next) {
@@ -196,13 +200,25 @@ var Hijax = (function ($, Hijax, page) {
       });
     }
 
-    // set map focus mode
+    // set map view change
 
+    console.log('app_history', app_history);
+    if(app_history.length == 1) {
+      if(pagejs_ctx.path == "/") {
+        console.log('scheduleViewChange world');
+        Hijax.behaviours.map.scheduleViewChange('world');
+      } else {
+        Hijax.behaviours.map.scheduleViewChange('placemarks');
+      }
+    }
+
+/*
     if( pagejs_ctx.pathname == "/resource/" ) {
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
     } else {
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', '');
     }
+*/
 
     // determine index_mode
 
@@ -230,7 +246,7 @@ var Hijax = (function ($, Hijax, page) {
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       set_col_mode('detail', 'hidden');
-      Hijax.behaviours.map.clearHighlights();
+      // Hijax.behaviours.map.clearHighlights();
     }
 
     next();
@@ -243,15 +259,16 @@ var Hijax = (function ($, Hijax, page) {
     set_map_and_index_source(pagejs_ctx.path, 'list');
     set_col_mode('detail', 'hidden');
 
-    // set focus to country code (might be overwritten by set_detail_source
-    $('#app-col-map [data-behaviour="map"]').attr('data-focus', pagejs_ctx.path.split("/").pop().toUpperCase() );
+    // schedule map view change
+    Hijax.behaviours.map.scheduleViewChange('country');
+    // $('#app-col-map [data-behaviour="map"]').attr('data-focus', pagejs_ctx.path.split("/").pop().toUpperCase() );
 
     if(pagejs_ctx.hash) {
       $('#app-col-map [data-behaviour="map"]').attr('data-focus', 're-center');
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       set_col_mode('detail', 'hidden');
-      Hijax.behaviours.map.clearHighlights();
+      // Hijax.behaviours.map.clearHighlights();
     }
 
     next();
@@ -263,6 +280,11 @@ var Hijax = (function ($, Hijax, page) {
     $('#app').addClass('loading');
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
+
+    if(app_history.length == 1) {
+      Hijax.behaviours.map.scheduleViewChange('highlights');
+    }
+
     next();
   }
 
