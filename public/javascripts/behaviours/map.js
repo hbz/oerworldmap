@@ -63,6 +63,9 @@ var Hijax = (function ($, Hijax) {
       },
     },
 
+    $map = null,
+    $visibleArea = null,
+
     container = null,
     world = null,
     view = null,
@@ -507,12 +510,8 @@ var Hijax = (function ($, Hijax) {
 
 
   function zoomToFeatures(features) {
-    if(! features || features.length == 0) {
-      log.debug('MAP zoomToFeatures – empty set, doing nothing', features);
-      return;
-    }
-    if(! Array.isArray(features)) {
-      log.error('MAP zoomToFeatures – features must be an array');
+    if(! features || ! Array.isArray(features) || features.length == 0) {
+      log.debug('MAP zoomToFeatures – features is not an array or empty, doing nothing', features);
       return;
     }
     var extent = ol.extent.createEmpty();
@@ -522,8 +521,10 @@ var Hijax = (function ($, Hijax) {
     if(extent[0] == Infinity) {
       log.error('MAP zoomToFeatures – extent is infinity', extent, features);
     }
+    var padding_right = $map.width() - $visibleArea.width();
     world.getView().fit(extent, world.getSize(), {
-      minResolution: 2
+      minResolution : 2,
+      padding : [0, padding_right, 0, 0]
     });
   }
 
@@ -684,6 +685,11 @@ var Hijax = (function ($, Hijax) {
     )();
 
     $('div[data-behaviour="map"]', context).each(function() {
+
+      // cache dom
+
+      $map = $(this);
+      $visibleArea = $map.find('.visible-area');
 
       // Map container
 
