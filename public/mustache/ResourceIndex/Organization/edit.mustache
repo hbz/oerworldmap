@@ -8,6 +8,8 @@
 
     {{> FormElements/localizedInput.mustache property=name property_path="name" title=(i18n "Organization.name") tooltip=(i18n "Organization.name" bundle="descriptions")}}
 
+    {{> FormElements/localizedInput.mustache property=displayName property_path="displayName" title=(i18n "Organization.displayName") tooltip=(i18n "Organization.displayName" bundle="descriptions")}}
+
     {{> FormElements/input.mustache property=url property_path="url" title=(i18n "Organization.url") tooltip=(i18n "Organization.url" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
     {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Organization.email") tooltip=(i18n "Organization.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}

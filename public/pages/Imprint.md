@@ -85,7 +85,7 @@ No information is mandatory. By registering you also express consent to publish 
 - your affiliation
 - stories, projects, events etc. 
 
-You can view, change, and delete the information at any later point in time. In order to delete your profile, please send us a mail to [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
+You can view, change, and delete the information at any later point in time. In order to delete your profile, visit your profile page and select "Delete" from the menu.
 
 #### Logging of Activities as a registered user to improve the service
 

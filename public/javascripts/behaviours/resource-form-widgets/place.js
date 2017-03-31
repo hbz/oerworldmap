@@ -46,6 +46,7 @@ var Hijax = (function ($, Hijax) {
 
       $('[data-behaviour~="place"]', context)
         .not('[data-dont-behave] [data-behaviour~="place"]')
+        .not('[data-behaviour="collapsed-form-field"]:not(.in) [data-behaviour~="place"]')
         .each(function()
       {
 
@@ -142,6 +143,9 @@ var Hijax = (function ($, Hijax) {
           widget.find('[name="location[address][addressCountry]"]').val(
             suggestion.id
           );
+          if(! suggestion.id) {
+            widget.find('[name="location[address][addressRegion]"]').val('');
+          }
           country_dropdown_button.find('.text').text(
             suggestion.label
           );

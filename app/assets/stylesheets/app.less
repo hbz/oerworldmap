@@ -1,9 +1,95 @@
-@toggle-col-size: 38px;
+@toggle-col-size: 32px;
 @index-min-width: 470px;
 @notification-width: 400px;
+@col-background: fadeout(#fff, 4%);
+
+/* --- columns --- */
+
+#app {
+
+  [data-app="col"],
+  .visible-area {
+    position: absolute;
+  }
+
+  #app-col-map {
+    top: 0; right: 0; bottom: 0; left: 0;
+    .visible-area {
+      top: 0; right: 0; bottom: 0; left: 0;
+    }
+  }
+
+  #app-col-index,
+  #app-col-detail {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: @index-min-width;
+  }
+
+  &[data-col-detail-mode="hidden"] {
+    #app-col-detail {
+      display: none;
+    }
+  }
+
+  &[data-col-detail-mode="expanded"] {
+    #app-col-index {
+      right: @index-min-width;
+    }
+  }
+
+  &[data-col-index-mode="list"][data-col-detail-mode="hidden"],
+  &[data-col-index-mode="floating"][data-col-detail-mode="expanded"] {
+    #app-col-map .visible-area {
+      right: @index-min-width;
+    }
+  }
+
+  &[data-col-index-mode="list"][data-col-detail-mode="expanded"] {
+    #app-col-map .visible-area {
+      right: (@index-min-width * 2);
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+
+    &[data-col-detail-mode="expanded"] {
+      #app-col-index {
+        right: calc(100% ~"-" @index-min-width ~"-" 260px);
+      }
+      #app-col-detail {
+        width: calc(100% ~"-" @index-min-width ~"-" 260px);
+      }
+    }
+
+    &[data-col-index-mode="floating"][data-col-detail-mode="expanded"] {
+      #app-col-map .visible-area {
+        right: calc(100% ~"-" @index-min-width ~"-" 260px);
+      }
+    }
+
+    &[data-col-index-mode="list"][data-col-detail-mode="expanded"] {
+      #app-col-map .visible-area {
+        right: calc(100% ~"-" 260px);
+      }
+    }
+  }
+
+}
+
+
+/* --- else --- */
 
 .app-visible {
   opacity: 0;
+}
+
+.visible-area {
+  pointer-events: none;
+  * {
+    pointer-events: all;
+  }
 }
 
 #app {
@@ -18,20 +104,13 @@
 
   #app-col-container {
     position: fixed;
-    display: flex;
-    justify-content: center;
 
     left: 0px;
     top: @header-height;
     width: 100%;
     bottom: 0px;
 
-    background: @blue-palest;
-
     [data-app="col"] {
-      flex-basis: 33.3333%;
-      min-width: 33.333%;
-      position: relative;
       height: 100%;
       z-index: 1;
 
@@ -48,30 +127,32 @@
       [data-app="toggle-col"] {
         display: block;
         position: absolute;
+        z-index: 3;
+
         left: -(@toggle-col-size / 2);
         top: 50%;
+
         width: @toggle-col-size;
         height: @toggle-col-size;
+
         margin-top: -(@toggle-col-size / 2);
+
         line-height: @toggle-col-size;
-        padding: 0 (@toggle-col-size / 10);
+        padding-left: (@toggle-col-size / 15);
+
         text-align: center;
+        color: @blue-light;
         cursor: pointer;
 
-        background: @blue-palest;
+        background: #fff;
         border-radius: @toggle-col-size;
-        border: 1px solid transparent;
-        background-clip: padding-box;
+        border: 1px solid @blue-lighter;
 
-        &::after {
-          display: block;
-          position: absolute;
-          left: -1px; right: -1px;
-          top: -1px; bottom: -1px;
-          background: linear-gradient(to right, @blue-lighter 0%, @blue-lighter 50%, @blue-palest 80%);
-          content: '';
-          z-index: -1;
-          border-radius: (@toggle-col-size);
+        &:hover {
+          border: 2px solid white;
+          line-height: (@toggle-col-size - 2px);
+          background: @blue-light;
+          color: white;
         }
       }
     }
@@ -79,15 +160,13 @@
     #app-col-detail {
       &[data-col-mode="hidden"],
       &[data-col-mode="collapsed"] {
-        flex-basis: 0%;
-        min-width: 0%;
         border-left: none;
       }
     }
 
     #app-col-index,
     #app-col-detail {
-      background: @blue-palest;
+      background: @col-background;
       border-left: 1px solid @blue-lighter;
 
       [data-app="col-content"] {
@@ -96,9 +175,6 @@
     }
 
     #app-col-index {
-      width: @index-min-width;
-      min-width: @index-min-width;
-      flex-basis: @index-min-width;
 
       &[data-col-mode="floating"] {
         background: transparent;
@@ -140,7 +216,6 @@
     }
 
     #app-col-map {
-      flex: 1 1 auto !important;
 
       #page-footer {
         position: absolute;

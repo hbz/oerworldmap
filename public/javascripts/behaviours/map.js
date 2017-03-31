@@ -63,6 +63,9 @@ var Hijax = (function ($, Hijax) {
       },
     },
 
+    $map = null,
+    $visibleArea = null,
+
     container = null,
     world = null,
     view = null,
@@ -89,6 +92,8 @@ var Hijax = (function ($, Hijax) {
     standartMaxZoom = 15,
 
     defaultCenter = [0, 5000000],
+
+    maxPopoverStackSize = 6,
 
     templates = {},
 
@@ -334,7 +339,7 @@ var Hijax = (function ($, Hijax) {
       var content = '';
       var total_resources = features.length;
       var zoom_values = getZoomValues();
-      if(total_resources < 6) {
+      if(total_resources <= maxPopoverStackSize) {
         for(var i = 0; i < features.length; i++) {
           var properties = features[i].getProperties();
           content += templates['popoverResource']({ resource: properties });
@@ -475,18 +480,21 @@ var Hijax = (function ($, Hijax) {
       .getGeometry()
       .getExtent();
     var user_country_center_x = user_country_extent[0] + (user_country_extent[2] - user_country_extent[0]) / 2;
-    var center = [user_country_center_x, defaultCenter[1]]
-    world.getView().setCenter(center);
-
-    // set zoom
+    var center = [user_country_center_x, defaultCenter[1]];
     var zoom_values = getZoomValues();
-    world.getView().setZoom(zoom_values.initialZoom);
+
+    world.getView().animate({
+      zoom : zoom_values.initialZoom,
+      center : center
+    });
   }
 
 
   function updateHighlights() {
     log.debug('MAP updateHighlights', state.highlights);
-    placemarksVectorLayer.setStyle(styles.placemark.base);
+
+    // unset hightlight in list (unset of features happens in setHighlights()
+    $('[data-behaviour~="linkedListEntries"] li').removeClass('active');
 
     if(! state.highlights || state.highlights.length == 0) {
       return;
@@ -494,21 +502,17 @@ var Hijax = (function ($, Hijax) {
 
     for(var i = 0; i < state.highlights.length; i++) {
       setFeatureStyle(
-        placemarksVectorSource.getFeatureById(
-          state.highlights[i]
-        )
-      , 'highlight');
+        placemarksVectorSource.getFeatureById(state.highlights[i]),
+        'highlight'
+      );
+      $('[data-behaviour~="linkedListEntries"] li[about="' + state.highlights[i] + '"]').addClass('active');
     }
   }
 
 
   function zoomToFeatures(features) {
-    if(! features || features.length == 0) {
-      log.debug('MAP zoomToFeatures – empty set, doing nothing', features);
-      return;
-    }
-    if(! Array.isArray(features)) {
-      log.error('MAP zoomToFeatures – features must be an array');
+    if(! features || ! Array.isArray(features) || features.length == 0) {
+      log.debug('MAP zoomToFeatures – features is not an array or empty, doing nothing', features);
       return;
     }
     var extent = ol.extent.createEmpty();
@@ -518,8 +522,11 @@ var Hijax = (function ($, Hijax) {
     if(extent[0] == Infinity) {
       log.error('MAP zoomToFeatures – extent is infinity', extent, features);
     }
-    world.getView().fit(extent, world.getSize(), {
-      minResolution: 2
+    var padding_right = $map.width() - $visibleArea.width();
+    world.getView().fit(extent, {
+      duration : 800,
+      minResolution : 2,
+      padding : [0, padding_right, 0, 0]
     });
   }
 
@@ -619,7 +626,7 @@ var Hijax = (function ($, Hijax) {
 
       Hijax.behaviours.app.linkToFragment( state.hover.features[0].getId() );
 
-    } else if(state.hover.features.length < 7 || world.getView().getZoom() == getZoomValues().maxZoom) {
+    } else if(state.hover.features.length <= maxPopoverStackSize || world.getView().getZoom() == getZoomValues().maxZoom) {
       // less then 7 or maximum zoom level – show stacked persistent popover for all hovered features ...
       log.debug('MAP onClick – show persistent popover');
 
@@ -680,6 +687,11 @@ var Hijax = (function ($, Hijax) {
     )();
 
     $('div[data-behaviour="map"]', context).each(function() {
+
+      // cache dom
+
+      $map = $(this);
+      $visibleArea = $map.find('.visible-area');
 
       // Map container
 
@@ -756,6 +768,15 @@ var Hijax = (function ($, Hijax) {
         controls : ol.control.defaults({ attribution: false })
       });
 
+      /*
+      // experimental mapbox vector styles. needs olms.js
+      world.addLayer(countryVectorLayer);
+      var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
+      olms.apply(world, 'https://api.mapbox.com/styles/v1/literarymachine/ciq3njijr004kq7nduyya7hxg?access_token=' + mapboxKey);
+      world.addLayer(countryVectorLayerHovered);
+      world.addLayer(placemarksVectorLayer);
+      */
+
       // bind events
 
       world.on('pointermove', onPointermove);
@@ -814,12 +835,6 @@ var Hijax = (function ($, Hijax) {
     // creating layouted deferred at the beginning of attached, to schedule actions from inside attach
     // to happen after subsequent layout
     my.layouted = $.Deferred();
-
-    // Populate pin highlights
-    $('[data-behaviour~="populateMapHighlights"]', context).each(function(){
-      var id = $(this).attr("about");
-      setHighlights([id]);
-    });
 
     // Link list entries to pins
     $('[data-behaviour~="linkedListEntries"]', context).each(function(){
@@ -888,6 +903,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       layouted.done(function(){
+        $('#app').removeClass('loading');
         log.debug('MAP layout finished');
       });
 
@@ -970,7 +986,6 @@ var Hijax = (function ($, Hijax) {
 
   function setHighlights(ids) {
     var old_highlights = getFeaturesById(placemarksVectorSource, state.highlights);
-    console.log('old_highlights', old_highlights);
     state.highlights = ids;
     resetFeaturesStyle(old_highlights);
   }

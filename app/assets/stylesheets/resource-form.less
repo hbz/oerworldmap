@@ -60,6 +60,37 @@ legend {
   }
 }
 
+[data-behaviour="collapsed-form-field"] {
+  hr {
+    border-top: 1px solid @blue-darker;
+    margin: 0px 0px 10px 0px;
+  }
+
+  padding-bottom: 10px;
+
+  &.in {
+
+    hr,
+    .alert {
+      display: none;
+    }
+
+    .collapse {
+      display: block;
+    }
+
+    padding-bottom: 0px;
+
+    .resource-form-widget {
+      border-bottom: none;
+    }
+  }
+
+  .alert {
+    margin-bottom: 0px;
+  }
+}
+
 .resource-form-top-padding {
   margin-top: 10px;
 }
@@ -240,7 +271,8 @@ li.multiple-one {
 .tt-selectable {
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.tt-cursor {
     background: @blue-pale;
   }
 }

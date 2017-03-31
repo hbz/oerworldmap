@@ -10,9 +10,26 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login"];
 
   var init_app = true;
+
+  var state = {
+    scope : 'world',
+    highlights : []
+  };
+
+  function setScope(scope) {
+    log.debug('APP setScope:', scope);
+    state.scope = scope;
+    Hijax.behaviours.map.setScope(state.scope);
+  }
+
+  function setHighlights(highlights) {
+    log.debug('APP setHighlights:', highlights);
+    state.highlights = highlights;
+    Hijax.behaviours.map.setHighlights(state.highlights);
+  }
 
   $.each(static_pages, function() {
     if (window.location.pathname.indexOf(this) == 0) {
@@ -169,8 +186,8 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    // clear map highlights
-    Hijax.behaviours.map.setHighlights([]);
+    setScope('world');
+    setHighlights([]);
 
     // clear empty searches
 
@@ -189,16 +206,13 @@ var Hijax = (function ($, Hijax, page) {
       });
     }
 
-    // set map view change
+    // schedule map view change
 
-    if(app_history.length == 1) {
-      if(pagejs_ctx.path == "/") {
-        Hijax.behaviours.map.scheduleViewChange('world');
-      } else {
-        Hijax.behaviours.map.scheduleViewChange('placemarks');
-      }
+    if(pagejs_ctx.path == "/") {
+      Hijax.behaviours.map.scheduleViewChange('world');
+    } else if(app_history.length == 1) {
+      Hijax.behaviours.map.scheduleViewChange('placemarks');
     }
-    Hijax.behaviours.map.setScope('world');
 
     // determine index_mode
 
@@ -223,6 +237,7 @@ var Hijax = (function ($, Hijax, page) {
     // set detail source
 
     if(pagejs_ctx.hash) {
+      setHighlights([pagejs_ctx.hash]);
       set_detail_source('/resource/' + pagejs_ctx.hash);
     } else {
       set_col_mode('detail', 'hidden');
@@ -236,16 +251,16 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    // clear map highlights
-    Hijax.behaviours.map.setHighlights([]);
+    var country_code = pagejs_ctx.path.split("/").pop().toUpperCase();
+
+    setScope(country_code);
+    setHighlights([]);
 
     set_map_and_index_source(pagejs_ctx.path, 'list');
     set_col_mode('detail', 'hidden');
 
-    // set map scope
-    Hijax.behaviours.map.setScope( pagejs_ctx.path.split("/").pop().toUpperCase() );
-
     if(pagejs_ctx.hash) {
+      setHighlights([pagejs_ctx.hash]);
       set_detail_source('/resource/' + pagejs_ctx.hash);
       if(app_history.length == 1) {
         Hijax.behaviours.map.scheduleViewChange('country');
@@ -263,13 +278,14 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    // clear map highlights
-    Hijax.behaviours.map.setHighlights([]);
+    var id = pagejs_ctx.path.split('/').pop();
+
+    setScope('world');
+    setHighlights([id]);
 
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
 
-    Hijax.behaviours.map.setScope('world');
     if(app_history.length == 1) {
       Hijax.behaviours.map.scheduleViewChange('highlights');
     }
@@ -283,14 +299,6 @@ var Hijax = (function ($, Hijax, page) {
     if(pagejs_ctx.path != initialization_source.pathname) {
       window.location = pagejs_ctx.path;
     }
-  }
-
-  function route_login(pagejs_ctx) {
-    log.debug('APP route_login', pagejs_ctx);
-
-    $.get('/.login', function(){
-      window.location = "/";
-    });
   }
 
   function route_default(pagejs_ctx, next) {
@@ -312,7 +320,6 @@ var Hijax = (function ($, Hijax, page) {
       detail_loaded
     ).done(function(){
       Hijax.layout('triggered by routing_done');
-      $('#app').removeClass('loading');
     });
   }
 
@@ -373,7 +380,6 @@ var Hijax = (function ($, Hijax, page) {
       // setup non-app (currently static) and login routes
 
       page(new RegExp('(' + static_pages.join('|').replace(/\//g, '\\\/') + ')'), route_start, route_static, routing_done);
-      page('/.login', route_start, route_login, routing_done);
 
       // after all app routes ...
 

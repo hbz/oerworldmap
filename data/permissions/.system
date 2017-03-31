@@ -1,8 +1,13 @@
 ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a href=/user/password>reset password</a>."
 
-<proxy *>
-    Redirect "/.login" "/"
-</proxy>
+RewriteEngine On
+RewriteMap unescape int:unescape
+RewriteCond %{REQUEST_URI}  ^/.loggedIn$
+RewriteCond %{QUERY_STRING} ^continue=(.*)$
+RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
+
+RewriteCond %{REQUEST_URI}  ^/.loggedIn$
+RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 
 <Location />
   AuthType Basic
@@ -14,6 +19,7 @@ ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a 
 
 <Location /.login>
   Require valid-user
+  Redirect "/.login" "/.loggedIn"
 </Location>
 
 <Location /resource/>

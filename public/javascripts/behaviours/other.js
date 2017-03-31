@@ -259,6 +259,24 @@ var Hijax = (function ($, Hijax) {
         $('#app').removeClass('print-index');
       });
 
+      $('[data-behaviour~="continue-link"]', context)
+        .not('[data-dont-behave] [data-behaviour~="continue-link"]')
+        .each(function()
+      {
+        $(this).attr("href", $(this).attr("href") + "?continue=" + encodeURIComponent($('#app-modal').data('url_before')));
+      });
+
+      /* --- collapsed form field --- */
+
+      $('[data-behaviour~="collapsed-form-field"] button', context)
+        .not('[data-dont-behave] [data-behaviour~="print-index"]')
+        .bind('click', function(e)
+      {
+        var $el = $(this).closest('[data-behaviour~="collapsed-form-field"]');
+        $el.addClass('in');
+        Hijax.attachBehaviours($el.find('.collapse'), 'triggered by collapsed-form-field');
+      });
+
     },
 
     attached : []
