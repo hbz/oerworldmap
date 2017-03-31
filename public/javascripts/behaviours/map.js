@@ -480,12 +480,13 @@ var Hijax = (function ($, Hijax) {
       .getGeometry()
       .getExtent();
     var user_country_center_x = user_country_extent[0] + (user_country_extent[2] - user_country_extent[0]) / 2;
-    var center = [user_country_center_x, defaultCenter[1]]
-    world.getView().setCenter(center);
-
-    // set zoom
+    var center = [user_country_center_x, defaultCenter[1]];
     var zoom_values = getZoomValues();
-    world.getView().setZoom(zoom_values.initialZoom);
+
+    world.getView().animate({
+      zoom : zoom_values.initialZoom,
+      center : center
+    });
   }
 
 
@@ -522,7 +523,8 @@ var Hijax = (function ($, Hijax) {
       log.error('MAP zoomToFeatures – extent is infinity', extent, features);
     }
     var padding_right = $map.width() - $visibleArea.width();
-    world.getView().fit(extent, world.getSize(), {
+    world.getView().fit(extent, {
+      duration : 800,
       minResolution : 2,
       padding : [0, padding_right, 0, 0]
     });
@@ -765,6 +767,15 @@ var Hijax = (function ($, Hijax) {
         view : view,
         controls : ol.control.defaults({ attribution: false })
       });
+
+      /*
+      // experimental mapbox vector styles. needs olms.js
+      world.addLayer(countryVectorLayer);
+      var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
+      olms.apply(world, 'https://api.mapbox.com/styles/v1/literarymachine/ciq3njijr004kq7nduyya7hxg?access_token=' + mapboxKey);
+      world.addLayer(countryVectorLayerHovered);
+      world.addLayer(placemarksVectorLayer);
+      */
 
       // bind events
 
