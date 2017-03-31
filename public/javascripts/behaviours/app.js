@@ -208,12 +208,10 @@ var Hijax = (function ($, Hijax, page) {
 
     // schedule map view change
 
-    if(app_history.length == 1) {
-      if(pagejs_ctx.path == "/") {
-        Hijax.behaviours.map.scheduleViewChange('world');
-      } else {
-        Hijax.behaviours.map.scheduleViewChange('placemarks');
-      }
+    if(pagejs_ctx.path == "/") {
+      Hijax.behaviours.map.scheduleViewChange('world');
+    } else if(app_history.length == 1) {
+      Hijax.behaviours.map.scheduleViewChange('placemarks');
     }
 
     // determine index_mode
