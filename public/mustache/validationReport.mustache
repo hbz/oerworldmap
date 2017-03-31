@@ -1,0 +1,13 @@
+<div>
+    {{#if missing}}
+        Please fill out the fields for
+        <ul class="comma-seperated-list">
+            {{#missing}}
+                <li>{{i18n (stringFormat "%s.%s" scope.type this)}}</li>
+            {{/missing}}
+        </ul>
+    {{else}}
+        {{{i18n "schema_error"}}}
+        <pre>{{ json this }}</pre>
+    {{/if}}
+</div>
