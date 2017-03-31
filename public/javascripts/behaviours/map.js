@@ -892,6 +892,7 @@ var Hijax = (function ($, Hijax) {
       });
 
       layouted.done(function(){
+        $('#app').removeClass('loading');
         log.debug('MAP layout finished');
       });
 

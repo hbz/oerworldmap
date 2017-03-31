@@ -320,7 +320,6 @@ var Hijax = (function ($, Hijax, page) {
       detail_loaded
     ).done(function(){
       Hijax.layout('triggered by routing_done');
-      $('#app').removeClass('loading');
     });
   }
 
