@@ -488,13 +488,14 @@ var Hijax = (function ($, Hijax) {
 
   function updateHighlights() {
     log.debug('MAP updateHighlights', state.highlights);
-    placemarksVectorLayer.setStyle(styles.placemark.base);
+
+    // unset hightlight in list (unset of features happens in setHighlights()
+    $('[data-behaviour~="linkedListEntries"] li').removeClass('active');
 
     if(! state.highlights || state.highlights.length == 0) {
       return;
     }
 
-    $('[data-behaviour~="linkedListEntries"] li').removeClass('active');
     for(var i = 0; i < state.highlights.length; i++) {
       setFeatureStyle(
         placemarksVectorSource.getFeatureById(state.highlights[i]),
