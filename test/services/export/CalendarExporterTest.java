@@ -62,6 +62,16 @@ public class CalendarExporterTest implements JsonTest {
     compare(exported, expected);
   }
 
+  @Test
+  public void testExportMissingRequiredFieldStartDate() throws IOException{
+    Resource resourceMissingDate = getResourceFromJsonFile("CalendarExporterTest/testExportMissingRequiredFieldStartDate.IN.1.json");
+    List<String> exported = splitLines(mExporter.export(resourceMissingDate));
+    // Export is expected to contain no events here.
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testExportMissingRequiredFieldStartDate.OUT.1.iCal",
+      Charset.forName("UTF-8")));
+    compare(exported, expected);
+  }
+
   private void compare(List<String> exported, List<String> expected) {
     assertFalse("Export is too short.", expected.size() > exported.size());
     assertFalse("Export is too long.", expected.size() < exported.size());
