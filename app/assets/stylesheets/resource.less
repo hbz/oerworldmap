@@ -38,13 +38,33 @@
 
 .resource-title {
   position: relative;
-  float: left;
 }
 
 .resource-title .fa {
   position: absolute;
   left: 0px;
   top: 0px;
+}
+
+
+/* --- subtitle --- */
+
+.subtitle {
+  span {
+    &:after {
+      content: '—';
+      display: inline-block;
+    }
+
+    &:last-child:after {
+      content: '';
+    }
+
+    // to avoid whitespace inside link ...
+    a {
+      display: inline-block;
+    }
+  }
 }
 
 
@@ -98,4 +118,5 @@
 
 .resource-details-table td:first-child {
   font-weight: bold;
+  width: 150px;
 }

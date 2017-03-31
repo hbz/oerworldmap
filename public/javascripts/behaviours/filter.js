@@ -225,7 +225,7 @@ var Hijax = (function ($, Hijax, page) {
     },{
       // name: 'languages',
       limit : 9999,
-      //display : 'label',
+      displayKey: 'label_x',
       source : function(q, sync){
         if (q === '') {
           sync( bloodhounds[ name ].local );

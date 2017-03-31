@@ -94,7 +94,7 @@ public class ResourceIndex extends OERWorldMap {
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
       "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate", "about.organizer", "about.description"
+      "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName"
     });
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
@@ -463,7 +463,22 @@ public class ResourceIndex extends OERWorldMap {
   public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
-      return ok("deleted resource " + resource.toString());
+      // If deleting personal profile, also delete corresponding user
+      if ("Person".equals(resource.getType())) {
+        String username = mAccountService.getUsername(aId);
+        if (!mAccountService.removePermissions(aId)) {
+          Logger.warn("Could not remove permissions for " + aId);
+        }
+        if (!mAccountService.setProfileId(username, null)) {
+          Logger.warn("Could not unset profile ID for " + username);
+        }
+        if (!mAccountService.deleteUser(username)) {
+          Logger.warn("Could not delete user " + username);
+        }
+        return ok("deleted user " + aId);
+      } else {
+        return ok("deleted resource " + aId);
+      }
     } else {
       return badRequest("Failed to delete resource " + aId);
     }

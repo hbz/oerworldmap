@@ -9,6 +9,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 import models.Record;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
 import org.elasticsearch.search.sort.SortOrder;
 
 import java.util.Arrays;
@@ -129,8 +130,8 @@ public class AggregationProvider {
         .interval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
             .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
               "about.location"}, null)
-              .addSort("about.startDate", SortOrder.ASC).setSize(Integer.MAX_VALUE)
-          );
+              .setSize(Integer.MAX_VALUE)
+          ).order(Histogram.Order.KEY_DESC);
   }
 
 }

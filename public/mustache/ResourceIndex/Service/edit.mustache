@@ -24,7 +24,33 @@
 
     {{> FormElements/input.mustache property=image property_path="image" title=(i18n "Service.image") tooltip=(i18n "Service.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
-    {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Service.location") tooltip=(i18n "Service.location" bundle="descriptions")}}
+    <div data-behaviour="collapsed-form-field" {{#if this.location}} class="in" {{/if}}>
+
+        <hr/>
+
+        <div class="alert alert-info">
+
+            <p>
+                The address of a service is inherited from the provider. That's why it's not shown per default. Only activate it, if this service is run in a different place then the provider is located.
+            </p>
+
+            <p>
+                Read more: <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors#how-to-add-locations">FAQ Chapter: How to add locations?</a>
+            </p>
+
+            <div class="container-top-line">
+                <button class="btn btn-default" type="button">
+                    Show Address
+                </button>
+            </div>
+
+        </div>
+
+        <div class="collapse">
+            {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Service.location") tooltip=(i18n "Service.location" bundle="descriptions")}}
+        </div>
+
+    </div>
 
     {{> FormElements/id.mustache property=about property_path="about" title=(i18n "Service.about") tooltip=(i18n "Service.about" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/esc.json"}}
 

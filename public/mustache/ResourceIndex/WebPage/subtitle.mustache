@@ -1,0 +1,8 @@
+{{#if additionalType}}
+    <span>
+        Additional Type:
+        {{#additionalType}}
+            {{.}}{{#unless @last}},{{/unless}}
+        {{/additionalType}}
+    </span>
+{{/if}}
