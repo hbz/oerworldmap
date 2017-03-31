@@ -8,9 +8,34 @@
 #app {
 
   [data-app="col"] {
-    float: left;
+    position: absolute;
   }
 
+  #app-col-map {
+    top: 0; right: 0; bottom: 0; left: 0;
+  }
+
+  #app-col-index,
+  #app-col-detail {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: @index-min-width;
+  }
+
+  &[data-col-detail-mode="hidden"] {
+    #app-col-detail {
+      display: none;
+    }
+  }
+
+  &[data-col-detail-mode="expanded"] {
+    #app-col-index {
+      right: @index-min-width;
+    }
+  }
+
+/*
   // initial state
   &[data-col-index-mode="floating"][data-col-detail-mode="hidden"] {
     #app-col-map {
@@ -54,6 +79,7 @@
       width: @index-min-width;
     }
   }
+*/
 
   @media screen and (max-width: 1200px) {
 
@@ -107,7 +133,6 @@
     background: @blue-palest;
 
     [data-app="col"] {
-      position: relative;
       height: 100%;
       z-index: 1;
 
