@@ -224,16 +224,20 @@ public class ResourceIndex extends OERWorldMap {
     Resource staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
-      Map<String, Object> scope = new HashMap<>();
       ListProcessingReport listProcessingReport = new ListProcessingReport();
       try {
         listProcessingReport.mergeWith(processingReport);
       } catch (ProcessingException e) {
         Logger.error("Failed to create list processing report", e);
       }
-      scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
-      scope.put("type", resource.getType());
-      return badRequest(render("Upsert failed", "validationResult.mustache", scope));
+      if (request().accepts("text/html")) {
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("type", resource.getType());
+        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+      } else {
+        return badRequest(listProcessingReport.asJson());
+      }
     }
 
     // Save
