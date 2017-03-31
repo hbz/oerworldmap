@@ -4,6 +4,7 @@ import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -100,6 +101,13 @@ public class CalendarExporter implements Exporter {
   }
 
   private String exportResourceWithoutHeader(final Resource aResource){
+    final String startDate = parseStartDate(aResource);
+    final String dateStamp = getTimeStamp();
+    // Check required fields according to https://tools.ietf.org/html/rfc5545#section-3.6.1
+    if (StringUtils.isEmpty(startDate) || StringUtils.isEmpty(dateStamp)){
+      // Missing UID is not checked here because it can never be null for an existing resource.
+      return "";
+    }
     final StringBuilder result = new StringBuilder(EVENT_BEGIN);
     for (Map.Entry<String, String> mapping : mFieldMap.entrySet()){
       boolean hasAppendedSomething = false;
@@ -127,9 +135,9 @@ public class CalendarExporter implements Exporter {
     }
     result.append(getDescription(aResource));
     result.append(getExportedOrganizer(aResource));
-    result.append(parseStartDate(aResource));
+    result.append(startDate);
     result.append(parseEndDate(aResource));
-    result.append(getTimeStamp());
+    result.append(dateStamp);
     result.append(CAL_CLASS);
     completeFields(result, aResource);
     result.append(EVENT_END);
