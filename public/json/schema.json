@@ -515,8 +515,20 @@
           }
         }
       },
-      "required": [
-        "name", "description"
+      "allOf": [
+        {
+          "required": [
+            "name", "description"
+          ],
+          "oneOf": [
+            {
+              "required": [ "location" ]
+            },
+            {
+              "required": [ "agent" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },
@@ -738,8 +750,20 @@
           }
         }
       },
-      "required": [
-        "name", "description", "availableChannel"
+      "allOf": [
+        {
+          "required": [
+            "name", "description", "availableChannel"
+          ],
+          "oneOf": [
+            {
+              "required": [ "location" ]
+            },
+            {
+              "required": [ "provider" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },
