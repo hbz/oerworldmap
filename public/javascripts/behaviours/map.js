@@ -15,53 +15,7 @@ var Hijax = (function ($, Hijax) {
       'orange-transparent': [254, 138, 0, 0.5]
     },
 
-    styles = {
-      placemark : {
-
-        base : new ol.style.Style({
-          image: new ol.style.Circle({
-            radius: 4,
-            stroke: new ol.style.Stroke({
-              color: '#fff',
-              width: 1
-            }),
-            fill: new ol.style.Fill({
-              color: colors["blue-darker-transparent"]
-            })
-          }),
-          zIndex: 1
-        }),
-
-        hover : new ol.style.Style({
-          image: new ol.style.Circle({
-            radius: 7,
-            stroke: new ol.style.Stroke({
-              color: '#fff',
-              width: 1
-            }),
-            fill: new ol.style.Fill({
-              color: colors["orange-transparent"]
-            })
-          }),
-          zIndex: 2
-        }),
-
-        highlight : new ol.style.Style({
-          image: new ol.style.Circle({
-            radius: 9,
-            stroke: new ol.style.Stroke({
-              color: '#fff',
-              width: 1.5
-            }),
-            fill: new ol.style.Fill({
-              color: colors["orange"]
-            })
-          }),
-          zIndex: 3
-        })
-
-      },
-    },
+    styles = null,
 
     $map = null,
     $visibleArea = null,
@@ -79,12 +33,13 @@ var Hijax = (function ($, Hijax) {
     countryVectorLayerHovered = null,
 
     placemarksVectorSource = null,
-    placemarksVectorLayer = new ol.layer.Vector({
-      style: styles.placemark.base
-    }),
+    placemarksVectorLayer = new ol.layer.Vector({}),
 
     mapboxTileSource = null,
     mapboxTileLayer = null,
+
+    placemarksSourceLoaded = new $.Deferred(),
+    countrySourceLoaded = new $.Deferred(),
 
     standartMapSize = [896, 655],
     standartInitialZoom = 1.85,
@@ -109,6 +64,78 @@ var Hijax = (function ($, Hijax) {
       persistentPopover : false
     }
   ;
+
+
+  function setStyles() {
+
+    var radius_base;
+    var zoom = world.getView().getZoom();
+
+    if(zoom < 5) {
+      radius_base = 4;
+    } else {
+      radius_base = 4 + (zoom - 5) * 0.4;
+    }
+
+    // var radius_hover = radius_base * 1.75;
+    // var radius_highlight = radius_base * 2.25;
+
+    var radius_hover = radius_base + 3;
+    var radius_highlight = radius_base + 6;
+
+    log.debug('MAP setStyles – zoom, radius_base:', zoom, radius_base);
+
+    styles = {
+      placemark : {
+
+        base : new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: radius_base,
+            stroke: new ol.style.Stroke({
+              color: '#fff',
+              width: 1
+            }),
+            fill: new ol.style.Fill({
+              color: colors["blue-darker-transparent"]
+            })
+          }),
+          zIndex: 1
+        }),
+
+        hover : new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: radius_hover,
+            stroke: new ol.style.Stroke({
+              color: '#fff',
+              width: 1
+            }),
+            fill: new ol.style.Fill({
+              color: colors["orange-transparent"]
+            })
+          }),
+          zIndex: 2
+        }),
+
+        highlight : new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: radius_highlight,
+            stroke: new ol.style.Stroke({
+              color: '#fff',
+              width: 1.5
+            }),
+            fill: new ol.style.Fill({
+              color: colors["orange"]
+            })
+          }),
+          zIndex: 3
+        })
+
+      }
+    };
+
+    placemarksVectorLayer.setStyle(styles.placemark.base);
+    updateHighlights();
+  }
 
 
   function getZoomValues() {
@@ -284,6 +311,8 @@ var Hijax = (function ($, Hijax) {
 
       if(state.highlights.indexOf(feature.getId()) !== -1) {
         feature.setStyle(styles['placemark']['highlight']);
+      } else if(style == 'base') {
+        feature.setStyle(null);
       } else {
         feature.setStyle(styles['placemark'][ style ]);
       }
@@ -501,10 +530,12 @@ var Hijax = (function ($, Hijax) {
     }
 
     for(var i = 0; i < state.highlights.length; i++) {
-      setFeatureStyle(
-        placemarksVectorSource.getFeatureById(state.highlights[i]),
-        'highlight'
-      );
+      var feature = placemarksVectorSource.getFeatureById(state.highlights[i]);
+      if(feature) {
+        setFeatureStyle(feature, 'highlight');
+      } else {
+        log.debug('MAP updateHighlights – didn\'t find feature for id:', state.highlights);
+      }
       $('[data-behaviour~="linkedListEntries"] li[about="' + state.highlights[i] + '"]').addClass('active');
     }
   }
@@ -534,9 +565,10 @@ var Hijax = (function ($, Hijax) {
   function getFeaturesById(source, ids) {
     features = [];
     for(var i = 0; i < ids.length; i++) {
-      features.push(
-        source.getFeatureById(ids[i])
-      );
+      var feature = source.getFeatureById(ids[i]);
+      if(feature) {
+        features.push(feature);
+      }
     }
     return features;
   }
@@ -645,6 +677,16 @@ var Hijax = (function ($, Hijax) {
       }, 300);
 
     }
+  }
+
+
+  function onMoveend() {
+    log.debug('MAP onMoveend');
+    $.when(countrySourceLoaded, placemarksSourceLoaded).done(function(){
+      setTimeout(function(){
+        setStyles();
+      }, 0);
+    });
   }
 
 
@@ -781,6 +823,7 @@ var Hijax = (function ($, Hijax) {
 
       world.on('pointermove', onPointermove);
       world.on('click', onClick);
+      world.on('moveend', onMoveend);
 
       // init popover
 
@@ -897,7 +940,7 @@ var Hijax = (function ($, Hijax) {
 
       $.when(countrySourceLoaded, placemarksSourceLoaded).done(function(){
         setTimeout(function(){
-          updateHighlights();
+          setStyles();
           updateBoundingBox(layouted);
         }, 0);
       });
@@ -1020,9 +1063,6 @@ var Hijax = (function ($, Hijax) {
     initialized : new $.Deferred(),
     layouted : false,
     attached : [],
-
-    placemarksSourceLoaded : new $.Deferred(),
-    countrySourceLoaded : new $.Deferred(),
 
     setPlacemarksVectorSource : setPlacemarksVectorSource,
 
