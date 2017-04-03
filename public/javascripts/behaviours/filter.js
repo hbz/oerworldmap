@@ -329,7 +329,13 @@ var Hijax = (function ($, Hijax, page) {
         // prepare aggregations
 
         for(a in aggregations) {
-          pimp_aggregation(aggregations[ a ], a);
+          if(
+            a != 'calendar' &&
+            a != 'about.@type' &&
+            a != 'about.startDate.GTE'
+          ) {
+            pimp_aggregation(aggregations[ a ], a);
+          }
         }
 
         // extract country and tag
@@ -346,11 +352,8 @@ var Hijax = (function ($, Hijax, page) {
 
         // remove special treated aggregations
 
-        delete aggregations['calendar'];
-        delete aggregations['about.@type'];
         delete aggregations['about.keywords'];
         delete aggregations['about.location.address.addressCountry'];
-        delete aggregations['about.startDate.GTE'];
 
         // set columns
 
