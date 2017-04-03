@@ -520,7 +520,7 @@
           "required": [
             "name", "description"
           ],
-          "oneOf": [
+          "anyOf": [
             {
               "required": [ "location" ]
             },
@@ -755,7 +755,7 @@
           "required": [
             "name", "description", "availableChannel"
           ],
-          "oneOf": [
+          "anyOf": [
             {
               "required": [ "location" ]
             },
