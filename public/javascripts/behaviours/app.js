@@ -556,6 +556,8 @@ var Hijax = (function ($, Hijax, page) {
               form.prepend( contents );
             }
 
+            form[0].scrollIntoView(true);
+
           }
         });
       });
