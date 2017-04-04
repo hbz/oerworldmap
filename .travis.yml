@@ -16,6 +16,7 @@ install:
   - npm install
 before_script:
   - cp conf/travis.conf conf/test.conf
+  - > /tmp/htprofiles
 addons:
   sonarqube: true
 branches:
