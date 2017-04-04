@@ -1031,7 +1031,11 @@ var Hijax = (function ($, Hijax) {
                 Hijax.behaviours.app.linkToFragment( properties['resource']['@id'] );
               }
             } else if(type == "country" && world.getView().getZoom() < 9) {
-              page("/country/" + feature.getId().toLowerCase());
+              if (embed) {
+                window.open("/country/" + feature.getId().toLowerCase(), '_blank').focus();
+              } else {
+                page("/country/" + feature.getId().toLowerCase());
+              }
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"), feature, evt.pixel);
             }

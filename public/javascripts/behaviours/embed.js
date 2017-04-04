@@ -15,6 +15,10 @@ var Hijax = (function ($, Hijax) {
     window.open(url);
   }
 
+  Hijax.behaviours.app.linkToFragment = function(id) {
+    window.open("/resource/" + id, '_blank').focus();
+  }
+
   return Hijax;
 
 })(jQuery, Hijax);

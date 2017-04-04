@@ -42,6 +42,7 @@
         var user = {{json user}};
         var permissions = {{json permissions}};
         var user_location = {{ json userLocation }};
+        var embed = {{ json embed }};
     </script>
 
 </head>
@@ -57,15 +58,17 @@
 
         <nav class="main">
             <ul>
-                <li><h1><a href="/" title="Home">OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+                <li><h1><a href="/" title="Home"{{#if @root.embed}}target="_blank"{{/if}}>OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+                {{#unless @root.embed}}
                 <li><a href="/contribute" title="Contribute">Contribute</a></li>
                 <li><a href="/FAQ" title="FAQ">FAQ</a></li>
                 <li><a href="/about" title="About">About</a></li>
                 <li><a href="https://oerworldmap.wordpress.com/" title="Blog" target="_blank">Blog</a></li>
+                {{/unless}}
             </ul>
         </nav>
 
-        <nav class="social">
+        <nav class="social{{#if @root.embed}} hidden{{/if}}">
             <ul>
 
                 <li><a href="https://www.facebook.com/oerworldmap" title="Facebook" target="_blank"><i class="fa fa-facebook-official"></i></a></li>
@@ -73,7 +76,7 @@
             </ul>
         </nav>
 
-        <nav class="user">
+        <nav class="user{{#if @root.embed}} hidden{{/if}}">
             <ul>
 
                 {{#if user}}
@@ -126,7 +129,7 @@
 <footer id="page-footer" class="container container-static-page color-scheme-text">
     <nav class="inner">
         <ul>
-            <li><a href="/imprint" title="Imprint">Imprint & Privacy</a></li>
+            <li><a href="/imprint" title="Imprint"{{#if @root.embed}}target="_blank"{{/if}}>Imprint & Privacy</a></li>
             <li><a href="http://creativecommons.org/licenses/by/4.0/" title="License" target="_blank" rel="license"><img alt="Creative Commons License CC BY-SA 4.0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a></li>
         </ul>
     </nav>
@@ -161,7 +164,7 @@
 <script type="text/javascript" src="/assets/javascripts/behaviours/charts.js"></script>
 <script type="text/javascript" src="/assets/javascripts/behaviours/resource-log.js"></script>
 
-{{#if scope.embed}}
+{{#if embed}}
     <script type="text/javascript" src="/assets/javascripts/behaviours/embed.js"></script>
 {{/if}}
 

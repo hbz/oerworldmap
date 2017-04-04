@@ -338,7 +338,8 @@ var Hijax = (function ($, Hijax, page) {
           header : $('header', context)[0].outerHTML,
           footer : $('footer', context)[0].outerHTML,
           user : user,
-          permissions : permissions
+          permissions : permissions,
+          embed : embed
         })
       );
 
