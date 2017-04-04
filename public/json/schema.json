@@ -271,6 +271,9 @@
           "$ref": "#/definitions/Place"
         }
       },
+      "required": [
+        "name", "description", "articleBody", "creator", "dateCreated", "location"
+      ],
       "additionalProperties": false
     },
     "Comment": {
@@ -512,8 +515,20 @@
           }
         }
       },
-      "required": [
-        "name"
+      "allOf": [
+        {
+          "required": [
+            "name", "description"
+          ],
+          "anyOf": [
+            {
+              "required": [ "location" ]
+            },
+            {
+              "required": [ "agent" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },
@@ -582,7 +597,8 @@
                 "type": "string",
                 "format": "uri"
               }
-            }
+            },
+            "required": [ "serviceUrl" ]
           }
         },
         "sameAs": {
@@ -734,8 +750,20 @@
           }
         }
       },
-      "required": [
-        "name"
+      "allOf": [
+        {
+          "required": [
+            "name", "description", "availableChannel"
+          ],
+          "anyOf": [
+            {
+              "required": [ "location" ]
+            },
+            {
+              "required": [ "provider" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },
@@ -911,6 +939,9 @@
           }
         }
       },
+      "required": [
+        "name", "description", "location"
+      ],
       "additionalProperties": false
     },
     "Organization": {
@@ -1114,9 +1145,7 @@
           }
         }
       },
-      "required": [
-        "name"
-      ],
+      "required": [ "name", "description", "location" ],
       "additionalProperties": false
     },
     "Event": {
@@ -1269,7 +1298,7 @@
         }
       },
       "required": [
-        "name"
+        "name", "description", "startDate", "endDate", "location"
       ],
       "additionalProperties": false
     },
@@ -1381,6 +1410,7 @@
           "$ref": "#/definitions/PostalAddress"
         }
       },
+      "required": [ "address" ],
       "additionalProperties": false
     },
     "GeoCoordinates": {
@@ -1465,6 +1495,7 @@
           "$ref": "#/definitions/Country"
         }
       },
+      "required": [ "addressCountry" ],
       "additionalProperties": false
     },
     "LocalizedString": {

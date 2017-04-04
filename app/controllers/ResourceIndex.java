@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
@@ -223,14 +224,20 @@ public class ResourceIndex extends OERWorldMap {
     Resource staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
-      List<Map<String, Object>> messages = new ArrayList<>();
-      HashMap<String, Object> message = new HashMap<>();
-      message.put("level", "warning");
-      message.put("message", getMessages().getString("schema_error")
-        + "<pre>" + processingReport.toString() + "</pre>"
-        + "<pre>" + staged + "</pre>");
-      messages.add(message);
-      return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.error("Failed to create list processing report", e);
+      }
+      if (request().accepts("text/html")) {
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("type", resource.getType());
+        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+      } else {
+        return badRequest(listProcessingReport.asJson());
+      }
     }
 
     // Save
