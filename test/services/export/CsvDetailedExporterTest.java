@@ -1,8 +1,10 @@
 package services.export;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import helpers.JsonTest;
+import models.Resource;
+import models.ResourceList;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -10,12 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import models.ResourceList;
-import org.junit.Before;
-import org.junit.Test;
-
-import helpers.JsonTest;
-import models.Resource;
+import static org.junit.Assert.*;
 
 public class CsvDetailedExporterTest implements JsonTest {
 
@@ -45,11 +42,24 @@ public class CsvDetailedExporterTest implements JsonTest {
     String csv1 = mCsvExporter.export(in1);
     String csv2 = mCsvExporter.export(in2);
     assertEquals(
-        "456;Person;123;Article;Super toll;456;Person;Hans Dampf;null;null;null;Ganz spannend!;987;Article;456;Person;Hans Dampf;Noch spannenderen!;null;Hans Dampf",
+        "456;\"Person\";123;\"Article\";\"Super toll\";456;\"Person\";\"Hans Dampf\";;;;\"Ganz spannend!\";987;\"Article\";456;\"Person\";\"Hans Dampf\";\"Noch spannenderen!\";;\"Hans Dampf\"",
         csv1);
     assertEquals(
-        "345;Person;123;Article;Super toll;456;Person;Hans Dampf;345;Person;Hans Wurst;Ganz spannend!;null;null;null;null;null;null;foo@bar.com;Hans Wurst",
+        "345;\"Person\";123;\"Article\";\"Super toll\";456;\"Person\";\"Hans Dampf\";345;\"Person\";\"Hans Wurst\";\"Ganz spannend!\";;;;;;;\"foo@bar.com\";\"Hans Wurst\"",
         csv2);
+  }
+
+  @Test
+  public void testEscapedStringExport() throws IOException {
+    AbstractCsvExporter csvExporter = new CsvDetailedExporter();
+    Resource resource = getResourceFromJsonFile("CsvDetailedExporterTest/testEscapedStringExport.IN.1.json");
+    List<Resource> asList = new ArrayList<>();
+    asList.add(resource);
+    csvExporter.defineHeaderColumns(asList);
+    String csv = csvExporter.export(resource);
+    assertEquals(
+      "456;\"Person\";\"Hans is a very sophisticated person, one you would need delimiters to tell his abilities; real delimiters| I mean: many of them. Plenty.\";\"Hans Dampf\"",
+      csv);
   }
 
   @Test
