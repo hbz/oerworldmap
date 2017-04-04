@@ -940,7 +940,7 @@
         }
       },
       "required": [
-        "name", "description", "location"
+        "name", "location"
       ],
       "additionalProperties": false
     },
