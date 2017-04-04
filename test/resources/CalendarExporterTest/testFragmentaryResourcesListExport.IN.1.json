@@ -8,6 +8,7 @@
   "filters" : { },
   "firstPage" : null,
   "itemsPerPage" : 9999,
+  "size": 68,
   "member" : [
     {
       "contributor" : "CalendarExporterTest",
