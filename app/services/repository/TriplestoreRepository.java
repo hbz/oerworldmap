@@ -196,17 +196,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     Model staged = getExtendedDescription(aResource.getId(), mDb);
     diff.apply(staged);
 
-    // The incoming model
-    Model incoming = ModelFactory.createDefaultModel();
-    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.toString().getBytes())) {
-      RDFDataMgr.read(incoming, byteArrayInputStream, Lang.JSONLD);
-    } catch (IOException e) {
-      throw new RuntimeIOException(e);
-    }
-
-    // Select resources incoming model is referencing and add them to staged
+    // Select resources staged model is referencing and add them to staged
     try (QueryExecution queryExecution = QueryExecutionFactory.create(
-        QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), incoming)) {
+        QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), staged)) {
       ResultSet resultSet = queryExecution.execSelect();
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();

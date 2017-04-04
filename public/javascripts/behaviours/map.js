@@ -567,7 +567,7 @@ var Hijax = (function ($, Hijax) {
 
       var focusIds = false;
 
-    } else {
+    } else if (dataFocus) {
 
       // should be list of ids in this case
       var focusIds = dataFocus.trim().split(" ");
@@ -1031,7 +1031,11 @@ var Hijax = (function ($, Hijax) {
                 Hijax.behaviours.app.linkToFragment( properties['resource']['@id'] );
               }
             } else if(type == "country" && world.getView().getZoom() < 9) {
-              page("/country/" + feature.getId().toLowerCase());
+              if (embed) {
+                window.open("/country/" + feature.getId().toLowerCase(), '_blank').focus();
+              } else {
+                page("/country/" + feature.getId().toLowerCase());
+              }
             } else if(type == "cluster") {
               zoomToFeatures(feature.get("features"), feature, evt.pixel);
             }
@@ -1092,6 +1096,10 @@ var Hijax = (function ($, Hijax) {
             my.initialized.resolve();
           }
         });
+        // dirty fix, because us isn't there but countryVectorSource is already ready – WHAT?
+        setTimeout(function(){
+          my.layout();
+        }, 300);
       }
 
     },
@@ -1175,7 +1183,8 @@ var Hijax = (function ($, Hijax) {
 
       markers = {};
       $('[data-behaviour~="populateMap"]', context).each(function(){
-        var json = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        var wrapped = JSON.parse( $(this).find('script[type="application/ld+json"]').html() );
+        var json = wrapped.map(function(record) { return record.about; });
         addPlacemarks(
           get_markers_from_json(json)
         );
@@ -1209,7 +1218,6 @@ var Hijax = (function ($, Hijax) {
         );
       });
 
-
       // Link list entries to pins
       // ... quite lengthy. Could need some refactoring. Probably by capsulating the resource/pin connection.
       $('[data-behaviour~="linkedListEntries"]', context).each(function(){
@@ -1224,7 +1232,8 @@ var Hijax = (function ($, Hijax) {
           if (script.length) {
 
             // first get the markers that represent hovered resource
-            var json = JSON.parse( script.html() );
+            var wrapped = JSON.parse( script.html() );
+            var json = wrapped.map(function(record) { return record.about; });
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];
@@ -1242,7 +1251,8 @@ var Hijax = (function ($, Hijax) {
           if (script.length) {
 
             // first get the markers that represent hovered resource
-            var json = JSON.parse( script.html() );
+            var wrapped = JSON.parse( script.html() );
+            var json = wrapped.map(function(record) { return record.about; });
             var resource = json.filter(function(resource) {
               return resource['@id'] == id;
             })[0];

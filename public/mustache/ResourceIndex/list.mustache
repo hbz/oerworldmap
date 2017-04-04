@@ -1,12 +1,21 @@
 <ul id="list" class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
 
     <script type="application/ld+json">
-        {{json (unwrapResources scope.resources.member)}}
+        {{ json scope.resources.member }}
     </script>
     {{#scope.resources.member}}
         {{#about}}
             <li about="{{@id}}">
-                {{>ResourceIndex/link.mustache}}
+                <span class="resource">
+                    {{getIcon @type}}
+                    <a href="/resource/{{@id}}">
+                        {{#localized this.name language=@root.language}}
+                            {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
+                        {{/localized}}
+                    </a>
+                </span>
             </li>
         {{/about}}
     {{/scope.resources.member}}

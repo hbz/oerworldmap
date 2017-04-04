@@ -21,8 +21,7 @@ public class CalendarExporterTest implements JsonTest {
 
   CalendarExporter mExporter = new CalendarExporter(Locale.ENGLISH);
 
-  // FIXME: wrap resource in record
-  //@Test
+  @Test
   public void testSingleEventExport() throws IOException {
     Resource singleEvent = getResourceFromJsonFile("CalendarExporterTest/testSingleResourceExport.IN.1.json");
     List<String> exported = splitLines(mExporter.export(singleEvent));
@@ -31,8 +30,7 @@ public class CalendarExporterTest implements JsonTest {
     compare(exported, expected);
   }
 
-  // FIXME: wrap resources in records
-  //@Test
+  @Test
   public void testMultipleEventsExport() throws IOException {
     Resource multipleEvents1 = getResourceFromJsonFile("CalendarExporterTest/testMultipleResourcesExport.IN.1.json");
     Resource multipleEvents2 = getResourceFromJsonFile("CalendarExporterTest/testMultipleResourcesExport.IN.2.json");
@@ -46,8 +44,7 @@ public class CalendarExporterTest implements JsonTest {
     compare(exported, expected);
   }
 
-  // FIXME: wrap resource in list in records
-  //@Test
+  @Test
   public void testFragmentaryResourcesListExport() throws IOException{
     ResourceList fragmentaryResources = getResourcesFromPagedCollectionFile("CalendarExporterTest/testFragmentaryResourcesListExport.IN.1.json");
     List<String> exported = splitLines(mExporter.export(fragmentaryResources));
@@ -56,12 +53,21 @@ public class CalendarExporterTest implements JsonTest {
     compare(exported, expected);
   }
 
-  // FIXME: wrap resource in list in records
-  //@Test
+  @Test
   public void testExportMultiLanguage() throws IOException{
     Resource resourceWithGermanDescription = getResourceFromJsonFile("CalendarExporterTest/testExportMultiLanguage.IN.1.json");
     List<String> exported = splitLines(mExporter.export(resourceWithGermanDescription));
     List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testExportMultiLanguage.OUT.1.iCal",
+      Charset.forName("UTF-8")));
+    compare(exported, expected);
+  }
+
+  @Test
+  public void testExportMissingRequiredFieldStartDate() throws IOException{
+    Resource resourceMissingDate = getResourceFromJsonFile("CalendarExporterTest/testExportMissingRequiredFieldStartDate.IN.1.json");
+    List<String> exported = splitLines(mExporter.export(resourceMissingDate));
+    // Export is expected to contain no events here.
+    List<String> expected = splitLines(getStringFromFile("CalendarExporterTest/testExportMissingRequiredFieldStartDate.OUT.1.iCal",
       Charset.forName("UTF-8")));
     compare(exported, expected);
   }

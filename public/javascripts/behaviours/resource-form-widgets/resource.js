@@ -117,7 +117,15 @@ var Hijax = (function ($, Hijax) {
                   return settings;
                 },
                 transform: function(response) {
-                  return response.member.map(function(member) { return member.about });
+                  return response.member.map(function(member) {
+                    var member = member.about;
+                    if( typeof member.name !== 'undefined' ) {
+                      member.label_x = member.name[0]['@value'];
+                    } else {
+                      member.label_x = member['@id'];
+                    }
+                    return member;
+                  });
                 }
               },
               identify: function(result){
@@ -252,6 +260,7 @@ var Hijax = (function ($, Hijax) {
           },{
             name: 'xyz',
             limit: 9999,
+            displayKey: 'label_x',
             source: function(q, sync, async){
               if (q === '') {
                 sync(my.datasets[ lookup_url ]);

@@ -1,14 +1,14 @@
 package services.export;
 
-import java.util.*;
-import java.util.Map.Entry;
-
 import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
 
-public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
+import java.util.*;
+import java.util.Map.Entry;
+
+public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
 
   private TreeSet<String> mKeys = new TreeSet<>();
   private String[] mValues = new String[0];
@@ -52,7 +52,7 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
       while (it.hasNext()) {
         flattenResourceElement(it.next());
       }
-      return fieldValuesToCsvString();
+      return fieldValuesToCsvString(mValues);
     }
   }
 
@@ -119,17 +119,6 @@ public class CsvWithNestedIdsExporter extends AbstractCsvExporter {
 
   private int getIndexInHeader(String aFieldName) {
     return mKeys.contains(aFieldName) ? mKeys.headSet(aFieldName).size() : -1;
-  }
-
-  private String fieldValuesToCsvString() {
-    StringBuffer csv = new StringBuffer("");
-    if (mValues.length > 0) {
-      csv.append(mValues[0]);
-    }
-    for (int i = 1; i < mValues.length; i++) {
-      csv.append(";").append(mValues[i]);
-    }
-    return csv.toString();
   }
 
   @Override
