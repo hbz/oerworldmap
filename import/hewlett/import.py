@@ -172,13 +172,13 @@ def get_grantee_url(beautifulsoup):
     for grantee_url in grantee_urls:
         anchors = grantee_url.findChildren()
         for anchor in anchors:
-            return "http://www.hewlett.org" + str(anchor['href'])
+            return "http://www.hewlett.org" + str(anchor['href']).strip()
 
 
 def get_grantee_external_url(beautifulsoup):
     grantee_urls = beautifulsoup.findAll('a', {'class' : 'aboutgrantee-extra-value is-lowercase'})
     for grantee_url in grantee_urls:
-        return grantee_url['href']
+        return grantee_url['href'].strip()
 
 
 def get_grantee_id(url):
