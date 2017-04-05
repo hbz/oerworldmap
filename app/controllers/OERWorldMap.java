@@ -151,9 +151,18 @@ public abstract class OERWorldMap extends Controller {
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
       user = getRepository().getResource(profileId);
+    } else if (!StringUtils.isEmpty(mConf.getString("demo.user"))) {
+      user = new Resource("Person", mConf.getString("demo.user"));
     }
 
     return user;
+
+  }
+
+  boolean isDemoUser() {
+
+    return !StringUtils.isEmpty(mConf.getString("demo.user"))
+      && mConf.getString("demo.user").equals(getHttpBasicAuthUser());
 
   }
 
@@ -162,7 +171,11 @@ public abstract class OERWorldMap extends Controller {
     String authHeader = ctx().request().getHeader(AUTHORIZATION);
 
     if (null == authHeader) {
-      return null;
+      if (!StringUtils.isEmpty(mConf.getString("demo.user"))) {
+        return mConf.getString("demo.user");
+      } else {
+        return null;
+      }
     }
 
     String auth = authHeader.substring(6);
@@ -307,7 +320,7 @@ public abstract class OERWorldMap extends Controller {
     }
 
     boolean mayAdd = (getUser() != null);
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayAdminister = isDemoUser() || (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("add", mayAdd);
     permissions.put("administer", mayAdminister);

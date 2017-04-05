@@ -365,14 +365,14 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
+    boolean mayEdit = isDemoUser() || (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
         || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+    boolean mayLog = isDemoUser() || (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayAdminister = isDemoUser() || (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
     boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
+    boolean mayDelete = isDemoUser() || (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
 
     Map<String, Object> permissions = new HashMap<>();
