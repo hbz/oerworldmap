@@ -24,7 +24,7 @@ def write_list_into_file(import_list, filename):
     output_file.write("[")
     for import_entry in import_list:
         output_file.write(import_entry)
-        if count < len(import_list):
+        if count < len(import_entry):
             output_file.write(",\n")
             count += 1
     output_file.write("]")

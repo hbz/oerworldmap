@@ -89,11 +89,19 @@ def lines_to_resource(header, event, language):
                 line = split_address(line, None)
             if not line is None:
                 location['address'] = line
-        elif line.startswith("ORGANIZER:"):
-            name = {'@value': line[10:], '@language': language}
-            organizer = {'name': [name]}
-            # TODO: determine '@type' and '@id' of organizer
-            resource['organizer'] = organizer
+        elif line.startswith("ORGANIZER"):
+            line = line[10:]
+            match = re.search(".*CN=([\w ,.]*).*", line)
+            if match:
+                name = {'@value': match.group(1), '@language': language}
+                organizer = {'name': [name]}
+                resource['organizer'] = organizer
+                # TODO: determine '@type' and '@id' of organizer
+            line = line.lower()
+            match = re.search(".*(?<!(sent-by=\"))mailto:([\w@.]*).*", line)
+            if match:
+                resource['email'] = match.group(2)
+            # subfields SENT-BY and DIR are ignored here
         elif line.startswith("UID:"):
             line = line[4:]
             if line.startswith("urn:uuid:"):
@@ -150,5 +158,5 @@ def main():
 
 if __name__ == "__main__":
     import_list = main()
-    # write_list_into_file(import_list, sys.argv[4])
-    print "Events: " + `import_list`
+    write_list_into_file(import_list, sys.argv[4])
+    # print "Events: " + `import_list`
