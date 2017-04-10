@@ -69,6 +69,9 @@ def lines_to_resource(header, event, language):
         if line.startswith("SUMMARY:"):
             name = {'@value': line[8:], '@language': language}
             resource['name'] = [name]
+        elif line.startswith("DESCRIPTION"):
+            description = {'@value': line[12:], '@language': language}
+            resource['description'] = [description]
         elif line.startswith("DTSTART"):
             resource['startDate'] = format_date(line[8:])
         elif line.startswith("DTEND"):
