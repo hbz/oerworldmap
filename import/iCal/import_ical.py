@@ -73,6 +73,8 @@ def lines_to_resource(header, event, language):
             resource['startDate'] = format_date(line[8:])
         elif line.startswith("DTEND"):
             resource['endDate'] = format_date(line[6:])
+        elif line.startswith("CREATED"):
+            resource['dateCreated'] = format_date(line[8:])
         elif line.startswith("GEO:"):
             coordinates = line[4:].split(";")
             geo = {'lat': coordinates[0], 'lon': coordinates[1]}
