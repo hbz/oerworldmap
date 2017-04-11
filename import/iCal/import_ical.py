@@ -8,6 +8,7 @@ path = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
 uuid_file = path + "id_map.json"
 uuids = {}
 import_list = []
+mapzen_api_key = None
 
 
 def readline(buffer):
@@ -44,7 +45,7 @@ def split_address(address_string, focus):
         address_string = address_string[9:].strip()
     if address_string.__eq__(''):
         return None
-    return analyze_location_with_mapzen(address_string, focus, sys.argv[5])
+    return analyze_location_with_mapzen(address_string, focus, mapzen_api_key)
 
 
 def format_date(date_string):
@@ -144,16 +145,21 @@ def import_ical_from_url(url, language):
     return imports
 
 
+def import_ical(url, language, api_key):
+    global path, uuids, import_list, mapzen_api_key
+    mapzen_api_key = api_key
+    load_ids_from_file(path + "id_map.json", uuids)
+    import_list = import_ical_from_url(url, language)
+    save_ids_to_file(uuids, path + "id_map.json")
+    return import_list
+
+
 def main():
-    global path, uuids, import_list
     if len(sys.argv) != 6:
         print 'Usage: python -m import.iCal.import_ical <path>/<to>/import_ical.py <import_url> <language> <path>/<to>/<destination_file.json> <mapzen-api-key>'
         print 'Please provide the iCal event language as ISO 3166 ALPHA 2 country code.'
         return
-    load_ids_from_file(path + "id_map.json", uuids)
-    import_list = import_ical_from_url(sys.argv[2], sys.argv[3])
-    save_ids_to_file(uuids, path + "id_map.json")
-    return import_list
+    return import_ical(sys.argv[2], sys.argv[3], sys.argv[5])
 
 
 if __name__ == "__main__":
