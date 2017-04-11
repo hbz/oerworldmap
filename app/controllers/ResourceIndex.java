@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
@@ -93,7 +94,7 @@ public class ResourceIndex extends OERWorldMap {
       "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
       "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate", "about.organizer", "about.description"
+      "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName"
     });
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
@@ -223,14 +224,20 @@ public class ResourceIndex extends OERWorldMap {
     Resource staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
-      List<Map<String, Object>> messages = new ArrayList<>();
-      HashMap<String, Object> message = new HashMap<>();
-      message.put("level", "warning");
-      message.put("message", getMessages().getString("schema_error")
-        + "<pre>" + processingReport.toString() + "</pre>"
-        + "<pre>" + staged + "</pre>");
-      messages.add(message);
-      return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.error("Failed to create list processing report", e);
+      }
+      if (request().accepts("text/html")) {
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("type", resource.getType());
+        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+      } else {
+        return badRequest(listProcessingReport.asJson());
+      }
     }
 
     // Save
@@ -454,7 +461,22 @@ public class ResourceIndex extends OERWorldMap {
   public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     if (null != resource) {
-      return ok("deleted resource " + resource.toString());
+      // If deleting personal profile, also delete corresponding user
+      if ("Person".equals(resource.getType())) {
+        String username = mAccountService.getUsername(aId);
+        if (!mAccountService.removePermissions(aId)) {
+          Logger.warn("Could not remove permissions for " + aId);
+        }
+        if (!mAccountService.setProfileId(username, null)) {
+          Logger.warn("Could not unset profile ID for " + username);
+        }
+        if (!mAccountService.deleteUser(username)) {
+          Logger.warn("Could not delete user " + username);
+        }
+        return ok("deleted user " + aId);
+      } else {
+        return ok("deleted resource " + aId);
+      }
     } else {
       return badRequest("Failed to delete resource " + aId);
     }

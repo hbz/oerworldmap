@@ -1198,6 +1198,59 @@ Handlebars.registerHelper('daterange', function (date_from, date_to) {
   var from = moment(date_from);
   var to = moment(date_to);
 
+  var precision_from = date_from.split('-').length + '';
+  var precision_to = date_to.split('-').length + '';
+
+  var precision_max = Math.max(precision_from, precision_to);
+
+  var formats_by_precision = {
+    '1' : 'YYYY',
+    '2' : 'MMM YYYY',
+    '3' : 'D. MMM YYYY',
+  };
+
+  if(
+    from.isSame(to, 'day') &&
+    from.isSame(to, 'month') &&
+    from.isSame(to, 'year')
+  ) {
+
+    return from.format( formats_by_precision[ precision_max ] );
+
+  } else if(
+    from.isSame(to, 'month') &&
+    from.isSame(to, 'year') &&
+    precision_max == 3
+  ) {
+
+    return from.format('D.') + '–' + to.format('D. MMM YYYY');
+
+  } else if(
+    from.isSame(to, 'year') &&
+    precision_max == 2
+  ) {
+
+    return from.format('D. MMM') + ' – ' + to.format('D. MMM YYYY');
+
+  } else {
+
+    return from.format( formats_by_precision[ precision_from ] ) + ' – ' + to.format( formats_by_precision[ precision_to ] );
+
+  }
+
+});
+
+
+/**
+* Daterange helper to use in context of a calendar, where the start month and year
+* are clear from the calendar layout
+*/
+
+Handlebars.registerHelper('daterangeCalendar', function (date_from, date_to) {
+
+  var from = moment(date_from);
+  var to = moment(date_to);
+
   if( from.isSame(to, 'month') && from.isSame(to, 'year') ) {
 
     return from.format('D.') + '–' + to.format('D. MMM');

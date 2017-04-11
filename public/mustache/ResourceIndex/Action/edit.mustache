@@ -8,6 +8,8 @@
 
     {{> FormElements/localizedInput.mustache property=name property_path="name" title=(i18n "Action.name") tooltip=(i18n "Action.name" bundle="descriptions")}}
 
+    {{> FormElements/localizedInput.mustache property=displayName property_path="displayName" title=(i18n "Action.displayName") tooltip=(i18n "Action.displayName" bundle="descriptions")}}
+
     {{> FormElements/input.mustache property=additionalType property_path="additionalType" title=(i18n "Action.additionalType") tooltip=(i18n "Action.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
     {{> FormElements/input.mustache property=email property_path="email" title=(i18n "Action.email") tooltip=(i18n "Action.email" bundle="descriptions") hidden=false multiple=false input_type="email"}}
@@ -24,7 +26,33 @@
 
     {{> FormElements/input.mustache property=endTime property_path="endTime" title=(i18n "Action.endTime") tooltip=(i18n "Action.endTime" bundle="descriptions") hidden=false multiple=false input_type="text" placeholder="YYYY-MM-DD" pattern="^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$"}}
 
-    {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Action.location") tooltip=(i18n "Action.location" bundle="descriptions")}}
+    <div data-behaviour="collapsed-form-field" {{#if this.location}} class="in" {{/if}}>
+
+        <hr/>
+
+        <div class="alert alert-info">
+
+            <p>
+                The address of a project is inherited from the operator. That's why it's not shown per default. Only activate it, if this project is run in a different place then the operator is located.
+            </p>
+
+            <p>
+                Read more: <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors#how-to-add-locations">FAQ Chapter: How to add locations?</a>
+            </p>
+
+            <div class="container-top-line">
+                <button class="btn btn-default" type="button">
+                    Show Address
+                </button>
+            </div>
+
+        </div>
+
+        <div class="collapse">
+            {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Action.location") tooltip=(i18n "Action.location" bundle="descriptions")}}
+        </div>
+
+    </div>
 
     {{> FormElements/id.mustache property=instrument property_path="instrument" title=(i18n "Action.instrument") tooltip=(i18n "Action.instrument" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
@@ -33,7 +61,7 @@
     {{> FormElements/id.mustache property=agent property_path="agent" title=(i18n "Action.agent") tooltip=(i18n "Action.agent" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
     {{> FormElements/id.mustache property=participant property_path="participant" title=(i18n "Action.participant") tooltip=(i18n "Action.participant" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
-    
+
     {{> FormElements/id.mustache property=memberOf property_path="memberOf" title=(i18n "Action.memberOf") tooltip=(i18n "Action.memberOf" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization"}}
 
     {{> FormElements/id.mustache property=affiliate property_path="affiliate" title=(i18n "Action.affiliate") tooltip=(i18n "Action.affiliate" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Person"}}

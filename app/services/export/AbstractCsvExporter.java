@@ -1,11 +1,12 @@
 package services.export;
 
-import java.util.List;
-
 import models.Resource;
 import models.ResourceList;
+import org.apache.commons.lang3.StringUtils;
 
-public abstract class AbstractCsvExporter implements Exporter{
+import java.util.List;
+
+public interface AbstractCsvExporter extends Exporter{
 
   /**
    * Extract all export columns from the given data and store internally in the
@@ -15,7 +16,7 @@ public abstract class AbstractCsvExporter implements Exporter{
    *          a data set comprising all columns (field names / keys) that shall
    *          be exported.
    */
-  public abstract void defineHeaderColumns(List<Resource> aResourceList);
+  void defineHeaderColumns(List<Resource> aResourceList);
 
   /**
    * Specify which information is to be dropped from the CSV export by a List of
@@ -26,7 +27,7 @@ public abstract class AbstractCsvExporter implements Exporter{
    *          export. This is useful especially for static information like JSON
    *          "type".
    */
-  public abstract void setDropFields(List<String> aDropFields);
+  void setDropFields(List<String> aDropFields);
 
   /**
    * Export the argument Resource as a CSV string.
@@ -36,7 +37,7 @@ public abstract class AbstractCsvExporter implements Exporter{
    * @return a String containing all field contents of the given Resource
    */
   @Override
-  public abstract String export(Resource aResource);
+  String export(Resource aResource);
 
   /**
    * Export the argument ResourceList as CSV rows.
@@ -45,13 +46,36 @@ public abstract class AbstractCsvExporter implements Exporter{
    * @return a String containing all field contents of the given ResourceList including the CSV header
      */
   @Override
-  public abstract String export(ResourceList aResourceList);
+  String export(ResourceList aResourceList);
 
   /**
    * Export the header line as CSV string.
    *
    * @return a String containing all columns, resp. field names of the data set
    */
-  public abstract String headerKeysToCsvString();
+  String headerKeysToCsvString();
 
+
+  default String fieldValuesToCsvString(String[] aValues) {
+    StringBuffer csv = new StringBuffer("");
+    if (aValues.length > 0) {
+      csv.append(formatCellContent(aValues[0]));
+    }
+    for (int i = 1; i < aValues.length; i++) {
+      csv.append(";");
+      if (aValues[i] != null) {
+        csv.append(formatCellContent(aValues[i]));
+      }
+    }
+    return csv.toString();
+  }
+
+
+  default String formatCellContent(String aContent){
+    if (StringUtils.isNumeric(aContent)){
+      return aContent;
+    }
+    String result = aContent.replaceAll("\"", "\\\"");
+    return "\"".concat(result).concat("\"");
+  }
 }

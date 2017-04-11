@@ -38,13 +38,33 @@
 
 .resource-title {
   position: relative;
-  float: left;
 }
 
 .resource-title .fa {
   position: absolute;
   left: 0px;
   top: 0px;
+}
+
+
+/* --- subtitle --- */
+
+.subtitle {
+  span {
+    &:after {
+      content: '—';
+      display: inline-block;
+    }
+
+    &:last-child:after {
+      content: '';
+    }
+
+    // to avoid whitespace inside link ...
+    a {
+      display: inline-block;
+    }
+  }
 }
 
 
@@ -61,18 +81,48 @@
 }
 
 
-/* --- comma seperated list (for "attributed by") */
+/* --- & seperated list (for "attributed by") */
 
-.comma-seperated-list, .comma-seperated-list li {
+.comma-seperated-list, .comma-seperated-list>li {
   display: inline;
   padding: 0;
 }
 
-.comma-seperated-list li:before {
+.comma-seperated-list>li:before {
   content: " & "
 }
 
-.comma-seperated-list li:first-child:before {
+.comma-seperated-list>li:first-child:before {
+  content: ""
+}
+
+/* --- and seperated list (for "attributed by") */
+
+.and-seperated-list, .and-seperated-list>li {
+  display: inline;
+  padding: 0;
+}
+
+.and-seperated-list>li:before {
+  content: " and "
+}
+
+.and-seperated-list>li:first-child:before {
+  content: ""
+}
+
+/* --- or seperated list (for "attributed by") */
+
+.or-seperated-list, .or-seperated-list>li {
+  display: inline;
+  padding: 0;
+}
+
+.or-seperated-list>li:before {
+  content: " or "
+}
+
+.or-seperated-list>li:first-child:before {
   content: ""
 }
 
@@ -98,4 +148,5 @@
 
 .resource-details-table td:first-child {
   font-weight: bold;
+  width: 150px;
 }

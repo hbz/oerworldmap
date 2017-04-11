@@ -1,0 +1,33 @@
+{{#if startTime}}
+    <span>
+        {{#if endTime}}
+            {{daterange startTime endTime}}
+        {{else}}
+            {{moment startTime "D. MMM YYYY"}}
+        {{/if}}
+    </span>
+{{/if}}
+
+{{#if agent}}
+    <span>
+        Operator:
+        {{#agent}}
+            <a href="/resource/{{@id}}">
+                {{#localized this.name language=@root.language}}
+                    {{[@value]}}
+                {{else}}
+                    {{[@id]}}
+                {{/localized}}
+            </a>{{#unless @last}},{{/unless}}
+        {{/agent}}
+    </span>
+{{/if}}
+
+{{#if additionalType}}
+    <span>
+        Additional Type:
+        {{#additionalType}}
+            {{.}}{{#unless @last}},{{/unless}}
+        {{/additionalType}}
+    </span>
+{{/if}}

@@ -1,98 +1,105 @@
 {
-  "recordedIn" : [ "https://www.flickr.com/photos/shuttleworth/sets/72157602101587104/" ],
-  "endDate" : "2007-09-15",
-  "@type" : "Event",
-  "organizer" : [ {
-    "image" : "https://www.thegpsa.org/sa/Data/gpsa/files/osf_logo_rgb.jpg.jpeg",
-    "organizerFor" : [ {
-      "@type" : "Event",
+  "contributor" : "neumann@hbz-nrw.de",
+  "dateCreated" : "2016-09-08T12:40:40.799+02:00",
+  "@type" : "WebPage",
+  "author" : "pohl@hbz-nrw.de",
+  "about" : {
+    "recordedIn" : [ "https://www.flickr.com/photos/shuttleworth/sets/72157602101587104/" ],
+    "endDate" : "2007-09-15",
+    "@type" : "Event",
+    "organizer" : [ {
+      "image" : "https://www.thegpsa.org/sa/Data/gpsa/files/osf_logo_rgb.jpg.jpeg",
+      "organizerFor" : [ {
+        "@type" : "Event",
+        "name" : [ {
+          "@value" : "Cape Town Meeting",
+          "@language" : "en"
+        } ],
+        "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304"
+      } ],"keywords" : [ "oer-funder" ],
+      "@type" : "Organization",
       "name" : [ {
-        "@value" : "Cape Town Meeting",
+        "@value" : "Open Society Foundations",
         "@language" : "en"
       } ],
-      "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304"
+      "description" : [ {
+        "@value" : "The Open Society Foundations work to build vibrant and tolerant societies whose governments are accountable and open to the participation of all people.\r\n\r\nThey fund a range of programs around the world, including an \"Education Support Program\" and a \"Higher Education Support Program\".",
+        "@language" : "en"
+      } ],
+      "alternateName" : [ {
+        "@value" : "OSF",
+        "@language" : "en"
+      } ],
+      "location" : {
+        "geo" : {
+          "lon" : -73.981562,
+          "lat" : 40.765846
+        },
+        "address" : {
+          "addressCountry" : "US",
+          "streetAddress" : "224 West 57th Street",
+          "postalCode" : 10019,
+          "addressLocality" : "New York",
+          "addressRegion" : "New York"
+        }
+      },
+      "@id" : "urn:uuid:d145132a-64c9-4e93-891d-5cb501e62ef6",
+      "url" : "http://www.opensocietyfoundations.org",
+      "sameAs" : [ "https://www.facebook.com/OpenSocietyFoundations", "https://instagram.com/opensocietyfoundations", "https://twitter.com/opensociety", "https://plus.google.com/+opensociety", "https://youtube.com/user/opensocietyinstitute" ]
+    }, {
+      "image" : "https://oerworldmap.org/assets/images/shuttleworth.jpg",
+      "organizerFor" : [ {
+        "@type" : "Event",
+        "name" : [ {
+          "@value" : "Cape Town Meeting",
+          "@language" : "en"
+        } ],
+        "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304"
+      } ],
+      "@type" : "Organization",
+      "name" : [ {
+        "@value" : "Shuttleworth Foundation",
+        "@language" : "en"
+      } ],
+      "description" : [ {
+        "@value" : "<p>The Shuttleworth Foundation is a small social investor that provides funding to dynamic leaders who are at the forefront of social change. We look for social innovators who are helping to change the world for the better and could benefit from a social investment model with a difference. We identify amazing people, give them a fellowship grant, and multiply the money they put into their own projects by a factor of ten or more.</p><p>The Foundation is at its core an experiment in open philanthropy and uses alternative funding methodologies and collaborative ways of working to ensure that every fellow receives the necessary support to succeed.</p><p>Our ideal future is one where it is much easier to find solutions to social challenges in a global open knowledge society with unhindered access to essential information and limitless opportunities for innovation and replication. Knowledge is open if it is free to use, reuse and redistribute without legal, social or technological restriction. In this sense an open knowledge society is one in which a superset of open data, open content, open access and open source is available to all.</p>",
+        "@language" : "en"
+      } ],
+      "location" : {
+        "geo" : {
+          "lon" : 18.6494,
+          "lat" : -33.84032
+        },
+        "address" : {
+          "addressCountry" : "ZA",
+          "postalCode" : 7551,
+          "addressLocality" : "Durbanville, Cape Town",
+          "addressRegion" : "Western Cape"
+        }
+      },
+      "@id" : "urn:uuid:944e2e88-41b1-11e5-b833-001999ac7927",
+      "url" : "https://www.shuttleworthfoundation.org/",
+      "sameAs" : [ "https://twitter.com/ShuttleworthFdn" ]
     } ],
-    "keywords" : [ "oer-funder" ],
-    "@type" : "Organization",
     "name" : [ {
-      "@value" : "Open Society Foundations",
+      "@value" : "Cape Town Meeting",
       "@language" : "en"
     } ],
     "description" : [ {
-      "@value" : "The Open Society Foundations work to build vibrant and tolerant societies whose governments are accountable and open to the participation of all people.\r\n\r\nThey fund a range of programs around the world, including an \"Education Support Program\" and a \"Higher Education Support Program\".",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "OSF",
+      "@value" : "The Cape Town Declaration arises from a small but lively meeting of open education activists in Cape Town during September 2007.\r\n\r\nEntitled Open Sourcing Education, the original aim of this meeting was to accelerate the international effort to promote open resources, technology and teaching practices in education. The participants represented many points of view, many disciplines and many nations. All are involved in ongoing open education initiatives.\r\n\r\nIn Cape Town, meeting participants explored how their separate initiatives could work together to achieve much broader, deeper impact. The Cape Town Open Education Declaration, authored jointly by all those who attended the meeting, was the first concrete outcome from these discussions. A number of additional collaborations on open education projects have also emerged.\r\n\r\n(Text taken from http://www.capetowndeclaration.org/cape-town-meeting, licensed CC-BY.)",
       "@language" : "en"
     } ],
     "location" : {
-      "geo" : {
-        "lon" : -73.981562,
-        "lat" : 40.765846
-      },
-      "address" : {
-        "addressCountry" : "US",
-        "streetAddress" : "224 West 57th Street",
-        "postalCode" : 10019,
-        "addressLocality" : "New York",
-        "addressRegion" : "New York"
-      }
-    },
-    "@id" : "urn:uuid:d145132a-64c9-4e93-891d-5cb501e62ef6",
-    "url" : "http://www.opensocietyfoundations.org",
-    "sameAs" : [ "https://www.facebook.com/OpenSocietyFoundations", "https://instagram.com/opensocietyfoundations", "https://twitter.com/opensociety", "https://plus.google.com/+opensociety", "https://youtube.com/user/opensocietyinstitute" ]
-  }, {
-    "image" : "https://oerworldmap.org/assets/images/shuttleworth.jpg",
-    "organizerFor" : [ {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "Cape Town Meeting",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304"
-    } ],
-    "@type" : "Organization",
-    "name" : [ {
-      "@value" : "Shuttleworth Foundation",
-      "@language" : "en"
-    } ],
-    "description" : [ {
-      "@value" : "<p>The Shuttleworth Foundation is a small social investor that provides funding to dynamic leaders who are at the forefront of social change. We look for social innovators who are helping to change the world for the better and could benefit from a social investment model with a difference. We identify amazing people, give them a fellowship grant, and multiply the money they put into their own projects by a factor of ten or more.</p><p>The Foundation is at its core an experiment in open philanthropy and uses alternative funding methodologies and collaborative ways of working to ensure that every fellow receives the necessary support to succeed.</p><p>Our ideal future is one where it is much easier to find solutions to social challenges in a global open knowledge society with unhindered access to essential information and limitless opportunities for innovation and replication. Knowledge is open if it is free to use, reuse and redistribute without legal, social or technological restriction. In this sense an open knowledge society is one in which a superset of open data, open content, open access and open source is available to all.</p>",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : 18.6494,
-        "lat" : -33.84032
-      },
       "address" : {
         "addressCountry" : "ZA",
-        "postalCode" : 7551,
-        "addressLocality" : "Durbanville, Cape Town",
-        "addressRegion" : "Western Cape"
+        "addressLocality" : "Cape Town"
       }
     },
-    "@id" : "urn:uuid:944e2e88-41b1-11e5-b833-001999ac7927",
-    "url" : "https://www.shuttleworthfoundation.org/",
-    "sameAs" : [ "https://twitter.com/ShuttleworthFdn" ]
-  } ],
-  "name" : [ {
-    "@value" : "Cape Town Meeting",
-    "@language" : "en"
-  } ],
-  "description" : [ {
-    "@value" : "The Cape Town Declaration arises from a small but lively meeting of open education activists in Cape Town during September 2007.\r\n\r\nEntitled Open Sourcing Education, the original aim of this meeting was to accelerate the international effort to promote open resources, technology and teaching practices in education. The participants represented many points of view, many disciplines and many nations. All are involved in ongoing open education initiatives.\r\n\r\nIn Cape Town, meeting participants explored how their separate initiatives could work together to achieve much broader, deeper impact. The Cape Town Open Education Declaration, authored jointly by all those who attended the meeting, was the first concrete outcome from these discussions. A number of additional collaborations on open education projects have also emerged.\r\n\r\n(Text taken from http://www.capetowndeclaration.org/cape-town-meeting, licensed CC-BY.)",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "address" : {
-      "addressCountry" : "ZA",
-      "addressLocality" : "Cape Town"
-    }
+    "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304",
+    "@context" : "http://schema.org/",
+    "startDate" : "2007-09-14",
+    "url" : "http://www.capetowndeclaration.org/cape-town-meeting"
   },
-  "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304",
-  "@context" : "http://schema.org/",
-  "startDate" : "2007-09-14",
-  "url" : "http://www.capetowndeclaration.org/cape-town-meeting"
+  "dateModified" : "2016-11-16T16:17:37.059+01:00",
+  "@id" : "urn:uuid:855ef399-8a66-4085-97c7-7f003fc96304.about"
 }
