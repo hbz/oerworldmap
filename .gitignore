@@ -14,7 +14,6 @@ data/*/
 !data/profiles/
 repo-deb-build*.*
 .idea/
-import/hewlett/*.json
 /node_modules/
 /public/css/main.css
 data/permissions/*
