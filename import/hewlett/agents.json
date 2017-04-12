@@ -1,1 +1,1569 @@
-[{"url": "http://www.nba.co.za", "location": {"@type": "Place", "address": {"addressCountry": "ZA", "addressLocality": "Parkview, Johannesburg", "streetAddress": "64 Galway Road", "@type": "PostalAddress"}}, "@id": "urn:uuid:9d517da5-5d29-42e3-ad5f-bd77735d8a8a", "@type": "Organization", "name": [{"@value": "Neil Butcher and Associates", "@language": "en"}]}, {"url": "http://www.unesco.org/", "location": {"@type": "Place", "address": {"addressCountry": "FR", "postalCode": "75007", "streetAddress": "7 Place de Fontenoy", "@type": "PostalAddress", "addressLocality": "Paris"}}, "@id": "urn:uuid:3248743e-f4fc-4b39-8cb8-c6018d054fec", "@type": "Organization", "name": [{"@value": "United Nations Educational, Scientific and Cultural Organization", "@language": "en"}]}, {"url": "http://www.hbz-nrw.de/", "location": {"@type": "Place", "address": {"addressCountry": "DE", "postalCode": "65067", "@type": "PostalAddress", "addressLocality": "J\u00fclicher Stra\u00dfe 4, K\u00f6ln"}}, "@id": "urn:uuid:dd0f0cf1-d00e-41d5-8f14-e69b8e974b11", "@type": "Organization", "name": [{"@value": "North Rhine-Westphalian Library Service Center (hbz)", "@language": "en"}]}, {"url": "http://reb.us", "location": {"@type": "Place", "address": {"addressLocality": "Montreal", "addressCountry": "CA", "addressRegion": "QC", "streetAddress": "5333 avenue Casgrain, Suite 1227", "postalCode": "H2T 1X3", "@type": "PostalAddress"}}, "@id": "urn:uuid:d3584906-65e6-4bad-b61c-47dd8d18f178", "@type": "Organization", "name": [{"@value": "The Rebus Foundation", "@language": "en"}]}, {"url": "http://www.rice.edu", "location": {"@type": "Place", "address": {"addressLocality": "Houston", "addressCountry": "US", "addressRegion": "TX", "streetAddress": "6100 Main Street", "postalCode": "77005", "@type": "PostalAddress"}}, "@id": "urn:uuid:3fa03928-e5be-478f-a290-a16f62bf1aba", "@type": "Organization", "name": [{"@value": "Rice University", "@language": "en"}]}, {"url": "http://achievingthedream.org", "location": {"@type": "Place", "address": {"addressLocality": "Silver Spring", "addressCountry": "US", "addressRegion": "MD", "streetAddress": "8403 Colesville Road, Suite 450", "postalCode": "20910", "@type": "PostalAddress"}}, "@id": "urn:uuid:0d1d0e36-fd14-4fce-bd32-02d71c18117e", "@type": "Organization", "name": [{"@value": "Achieving the Dream, Inc.", "@language": "en"}]}, {"url": "http://lumenlearning.com", "location": {"@type": "Place", "address": {"addressLocality": "Portland", "addressCountry": "US", "addressRegion": "OR", "streetAddress": "3459 NW 115th Avenue", "postalCode": "97229", "@type": "PostalAddress"}}, "@id": "urn:uuid:659d0a12-a323-4de9-b631-e29dd3255852", "@type": "Organization", "name": [{"@value": "Lumen, LLC", "@language": "en"}]}, {"url": "http://www.iskme.org", "location": {"@type": "Place", "address": {"addressLocality": "Half Moon Bay", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "323 Harvard Avenue", "postalCode": "94019-1307", "@type": "PostalAddress"}}, "@id": "urn:uuid:3b3476e0-63f5-4f85-856c-81cd26995e90", "@type": "Organization", "name": [{"@value": "Institute for the Study of Knowledge Management in Education", "@language": "en"}]}, {"url": "http://www.ck12.org", "location": {"@type": "Place", "address": {"addressLocality": "Palo Alto", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "3430 W. Bayshore Road, Suite 101", "postalCode": "94303", "@type": "PostalAddress"}}, "@id": "urn:uuid:e6b74317-3dd4-44cb-a288-619371144f5c", "@type": "Organization", "name": [{"@value": "CK12 Foundation", "@language": "en"}]}, {"url": "http://learningequality.org", "location": {"@type": "Place", "address": {"addressLocality": "PMB 323, La Jolla", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "9700 Gilman Dr", "postalCode": "92093", "@type": "PostalAddress"}}, "@id": "urn:uuid:bea4a82a-77f1-4b5d-8d56-acd54f4239f7", "@type": "Organization", "name": [{"@value": "Foundation for Learning Equality", "@language": "en"}]}, {"url": "http://www.goorulearning.org", "location": {"@type": "Place", "address": {"addressLocality": "Redwood City", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "350 Twin Dolphin Drive, Suite 115", "postalCode": "94508", "@type": "PostalAddress"}}, "@id": "urn:uuid:daf044bc-e71e-4ab6-a1de-b6eb8180b6f6", "@type": "Organization", "name": [{"@value": "GOORU", "@language": "en"}]}, {"url": "http://www.cu.edu/regents/", "location": {"@type": "Place", "address": {"addressLocality": "Boulder", "addressCountry": "US", "addressRegion": "CO", "streetAddress": "3100 Marine Street, Room 481", "postalCode": "80304", "@type": "PostalAddress"}}, "@id": "urn:uuid:5978939c-f453-4dca-8d2e-07ea519f4c8a", "@type": "Organization", "name": [{"@value": "University of Colorado at Boulder", "@language": "en"}]}, {"url": "http://www.col.org", "location": {"@type": "Place", "address": {"addressLocality": "Vancouver", "addressCountry": "CA", "addressRegion": "BC", "streetAddress": "1055 West Hastings Street, Suite 1200", "postalCode": "V6E 2E9", "@type": "PostalAddress"}}, "@id": "urn:uuid:a78a957a-d7e8-4a52-9cd0-213b79c1bd94", "@type": "Organization", "name": [{"@value": "Commonwealth of Learning", "@language": "en"}]}, {"url": "http://www1.umn.edu/twincities/index.php", "location": {"@type": "Place", "address": {"addressLocality": "Minneapolis", "addressCountry": "US", "addressRegion": "MN", "streetAddress": "200 Oak Street SE", "postalCode": "55455", "@type": "PostalAddress"}}, "@id": "urn:uuid:306302b2-dd78-41a5-90f3-f2efbf82431d", "@type": "Organization", "name": [{"@value": "University of Minnesota", "@language": "en"}]}, {"url": "http://www.tekotago.ac.nz", "location": {"@type": "Place", "address": {"addressCountry": "NZ", "addressLocality": "Otago Polytechnic, Dunedin, 9016", "@type": "PostalAddress"}}, "@id": "urn:uuid:07fc5e8f-83f7-4d2e-82dc-5e72bf7c0049", "@type": "Organization", "name": [{"@value": "OER Foundation", "@language": "en"}]}, {"url": "http://www.leadps.org", "location": {"@type": "Place", "address": {"addressLocality": "Oakland", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "344 Thomas L. Berkley Way, Suite 340", "postalCode": "94612", "@type": "PostalAddress"}}, "@id": "urn:uuid:e2b77d91-56d6-4077-bd01-ec869e4833a4", "@type": "Organization", "name": [{"@value": "Leadership Public Schools", "@language": "en"}]}, {"url": "http://www.open.ac.uk/", "location": {"@type": "Place", "address": {"addressCountry": "GB", "postalCode": "MK7 6AA", "@type": "PostalAddress", "addressLocality": "Walton Hall, Milton Keynes, Buckinghamshire"}}, "@id": "urn:uuid:c43153fa-6af4-4448-be49-f45cf759e55f", "@type": "Organization", "name": [{"@value": "Open University", "@language": "en"}]}, {"url": "http://openedgroup.org", "location": {"@type": "Place", "address": {"addressLocality": "Norwalk", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "11110 Alondra Blvd.", "postalCode": "90650", "@type": "PostalAddress"}}, "@id": "urn:uuid:9a9d9bf8-51c4-4a65-9518-7e2e5c85bb3f", "@type": "Organization", "name": [{"@value": "Cerritos College Foundation", "@language": "en"}]}, {"url": "http://www.oeconsortium.org", "location": {"@type": "Place", "address": {"addressLocality": "Concord", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "60 Thoreau St, Suite 238", "postalCode": "01742", "@type": "PostalAddress"}}, "@id": "urn:uuid:1361f6da-0d07-4a67-9f7a-ee3dd7513401", "@type": "Organization", "name": [{"@value": "Open Education Consortium", "@language": "en"}]}, {"url": "http://br.okfn.org", "location": {"@type": "Place", "address": {"addressCountry": "BR", "addressRegion": "SP", "postalCode": "01409", "@type": "PostalAddress", "addressLocality": "Rua Peixoto Gomide, 388/141. CEP -000, Jd. Paulista. , S\u00e3o Paulo"}}, "@id": "urn:uuid:1c12aae9-e418-4469-9058-13a552a809c2", "@type": "Organization", "name": [{"@value": "Open Knowledge Foundation Brasil", "@language": "en"}]}, {"url": "http://www.ccsso.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "One Massachusetts Avenue, NW, Suite 700", "postalCode": "20001-1431", "@type": "PostalAddress"}}, "@id": "urn:uuid:bbc3b2d2-f0f6-4efa-8349-e558fa7d9815", "@type": "Organization", "name": [{"@value": "Council of Chief State School Officers", "@language": "en"}]}, {"url": "http://www.saide.org.za", "location": {"@type": "Place", "address": {"addressCountry": "ZA", "postOfficeBoxNumber": "31822", "@type": "PostalAddress", "addressLocality": "Braamfontein, 2017"}}, "@id": "urn:uuid:e4a4c7ae-a528-469f-9b12-cafabb9af0e7", "@type": "Organization", "name": [{"@value": "South African Institute for Distance Education", "@language": "en"}]}, {"url": "http://www.ou.nl", "location": {"@type": "Place", "address": {"addressCountry": "NL", "addressRegion": "DL", "@type": "PostalAddress", "addressLocality": "6401 Heerlen, Heerlen Limburg, 6419AT", "postOfficeBoxNumber": "2960"}}, "@id": "urn:uuid:bdb7c1f5-8ce8-4798-a6ba-1f0592edb222", "@type": "Organization", "name": [{"@value": "Open Universiteit Nederland", "@language": "en"}]}, {"url": "http://www.setda.org", "location": {"@type": "Place", "address": {"addressLocality": "Glen Burnie", "postOfficeBoxNumber": "10", "addressCountry": "US", "addressRegion": "MD", "postalCode": "21060", "@type": "PostalAddress"}}, "@id": "urn:uuid:7a5c34d0-e31c-4aaf-900c-1e40a9248b1b", "@type": "Organization", "name": [{"@value": "State Educational Technology Directors Association", "@language": "en"}]}, {"url": "http://www.oecd.org", "location": {"@type": "Place", "address": {"addressCountry": "FR", "postalCode": "75775", "streetAddress": "2, rue Andr\u00e9-Pascal", "@type": "PostalAddress", "addressLocality": "Paris Cedex 16"}}, "@id": "urn:uuid:c2862c37-dd1e-4118-ac2c-3fc4eb80003e", "@type": "Organization", "name": [{"@value": "Organisation for Economic Co-operation and Development", "@language": "en"}]}, {"url": "http://www.achieve.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "1400 16th Street NW, Suite 510", "postalCode": "20036", "@type": "PostalAddress"}}, "@id": "urn:uuid:c1112150-5143-4a78-a4b4-39ba7cf296a7", "@type": "Organization", "name": [{"@value": "Achieve", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Boston, Boston", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "294 Washington St, Suite 500", "postalCode": "02108", "@type": "PostalAddress"}}, "@id": "urn:uuid:8917340e-d27d-4994-bd67-05c5a764d5cb", "@type": "Organization", "name": [{"@value": "Student Organizing, Inc.", "@language": "en"}]}, {"url": "http://www.babson.edu/Academics/centers/blank-center/global-research/Pages/babson-survey-research-gr", "location": {"@type": "Place", "address": {"addressLocality": "Upper Nyack", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "515 North Midland Avenue", "postalCode": "10960", "@type": "PostalAddress"}}, "@id": "urn:uuid:7f9332a7-5a30-4efb-a048-82888c0b140d", "@type": "Organization", "name": [{"@value": "Global Healthy Living Foundation", "@language": "en"}]}, {"url": "http://www.mit.edu", "location": {"@type": "Place", "address": {"addressLocality": "26-237, Cambridge", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "77 Massachusetts Avenue", "postalCode": "02139-4307", "@type": "PostalAddress"}}, "@id": "urn:uuid:6ed7579e-9f08-4f8a-9b9f-9b248c9760e5", "@type": "Organization", "name": [{"@value": "Massachusetts Institute of Technology", "@language": "en"}]}, {"url": "http://www.startl.org", "location": {"@type": "Place", "address": {"addressLocality": "Litchfield", "addressCountry": "US", "addressRegion": "CT", "streetAddress": "3 South Road", "postalCode": "06759", "@type": "PostalAddress"}}, "@id": "urn:uuid:6987eaf3-c276-4167-9ce2-47dc56921e5f", "@type": "Organization", "name": [{"@value": "StartL", "@language": "en"}]}, {"url": "http://www.edfunders.org", "location": {"@type": "Place", "address": {"addressLocality": "Portland", "addressCountry": "US", "addressRegion": "OR", "streetAddress": "720 S.W. Washington Street, Suite 605", "postalCode": "97205-3519", "@type": "PostalAddress"}}, "@id": "urn:uuid:6fae92d1-9d27-48f6-b8dd-6f577e0141e1", "@type": "Organization", "name": [{"@value": "Grantmakers for Education", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Pasadena", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "225 S Lake Avenue, Suite 300", "postalCode": "91101", "@type": "PostalAddress"}}, "@id": "urn:uuid:844bd0b8-db7a-40d8-bec8-85c90894e0b4", "@type": "Organization", "name": [{"@value": "University of the People", "@language": "en"}]}, {"url": "http://www.FinalsClub.org", "location": {"@type": "Place", "address": {"addressCountry": "US", "addressRegion": "MA", "postalCode": "02138", "@type": "PostalAddress", "addressLocality": "1132 Massachusetts Avenue , Cambridge"}}, "@id": "urn:uuid:bd13160c-7ba7-4390-868f-184e61579a68", "@type": "Organization", "name": [{"@value": "FinalsClub.org", "@language": "en"}]}, {"url": "http://www.gmri.org", "location": {"@type": "Place", "address": {"addressLocality": "Portland", "addressCountry": "US", "addressRegion": "ME", "streetAddress": "350 Commercial Street", "postalCode": "04106", "@type": "PostalAddress"}}, "@id": "urn:uuid:d6960325-9dc5-4783-b6c4-f0abb1af3cfd", "@type": "Organization", "name": [{"@value": "Gulf of Maine Research Institute", "@language": "en"}]}, {"url": "http://idrc.ocadu.ca", "location": {"@type": "Place", "address": {"addressLocality": "Toronto", "addressCountry": "CA", "addressRegion": "ON", "streetAddress": "100 Mc, Caul Street", "postalCode": "M5T 1W1", "@type": "PostalAddress"}}, "@id": "urn:uuid:4c10a5c7-d8e1-4838-9e26-8dcd5ee07ba9", "@type": "Organization", "name": [{"@value": "Ontario College of Art &amp; Design", "@language": "en"}]}, {"url": "http://openedgroup.org", "location": {"@type": "Place", "address": {"addressCountry": "US", "addressRegion": "UT", "postalCode": "84602", "@type": "PostalAddress", "addressLocality": "ORCAA-285 ASB , Provo"}}, "@id": "urn:uuid:19f8ba38-689c-47a7-99c5-e5c5b01155cf", "@type": "Organization", "name": [{"@value": "Brigham Young University", "@language": "en"}]}, {"url": "http://www.montereyinstitute.org/", "location": {"@type": "Place", "address": {"addressLocality": "Marina", "postOfficeBoxNumber": "890", "addressCountry": "US", "addressRegion": "CA", "postalCode": "93933-0890", "@type": "PostalAddress"}}, "@id": "urn:uuid:188cf849-845e-45b9-b71f-0b712a376b49", "@type": "Organization", "name": [{"@value": "Monterey Institute for Technology and Education", "@language": "en"}]}, {"url": "http://www.saylor.org", "location": {"@type": "Place", "address": {"addressLocality": "Mc, Lean", "addressCountry": "US", "addressRegion": "VA", "streetAddress": "1861 International Dr", "postalCode": "22102", "@type": "PostalAddress"}}, "@id": "urn:uuid:1a29c2dc-aca3-4053-b8f6-93d3f021c9b7", "@type": "Organization", "name": [{"@value": "The Saylor Foundation", "@language": "en"}]}, {"url": "http://www.creativecommons.org", "location": {"@type": "Place", "address": {"addressLocality": "Mountain View", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "444 Castro Street, Suite 900", "postalCode": "94041-2061", "@type": "PostalAddress"}}, "@id": "urn:uuid:e46cfa00-06de-4683-8188-64cf95d884d3", "@type": "Organization", "name": [{"@value": "Creative Commons", "@language": "en"}]}, {"url": "http://www.fantasy.org.tw", "location": {"@type": "Place", "address": {"addressLocality": "Tung Bei Street, Taipei, 104 Taiwan", "addressCountry": "TW", "@type": "PostalAddress"}}, "@id": "urn:uuid:bbfc82b5-c2ab-4dee-881f-735f11353c58", "@type": "Organization", "name": [{"@value": "Fantasy Foundation of Culture and Arts", "@language": "en"}]}, {"url": "http://colorado.edu", "location": {"@type": "Place", "address": {"addressLocality": "Boulder", "addressCountry": "US", "addressRegion": "CO", "streetAddress": "4740 Walnut Street", "postalCode": "80309", "@type": "PostalAddress"}}, "@id": "urn:uuid:855cf93f-d28b-4094-959c-c05598f0838f", "@type": "Organization", "name": [{"@value": "University of Colorado Foundation at Boulder", "@language": "en"}]}, {"url": "http://www.teacherswithoutborders.org", "location": {"@type": "Place", "address": {"addressLocality": "Seattle", "postOfficeBoxNumber": "25067", "addressCountry": "US", "addressRegion": "WA", "postalCode": "98165", "@type": "PostalAddress"}}, "@id": "urn:uuid:f6cd2c5c-b0a8-4711-9c3b-d756aedd1467", "@type": "Organization", "name": [{"@value": "Teachers Without Borders", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "MC 215, San Jose", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "1290 Ridder Park Drive", "postalCode": "95131-2304", "@type": "PostalAddress"}}, "@id": "urn:uuid:a63d9ace-622e-4aba-a412-f9407f35fb49", "@type": "Organization", "name": [{"@value": "Silicon Valley Education Foundation", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Winchester", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "39 Richardson Street", "postalCode": "01890-1841", "@type": "PostalAddress"}}, "@id": "urn:uuid:3444ee34-8873-403d-ae16-7b46a9e93a76", "@type": "Organization", "name": [{"@value": "Learning Games Network", "@language": "en"}]}, {"url": "http://www.p2pu.org/", "location": {"@type": "Place", "address": {"addressLocality": "San Francisco", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "1370 Mission Street, 4th Floor", "postalCode": "94103-2654", "@type": "PostalAddress"}}, "@id": "urn:uuid:530edfea-aee0-4ca0-937f-c44b37e3e37a", "@type": "Organization", "name": [{"@value": "Peer 2 Peer University", "@language": "en"}]}, {"url": "http://www.educause.edu", "location": {"@type": "Place", "address": {"addressLocality": "Louisville", "addressCountry": "US", "addressRegion": "CO", "streetAddress": "282 Century Place, Suite 5000", "postalCode": "80027", "@type": "PostalAddress"}}, "@id": "urn:uuid:04b742ac-64f1-49e7-a215-d44b1c8927f0", "@type": "Organization", "name": [{"@value": "Educause", "@language": "en"}]}, {"url": "http://www.carnegiefoundation.org/index.htm", "location": {"@type": "Place", "address": {"addressLocality": "Stanford", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "51 Vista Lane", "postalCode": "94305-8703", "@type": "PostalAddress"}}, "@id": "urn:uuid:108c9462-2356-4006-af9c-be2f28d344a7", "@type": "Organization", "name": [{"@value": "Carnegie Foundation for the Advancement of Teaching", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Athabasca", "addressCountry": "CA", "addressRegion": "AB", "streetAddress": "1 University Drive", "postalCode": "T9S 3A3", "@type": "PostalAddress"}}, "@id": "urn:uuid:adbb1314-ec67-4a6b-a1bc-598493b8948f", "@type": "Organization", "name": [{"@value": "Athabasca University", "@language": "en"}]}, {"url": "http://www.berkeley.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Sponsored Projects Office, Berkeley", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "2150 Shattuck Ave", "postalCode": "94704", "@type": "PostalAddress"}}, "@id": "urn:uuid:4f32b35e-15c0-4cc1-af02-bb3b0ac06313", "@type": "Organization", "name": [{"@value": "University of California at Berkeley", "@language": "en"}]}, {"url": "http://www.kri.sfc.keio.ac.jp/en/", "location": {"@type": "Place", "address": {"addressCountry": "JP", "addressLocality": "Keio Research Institute, 5322 Endo Fujisawa, Kanagawa, 252-0882", "@type": "PostalAddress"}}, "@id": "urn:uuid:6cce072b-803a-4e18-a33b-42dbdbbc9af0", "@type": "Organization", "name": [{"@value": "Keio Gijuku University", "@language": "en"}]}, {"url": "http://www.ithaka.org/", "location": {"@type": "Place", "address": {"addressLocality": "New York", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "151 East Sixty-first Street", "postalCode": "10021-8112", "@type": "PostalAddress"}}, "@id": "urn:uuid:74e872e0-ad23-4bdf-bad0-c60eab5433af", "@type": "Organization", "name": [{"@value": "Ithaka", "@language": "en"}]}, {"url": "http://www.studentpirgs.org", "location": {"@type": "Place", "address": {"addressLocality": "Boston", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "294 Washington Street, Suite 500", "postalCode": "02108", "@type": "PostalAddress"}}, "@id": "urn:uuid:0602a74b-c88a-41b6-ae24-203143753125", "@type": "Organization", "name": [{"@value": "Center for Public Interest Research", "@language": "en"}]}, {"url": "http://www.knowledgeworks.org", "location": {"@type": "Place", "address": {"addressLocality": "Cincinnati", "addressCountry": "US", "addressRegion": "OH", "streetAddress": "1 West Fourth Street, Suite 200", "postalCode": "45202", "@type": "PostalAddress"}}, "@id": "urn:uuid:9e7e4aea-0f4a-4ec6-b4aa-0590f296a663", "@type": "Organization", "name": [{"@value": "KnowledgeWorks Foundation", "@language": "en"}]}, {"url": "http://www.nestanet.org", "location": {"@type": "Place", "address": {"addressLocality": "Liverpool", "postOfficeBoxNumber": "2194", "addressCountry": "US", "addressRegion": "NY", "postalCode": "13089-2194", "@type": "PostalAddress"}}, "@id": "urn:uuid:8ec911a8-d885-48db-8d97-f2f0a776cc14", "@type": "Organization", "name": [{"@value": "National Earth Science Teachers Association", "@language": "en"}]}, {"url": "http://www.vnfoundation.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "500 Fifth Street NW, Room 570", "postalCode": "20001", "@type": "PostalAddress"}}, "@id": "urn:uuid:ce8ceca0-c066-47c7-a896-ca76eb27f16d", "@type": "Organization", "name": [{"@value": "Vietnam Foundation", "@language": "en"}]}, {"url": "http://www.nytimes.com", "location": {"@type": "Place", "address": {"addressLocality": "New York", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "620 Eighth Avenue", "postalCode": "10018", "@type": "PostalAddress"}}, "@id": "urn:uuid:1e5bccfe-9cd9-4510-a5d1-795f98eb9acb", "@type": "Organization", "name": [{"@value": "New York State Newspapers Foundation", "@language": "en"}]}, {"url": "http://www.cmu.edu", "location": {"@type": "Place", "address": {"addressLocality": "Pittsburgh", "addressCountry": "US", "addressRegion": "PA", "streetAddress": "5000 Forbes Avenue", "postalCode": "15213", "@type": "PostalAddress"}}, "@id": "urn:uuid:93cf8318-1543-46ea-87cd-76ea8be9e861", "@type": "Organization", "name": [{"@value": "Carnegie Mellon University", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Brunswick", "postOfficeBoxNumber": "457", "addressCountry": "US", "addressRegion": "ME", "postalCode": "04011-0457", "@type": "PostalAddress"}}, "@id": "urn:uuid:b94090e0-b5c2-4b69-a3d1-a31ffeca5cce", "@type": "Organization", "name": [{"@value": "Maine International Center for Digital Learning", "@language": "en"}]}, {"url": "http://www.njtu.edu.cn/jg/jgws/content/core.htm", "location": {"@type": "Place", "address": {"addressLocality": "Golden", "addressCountry": "US", "addressRegion": "CO", "streetAddress": "108 South Eldridge Way", "postalCode": "80401-5320", "@type": "PostalAddress"}}, "@id": "urn:uuid:85f56802-441a-4e95-b931-55f1b4aab128", "@type": "Organization", "name": [{"@value": "IET Foundation", "@language": "en"}]}, {"url": "http://www.uci.edu", "location": {"@type": "Place", "address": {"addressLocality": "Irvine", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "307 Administration Building", "postalCode": "92717-3350", "@type": "PostalAddress"}}, "@id": "urn:uuid:6e07635d-5b3e-4bd8-90dc-5244356c5e33", "@type": "Organization", "name": [{"@value": "University of California at Irvine", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Harvard Kennedy School, Cambridge", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "79 John F. Kennedy Street", "postalCode": "02138", "@type": "PostalAddress"}}, "@id": "urn:uuid:d4f23b43-badf-45fc-82b0-67e66874933a", "@type": "Organization", "name": [{"@value": "Harvard University", "@language": "en"}]}, {"url": "http://www.commonsensemedia.org", "location": {"@type": "Place", "address": {"addressLocality": "San Francisco", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "650 Townsend Street, Suite 435", "postalCode": "94103-6221", "@type": "PostalAddress"}}, "@id": "urn:uuid:4ea0ec22-fde2-4048-b3ed-a8dd27137888", "@type": "Organization", "name": [{"@value": "Common Sense Media", "@language": "en"}]}, {"url": "http://www.roadtripnation.com", "location": {"@type": "Place", "address": {"addressCountry": "US", "addressRegion": "CA", "postalCode": "92627", "@type": "PostalAddress", "addressLocality": "853 W 17th St. Unit ACosta Mesa, Costa Mesa, -4277"}}, "@id": "urn:uuid:3d7b4219-4601-44db-a3d4-32f9df8a7f34", "@type": "Organization", "name": [{"@value": "RoadtripNation.org", "@language": "en"}]}, {"url": "http://www.ssrc.org", "location": {"@type": "Place", "address": {"addressLocality": "Brooklyn", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "One Pierrepont Plaza, 15th Floor", "postalCode": "11201", "@type": "PostalAddress"}}, "@id": "urn:uuid:8ba64617-ec03-4a93-a89b-9db203a8a456", "@type": "Organization", "name": [{"@value": "Social Science Research Council", "@language": "en"}]}, {"url": "http://foundation.fhda.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Los Altos Hills", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "12345 El Monte Road", "postalCode": "94022-4504", "@type": "PostalAddress"}}, "@id": "urn:uuid:a5ed320b-dc9b-420d-97d2-51881dc09e87", "@type": "Organization", "name": [{"@value": "Foothill-De Anza Community College District", "@language": "en"}]}, {"url": "http://www.stanford.edu", "location": {"@type": "Place", "address": {"addressLocality": "Stanford", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "450 Serra Hall", "postalCode": "94305-2070", "@type": "PostalAddress"}}, "@id": "urn:uuid:9b20f755-c74c-48b3-b40a-8f0eef1cf6da", "@type": "Organization", "name": [{"@value": "Stanford University", "@language": "en"}]}, {"url": "http://www.coastline.edu", "location": {"@type": "Place", "address": {"addressLocality": "Fountain Valley", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "11460 Warner Avenue", "postalCode": "92708-2597", "@type": "PostalAddress"}}, "@id": "urn:uuid:c56268a6-de1c-46a1-bfe2-316c3025f100", "@type": "Organization", "name": [{"@value": "Coastline Community College", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "New York", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "One Lincoln Plaza, Fourth Floor", "postalCode": "10023-7129", "@type": "PostalAddress"}}, "@id": "urn:uuid:72a88851-145d-47f7-a1ca-b0f133e9ae74", "@type": "Organization", "name": [{"@value": "Joan Ganz Cooney Center for Educational Media and Research", "@language": "en"}]}, {"url": "http://www.one-economy.com", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "1220 Nineteenth Street, N.W., Suite 610", "postalCode": "20036-2437", "@type": "PostalAddress"}}, "@id": "urn:uuid:ffdda708-8bf2-43a6-b923-50ef124c5dd9", "@type": "Organization", "name": [{"@value": "One Economy", "@language": "en"}]}, {"url": "http://www.ucar.edu/ucar/", "location": {"@type": "Place", "address": {"addressLocality": "Boulder", "postOfficeBoxNumber": "3000", "addressCountry": "US", "addressRegion": "CO", "postalCode": "80307-3000", "@type": "PostalAddress"}}, "@id": "urn:uuid:7816bbeb-f122-49ec-b2dd-22c90487a403", "@type": "Organization", "name": [{"@value": "University Corporation for Atmospheric Research", "@language": "en"}]}, {"url": "http://www.umich.edu", "location": {"@type": "Place", "address": {"addressLocality": "Ann Arbor", "addressCountry": "US", "addressRegion": "MI", "streetAddress": "503 Thompson Street", "postalCode": "48104", "@type": "PostalAddress"}}, "@id": "urn:uuid:fe98cca8-29fa-4850-a59b-3760aec72b75", "@type": "Organization", "name": [{"@value": "University of Michigan", "@language": "en"}]}, {"url": "http://www.msu.edu", "location": {"@type": "Place", "address": {"addressLocality": "Hannah Administration Building , East Lansing", "addressCountry": "US", "addressRegion": "MI", "streetAddress": "426 Auditorium Road, Room 2", "postalCode": "48824", "@type": "PostalAddress"}}, "@id": "urn:uuid:e39218b6-f3ed-4c35-a83b-a5dfbbc411aa", "@type": "Organization", "name": [{"@value": "Michigan State University", "@language": "en"}]}, {"url": "http://www.csulb.edu", "location": {"@type": "Place", "address": {"addressLocality": "Long Beach", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "1250 Bellflower Boulevard", "postalCode": "90840-0004", "@type": "PostalAddress"}}, "@id": "urn:uuid:8e272558-53f8-48cf-9672-4bb1e877bd93", "@type": "Organization", "name": [{"@value": "California State University at Long Beach", "@language": "en"}]}, {"url": "http://www.nas.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "500 Fifth Street, N.W.", "postalCode": "20001-2736", "@type": "PostalAddress"}}, "@id": "urn:uuid:a188cf7c-f0d3-4d5a-9bfe-c2e76fc3cffd", "@type": "Organization", "name": [{"@value": "National Academy of Sciences", "@language": "en"}]}, {"url": "http://www.issuelab.com", "location": {"@type": "Place", "address": {"addressLocality": "Chicago", "addressCountry": "US", "addressRegion": "IL", "streetAddress": "4001 N. Ravenswood, Suite 602", "postalCode": "60613", "@type": "PostalAddress"}}, "@id": "urn:uuid:1fd84c0a-b547-4ac1-b839-02983b721304", "@type": "Organization", "name": [{"@value": "IssueLab", "@language": "en"}]}, {"url": "http://www.eun.org", "location": {"@type": "Place", "address": {"addressCountry": "BE", "addressLocality": "Rue de Treves, 61, Brussels, B-1040", "@type": "PostalAddress"}}, "@id": "urn:uuid:ce0de6f2-0927-4692-80ba-91705a517058", "@type": "Organization", "name": [{"@value": "European Schoolnet", "@language": "en"}]}, {"url": "http://www.yale.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Office of Sponsored Projects, New Haven", "postOfficeBoxNumber": "208327", "addressCountry": "US", "addressRegion": "CT", "postalCode": "06520-8327", "@type": "PostalAddress"}}, "@id": "urn:uuid:2255775b-c2e5-4c70-8f65-3c5be3ce46c8", "@type": "Organization", "name": [{"@value": "Yale University", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Cambridge", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "One Broadway", "postalCode": "02142-1100", "@type": "PostalAddress"}}, "@id": "urn:uuid:d561a17b-1aac-405a-af65-25ba43f4ee71", "@type": "Organization", "name": [{"@value": "Open Learning Exchange", "@language": "en"}]}, {"url": null, "location": {"@type": "Place", "address": {"addressLocality": "Fremont", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "46498 Chaparral Court", "postalCode": "94539-6939", "@type": "PostalAddress"}}, "@id": "urn:uuid:44f85d03-01d7-4a83-9d2a-283ede268dad", "@type": "Organization", "name": [{"@value": "AcaWiki", "@language": "en"}]}, {"url": "http://www.usu.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Logan", "addressCountry": "US", "addressRegion": "UT", "streetAddress": "1400 Old Main Hill", "postalCode": "84322-1400", "@type": "PostalAddress"}}, "@id": "urn:uuid:246e5eb4-157f-4b1b-81aa-4cbb61d3f52f", "@type": "Organization", "name": [{"@value": "Utah State University", "@language": "en"}]}, {"url": "http://www.ced.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "2000 L Street, N.W., Suite 700", "postalCode": "20036-4915", "@type": "PostalAddress"}}, "@id": "urn:uuid:69ff1563-d6f3-4bad-94d8-c72d495346fd", "@type": "Organization", "name": [{"@value": "Committee for Economic Development", "@language": "en"}]}, {"url": "http://www.icommons.org", "location": {"@type": "Place", "address": {"addressCountry": "ZA", "addressLocality": "Offices at the Grace, Rosebank, Johannesburg", "streetAddress": "54 Bath Avenue, First Floor", "@type": "PostalAddress"}}, "@id": "urn:uuid:a0de00b1-9552-4c35-9d4f-5906410da794", "@type": "Organization", "name": [{"@value": "iCommons", "@language": "en"}]}, {"url": "http://www.aed.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "1825 Connecticut Avenue, N.W., Suite 1000", "postalCode": "20009-5721", "@type": "PostalAddress"}}, "@id": "urn:uuid:06371309-29cb-4229-930e-69f0df395346", "@type": "Organization", "name": [{"@value": "Academy for Educational Development", "@language": "en"}]}, {"url": "http://www.columbia.edu", "location": {"@type": "Place", "address": {"addressLocality": "New York", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "2960 Broadway", "postalCode": "10027-6902", "@type": "PostalAddress"}}, "@id": "urn:uuid:a821bfde-8efb-488f-a4ad-1818d0a8b8f0", "@type": "Organization", "name": [{"@value": "Columbia University", "@language": "en"}]}, {"url": "http://www.eadtu.nl", "location": {"@type": "Place", "address": {"addressCountry": "NL", "addressLocality": "Valkenburgerweg 177, Heerlen Limburg, 6419AT", "@type": "PostalAddress"}}, "@id": "urn:uuid:87978574-6ca3-45d8-b1e6-e04c4ae91374", "@type": "Organization", "name": [{"@value": "European Association of Distance Teaching Universities", "@language": "en"}]}, {"url": "http://www.cosn.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "1710 Rhode Island Avenue, N.W., Suite 900", "postalCode": "20036-3007", "@type": "PostalAddress"}}, "@id": "urn:uuid:f1f5e890-f55e-4ee2-9ffe-8c03183bd0d2", "@type": "Organization", "name": [{"@value": "Consortium for School Networking", "@language": "en"}]}, {"url": "http://www.usc.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Los Angeles", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "840 Childs Way", "postalCode": "90089-0277", "@type": "PostalAddress"}}, "@id": "urn:uuid:0a118ffa-4242-4fc7-a87b-a644f6158cfa", "@type": "Organization", "name": [{"@value": "University of Southern California", "@language": "en"}]}, {"url": "http://www.tufts.edu", "location": {"@type": "Place", "address": {"addressLocality": "Medford", "addressCountry": "US", "addressRegion": "MA", "streetAddress": "28 Sawyer Avenue", "postalCode": "02155", "@type": "PostalAddress"}}, "@id": "urn:uuid:46d15351-0582-44e3-9733-02c731adb722", "@type": "Organization", "name": [{"@value": "Tufts University", "@language": "en"}]}, {"url": "http://www.wiche.edu/wcet", "location": {"@type": "Place", "address": {"postOfficeBoxNumber": "9752", "addressLocality": "Boulder", "addressCountry": "US", "addressRegion": "CO", "streetAddress": "3035 Center Green Drive", "postalCode": "80301-9752", "@type": "PostalAddress"}}, "@id": "urn:uuid:58ca3b99-2935-4d24-8b30-7d1b89e65fea", "@type": "Organization", "name": [{"@value": "Western Interstate Commission for Higher Education", "@language": "en"}]}, {"url": "http://www.nd.edu", "location": {"@type": "Place", "address": {"addressLocality": "Notre Dame", "addressCountry": "US", "addressRegion": "IN", "streetAddress": "511 Main Building", "postalCode": "46556", "@type": "PostalAddress"}}, "@id": "urn:uuid:215cc295-abcd-473e-8911-b03f683a784c", "@type": "Organization", "name": [{"@value": "University of Notre Dame", "@language": "en"}]}, {"url": "http://www.cshl.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Cold Spring Harbor", "addressCountry": "US", "addressRegion": "NY", "streetAddress": "1 Bungtown Road", "postalCode": "11724-2219", "@type": "PostalAddress"}}, "@id": "urn:uuid:05dbe90e-856b-40df-a231-9f6889eb1a59", "@type": "Organization", "name": [{"@value": "Cold Spring Harbor Laboratory", "@language": "en"}]}, {"url": "http://www.nsta.org", "location": {"@type": "Place", "address": {"addressLocality": "Arlington", "addressCountry": "US", "addressRegion": "VA", "streetAddress": "1840 Wilson Boulevard", "postalCode": "22201-3000", "@type": "PostalAddress"}}, "@id": "urn:uuid:f94f6c38-8967-49e6-b5be-989a17d64b17", "@type": "Organization", "name": [{"@value": "National Science Teachers Association", "@language": "en"}]}, {"url": "http://www.jhu.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Baltimore", "addressCountry": "US", "addressRegion": "MD", "streetAddress": "615 N. Wolfe Street", "postalCode": "21205", "@type": "PostalAddress"}}, "@id": "urn:uuid:55329b0a-f01e-40f2-b23c-560e5d7cc810", "@type": "Organization", "name": [{"@value": "Johns Hopkins University", "@language": "en"}]}, {"url": "http://www.newamerica.net", "location": {"@type": "Place", "address": {"addressLocality": "Unit 900, Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "740 15th St., NW", "postalCode": "20005", "@type": "PostalAddress"}}, "@id": "urn:uuid:4ea5c361-797b-4051-9472-6af9a6bdd8a7", "@type": "Organization", "name": [{"@value": "New America Foundation", "@language": "en"}]}, {"url": "http://www.uom.ac.mu", "location": {"@type": "Place", "address": {"addressCountry": "MU", "addressLocality": "R\u00e9duit", "@type": "PostalAddress"}}, "@id": "urn:uuid:ba0eac0d-906a-4f76-9c19-38c31f89fa32", "@type": "Organization", "name": [{"@value": "University of Mauritius", "@language": "en"}]}, {"url": "http://www.educause.edu/forum", "location": {"@type": "Place", "address": {"addressCountry": "US", "addressRegion": "MA", "postalCode": "02142-1046", "@type": "PostalAddress", "addressLocality": "Massachusettes Institute of Technology, E-48, Cambridge"}}, "@id": "urn:uuid:980bd1f8-6331-4dee-acfd-715eb7a657b8", "@type": "Organization", "name": [{"@value": "Forum for the Future of Higher Education", "@language": "en"}]}, {"url": "http://www.developmentgateway.org", "location": {"@type": "Place", "address": {"addressLocality": "Washington", "addressCountry": "US", "addressRegion": "DC", "streetAddress": "1889 F Street, N.W.", "postalCode": "20006-4400", "@type": "PostalAddress"}}, "@id": "urn:uuid:de344593-ab26-42d9-b73e-f91f5ab607e2", "@type": "Organization", "name": [{"@value": "Development Gateway Foundation", "@language": "en"}]}, {"url": "http://www.foundation.reuters.com", "location": {"@type": "Place", "address": {"addressCountry": "GB", "addressLocality": "London, EC4P 4AJ England", "streetAddress": "85 Fleet Street", "@type": "PostalAddress"}}, "@id": "urn:uuid:ddad8b3c-e4e7-49ac-b59e-6160ec1d7edb", "@type": "Organization", "name": [{"@value": "Reuters Foundation", "@language": "en"}]}, {"url": "http://www.avu.org", "location": {"@type": "Place", "address": {"addressCountry": "KE", "postalCode": "00603", "@type": "PostalAddress", "addressLocality": "71 Maalim Juma Rd Kilimani, Nairobi"}}, "@id": "urn:uuid:61c79d67-a854-4bab-89c9-98072b768efd", "@type": "Organization", "name": [{"@value": "African Virtual University", "@language": "en"}]}, {"url": "http://www.league.org", "location": {"@type": "Place", "address": {"addressLocality": "Phoenix", "addressCountry": "US", "addressRegion": "AZ", "streetAddress": "4505 East Chandler Boulevard, Suite 250", "postalCode": "85048-7690", "@type": "PostalAddress"}}, "@id": "urn:uuid:ae3a0008-a14b-4227-bfaa-0668e9e39d1c", "@type": "Organization", "name": [{"@value": "League for Innovation in the Community College", "@language": "en"}]}, {"url": "http://www.wisc.edu/", "location": {"@type": "Place", "address": {"addressCountry": "US", "addressRegion": "WI", "postalCode": "53706", "@type": "PostalAddress", "addressLocality": "Madison"}}, "@id": "urn:uuid:9d9c56fc-4dfb-4827-8dee-10b12a3bdfab", "@type": "Organization", "name": [{"@value": "University of Wisconsin", "@language": "en"}]}, {"url": "http://centerforgamescience.org", "location": {"@type": "Place", "address": {"addressLocality": "AC, Seattle", "addressCountry": "US", "addressRegion": "WA", "streetAddress": "101 Paul G. Allen Center for Computer Science &amp; Engineering, Box 352350185 Stevens Way", "postalCode": "98195-2350", "@type": "PostalAddress"}}, "@id": "urn:uuid:6fd83654-cbcd-485e-b681-456d17c008c5", "@type": "Organization", "name": [{"@value": "University of Washington", "@language": "en"}]}, {"url": "http://www.ucop.edu/", "location": {"@type": "Place", "address": {"addressLocality": "Oakland", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "1111 Franklin Street, 12 Floor", "postalCode": "94607-5201", "@type": "PostalAddress"}}, "@id": "urn:uuid:48ee6bf8-2cb6-407e-a852-9b46728a592e", "@type": "Organization", "name": [{"@value": "University of California", "@language": "en"}]}, {"url": "http://www.alexandriaarchive.org", "location": {"@type": "Place", "address": {"addressLocality": "San Francisco", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "125 El Verano Way", "postalCode": "94127-2036", "@type": "PostalAddress"}}, "@id": "urn:uuid:4164599c-6259-4dd8-88b4-a4eca17d3cd5", "@type": "Organization", "name": [{"@value": "Alexandria Archive Institute", "@language": "en"}]}, {"url": "http://www.k-web.org", "location": {"@type": "Place", "address": {"addressLocality": "San Jose", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "253 North Thirteenth Street", "postalCode": "95112-3445", "@type": "PostalAddress"}}, "@id": "urn:uuid:c8966ee6-9e79-4eaf-89ce-8b624caa02d6", "@type": "Organization", "name": [{"@value": "James Burke Institute for Educational Innovation", "@language": "en"}]}, {"url": "http://depts.washington.edu/lcommons/", "location": {"@type": "Place", "address": {"postOfficeBoxNumber": "352820", "addressLocality": "Seattle", "addressCountry": "US", "addressRegion": "WA", "streetAddress": "320 Mary Gates Hall", "postalCode": "98195-2820", "@type": "PostalAddress"}}, "@id": "urn:uuid:75cbafbc-8abb-441f-870d-942ab5ee8d9e", "@type": "Organization", "name": [{"@value": "Digital Learning Commons", "@language": "en"}]}, {"url": "http://www.ucsc.edu", "location": {"@type": "Place", "address": {"addressLocality": "Santa Cruz", "addressCountry": "US", "addressRegion": "CA", "streetAddress": "1156 High Street", "postalCode": "95064-1077", "@type": "PostalAddress"}}, "@id": "urn:uuid:38ad856b-e4e9-48b5-8f94-7107c822d46c", "@type": "Organization", "name": [{"@value": "University of California at Santa Cruz", "@language": "en"}]}]
+﻿[
+   {
+      "url" : "http://www.nba.co.za",
+      "location" : {
+         "address" : {
+            "addressLocality" : "Parkview, Johannesburg",
+            "streetAddress" : "64 Galway Road",
+            "@type" : "PostalAddress",
+            "addressCountry" : "ZA"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:9d517da5-5d29-42e3-ad5f-bd77735d8a8a",
+      "name" : [
+         {
+            "@value" : "Neil Butcher and Associates",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "location" : {
+         "address" : {
+            "addressCountry" : "CA",
+            "@type" : "PostalAddress",
+            "streetAddress" : "5333 avenue Casgrain, Suite 1227",
+            "postalCode" : "H2T 1X3",
+            "addressLocality" : "Montreal",
+            "addressRegion" : "QC"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://reb.us",
+      "@id" : "urn:uuid:d3584906-65e6-4bad-b61c-47dd8d18f178",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "The Rebus Foundation"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Achieving the Dream, Inc."
+         }
+      ],
+      "@id" : "urn:uuid:0d1d0e36-fd14-4fce-bd32-02d71c18117e",
+      "url" : "http://achievingthedream.org",
+      "location" : {
+         "address" : {
+            "addressLocality" : "Silver Spring",
+            "addressRegion" : "MD",
+            "postalCode" : "20910",
+            "streetAddress" : "8403 Colesville Road, Suite 450",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Foundation for Learning Equality",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:bea4a82a-77f1-4b5d-8d56-acd54f4239f7",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "PMB 323, La Jolla",
+            "addressRegion" : "CA",
+            "postalCode" : "92093",
+            "streetAddress" : "9700 Gilman Dr",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "url" : "http://learningequality.org"
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "GOORU"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.goorulearning.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "94508",
+            "streetAddress" : "350 Twin Dolphin Drive, Suite 115",
+            "addressLocality" : "Redwood City",
+            "addressRegion" : "CA"
+         }
+      },
+      "@id" : "urn:uuid:daf044bc-e71e-4ab6-a1de-b6eb8180b6f6"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "University of Minnesota"
+         }
+      ],
+      "@id" : "urn:uuid:306302b2-dd78-41a5-90f3-f2efbf82431d",
+      "url" : "http://www1.umn.edu/twincities/index.php",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "55455",
+            "streetAddress" : "200 Oak Street SE",
+            "addressLocality" : "Minneapolis",
+            "addressRegion" : "MN"
+         }
+      }
+   },
+   {
+      "@id" : "urn:uuid:e2b77d91-56d6-4077-bd01-ec869e4833a4",
+      "location" : {
+         "address" : {
+            "postalCode" : "94612",
+            "streetAddress" : "344 Thomas L. Berkley Way, Suite 340",
+            "addressLocality" : "Oakland",
+            "addressRegion" : "CA",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.leadps.org",
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Leadership Public Schools"
+         }
+      ]
+   },
+   {
+      "@id" : "urn:uuid:9a9d9bf8-51c4-4a65-9518-7e2e5c85bb3f",
+      "url" : "http://openedgroup.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressRegion" : "CA",
+            "addressLocality" : "Norwalk",
+            "streetAddress" : "11110 Alondra Blvd.",
+            "postalCode" : "90650",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Cerritos College Foundation"
+         }
+      ]
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Open Knowledge Foundation Brasil"
+         }
+      ],
+      "@id" : "urn:uuid:1c12aae9-e418-4469-9058-13a552a809c2",
+      "url" : "http://br.okfn.org",
+      "location" : {
+         "address" : {
+            "addressCountry" : "BR",
+            "@type" : "PostalAddress",
+            "postalCode" : "01409",
+            "addressRegion" : "SP",
+            "addressLocality" : "Rua Peixoto Gomide, 388/141. CEP -000, Jd. Paulista. , São Paulo"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "@id" : "urn:uuid:7a5c34d0-e31c-4aaf-900c-1e40a9248b1b",
+      "url" : "http://www.setda.org",
+      "location" : {
+         "address" : {
+            "addressRegion" : "MD",
+            "addressLocality" : "Glen Burnie",
+            "postalCode" : "21060",
+            "@type" : "PostalAddress",
+            "postOfficeBoxNumber" : "10",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "State Educational Technology Directors Association",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Organisation for Economic Co-operation and Development"
+         }
+      ],
+      "@id" : "urn:uuid:c2862c37-dd1e-4118-ac2c-3fc4eb80003e",
+      "url" : "http://www.oecd.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "Paris Cedex 16",
+            "streetAddress" : "2, rue André-Pascal",
+            "postalCode" : "75775",
+            "@type" : "PostalAddress",
+            "addressCountry" : "FR"
+         }
+      }
+   },
+   {
+      "url" : "http://www.achieve.org",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "20036",
+            "streetAddress" : "1400 16th Street NW, Suite 510",
+            "addressLocality" : "Washington",
+            "addressRegion" : "DC"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:c1112150-5143-4a78-a4b4-39ba7cf296a7",
+      "name" : [
+         {
+            "@value" : "Achieve",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@id" : "urn:uuid:8917340e-d27d-4994-bd67-05c5a764d5cb",
+      "url" : null,
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "02108",
+            "streetAddress" : "294 Washington St, Suite 500",
+            "addressRegion" : "MA",
+            "addressLocality" : "Boston, Boston"
+         },
+         "@type" : "Place"
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Student Organizing, Inc.",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Global Healthy Living Foundation"
+         }
+      ],
+      "@type" : "Organization",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "10960",
+            "streetAddress" : "515 North Midland Avenue",
+            "addressRegion" : "NY",
+            "addressLocality" : "Upper Nyack"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.babson.edu/Academics/centers/blank-center/global-research/Pages/babson-survey-research-gr",
+      "@id" : "urn:uuid:7f9332a7-5a30-4efb-a048-82888c0b140d"
+   },
+   {
+      "url" : "http://www.startl.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "postalCode" : "06759",
+            "streetAddress" : "3 South Road",
+            "addressRegion" : "CT",
+            "addressLocality" : "Litchfield",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      },
+      "@id" : "urn:uuid:6987eaf3-c276-4167-9ce2-47dc56921e5f",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "StartL"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Grantmakers for Education"
+         }
+      ],
+      "@id" : "urn:uuid:6fae92d1-9d27-48f6-b8dd-6f577e0141e1",
+      "location" : {
+         "address" : {
+            "postalCode" : "97205-3519",
+            "streetAddress" : "720 S.W. Washington Street, Suite 605",
+            "addressLocality" : "Portland",
+            "addressRegion" : "OR",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.edfunders.org"
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "FinalsClub.org"
+         }
+      ],
+      "@type" : "Organization",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "02138",
+            "addressRegion" : "MA",
+            "addressLocality" : "1132 Massachusetts Avenue , Cambridge"
+         }
+      },
+      "url" : "http://www.FinalsClub.org",
+      "@id" : "urn:uuid:bd13160c-7ba7-4390-868f-184e61579a68"
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Ontario College of Art &amp; Design"
+         }
+      ],
+      "@type" : "Organization",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "Toronto",
+            "addressRegion" : "ON",
+            "streetAddress" : "100 Mc, Caul Street",
+            "postalCode" : "M5T 1W1",
+            "@type" : "PostalAddress",
+            "addressCountry" : "CA"
+         }
+      },
+      "url" : "http://idrc.ocadu.ca",
+      "@id" : "urn:uuid:4c10a5c7-d8e1-4838-9e26-8dcd5ee07ba9"
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Brigham Young University"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://openedgroup.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "ORCAA-285 ASB , Provo",
+            "addressRegion" : "UT",
+            "postalCode" : "84602",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@id" : "urn:uuid:19f8ba38-689c-47a7-99c5-e5c5b01155cf"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Fantasy Foundation of Culture and Arts"
+         }
+      ],
+      "@id" : "urn:uuid:bbfc82b5-c2ab-4dee-881f-735f11353c58",
+      "url" : "http://www.fantasy.org.tw",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "Tung Bei Street, Taipei, 104 Taiwan",
+            "@type" : "PostalAddress",
+            "addressCountry" : "TW"
+         }
+      }
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "University of Colorado Foundation at Boulder"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://colorado.edu",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressLocality" : "Boulder",
+            "addressRegion" : "CO",
+            "postalCode" : "80309",
+            "streetAddress" : "4740 Walnut Street"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:855cf93f-d28b-4094-959c-c05598f0838f"
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Silicon Valley Education Foundation",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "streetAddress" : "1290 Ridder Park Drive",
+            "postalCode" : "95131-2304",
+            "addressLocality" : "MC 215, San Jose",
+            "addressRegion" : "CA"
+         },
+         "@type" : "Place"
+      },
+      "url" : null,
+      "@id" : "urn:uuid:a63d9ace-622e-4aba-a412-f9407f35fb49"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Learning Games Network",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:3444ee34-8873-403d-ae16-7b46a9e93a76",
+      "url" : null,
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "streetAddress" : "39 Richardson Street",
+            "postalCode" : "01890-1841",
+            "addressLocality" : "Winchester",
+            "addressRegion" : "MA",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      }
+   },
+   {
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "streetAddress" : "282 Century Place, Suite 5000",
+            "postalCode" : "80027",
+            "addressLocality" : "Louisville",
+            "addressRegion" : "CO"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.educause.edu",
+      "@id" : "urn:uuid:04b742ac-64f1-49e7-a215-d44b1c8927f0",
+      "name" : [
+         {
+            "@value" : "Educause",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "url" : "http://www.carnegiefoundation.org/index.htm",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "Stanford",
+            "addressRegion" : "CA",
+            "streetAddress" : "51 Vista Lane",
+            "postalCode" : "94305-8703",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@id" : "urn:uuid:108c9462-2356-4006-af9c-be2f28d344a7",
+      "name" : [
+         {
+            "@value" : "Carnegie Foundation for the Advancement of Teaching",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Keio Gijuku University"
+         }
+      ],
+      "@id" : "urn:uuid:6cce072b-803a-4e18-a33b-42dbdbbc9af0",
+      "url" : "http://www.kri.sfc.keio.ac.jp/en/",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "Keio Research Institute, 5322 Endo Fujisawa, Kanagawa, 252-0882",
+            "@type" : "PostalAddress",
+            "addressCountry" : "JP"
+         }
+      }
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Ithaka",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:74e872e0-ad23-4bdf-bad0-c60eab5433af",
+      "url" : "http://www.ithaka.org/",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "postalCode" : "10021-8112",
+            "streetAddress" : "151 East Sixty-first Street",
+            "addressRegion" : "NY",
+            "addressLocality" : "New York",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      }
+   },
+   {
+      "url" : "http://www.studentpirgs.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "streetAddress" : "294 Washington Street, Suite 500",
+            "postalCode" : "02108",
+            "addressRegion" : "MA",
+            "addressLocality" : "Boston",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      },
+      "@id" : "urn:uuid:0602a74b-c88a-41b6-ae24-203143753125",
+      "name" : [
+         {
+            "@value" : "Center for Public Interest Research",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "KnowledgeWorks Foundation"
+         }
+      ],
+      "@id" : "urn:uuid:9e7e4aea-0f4a-4ec6-b4aa-0590f296a663",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressRegion" : "OH",
+            "addressLocality" : "Cincinnati",
+            "streetAddress" : "1 West Fourth Street, Suite 200",
+            "postalCode" : "45202",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "url" : "http://www.knowledgeworks.org"
+   },
+   {
+      "url" : "http://www.nestanet.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "postOfficeBoxNumber" : "2194",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressLocality" : "Liverpool",
+            "addressRegion" : "NY",
+            "postalCode" : "13089-2194"
+         }
+      },
+      "@id" : "urn:uuid:8ec911a8-d885-48db-8d97-f2f0a776cc14",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "National Earth Science Teachers Association"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Vietnam Foundation"
+         }
+      ],
+      "@id" : "urn:uuid:ce8ceca0-c066-47c7-a896-ca76eb27f16d",
+      "url" : "http://www.vnfoundation.org",
+      "location" : {
+         "address" : {
+            "addressLocality" : "Washington",
+            "addressRegion" : "DC",
+            "streetAddress" : "500 Fifth Street NW, Room 570",
+            "postalCode" : "20001",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "New York State Newspapers Foundation"
+         }
+      ],
+      "@id" : "urn:uuid:1e5bccfe-9cd9-4510-a5d1-795f98eb9acb",
+      "url" : "http://www.nytimes.com",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "streetAddress" : "620 Eighth Avenue",
+            "postalCode" : "10018",
+            "addressLocality" : "New York",
+            "addressRegion" : "NY",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      }
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Maine International Center for Digital Learning",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : null,
+      "location" : {
+         "address" : {
+            "addressLocality" : "Brunswick",
+            "addressRegion" : "ME",
+            "postalCode" : "04011-0457",
+            "postOfficeBoxNumber" : "457",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:b94090e0-b5c2-4b69-a3d1-a31ffeca5cce"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "IET Foundation"
+         }
+      ],
+      "@id" : "urn:uuid:85f56802-441a-4e95-b931-55f1b4aab128",
+      "url" : "http://www.njtu.edu.cn/jg/jgws/content/core.htm",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressLocality" : "Golden",
+            "addressRegion" : "CO",
+            "postalCode" : "80401-5320",
+            "streetAddress" : "108 South Eldridge Way"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "@id" : "urn:uuid:d4f23b43-badf-45fc-82b0-67e66874933a",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressRegion" : "MA",
+            "addressLocality" : "Harvard Kennedy School, Cambridge",
+            "streetAddress" : "79 John F. Kennedy Street",
+            "postalCode" : "02138",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "url" : null,
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Harvard University"
+         }
+      ]
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Common Sense Media"
+         }
+      ],
+      "@id" : "urn:uuid:4ea0ec22-fde2-4048-b3ed-a8dd27137888",
+      "location" : {
+         "address" : {
+            "addressLocality" : "San Francisco",
+            "addressRegion" : "CA",
+            "postalCode" : "94103-6221",
+            "streetAddress" : "650 Townsend Street, Suite 435",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.commonsensemedia.org"
+   },
+   {
+      "@id" : "urn:uuid:3d7b4219-4601-44db-a3d4-32f9df8a7f34",
+      "url" : "http://www.roadtripnation.com",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "853 W 17th St. Unit ACosta Mesa, Costa Mesa, -4277",
+            "addressRegion" : "CA",
+            "postalCode" : "92627",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "RoadtripNation.org",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Social Science Research Council",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:8ba64617-ec03-4a93-a89b-9db203a8a456",
+      "location" : {
+         "address" : {
+            "addressLocality" : "Brooklyn",
+            "addressRegion" : "NY",
+            "postalCode" : "11201",
+            "streetAddress" : "One Pierrepont Plaza, 15th Floor",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.ssrc.org"
+   },
+   {
+      "@id" : "urn:uuid:a5ed320b-dc9b-420d-97d2-51881dc09e87",
+      "url" : "http://foundation.fhda.edu/",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "CA",
+            "addressLocality" : "Los Altos Hills",
+            "postalCode" : "94022-4504",
+            "streetAddress" : "12345 El Monte Road"
+         },
+         "@type" : "Place"
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Foothill-De Anza Community College District",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Stanford University",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "streetAddress" : "450 Serra Hall",
+            "postalCode" : "94305-2070",
+            "addressLocality" : "Stanford",
+            "addressRegion" : "CA"
+         }
+      },
+      "url" : "http://www.stanford.edu",
+      "@id" : "urn:uuid:9b20f755-c74c-48b3-b40a-8f0eef1cf6da"
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Coastline Community College"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.coastline.edu",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "92708-2597",
+            "streetAddress" : "11460 Warner Avenue",
+            "addressRegion" : "CA",
+            "addressLocality" : "Fountain Valley"
+         }
+      },
+      "@id" : "urn:uuid:c56268a6-de1c-46a1-bfe2-316c3025f100"
+   },
+   {
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressLocality" : "New York",
+            "addressRegion" : "NY",
+            "streetAddress" : "One Lincoln Plaza, Fourth Floor",
+            "postalCode" : "10023-7129"
+         }
+      },
+      "url" : null,
+      "@id" : "urn:uuid:72a88851-145d-47f7-a1ca-b0f133e9ae74",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Joan Ganz Cooney Center for Educational Media and Research"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "url" : "http://www.one-economy.com",
+      "location" : {
+         "address" : {
+            "streetAddress" : "1220 Nineteenth Street, N.W., Suite 610",
+            "postalCode" : "20036-2437",
+            "addressRegion" : "DC",
+            "addressLocality" : "Washington",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:ffdda708-8bf2-43a6-b923-50ef124c5dd9",
+      "name" : [
+         {
+            "@value" : "One Economy",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "University Corporation for Atmospheric Research",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:7816bbeb-f122-49ec-b2dd-22c90487a403",
+      "url" : "http://www.ucar.edu/ucar/",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postOfficeBoxNumber" : "3000",
+            "postalCode" : "80307-3000",
+            "addressRegion" : "CO",
+            "addressLocality" : "Boulder"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "name" : [
+         {
+            "@value" : "California State University at Long Beach",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.csulb.edu",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "postalCode" : "90840-0004",
+            "streetAddress" : "1250 Bellflower Boulevard",
+            "addressLocality" : "Long Beach",
+            "addressRegion" : "CA",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      },
+      "@id" : "urn:uuid:8e272558-53f8-48cf-9672-4bb1e877bd93"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "National Academy of Sciences",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:a188cf7c-f0d3-4d5a-9bfe-c2e76fc3cffd",
+      "url" : "http://www.nas.edu/",
+      "location" : {
+         "address" : {
+            "addressLocality" : "Washington",
+            "addressRegion" : "DC",
+            "streetAddress" : "500 Fifth Street, N.W.",
+            "postalCode" : "20001-2736",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "IssueLab"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.issuelab.com",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "IL",
+            "addressLocality" : "Chicago",
+            "streetAddress" : "4001 N. Ravenswood, Suite 602",
+            "postalCode" : "60613"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:1fd84c0a-b547-4ac1-b839-02983b721304"
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Yale University",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.yale.edu/",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postOfficeBoxNumber" : "208327",
+            "postalCode" : "06520-8327",
+            "addressLocality" : "Office of Sponsored Projects, New Haven",
+            "addressRegion" : "CT"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:2255775b-c2e5-4c70-8f65-3c5be3ce46c8"
+   },
+   {
+      "url" : null,
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "streetAddress" : "One Broadway",
+            "postalCode" : "02142-1100",
+            "addressRegion" : "MA",
+            "addressLocality" : "Cambridge",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         }
+      },
+      "@id" : "urn:uuid:d561a17b-1aac-405a-af65-25ba43f4ee71",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Open Learning Exchange"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressLocality" : "Fremont",
+            "addressRegion" : "CA",
+            "postalCode" : "94539-6939",
+            "streetAddress" : "46498 Chaparral Court"
+         },
+         "@type" : "Place"
+      },
+      "url" : null,
+      "@id" : "urn:uuid:44f85d03-01d7-4a83-9d2a-283ede268dad",
+      "name" : [
+         {
+            "@value" : "AcaWiki",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Committee for Economic Development",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.ced.org",
+      "location" : {
+         "address" : {
+            "streetAddress" : "2000 L Street, N.W., Suite 700",
+            "postalCode" : "20036-4915",
+            "addressRegion" : "DC",
+            "addressLocality" : "Washington",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:69ff1563-d6f3-4bad-94d8-c72d495346fd"
+   },
+   {
+      "@id" : "urn:uuid:a0de00b1-9552-4c35-9d4f-5906410da794",
+      "url" : "http://www.icommons.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "ZA",
+            "addressLocality" : "Offices at the Grace, Rosebank, Johannesburg",
+            "streetAddress" : "54 Bath Avenue, First Floor"
+         }
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "iCommons",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "url" : "http://www.aed.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressRegion" : "DC",
+            "addressLocality" : "Washington",
+            "postalCode" : "20009-5721",
+            "streetAddress" : "1825 Connecticut Avenue, N.W., Suite 1000",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@id" : "urn:uuid:06371309-29cb-4229-930e-69f0df395346",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Academy for Educational Development"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@id" : "urn:uuid:a821bfde-8efb-488f-a4ad-1818d0a8b8f0",
+      "url" : "http://www.columbia.edu",
+      "location" : {
+         "address" : {
+            "addressRegion" : "NY",
+            "addressLocality" : "New York",
+            "postalCode" : "10027-6902",
+            "streetAddress" : "2960 Broadway",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Columbia University"
+         }
+      ]
+   },
+   {
+      "@id" : "urn:uuid:f1f5e890-f55e-4ee2-9ffe-8c03183bd0d2",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressLocality" : "Washington",
+            "addressRegion" : "DC",
+            "postalCode" : "20036-3007",
+            "streetAddress" : "1710 Rhode Island Avenue, N.W., Suite 900"
+         }
+      },
+      "url" : "http://www.cosn.org",
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Consortium for School Networking"
+         }
+      ]
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "University of Southern California",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:0a118ffa-4242-4fc7-a87b-a644f6158cfa",
+      "url" : "http://www.usc.edu/",
+      "location" : {
+         "address" : {
+            "addressRegion" : "CA",
+            "addressLocality" : "Los Angeles",
+            "postalCode" : "90089-0277",
+            "streetAddress" : "840 Childs Way",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Western Interstate Commission for Higher Education"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.wiche.edu/wcet",
+      "location" : {
+         "address" : {
+            "streetAddress" : "3035 Center Green Drive",
+            "postalCode" : "80301-9752",
+            "addressLocality" : "Boulder",
+            "addressRegion" : "CO",
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postOfficeBoxNumber" : "9752"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:58ca3b99-2935-4d24-8b30-7d1b89e65fea"
+   },
+   {
+      "@id" : "urn:uuid:05dbe90e-856b-40df-a231-9f6889eb1a59",
+      "url" : "http://www.cshl.edu/",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "NY",
+            "addressLocality" : "Cold Spring Harbor",
+            "postalCode" : "11724-2219",
+            "streetAddress" : "1 Bungtown Road"
+         }
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Cold Spring Harbor Laboratory",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "@id" : "urn:uuid:f94f6c38-8967-49e6-b5be-989a17d64b17",
+      "url" : "http://www.nsta.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressLocality" : "Arlington",
+            "addressRegion" : "VA",
+            "streetAddress" : "1840 Wilson Boulevard",
+            "postalCode" : "22201-3000",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "National Science Teachers Association"
+         }
+      ]
+   },
+   {
+      "@id" : "urn:uuid:55329b0a-f01e-40f2-b23c-560e5d7cc810",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postalCode" : "21205",
+            "streetAddress" : "615 N. Wolfe Street",
+            "addressLocality" : "Baltimore",
+            "addressRegion" : "MD"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.jhu.edu/",
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Johns Hopkins University",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "New America Foundation",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:4ea5c361-797b-4051-9472-6af9a6bdd8a7",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "streetAddress" : "740 15th St., NW",
+            "postalCode" : "20005",
+            "addressLocality" : "Unit 900, Washington",
+            "addressRegion" : "DC"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.newamerica.net"
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Forum for the Future of Higher Education",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "MA",
+            "addressLocality" : "Massachusettes Institute of Technology, E-48, Cambridge",
+            "postalCode" : "02142-1046"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.educause.edu/forum",
+      "@id" : "urn:uuid:980bd1f8-6331-4dee-acfd-715eb7a657b8"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Development Gateway Foundation",
+            "@language" : "en"
+         }
+      ],
+      "@id" : "urn:uuid:de344593-ab26-42d9-b73e-f91f5ab607e2",
+      "url" : "http://www.developmentgateway.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressRegion" : "DC",
+            "addressLocality" : "Washington",
+            "streetAddress" : "1889 F Street, N.W.",
+            "postalCode" : "20006-4400",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      }
+   },
+   {
+      "name" : [
+         {
+            "@value" : "Reuters Foundation",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization",
+      "url" : "http://www.foundation.reuters.com",
+      "location" : {
+         "address" : {
+            "streetAddress" : "85 Fleet Street",
+            "addressLocality" : "London, EC4P 4AJ England",
+            "addressCountry" : "GB",
+            "@type" : "PostalAddress"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:ddad8b3c-e4e7-49ac-b59e-6160ec1d7edb"
+   },
+   {
+      "@id" : "urn:uuid:ae3a0008-a14b-4227-bfaa-0668e9e39d1c",
+      "url" : "http://www.league.org",
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "addressRegion" : "AZ",
+            "addressLocality" : "Phoenix",
+            "postalCode" : "85048-7690",
+            "streetAddress" : "4505 East Chandler Boulevard, Suite 250",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         }
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "League for Innovation in the Community College",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "location" : {
+         "@type" : "Place",
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "WI",
+            "addressLocality" : "Madison",
+            "postalCode" : "53706"
+         }
+      },
+      "url" : "http://www.wisc.edu/",
+      "@id" : "urn:uuid:9d9c56fc-4dfb-4827-8dee-10b12a3bdfab",
+      "name" : [
+         {
+            "@value" : "University of Wisconsin",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "url" : "http://centerforgamescience.org",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "WA",
+            "addressLocality" : "AC, Seattle",
+            "postalCode" : "98195-2350",
+            "streetAddress" : "101 Paul G. Allen Center for Computer Science &amp; Engineering, Box 352350185 Stevens Way"
+         },
+         "@type" : "Place"
+      },
+      "@id" : "urn:uuid:6fd83654-cbcd-485e-b681-456d17c008c5",
+      "name" : [
+         {
+            "@value" : "University of Washington",
+            "@language" : "en"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "streetAddress" : "1111 Franklin Street, 12 Floor",
+            "postalCode" : "94607-5201",
+            "addressLocality" : "Oakland",
+            "addressRegion" : "CA"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://www.ucop.edu/",
+      "@id" : "urn:uuid:48ee6bf8-2cb6-407e-a852-9b46728a592e",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "University of California"
+         }
+      ],
+      "@type" : "Organization"
+   },
+   {
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "Alexandria Archive Institute"
+         }
+      ],
+      "@id" : "urn:uuid:4164599c-6259-4dd8-88b4-a4eca17d3cd5",
+      "url" : "http://www.alexandriaarchive.org",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "CA",
+            "addressLocality" : "San Francisco",
+            "postalCode" : "94127-2036",
+            "streetAddress" : "125 El Verano Way"
+         },
+         "@type" : "Place"
+      }
+   },
+   {
+      "@id" : "urn:uuid:c8966ee6-9e79-4eaf-89ce-8b624caa02d6",
+      "url" : "http://www.k-web.org",
+      "location" : {
+         "address" : {
+            "@type" : "PostalAddress",
+            "addressCountry" : "US",
+            "addressRegion" : "CA",
+            "addressLocality" : "San Jose",
+            "postalCode" : "95112-3445",
+            "streetAddress" : "253 North Thirteenth Street"
+         },
+         "@type" : "Place"
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@language" : "en",
+            "@value" : "James Burke Institute for Educational Innovation"
+         }
+      ]
+   },
+   {
+      "@id" : "urn:uuid:75cbafbc-8abb-441f-870d-942ab5ee8d9e",
+      "location" : {
+         "address" : {
+            "addressCountry" : "US",
+            "@type" : "PostalAddress",
+            "postOfficeBoxNumber" : "352820",
+            "streetAddress" : "320 Mary Gates Hall",
+            "postalCode" : "98195-2820",
+            "addressLocality" : "Seattle",
+            "addressRegion" : "WA"
+         },
+         "@type" : "Place"
+      },
+      "url" : "http://depts.washington.edu/lcommons/",
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "Digital Learning Commons",
+            "@language" : "en"
+         }
+      ]
+   },
+   {
+      "@id" : "urn:uuid:38ad856b-e4e9-48b5-8f94-7107c822d46c",
+      "url" : "http://www.ucsc.edu",
+      "location" : {
+         "address" : {
+            "addressRegion" : "CA",
+            "addressLocality" : "Santa Cruz",
+            "postalCode" : "95064-1077",
+            "streetAddress" : "1156 High Street",
+            "@type" : "PostalAddress",
+            "addressCountry" : "US"
+         },
+         "@type" : "Place"
+      },
+      "@type" : "Organization",
+      "name" : [
+         {
+            "@value" : "University of California at Santa Cruz",
+            "@language" : "en"
+         }
+      ]
+   }
+]
