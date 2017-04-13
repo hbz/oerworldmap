@@ -71,6 +71,12 @@ var Hijax = (function ($, Hijax) {
     var radius_base;
     var zoom = world.getView().getZoom();
 
+    // dirty fix for OL bug returning undefined zoom value
+    // maybe related to https://github.com/openlayers/openlayers/issues/4333 and fixed with next release
+    if(typeof zoom == 'undefined') {
+      zoom = standartMaxZoom;
+    }
+
     if(zoom < 5) {
       radius_base = 4;
     } else {
