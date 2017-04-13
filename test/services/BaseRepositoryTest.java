@@ -209,14 +209,14 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testExactPersonRankedFirst() throws IOException, InterruptedException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.1.json");
-    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.2.json");
+  public void testExactPersonHits() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.2.json");
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Did not get expected number of hits (2).", searchResults.size() == 2);
-    Assert.assertTrue("Exact search hit was not ranked first.",
+    Assert.assertTrue("Did not get expected number of hits (1).", searchResults.size() == 1);
+    Assert.assertTrue("Exact search hit was not found.",
       ((Resource) searchResults.get(0).get("about")).getId().equals(db1.getId()));
     mBaseRepo.deleteResource("urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6", mMetadata);
