@@ -456,13 +456,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // query abbreviated word
     List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
-    Assert.assertTrue("Did not get proper result searching for e-pai.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+    Assert.assertTrue("Accidentally found \"e-pai\".", abbreviatedWord.size() == 0);
 
     // query without hyphen
     List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Could not find \"epai\".", withoutHyphen.size() == 1);
-    Assert.assertTrue("Did not get proper result searching for epai.", withoutHyphen.get(0).getId().equals(completeWord.get(0).getId()));
+    Assert.assertTrue("Accidentally found \"epai\".", withoutHyphen.size() == 0);
 
     mBaseRepo.deleteResource("", mMetadata);
   }
