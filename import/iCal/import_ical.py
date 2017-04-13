@@ -1,7 +1,7 @@
 import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib, StringIO
-from ..common.OerWmFiles import *
-from ..common.OerWmUrls import *
-from ..common.OerWmLocations import *
+from ..common_utils.OerWmFiles import *
+from ..common_utils.OerWmUrls import *
+from ..common_utils.OerWmLocations import *
 
 
 path = os.path.dirname(os.path.realpath(__file__)) + os.path.sep

@@ -5,7 +5,6 @@ import models.Resource;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,8 +16,8 @@ public class CalendarImporterTest implements JsonTest{
 
   @Test
   public void testMultipleEventsImport() throws IOException {
-    List<Resource> expected = new ArrayList<>();
-    expected.add(getResourceFromJsonFile("CalendarImporterTest/testMultipleEventsImport.IN.1.json"));
+    List<Resource> expected =
+      getResourcesFromPagedCollectionFile("CalendarImporterTest/testMultipleEventsImport.OUT.1.json").getItems();
     List<Resource> imported = CalendarImporter.importFromUrl(
       "file:///./test/resources/CalendarImporterTest/testMultipleEventsImport.IN.1.iCal", "de", "");
       // TODO: fill mapzen API key (third parameter)

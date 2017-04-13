@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "io.apigee.trireme" % "trireme-core" % "0.8.9",
   "io.apigee.trireme" % "trireme-node10src" % "0.8.9",
   "com.maxmind.geoip2" % "geoip2" % "2.8.0",
-  "org.python" % "jython" % "2.7.0"
+  "org.python" % "jython-standalone" % "2.7.1b2"
 )
 
 PlayKeys.playRunHooks += Grunt(baseDirectory.value)
