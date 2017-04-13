@@ -405,25 +405,29 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testTwoLetterSearch() throws IOException, InterruptedException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testThreeLetterSearch.DB.1.json");
+  public void testAbbreviatedSearch() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testAbbreviatedSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
     // query with first letter only --> no hit
-    List<Resource> oneLetterQuery = mBaseRepo.query("f", 0, 10, null, null, mDefaultQueryContext).getItems();
+    List<Resource> oneLetterQuery = mBaseRepo.query("d", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Search result given by one letter search.", oneLetterQuery.size() == 0);
 
     // query with first two letters only --> no hit
-    List<Resource> twoLettersQuery = mBaseRepo.query("fi", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("No search result given by two letter search.", twoLettersQuery.size() == 1);
+    List<Resource> twoLettersQuery = mBaseRepo.query("do", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Search result given by two letter search.", twoLettersQuery.size() == 0);
 
-    // query with first first three letters --> hit
-    List<Resource> threeLettersQuery = mBaseRepo.query("fin", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("No search result given by three letter search.", threeLettersQuery.size() == 1);
+    // query with first first three letters --> no hit
+    List<Resource> threeLettersQuery = mBaseRepo.query("don", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Search result given by three letter search.", threeLettersQuery.size() == 0);
 
-    // query with first first four letters --> hit
-    List<Resource> fourLettersQuery = mBaseRepo.query("find", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("No search result given by four letter search.", threeLettersQuery.size() == 1);
+    // query with first first eight letters --> no hit
+    List<Resource> eightLettersQuery = mBaseRepo.query("dontfind", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Search result given by eight letter search.", eightLettersQuery.size() == 0);
+
+    // query with all letters --> hit
+    List<Resource> allLettersQuery = mBaseRepo.query("dontfindmeabbreviated", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("No search result given by all letters search.", allLettersQuery.size() == 1);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002", mMetadata);
