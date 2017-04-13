@@ -168,11 +168,6 @@ def settings():
                     "type": "asciifolding",
                     "preserve_original": True
                 },
-                "autocomplete_filter": {
-                    "type":     "edge_ngram",
-                    "min_gram": 2,
-                    "max_gram": 20
-                },
                 "country_synonyms_filter": {
                     "type": "synonym",
                     "synonyms": country_list
@@ -183,7 +178,6 @@ def settings():
                     "filter": [
                         "title_filter",
                         "asciifolding_preserve_original",
-                        "autocomplete_filter",
                         "lowercase"
                     ],
                     "type": "custom",
