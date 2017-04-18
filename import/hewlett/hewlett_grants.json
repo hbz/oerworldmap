@@ -69,6 +69,40 @@
 {
   "description": [
     {
+      "@value": "The North Rhine-Westphalian Library Service Center (hbz) is a central service organization for university libraries in northwest Germany and has been a leader in the open education movement. The center will build upon previous work and continue development of an OER World Map that fosters the discovery of OER, catalyzes innovation through cooperation, and provides evidence about the impact of activities in the OER movement. This renewal grant will continue to help build a robust infrastructure for the discovery and adoption of OER.", 
+      "@language": "en"
+    }
+  ], 
+  "agent": [
+    {
+      "@id": "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
+    }
+  ], 
+  "startTime": "2016-10-13T00:00:00", 
+  "@context": "https://oerworldmap.org/assets/json/context.json", 
+  "endTime": "2018-10-13T00:00:00", 
+  "@id": "urn:uuid:a6ca6334-fc73-4e2c-8303-8c6da875a416", 
+  "@type": "Action", 
+  "isFundedBy": [
+    {
+      "sameAs": "http://www.hewlett.org/grants/north-rhine-westphalian-library-service-center-hbz-for-the-development-of-an-oer-world-map/", 
+      "isAwardedBy": {
+        "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
+      }, 
+      "hasMonetaryValue": "$315,000", 
+      "@type": "Grant"
+    }
+  ], 
+  "name": [
+    {
+      "@value": "The Development Of An Oer World Map", 
+      "@language": "en"
+    }
+  ]
+},
+{
+  "description": [
+    {
       "@value": "The Rebus Foundation is dedicated to building technology to support the availability of books in HTML format on the internet and increasing access to knowledge through open textbooks. The foundation will create a web-based system to simplify the open textbook publishing process, work to ensure that open textbooks are published in these accessible, standard formats, and build a community of open textbook creators. Better long-term infrastructure for OER and support for developing, adopting, and using open textbooks will help make higher education resources more effective and available at a lower cost.", 
       "@language": "en"
     }
@@ -209,6 +243,40 @@
       }, 
       "hasMonetaryValue": "$55,500", 
       "@type": "Grant"
+    }
+  ]
+},
+{
+  "description": [
+    {
+      "@value": "The North Rhine-Westphalian Library Service Center (hbz) is a central service and development organization for university libraries in North Rhine-Westphalia (Germany) and has been a leader in the open education movement. The center will build upon previous work and continue development of an OER World Map that fosters the discovery of OER, catalyzes innovation through cooperation, and provides evidence about the impact of activities in the OER movement. The initiative helps provide robust infrastructure for discovery and adoption of OER.", 
+      "@language": "en"
+    }
+  ], 
+  "agent": [
+    {
+      "@id": "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
+    }
+  ], 
+  "startTime": "2015-11-16T00:00:00", 
+  "@context": "https://oerworldmap.org/assets/json/context.json", 
+  "endTime": "2017-03-16T00:00:00", 
+  "@id": "urn:uuid:bde9a6b3-ebf4-4c9a-a517-b6ad1ee5d35e", 
+  "@type": "Action", 
+  "isFundedBy": [
+    {
+      "sameAs": "http://www.hewlett.org/grants/north-rhine-westphalian-library-service-center-hbz-for-the-development-of-an-oer-world-map-0/", 
+      "isAwardedBy": {
+        "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
+      }, 
+      "hasMonetaryValue": "$250,000", 
+      "@type": "Grant"
+    }
+  ], 
+  "name": [
+    {
+      "@value": "The Development Of An Oer World Map", 
+      "@language": "en"
     }
   ]
 },
@@ -535,6 +603,40 @@
 {
   "description": [
     {
+      "@value": "The North Rhine-Westphalian Library Service Center (hbz) is a central service and development organization for university libraries in North Rhine-Westphalia and has been a leader in the Open Movement. Through a Request for Proposals process, hbz submitted the strongest proposal to develop an OER World Map. This grant request builds upon a phase I effort (which funded three projects), in which hbz successfully built a prototype in a relatively short time frame. Key deliverables of this grant include: developing a functional website that builds upon existing OER mapping efforts, encouraging interoperability of mapping efforts, fostering international collaboration, and highlighting OER efforts around the world in a way that is easy for a wide variety of audiences to understand. This grant is designed to fill a long-recognized gap in the OER field.", 
+      "@language": "en"
+    }
+  ], 
+  "agent": [
+    {
+      "@id": "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
+    }
+  ], 
+  "startTime": "2014-11-17T00:00:00", 
+  "@context": "https://oerworldmap.org/assets/json/context.json", 
+  "endTime": "2016-04-17T00:00:00", 
+  "@id": "urn:uuid:b65c5f04-3780-49eb-b8af-e2a7bf7c9c4d", 
+  "@type": "Action", 
+  "isFundedBy": [
+    {
+      "sameAs": "http://www.hewlett.org/grants/north-rhine-westphalian-library-service-center-hbz-for-the-development-of-an-oer-world-map-1/", 
+      "isAwardedBy": {
+        "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
+      }, 
+      "hasMonetaryValue": "$108,000", 
+      "@type": "Grant"
+    }
+  ], 
+  "name": [
+    {
+      "@value": "The Development Of An Oer World Map", 
+      "@language": "en"
+    }
+  ]
+},
+{
+  "description": [
+    {
       "@value": "This grant to the Cerritos College Foundation seeks to improve the affordability and quality of mathematics instruction\u2014a perennial obstacle to college graduation\u2014by combining a significant body of preexisting open textbooks, open videos, and other open educational resources, together with an open online practice system based on lessons learned from extensive field testing. The grant would result in high-quality, freely available, open math courses aligned with a greatly improved open source math practice platform that can be easily adopted in place of existing commercial systems.", 
       "@language": "en"
     }
@@ -648,6 +750,34 @@
   "isFundedBy": [
     {
       "sameAs": "http://www.hewlett.org/grants/institute-for-the-study-of-knowledge-management-in-education-for-development-of-a-global-oer-map-prototype/", 
+      "isAwardedBy": {
+        "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
+      }, 
+      "hasMonetaryValue": "$25,000", 
+      "@type": "Grant"
+    }
+  ]
+},
+{
+  "name": [
+    {
+      "@value": "Development Of A Global Oer Map Prototype", 
+      "@language": "en"
+    }
+  ], 
+  "agent": [
+    {
+      "@id": "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
+    }
+  ], 
+  "startTime": "2014-02-05T00:00:00", 
+  "@context": "https://oerworldmap.org/assets/json/context.json", 
+  "endTime": "2014-06-05T00:00:00", 
+  "@id": "urn:uuid:f38a0bb9-64bf-4378-bcbb-2bcd674ee793", 
+  "@type": "Action", 
+  "isFundedBy": [
+    {
+      "sameAs": "http://www.hewlett.org/grants/north-rhine-westphalian-library-service-center-hbz-for-development-of-a-global-oer-map-prototype/", 
       "isAwardedBy": {
         "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
       }, 
@@ -1436,6 +1566,34 @@
         "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
       }, 
       "hasMonetaryValue": "$58,758", 
+      "@type": "Grant"
+    }
+  ]
+},
+{
+  "name": [
+    {
+      "@value": "The Oer Research Hub", 
+      "@language": "en"
+    }
+  ], 
+  "agent": [
+    {
+      "@id": "urn:uuid:f28009b2-3b5e-11e5-8709-54ee7558c81f"
+    }
+  ], 
+  "startTime": "2012-07-16T00:00:00", 
+  "@context": "https://oerworldmap.org/assets/json/context.json", 
+  "endTime": "2015-07-16T00:00:00", 
+  "@id": "urn:uuid:2bce3302-5e18-4f77-8a36-0202383c69c4", 
+  "@type": "Action", 
+  "isFundedBy": [
+    {
+      "sameAs": "http://www.hewlett.org/grants/open-university-for-the-oer-research-hub/", 
+      "isAwardedBy": {
+        "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
+      }, 
+      "hasMonetaryValue": "$1,500,000", 
       "@type": "Grant"
     }
   ]
