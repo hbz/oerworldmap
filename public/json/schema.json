@@ -518,7 +518,7 @@
       "allOf": [
         {
           "required": [
-            "name", "description"
+            "name"
           ],
           "anyOf": [
             {
@@ -1145,7 +1145,7 @@
           }
         }
       },
-      "required": [ "name", "description", "location" ],
+      "required": [ "name", "location" ],
       "additionalProperties": false
     },
     "Event": {

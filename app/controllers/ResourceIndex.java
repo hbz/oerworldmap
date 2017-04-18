@@ -295,14 +295,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     if (!listProcessingReport.isSuccess()) {
-      List<Map<String, Object>> messages = new ArrayList<>();
-      HashMap<String, Object> message = new HashMap<>();
-      message.put("level", "warning");
-      message.put("message", getMessages().getString("schema_error")
-        + "<pre>" + listProcessingReport.toString() + "</pre>"
-        + "<pre>" + resources + "</pre>");
-      messages.add(message);
-      return badRequest(render("Upsert failed", "feedback.mustache", null, messages));
+      return badRequest(listProcessingReport.asJson());
     }
 
     mBaseRepository.addResources(resources, getMetadata());
