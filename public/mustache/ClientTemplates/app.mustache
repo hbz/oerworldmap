@@ -69,16 +69,20 @@
 
     	<div id="app-col-index" data-app="col" data-col-mode="floating">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-    	    <div data-app="toggle-col">
-    	        <i class="fa fa-fw fa-chevron-right"></i>
+            {{#unless @root.embed}}
+            <div data-app="toggle-col">
+                <i class="fa fa-fw fa-chevron-right"></i>
             </div>
+            {{/unless}}
     	</div>
 
     	<div id="app-col-detail" data-app="col" data-col-mode="hidden">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-        	<div data-app="toggle-col">
-        	    <i class="fa fa-fw fa-chevron-right"></i>
+            {{#unless @root.embed}}
+            <div data-app="toggle-col">
+                <i class="fa fa-fw fa-chevron-right"></i>
         	</div>
+            {{/unless}}
     	</div>
 
     	<div id="app-notification-area">
