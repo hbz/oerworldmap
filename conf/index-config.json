@@ -3384,11 +3384,6 @@
   "settings": {
     "analysis": {
       "filter": {
-        "autocomplete_filter": {
-          "max_gram": 20,
-          "type": "edge_ngram",
-          "min_gram": 2
-        },
         "title_filter": {
           "catenate_all": false,
           "preserve_original": true,
@@ -3669,7 +3664,6 @@
           "filter": [
             "title_filter",
             "asciifolding_preserve_original",
-            "autocomplete_filter",
             "lowercase"
           ],
           "type": "custom",

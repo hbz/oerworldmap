@@ -1,7 +1,7 @@
 {
   "availableChannel": [
     {
-      "serviceUrl": "https://findmewiththreeletters.ao/"
+      "serviceUrl": "https://dontfindmeabbreviated.ao/"
     }
   ],
   "provider": [
@@ -9,7 +9,7 @@
       "@type": "Organization",
       "name": [
         {
-          "@value": "findmewiththreeletters Inc.",
+          "@value": "dontfindmeabbreviated Inc.",
           "@language": "en"
         }
       ],
@@ -25,24 +25,24 @@
         }
       },
       "@id": "urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002",
-      "url": "https://findmewiththreeletters.ao/"
+      "url": "https://dontfindmeabbreviated.ao/"
     }
   ],
   "@type": "Service",
   "name": [
     {
-      "@value": "findmewiththreeletters",
+      "@value": "dontfindmeabbreviated",
       "@language": "en"
     }
   ],
   "description": [
     {
-      "@value": "findmewiththreeletters is service we can find just by typing the first three (ore more) letters.",
+      "@value": "dontfindmeabbreviated is service we can find just by typing the first three (ore more) letters.",
       "@language": "en"
     }
   ],
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001",
   "startDate": "2012-01-01",
-  "email": "faq@findmewiththreeletters.ao",
+  "email": "faq@dontfindmeabbreviated.ao",
   "@context" : "https://oerworldmap.org/assets/json/context.json"
 }
