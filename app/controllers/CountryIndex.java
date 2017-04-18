@@ -32,7 +32,7 @@ public class CountryIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
-  public Result read(String id, boolean embed) throws IOException {
+  public Result read(String id) throws IOException {
 
     if (!Countries.map(getLocale()).keySet().contains(id.toUpperCase())) {
       return notFound("Not found");
@@ -70,7 +70,6 @@ public class CountryIndex extends OERWorldMap {
     scope.put("reports", reports.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
-    scope.put("embed", embed);
 
     if (ctx().request().accepts("text/html")) {
       return ok(render(Countries.getNameFor(id, getLocale()), "CountryIndex/read.mustache", scope));

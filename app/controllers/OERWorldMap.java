@@ -124,6 +124,12 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
+  boolean getEmbed() {
+
+    return ctx().request().queryString().containsKey("embed");
+
+  }
+
   Locale getLocale() {
 
     Locale locale = new Locale("en", "US");
@@ -277,7 +283,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("language", getLocale().toLanguageTag());
     mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
     mustacheData.put("userLocation", getLocation());
-    Logger.debug(getLocation());
+    mustacheData.put("embed", getEmbed());
     Map<String, Object> skos = new HashMap<>();
     try {
       skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),

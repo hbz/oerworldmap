@@ -130,7 +130,7 @@ public class AggregationProvider {
         .interval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
             .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
               "about.location"}, null)
-              .setSize(Integer.MAX_VALUE)
+          .addSort("about.startDate", SortOrder.ASC).setSize(Integer.MAX_VALUE)
           ).order(Histogram.Order.KEY_DESC);
   }
 

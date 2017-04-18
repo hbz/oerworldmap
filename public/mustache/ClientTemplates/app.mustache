@@ -9,7 +9,7 @@
 
                 <div class="visible-area">
 
-                    <nav class="nav nav-map">
+                    <nav class="nav nav-map{{#if embed}} hidden{{/if}}">
                         <ul>
 
                             {{#if permissions.administer}}
@@ -37,6 +37,7 @@
                                 </li>
 
                             {{/if}}
+
 
                             <li>
                                 <a href="/user/newsletter" title="Subscribe to Newsletter">
