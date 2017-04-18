@@ -3,7 +3,7 @@
         {{#if endTime}}
             {{daterange startTime endTime}}
         {{else}}
-            {{moment startTime "D. MMM YYYY"}}
+            {{momentWrapper startTime "D. MMM YYYY"}}
         {{/if}}
     </span>
 {{/if}}
