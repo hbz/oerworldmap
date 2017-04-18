@@ -655,7 +655,11 @@ var Hijax = (function ($, Hijax) {
       log.debug('MAP onClick – page to country, if zoom is less then 9');
 
       if(world.getView().getZoom() < 9) {
-        page("/country/" + state.hover.features[0].getId().toLowerCase());
+        if (embed) {
+          window.open("/country/" + state.hover.features[0].getId().toLowerCase(), '_blank').focus();
+        } else {
+          page("/country/" + state.hover.features[0].getId().toLowerCase());
+        }
       }
 
     } else if(state.hover.features.length == 1) {
@@ -877,7 +881,6 @@ var Hijax = (function ($, Hijax) {
     }
 
   }
-
 
   function attach(context, attached) {
 

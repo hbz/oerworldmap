@@ -144,7 +144,7 @@
 
 {{/if}}
 
-<div id="filter-container">
+<div id="filter-container"{{#if embed}} class="hidden"{{/if}}>
 
     <form id="form-resource-filter" class="app-hidden" action="/resource/">
 
@@ -202,8 +202,7 @@
 
 </div>
 
-
-<div class="list-statistics-container floating-hidden">
+<div class="{{#unless embed}}list-statistics-container{{/unless}} floating-hidden">
 
     <div class="p filter-state visible-print">
         Showing entities
@@ -228,15 +227,15 @@
         {{/if}}
     </div>
 
-    <div class="geo-filtered-list-control"></div>
+    <div class="geo-filtered-list-control{{#if embed}} hidden{{/if}}"></div>
 
     <div class="p clearfix">
 
-        <div class="pull-left">
+        <div class="pull-left{{#if embed}} hidden{{/if}}">
             <span class="badge total-items">{{scope.resources.totalItems}}</span> results
         </div>
 
-        <div class="pull-right">
+        <div class="pull-right{{#if embed}} hidden{{/if}}">
 
             <ul class="resource-controls">
 

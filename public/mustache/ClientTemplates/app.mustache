@@ -9,7 +9,7 @@
 
                 <div class="visible-area">
 
-                    <nav class="nav nav-map">
+                    <nav class="nav nav-map{{#if embed}} hidden{{/if}}">
                         <ul>
 
                             {{#if permissions.administer}}
@@ -37,6 +37,7 @@
                                 </li>
 
                             {{/if}}
+
 
                             <li>
                                 <a href="/user/newsletter" title="Subscribe to Newsletter">
@@ -68,16 +69,20 @@
 
     	<div id="app-col-index" data-app="col" data-col-mode="floating">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-    	    <div data-app="toggle-col">
-    	        <i class="fa fa-fw fa-chevron-right"></i>
+            {{#unless @root.embed}}
+            <div data-app="toggle-col">
+                <i class="fa fa-fw fa-chevron-right"></i>
             </div>
+            {{/unless}}
     	</div>
 
     	<div id="app-col-detail" data-app="col" data-col-mode="hidden">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-        	<div data-app="toggle-col">
-        	    <i class="fa fa-fw fa-chevron-right"></i>
+            {{#unless @root.embed}}
+            <div data-app="toggle-col">
+                <i class="fa fa-fw fa-chevron-right"></i>
         	</div>
+            {{/unless}}
     	</div>
 
     	<div id="app-notification-area">

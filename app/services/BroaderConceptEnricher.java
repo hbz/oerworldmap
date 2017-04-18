@@ -17,6 +17,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shared.Lock;
+import play.Logger;
 
 /**
  * @author fo, pvb
@@ -69,6 +70,7 @@ public class BroaderConceptEnricher implements ResourceEnricher {
     try {
       for (Statement stmt : aToBeEnriched.listStatements().toSet()) {
         if (stmt.getObject().isResource()) {
+          Logger.debug(String.format(SELECT_BROADER, stmt.getObject()));
           try (QueryExecution queryExecution = QueryExecutionFactory.create(
               String.format(SELECT_BROADER, stmt.getObject()), mConceptSchemes)) {
             ResultSet resultSet = queryExecution.execSelect();
