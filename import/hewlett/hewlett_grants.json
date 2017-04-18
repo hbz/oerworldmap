@@ -1573,34 +1573,6 @@
 {
   "name": [
     {
-      "@value": "The Oer Research Hub", 
-      "@language": "en"
-    }
-  ], 
-  "agent": [
-    {
-      "@id": "urn:uuid:f28009b2-3b5e-11e5-8709-54ee7558c81f"
-    }
-  ], 
-  "startTime": "2012-07-16T00:00:00", 
-  "@context": "https://oerworldmap.org/assets/json/context.json", 
-  "endTime": "2015-07-16T00:00:00", 
-  "@id": "urn:uuid:2bce3302-5e18-4f77-8a36-0202383c69c4", 
-  "@type": "Action", 
-  "isFundedBy": [
-    {
-      "sameAs": "http://www.hewlett.org/grants/open-university-for-the-oer-research-hub/", 
-      "isAwardedBy": {
-        "@id": "urn:uuid:0801e4d4-3c7e-11e5-9f0e-54ee7558c81f"
-      }, 
-      "hasMonetaryValue": "$1,500,000", 
-      "@type": "Grant"
-    }
-  ]
-},
-{
-  "name": [
-    {
       "@value": "The Oer Community To Meet Diverse Learner Needs", 
       "@language": "en"
     }
