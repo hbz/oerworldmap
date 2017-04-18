@@ -683,3 +683,10 @@ Handlebars.registerHelper('showCalendar', function (scope, options) {
   }
 
 });
+
+Handlebars.registerHelper("inc", function(value, options) {
+
+    return parseInt(parseInt(value) + 1).toString();
+
+});
+

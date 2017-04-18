@@ -30,7 +30,7 @@
 
             </ul>
 
-            <article class="resource" data-behaviour="populateMapHightlights">
+            <article class="resource" data-behaviour="populateMapHighlights" about="{{[@id]}}">
 
                 <script type="application/ld+json">
                     {{{.}}}
@@ -41,9 +41,9 @@
                     <div class="topline">
                         {{getIcon [@type]}} <strong>{{i18n [@type]}}</strong>
                         {{#if ../permissions.log}}
-                            &nbsp;(last modified <a target="_blank" href="/log/{{[@id]}}">{{moment resource.dateModified "D. MMM YYYY"}}</a>)
+                            &nbsp;(last modified <a target="_blank" href="/log/{{[@id]}}">{{momentWrapper resource.dateModified "D. MMM YYYY"}}</a>)
                         {{else}}
-                            &nbsp;(last modified {{moment resource.dateModified "D. MMM YYYY"}})
+                            &nbsp;(last modified {{momentWrapper resource.dateModified "D. MMM YYYY"}})
                         {{/if}}
                     </div>
 

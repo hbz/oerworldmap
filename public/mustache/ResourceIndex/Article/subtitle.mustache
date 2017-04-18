@@ -1,8 +1,8 @@
 <span>
     {{#if dateCreated}}
-        {{moment dateCreated "D. MMM YYYY"}}
+        {{momentWrapper dateCreated "D. MMM YYYY"}}
     {{else}}
-        {{moment resource.dateCreated "D. MMM YYYY"}}
+        {{momentWrapper resource.dateCreated "D. MMM YYYY"}}
     {{/if}}
 </span>
 

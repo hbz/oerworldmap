@@ -8,6 +8,8 @@
                         {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
                         {{#localized this.name language=@root.language}}
                             {{[@value]}}
+                        {{else}}
+                            {{[@id]}}
                         {{/localized}}
                     </div>
                 </a>

@@ -16,24 +16,28 @@
 .resource-list {
   .list-unstyled();
   border-top: 1px solid @blue-paler;
-}
 
-.resource-list li {
-  padding: @resource-list-vertical-padding 0px @resource-list-vertical-padding @resource-list-icon-width;
-  border-bottom: 1px solid @blue-paler;
-  position: relative;
-}
+  li {
+    padding: @resource-list-vertical-padding 0px @resource-list-vertical-padding @resource-list-icon-width;
+    border-bottom: 1px solid @blue-paler;
+    position: relative;
 
-.resource-list .fa {
-  width: @resource-list-icon-width;
-  position: absolute;
-  left: 0px;
-  top: @resource-list-vertical-padding;
-  line-height: inherit;
-}
+    .fa {
+      width: @resource-list-icon-width;
+      position: absolute;
+      left: 0px;
+      top: @resource-list-vertical-padding;
+      line-height: inherit;
+    }
 
-.resource-list li a {
-  text-decoration: none;
+    a {
+      text-decoration: none;
+    }
+
+    &.active a {
+      color: @orange;
+    }
+  }
 }
 
 

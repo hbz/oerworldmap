@@ -28,6 +28,7 @@ import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
+import services.export.GeoJsonExporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -111,10 +112,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "json").url().concat(filterString)));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "csv").url().concat(filterString)));
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "json").url().concat(filterString)));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "csv").url().concat(filterString)));
+    alternates.put("GeoJSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "geojson").url().concat(filterString)));
     if (resourceList.containsType("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, from, size, sort, list, "ics").url().concat(filterString)));
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "ics").url().concat(filterString)));
     }
 
     Map<String, Object> scope = new HashMap<>();
@@ -137,6 +139,9 @@ public class ResourceIndex extends OERWorldMap {
         case "ics":
           format = "text/calendar";
           break;
+        case "geojson":
+          format = "application/geo+json";
+          break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
@@ -144,6 +149,8 @@ public class ResourceIndex extends OERWorldMap {
       format = "text/csv";
     } else if (request().accepts("text/calendar")) {
       format = "text/calendar";
+    } else if (request().accepts("application/geo+json")) {
+      format = "application/geo+json";
     } else {
       format = "application/json";
     }
@@ -161,6 +168,9 @@ public class ResourceIndex extends OERWorldMap {
     } //
     else if (format.equals("application/json")) {
       return ok(resourceList.toResource().toString()).as("application/json");
+    }
+    else if (format.equals("application/geo+json")) {
+      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
     }
 
     return notFound("Not found");
