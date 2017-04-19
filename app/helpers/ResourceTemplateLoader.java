@@ -1,7 +1,6 @@
 package helpers;
 
 import com.github.jknack.handlebars.io.URLTemplateLoader;
-import play.Play;
 
 import java.io.IOException;
 import java.net.URL;

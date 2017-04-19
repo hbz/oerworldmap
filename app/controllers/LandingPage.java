@@ -1,12 +1,6 @@
 package controllers;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import models.Resource;
-import models.ResourceList;
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
@@ -14,6 +8,9 @@ import services.AggregationProvider;
 import services.QueryContext;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LandingPage extends OERWorldMap {
 

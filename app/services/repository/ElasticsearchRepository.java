@@ -5,7 +5,6 @@ import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
-import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
@@ -25,7 +24,12 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.IndexNotFoundException;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
+import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -37,9 +41,11 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
@@ -113,9 +119,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (null == resource) {
       return null;
     }
-    Logger.debug("DELETING " + aId);
     boolean found = deleteDocument(Record.TYPE, resource.getId());
     refreshIndex(mConfig.getIndex());
+    Logger.trace("Deleted " + aId + " from Elasticsearch");
     if (found) {
       return resource;
     } else {
@@ -334,7 +340,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       if (2 == sort.length) {
         searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
       } else {
-        Logger.error("Invalid sort string: " + aSortOrder);
+        Logger.trace("Invalid sort string: " + aSortOrder);
       }
     }
 
@@ -362,7 +368,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (!StringUtils.isEmpty(aQueryString)) {
       if (aQueryString.endsWith("!")) {
         aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
-        Logger.warn("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
+        Logger.trace("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
       }
       queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness)
         .defaultOperator(QueryStringQueryBuilder.Operator.AND);
@@ -373,7 +379,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
             ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
               Float.parseFloat(fieldBoost.split("\\^")[1]));
           } catch (ArrayIndexOutOfBoundsException e) {
-            Logger.error("Invalid field boost: " + fieldBoost);
+            Logger.trace("Invalid field boost: " + fieldBoost);
           }
         }
       }

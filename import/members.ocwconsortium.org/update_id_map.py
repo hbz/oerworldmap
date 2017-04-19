@@ -1,7 +1,10 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2, time, uuid, socket, pycurl
+import json
+import pycurl
+import uuid
 from StringIO import StringIO
+
 
 def list_members():
     url = "http://members.oeconsortium.org/api/v1/organization/group_by/membership_type/list/?format=json"

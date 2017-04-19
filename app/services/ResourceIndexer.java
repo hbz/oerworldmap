@@ -138,7 +138,7 @@ public class ResourceIndexer {
         }
       }
     } catch (QueryParseException e) {
-      Logger.error(query);
+      Logger.error("Failed to execute query " + query, e);
     }
 
     return indexScope;
@@ -162,10 +162,10 @@ public class ResourceIndexer {
         }
       }
     } catch (QueryParseException e) {
-      Logger.error(query);
+      Logger.error("Failed to execute query " + query, e);
     }
 
-    Logger.debug(indexScope.toString());
+    Logger.debug("Indexing scope" + indexScope.toString());
 
     return indexScope;
 

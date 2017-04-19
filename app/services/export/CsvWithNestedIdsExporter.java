@@ -5,8 +5,12 @@ import models.Record;
 import models.Resource;
 import models.ResourceList;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
 

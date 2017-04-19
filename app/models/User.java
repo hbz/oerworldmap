@@ -1,12 +1,11 @@
 package models;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-import play.data.validation.Constraints;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import play.data.validation.Constraints;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "user")
 public class User {

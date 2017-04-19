@@ -4,7 +4,6 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 import models.Commit;
-import models.TripleCommit;
 
 /**
  * Created by fo on 05.04.16.

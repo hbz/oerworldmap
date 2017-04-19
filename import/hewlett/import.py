@@ -1,5 +1,14 @@
-import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib
-
+import BeautifulSoup
+import datetime
+import json
+import os
+import pycountry
+import re
+import sys
+import urllib
+import urllib2
+import urlparse
+import uuid
 
 grant_mapping = {
     'Amount': 'hasMonetaryValue'

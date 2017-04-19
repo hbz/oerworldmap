@@ -1,6 +1,7 @@
+import java.net.InetSocketAddress
+
 import play.sbt.PlayRunHook
 import sbt._
-import java.net.InetSocketAddress
 
 object Grunt {
   def apply(base: File): PlayRunHook = {
