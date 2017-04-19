@@ -1,5 +1,36 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.MarkdownHelper;
+import com.github.jknack.handlebars.Options;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.helper.StringHelpers;
+import com.github.jknack.handlebars.io.TemplateLoader;
+import com.maxmind.geoip2.DatabaseReader;
+import helpers.HandlebarsHelpers;
+import helpers.JSONForm;
+import helpers.ResourceTemplateLoader;
+import helpers.UniversalFunctions;
+import models.Resource;
+import models.TripleCommit;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import play.Configuration;
+import play.Environment;
+import play.Logger;
+import play.i18n.Lang;
+import play.mvc.Controller;
+import play.twirl.api.Html;
+import services.AccountService;
+import services.AggregationProvider;
+import services.QueryContext;
+import services.repository.BaseRepository;
+import services.repository.ElasticsearchRepository;
+
+import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,7 +40,6 @@ import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,42 +54,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jknack.handlebars.MarkdownHelper;
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.record.Location;
-import helpers.JSONForm;
-import models.TripleCommit;
-import org.apache.commons.io.IOUtils;
-
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.helper.StringHelpers;
-import com.github.jknack.handlebars.io.TemplateLoader;
-
-import helpers.HandlebarsHelpers;
-import helpers.ResourceTemplateLoader;
-import helpers.UniversalFunctions;
-import models.Resource;
-import org.apache.commons.lang3.StringUtils;
-import play.Configuration;
-import play.Environment;
-import play.Logger;
-
-import play.i18n.Lang;
-import play.mvc.Controller;
-import play.twirl.api.Html;
-import services.AccountService;
-import services.AggregationProvider;
-import services.QueryContext;
-import services.repository.BaseRepository;
-import services.repository.ElasticsearchRepository;
-
-import javax.inject.Inject;
 
 /**
  * @author fo
@@ -147,7 +141,7 @@ public abstract class OERWorldMap extends Controller {
   Resource getUser() {
 
     Resource user = null;
-    Logger.debug("Username " + getHttpBasicAuthUser());
+    Logger.trace("Username " + getHttpBasicAuthUser());
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
       user = getRepository().getResource(profileId);
@@ -213,7 +207,7 @@ public abstract class OERWorldMap extends Controller {
     try {
       return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry().getIsoCode();
     } catch (Exception ex) {
-      Logger.error("Could not read host", ex);
+      Logger.trace("Could not read host", ex);
       return "GB";
     }
 
@@ -291,7 +285,7 @@ public abstract class OERWorldMap extends Controller {
       skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
         HashMap.class));
     } catch (IOException e) {
-      Logger.error("Could not read SKOS file", e);
+      Logger.warn("Could not read SKOS file", e);
     }
     mustacheData.put("skos", skos);
 
@@ -303,7 +297,7 @@ public abstract class OERWorldMap extends Controller {
         scope.put("keywordAggregation", keywordAggregation);
       }
     } catch (IOException e) {
-      Logger.error("Could not add global statistics", e);
+      Logger.warn("Could not add global statistics", e);
     }
 
     boolean mayAdd = (getUser() != null);
@@ -330,7 +324,7 @@ public abstract class OERWorldMap extends Controller {
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers.js"));
     } catch (Exception e) {
-      Logger.error(e.toString());
+      Logger.error("Could not register helpers", e);
     }
 
     HandlebarsHelpers.setController(this);
@@ -339,19 +333,19 @@ public abstract class OERWorldMap extends Controller {
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));
     } catch (Exception e) {
-      Logger.error(e.toString());
+      Logger.error("Could not register helpers", e);
     }
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/handlebars.form-helpers.js"));
     } catch (Exception e) {
-      Logger.error(e.toString());
+      Logger.error("Could not register helpers", e);
     }
 
     try {
       handlebars.registerHelpers(new File("public/vendor/moment/handlebars.moment.js"));
     } catch (Exception e) {
-      Logger.error(e.toString());
+      Logger.error("Could not register helpers", e);
     }
 
     handlebars.registerHelper("md", new MarkdownHelper());
@@ -360,7 +354,7 @@ public abstract class OERWorldMap extends Controller {
       Template template = handlebars.compile("main.mustache");
       return Html.apply(template.apply(mustacheData));
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not compile template", e);
       return null;
     }
 
@@ -428,7 +422,7 @@ public abstract class OERWorldMap extends Controller {
     try {
       paths = getResourceListing(dir, classLoader);
     } catch (URISyntaxException | IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not find client templates", e);
     }
 
     for (String path : paths) {
@@ -443,7 +437,7 @@ public abstract class OERWorldMap extends Controller {
         template = template.concat("</script>\n\n");
         templates.add(template);
       } catch (IOException e) {
-        Logger.error(e.toString());
+        Logger.error("Could not load client template", e);
       }
     }
 

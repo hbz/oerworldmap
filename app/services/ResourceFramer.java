@@ -1,18 +1,12 @@
 package services;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
+import models.Resource;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.QueryExecution;
@@ -26,10 +20,6 @@ import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import models.Resource;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.RiotLib;
@@ -38,6 +28,14 @@ import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.vocabulary.RDF;
 import play.Logger;
 import services.repository.TriplestoreRepository;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by fo on 23.03.16.

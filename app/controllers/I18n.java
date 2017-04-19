@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 

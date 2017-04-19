@@ -1,5 +1,10 @@
 package helpers;
 
+import models.Resource;
+import models.ResourceList;
+import org.apache.commons.io.IOUtils;
+import play.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,14 +16,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import models.Resource;
-
-import models.ResourceList;
-import org.apache.commons.io.IOUtils;
-import play.Logger;
-
-import static org.junit.Assert.assertTrue;
 
 public interface JsonTest {
 

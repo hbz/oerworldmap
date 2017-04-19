@@ -2,7 +2,10 @@
 
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2
+import getopt
+import json
+import sys
+import urllib2
 
 
 def fix(endpoint_url, index_name, output_file):

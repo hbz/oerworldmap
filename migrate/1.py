@@ -1,6 +1,10 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os
+import getopt
+import json
+import os
+import sys
+
 
 def migrate(input_dir, output_dir):
     print 'Input dir is ', input_dir
