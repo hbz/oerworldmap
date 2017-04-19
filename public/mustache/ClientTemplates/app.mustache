@@ -1,4 +1,4 @@
-<div id="app" class="loading">
+<div id="app" class="loading" data-mobile-active-col="map">
 
     {{{header}}}
 
@@ -19,7 +19,7 @@
 
                 <div class="visible-area">
 
-                    <nav class="nav nav-map{{#if embed}} hidden{{/if}}">
+                    <nav class="nav nav-map hidden-mobile {{#if embed}}hidden{{/if}}">
                         <ul>
 
                             {{#if permissions.administer}}

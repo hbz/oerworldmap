@@ -77,6 +77,74 @@
     }
   }
 
+  @media screen and (max-width: @mobile-breakpoint) {
+
+    #app-col-map,
+    #app-col-index,
+    #app-col-detail {
+      display: none;
+      width: 100% !important;
+      left: 0px !important;
+      right: 0px !important;
+    }
+
+    #app-col-switch {
+      [href="#app-col-index"],
+      [href="#app-col-detail"] {
+        display: none;
+      }
+    }
+
+    &[data-col-index-mode="list"] #app-col-switch [href="#app-col-index"] {
+      display: inline;
+    }
+
+    &[data-col-detail-mode="expanded"] #app-col-switch [href="#app-col-detail"] {
+      display: inline;
+    }
+
+    &[data-mobile-active-col="map"] {
+      [href="#app-col-map"] {
+        color: white;
+      }
+      #app-col-map,
+      #app-col-index {
+        display: block;
+      }
+      #app-col-index {
+        background: transparent !important;
+        pointer-events: none;
+
+        #filter,
+        #form-resource-filter,
+        [data-app-index-switch] {
+          pointer-events: auto;
+        }
+      }
+      .floating-hidden {
+        display: none;
+      }
+    }
+
+    &[data-mobile-active-col="index"] {
+      [href="#app-col-index"] {
+        color: white;
+      }
+      #app-col-index {
+        display: block;
+      }
+    }
+
+    &[data-mobile-active-col="detail"] {
+      [href="#app-col-detail"] {
+        color: white;
+      }
+      #app-col-detail {
+        display: block;
+      }
+    }
+  }
+
 }
 
 
@@ -100,7 +168,7 @@
 
         a {
           line-height: @header-height-mobile;
-          color: @blue-lightest;
+          color: @blue-lighter;
         }
       }
     }
@@ -187,6 +255,10 @@
           background: @blue-light;
           color: white;
         }
+
+        @media screen and (max-width: @mobile-breakpoint) {
+          display: none;
+        }
       }
     }
 
@@ -204,6 +276,10 @@
 
       [data-app="col-content"] {
         padding: @map-padding;
+
+        @media screen and (max-width: @mobile-breakpoint) {
+          padding: @map-padding-mobile;
+        }
       }
     }
 

@@ -16,7 +16,8 @@ var Hijax = (function ($, Hijax, page) {
 
   var state = {
     scope : 'world',
-    highlights : []
+    highlights : [],
+    mobileActiveCol : 'map'
   };
 
   function setScope(scope) {
@@ -29,6 +30,11 @@ var Hijax = (function ($, Hijax, page) {
     log.debug('APP setHighlights:', highlights);
     state.highlights = highlights;
     Hijax.behaviours.map.setHighlights(state.highlights);
+  }
+
+  function setMobileActiveCol(col) {
+    state.mobileActiveCol = col;
+    $('#app').attr('data-mobile-active-col', col);
   }
 
   $.each(static_pages, function() {
@@ -416,6 +422,16 @@ var Hijax = (function ($, Hijax, page) {
           page(window.location.pathname + window.location.search);
         }
         Hijax.layout('triggered by column toggle');
+      });
+
+      // bind col switch
+
+      $('#app', context).on('click', '#app-col-switch a', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(this.href);
+        var col = this.href.split('-').pop();
+        setMobileActiveCol(col);
       });
 
       // catch links to fragments
