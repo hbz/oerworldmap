@@ -45,6 +45,20 @@ button:focus {
   }
 }
 
+.visible-mobile {
+  display: none;
+  @media screen and (max-width: @mobile-breakpoint) {
+    display: block;
+  }
+}
+
+.hidden-mobile {
+  @media screen and (max-width: @mobile-breakpoint) {
+    display: none;
+  }
+}
+
+
 /* --- paragraph image --- */
 
 .paragraph-image {

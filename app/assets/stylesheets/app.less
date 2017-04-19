@@ -3,6 +3,7 @@
 @notification-width: 400px;
 @col-background: fadeout(#fff, 5%);
 
+
 /* --- columns --- */
 
 #app {
@@ -79,6 +80,34 @@
 }
 
 
+/* --- mobile --- */
+
+#app-col-switch {
+  position: fixed;
+  z-index: 1001;
+  left: 50%; top: 0;
+
+  nav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+
+      li {
+        display: inline-block;
+        padding: 0px 4px;
+
+        a {
+          line-height: @header-height-mobile;
+          color: @blue-lightest;
+        }
+      }
+    }
+  }
+}
+
+
 /* --- else --- */
 
 .app-visible {
@@ -109,6 +138,10 @@
     top: @header-height;
     width: 100%;
     bottom: 0px;
+
+    @media screen and (max-width: @mobile-breakpoint) {
+      top: @header-height-mobile;
+    }
 
     [data-app="col"] {
       height: 100%;
