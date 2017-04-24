@@ -7,10 +7,10 @@
   "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-90908330002",
   "@context" : "https://oerworldmap.org/assets/json/context.json",
   "description" : [ {
-    "@value" : "Some distorting text. This organization normally should hit second when searching for \"OER\", but the fact that it yes is linked by other resources should make it ranked first.",
+    "@value" : "Some distorting text. This organization normally should hit 2. when searching for \"OER\", but the fact that it yes is linked by other resources should make it ranked 1.",
     "@language" : "en"
   } ],
-  "employee": {
+  "affiliate": {
     "@type": "Person",
     "@id": "urn:uuid:167b8283-fff2-4b4e-b0a0-90908330003",
     "name": [ {

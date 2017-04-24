@@ -594,8 +594,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testBoostByLinks()  throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.2.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
+    mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2}), mMetadata);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext).getItems();
@@ -603,6 +602,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
     Assert.assertEquals("Did not get linked hit first.",
       db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
+    mBaseRepo.deleteResource("", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

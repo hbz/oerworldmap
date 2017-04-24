@@ -7,7 +7,7 @@
   "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-90908330001",
   "@context" : "https://oerworldmap.org/assets/json/context.json",
   "description" : [ {
-    "@value" : "Some distorting text. This organization normally should hit first when searching for \"OER\", but the fact that it is not linked by other resources should make it ranked second.",
+    "@value" : "Some distorting text. This organization normally should hit 1. when searching for \"OER\", but the fact that it is not linked by other resources should make it ranked 2.",
     "@language" : "en"
   } ]
 }
