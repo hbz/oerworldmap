@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-        <div class="col col-sm-8 hidden-mobile">
+        <div class="col col-xs-8 hidden-mobile">
 
             <div id="filter-type" class="btn-group">
                 {{#each resource_types}}
@@ -28,7 +28,7 @@
 
         {{#country_aggregation}}
 
-            <div class="col col-sm-2 col-{{column}} hidden-mobile">
+            <div class="col col-xs-2 col-{{column}} hidden-mobile">
                 {{> filter-dropdown}}
             </div>
 
@@ -36,7 +36,7 @@
 
         {{#tag_aggregation}}
 
-            <div class="col col-sm-2 col-{{column}} hidden-mobile">
+            <div class="col col-xs-2 col-{{column}} hidden-mobile">
                 {{> filter-dropdown}}
             </div>
 
@@ -45,24 +45,14 @@
         {{#each aggregations}}
             {{#if show}}
 
-                <div class="col col-sm-4 col-{{column}} floating-hidden">
+                <div class="col col-xs-4 col-{{column}} {{class}}">
                     {{> filter-dropdown}}
                 </div>
 
             {{/if}}
         {{/each}}
 
-        {{#each aggregations_mobile}}
-            {{#if show}}
-
-                <div class="col col-xs-4 col-{{column}} visible-mobile">
-                    {{> filter-dropdown}}
-                </div>
-
-            {{/if}}
-        {{/each}}
-
-        <div class="col col-sm-4 col-sm-offset-{{clear_filter_offset}} floating-hidden">
+        <div class="col col-xs-4 col-xs-offset-{{clear_filter_offset}} floating-hidden">
             <div class="small clear-filter">
                 <a href="/">Clear Filter</a>
             </div>
