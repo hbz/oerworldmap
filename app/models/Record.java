@@ -21,12 +21,7 @@ public class Record extends Resource {
     super(TYPE, aResource.get(JsonLdConstants.ID) + "." + RESOURCE_KEY);
     put(RESOURCE_KEY, aResource);
     put(DATE_MODIFIED, UniversalFunctions.getCurrentTime());
-    // put(LINK_COUNT, getLinkCount());
   }
-
-  /*private String getLinkCount() {
-    return getAsString(LINK_COUNT);
-  }*/
 
   public Resource getResource() {
     return (Resource) get(RESOURCE_KEY);

@@ -454,7 +454,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     String pathElement = aPathElements[0];
     String[] remainingElements;
     if (pathElement.equals("**")){
-      pathElement = "*";
       remainingElements = aPathElements;
       if (aPathElements.length < 3){
         matchElement = remainingElements[remainingElements.length-1];
@@ -467,14 +466,19 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       }
     }
     for (Entry<String, Object> entry : entrySet()) {
+      if (entry.getValue() instanceof Resource){
+        Resource innerResource = ((Resource) entry.getValue());
+        count += innerResource.getNumberOfSubFields(remainingElements);
+      } //
+      else if (entry.getValue() instanceof List<?>) {
+        for (Object innerObject : (List<?>) entry.getValue()) {
+          if (innerObject instanceof Resource){
+            count += ((Resource)innerObject).getNumberOfSubFields(remainingElements);
+          }
+        }
+      }
       if (entry.getKey().equals(matchElement) || matchElement.equals("**")){
         count++;
-      } //
-      else{
-        if (entry.getValue() instanceof Resource){
-          Resource innerResource = ((Resource) entry.getValue());
-          count += innerResource.getNumberOfSubFields(remainingElements);
-        }
       }
     }
     return count;
