@@ -337,6 +337,10 @@ var Hijax = (function ($, Hijax, page) {
           }
         }
 
+        // copy all to mobile
+
+        var aggregations_mobile = JSON.parse(JSON.stringify(aggregations));
+
         // extract country and tag
 
         var country_aggregation = aggregations['about.location.address.addressCountry'];
@@ -376,6 +380,7 @@ var Hijax = (function ($, Hijax, page) {
             filters : filters,
             q : $('[name="q"]').val(),
             aggregations : aggregations,
+            aggregations_mobile : aggregations_mobile,
             resource_types : resource_types,
             country_aggregation : country_aggregation,
             tag_aggregation : tag_aggregation,
@@ -386,10 +391,10 @@ var Hijax = (function ($, Hijax, page) {
         // init typeaheads
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
-          init_filter(country_aggregation);
-          init_filter(tag_aggregation);
-          for(name in aggregations) {
-            init_filter(aggregations[ name ]);
+          // init_filter(country_aggregation);
+          // init_filter(tag_aggregation);
+          for(name in aggregations_mobile) {
+            init_filter(aggregations_mobile[ name ]);
           }
         }, 0);
 
