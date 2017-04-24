@@ -15,12 +15,18 @@ public class Record extends Resource {
   public static final String DATE_MODIFIED = "dateModified";
   public static final String AUTHOR = "author";
   public static final String CONTRIBUTOR = "contributor";
+  public static final String LINK_COUNT = "link_count";
 
   public Record(Resource aResource) {
     super(TYPE, aResource.get(JsonLdConstants.ID) + "." + RESOURCE_KEY);
     put(RESOURCE_KEY, aResource);
     put(DATE_MODIFIED, UniversalFunctions.getCurrentTime());
+    // put(LINK_COUNT, getLinkCount());
   }
+
+  /*private String getLinkCount() {
+    return getAsString(LINK_COUNT);
+  }*/
 
   public Resource getResource() {
     return (Resource) get(RESOURCE_KEY);

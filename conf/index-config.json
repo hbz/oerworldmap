@@ -3377,6 +3377,9 @@
         "@type": {
           "index": "not_analyzed",
           "type": "string"
+        },
+        "link_count": {
+          "type": "integer"
         }
       }
     }
