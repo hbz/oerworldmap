@@ -23,6 +23,7 @@ var Hijax = (function ($, Hijax, page) {
   function setScope(scope) {
     log.debug('APP setScope:', scope);
     state.scope = scope;
+    $('#app').attr('data-scope', scope);
     Hijax.behaviours.map.setScope(state.scope);
   }
 

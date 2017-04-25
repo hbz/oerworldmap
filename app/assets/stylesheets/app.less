@@ -105,14 +105,14 @@
     }
 
     &[data-col-index-mode="list"] #app-col-switch {
-      left: calc(50% ~'-' 16px);
+      left: calc(50% ~'-' 20px);
       [href="#app-col-index"] {
         display: inline;
       }
     }
 
     &[data-col-detail-mode="expanded"] #app-col-switch {
-      left: calc(50% ~'-' 32px);
+      left: calc(50% ~'-' 30px);
       [href="#app-col-detail"] {
         display: inline;
       }
@@ -122,8 +122,7 @@
       [href="#app-col-map"] {
         color: white;
       }
-      #app-col-map,
-      #app-col-index {
+      &[data-scope="world"] #app-col-index { // only on world scope, country view doesn't work floating
         display: block;
       }
       #app-col-index {
@@ -163,12 +162,12 @@
 }
 
 
-/* --- mobile --- */
+/* --- mobile switch --- */
 
 #app-col-switch {
   position: fixed;
   z-index: 1001;
-  left: 50%; top: 0;
+  left: calc(50% ~'-' 10px); top: 0;
 
   nav {
     ul {
@@ -179,13 +178,36 @@
 
       li {
         display: inline-block;
-        padding: 0px 4px;
 
         a {
+          padding: 0px 4px;
           line-height: @header-height-mobile;
           color: @blue-lighter;
         }
       }
+    }
+  }
+}
+
+
+/* --- mobile logo --- */
+
+#app-col-map .logo {
+  position: absolute;
+  left: 14px;
+  bottom: 13px;
+
+  h1 {
+    margin: 0;
+    line-height: 0;
+
+    a {
+      .economica();
+      color: white;
+      letter-spacing: 2px;
+      font-size: @header-fontsize;
+      text-decoration: none !important;
+      text-shadow: 1px 1px 2px rgba(100, 100, 100, 0.5);
     }
   }
 }
