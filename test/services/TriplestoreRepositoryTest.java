@@ -1,32 +1,30 @@
 package services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import helpers.JsonLdConstants;
+import helpers.JsonTest;
+import models.Commit;
+import models.Resource;
+import models.TripleCommit;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import services.repository.TriplestoreRepository;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.Commit;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import models.Resource;
-import models.TripleCommit;
-import services.repository.TriplestoreRepository;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**

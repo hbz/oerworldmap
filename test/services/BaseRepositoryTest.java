@@ -16,7 +16,11 @@ import services.repository.BaseRepository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -209,14 +213,14 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testExactPersonRankedFirst() throws IOException, InterruptedException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.1.json");
-    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonRankedFirst.DB.2.json");
+  public void testExactPersonHits() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.2.json");
     mBaseRepo.addResource(db1, mMetadata);
     mBaseRepo.addResource(db2, mMetadata);
     List<Resource> searchResults = mBaseRepo.query("Berger", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Did not get expected number of hits (2).", searchResults.size() == 2);
-    Assert.assertTrue("Exact search hit was not ranked first.",
+    Assert.assertTrue("Did not get expected number of hits (1).", searchResults.size() == 1);
+    Assert.assertTrue("Exact search hit was not found.",
       ((Resource) searchResults.get(0).get("about")).getId().equals(db1.getId()));
     mBaseRepo.deleteResource("urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6", mMetadata);
@@ -405,25 +409,29 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testTwoLetterSearch() throws IOException, InterruptedException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testThreeLetterSearch.DB.1.json");
+  public void testAbbreviatedSearch() throws IOException, InterruptedException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testAbbreviatedSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
 
     // query with first letter only --> no hit
-    List<Resource> oneLetterQuery = mBaseRepo.query("f", 0, 10, null, null, mDefaultQueryContext).getItems();
+    List<Resource> oneLetterQuery = mBaseRepo.query("d", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Search result given by one letter search.", oneLetterQuery.size() == 0);
 
     // query with first two letters only --> no hit
-    List<Resource> twoLettersQuery = mBaseRepo.query("fi", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("No search result given by two letter search.", twoLettersQuery.size() == 1);
+    List<Resource> twoLettersQuery = mBaseRepo.query("do", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Search result given by two letter search.", twoLettersQuery.size() == 0);
 
-    // query with first first three letters --> hit
-    List<Resource> threeLettersQuery = mBaseRepo.query("fin", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("No search result given by three letter search.", threeLettersQuery.size() == 1);
+    // query with first first three letters --> no hit
+    List<Resource> threeLettersQuery = mBaseRepo.query("don", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Search result given by three letter search.", threeLettersQuery.size() == 0);
 
-    // query with first first four letters --> hit
-    List<Resource> fourLettersQuery = mBaseRepo.query("find", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("No search result given by four letter search.", threeLettersQuery.size() == 1);
+    // query with first first eight letters --> no hit
+    List<Resource> eightLettersQuery = mBaseRepo.query("dontfind", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Search result given by eight letter search.", eightLettersQuery.size() == 0);
+
+    // query with all letters --> hit
+    List<Resource> allLettersQuery = mBaseRepo.query("dontfindmeabbreviated", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("No search result given by all letters search.", allLettersQuery.size() == 1);
 
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002", mMetadata);
@@ -456,13 +464,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
     // query abbreviated word
     List<Resource> abbreviatedWord = mBaseRepo.query("e-pai", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Could not find \"e-pai\".", abbreviatedWord.size() == 1);
-    Assert.assertTrue("Did not get proper result searching for e-pai.", abbreviatedWord.get(0).getId().equals(completeWord.get(0).getId()));
+    Assert.assertTrue("Accidentally found \"e-pai\".", abbreviatedWord.size() == 0);
 
     // query without hyphen
     List<Resource> withoutHyphen = mBaseRepo.query("epai", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Could not find \"epai\".", withoutHyphen.size() == 1);
-    Assert.assertTrue("Did not get proper result searching for epai.", withoutHyphen.get(0).getId().equals(completeWord.get(0).getId()));
+    Assert.assertTrue("Accidentally found \"epai\".", withoutHyphen.size() == 0);
 
     mBaseRepo.deleteResource("", mMetadata);
   }

@@ -1,8 +1,13 @@
 package controllers;
 
-import static org.junit.Assert.assertEquals;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.route;
+import com.typesafe.config.ConfigFactory;
+import helpers.ElasticsearchTestGrid;
+import helpers.JsonLdConstants;
+import helpers.JsonTest;
+import models.Resource;
+import org.junit.Test;
+import play.Configuration;
+import play.mvc.Result;
 
 import java.io.File;
 import java.util.Base64;
@@ -10,15 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.typesafe.config.ConfigFactory;
-import org.junit.Test;
-
-import helpers.ElasticsearchTestGrid;
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import models.Resource;
-import play.Configuration;
-import play.mvc.Result;
+import static org.junit.Assert.assertEquals;
+import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.route;
 
 /**
  * @author fo

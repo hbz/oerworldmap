@@ -1,12 +1,5 @@
 package controllers;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Configuration;
 import play.Environment;
@@ -15,6 +8,12 @@ import services.AggregationProvider;
 import services.QueryContext;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo

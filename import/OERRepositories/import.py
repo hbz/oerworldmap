@@ -1,4 +1,13 @@
-import csv, json, getopt, sys, urllib2, rdflib, pycountry, uuid, os, jsonschema
+import csv
+import getopt
+import json
+import jsonschema
+import os
+import pycountry
+import sys
+import urllib2
+import uuid
+
 
 def convert(input_path, output_path):
     with open('../../public/json/schema.json') as schema_file:

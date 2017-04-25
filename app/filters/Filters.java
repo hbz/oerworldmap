@@ -1,9 +1,9 @@
 package filters;
 
 import play.filters.cors.CORSFilter;
-import play.mvc.EssentialFilter;
 import play.filters.gzip.GzipFilter;
 import play.http.HttpFilters;
+import play.mvc.EssentialFilter;
 
 import javax.inject.Inject;
 

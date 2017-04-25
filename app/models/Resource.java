@@ -24,7 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
 
@@ -44,7 +51,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     try {
       mSchemaNode = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not read schema", e);
     }
   }
 
@@ -139,7 +146,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     try {
       return fromJson(new ObjectMapper().readTree(aJsonString));
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not read resource from JSON", e);
       return null;
     }
   }
