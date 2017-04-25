@@ -1,16 +1,15 @@
 package services.export;
 
-import static org.junit.Assert.assertEquals;
+import helpers.JsonTest;
+import models.Resource;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import helpers.JsonTest;
-import models.Resource;
+import static org.junit.Assert.assertEquals;
 
 public class CsvWithNestedIdsExporterTest implements JsonTest {
 

@@ -1,6 +1,14 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2, base64, getpass, imp, urlparse
+import base64
+import getopt
+import getpass
+import imp
+import json
+import sys
+import urllib2
+import urlparse
+
 
 def migrate(source, target, scripts):
     source_user = raw_input("Source user:")

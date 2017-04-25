@@ -1,5 +1,25 @@
 package services.repository;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
+import models.Commit;
+import models.GraphHistory;
+import models.Resource;
+import models.ResourceList;
+import models.TripleCommit;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.tdb.TDBFactory;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import play.Logger;
+import services.IndexQueue;
+import services.QueryContext;
+import services.ResourceIndexer;
+
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -7,32 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.jena.query.Dataset;
-import org.apache.jena.query.DatasetFactory;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.tdb.TDBFactory;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigException;
-
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import models.Commit;
-import models.GraphHistory;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
-import play.Logger;
-import services.IndexQueue;
-import services.QueryContext;
-import services.ResourceFramer;
-import services.ResourceIndexer;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable, Versionable {
@@ -59,7 +53,7 @@ public class BaseRepository extends Repository
       dataset = TDBFactory.createDataset(mConfiguration.getString("tdb.dir"));
     } catch (ConfigException e) {
       Logger.warn("No persistent TDB configured", e);
-      dataset = DatasetFactory.createMem();
+      dataset = DatasetFactory.create();
     }
 
     File commitDir = new File(mConfiguration.getString("graph.history.dir"));
@@ -88,9 +82,9 @@ public class BaseRepository extends Repository
       for (Commit commit: commits) {
         commit.getDiff().apply(mDb);
       }
-      Logger.debug("Loaded commit history to triple store");
+      Logger.info("Loaded commit history to triple store");
       mResourceIndexer.index("*");
-      Logger.debug("Indexed all resources from triple store");
+      Logger.info("Indexed all resources from triple store");
     }
 
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
@@ -185,7 +179,7 @@ public class BaseRepository extends Repository
     try {
       resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not query Elasticsearch repository", e);
       return null;
     }
     return resourceList;
@@ -226,7 +220,7 @@ public class BaseRepository extends Repository
     try {
       resources = mElasticsearchRepo.getAll(aType);
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not query Elasticsearch repository", e);
     }
     return resources;
   }

@@ -2,18 +2,9 @@ package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import helpers.Countries;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import models.Record;
 import models.Resource;
-
 import models.ResourceList;
-
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
@@ -21,6 +12,11 @@ import services.AggregationProvider;
 import services.QueryContext;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo

@@ -1,12 +1,12 @@
 package services;
 
-import static org.junit.Assert.assertTrue;
-
-import org.apache.jena.rdf.model.Model;
 import helpers.JsonTest;
+import org.apache.jena.rdf.model.Model;
 import org.junit.Test;
 
 import java.io.IOException;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author fo

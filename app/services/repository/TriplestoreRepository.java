@@ -1,20 +1,10 @@
 package services.repository;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
+import com.typesafe.config.Config;
+import models.Commit;
+import models.GraphHistory;
+import models.Resource;
+import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.apache.jena.query.Query;
@@ -30,13 +20,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-
-import com.typesafe.config.Config;
-
-import models.Commit;
-import models.GraphHistory;
-import models.Resource;
-import models.TripleCommit;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.tdb.TDB;
 import play.Logger;
@@ -44,6 +27,19 @@ import services.BroaderConceptEnricher;
 import services.InverseEnricher;
 import services.ResourceEnricher;
 import services.ResourceFramer;
+
+import javax.annotation.Nonnull;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fo on 10.12.15.
@@ -99,7 +95,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       try {
         resource = ResourceFramer.resourceFromModel(dbstate, aId);
       } catch (IOException e) {
-        Logger.error(e.toString());
+        Logger.error("Could not get resource", e);
       }
     }
 

@@ -1,5 +1,15 @@
 package services.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
+import helpers.JsonLdConstants;
+import models.Resource;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.jena.atlas.RuntimeIOException;
+import org.elasticsearch.client.Client;
+
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -10,21 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.jena.atlas.RuntimeIOException;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.client.Client;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.typesafe.config.Config;
-
-import helpers.JsonLdConstants;
-import models.Resource;
-import play.Logger;
 
 
 public class FileRepository extends Repository implements Writable, Readable {

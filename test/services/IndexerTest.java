@@ -1,18 +1,16 @@
 package services;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import helpers.JsonTest;
+import models.TripleCommit;
+import org.apache.commons.io.IOUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-
-import helpers.JsonTest;
-import models.TripleCommit;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by fo on 11.02.16.

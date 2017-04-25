@@ -1,18 +1,17 @@
 package services;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import helpers.JsonLdConstants;
 import models.Resource;
 import services.repository.Readable;
 import services.repository.Repository;
 import services.repository.Writable;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo

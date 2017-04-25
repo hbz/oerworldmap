@@ -1193,6 +1193,15 @@ return rf.abs=Wc,rf.add=Yc,rf.subtract=Zc,rf.as=cd,rf.asMilliseconds=$e,rf.asSec
 HandlebarsMoment.registerHelpers(Handlebars);
 
 
+// moment helper not working with just a year
+// calling moment() with just a year works in browser and server side (so daterange helper is not effected)
+// ... so it seems to be the helper code, being buggy. quick fix is a wrapper:
+
+Handlebars.registerHelper('momentWrapper', function (date, format) {
+  return moment(date).format(format);
+});
+
+
 Handlebars.registerHelper('daterange', function (date_from, date_to) {
 
   var from = moment(date_from);

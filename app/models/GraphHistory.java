@@ -111,7 +111,7 @@ public class GraphHistory {
         TripleCommit commit = TripleCommit.fromString(FileUtils.readFileToString(commitFile, StandardCharsets.UTF_8));
         commits.add(commit);
       } catch (IllegalArgumentException | IOException e) {
-        Logger.error("Could not read commit, skipping", e);
+        Logger.trace("Could not read commit, skipping", e);
       }
     }
 

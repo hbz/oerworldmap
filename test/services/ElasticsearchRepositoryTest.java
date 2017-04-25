@@ -1,22 +1,21 @@
 package services;
 
+import helpers.ElasticsearchTestGrid;
+import helpers.JsonLdConstants;
+import helpers.JsonTest;
+import helpers.ResourceHelpers;
+import models.Resource;
+import models.ResourceList;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import services.repository.ElasticsearchRepository;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import helpers.ResourceHelpers;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import helpers.ElasticsearchTestGrid;
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import models.Resource;
-import models.ResourceList;
-import services.repository.ElasticsearchRepository;
 
 public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 

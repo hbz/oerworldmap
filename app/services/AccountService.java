@@ -1,5 +1,12 @@
 package services;
 
+import helpers.MD5Crypt;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import play.Logger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,15 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-
-import helpers.MD5Crypt;
-
-import org.apache.commons.codec.digest.DigestUtils;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import play.Logger;
 
 /**
  * @author fo
@@ -105,7 +103,7 @@ public class AccountService {
         FileUtils.writeStringToFile(tokenFile, buildEntry(username, password), StandardCharsets.UTF_8);
         return token;
       } catch (IOException e) {
-        Logger.error(e.toString());
+        Logger.error("Could not write token file", e);
       }
     }
 
@@ -130,7 +128,7 @@ public class AccountService {
       FileUtils.writeLines(mUserFile,userDb);
       return true;
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not write user file", e);
       return false;
     }
 
@@ -147,7 +145,7 @@ public class AccountService {
         FileUtils.forceDelete(tokenFile);
         return entry.split(":")[0];
       } catch (IOException e) {
-        Logger.error(e.toString());
+        Logger.error("Could not process token file", e);
       }
     }
 
@@ -160,7 +158,7 @@ public class AccountService {
     try {
       return FileUtils.readFileToString(mUserFile, StandardCharsets.UTF_8).contains(username);
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not read user file", e);
     }
 
     return false;
@@ -194,7 +192,7 @@ public class AccountService {
       FileUtils.writeLines(mUserFile, userDb);
       return true;
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not read user file", e);
       return false;
     }
 
@@ -227,7 +225,7 @@ public class AccountService {
         }
       }
     } catch (IOException e) {
-      Logger.error("Failed to get groups", e);
+      Logger.error("Could not read group file", e);
     }
 
     return groups;
@@ -246,7 +244,7 @@ public class AccountService {
         groups.add(group);
       }
     } catch (IOException e) {
-      Logger.error("Failed to get groups", e);
+      Logger.error("Could not read group file", e);
     }
 
     return groups;
@@ -271,7 +269,7 @@ public class AccountService {
       FileUtils.writeLines(mGroupFile, lines);
       return true;
     } catch (IOException e) {
-      Logger.error("Failed to update groups", e);
+      Logger.error("Could not write group file", e);
       return false;
     }
 
@@ -289,7 +287,7 @@ public class AccountService {
         users.add(user);
       }
     } catch (IOException e) {
-      Logger.error("Failed to get users", e);
+      Logger.error("Could not read user file", e);
     }
 
     return users;
@@ -308,7 +306,7 @@ public class AccountService {
         }
       }
     } catch (IOException e) {
-      Logger.error("Failed to get users", e);
+      Logger.error("Could not read user file", e);
     }
 
     return new ArrayList<>();
@@ -340,7 +338,7 @@ public class AccountService {
       }
       return true;
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not write profile file", e);
       return false;
     }
 
@@ -358,7 +356,7 @@ public class AccountService {
         }
       }
     } catch (IOException e) {
-      Logger.error("Failed to get profile ID", e);
+      Logger.error("Could not read profile file", e);
     }
 
     return null;
@@ -377,7 +375,7 @@ public class AccountService {
         }
       }
     } catch (IOException e) {
-      Logger.error("Failed to get user name", e);
+      Logger.error("Could not read profile file", e);
     }
 
     return null;
@@ -394,7 +392,7 @@ public class AccountService {
         }
       }
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not read user file", e);
       return null;
     }
     return null;

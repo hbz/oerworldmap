@@ -103,7 +103,7 @@
 
         {{#unless user}}
 
-            <h2 class="slogan"><a href="/contribute">Join us in mapping the world of OER!</a></h2>
+            <h2 class="slogan"><a href="/contribute" {{#if @root.embed}}target="_blank"{{/if}}>Join us in mapping the world of OER!</a></h2>
 
         {{/unless}}
 
@@ -141,7 +141,7 @@
 <script type="text/javascript" src="/assets/vendor/handlebars.min.js"></script>
 <!--<script type="text/javascript" src="/assets/vendor/jquery.placeholder.min.js"></script>-->
 <script type="text/javascript" src="/assets/vendor/d3.v3.min.js"></script>
-<script type="text/javascript" src="/assets/vendor/v3.15.1-dist/ol.js"></script>
+<script type="text/javascript" src="/assets/vendor/v4.0.1-dist/ol.js"></script>
 <script type="text/javascript" src="/assets/vendor/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="/assets/vendor/page.fork.js"></script>
 <script type="text/javascript" src="/assets/vendor/htmldiff.js"></script>
