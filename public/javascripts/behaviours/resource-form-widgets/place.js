@@ -230,7 +230,7 @@ var Hijax = (function ($, Hijax) {
             });
 
             // fit view
-            map.getView().fit(markers.getSource().getExtent(), map.getSize(), {
+            map.getView().fit(markers.getSource().getExtent(), {
               minResolution: 2
             });
 
@@ -343,7 +343,7 @@ var Hijax = (function ($, Hijax) {
               features: [ feature ]
             }));
             // fit view
-            map.getView().fit(markers.getSource().getExtent(), map.getSize(), {
+            map.getView().fit(markers.getSource().getExtent(), {
               minResolution: 2
             });
             // drag interaction
