@@ -1,6 +1,5 @@
 .header-link() {
   display: inline-block;
-  line-height: @header-height !important;
   padding: 0 @header-padding;
   text-decoration: none;
   color: @blue-lightest;
@@ -17,12 +16,13 @@
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 40px;
+  height: @header-height;
   background: @blue-darker;
-  .economica();
   font-size: @header-fontsize;
+  line-height: @header-height;
 
   h1 {
+    .economica();
     display: inline;
     font-size: @header-fontsize;
     font-weight: bold;
@@ -34,6 +34,8 @@
   }
 
   .slogan {
+    .economica();
+    line-height: @header-height;
     margin: 0;
     letter-spacing: 2px;
     float: right;
@@ -62,6 +64,7 @@
 
       > a,
       > .a {
+        .economica();
         .header-link();
       }
 
@@ -88,6 +91,66 @@
 
     > ul > li {
       border-left: 1px solid @blue-dark;
+    }
+  }
+
+  nav.main-mobile {
+    float: left;
+  }
+
+  nav.user-mobile {
+    float: right;
+  }
+
+  @media screen and (max-width: @mobile-breakpoint) {
+
+    height: @header-height-mobile;
+    font-size: @header-fontsize-mobile;
+    line-height: @header-height-mobile;
+
+    nav button,
+    nav .button {
+      display: inline-block;
+      padding: 0px @header-padding-mobile;
+      border: none;
+      background: transparent;
+      color: @blue-lighter;
+    }
+
+    .dropdown-menu {
+      background: @blue-darker;
+      .source-sans();
+      border-radius: 0px;
+      width: 100%;
+      border-top: 1px solid @blue-lighter;
+      padding: 0px 15px;
+
+      li {
+        float: none !important;
+        margin: 0 -5px;
+        border-bottom: 1px solid @blue-lightest;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        a {
+          .source-sans();
+          width: 100%;
+          padding: 10px 5px !important;
+
+          &:hover,
+          &:active,
+          &:focus {
+            background: transparent;
+            color: @orange;
+          }
+        }
+      }
+    }
+
+    nav.user-mobile a {
+      text-align: right;
     }
   }
 }

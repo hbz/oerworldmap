@@ -642,9 +642,12 @@ var Hijax = (function ($, Hijax) {
       // persistent popover – just close it
       log.debug('MAP onClick – close persistent popover');
 
-      state.persistentPopover = false;
-      $('#map').removeClass('popover-persistent');
-      $(popoverElement).hide();
+      // needs timeout to make the links inside popover to work on touchscreens (for whatever reason)
+      setTimeout(function(){
+        state.persistentPopover = false;
+        $('#map').removeClass('popover-persistent');
+        $(popoverElement).hide();
+      }, 100);
 
     } else if(state.hover.popoverType == false) {
       // water or country in high zoom level

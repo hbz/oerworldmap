@@ -3,6 +3,7 @@
 @notification-width: 400px;
 @col-background: fadeout(#fff, 5%);
 
+
 /* --- columns --- */
 
 #app {
@@ -76,6 +77,117 @@
     }
   }
 
+  @media screen and (max-width: @mobile-breakpoint) {
+
+    #app-col-map,
+    #app-col-index,
+    #app-col-detail {
+      width: 100% !important;
+      left: 0px !important;
+      right: 0px !important;
+      margin: 0px !important;
+    }
+
+    #app-col-index,
+    #app-col-detail {
+      display: none;
+    }
+
+    #app-col-map .visible-area {
+      right: 0 !important;
+    }
+
+    #app-col-switch {
+      [href="#app-col-index"],
+      [href="#app-col-detail"] {
+        display: none;
+      }
+    }
+
+    &[data-col-index-mode="list"] #app-col-switch {
+      left: calc(50% ~'-' 16px);
+      [href="#app-col-index"] {
+        display: inline;
+      }
+    }
+
+    &[data-col-detail-mode="expanded"] #app-col-switch {
+      left: calc(50% ~'-' 32px);
+      [href="#app-col-detail"] {
+        display: inline;
+      }
+    }
+
+    &[data-mobile-active-col="map"] {
+      [href="#app-col-map"] {
+        color: white;
+      }
+      #app-col-map,
+      #app-col-index {
+        display: block;
+      }
+      #app-col-index {
+        background: transparent !important;
+        pointer-events: none;
+
+        #filter,
+        #form-resource-filter,
+        [data-app-index-switch] {
+          pointer-events: auto;
+        }
+      }
+      .list-statistics-container {
+        display: none;
+      }
+    }
+
+    &[data-mobile-active-col="index"] {
+      [href="#app-col-index"] {
+        color: white;
+      }
+      #app-col-index {
+        display: block;
+      }
+    }
+
+    &[data-mobile-active-col="detail"] {
+      [href="#app-col-detail"] {
+        color: white;
+      }
+      #app-col-detail {
+        display: block;
+      }
+    }
+  }
+
+}
+
+
+/* --- mobile --- */
+
+#app-col-switch {
+  position: fixed;
+  z-index: 1001;
+  left: 50%; top: 0;
+
+  nav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+
+      li {
+        display: inline-block;
+        padding: 0px 4px;
+
+        a {
+          line-height: @header-height-mobile;
+          color: @blue-lighter;
+        }
+      }
+    }
+  }
 }
 
 
@@ -109,6 +221,10 @@
     top: @header-height;
     width: 100%;
     bottom: 0px;
+
+    @media screen and (max-width: @mobile-breakpoint) {
+      top: @header-height-mobile;
+    }
 
     [data-app="col"] {
       height: 100%;
@@ -154,6 +270,10 @@
           background: @blue-light;
           color: white;
         }
+
+        @media screen and (max-width: @mobile-breakpoint) {
+          display: none;
+        }
       }
     }
 
@@ -169,8 +289,16 @@
       background: @col-background;
       border-left: 1px solid @blue-lighter;
 
+      @media screen and (max-width: @mobile-breakpoint) {
+        background: white;
+      }
+
       [data-app="col-content"] {
         padding: @map-padding;
+
+        @media screen and (max-width: @mobile-breakpoint) {
+          padding: @map-padding-mobile;
+        }
       }
     }
 
@@ -282,11 +410,6 @@
 
   #app-modal {
 
-    .modal-dialog {
-      margin: (@header-height * 2) auto;
-      width: 500px;
-    }
-
     .visible-modal {
       display: block;
     }
@@ -308,6 +431,12 @@
     position: absolute;
     top: @map-padding; right: @index-min-width; bottom: @map-padding; left: @map-padding;
 
+    @media screen and (max-width: @mobile-breakpoint) {
+      position: fixed;
+      top: @header-height-mobile; right: 0; bottom: 0; left: 0;
+      z-index: 1;
+    }
+
     .notification {
       pointer-events: all;
       position: absolute;
@@ -321,11 +450,34 @@
       padding: 15px 15px 20px 15px;
       overflow-y: scroll;
 
+      @media screen and (max-width: @mobile-breakpoint) {
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: fadeout(@blue-darker, 10%);
+        color: white;
+
+        a,
+        button {
+          color: white;
+        }
+
+        .btn {
+          background: white;
+          color: @blue-darker;
+        }
+      }
+
       .notification-header {
         .clearfix();
         padding-bottom: (@line-height-computed / 2);
         border-bottom: 1px solid @blue-darker;
         margin-bottom: @line-height-computed;
+
+        @media screen and (max-width: @mobile-breakpoint) {
+          border-bottom: 1px solid white;
+        }
 
         .dismiss {
           display: none;
