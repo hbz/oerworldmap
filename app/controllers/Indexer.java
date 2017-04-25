@@ -1,13 +1,12 @@
 package controllers;
 
-import java.io.IOException;
-
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
 import play.twirl.api.Html;
 
 import javax.inject.Inject;
+import java.io.IOException;
 
 public class Indexer extends OERWorldMap {
 

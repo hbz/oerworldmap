@@ -1,20 +1,16 @@
 package controllers;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.pegdown.PegDownProcessor;
-
 import play.Configuration;
 import play.Environment;
-import play.Play;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author fo

@@ -1,7 +1,11 @@
 __author__ = 'fo'
 
+import getopt
+import json
+import rdflib
+import sys
 from pyld import jsonld
-import json, getopt, sys, urllib2, rdflib
+
 
 def convert(input_path, output_path):
     skos = jsonld.from_rdf(get_skos(input_path).decode('unicode_escape').encode('utf-8','ignore'))

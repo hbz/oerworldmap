@@ -1,21 +1,20 @@
 package services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import helpers.ElasticsearchTestGrid;
+import helpers.UniversalFunctions;
+import models.Resource;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import services.repository.FileRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import helpers.ElasticsearchTestGrid;
-import helpers.UniversalFunctions;
-import models.Resource;
-import services.repository.FileRepository;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FileRepositoryTest extends ElasticsearchTestGrid {
 

@@ -1,7 +1,5 @@
 package schema;
 
-import static org.junit.Assert.assertTrue;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
@@ -9,14 +7,14 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import helpers.FilesConfig;
 import helpers.JsonTest;
+import models.Resource;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import models.Resource;
-
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 
 /**

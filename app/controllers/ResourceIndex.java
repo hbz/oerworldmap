@@ -32,11 +32,14 @@ import services.export.GeoJsonExporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +80,7 @@ public class ResourceIndex extends OERWorldMap {
         try {
           queryContext.setBoundingBox(boundingBox);
         } catch (NumberFormatException e) {
-          Logger.error("Invalid bounding box: ".concat(boundingBox), e);
+          Logger.trace("Invalid bounding box: ".concat(boundingBox), e);
         }
       }
     }
@@ -238,7 +241,7 @@ public class ResourceIndex extends OERWorldMap {
       try {
         listProcessingReport.mergeWith(processingReport);
       } catch (ProcessingException e) {
-        Logger.error("Failed to create list processing report", e);
+        Logger.warn("Failed to create list processing report", e);
       }
       if (request().accepts("text/html")) {
         Map<String, Object> scope = new HashMap<>();
@@ -299,7 +302,7 @@ public class ResourceIndex extends OERWorldMap {
         }
         listProcessingReport.mergeWith(processingMessages);
       } catch (ProcessingException e) {
-        Logger.error("Validation error", e);
+        Logger.error("Could not process validation report", e);
         return badRequest();
       }
     }
@@ -399,7 +402,7 @@ public class ResourceIndex extends OERWorldMap {
     try {
       resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
     } catch (NullPointerException e) {
-      Logger.error("Could not read author from commit " + history.get(history.size() - 1), e);
+      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
     }
     resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -407,7 +410,7 @@ public class ResourceIndex extends OERWorldMap {
       resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     } catch (NullPointerException e) {
-      Logger.error("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
     }
 
     Map<String, Object> scope = new HashMap<>();
@@ -468,13 +471,13 @@ public class ResourceIndex extends OERWorldMap {
       if ("Person".equals(resource.getType())) {
         String username = mAccountService.getUsername(aId);
         if (!mAccountService.removePermissions(aId)) {
-          Logger.warn("Could not remove permissions for " + aId);
+          Logger.error("Could not remove permissions for " + aId);
         }
         if (!mAccountService.setProfileId(username, null)) {
-          Logger.warn("Could not unset profile ID for " + username);
+          Logger.error("Could not unset profile ID for " + username);
         }
         if (!mAccountService.deleteUser(username)) {
-          Logger.warn("Could not delete user " + username);
+          Logger.error("Could not delete user " + username);
         }
         return ok("deleted user " + aId);
       } else {

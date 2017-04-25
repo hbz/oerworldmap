@@ -6,11 +6,9 @@ import com.github.jknack.handlebars.io.TemplateLoader;
 import helpers.ResourceTemplateLoader;
 import models.Commit;
 import models.TripleCommit;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Environment;
-import play.Logger;
 import play.mvc.Result;
 import play.twirl.api.Html;
 

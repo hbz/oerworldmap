@@ -1,5 +1,30 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import helpers.Countries;
+import helpers.JSONForm;
+import helpers.JsonLdConstants;
+import models.Resource;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import play.Configuration;
+import play.Environment;
+import play.Logger;
+import play.mvc.Result;
+
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -15,33 +40,6 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.JsonLdConstants;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import helpers.Countries;
-import helpers.JSONForm;
-import models.Resource;
-import play.Configuration;
-import play.Environment;
-import play.Logger;
-import play.mvc.Result;
-
-import javax.inject.Inject;
 
 public class UserIndex extends OERWorldMap {
 
@@ -228,12 +226,11 @@ public class UserIndex extends OERWorldMap {
       Integer responseCode = response.getStatusLine().getStatusCode();
 
       if (!responseCode.equals(200)) {
-        Logger.error(response.getStatusLine().toString());
-        return internalServerError();
+        throw new IOException(response.getStatusLine().toString());
       }
 
     } catch (IOException e) {
-      Logger.error(e.toString());
+      Logger.error("Could not connect to mailman", e);
       return internalServerError();
     }
 
@@ -301,11 +298,9 @@ public class UserIndex extends OERWorldMap {
       mail.setSubject(aSubject);
       mail.addTo(aEmailAddress);
       mail.send();
-      Logger.debug(mail.toString());
       Logger.info("Sent\n" + aMessage + "\nto " + aEmailAddress);
     } catch (EmailException e) {
-      Logger.error(e.toString());
-      Logger.debug("Failed to send\n" + aMessage + "\nto " + aEmailAddress);
+      Logger.error("Failed to send\n" + aMessage + "\nto " + aEmailAddress, e);
     }
   }
 

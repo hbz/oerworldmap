@@ -40,3 +40,4 @@ PlayKeys.playRunHooks += Grunt(baseDirectory.value)
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Xmx3G"
+javaOptions in Test += "-Dlogback.configurationFile=conf/logback-test.xml"

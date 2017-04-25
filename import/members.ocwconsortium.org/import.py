@@ -1,7 +1,15 @@
 __author__ = 'fo'
 
-import sys, getopt, json, os, urllib2, time, uuid, socket, pycurl, urllib
+import getopt
+import json
+import os
+import pycurl
+import sys
+import time
+import urllib
+import urllib2
 from StringIO import StringIO
+
 
 def convert(output_dir):
     print 'Output dir is ', output_dir
