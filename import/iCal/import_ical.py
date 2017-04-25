@@ -103,16 +103,11 @@ def lines_to_resource(header, event, language):
             if match:
                 resource['email'] = match.group(2)
             # subfields SENT-BY and DIR are ignored here
-        elif line.startswith("UID:"):
-            line = line[4:]
-            if line.startswith("urn:uuid:"):
-                resource['@id'] = line
-            else:
-                resource['@id'] = uuid.uuid4().urn
         elif line.startswith("URL:"):
             resource['url'] = line[4:]
         if location:
             resource['location'] = location
+    resource['@id'] = uuid.uuid4().urn
     return resource
 
 
