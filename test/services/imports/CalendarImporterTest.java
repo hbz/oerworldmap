@@ -19,7 +19,7 @@ public class CalendarImporterTest implements JsonTest{
     List<Resource> expected =
       getResourcesFromPagedCollectionFile("CalendarImporterTest/testMultipleEventsImport.OUT.1.json").getItems();
     List<Resource> imported = CalendarImporter.importFromUrl(
-      "file:///./test/resources/CalendarImporterTest/testMultipleEventsImport.IN.1.iCal", "de", "");
+      "file:///./test/resources/CalendarImporterTest/testMultipleEventsImport.IN.1.ical", "de", "");
       // TODO: fill mapzen API key (third parameter)
     assertEquals(expected, imported);
   }
