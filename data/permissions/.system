@@ -1,4 +1,4 @@
-ErrorDocument 401 "<h1>Not allowed</h1><a href=/user/register>Sign up</a> or <a href=/user/password>reset password</a>."
+ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/user/register>here</a>.</p>"
 
 RewriteEngine On
 RewriteMap unescape int:unescape
