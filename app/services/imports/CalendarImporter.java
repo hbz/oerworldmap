@@ -19,8 +19,6 @@ import java.util.List;
 public class CalendarImporter implements Importer{
 
   final private static String PATH_TO_PYTHON_LIBRARY;
-  final private static String PATH_TO_PYTHON_COMMON;
-  final private static String PATH_TO_PYTHON_PARENT;
   final private static String PATH_TO_PYTHON_IMPORTER;
   final private static String NAME_OF_PYTHON_IMPORTER;
 
@@ -32,11 +30,6 @@ public class CalendarImporter implements Importer{
       .concat(SEP).concat("lib")
       .concat(SEP).concat("python2.7")
       .concat(SEP).concat("site-packages");
-    PATH_TO_PYTHON_COMMON = new File(".").getAbsolutePath()
-      .concat(SEP).concat("import")
-      .concat(SEP).concat("common_utils");
-    PATH_TO_PYTHON_PARENT = new File(".").getAbsolutePath()
-      .concat(SEP).concat("import");
     PATH_TO_PYTHON_IMPORTER = new File(".").getAbsolutePath()
       .concat(SEP).concat("import")
       .concat(SEP).concat("iCal");
@@ -54,8 +47,6 @@ public class CalendarImporter implements Importer{
     PythonInterpreter interpreter = new PythonInterpreter();
     interpreter.exec("import sys");
     interpreter.exec("sys.path.append('".concat(PATH_TO_PYTHON_IMPORTER).concat("')"));
-    interpreter.exec("sys.path.append('".concat(PATH_TO_PYTHON_COMMON).concat("')"));
-    interpreter.exec("sys.path.append('".concat(PATH_TO_PYTHON_PARENT).concat("')"));
     interpreter.exec("sys.path.append('".concat(PATH_TO_PYTHON_LIBRARY).concat("')"));
     interpreter.exec("import ".concat(NAME_OF_PYTHON_IMPORTER));
     PyObject importIcalPy = interpreter.get("import_ical");
