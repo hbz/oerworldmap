@@ -40,7 +40,7 @@ ORGANIZER;CN=JohnSmith;DIR="ldap://example.com:6666/o=DC%20Associates,c=US???(cn
 CREATED:20161215T143539Z
 DESCRIPTION:http://conference.acrl.org/
 LAST-MODIFIED:20170321T172144Z
-LOCATION:Baltimore\, Maryland\, USA
+LOCATION:Baltimore, Maryland, USA
 SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:ACRL Conference
@@ -65,7 +65,7 @@ ORGANIZER;SENT-BY="mailto:jane_doe@example.com":mailto:jsmith@example.com
 CREATED:20170117T021654Z
 DESCRIPTION:https://oa2020.org/b13-conference/about/
 LAST-MODIFIED:20170320T153235Z
-LOCATION:Berlin\, Germany
+LOCATION:Berlin, Germany
 SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:Berlin Open Access
