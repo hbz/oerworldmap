@@ -53,6 +53,12 @@ public class CalendarImporter implements Importer{
     interpreter.exec("sys.path.append('".concat(PATH_TO_PYTHON_IMPORTER).concat("')"));
     interpreter.exec("sys.path.append('".concat(PATH_TO_PYTHON_LIBRARY).concat("')"));
     interpreter.set("__file__", PATH_TO_PYTHON_IMPORTER);
+    interpreter.exec("sys.argv.append('".concat("import.iCal.import_ical").concat("')"));
+    interpreter.exec("sys.argv.append('".concat("./import/iCal/import_ical.py").concat("')"));
+    interpreter.exec("sys.argv.append('".concat(aUrl).concat("')"));
+    interpreter.exec("sys.argv.append('".concat(aLanguage).concat("')"));
+    interpreter.exec("sys.argv.append('".concat("./import/iCal/cache/temp.json").concat("')"));
+    interpreter.exec("sys.argv.append('".concat(aApiKey).concat("')"));
     interpreter.execfile(PATH_AND_NAME_OF_PYTHON_IMPORTER);
     PyObject importIcalPy = interpreter.get("import_ical");
     PyObject pythonResult = importIcalPy.__call__(new PyString(aUrl), new PyString(aLanguage), new PyString(aApiKey));
