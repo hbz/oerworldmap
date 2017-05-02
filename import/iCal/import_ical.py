@@ -1,7 +1,4 @@
 import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib, StringIO
-from ..common_utils.OerWmFiles import *
-from ..common_utils.OerWmUrls import *
-from ..common_utils.OerWmLocations import *
 
 
 path = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
@@ -9,6 +6,100 @@ uuid_file = path + "id_map.json"
 uuids = {}
 import_list = []
 mapzen_api_key = None
+
+
+def read_content_from_url(url):
+    try:
+        site = urllib2.urlopen(url)
+        encoding=site.headers['content-type'].split('charset=')[-1]
+        content = site.read()
+    except urllib2.URLError, e:
+        if hasattr(e, 'reason'):
+            print 'We failed to reach a server.'
+            print 'Reason: ', e.reason
+        elif hasattr(e, 'code'):
+            print 'The server couldn\'t fulfill the request.'
+            print 'Error code: ', e.code
+        return ""
+    if encoding.__eq__('text/plain'):
+        return content
+    return unicode(content, encoding)
+
+
+def load_ids_from_file(id_file, ids):
+    if not os.path.isfile(id_file):
+        open(id_file, 'a').close()
+    try:
+        with open(id_file, 'r') as file:
+            ids = json.loads(file.read())
+    except ValueError, e:
+        if not str(e).__eq__('No JSON object could be decoded'):
+            raise ValueError('Unexpected error while loading ids file: ' + str(e))
+    return ids
+
+
+def save_ids_to_file(ids, id_file):
+    with open(id_file, 'w') as file:
+        file.write(json.dumps(ids))
+
+
+def write_list_into_file(import_list, filename):
+    output_file = open(filename, "w")
+    count = 1
+    output_file.write("[")
+    for import_entry in import_list:
+        output_file.write(import_entry)
+        if count < len(import_entry):
+            output_file.write(",\n")
+            count += 1
+    output_file.write("]")
+    output_file.close()
+
+
+def read_content_from_file(file, encoding):
+    if file.startswith('file://'):
+        file = file[7:]
+    f = codecs.open(file, 'r', encoding)
+    return f.read()
+
+
+def analyze_location_with_mapzen(location, focus, mapzen_api_key):
+    result = get_json_from_mapzen(location, focus, mapzen_api_key)
+    if result and result['features']:
+        first_hit = result['features'][0]
+        return first_hit_to_json_schema(first_hit)
+    return None
+
+
+def get_json_from_mapzen(location, focus, mapzen_api_key):
+    url = 'https://search.mapzen.com/v1/autocomplete?api_key=' + mapzen_api_key + '&text=' + location.encode('utf-8')
+    if not focus is None:
+        url = url + '&focus.point.lat=' + str(focus['lat'])
+        url = url + '&focus.point.lon=' + str(focus['lon'])
+    print 'url: ' + url
+    time.sleep(1.0)
+    response = urllib2.urlopen(url)
+    print 'response: ' + `response`
+    return json.loads(response.read())
+
+
+def first_hit_to_json_schema(json):
+    properties = json['properties']
+    address = {'streetAddress': properties['name']}
+    if 'country_a' in properties:
+        address['addressCountry'] = iso3166alpha3_to_iso3166alpha2(properties['country_a'])
+    if 'postalcode' in properties:
+        address['postalCode'] = properties['postalcode']
+    if 'locality' in properties:
+        address['addressLocality'] = properties['locality']
+    return address
+
+
+def iso3166alpha3_to_iso3166alpha2(iso3):
+    for country in pycountry.countries:
+        if country.alpha_3 == iso3:
+            return country.alpha_2
+    return iso3
 
 
 def readline(buffer):
