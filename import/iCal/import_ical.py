@@ -1,4 +1,4 @@
-import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib, StringIO
+import BeautifulSoup, urllib2, json, re, os, sys, uuid, urlparse, pycountry, datetime, base64, urllib, StringIO, codecs, time
 
 
 path = os.path.dirname(os.path.realpath(__file__)) + os.path.sep
@@ -79,7 +79,6 @@ def get_json_from_mapzen(location, focus, mapzen_api_key):
     print 'url: ' + url
     time.sleep(1.0)
     response = urllib2.urlopen(url)
-    print 'response: ' + `response`
     return json.loads(response.read())
 
 
@@ -100,6 +99,7 @@ def iso3166alpha3_to_iso3166alpha2(iso3):
         if country.alpha_3 == iso3:
             return country.alpha_2
     return iso3
+
 
 
 def readline(buffer):
@@ -193,7 +193,7 @@ def lines_to_resource(header, event, language):
             match = re.search(".*(?<!(sent-by=\"))mailto:([\w@.]*).*", line)
             if match:
                 resource['email'] = match.group(2)
-            # subfields SENT-BY and DIR are ignored here
+                # subfields SENT-BY and DIR are ignored here
         elif line.startswith("URL:"):
             resource['url'] = line[4:]
         if location:
