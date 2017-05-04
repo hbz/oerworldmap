@@ -23,4 +23,14 @@ public class ResourceHelpers {
     return aRecord.getAsResource(Record.RESOURCE_KEY);
   }
 
+  public static List<Resource> getResourcesWithoutIds(List<Resource> aResourceList){
+    List<Resource> result = new ArrayList<>();
+    for (Resource resource : aResourceList){
+      Resource newResource = (Resource) resource.clone();
+      newResource.remove(JsonLdConstants.ID);
+      result.add(newResource);
+    }
+    return result;
+  }
+
 }
