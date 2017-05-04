@@ -159,25 +159,35 @@
       "@type" : "WebPage",
       "author" : "CalendarImporterTest",
       "about" : {
-		"startDate": "2017-06-01T00:00:00Z:",
-		"endDate": "2017-06-02T00:00:00Z:",
-		"description": [
-		  {
-			"@value": "",
-			"@language": "de"
-		  }
-		],
-		"dateCreated": "2017-03-09T14:59:45Z",
-		"@context": "https://oerworldmap.org/assets/json/context.json",
-		"@id": "urn:uuid:2e200911-b513-40fe-be4c-6d2b25c988d3",
-		"@type": "Event",
-		"name": [
-		  {
-			"@value": "June Open Perspective Topic:  What is Open Policy?",
-			"@language": "de"
-		  }
-		]
-	  },
+        "dateCreated" : "2016-12-15T14:35:39Z",
+        "endDate" : "2017-03-25T00:00:00Z:",
+        "@type" : "Event",
+        "organizer" : {
+          "name" : [ {
+            "@value" : "JohnSmith",
+            "@language" : "de"
+          } ]
+        },
+        "name" : [ {
+          "@value" : "ACRL Conference",
+          "@language" : "de"
+        } ],
+        "description" : [ {
+          "@value" : "http://conference.acrl.org/",
+          "@language" : "de"
+        } ],
+        "location" : {
+          "address" : {
+            "addressCountry" : "US",
+            "streetAddress" : "Baltimore",
+            "addressLocality" : "Baltimore"
+          }
+        },
+        "@context" : "https://oerworldmap.org/assets/json/context.json",
+        "startDate" : "2017-03-22T00:00:00Z:",
+        "email" : "jsmith@example.com",
+        "@id": "urn:uuid:2e200911-b513-40fe-be4c-6d2b25c988d3"
+      },
       "dateModified" : "2017-03-13T15:31:50.134+01:00",
       "@id" : "urn:uuid:2e200911-b513-40fe-be4c-6d2b25c988d3.about"
     }
