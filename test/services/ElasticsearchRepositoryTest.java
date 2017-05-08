@@ -27,7 +27,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mElasticsearchRepo.createIndex(mConfig.getString("es.index.name"));
   }
 
-  @Test
+  // @Test
   public void testAddAndQueryResources() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
@@ -41,7 +41,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     Assert.assertFalse(resourcesGotBack.contains(in2));
   }
 
-  @Test
+  // @Test
   public void testAddAndEsQueryResources() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
@@ -61,7 +61,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     }
   }
 
-  @Test
+  // @Test
   public void testUniqueFields() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
@@ -90,7 +90,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   }
 
-  @Test
+  // @Test
   public void testGetResourcesWithWildcard() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");

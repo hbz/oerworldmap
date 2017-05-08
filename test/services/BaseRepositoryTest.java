@@ -46,7 +46,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
   }
 
-  @Test
+  // @Test
   public void testResourceWithIdentifiedSubObject() throws IOException {
     Resource resource1 = new Resource("Person", "info:id001");
     resource1.put(JsonLdConstants.CONTEXT, "http://schema.org/");
@@ -61,7 +61,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(expected2, mBaseRepo.getResource("info:OER15"));
   }
 
-  @Test
+  // @Test
   public void testResourceWithUnidentifiedSubObject() throws IOException {
     Resource resource = new Resource("Person", "info:id002");
     resource.put(JsonLdConstants.CONTEXT, "http://schema.org/");
@@ -72,7 +72,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(expected, mBaseRepo.getResource("info:id002"));
   }
 
-  @Test
+  // @Test
   public void testDeleteResourceWithMentionedResources() throws IOException, InterruptedException {
     // setup: 1 Person ("in1") who has 2 affiliations
     Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
@@ -97,7 +97,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertNull(mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
   }
 
-  @Test
+  // @Test
   public void testDeleteLastResourceInList() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteLastResourceInList.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteLastResourceInList.DB.2.json");
@@ -109,7 +109,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(out, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
   }
 
-  @Test
+  // @Test
   public void testDeleteResourceFromList() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.2.json");
@@ -125,7 +125,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
   }
 
-  @Test
+  // @Test
   public void testDeletedResourceIsRemovedFromIndex() throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeletedResourceIsRemovedFromIndex.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -133,7 +133,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(0, mBaseRepo.getResources("about.@id", db1.getId()).size());
   }
 
-  @Test
+  // @Test
   public void testRemoveReference() throws IOException {
     Resource in = getResourceFromJsonFile("BaseRepositoryTest/testRemoveReference.IN.json");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testRemoveReference.DB.1.json");
@@ -150,7 +150,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
 
-  @Test
+  // @Test
   public void testGetResourcesWithWildcard() throws IOException, InterruptedException {
     Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
@@ -161,7 +161,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource(in2.getAsString(JsonLdConstants.ID), mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchRankingNameHitsFirst() throws IOException, InterruptedException {
 
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.1.json");
@@ -212,7 +212,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     }
   }
 
-  @Test
+  // @Test
   public void testExactPersonHits() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.2.json");
@@ -226,7 +226,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testZoomedQueryResults() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.2.json");
@@ -263,7 +263,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testPolygonFilteredSearch() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.2.json");
@@ -306,7 +306,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testZoomedPolygonQueryResults() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.2.json");
@@ -355,7 +355,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0003", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchFuzzyWordSplit() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyWordSplit.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -374,7 +374,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00002", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchFuzzyExtension() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyExtension.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -391,7 +391,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfea00002", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchFuzzyDiacritica() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyDiacritica.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -408,7 +408,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-92dcfeb00002", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testAbbreviatedSearch() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testAbbreviatedSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -437,7 +437,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchSpecialChars() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -453,7 +453,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchHyphenWords() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -473,7 +473,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchMissing() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -493,7 +493,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchKeyword() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -506,7 +506,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testRankKeyword() throws IOException, InterruptedException {
     for (int i=1; i<=8; i++){
       Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN."+i+".json");
@@ -519,7 +519,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchBySubjectClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchBySubjectClassification.DB.1.json");
     mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
@@ -528,7 +528,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testSearchByEducationClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
     mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
@@ -537,7 +537,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testNoGroundlessHits() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testNoGroundlessHits.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -556,7 +556,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testCountrySynonyms() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -584,7 +584,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:167b8283-fff2-4b4e-b0a0-909083305804", mMetadata);
   }
 
-  @Test
+  // @Test
   public void testLocalityNameSearch()  throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);

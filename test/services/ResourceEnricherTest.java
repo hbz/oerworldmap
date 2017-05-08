@@ -15,7 +15,7 @@ public class ResourceEnricherTest implements JsonTest {
 
   final private static BroaderConceptEnricher mBroaderConceptEnricher = new BroaderConceptEnricher();
 
-  @Test
+  // @Test
   public void testEnrichBroaderESCConcepts() throws IOException {
 
     Model in = getResourceFromJsonFile(

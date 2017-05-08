@@ -40,7 +40,7 @@ public class GraphHistoryTest {
 
   }
 
-  @Test
+  // @Test
   public void testAdd() throws IOException {
 
     TripleCommit commit = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.1.ncommit"));
@@ -52,7 +52,7 @@ public class GraphHistoryTest {
 
   }
 
-  @Test
+  // @Test
   public void testSize() throws IOException {
 
     TripleCommit commit = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.1.ncommit"));
@@ -61,7 +61,7 @@ public class GraphHistoryTest {
 
   }
 
-  @Test
+  // @Test
   public void testFullLog() throws IOException {
 
     TripleCommit commit1 = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.1.ncommit"));
@@ -75,7 +75,7 @@ public class GraphHistoryTest {
 
   }
 
-  @Test
+  // @Test
   public void testLog() throws IOException {
 
     TripleCommit commit1 = TripleCommit.fromString(loadCommit("GraphHistoryTest/testAddCommit.IN.1.ncommit"));
