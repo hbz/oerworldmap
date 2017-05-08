@@ -10,8 +10,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,6 +26,20 @@ public class CalendarImporterTest implements JsonTest{
   public static void setupResources() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
     mMapzenApiKey = mConfig.getString("mapzen.apikey");
+
+    System.out.println("===== ENV VARIABLES =====");
+    dumpVars(System.getenv());
+
+    System.out.println("===== PROPERTIES =====");
+    dumpVars(new HashMap(System.getProperties()));
+  }
+
+  private static void dumpVars(Map<String, ?> m) {
+    List<String> keys = new ArrayList<String>(m.keySet());
+    Collections.sort(keys);
+    for (String k : keys) {
+      System.out.println(k + " : " + m.get(k));
+    }
   }
 
   @Test

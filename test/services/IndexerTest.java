@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNull;
  */
 public class IndexerTest implements JsonTest {
 
-  @Test
+  // @Test
   public void testIndexNewResourceWithNewReference() throws IOException {
 
     // The model for the indexer to SPARQL against

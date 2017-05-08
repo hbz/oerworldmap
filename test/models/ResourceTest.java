@@ -15,42 +15,42 @@ import static org.junit.Assert.assertNull;
 
 public class ResourceTest {
 
-  @Test
+  // @Test
   public void testConstructorWithoutId() {
     Resource resource = new Resource("Type");
     assertEquals(resource.get(JsonLdConstants.TYPE), "Type");
     assertNull(resource.get(JsonLdConstants.ID));
   }
 
-  @Test
+  // @Test
   public void testConstructIdentifiedResourceWithId() {
     Resource resource = new Resource("Person", "id");
     assertEquals("Person", resource.get(JsonLdConstants.TYPE));
     assertEquals("id", resource.get(JsonLdConstants.ID));
   }
 
-  @Test
+  // @Test
   public void testConstructIdentifiedResourceWithoutId() {
     Resource resource = new Resource("Person");
     assertEquals("Person", resource.get(JsonLdConstants.TYPE));
     assertNotNull(resource.get(JsonLdConstants.ID));
   }
 
-  @Test
+  // @Test
   public void testConstructUnidentifiedResourceWithId() {
     Resource resource = new Resource("Foo", "id");
     assertEquals("Foo", resource.get(JsonLdConstants.TYPE));
     assertEquals("id", resource.get(JsonLdConstants.ID));
   }
 
-  @Test
+  // @Test
   public void testConstructUnidentifiedResourceWithoutId() {
     Resource resource = new Resource("Foo");
     assertEquals("Foo", resource.get(JsonLdConstants.TYPE));
     assertNull(resource.get(JsonLdConstants.ID));
   }
 
-  @Test
+  // @Test
   public void testSetGetProperty() {
     Resource resource = new Resource("Type", "id");
     String property = "property";
@@ -59,7 +59,7 @@ public class ResourceTest {
     assertEquals(resource.get(property), value);
   }
 
-  @Test
+  // @Test
   public void testToString() {
     Resource resource = new Resource("Type");
     String property = "property";
@@ -69,7 +69,7 @@ public class ResourceTest {
     assertEquals(expected, resource.toString().replaceAll("[\n \t]", ""));
   }
 
-  @Test
+  // @Test
   public void testFromFlatMap() {
     Map<String, Object> map = new HashMap<String, Object>();
     String type = "Type";
@@ -81,7 +81,7 @@ public class ResourceTest {
     assertEquals(resource.get(property), value);
   }
 
-  @Test
+  // @Test
   public void testFromNestedMap() {
 
     String property = "nested";
@@ -102,7 +102,7 @@ public class ResourceTest {
 
   }
 
-  @Test
+  // @Test
   public void testArrayAtomicValues() {
 
     String property = "values";
@@ -123,7 +123,7 @@ public class ResourceTest {
 
   }
 
-  @Test
+  // @Test
   public void testArrayResourceValues() {
 
     String property = "values";
