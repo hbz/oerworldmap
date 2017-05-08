@@ -62,6 +62,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
   }
 
   // @Test
+  @Test
   public void testUniqueFields() throws IOException {
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");

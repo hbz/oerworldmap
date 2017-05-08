@@ -12,37 +12,46 @@
     </div>
 
 
+    <div class="hidden-mobile">
 
-    <h2>Currently on the Map</h2>
+        <h2>Currently on the Map</h2>
 
-    {{#scope.typeAggregation.[about.@type]}}
+        {{#scope.typeAggregation.[about.@type]}}
 
-        <table class="numbers-table">
-            <tr>
-                {{#buckets}}
+            <table class="numbers-table">
+                <tr>
+                    {{#buckets}}
 
-                    <td>
-                        <a href="/resource/?filter.about.@type={{key}}">
-                            {{getIcon key}}<br/>
-                            <span class="name">{{i18n key}}</span><br/>
-                            <span class="count">{{doc_count}}</span>
-                        </a>
-                    </td>
+                        <td>
+                            <a href="/resource/?filter.about.@type={{key}}">
+                                {{getIcon key}}<br/>
+                                <span class="name">{{i18n key}}</span><br/>
+                                <span class="count">{{doc_count}}</span>
+                            </a>
+                        </td>
 
-                {{/buckets}}
-            </tr>
-        </table>
+                    {{/buckets}}
+                </tr>
+            </table>
 
-    {{/scope.typeAggregation.[about.@type]}}
+        {{/scope.typeAggregation.[about.@type]}}
 
-    <p>
-        <a href="/aggregation/">More Statistics</a>&ensp;–&ensp;<a href="/feed/">Recent Additions</a>
-    </p>
-
-    <h2>Announcement</h2>
-    <div class="lead">
         <p>
-            Please contribute to a better understanding of the OER movement and take part in the <a href="http://fluidsurveys.com/s/rcoer-stakeholdersurvey/">OER stakeholder survey</a> from <a href="http://www.col.org/">Commonwealth of Learning (COL)</a>. For more information on the survey visit <a href="http://rcoer.col.org/">OER Regional Consultations</a>.
+            <a href="/aggregation/">More Statistics</a>&ensp;–&ensp;<a href="/feed/">Recent Additions</a>
+        </p>
+
+    </div>
+
+    <div class="visible-mobile" style="margin-top: 20px;">
+        <button type="button" class="btn" data-app="close-notification">
+            Enter the map
+        </button>
+    </div>
+
+    <div class="lead" style="margin-top: 20px;">
+        <h2>Announcement</h2>
+        <p>
+            Please take a moment to complete our <a href="https://www.surveymonkey.co.uk/r/OERWM2017" target="_blank">user evaluation survey</a>. Thank you!
         </p>
     </div>
 

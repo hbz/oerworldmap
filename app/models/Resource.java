@@ -439,4 +439,56 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
   }
 
+  /**
+   * Counts the number of subfields matching the argument string.
+   * A simple wildcard ("*") defines 1 level of arbitrary path specifiers.
+   * A double wildcard ("**") defines 0-n levels of arbitrary path specifiers.
+   * Wildcard string combinations ("*xyz" or "xyz*" etc.) are not supported so far.
+   * Arrays can not be specified by position
+   * @param aSubfieldPath Specifier for the subfields to be counted.
+   * @return The number of specified subfields.
+   */
+  public Integer getNumberOfSubFields(String aSubfieldPath) {
+    String[] pathElements = aSubfieldPath.split("\\.");
+    return getNumberOfSubFields(pathElements);
+  }
+
+  private Integer getNumberOfSubFields(String[] aPathElements) {
+    int count = 0;
+    if (aPathElements.length == 0){
+      return count;
+    }
+    String matchElement = null;
+    String pathElement = aPathElements[0];
+    String[] remainingElements;
+    if (pathElement.equals("**")){
+      remainingElements = aPathElements;
+      if (aPathElements.length < 3){
+        matchElement = remainingElements[remainingElements.length-1];
+      }
+    }
+    else{
+      remainingElements = Arrays.copyOfRange(aPathElements, 1, aPathElements.length);
+      if (remainingElements.length == 0){
+        matchElement = pathElement;
+      }
+    }
+    for (Entry<String, Object> entry : entrySet()) {
+      if (entry.getValue() instanceof Resource){
+        Resource innerResource = ((Resource) entry.getValue());
+        count += innerResource.getNumberOfSubFields(remainingElements);
+      } //
+      else if (entry.getValue() instanceof List<?>) {
+        for (Object innerObject : (List<?>) entry.getValue()) {
+          if (innerObject instanceof Resource){
+            count += ((Resource)innerObject).getNumberOfSubFields(remainingElements);
+          }
+        }
+      }
+      if (entry.getKey().equals(matchElement) || matchElement.equals("**")){
+        count++;
+      }
+    }
+    return count;
+  }
 }

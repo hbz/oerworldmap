@@ -16,12 +16,14 @@ var Hijax = (function ($, Hijax, page) {
 
   var state = {
     scope : 'world',
-    highlights : []
+    highlights : [],
+    mobileActiveCol : 'map'
   };
 
   function setScope(scope) {
     log.debug('APP setScope:', scope);
     state.scope = scope;
+    $('#app').attr('data-scope', scope);
     Hijax.behaviours.map.setScope(state.scope);
   }
 
@@ -29,6 +31,17 @@ var Hijax = (function ($, Hijax, page) {
     log.debug('APP setHighlights:', highlights);
     state.highlights = highlights;
     Hijax.behaviours.map.setHighlights(state.highlights);
+  }
+
+  function setMobileActiveCol(col) {
+    state.mobileActiveCol = col;
+    $('#app').attr('data-mobile-active-col', col);
+    setTimeout(function(){
+      var new_icon = $('#app-col-detail .topline .fa').clone()
+      if(new_icon.length) {
+        $('#app-col-switch [href="#app-col-detail"] .fa').replaceWith(new_icon);
+      }
+    }, 1000);
   }
 
   $.each(static_pages, function() {
@@ -102,6 +115,14 @@ var Hijax = (function ($, Hijax, page) {
   function set_col_mode(col, mode) {
     $('#app-col-' + col).attr('data-col-mode', mode);
     $('#app').attr('data-col-' + col + '-mode', mode);
+
+    if(col == 'index' && mode == 'floating') {
+      setMobileActiveCol('map');
+    } else if(col == 'index' && mode == 'list') {
+      setMobileActiveCol('index');
+    } else if(col == 'detail' && mode == 'expanded') {
+      setMobileActiveCol('detail');
+    }
   }
 
   function set_map_and_index_source(url, index_mode) {
@@ -262,6 +283,7 @@ var Hijax = (function ($, Hijax, page) {
     if(pagejs_ctx.hash) {
       setHighlights([pagejs_ctx.hash]);
       set_detail_source('/resource/' + pagejs_ctx.hash);
+      setMobileActiveCol('detail');
       if(app_history.length == 1) {
         Hijax.behaviours.map.scheduleViewChange('country');
       }
@@ -416,6 +438,15 @@ var Hijax = (function ($, Hijax, page) {
           page(window.location.pathname + window.location.search);
         }
         Hijax.layout('triggered by column toggle');
+      });
+
+      // bind col switch
+
+      $('#app', context).on('click', '#app-col-switch a', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var col = this.href.split('-').pop();
+        setMobileActiveCol(col);
       });
 
       // catch links to fragments

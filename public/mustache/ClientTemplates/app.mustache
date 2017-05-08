@@ -1,6 +1,16 @@
-<div id="app" class="loading">
+<div id="app" class="loading" data-mobile-active-col="map">
 
     {{{header}}}
+
+    <div id="app-col-switch" class="visible-mobile">
+        <nav>
+            <ul>
+                <li><a href="#app-col-map"><i class="fa fa-globe"></i></a></li>
+                <li><a href="#app-col-index"><i class="fa fa-list"></i></a></li>
+                <li><a href="#app-col-detail"><i class="fa fa-circle-o"></i></a></li>
+            </ul>
+        </nav>
+    </div>
 
     <div id="app-col-container">
 
@@ -9,7 +19,7 @@
 
                 <div class="visible-area">
 
-                    <nav class="nav nav-map{{#if embed}} hidden{{/if}}">
+                    <nav class="nav nav-map hidden-mobile {{#if embed}}hidden{{/if}}">
                         <ul>
 
                             {{#if permissions.administer}}
@@ -59,6 +69,10 @@
 
                         </ul>
                     </nav>
+
+                    <div class="visible-mobile logo">
+                        <h1><a href="/" {{#if @root.embed}}target="_blank"{{/if}}>OER <i class="fa fa-globe"></i> MAP</a></h1>
+                    </div>
 
                     {{{footer}}}
 
