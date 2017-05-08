@@ -15,6 +15,7 @@ public class Record extends Resource {
   public static final String DATE_MODIFIED = "dateModified";
   public static final String AUTHOR = "author";
   public static final String CONTRIBUTOR = "contributor";
+  public static final String LINK_COUNT = "link_count";
 
   public Record(Resource aResource) {
     super(TYPE, aResource.get(JsonLdConstants.ID) + "." + RESOURCE_KEY);

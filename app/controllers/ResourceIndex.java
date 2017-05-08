@@ -323,8 +323,7 @@ public class ResourceIndex extends OERWorldMap {
 
 
   public Result read(String id, String version, String extension) throws IOException {
-    Resource resource;
-    resource = mBaseRepository.getResource(id, version);
+    Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
