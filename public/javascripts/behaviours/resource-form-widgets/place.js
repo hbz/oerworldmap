@@ -187,7 +187,7 @@ var Hijax = (function ($, Hijax) {
             display: 'label',
             source: debounce(function(q, sync, async) {
               if (q !== '') {
-                $.get('https://search.mapzen.com/v1/autocomplete?api_key=search-2bvcBc8&text=' + q, function(data) {
+                $.get('https://search.mapzen.com/v1/autocomplete?api_key=' + @root.configuration.getString("mapzen.apikey") + '&text=' + q, function(data) {
                   var results = [];
                   for (var i = 0; i < data.features.length; i++) {
                     results.push({
