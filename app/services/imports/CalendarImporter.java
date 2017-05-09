@@ -52,7 +52,7 @@ public class CalendarImporter implements Importer{
     return importFromUrl(aUrl, aLanguage, mapzenApiKey);
   }
 
-  public static List<Resource> importFromUrl(String aUrl, String aLanguage, String aApiKey) throws IOException {
+  private static List<Resource> importFromUrl(String aUrl, String aLanguage, String aApiKey) throws IOException {
     PythonInterpreter.initialize(System.getProperties(), System.getProperties(), new String[0]);
     PythonInterpreter interpreter = new PythonInterpreter();
     interpreter.exec("import sys");
