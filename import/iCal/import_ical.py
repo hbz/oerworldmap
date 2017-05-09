@@ -241,14 +241,15 @@ def import_ical(url, language, api_key):
 
 
 def main():
+    global import_list
     if len(sys.argv) != 6:
         print 'Usage: python -m import.iCal.import_ical <path>/<to>/import_ical.py <import_url> <language> <path>/<to>/<destination_file.json> <mapzen-api-key>'
         print 'Please provide the iCal event language as ISO 3166 ALPHA 2 country code.'
         return
-    return import_ical(sys.argv[2], sys.argv[3], sys.argv[5])
+    import_list = import_ical(sys.argv[2], sys.argv[3], sys.argv[5])
+    write_list_into_file(import_list, sys.argv[4])
+    # print "Events: " + `import_list`
 
 
 if __name__ == "__main__":
-    import_list = main()
-    write_list_into_file(import_list, sys.argv[4])
-    # print "Events: " + `import_list`
+    main()
