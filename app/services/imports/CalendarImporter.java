@@ -2,6 +2,7 @@ package services.imports;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
 import models.Resource;
 import org.python.core.PyObject;
 import org.python.core.PyString;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 
 public class CalendarImporter implements Importer{
+
+  final private Config mConfig;
 
   final private static String PATH_TO_PYTHON_LIBRARY;
   final private static String PATH_TO_PYTHON_IMPORTER;
@@ -39,10 +42,13 @@ public class CalendarImporter implements Importer{
       .concat(SEP).concat(NAME_OF_PYTHON_IMPORTER);
   }
 
+  public CalendarImporter(final Config aConfig){
+    mConfig = aConfig;
+  }
+
   @Override
   public List<Resource> importFromUrl(String aUrl, String aLanguage) throws IOException {
-    // TODO: how to get or determine mapzenApiKey ?
-    String mapzenApiKey = "";
+    String mapzenApiKey = mConfig.getString("mapzen.apikey");
     return importFromUrl(aUrl, aLanguage, mapzenApiKey);
   }
 
