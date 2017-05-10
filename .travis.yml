@@ -14,6 +14,7 @@ before_install:
   - $HOME/elasticsearch-2.4.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
 install:
   - npm install
+  - npm install node-python
 before_script:
   - cp conf/travis.conf conf/test.conf
   - touch /tmp/htprofiles
