@@ -531,9 +531,31 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public Result likeResource(String aId) {
+  public Result likeResource(String aId) throws IOException {
 
-    return internalServerError("Method not implemented");
+    Resource object = mBaseRepository.getResource(aId);
+    Resource agent = getUser();
+
+    if (object == null || agent == null) {
+      return badRequest("Object or agent missing");
+    }
+
+    String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+      agent.getId(), object.getId());
+
+    if (mBaseRepository.query(likesQuery, 0, 1, null, null).getItems().size() > 0) {
+      return badRequest("Duplicate like action");
+    }
+
+    Resource likeAction = new Resource("LikeAction");
+    likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+    likeAction.put("agent", agent);
+    likeAction.put("object", object);
+    likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+    mBaseRepository.addResource(likeAction, getMetadata());
+
+    return seeOther("/resource/" + aId);
 
   }
 
