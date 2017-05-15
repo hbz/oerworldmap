@@ -10,7 +10,11 @@
                     <li>
                         <form action="/resource/{{[@id]}}/like" method="post">
                             <button type="submit" class="icon-btn" title="Like">
-                                <i class="fa fa-star-o"></i>
+                                {{#if scope.userLikesResource}}
+                                    <i class="fa fa-star"></i> ({{scope.likes}})
+                                {{else}}
+                                    <i class="fa fa-star-o"></i> ({{scope.likes}})
+                                {{/if}}
                             </button>
                         </form>
                     </li>

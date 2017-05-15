@@ -323,6 +323,9 @@ public class ResourceIndex extends OERWorldMap {
 
 
   public Result read(String id, String version, String extension) throws IOException {
+
+    Resource currentUser = getUser();
+
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
@@ -363,6 +366,21 @@ public class ResourceIndex extends OERWorldMap {
       comments.add(mBaseRepository.getResource(commentId));
     }
 
+    String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
+    List<Resource> likes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems();
+    int likesCount = likes.size();
+
+    boolean userLikesResource = false;
+    if (currentUser != null) {
+      String userLikesQuery = String.format(
+        "about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
+        .getItems().size() > 0;
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -370,16 +388,16 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
+    boolean mayEdit = (currentUser != null) && ((resource.getType().equals("Person") && currentUser.getId().equals(id))
         || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+    boolean mayLog = (currentUser != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
-    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
+    boolean mayAdminister = (currentUser != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLike = (getUser() != null) && (!resource.getType().equals("Person"));
+    boolean mayLike = (currentUser != null) && (!resource.getType().equals("Person"));
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -417,6 +435,8 @@ public class ResourceIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     scope.put("comments", comments);
+    scope.put("likes", likesCount);
+    scope.put("userLikesResource", userLikesResource);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 
@@ -543,17 +563,21 @@ public class ResourceIndex extends OERWorldMap {
     String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
       agent.getId(), object.getId());
 
-    if (mBaseRepository.query(likesQuery, 0, 1, null, null).getItems().size() > 0) {
-      return badRequest("Duplicate like action");
+    List<Resource> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems();
+
+    if (existingLikes.size() > 0) {
+      for (Resource like : existingLikes) {
+        mBaseRepository.deleteResource(like.getAsResource(Record.RESOURCE_KEY).getId(), getMetadata());
+      }
+    } else {
+      Resource likeAction = new Resource("LikeAction");
+      likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+      likeAction.put("agent", agent);
+      likeAction.put("object", object);
+      likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+      mBaseRepository.addResource(likeAction, getMetadata());
     }
-
-    Resource likeAction = new Resource("LikeAction");
-    likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-    likeAction.put("agent", agent);
-    likeAction.put("object", object);
-    likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-
-    mBaseRepository.addResource(likeAction, getMetadata());
 
     return seeOther("/resource/" + aId);
 
