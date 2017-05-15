@@ -20,6 +20,7 @@ GET     /resource/:id               controllers.ResourceIndex.readDefault(id: St
 POST    /resource/                  controllers.ResourceIndex.addResource()
 POST    /resource/:id               controllers.ResourceIndex.updateResource(id: String)
 POST    /resource/:id/comment       controllers.ResourceIndex.commentResource(id: String)
+POST    /resource/:id/like          controllers.ResourceIndex.likeResource(id: String)
 POST    /import/                    controllers.ResourceIndex.importResources()
 DELETE  /resource/:id               controllers.ResourceIndex.delete(id: String)
 GET     /aggregation/               controllers.AggregationIndex.list()

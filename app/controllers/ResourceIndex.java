@@ -379,6 +379,7 @@ public class ResourceIndex extends OERWorldMap {
     boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
     boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLike = (getUser() != null) && (!resource.getType().equals("Person"));
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -386,6 +387,7 @@ public class ResourceIndex extends OERWorldMap {
     permissions.put("administer", mayAdminister);
     permissions.put("comment", mayComment);
     permissions.put("delete", mayDelete);
+    permissions.put("like", mayLike);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
@@ -526,6 +528,12 @@ public class ResourceIndex extends OERWorldMap {
     mBaseRepository.commit(commit);
 
     return seeOther("/resource/" + aId);
+
+  }
+
+  public Result likeResource(String aId) {
+
+    return internalServerError("Method not implemented");
 
   }
 
