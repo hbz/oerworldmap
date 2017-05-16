@@ -1535,7 +1535,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Event" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service" ] } } }
           ]
         },
         "startTime": {
