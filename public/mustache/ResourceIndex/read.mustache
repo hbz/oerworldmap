@@ -701,6 +701,21 @@
                         </tr>
                     {{/if}}
 
+                    {{! --- }}
+
+                    {{#if object}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.object" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#object}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/object}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                 </table>
 
             </article>
