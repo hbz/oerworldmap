@@ -397,7 +397,7 @@ public class ResourceIndex extends OERWorldMap {
     boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
     boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLike = (currentUser != null) && (!resource.getType().equals("Person"));
+    boolean mayLike = (currentUser != null) && Arrays.asList("Organization", "Action", "Service").contains(resource.getType());
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
