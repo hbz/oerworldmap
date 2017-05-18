@@ -121,7 +121,7 @@ We are committed to publishing content, which is dedicated to the Public Domain.
 If you are providing content to OER World Map, we ask for content to be provided under the condition that you can assure anybody using the content, that the person who associated a work with this deed has dedicated the work to the public domain. 
 This may be achieved by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. 
 
-Anybody copy, modify, distribute and perform the work, even for commercial purposes, all without asking for permission. See Other Information below. 	
+Anybody may copy, modify, distribute and perform the work, even for commercial purposes, all without asking for permission. See Other Information below.
 
 **Other Information**
 
