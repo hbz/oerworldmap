@@ -110,7 +110,7 @@ Via this website you can also register for a newsletter which we maintain. In th
 - You can, of course, unsubscribe from the newsletter at any time via e-mail to oerworldmap-news-leave@listen.hbz-nrw.de, or by following the instructions provided at the bottom of each newsletter. After unsubscribing, your e-mail address will be removed from the system.
 - You will receive a first e-mail that requires you to confirm your subscription. We do this to avoid people registering other people and spelling errors. The system will await a confirmation for two weeks, during which the e-mail address is temporarily stored, after this period the e-mail address will permanently be removed from our system.
 
-<h2 id="copyright>4. Copyright</h2>
+<h2 id="copyright">4. Copyright</h2>
 
 OER World Map is a platform for sharing and publishing information on Open Educational Resources and Open Education. 
 
