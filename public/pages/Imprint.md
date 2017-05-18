@@ -29,9 +29,9 @@ Die Betreiber übernehmen keine Verantwortung für die Inhalte und Links, die wi
 OER World Map is a collection of free services by the Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz), Jülicher Str. 6, 50674 Köln, Germany. OER World Map is committed to privacy by design and complies with German data protection legislation.
 OER World Map allows you to
 
-- access its content (1.), where we also do some analytics include external service providers,
-- register as a member of our community, so you can publish information on the OER World Map (2.)
-- register for our newsletter (3.)
+- access its content (i.), where we also do some analytics include external service providers,
+- register as a member of our community, so you can publish information on the OER World Map (ii.)
+- register for our newsletter (iii.)
 Depending on your use of the OER World Map different sets of data may be stored, as is described below.
 
 
@@ -140,4 +140,4 @@ In some cases, a different license may be applied. In those cases we ask to ensu
 
 <h2 id="versions">5. Versions</h2>
 
-This is the second version of our Privacy Policy and Terms of service (version 2.0) as of May 2nd 2017. The previous version (1.0) can be found [here](https://github.com/hbz/oerworldmap/blob/446369a86a846347bdc1f338b6ed5324027e5c52/public/pages/Imprint.md).
+This is the third version of our Privacy Policy and Terms of service (version 3.0) as of May 2nd 2017. The previous versions  can be found [here](https://github.com/hbz/oerworldmap/blob/446369a86a846347bdc1f338b6ed5324027e5c52/public/pages/Imprint.md) (2.0) and [here](https://github.com/hbz/oerworldmap/blob/e14aa22df3ebecd6f659f63e0f5e3e991a3aef8e/public/pages/Imprint.md) (1.0).
