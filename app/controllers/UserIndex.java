@@ -5,7 +5,10 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
+import models.Commit;
+import models.GraphHistory;
 import models.Resource;
+import models.TripleCommit;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -19,6 +22,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.ResourceFactory;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -31,6 +36,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.MessageFormat;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,11 +50,14 @@ import java.util.stream.StreamSupport;
 public class UserIndex extends OERWorldMap {
 
   private File mProfiles;
+  private GraphHistory mConsents;
 
   @Inject
   public UserIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
     mProfiles = new File(mConf.getString("user.profile.dir"));
+    mConsents = new GraphHistory(new File(mConf.getString("consents.history.dir")),
+      new File(mConf.getString("consents.history.file")));
   }
 
   public Result signup() {
@@ -103,9 +112,10 @@ public class UserIndex extends OERWorldMap {
       } else {
         user.put("add-email", emailToProfile);
         try {
+          logConsents(username, request().remoteAddress());
           saveProfile(token, user);
         } catch (IOException e) {
-          Logger.error("Could not save profile", e);
+          Logger.error("Failed to create profile", e);
           return badRequest("An error occurred");
         }
         sendMail(username, MessageFormat.format(getEmails().getString("account.verify.message"),
@@ -346,6 +356,20 @@ public class UserIndex extends OERWorldMap {
     }
 
     return true;
+
+  }
+
+  private void logConsents(String aEmailAddress, String aIp) throws IOException {
+
+    TripleCommit.Header header = new TripleCommit.Header(aIp, ZonedDateTime.now());
+    TripleCommit.Diff diff = new TripleCommit.Diff();
+    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress);
+    Property predicate = ResourceFactory.createProperty("info:accepted");
+    diff.addStatement(ResourceFactory.createStatement(subject, predicate,
+      ResourceFactory.createPlainLiteral("Terms Of Service")));
+    diff.addStatement(ResourceFactory.createStatement(subject, predicate,
+      ResourceFactory.createPlainLiteral("Privacy policy")));
+    mConsents.add(new TripleCommit(header, diff));
 
   }
 
