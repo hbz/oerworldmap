@@ -372,8 +372,17 @@
         bottom: 15px;
         right: 16px;
         color: white;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         a {
           color: white;
+        }
+
+        @media screen and (max-width: 650px) {
+          li {
+            float: none;
+            text-align: right;
+            margin-top: 10px;
+          }
         }
       }
     }
