@@ -39,10 +39,6 @@
 
             <h2>Register</h2>
 
-            <p>
-                No account yet? Leave you email address and choose a password to setup your profile on the OER World Map.
-            </p>
-
             <div class="messages alert alert-danger"></div>
 
             <input type="hidden" name="@type" value="Person">
@@ -65,9 +61,6 @@
             <div class="form-group">
                 <label class="sr-only" for="register-email">Email address</label>
                 <input type="email" name="email" class="form-control" required id="register-email" placeholder="{{i18n "placeholder_email"}}">
-                <label style="float: left">
-                    <input type="checkbox" name="add-email" id="add-email"> Add email address to public profile
-                </label>
             </div>
 
             <div class="form-group">
@@ -78,6 +71,30 @@
             <div class="form-group">
                 <label class="sr-only" for="register-password-confirm">Repeat Password</label>
                 <input type="password" name="password-confirm" class="form-control" required id="register-password-confirm" placeholder="Repeat Password ...">
+            </div>
+
+            <div class="checkbox text-left">
+                <label>
+                    <input type="checkbox" name="privacy-policy-accepted" id="privacy-policy-accepted">  By registering, I agree to the terms of the <a href="/imprint" target="_blank">privacy policy</a>. I specifically agree to publish the information I provide, except for my password, which will be stored securely. Your activities within OER World Map will also be stored and processed for the purpose of improving the service as well as to prove your consent to specific activities.&#42;
+                </label>
+            </div>
+
+            <div class="checkbox text-left">
+                <label>
+                    <input type="checkbox" name="terms-of-service-accepted" id="terms-of-service-accepted">  I also agree to the <a href="/imprint" target="_blank">Terms of the service</a>. Especially, I will ensure, that no rights of others are violated by me publishing information through OER World Map. This includes the privacy and copyrights of others.&#42;
+                </label>
+            </div>
+
+            <div class="checkbox text-left">
+                <label>
+                    <input type="checkbox" name="add-email" id="add-email">  I agree to having my email-address published as part of my profile
+                </label>
+            </div>
+
+            <div class="checkbox text-left">
+                <label>
+                    <input type="checkbox" name="register-newsletter" id="register-newsletter">  I want to subscribe to the OER World Map Newsletter
+                </label>
             </div>
 
             <button type="submit" class="btn btn-default">Register</button>
