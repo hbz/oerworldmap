@@ -5,7 +5,10 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
+import models.Commit;
+import models.GraphHistory;
 import models.Resource;
+import models.TripleCommit;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -19,6 +22,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.ResourceFactory;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -31,6 +36,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.MessageFormat;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,11 +50,14 @@ import java.util.stream.StreamSupport;
 public class UserIndex extends OERWorldMap {
 
   private File mProfiles;
+  private GraphHistory mConsents;
 
   @Inject
   public UserIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
     mProfiles = new File(mConf.getString("user.profile.dir"));
+    mConsents = new GraphHistory(new File(mConf.getString("consents.history.dir")),
+      new File(mConf.getString("consents.history.file")));
   }
 
   public Result signup() {
@@ -67,11 +76,18 @@ public class UserIndex extends OERWorldMap {
     String username = user.getAsString("email");
     String password = user.getAsString("password");
     String confirm = user.getAsString("password-confirm");
+
+    boolean privacyPolicyAccepted = user.getAsString("privacy-policy-accepted") != null;
+    boolean termsOfServiceAccepted = user.getAsString("terms-of-service-accepted") != null;
     boolean emailToProfile = user.getAsString("add-email") != null;
+    boolean registerNewsletter = user.getAsString("register-newsletter") != null;
 
     user.remove("password");
     user.remove("password-confirm");
+    user.remove("privacy-policy-accepted");
+    user.remove("terms-of-service-accepted");
     user.remove("add-email");
+    user.remove("register-newsletter");
 
     ProcessingReport processingReport = user.validate();
 
@@ -85,6 +101,8 @@ public class UserIndex extends OERWorldMap {
       result = badRequest("Passwords must match.");
     } else if (password.length() < 8) {
       result = badRequest("Password must be at least 8 characters long.");
+    } else if (!privacyPolicyAccepted || !termsOfServiceAccepted) {
+      result = badRequest("Please accept our privacy policy and the terms of service.");
     } else if (!processingReport.isSuccess()) {
       result = badRequest(processingReport.toString());
     } else {
@@ -94,9 +112,10 @@ public class UserIndex extends OERWorldMap {
       } else {
         user.put("add-email", emailToProfile);
         try {
+          logConsents(username, request().remoteAddress());
           saveProfile(token, user);
         } catch (IOException e) {
-          Logger.error("Could not save profile", e);
+          Logger.error("Failed to create profile", e);
           return badRequest("An error occurred");
         }
         sendMail(username, MessageFormat.format(getEmails().getString("account.verify.message"),
@@ -104,6 +123,9 @@ public class UserIndex extends OERWorldMap {
             getEmails().getString("account.verify.subject"));
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
+        if (registerNewsletter && !registerNewsletter(username)) {
+          Logger.error("Error registering newsletter for " + username);
+        }
         result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
       }
     }
@@ -202,39 +224,15 @@ public class UserIndex extends OERWorldMap {
       return badRequest("Please provide a valid email address and select a country.");
     }
 
-    String username = user.getAsString("email");
+    String email = user.getAsString("email");
 
-    if (StringUtils.isEmpty(username)) {
+    if (StringUtils.isEmpty(email)) {
       return badRequest("Not username given.");
     }
 
-    String mailmanHost = mConf.getString("mailman.host");
-    String mailmanList = mConf.getString("mailman.list");
-    if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
-      Logger.warn("No mailman configured, user ".concat(username)
-        .concat(" not signed up for newsletter"));
-      return internalServerError("Newsletter currently not available.");
-    }
-
-    HttpClient client = new DefaultHttpClient();
-    HttpPost request = new HttpPost("https://" + mailmanHost + "/mailman/subscribe/" + mailmanList);
-    try {
-      List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-      nameValuePairs.add(new BasicNameValuePair("email", user.get("email").toString()));
-      request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-      HttpResponse response = client.execute(request);
-      Integer responseCode = response.getStatusLine().getStatusCode();
-
-      if (!responseCode.equals(200)) {
-        throw new IOException(response.getStatusLine().toString());
-      }
-
-    } catch (IOException e) {
-      Logger.error("Could not connect to mailman", e);
-      return internalServerError();
-    }
-
-    return ok(username + " signed up for newsletter.");
+    return registerNewsletter(email)
+      ? ok(email + " signed up for newsletter.")
+      : internalServerError("Newsletter currently not available.");
 
   }
 
@@ -326,6 +324,52 @@ public class UserIndex extends OERWorldMap {
     mBaseRepository.addResource(person, getMetadata());
     mAccountService.setPermissions(person.getId(), username);
     mAccountService.setProfileId(username, person.getId());
+
+  }
+
+  private boolean registerNewsletter(String aEmailAddress) {
+
+    String mailmanHost = mConf.getString("mailman.host");
+    String mailmanList = mConf.getString("mailman.list");
+    if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
+      Logger.warn("No mailman configured, user ".concat(aEmailAddress)
+        .concat(" not signed up for newsletter"));
+      return false;
+    }
+
+    HttpClient client = new DefaultHttpClient();
+    HttpPost request = new HttpPost("https://" + mailmanHost + "/mailman/subscribe/" + mailmanList);
+    try {
+      List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+      nameValuePairs.add(new BasicNameValuePair("email", aEmailAddress));
+      request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+      HttpResponse response = client.execute(request);
+      Integer responseCode = response.getStatusLine().getStatusCode();
+
+      if (!responseCode.equals(200)) {
+        throw new IOException(response.getStatusLine().toString());
+      }
+
+    } catch (IOException e) {
+      Logger.error("Could not connect to mailman", e);
+      return false;
+    }
+
+    return true;
+
+  }
+
+  private void logConsents(String aEmailAddress, String aIp) throws IOException {
+
+    TripleCommit.Header header = new TripleCommit.Header(aIp, ZonedDateTime.now());
+    TripleCommit.Diff diff = new TripleCommit.Diff();
+    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress);
+    Property predicate = ResourceFactory.createProperty("info:accepted");
+    diff.addStatement(ResourceFactory.createStatement(subject, predicate,
+      ResourceFactory.createPlainLiteral("Terms Of Service")));
+    diff.addStatement(ResourceFactory.createStatement(subject, predicate,
+      ResourceFactory.createPlainLiteral("Privacy policy")));
+    mConsents.add(new TripleCommit(header, diff));
 
   }
 
