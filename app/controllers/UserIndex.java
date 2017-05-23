@@ -13,7 +13,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -32,6 +34,7 @@ import play.mvc.Result;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -118,9 +121,17 @@ public class UserIndex extends OERWorldMap {
           Logger.error("Failed to create profile", e);
           return badRequest("An error occurred");
         }
-        sendMail(username, MessageFormat.format(getEmails().getString("account.verify.message"),
-            mConf.getString("proxy.host").concat(routes.UserIndex.verify(token).url())),
-            getEmails().getString("account.verify.subject"));
+        File termsOfService = new File("public/pdf/Terms_of_Service.pdf");
+        String message;
+        try {
+          message = new String(getEmails().getString("account.verify.message")
+            .getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+          message = getEmails().getString("account.verify.message");
+        }
+        message = MessageFormat.format(message, mConf.getString("proxy.host")
+          .concat(routes.UserIndex.verify(token).url()));
+        sendMail(username, message, getEmails().getString("account.verify.subject"), new File[]{termsOfService});
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
         if (registerNewsletter && !registerNewsletter(username)) {
@@ -196,7 +207,7 @@ public class UserIndex extends OERWorldMap {
         String password = new BigInteger(130, new SecureRandom()).toString(32);
         if (mAccountService.setPassword(username, password)) {
           sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
-              getEmails().getString("account.password.subject"));
+              getEmails().getString("account.password.subject"), null);
           result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
         } else {
           result = badRequest("Failed to reset password.");
@@ -278,9 +289,18 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  private void sendMail(String aEmailAddress, String aMessage, String aSubject) {
-    Email mail = new SimpleEmail();
+  private void sendMail(String aEmailAddress, String aMessage, String aSubject, File[] attachments) {
+
     try {
+      Email mail;
+      if (attachments != null && attachments.length > 0) {
+        mail = new MultiPartEmail();
+        for (File attachment : attachments) {
+          ((MultiPartEmail)mail).attach(attachment);
+        }
+      } else {
+        mail = new SimpleEmail();
+      }
       mail.setMsg(aMessage);
       mail.setHostName(mConf.getString("mail.smtp.host"));
       mail.setSmtpPort(mConf.getInt("mail.smtp.port"));
@@ -300,6 +320,7 @@ public class UserIndex extends OERWorldMap {
     } catch (EmailException e) {
       Logger.error("Failed to send\n" + aMessage + "\nto " + aEmailAddress, e);
     }
+
   }
 
   private void saveProfile(String aToken, Resource aPerson) throws IOException {
