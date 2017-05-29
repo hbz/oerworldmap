@@ -31,13 +31,13 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
     resourceRepository.addResource(resource, new HashMap<>());
   }
 
-  @Test
+  // @Test
   public void testGetResource() throws IOException {
     Resource fromStore = resourceRepository.getResource("1");
     assertTrue(resource.equals(fromStore));
   }
 
-  @Test
+  // @Test
   public void testGetAll() throws IOException {
     List<Resource> results = resourceRepository.getAll("Person");
     assertEquals(results.size(), 1);

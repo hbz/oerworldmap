@@ -14,6 +14,8 @@ data/*/
 !data/profiles/
 repo-deb-build*.*
 .idea/
+import/iCal/*.json
+import/**/*.pyc
 /node_modules/
 /public/css/main.css
 data/permissions/*

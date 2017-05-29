@@ -56,7 +56,7 @@ public class AccountTest {
   }
 
 
-  @Test
+  // @Test
   public void testAddUser() {
 
     String token = mAccountService.addUser(mTestUsername, mTestPassword);
@@ -66,7 +66,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testVerfifyUser() throws IOException {
 
     String entry = mTestUsername.concat(":").concat(mTestPassword);
@@ -78,7 +78,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testUserExists() throws IOException {
 
     String entry = mTestUsername.concat(":").concat(mTestPassword);
@@ -87,7 +87,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testPendingVerification() throws IOException {
 
     File tokenFile = new File(mTokenDir, mTestToken);
@@ -96,7 +96,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void deleteUser() throws IOException {
 
     String entry = mTestUsername.concat(":").concat(mTestPassword);
@@ -106,7 +106,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testValidatePassword() throws IOException {
 
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
@@ -114,7 +114,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testUpdatePassword() throws IOException {
 
     String updated = "foo";
@@ -125,7 +125,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testSetProfileId() throws IOException {
 
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
@@ -134,7 +134,7 @@ public class AccountTest {
 
   }
 
-  @Test
+  // @Test
   public void testGetProfileId() throws IOException {
 
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));

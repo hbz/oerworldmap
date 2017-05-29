@@ -5,7 +5,6 @@ import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import models.Resource;
-import org.junit.Test;
 import play.Configuration;
 import play.mvc.Result;
 
@@ -26,7 +25,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
 
   //FIXME: Authorization is now done by external means, should we test this here and if so, how?
 
-  @Test
+  // @Test
   public void createResourceFromFormUrlEncoded() {
 
     Map<String, String> data = new HashMap<>();
@@ -45,7 +44,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   }
 
 
-  @Test
+  // @Test
   public void createResourceFromJson() {
 
     Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
@@ -55,7 +54,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
 
   }
 
-  @Test
+  // @Test
   public void updateResourceFromJson() {
     Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
     Result createEventResult = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
@@ -74,7 +73,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
 
   }
 
-  @Test
+  // @Test
   public void updateNonexistentResourceFromJson() {
 
     Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
