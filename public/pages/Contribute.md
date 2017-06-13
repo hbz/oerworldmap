@@ -1,7 +1,7 @@
 # Contribute
 ## Raise awareness
 ### Spread the news
-People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities.  We need to build the network together, so please speak to your friends and colleagues or use social media like Facebook or Twitter to reach out more widely (use [#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
+People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities.  We need to build the network together, so please speak to your friends and colleagues or use social media to reach out more widely (use [#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
 
 ### Become a Country Champion
 Developing the OER World Map depends upon collaboration. It will be built best by a network of Country Champions who will have or want to create an overview of the OER movement in their own country.  From their local base they will raise awareness with their connections, gather data and assure its quality. 
@@ -15,7 +15,7 @@ We have much to learn from each other. Please consider sharing a story describin
 - research and new insights on OER
 - development or use of infrastructure tools.
  
-A short text with lessons learned – what worked and what did not – would contribute to understanding of the different ways that OER are created and used. Follow the suggested guidelines and send your story to [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
+A short text with lessons learned – what worked and what did not – would contribute to understanding of the different ways that OER are created and used. Please note that stories will be published under [CC-BY](https://creativecommons.org/licenses/by/4.0/). If you have an OER story which you consider worth sharing, please register yourself and add it to the OER World Map!
 
 ### Translate the web pages
 To become a truly global resource, OER World Map web site pages need to be available in multiple languages.  If you would be able to translate web pages into your native language please let us know at [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
