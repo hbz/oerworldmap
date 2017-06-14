@@ -183,6 +183,9 @@
     "performerIn": {
       "@container": "@set"
     },
+    "primarySector": {
+      "@container": "@set"
+    },
     "provider": {
       "@container": "@set"
     },
@@ -214,6 +217,9 @@
     },
     "url": {
       "@type": "@id"
+    },
+    "secondarySector": {
+      "@container": "@set"
     },
     "serviceUrl": {
       "@type": "@id"
