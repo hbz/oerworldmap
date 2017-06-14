@@ -1,7 +1,11 @@
 package controllers;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.ParserEmulationProfile;
+import com.vladsch.flexmark.util.options.MutableDataHolder;
+import com.vladsch.flexmark.util.options.MutableDataSet;
 import org.apache.commons.io.IOUtils;
-import org.pegdown.PegDownProcessor;
+import com.vladsch.flexmark.parser.Parser;
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
@@ -57,10 +61,13 @@ public class StaticPage extends OERWorldMap {
       }
     }
 
-    PegDownProcessor pegDownProcessor = new PegDownProcessor();
+    MutableDataHolder options = new MutableDataSet();
+    options.setFrom(ParserEmulationProfile.GITHUB_DOC);
+    Parser parser = Parser.builder(options).build();
+    HtmlRenderer renderer = HtmlRenderer.builder().build();
     Map<String, Object> scope = new HashMap<>();
     scope.put("title", title);
-    scope.put("body", pegDownProcessor.markdownToHtml(body));
+    scope.put("body", renderer.render(parser.parse(body)));
     return ok(render(title, "StaticPage/index.mustache", scope));
   }
 
