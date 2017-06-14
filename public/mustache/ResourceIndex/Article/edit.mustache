@@ -26,4 +26,8 @@
 
     {{> ResourceIndex/Place/edit.mustache property=location property_path="location" title=(i18n "Article.location") tooltip=(i18n "Article.location" bundle="descriptions")}}
 
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Article.primarySector") tooltip=(i18n "Article.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Article.secondarySector") tooltip=(i18n "Article.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
 </fieldset>

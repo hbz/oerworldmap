@@ -59,4 +59,8 @@
 
     {{> FormElements/id.mustache property=attends property_path="attends" title=(i18n "Person.attends") tooltip=(i18n "Person.attends" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
 
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Person.primarySector") tooltip=(i18n "Person.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Person.secondarySector") tooltip=(i18n "Person.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
 </fieldset>

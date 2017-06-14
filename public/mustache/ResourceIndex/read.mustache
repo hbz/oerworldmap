@@ -687,6 +687,34 @@
                         </tr>
                     {{/if}}
 
+                    {{! --- }}
+
+                    {{#if primarySector}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.primarySector" @type)}}</td>
+                            <td>
+                                <ul>
+                                    {{#each (reduceSkos @root.skos.sectors primarySector)}}
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="primarySector"}}</li>
+                                    {{/each}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if secondarySector}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.secondarySector" @type)}}</td>
+                            <td>
+                                <ul>
+                                    {{#each (reduceSkos @root.skos.sectors secondarySector)}}
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="secondarySector"}}</li>
+                                    {{/each}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
                 </table>
 
             </article>

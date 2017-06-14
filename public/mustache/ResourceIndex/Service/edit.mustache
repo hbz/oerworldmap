@@ -78,4 +78,8 @@
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Service.comment") tooltip=(i18n "Service.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Service.primarySector") tooltip=(i18n "Service.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Service.secondarySector") tooltip=(i18n "Service.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
 </fieldset>

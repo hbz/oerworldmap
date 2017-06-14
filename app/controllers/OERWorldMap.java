@@ -284,6 +284,8 @@ public abstract class OERWorldMap extends Controller {
         HashMap.class));
       skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
         HashMap.class));
+      skos.put("sectors", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
+        HashMap.class));
     } catch (IOException e) {
       Logger.warn("Could not read SKOS file", e);
     }
