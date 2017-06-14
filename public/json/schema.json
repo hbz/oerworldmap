@@ -269,6 +269,42 @@
         },
         "location": {
           "$ref": "#/definitions/Place"
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "required": [
@@ -513,6 +549,42 @@
               { "properties": { "@type": { "enum": [ "Event" ] } } }
             ]
           }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -748,6 +820,42 @@
               { "properties": { "@type": { "enum": [ "Comment" ] } } }
             ]
           }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -935,6 +1043,42 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
             ]
           }
         }
@@ -1143,6 +1287,42 @@
           "items": {
             "$ref": "#/definitions/Grant"
           }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "required": [ "name", "location" ],
@@ -1293,6 +1473,42 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
             ]
           }
         }
