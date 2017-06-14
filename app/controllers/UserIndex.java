@@ -134,6 +134,7 @@ public class UserIndex extends OERWorldMap {
         sendMail(username, message, getEmails().getString("account.verify.subject"), new File[]{termsOfService});
         Map<String, Object> scope = new HashMap<>();
         scope.put("username", username);
+        scope.put("newsletter", registerNewsletter);
         if (registerNewsletter && !registerNewsletter(username)) {
           Logger.error("Error registering newsletter for " + username);
         }
