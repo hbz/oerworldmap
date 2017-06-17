@@ -261,11 +261,13 @@ var Hijax = (function ($, Hijax) {
         Hijax.attachBehaviours($el.find('.collapse'), 'triggered by collapsed-form-field');
       });
 
-      /* --- show link to external image sources --- */
+      /* --- show link to external image sources ---
 
       $('.paragraph-image img[src^="http"], .html-from-markdown img[src^="http"]', context).each(function(){
         $(this).after('<div class="image-source"><a href="' + this.src + '" target="_blank">(Image Source)</a></div>')
       });
+
+       */
     },
 
     attached : []

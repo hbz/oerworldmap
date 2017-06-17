@@ -832,10 +832,10 @@ var Hijax = (function ($, Hijax) {
       // add attribution to map footer
 
       $('#page-footer nav ul')
-          .append('<li>© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a></li>')
+          .append('<li>© <a href="http://mapbox.com/about/maps/">Mapbox</a></li>')
           .append('<li>© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></li>')
           .append('<li><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></li>')
-          .append('<li><a href="http://mapbox.com/about/maps" class="mapbox-wordmark" target="_blank">Mapbox</a></li>');
+          .append('<li><a href="https://www.mapbox.com/map-feedback/" class="mapbox-wordmark" target="_blank">Mapbox</a></li>');
 
       // bind events
 

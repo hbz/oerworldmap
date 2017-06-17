@@ -269,10 +269,47 @@
         },
         "location": {
           "$ref": "#/definitions/Place"
+        },
+        "exampleOfWork": {
+          "type": "string",
+          "format": "uri"
+        },
+        "citation": {
+          "type": "string"
+        },
+        "license": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
-      "required": [
-        "name", "description", "articleBody", "creator", "dateCreated", "location"
+      "allOf": [
+        {
+          "required": [
+            "name", "description", "articleBody", "location"
+          ],
+          "oneOf": [
+            {
+              "required": [ "license", "creator", "dateCreated" ]
+            },
+            {
+              "required": [ "citation", "exampleOfWork" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },

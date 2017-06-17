@@ -5,12 +5,12 @@ Overview:
 1. [Imprint](#imprint)
 2. [Liability / Haftung](#liability)
 3. [Privacy policy](#privacy)
-   1. [Accessing the content of the OER World Map](#privacy-access)
-   2. [Privacy when publishing Information related to Open Educational Resources on the OER World Map](#privacy-publish)
-   3. [Newsletter](#privacy-newsletter)
+    1. [Accessing the content of the OER World Map](#privacy-access)
+    2. [Privacy when publishing Information related to Open Educational Resources on the OER World Map](#privacy-publish)
+    3. [Newsletter](#privacy-newsletter)
 4. [Copyright](#copyright)
-   1. [CC0 except where otherwise noted](#cc0)
-   2. [Other licenses, e.g. for stories, fonts and maps](#other-licenses)
+    1. [CC0 except where otherwise noted](#cc0)
+    2. [Other licenses, e.g. for stories, fonts and maps](#other-licenses)
 5. [Versions](#versions)
 
 In case of any questions of requests please do not hesitate to get in touch with the administrators of this website directly via [info@oerworldmap.org](mailto:info@oerworldmap.org).
