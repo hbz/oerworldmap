@@ -74,9 +74,17 @@
                     </div>
                 {{/image}}
 
-                {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
+                {{#localized description language=@root.language}}
+                    <div class="html-from-markdown">
+                        {{md [@value]}}
+                    </div>
+                {{/localized}}
 
-                {{#localized articleBody language=@root.language}}{{md [@value]}}{{/localized}}
+                {{#localized articleBody language=@root.language}}
+                    <div class="html-from-markdown">
+                        {{md [@value]}}
+                    </div>
+                {{/localized}}
 
                 {{#url}}
                     <p>
@@ -748,7 +756,13 @@
                                         <em>{{this.dateCreated}}</em>
                                     </small>
                                 </p>
-                                <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
+                                <div>
+                                    {{#localized this.text language=@root.language}}
+                                        <div class="html-from-markdown">
+                                            {{md [@value]}}
+                                        </div>
+                                    {{/localized}}
+                                </div>
                             </div>
                         {{/if}}
                     {{/sort}}

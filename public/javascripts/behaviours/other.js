@@ -263,7 +263,7 @@ var Hijax = (function ($, Hijax) {
 
       /* --- show link to external image sources --- */
 
-      $('img[src^="http"]', context).each(function(){
+      $('.paragraph-image img[src^="http"], .html-from-markdown img[src^="http"]', context).each(function(){
         $(this).after('<div class="image-source"><a href="' + this.src + '" target="_blank">(Image Source)</a></div>')
       });
     },
