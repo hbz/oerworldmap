@@ -71,5 +71,7 @@
       "addressLocality": "St. Test"
     },
     "@type": "Place"
-  }
+  },
+  "exampleOfWork": "http://example.org",
+  "citation": "John Doe 2017, CC-BY"
 }
