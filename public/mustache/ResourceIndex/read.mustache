@@ -74,9 +74,17 @@
                     </div>
                 {{/image}}
 
-                {{#localized description language=@root.language}}{{md [@value]}}{{/localized}}
+                {{#localized description language=@root.language}}
+                    <div class="html-from-markdown">
+                        {{md [@value]}}
+                    </div>
+                {{/localized}}
 
-                {{#localized articleBody language=@root.language}}{{md [@value]}}{{/localized}}
+                {{#localized articleBody language=@root.language}}
+                    <div class="html-from-markdown">
+                        {{md [@value]}}
+                    </div>
+                {{/localized}}
 
                 {{#url}}
                     <p>
@@ -708,9 +716,14 @@
 
                         {{> (stringFormat "ResourceIndex/%s/edit.mustache" @type)}}
 
-                        <div class="pull-right resource-form-top-padding">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                            <button type="submit" class="btn btn-inverted">Save Changes</button>
+                        <div class="alert alert-info clearfix">
+                            <p>
+                                I agree to publish the information above under the conditions of <a href="/imprint#cc0" target="_blank">CC0-License</a>. I assure, that I have all rights necessary to publish the information to grant this license.
+                            </p>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-inverted">Publish</button>
+                            </div>
                         </div>
 
                     </form>
@@ -748,7 +761,13 @@
                                         <em>{{this.dateCreated}}</em>
                                     </small>
                                 </p>
-                                <p>{{#localized this.text language=@root.language}}{{md [@value]}}{{/localized}}</p>
+                                <div>
+                                    {{#localized this.text language=@root.language}}
+                                        <div class="html-from-markdown">
+                                            {{md [@value]}}
+                                        </div>
+                                    {{/localized}}
+                                </div>
                             </div>
                         {{/if}}
                     {{/sort}}
