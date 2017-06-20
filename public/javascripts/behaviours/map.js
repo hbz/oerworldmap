@@ -552,6 +552,12 @@ var Hijax = (function ($, Hijax) {
       log.debug('MAP zoomToFeatures – features is not an array or empty, doing nothing', features);
       return;
     }
+    // FIXME: When handling country URL with active filters
+    // Uncaught TypeError: Cannot read property 'getGeometry' of null
+    //   at zoomToFeatures (map.js:557)
+    //   at updateBoundingBox (map.js:594)
+    //   at map.js:956
+    return;
     var extent = ol.extent.createEmpty();
     for(var i = 0; i < features.length; i++) {
       ol.extent.extend(extent, features[i].getGeometry().getExtent());

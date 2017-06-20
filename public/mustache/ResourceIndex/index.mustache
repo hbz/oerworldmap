@@ -144,9 +144,101 @@
 
 {{/if}}
 
+{{#scope.iso3166}}
+
+    <div class="column-section-new">
+
+        <div class="resource-header">
+            <h1>{{i18n alpha-2 bundle="countries"}}</h1>
+        </div>
+
+        {{#if champions}}
+            <div data-behaviour="carousel">
+                {{#champions}}
+                    {{#about}}
+                        <div class="country-champion">
+
+                            {{#image}}
+                                <img src="{{.}}" class="img" />
+                            {{/image}}
+                            {{^image}}
+                                <div class="img placeholder-image-qmark"></div>
+                            {{/image}}
+
+                            <div class="text">
+                                <h4>Country Champion</h4>
+
+                                <ul class="resource-list truncated"><li>
+                                    {{>ResourceIndex/link.mustache}}
+                                </li></ul>
+
+                                <p>
+                                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+                                </p>
+
+                            </div>
+
+                        </div>
+                    {{/about}}
+                {{/champions}}
+            </div>
+        {{else}}
+            <div class="country-champion">
+
+                <div class="img placeholder-image-qmark"></div>
+
+                <div class="text">
+                    There is no <a href="/contribute">country champion</a> for {{this.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
+                </div>
+
+            </div>
+        {{/if}}
+
+    </div>
+
+    <div class="column-section-new" id="country-statistics">
+
+        <script type="application/ld+json" id="json-aggregations">
+            {{json countryAggregation}}
+        </script>
+
+        <h3>Statistics</h3>
+
+        {{#countryAggregation.[about.location.address.addressCountry].buckets}}
+            <table class="statistics-table">
+                {{#by_type.buckets}}
+                    <tr>
+                        <td>{{doc_count}}</td>
+                        <td>{{getIcon key}}
+                            <a href="?filter.about.@type={{key}}">{{i18n key}}</a>
+                        </td>
+                    </tr>
+                {{/by_type.buckets}}
+            </table>
+        {{/countryAggregation.[about.location.address.addressCountry].buckets}}
+
+    </div>
+
+    {{#if reports}}
+        <div class="column-section-new" id="country-statistics">
+            <h3>Country reports</h3>
+            <ul class="resource-list" data-app="link-to-fragment">
+                {{#reports}}
+                    {{#about}}
+                        <li about="{{@id}}">
+                            {{>ResourceIndex/link.mustache}}
+                        </li>
+                    {{/about}}
+                {{/reports}}
+            </ul>
+        </div>
+    {{/if}}
+
+{{/scope.iso3166}}
+
 <div id="filter-container"{{#if embed}} class="hidden"{{/if}}>
 
-    <form id="form-resource-filter" class="app-hidden" action="/resource/">
+    <form id="form-resource-filter" class="app-hidden" action="">
 
         <script type="application/ld+json" id="json-filters">
             {{json scope.resources.filters}}
