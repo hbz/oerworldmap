@@ -14,6 +14,8 @@
 
     {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "WebPage.keywords") tooltip=(i18n "WebPage.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
 
+    {{> FormElements/id.mustache property=publisher property_path="publisher" title=(i18n "WebPage.publisher") tooltip=(i18n "WebPage.publisher" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Service&filter.about.@type=Event&filter.about.@type=Action"}}
+
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "WebPage.comment") tooltip=(i18n "WebPage.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
 </fieldset>
