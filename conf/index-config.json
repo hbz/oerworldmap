@@ -982,6 +982,44 @@
                 }
               }
             },
+            "publication": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
             "availableChannel": {
               "properties": {
                 "serviceUrl": {
@@ -2629,6 +2667,66 @@
                               "type": "string"
                             }
                           }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "publisher": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "location": {
+                  "properties": {
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "addressCountry": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "string",
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "multi_field"
                         }
                       }
                     }

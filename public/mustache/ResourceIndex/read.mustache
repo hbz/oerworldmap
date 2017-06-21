@@ -641,6 +641,34 @@
 
                     {{! --- }}
 
+                    {{#if publication}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.publication" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#publication}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/publication}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if publisher}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.publisher" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#publisher}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/publisher}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
                     {{#if mentions}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
