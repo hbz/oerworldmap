@@ -17,6 +17,8 @@ install:
 before_script:
   - cp conf/travis.conf conf/test.conf
   - touch /tmp/htprofiles
+  - mkdir -p data/consents/objects/
+  - touch data/consents/history
 addons:
   sonarqube: true
 branches:

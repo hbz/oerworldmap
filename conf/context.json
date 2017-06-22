@@ -189,6 +189,12 @@
     "provides": {
       "@container": "@set"
     },
+    "publisher": {
+      "@container": "@set"
+    },
+    "publication": {
+      "@container": "@set"
+    },
     "recordedIn": {
       "@container": "@set"
     },
@@ -238,6 +244,9 @@
     },
     "comment": {
       "@container": "@set"
+    },
+    "exampleOfWork": {
+      "@type": "@id"
     }
   }
 }
