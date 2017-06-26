@@ -24,6 +24,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: make this class abstract
+// TODO: implement subclasses ElasticsearchWebpageConfig and ElasticsearchActionConfig
 public class ElasticsearchConfig {
 
   private static final String INDEX_CONFIG_FILE = "conf/index-config.json";
@@ -37,8 +39,8 @@ public class ElasticsearchConfig {
   private Node mInternalNode;
 
   // CLIENT
-  private String mIndex;
-  private String mType;
+  private String mIndex;                          // TODO: move index to subclasses
+  private String mType;                           // TODO: move type to subclasses
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Client mClient;

@@ -31,21 +31,25 @@ import java.util.Map;
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable, Versionable {
 
-  private ElasticsearchRepository mElasticsearchRepo;
-  private TriplestoreRepository mTriplestoreRepository;
+  private ElasticsearchRepository mESWebpageRepo;
+  // TODO: add mESActionRepository here & implement in parallel to mESWebpageRepo
+  // TODO: Alternatively, implement a second BaseRepository - but that should be disadvantageous in points of coordinating Actions with WebPages.
+  private TriplestoreRepository mTriplestoreWebpageRepo;
   private ResourceIndexer mResourceIndexer;
+  // TODO: @ fo: presumably, we'll need a second ResourceIndexer as well?
+  // TODO: Or should we favour making the single one configurable?
   private ActorRef mIndexQueue;
   private boolean mAsyncIndexing;
 
-  public BaseRepository(final Config aConfiguration, final ElasticsearchRepository aElasticsearchRepo) throws IOException {
+  public BaseRepository(final Config aConfiguration, final ElasticsearchRepository aESWebpageRepo) throws IOException {
 
     super(aConfiguration);
 
-    if (aElasticsearchRepo == null) {
-      mElasticsearchRepo = new ElasticsearchRepository(mConfiguration);
+    if (aESWebpageRepo == null) {
+      mESWebpageRepo = new ElasticsearchRepository(mConfiguration);
     }
     else {
-      mElasticsearchRepo = aElasticsearchRepo;
+      mESWebpageRepo = aESWebpageRepo;
     }
     Dataset dataset;
 
@@ -74,7 +78,7 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+    mResourceIndexer = new ResourceIndexer(mDb, mESWebpageRepo, graphHistory);
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
@@ -88,7 +92,7 @@ public class BaseRepository extends Repository
     }
 
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(mConfiguration, mDb, graphHistory);
+    mTriplestoreWebpageRepo = new TriplestoreRepository(mConfiguration, mDb, graphHistory);
 
     mAsyncIndexing = mConfiguration.getBoolean("index.async");
 
@@ -97,11 +101,11 @@ public class BaseRepository extends Repository
   @Override
   public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
 
-    Resource resource = mTriplestoreRepository.deleteResource(aId, aMetadata);
+    Resource resource = mTriplestoreWebpageRepo.deleteResource(aId, aMetadata);
 
     if (resource != null) {
-      mElasticsearchRepo.deleteResource(aId, aMetadata);
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
+      mESWebpageRepo.deleteResource(aId, aMetadata);
+      Commit.Diff diff = mTriplestoreWebpageRepo.getDiff(resource).reverse();
       index(diff);
     }
 
@@ -115,10 +119,10 @@ public class BaseRepository extends Repository
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
-    Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
+    Commit.Diff diff = mTriplestoreWebpageRepo.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
 
-    mTriplestoreRepository.commit(commit);
+    mTriplestoreWebpageRepo.commit(commit);
     index(diff);
 
   }
@@ -140,12 +144,12 @@ public class BaseRepository extends Repository
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
     for (Resource resource : aResources) {
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
+      Commit.Diff diff = mTriplestoreWebpageRepo.getDiff(resource);
       indexDiff.append(diff);
       commits.add(new TripleCommit(header, diff));
     }
 
-    mTriplestoreRepository.commit(commits);
+    mTriplestoreWebpageRepo.commit(commits);
     index(indexDiff);
 
   }
@@ -158,11 +162,11 @@ public class BaseRepository extends Repository
    */
   public void importResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
 
-    Commit.Diff diff = mTriplestoreRepository.getDiffs(aResources);
+    Commit.Diff diff = mTriplestoreWebpageRepo.getDiffs(aResources);
 
     TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-    mTriplestoreRepository.commit(new TripleCommit(header, diff));
+    mTriplestoreWebpageRepo.commit(new TripleCommit(header, diff));
     index(diff);
 
   }
@@ -177,7 +181,7 @@ public class BaseRepository extends Repository
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) {
     ResourceList resourceList;
     try {
-      resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+      resourceList = mESWebpageRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
       return null;
@@ -192,11 +196,11 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource getResource(@Nonnull String aId, String aVersion) {
-    return mTriplestoreRepository.getResource(aId, aVersion);
+    return mTriplestoreWebpageRepo.getResource(aId, aVersion);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    return mElasticsearchRepo.getResources(aField, aValue);
+    return mESWebpageRepo.getResources(aField, aValue);
   }
 
   @Override
@@ -206,19 +210,19 @@ public class BaseRepository extends Repository
 
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
       throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
+    return mESWebpageRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
   public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
       throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
+    return mESWebpageRepo.aggregate(aAggregationBuilders, aQueryContext);
   }
 
   @Override
   public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = mElasticsearchRepo.getAll(aType);
+      resources = mESWebpageRepo.getAll(aType);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
     }
@@ -227,27 +231,27 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource stage(Resource aResource) throws IOException {
-    return mTriplestoreRepository.stage(aResource);
+    return mTriplestoreWebpageRepo.stage(aResource);
   }
 
   @Override
   public List<Commit> log(String aId) {
-    return mTriplestoreRepository.log(aId);
+    return mTriplestoreWebpageRepo.log(aId);
   }
 
   @Override
   public void commit(Commit aCommit) throws IOException {
-    mTriplestoreRepository.commit(aCommit);
+    mTriplestoreWebpageRepo.commit(aCommit);
   }
 
   @Override
   public Commit.Diff getDiff(Resource aResource) {
-    return mTriplestoreRepository.getDiff(aResource);
+    return mTriplestoreWebpageRepo.getDiff(aResource);
   }
 
   @Override
   public Commit.Diff getDiff(List<Resource> aResources) {
-    return mTriplestoreRepository.getDiff(aResources);
+    return mTriplestoreWebpageRepo.getDiff(aResources);
   }
 
   public void index(String aId) {
@@ -262,20 +266,20 @@ public class BaseRepository extends Repository
 
   public String sparql(String q) {
 
-    return mTriplestoreRepository.sparql(q);
+    return mTriplestoreWebpageRepo.sparql(q);
 
   }
 
   public String update(String delete, String insert, String where) {
 
-    Commit.Diff diff = mTriplestoreRepository.update(delete, insert, where);
+    Commit.Diff diff = mTriplestoreWebpageRepo.update(delete, insert, where);
     return diff.toString();
 
   }
 
   public String label(String aId) {
 
-    return mTriplestoreRepository.label(aId);
+    return mTriplestoreWebpageRepo.label(aId);
 
   }
 
