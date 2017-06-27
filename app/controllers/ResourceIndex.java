@@ -9,11 +9,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
-import models.Commit;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -34,12 +30,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,15 +38,11 @@ import java.util.regex.Pattern;
  * @author fo
  */
 // TODO: new class ActionIndex
-public class ResourceIndex extends OERWorldMap {
+public class ResourceIndex extends IndexCommon {
 
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
-  }
-
-  public Result listDefault(String q, int from, int size, String sort, boolean list) throws IOException {
-    return list(q, from, size, sort, list, null);
   }
 
   public Result list(String q, int from, int size, String sort, boolean list, String extension)
@@ -182,49 +169,16 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public Result importResources() throws IOException {
-    JsonNode json = ctx().request().body().asJson();
-    List<Resource> resources = new ArrayList<>();
-    if (json.isArray()) {
-      for (JsonNode node : json) {
-        resources.add(Resource.fromJson(node));
-      }
-    } else if (json.isObject()) {
-      resources.add(Resource.fromJson(json));
-    } else {
-      return badRequest();
-    }
-    mBaseRepository.importResources(resources, getMetadata());
-    return ok(Integer.toString(resources.size()).concat(" resources imported."));
+    return importResources(mBaseRepository);
   }
 
-  public Result addResource() throws IOException {
-
-    JsonNode jsonNode = getJsonFromRequest();
-
-    if (jsonNode == null || (!jsonNode.isArray() && !jsonNode.isObject())) {
-      return badRequest("Bad or empty JSON");
-    } else if (jsonNode.isArray()) {
-      return upsertResources();
-    } else {
-      return upsertResource(false);
-    }
-
-  }
 
   public Result updateResource(String aId) throws IOException {
-
-    // If updating a resource, check if it actually exists
-    Resource originalResource = mBaseRepository.getResource(aId);
-    if (originalResource == null) {
-      return notFound("Not found: ".concat(aId));
-    }
-
-    return upsertResource(true);
-
+    return updateResource(aId, mBaseRepository);
   }
 
-  private Result upsertResource(boolean isUpdate) throws IOException {
-
+  @Override
+  protected Result upsertResource(boolean isUpdate) throws IOException {
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
     resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
@@ -276,7 +230,8 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  private Result upsertResources() throws IOException {
+  @Override
+  protected Result upsertResources() throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
@@ -537,12 +492,6 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("resources", resourceList.toResource());
 
     return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
-
-  }
-
-  public Result label(String aId) {
-
-    return ok(mBaseRepository.label(aId));
 
   }
 

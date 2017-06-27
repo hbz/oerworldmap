@@ -1,11 +1,11 @@
 package controllers;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.parser.ParserEmulationProfile;
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import org.apache.commons.io.IOUtils;
-import com.vladsch.flexmark.parser.Parser;
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
