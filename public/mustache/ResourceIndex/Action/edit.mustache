@@ -74,7 +74,7 @@
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Action.comment") tooltip=(i18n "Action.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
-    {{> FormElements/id.mustache property=isPartOf property_path="isPartOf" title=(i18n "Action.isPartOf") tooltip=(i18n "Action.isPartOf" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=isPartOf property_path="isPartOf" title=(i18n "Action.isPartOf") tooltip=(i18n "Action.isPartOf" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
 
     {{> FormElements/id.mustache property=hasPart property_path="hasPart" title=(i18n "Action.hasPart") tooltip=(i18n "Action.hasPart" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
