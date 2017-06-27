@@ -26,6 +26,7 @@ import play.mvc.Result;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
+import services.TwitterNotification;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 import services.export.GeoJsonExporter;
@@ -253,8 +254,24 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    Map<String, String> metadata = getMetadata();
+
     // Save
-    mBaseRepository.addResource(resource, getMetadata());
+    mBaseRepository.addResource(resource, metadata);
+
+    // Post to Twitter
+    TwitterNotification twitterNotification = new TwitterNotification(
+      mConf.getString("twitter4j.oauth.consumerKey"),
+      mConf.getString("twitter4j.oauth.consumerSecret"),
+      mConf.getString("twitter4j.oauth.accessToken"),
+      mConf.getString("twitter4j.oauth.accessTokenSecret")
+    );
+    String message = metadata.get(TripleCommit.Header.DATE_HEADER)
+      .concat(isUpdate ? " updated " : " created ")
+      .concat(mConf.getString("proxy.host"))
+      .concat("/resource/")
+      .concat(resource.getId());
+    twitterNotification.send(message);
 
     // Respond
     if (isUpdate) {
