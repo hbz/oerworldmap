@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 /**
  * @author fo
  */
+// TODO: new class ActionIndex
 public class ResourceIndex extends OERWorldMap {
 
   @Inject
