@@ -161,7 +161,7 @@ public class UserIndex extends OERWorldMap {
         String userId = mAccountService.getProfileId(username);
         scope.put("id", userId);
         String profileUrl = mConf.getString("proxy.host").concat(
-          routes.ResourceIndex.readDefault(userId, "HEAD").url());
+          routes.ResourceIndex.read(userId, "HEAD", null).url());
         scope.put("url", profileUrl);
         result = ok(mObjectMapper.writeValueAsString(scope));
       } else {
