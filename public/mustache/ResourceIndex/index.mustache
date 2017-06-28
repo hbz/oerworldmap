@@ -273,7 +273,7 @@
 
 <div id="filter-container"{{#if embed}} class="hidden"{{/if}}>
 
-    <form id="form-resource-filter" class="app-hidden" action="">
+    <form id="form-resource-filter" class="app-hidden" action="{{#if scope.iso3166.[alpha-2]}}/country/{{scope.iso3166.[alpha-2]}}{{else}}/resource/{{/if}}">
 
         <script type="application/ld+json" id="json-filters">
             {{json scope.resources.filters}}

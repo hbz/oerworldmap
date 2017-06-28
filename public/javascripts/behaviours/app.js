@@ -272,7 +272,7 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    var country_code = pagejs_ctx.path.split("/").pop().toUpperCase();
+    var country_code = pagejs_ctx.pathname.split("/").pop().toUpperCase();
 
     setScope(country_code);
     setHighlights([]);

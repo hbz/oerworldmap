@@ -552,12 +552,6 @@ var Hijax = (function ($, Hijax) {
       log.debug('MAP zoomToFeatures – features is not an array or empty, doing nothing', features);
       return;
     }
-    // FIXME: When handling country URL with active filters
-    // Uncaught TypeError: Cannot read property 'getGeometry' of null
-    //   at zoomToFeatures (map.js:557)
-    //   at updateBoundingBox (map.js:594)
-    //   at map.js:956
-    return;
     var extent = ol.extent.createEmpty();
     for(var i = 0; i < features.length; i++) {
       ol.extent.extend(extent, features[i].getGeometry().getExtent());
@@ -1013,15 +1007,10 @@ var Hijax = (function ($, Hijax) {
     var parser = document.createElement('a');
     parser.href = url;
     var url_geojson;
-    if (parser.pathname.indexOf("/country/") == 0) {
-      url_geojson = "/resource.geojson?size=9999&filter.about.location.address.addressCountry="
-        + parser.pathname.split("/")[2].toUpperCase();
-    } else {
-      var params = queryString(parser);
-      params.size = 9999;
-      params.from = 0;
-      url_geojson = parser.pathname.slice(0, -1) + ".geojson?" + $.param(params);
-    }
+    var params = queryString(parser);
+    params.size = 9999;
+    params.from = 0;
+    url_geojson = parser.pathname.replace(/\/+$/,'') + ".geojson?" + $.param(params);
 
     placemarksVectorSource = new ol.source.Vector({
       wrapX : true,
