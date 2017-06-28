@@ -4,11 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
-import models.Commit;
-import models.GraphHistory;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
+import models.*;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
@@ -32,6 +28,7 @@ public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable, Versionable {
 
   private ElasticsearchRepository mESWebpageRepo;
+  private ElasticsearchRepository mESActionRepo;
   // TODO: add mESActionRepository here & implement in parallel to mESWebpageRepo
   // TODO: Alternatively, implement a second BaseRepository - but that should be disadvantageous in points of coordinating Actions with WebPages.
   private TriplestoreRepository mTriplestoreWebpageRepo;
@@ -172,16 +169,16 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+  public ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters) {
-    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+    return query(aIndices, aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+  public ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) {
     ResourceList resourceList;
     try {
-      resourceList = mESWebpageRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+      resourceList = mESWebpageRepo.query(aIndices, aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
       return null;
@@ -199,30 +196,30 @@ public class BaseRepository extends Repository
     return mTriplestoreWebpageRepo.getResource(aId, aVersion);
   }
 
-  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    return mESWebpageRepo.getResources(aField, aValue);
+  public List<Resource> getResources(final String[] aIndices, @Nonnull String aField, @Nonnull Object aValue) {
+    return mESWebpageRepo.getResources(aIndices, aField, aValue);
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return aggregate(aAggregationBuilder, null);
+  public Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
+    return aggregate(aIndices, aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+  public Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
       throws IOException {
-    return mESWebpageRepo.aggregate(aAggregationBuilder, aQueryContext);
+    return mESWebpageRepo.aggregate(aIndices, aAggregationBuilder, aQueryContext);
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
+  public Resource aggregate(final String[] aIndices, @Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
       throws IOException {
-    return mESWebpageRepo.aggregate(aAggregationBuilders, aQueryContext);
+    return mESWebpageRepo.aggregate(aIndices, aAggregationBuilders, aQueryContext);
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
+  public List<Resource> getAll(final String[] aIndices, @Nonnull String aType) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = mESWebpageRepo.getAll(aType);
+      resources = mESWebpageRepo.getAll(aIndices, aType);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
     }

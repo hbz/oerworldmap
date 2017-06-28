@@ -18,6 +18,6 @@ public interface Readable {
    */
   Resource getResource(@Nonnull String aId) throws IOException;
 
-  List<Resource> getAll(@Nonnull String aType) throws IOException;
+  List<Resource> getAll(final String[] aIndices, @Nonnull String aType) throws IOException;
 
 }

@@ -17,6 +17,6 @@ public interface Aggregatable {
    * @return A resource resembling the reqeusted aggregation
    * @throws IOException
    */
-  Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException;
+  Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException;
 
 }

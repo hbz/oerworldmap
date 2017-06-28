@@ -72,7 +72,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
+  public List<Resource> getAll(final String[] aIndices, @Nonnull String aType) {
     return new ArrayList<>(db.values());
   }
 

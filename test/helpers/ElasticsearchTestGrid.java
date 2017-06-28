@@ -34,7 +34,7 @@ public class ElasticsearchTestGrid extends WithApplication {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
     mRepo = new ElasticsearchRepository(mConfig);
     mEsConfig = mRepo.getConfig();
-    
+
     mClientSettings = Settings.settingsBuilder().put(mEsConfig.getClientSettings())
       .build();
     mClient = TransportClient.builder().settings(mClientSettings).build()
@@ -45,14 +45,14 @@ public class ElasticsearchTestGrid extends WithApplication {
   @AfterClass
   public static void tearDown() throws Exception {
     if (mConfig.getBoolean("es.node.inmemory")) {
-      mEsConfig.deleteIndex(mConfig.getString("es.index.name"));
+      mEsConfig.deleteIndex(mConfig.getString("es.index.webpage.name"));
     }
     mEsConfig.tearDown();
   }
 
   @Before
   public void setupIndex() {
-    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.name"));
+    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.webpage.name"));
   }
 
 }

@@ -37,7 +37,6 @@ import java.util.regex.Pattern;
 /**
  * @author fo
  */
-// TODO: new class ActionIndex
 public class ResourceIndex extends IndexCommon {
 
   @Inject
@@ -91,7 +90,8 @@ public class ResourceIndex extends IndexCommon {
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
+    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+    ResourceList resourceList = mBaseRepository.query(indices, q, from, size, sort, filters, queryContext);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
@@ -284,9 +284,9 @@ public class ResourceIndex extends IndexCommon {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
-
+    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
     if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+      ResourceList relatedList = mBaseRepository.query(indices, "about.about.@id:\"".concat(id)
           .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
       resource.put("related", relatedList.getItems());
     }
@@ -308,7 +308,7 @@ public class ResourceIndex extends IndexCommon {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
-        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
+        Resource nestedConceptAggregation = mBaseRepository.aggregate(indices, conceptAggregation);
         resource.put("aggregation", nestedConceptAggregation);
         return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
       }
@@ -486,8 +486,8 @@ public class ResourceIndex extends IndexCommon {
   }
 
   public Result feed() {
-
-    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
+    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+    ResourceList resourceList = mBaseRepository.query(indices, "", 0, 20, "dateCreated:DESC", null, getQueryContext());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 

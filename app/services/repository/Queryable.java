@@ -21,7 +21,7 @@ public interface Queryable {
    * @return A resource resembling the result set of resources matching the
    *         criteria given in the query string
    */
-  ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+  ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                      Map<String, List<String>> aFilters) throws IOException;
 
 }
