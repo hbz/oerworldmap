@@ -446,11 +446,13 @@ var Hijax = (function ($, Hijax) {
       var focused_country = false;
     }
 
-    // build heat data hashmap
+    // build heat data hashmap, currently only in case of global scope
 
-    for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
-      var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
-      heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
+    if (aggregations["about.location.address.addressCountry"]) {
+      for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
+        var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
+        heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
+      }
     }
 
     // setup d3 color callback

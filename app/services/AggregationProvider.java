@@ -127,10 +127,17 @@ public class AggregationProvider {
         .dateHistogram("about.startDate.GTE")
         .field("about.startDate")
         .interval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
-            .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
-              "about.location"}, null)
+          .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
+            "about.location"}, null)
           .addSort("about.startDate", SortOrder.ASC).setSize(Integer.MAX_VALUE)
-          ).order(Histogram.Order.KEY_DESC);
+      ).order(Histogram.Order.KEY_DESC);
+  }
+
+  public static AggregationBuilder<?> getRegionAggregation(int aSize) {
+    //FIXME: wring agg name
+    return AggregationBuilders.terms("about.location.address.addressRegion")
+      .field("about.location.address.addressRegion")
+      .size(aSize);
   }
 
 }

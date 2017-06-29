@@ -33,7 +33,8 @@ var Hijax = (function ($, Hijax, page) {
 
   var i18n_bundles = {
     "about.availableChannel.availableLanguage" : "languages",
-    "about.location.address.addressCountry" : "countries"
+    "about.location.address.addressCountry" : "countries",
+    "about.location.address.addressRegion" : "countries"
   };
 
   function get_label(key, aggregation_name) {
@@ -367,10 +368,13 @@ var Hijax = (function ($, Hijax, page) {
 
         // extract country and tag
 
-        var country_aggregation = JSON.parse(JSON.stringify(aggregations['about.location.address.addressCountry']));
-        country_aggregation.column = 'small-5';
-        country_aggregation.small = true;
-        country_aggregation.button_icon = 'globe';
+        var geo_aggregation = JSON.parse(JSON.stringify(
+          aggregations['about.location.address.addressCountry'] ||
+          aggregations['about.location.address.addressRegion']
+        ));
+        geo_aggregation.column = 'small-5';
+        geo_aggregation.small = true;
+        geo_aggregation.button_icon = 'globe';
 
         var tag_aggregation = JSON.parse(JSON.stringify(aggregations['about.keywords']));
         tag_aggregation.column = 'small-6';
@@ -387,7 +391,9 @@ var Hijax = (function ($, Hijax, page) {
 
         aggregations['about.@type']['class'] = 'visible-mobile';
         aggregations['about.keywords']['class'] = 'visible-mobile';
-        aggregations['about.location.address.addressCountry']['class'] = 'visible-mobile';
+        ( aggregations['about.location.address.addressCountry'] ||
+          aggregations['about.location.address.addressRegion']
+        )['class'] = 'visible-mobile';
 
         // set columns
 
@@ -412,7 +418,7 @@ var Hijax = (function ($, Hijax, page) {
             aggregations : aggregations,
             // aggregations_mobile : aggregations_mobile,
             resource_types : resource_types,
-            country_aggregation : country_aggregation,
+            geo_aggregation : geo_aggregation,
             tag_aggregation : tag_aggregation,
             clear_filter_offset : clear_filter_offset
           })
@@ -421,7 +427,7 @@ var Hijax = (function ($, Hijax, page) {
         // init typeaheads
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
-          // init_filter(country_aggregation);
+          // init_filter(geo_aggregation);
           // init_filter(tag_aggregation);
           for(name in aggregations) {
             init_filter(aggregations[ name ]);
@@ -468,7 +474,8 @@ var Hijax = (function ($, Hijax, page) {
             if(
               aggregation != 'about.@type' &&
               aggregation != 'keywords' &&
-              aggregation != 'location.address.addressCountry'
+              aggregation != 'location.address.addressCountry' &&
+              aggregation != 'location.address.addressRegion'
             ) {
               $(container).find('input[name="filter.' + aggregation + '"]').prop("checked", false);
             }

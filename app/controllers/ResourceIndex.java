@@ -63,17 +63,21 @@ public class ResourceIndex extends OERWorldMap {
 
     Map<String, Object> scope = new HashMap<>();
     Map<String, List<String>> filters = new HashMap<>();
+    QueryContext queryContext = getQueryContext();
 
     // Handle ISO 3166 param
     if (!StringUtils.isEmpty(iso3166)) {
+
       if (!Countries.map(getLocale()).keySet().contains(iso3166.toUpperCase())) {
         return notFound("Not found");
       }
+
       Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
       filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
       ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
       ResourceList reports = mBaseRepository.query(
         "about.keywords:\"countryreport:".concat(iso3166.toUpperCase()).concat("\""), 0, 10, null, null);
+      filters.clear();
 
       Map<String, Object> iso3166Scope = new HashMap<>();
       iso3166Scope.put("alpha-2", iso3166.toUpperCase());
@@ -83,9 +87,8 @@ public class ResourceIndex extends OERWorldMap {
       iso3166Scope.put("countryAggregation", countryAggregation);
       scope.put("iso3166", iso3166Scope);
 
-      filters.clear();
-      filters.put(Record.RESOURCE_KEY + ".location.address.addressCountry",
-        new ArrayList<>(Arrays.asList(iso3166.toUpperCase())));
+      queryContext.setIso3166Scope(iso3166.toUpperCase());
+
     }
 
     // Extract filters directly from query params
@@ -96,8 +99,6 @@ public class ResourceIndex extends OERWorldMap {
         filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
     }
-
-    QueryContext queryContext = getQueryContext();
 
     // Check for bounding box
     String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");
