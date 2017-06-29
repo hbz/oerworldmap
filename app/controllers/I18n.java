@@ -28,18 +28,23 @@ public class I18n extends OERWorldMap {
 
   public Result get() {
     Map<String, Object> i18n = new HashMap<>();
-    Map<String, String> messages = new HashMap<>();
-    ResourceBundle messageBundle = ResourceBundle.getBundle("messages", getLocale());
-    for (String key : Collections.list(ResourceBundle.getBundle("messages", getLocale()).getKeys())) {
-      try {
-        String message = StringEscapeUtils.unescapeJava(new String(messageBundle.getString(key)
+
+    for (String bundleName : new String[]{"messages", "iso3166-2"}) {
+      Map<String, String> strings = new HashMap<>();
+      ResourceBundle bundle = ResourceBundle.getBundle(bundleName, getLocale());
+      for (String key : Collections.list(ResourceBundle.getBundle(bundleName, getLocale()).getKeys())) {
+        try {
+          String message = StringEscapeUtils.unescapeJava(new String(bundle.getString(key)
             .getBytes("ISO-8859-1"), "UTF-8"));
-        messages.put(key, message);
-      } catch (UnsupportedEncodingException e) {
-        messages.put(key, messageBundle.getString(key));
+          strings.put(key, message);
+        } catch (UnsupportedEncodingException e) {
+          strings.put(key, bundle.getString(key));
+        }
       }
+      i18n.put(bundleName, strings);
     }
-    i18n.put("messages", messages);
+
+
     i18n.put("countries", Countries.map(getLocale()));
     i18n.put("languages", Languages.map(getLocale()));
 
