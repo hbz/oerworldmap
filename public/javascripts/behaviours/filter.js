@@ -33,7 +33,8 @@ var Hijax = (function ($, Hijax, page) {
 
   var i18n_bundles = {
     "about.availableChannel.availableLanguage" : "languages",
-    "about.location.address.addressCountry" : "countries"
+    "about.location.address.addressCountry" : "countries",
+    "about.location.address.addressRegion" : "iso3166-2"
   };
 
   function get_label(key, aggregation_name) {

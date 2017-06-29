@@ -64,7 +64,11 @@ public class HandlebarsHelpers {
           try {
             return ResourceBundle.getBundle("labels").getString(key);
           } catch (MissingResourceException notLabel) {
-            return mController.getLabel(key);
+            try {
+              return ResourceBundle.getBundle("iso3166-2").getString(key);
+            } catch (MissingResourceException notDivision) {
+              return mController.getLabel(key);
+            }
           }
         }
       }

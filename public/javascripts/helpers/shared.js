@@ -351,7 +351,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
 Handlebars.registerHelper('getBundle', function (field, options) {
   var bundles = {
     'availableLanguage': 'languages',
-    'addressCountry': 'countries'
+    'addressCountry': 'countries',
+    'addressRegion' : 'iso3166-2'
   }
   return bundles[field] || 'messages';
 });
