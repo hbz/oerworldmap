@@ -15,12 +15,12 @@ public class ActionIndex extends IndexCommon {
   }
 
   @Override
-  Result upsertResource(boolean aBoolean) throws IOException {
+  protected Result upsertResource(boolean aBoolean) throws IOException {
     return null;
   }
 
   @Override
-  Result upsertResources() throws IOException {
+  protected Result upsertResources() throws IOException {
     return null;
   }
 }
