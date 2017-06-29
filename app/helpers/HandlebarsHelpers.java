@@ -15,9 +15,9 @@ import java.util.ResourceBundle;
  */
 public class HandlebarsHelpers {
 
-  private static OERWorldMap mController;
+  private OERWorldMap mController;
 
-  public static void setController(OERWorldMap aController) {
+  public HandlebarsHelpers(OERWorldMap aController) {
     mController = aController;
   }
 
@@ -44,28 +44,28 @@ public class HandlebarsHelpers {
     return _i18n(key, (String) options.hash.get("bundle"));
   }
 
-  public static CharSequence _i18n(String key, String bundle) {
+  public CharSequence _i18n(String key, String bundle) {
     if (bundle != null) {
       try {
-        return ResourceBundle.getBundle(bundle).getString(key);
+        return ResourceBundle.getBundle(bundle, mController.getLocale()).getString(key);
       } catch (MissingResourceException notInBundle) {
         return mController.getLabel(key);
       }
     }
     try {
-      return ResourceBundle.getBundle("messages").getString(key);
+      return ResourceBundle.getBundle("messages", mController.getLocale()).getString(key);
     } catch (MissingResourceException notMessage) {
       try {
-        return ResourceBundle.getBundle("languages").getString(key);
+        return ResourceBundle.getBundle("languages", mController.getLocale()).getString(key);
       } catch (MissingResourceException notLanguage) {
         try {
-          return ResourceBundle.getBundle("countries").getString(key);
+          return ResourceBundle.getBundle("countries", mController.getLocale()).getString(key);
         } catch (MissingResourceException notCountry) {
           try {
-            return ResourceBundle.getBundle("labels").getString(key);
+            return ResourceBundle.getBundle("labels", mController.getLocale()).getString(key);
           } catch (MissingResourceException notLabel) {
             try {
-              return ResourceBundle.getBundle("iso3166-2").getString(key);
+              return ResourceBundle.getBundle("iso3166-2", mController.getLocale()).getString(key);
             } catch (MissingResourceException notDivision) {
               return mController.getLabel(key);
             }
