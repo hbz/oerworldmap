@@ -124,7 +124,7 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  Locale getLocale() {
+  public Locale getLocale() {
 
     Locale locale = new Locale("en", "US");
     if (mConf.getBoolean("i18n.enabled")) {
@@ -327,8 +327,7 @@ public abstract class OERWorldMap extends Controller {
       Logger.error("Could not register helpers", e);
     }
 
-    HandlebarsHelpers.setController(this);
-    handlebars.registerHelpers(new HandlebarsHelpers());
+    handlebars.registerHelpers(new HandlebarsHelpers(this));
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));
