@@ -249,11 +249,11 @@ var Hijax = (function ($, Hijax) {
       setPopoverContent(features, popoverType);
       setPopoverPosition(features, popoverType, pixel);
       setFeaturesStyle(features, 'hover' );
+      setCursor(features);
 
       state.hover.ids = ids;
       state.hover.features = features;
       state.hover.popoverType = popoverType;
-      world.getTarget().style.cursor = 'pointer';
 
     } else if(
       state.hover.ids &&
@@ -276,6 +276,7 @@ var Hijax = (function ($, Hijax) {
       setPopoverPosition(features, popoverType, pixel);
       resetFeaturesStyle(state.hover.features);
       setFeaturesStyle(features, 'hover');
+      setCursor(features);
 
       state.hover.ids = ids;
       state.hover.features = features;
@@ -289,10 +290,11 @@ var Hijax = (function ($, Hijax) {
 
       $(popoverElement).hide();
       resetFeaturesStyle(state.hover.features);
+      setCursor(features);
+
       state.hover.ids = false;
       state.hover.features = false;
       state.hover.popoverType = false;
-      world.getTarget().style.cursor = '';
 
     } else {
 
@@ -405,6 +407,17 @@ var Hijax = (function ($, Hijax) {
 
     $(popoverElement).find('.popover-content').html(content);
 
+  }
+
+
+  function setCursor(features) {
+    if(! features.length) {
+      world.getTarget().style.cursor = '';
+    } else if(features.length <= maxPopoverStackSize) {
+      world.getTarget().style.cursor = 'pointer';
+    } else {
+      world.getTarget().style.cursor = 'zoom-in';
+    }
   }
 
 
