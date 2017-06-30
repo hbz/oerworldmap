@@ -433,15 +433,10 @@ var Hijax = (function ($, Hijax) {
 
     var heat_data = {};
 
-    // determine focused country
-
-    var focusId = $('[data-behaviour="map"]').attr("data-focus");
-
     if(
-      focusId &&
-      getFeatureTypeById(focusId) == "country"
+      getFeatureTypeById(state.scope) == "country"
     ) {
-      var focused_country = focusId;
+      var focused_country = state.scope;
     } else {
       var focused_country = false;
     }
@@ -484,13 +479,13 @@ var Hijax = (function ($, Hijax) {
 
         var color_rgb = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
         var color_d3 = d3.rgb(color_rgb);
-        var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.9)";
+        var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.2)";
       } else {
         var stroke_width = world.getView().getZoom() > 4 ? 2 : 1.5;
         var stroke_color = '#0c75bf';
         var zIndex = 2;
 
-        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+        var color = "#a1cd3f";
       }
 
       return [new ol.style.Style({
@@ -805,7 +800,7 @@ var Hijax = (function ($, Hijax) {
           return [new ol.style.Style({
             stroke : new ol.style.Stroke({
               color : '#0c75bf',
-              width : world.getView().getZoom() > 4 ? 2 : 1.5
+              width : world.getView().getZoom() > 4 ? 4 : 2.5
             })
           })];
         },
