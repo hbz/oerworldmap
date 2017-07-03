@@ -17,7 +17,7 @@ In case of any questions of requests please do not hesitate to get in touch with
 
 <h2 id="imprint">1. Imprint</h2>
 
-OER World Map is operated under German Law by the Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz), Jülicher Str. 6 50674 Köln Deutschland, Tel.: +49 221 400 75-0 Fax.: +49 221 4 00 75-180, E-Mail: info-hbz@hbz-nrw.de Internet: http://www.hbz-nrw.de ISIL: DE-605, Umsatzsteuer-Identifikations-Nummer: DE 123486775. Das Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen ist eine Einrichtung des öffentlichen Rechts. Es wird gesetzlich vertreten durch Dr. Silke Schomburg (Leiterin). Das hbz untersteht der Dienst- und Fachaufsicht des Ministeriums für Innovation, Wissenschaft und Forschung des Landes Nordrhein-Westfalen. Inhaltliche Verantwortung gem. § 55 Abs. 2 RStV: Dr. Silke Schomburg.
+OER World Map is operated under German Law by the Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz), Jülicher Str. 6 50674 Köln Deutschland, Tel.: +49 221 400 75-0 Fax.: +49 221 4 00 75-180, E-Mail: info-hbz@hbz-nrw.de Internet: http://www.hbz-nrw.de ISIL: DE-605, Umsatzsteuer-Identifikations-Nummer: DE 123486775. Das Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen ist eine Einrichtung des öffentlichen Rechts. Es wird gesetzlich vertreten durch Dr. Silke Schomburg (Leiterin). Das hbz untersteht der Dienst- und Fachaufsicht des Ministeriums für Kultur und Wissenschaft des Landes Nordrhein-Westfalen. Inhaltliche Verantwortung gem. § 55 Abs. 2 RStV: Dr. Silke Schomburg.
 
 <h2 id="liability">2. Liability / Haftung</h2>
 
