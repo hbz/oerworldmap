@@ -29,7 +29,7 @@ public class I18n extends OERWorldMap {
   public Result get() {
     Map<String, Object> i18n = new HashMap<>();
 
-    for (String bundleName : new String[]{"messages", "iso3166-2"}) {
+    for (String bundleName : new String[]{"messages", "iso3166-2", "ui"}) {
       Map<String, String> strings = new HashMap<>();
       ResourceBundle bundle = ResourceBundle.getBundle(bundleName, getLocale());
       for (String key : Collections.list(ResourceBundle.getBundle(bundleName, getLocale()).getKeys())) {

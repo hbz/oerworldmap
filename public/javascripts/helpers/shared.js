@@ -460,9 +460,8 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
     var href = urltemplate.parse(options.hash['href-template']).expand(url_params);
     var arc = createElement("a", true, {
       "xlink:href": href,
-      // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?),
-      // we are accessing the Java handlebars helpers here for internationalization.
-      "xlink:title": Packages.helpers.HandlebarsHelpers._i18n(buckets[i]['key'], null) + " (" + buckets[i]['doc_count'] + ")"
+      // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?), title cannot be localized
+      "xlink:title": buckets[i]['key'] + " (" + buckets[i]['doc_count'] + ")"
     }, path);
     arcs.push(arc);
   }
