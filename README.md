@@ -64,6 +64,61 @@ Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sb
 
 ## Contribute
 
+### Localizations
+
+You are very welcome to translate the UI of the OER World Map to other languages. To localize the entire site, translations for UI elements as well as for content (such as the [About](https://oerworldmap.org/about) page) are needed. You will create a number of files during the process; if you are not comfortable with using GitHub, you can simply send us those files by email!
+
+#### Localization of UI elements
+
+In order to localize UI elements such as button labels, several files have to be translated: [labels](conf/labels.properties), [descriptions](conf/descriptions.properties), [messages](conf/messages.properties) and [ui](conf/ui.properties). The format is pretty straight forward, each line consists of a key that is assigned a value:
+
+```
+Article.name = Title
+Article.description = Teaser
+Article.articleBody = Body
+Article.dateCreated = Date created
+Article.image = Illustrating Image
+Article.creator = Creator
+```
+
+In order to translate a file, simple copy it and add the target language as a suffix. E.g. to translate the [labels](conf/labels.properties) to German, create a copy of the file named `labels_de.properties`. Then replace all the values by their German translations:
+
+```
+Article.name = Titel
+Article.description = Aufmacher
+Article.articleBody = Text
+Article.dateCreated = Erstellungsdatum
+Article.image = Illustrierendes Bild
+Article.creator = Ersteller
+```
+
+#### Localization of content
+
+All static pages are located in [public/pages](public/pages). They are formatted using [markdown](https://daringfireball.net/projects/markdown/syntax) along with some structured data at the beginning, the so called front matter:
+
+    ---
+    title: FAQ
+    ---
+
+    ## What is OER?
+    'OER' stands for 'Open Educational Resources' and this
+    refers to freely accessible materials that can be used
+    for a [range of activities around teaching and learning]
+    https://www.opencontent.org/definition/). What makes
+    them open is typically an open license instead of a
+    traditional copyright license.
+
+In order to translate a static page, copy it and add the target language as a suffix. E.g. to translate the [FAQ](public/pages/FAQ.md) to German, create a copy of the file named `FAQ_de.md`. Then translate the content, including the front matter at the very beginning:
+
+    ---
+    title: FAQ
+    ---
+
+    ## Was ist OER
+    'OER' steht für 'Open Educational Resources' ...
+
+ The title that is specified in the front matter will be automatically added at the top of the page and will also be used in the navigation in the site header. 
+
 ### Coding conventions
 
 Indent blocks by *two spaces* and wrap lines at *100 characters*. For more
