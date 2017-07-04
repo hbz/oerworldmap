@@ -1,5 +1,7 @@
 <div class="container container-static-page container-static-page-vertical">
     <div class="html-from-markdown">
+        <h1>{{scope.title}}</h1>
+        {{#if scope.author}}<em>{{ scope.author }}</em>{{/if}}
         {{{scope.body}}}
     </div>
 </div>

@@ -1,4 +1,7 @@
-# Contribute
+---
+title: Contribute
+---
+
 ## Raise awareness
 ### Spread the news
 People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities.  We need to build the network together, so please speak to your friends and colleagues or use social media to reach out more widely (use [#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
