@@ -15,13 +15,13 @@
                 {{/if}}
 
                 <li class="dropdown">
-                    <button type="button" class="icon-btn" data-toggle="dropdown" title="{{i18n 'ResourceIndex.read.shareAndExport'}}">
+                    <button type="button" class="icon-btn" data-toggle="dropdown" title="{{i18n 'shareAndExport'}}">
                         <i class="fa fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#resource-share-detail" data-app="to-modal-and-attach-behaviours">{{i18n "ResourceIndex.read.share"}} <i class="fa fa-fw fa-share"></i></a></li>
-                        <li><a href="#resource-export-detail" data-app="to-modal-and-attach-behaviours">{{i18n "ResourceIndex.read.export"}} <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
-                        <li><button onclick="return window.print();">{{i18n "ResourceIndex.read.print"}} <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                        <li><a href="#resource-share-detail" data-app="to-modal-and-attach-behaviours">{{i18n "share"}} <i class="fa fa-fw fa-share"></i></a></li>
+                        <li><a href="#resource-export-detail" data-app="to-modal-and-attach-behaviours">{{i18n "export"}} <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
+                        <li><button onclick="return window.print();">{{i18n "print"}} <i class="fa fa-fw fa-file-text-o"></i></button></li>
                         {{#if ../permissions.delete}}
                             <li><a data-behaviour="delete-resource" href="/resource/{{[@id]}}">{{i18n "ResourceIndex.read.delete"}} <i class="fa fa-fw fa-trash"></i></a></li>
                         {{/if}}
@@ -736,7 +736,7 @@
                         <div class="modal-title">
                             <h1>{{i18n "ResourceIndex.read.edit"}} {{[@type]}}</h1>
                             <div class="right">
-                                <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "ResourceIndex.read.needHelp"}}</a>
+                                <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                             </div>
                         </div>
 
@@ -749,8 +749,8 @@
                                 {{{i18n "ResourceIndex.read.agree"}}}
                             </p>
                             <div class="pull-right">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "ResourceIndex.read.cancel"}}</button>
-                                <button type="submit" class="btn btn-inverted">{{i18n "ResourceIndex.read.publish"}}</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                                <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
                             </div>
                         </div>
 
@@ -804,7 +804,7 @@
 
                 {{#if ../permissions.comment}}
 
-                    <h2>{{i18n "ResourceIndex.read.addComment"}}</h2>
+                    <h2>{{i18n "add"}} {{i18n "comment"}}</h2>
                     {{#if user.name}}
                         <form method="post" action="/resource/{{[@id]}}/comment">
                             {{>ResourceIndex/Comment/edit.mustache}}
@@ -815,7 +815,7 @@
                     {{else}}
                         <p>
                             <em>
-                                {{{i18n "ResourceIndex.read.provideNameMessage"}}}
+                                {{{stringFormat (i18n "ResourceIndex.read.provideNameMessage") user.[@id]}}} 
                             </em>
                         </p>
                     {{/if}}

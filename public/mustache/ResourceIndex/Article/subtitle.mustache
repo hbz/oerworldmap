@@ -21,13 +21,13 @@
     </span>
 {{/if}}
 
-{{#if citation}}
-    {{{i18n "ResourceIndex.Article.subtitle.originallyPublished"}}} <a href="{{exampleOfWork}}">{{exampleOfWork}}</a>.
+{{#if citation}} 
+    {{{stringFormat (i18n "ResourceIndex.Article.subtitle.originallyPublished") citation}}} <a href="{{exampleOfWork}}">{{exampleOfWork}}</a>.
 {{/if}}
 
 {{#if additionalType}}
     <span>
-        {{i18n "ResourceIndex.Article.subtitle.additionalType"}}
+        {{i18n "additionalType"}}
         {{#additionalType}}
             {{.}}{{#unless @last}},{{/unless}}
         {{/additionalType}}
