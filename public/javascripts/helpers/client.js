@@ -5,7 +5,7 @@ function scroll_to_element(scroll_container, element) {
 }
 
 Handlebars.registerHelper('i18n', function (key, options) {
-  var bundle = options.hash.bundle || 'messages';
+  var bundle = options.hash.bundle || 'ui';
   return new Handlebars.SafeString(i18nStrings[bundle][key] || key);
 });
 

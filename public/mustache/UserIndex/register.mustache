@@ -2,32 +2,32 @@
 
     <div class="text-center">
 
-        <h1 class="modal-title">Login</h1>
+        <h1 class="modal-title">{{i18n "UserIndex.register.login"}}</h1>
 
-        <p>When you click the login button your browser will present you a popup where you can enter your email address and password.</p>
+        <p>{{i18n "UserIndex.register.loginMessage"}}</p>
 
-        <a class="btn btn-default" href="/.login" data-behaviour="continue-link">Login</a>
+        <a class="btn btn-default" href="/.login" data-behaviour="continue-link">{{i18n "UserIndex.register.login"}}</a>
 
         <hr/>
 
         <form action="/user/password" method="post">
 
-            <h2>Forgot password?</h2>
+            <h2>{{i18n "UserIndex.register.forgotPassword"}}</h2>
 
             <p>
-                Enter your email address, we will send you a temporary password.
+                {{i18n "UserIndex.register.forgotPasswordMessage"}}
             </p>
 
             <div class="messages alert alert-danger"></div>
 
             <input type="hidden" name="@type" value="Person">
 
-            <label class="sr-only" for="forgot-email">{{i18n "email_address"}}</label>
+            <label class="sr-only" for="forgot-email">{{i18n "UserIndex.register.emailAddress"}}</label>
 
             <div class="input-group" style="width: 80%; margin: 0 auto;">
-                <input type="email" name="email" required id="forgot-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "placeholder_email"}}" />
+                <input type="email" name="email" required id="forgot-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "UserIndex.register.placeholderEmail"}}" />
                 <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default">Reset Password</button>
+                    <button type="submit" class="btn btn-default">{{i18n "UserIndex.register.resetPassword"}}</button>
                 </div>
             </div>
 
@@ -37,21 +37,21 @@
 
         <form action="/user/register" method="post">
 
-            <h2>Register</h2>
+            <h2>{{i18n "UserIndex.register.register"}}</h2>
 
             <div class="messages alert alert-danger"></div>
 
             <input type="hidden" name="@type" value="Person">
 
             <div class="form-group">
-                <label class="sr-only" for="register-email">Name</label>
-                <input type="text" name="name[0][@value]" class="form-control" required id="register-name-value" placeholder="{{i18n "placeholder_name"}}">
+                <label class="sr-only" for="register-email">{{i18n "UserIndex.register.name"}}</label>
+                <input type="text" name="name[0][@value]" class="form-control" required id="register-name-value" placeholder="{{i18n "UserIndex.register.placeholderName"}}">
                 <input type="hidden" name="name[0][@language]" value="en" id="register-name-language">
             </div>
 
             <div class="form-group">
                 <select class="form-control" name="location[address][addressCountry]" required id="register-country">
-                    <option value="">{{i18n "placeholder_country"}}</option>
+                    <option value="">{{i18n "UserIndex.register.placeholderCountry"}}</option>
                     {{#scope.countries}}
                     <option value="{{alpha-2}}">{{name}}</option>
                     {{/scope.countries}}
@@ -59,45 +59,45 @@
             </div>
 
             <div class="form-group">
-                <label class="sr-only" for="register-email">Email address</label>
-                <input type="email" name="email" class="form-control" required id="register-email" placeholder="{{i18n "placeholder_email"}}">
+                <label class="sr-only" for="register-email">{{i18n "UserIndex.register.emailAddress"}}</label>
+                <input type="email" name="email" class="form-control" required id="register-email" placeholder="{{i18n "UserIndex.register.placeholderEmail"}}">
             </div>
 
             <div class="form-group">
-                <label class="sr-only" for="register-password">Password</label>
-                <input type="password" name="password" class="form-control" required id="register-password" placeholder="Choose Password ...">
+                <label class="sr-only" for="register-password">{{i18n "UserIndex.register.password"}}</label>
+                <input type="password" name="password" class="form-control" required id="register-password" placeholder="{{i18n 'UserIndex.register.choosePassword'}} ...">
             </div>
 
             <div class="form-group">
-                <label class="sr-only" for="register-password-confirm">Repeat Password</label>
-                <input type="password" name="password-confirm" class="form-control" required id="register-password-confirm" placeholder="Repeat Password ...">
+                <label class="sr-only" for="register-password-confirm">{{i18n "UserIndex.register.repeatPassword"}}</label>
+                <input type="password" name="password-confirm" class="form-control" required id="register-password-confirm" placeholder="{{i18n 'UserIndex.register.repeatPassword'}} ...">
             </div>
 
             <div class="checkbox text-left">
                 <label>
-                    <input type="checkbox" name="privacy-policy-accepted" id="privacy-policy-accepted" required>  By registering, I agree to the terms of the <a href="/imprint" target="_blank">privacy policy</a>. I specifically agree to publish the information I provide, except for my password, which will be stored securely. Your activities within OER World Map will also be stored and processed for the purpose of improving the service as well as to prove your consent to specific activities.&#42;
+                    <input type="checkbox" name="privacy-policy-accepted" id="privacy-policy-accepted" required>  {{{i18n "UserIndex.register.agreePolicy"}}}
                 </label>
             </div>
 
             <div class="checkbox text-left">
                 <label>
-                    <input type="checkbox" name="terms-of-service-accepted" id="terms-of-service-accepted" required>  I also agree to the <a href="/imprint" target="_blank">Terms of the service</a>. Especially, I will ensure, that no rights of others are violated by me publishing information through OER World Map. This includes the privacy and copyrights of others.&#42;
+                    <input type="checkbox" name="terms-of-service-accepted" id="terms-of-service-accepted" required>  {{{i18n "UserIndex.register.agreeService"}}}
                 </label>
             </div>
 
             <div class="checkbox text-left">
                 <label>
-                    <input type="checkbox" name="add-email" id="add-email">  I agree to having my email-address published as part of my profile
+                    <input type="checkbox" name="add-email" id="add-email">  {{i18n "UserIndex.register.agreeEmail"}}
                 </label>
             </div>
 
             <div class="checkbox text-left">
                 <label>
-                    <input type="checkbox" name="register-newsletter" id="register-newsletter">  I want to subscribe to the OER World Map Newsletter
+                    <input type="checkbox" name="register-newsletter" id="register-newsletter">  {{i18n "UserIndex.register.subscribe"}}
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-default">Register</button>
+            <button type="submit" class="btn btn-default">{{i18n "UserIndex.register.register"}}</button>
 
         </form>
 

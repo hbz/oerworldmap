@@ -16,13 +16,13 @@
 
         {{#champions}}
             {{#if doc_count}}
-                Country Champion: <i class="fa fa-check"></i>
+                {{i18n "ClientTemplates.popoverCountry.champion"}}: <i class="fa fa-check"></i>
             {{else}}
-                Country Champion: <i class="fa fa-times"></i>
+                {{i18n "ClientTemplates.popoverCountry.champion"}}: <i class="fa fa-times"></i>
             {{/if}}
         {{/champions}}
         {{^champions}}
-            Country Champion: <i class="fa fa-times"></i>
+            {{i18n "ClientTemplates.popoverCountry.champion"}}: <i class="fa fa-times"></i>
         {{/champions}}
 
     </div>

@@ -1,10 +1,10 @@
 <div data-app="to-modal-on-load" data-dont-behave>
 
-    <h1 class="modal-title">Administer Groups</h1>
+    <h1 class="modal-title">{{i18n "UserIndex.groups.title"}}</h1>
 
     <form method="post" action="/user/groups">
         <table class="table">
-            <tr><th>Group</th><th>Users</th></tr>
+            <tr><th>{{i18n "UserIndex.groups.group"}}</th><th>{{i18n "UserIndex.groups.users"}}</th></tr>
             {{#each scope.groups}}
                 <tr>
                     <td>{{[@key]}}</td>
@@ -25,10 +25,10 @@
         <div class="container-top-line text-center">
             <button class="btn btn-default" type="submit">
                 <span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>
-                Save
+                {{i18n "UserIndex.groups.save"}}
             </button>
             <button class="btn btn-default" data-dismiss="modal">
-                Cancel
+                {{i18n "UserIndex.groups.cancel"}}
             </button>
         </div>
     </form>

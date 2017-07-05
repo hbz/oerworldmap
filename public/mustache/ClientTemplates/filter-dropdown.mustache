@@ -32,7 +32,7 @@
     {{#if typeahead}}
 
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-typeahead">
-            <button type="button" class="btn btn-warning" data-filter-action="apply-filter">Apply Filter</button>
+            <button type="button" class="btn btn-warning" data-filter-action="apply-filter">{{i18n "ClientTemplates.filter-dropdown.applyFilter"}}</button>
             <div style="position: relative;">
                 <input type="text" class="form-control typeahead" placeholder="..." />
                 <div class="input-icon">
@@ -44,7 +44,7 @@
     {{else}}
 
         <div class="dropdown-menu dropdown-menu-right">
-            <button type="button" class="btn btn-warning" data-filter-action="apply-filter">Apply Filter</button>
+            <button type="button" class="btn btn-warning" data-filter-action="apply-filter">{{i18n "ClientTemplates.filter-dropdown.applyFilter"}}</button>
 
             {{#each buckets}}
 
@@ -55,8 +55,8 @@
             {{else}}
 
                 <div class="tt-suggestion">
-                    <em>No filter options available for <strong>{{button_text}}</strong></em><br/>
-                    <small>(The current result doesn't include resources with corresponding data)</small>
+                    <em>{{i18n "ClientTemplates.filter-dropdown.suggestionTitle"}} <strong>{{button_text}}</strong></em><br/>
+                    <small>{{i18n "ClientTemplates.filter-dropdown.suggestionMessage"}}</small>
                 </div>
 
             {{/each}}

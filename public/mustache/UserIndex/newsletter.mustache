@@ -2,9 +2,9 @@
 
     <form action="/user/newsletter" method="post" class="text-center">
 
-        <h1 class="modal-title">{{i18n "newsletter_signup_title"}}</h1>
+        <h1 class="modal-title">{{i18n "UserIndex.newsletter.newsletterSignupTitle"}}</h1>
 
-        <p>{{i18n "newsletter_signup_call"}}</p>
+        <p>{{i18n "UserIndex.newsletter.newsletterSignupCall"}}</p>
 
         {{#messages.size}}
             <ul id="messages">
@@ -21,19 +21,19 @@
         <input type="hidden" name="@type" value="Person" />
 
         <div class="form-group">
-            <label class="sr-only" for="register-email">{{i18n "email_address"}}</label>
-            <input type="email" name="email" required id="register-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "placeholder_email"}}" />
+            <label class="sr-only" for="register-email">{{i18n "UserIndex.newsletter.emailAddress"}}</label>
+            <input type="email" name="email" required id="register-email" class="form-control" value="{{scope.user.email}}" placeholder="{{i18n "UserIndex.newsletter.placeholderEmail"}}" />
         </div>
 
-        <p>{{{i18n "newsletter_signup_priv"}}}</p>
+        <p>{{{i18n "UserIndex.newsletter.newsletterSignupPriv"}}}</p>
 
         <div class="container-top-line">
             <button class="btn btn-default" type="submit">
                 <span class="loading-indicator"><i class="fa fa-spinner fa-pulse"></i></span>
-                {{i18n "subscribe"}}
+                {{i18n "UserIndex.newsletter.subscribe"}}
             </button>
             <button class="btn btn-default" data-dismiss="modal">
-                Cancel
+                {{i18n "UserIndex.newsletter.cancel"}}
             </button>
         </div>
 

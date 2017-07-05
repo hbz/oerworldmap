@@ -8,7 +8,7 @@
 
 {{#if creator}}
     <span>
-        Contributed by
+        {{i18n "ResourceIndex.Article.subtitle.contributedBy"}}
         {{#creator}}
             <a href="/resource/{{@id}}">
                 {{#localized this.name language=@root.language}}
@@ -22,12 +22,12 @@
 {{/if}}
 
 {{#if citation}}
-    This article was originally published as <em>{{citation}}</em> at <a href="{{exampleOfWork}}">{{exampleOfWork}}</a>.
+    {{{i18n "ResourceIndex.Article.subtitle.originallyPublished"}}} <a href="{{exampleOfWork}}">{{exampleOfWork}}</a>.
 {{/if}}
 
 {{#if additionalType}}
     <span>
-        Additional Type:
+        {{i18n "ResourceIndex.Article.subtitle.additionalType"}}
         {{#additionalType}}
             {{.}}{{#unless @last}},{{/unless}}
         {{/additionalType}}

@@ -1,6 +1,6 @@
 <div data-app="to-modal-on-load" data-dont-behave>
 
-    <h1 class="modal-title text-center">Recent Additions</h1>
+    <h1 class="modal-title text-center">{{i18n "ResourceIndex.feed.recentAdditions"}}</h1>
 
     <ul class="resource-list">
         {{#scope.resources.member}}
@@ -12,6 +12,6 @@
         {{/scope.resources.member}}
     </ul>
 
-    <a href="/resource/?sort=dateCreated:desc">more</a>
+    <a href="/resource/?sort=dateCreated:desc">{{i18n "ResourceIndex.feed.more"}}</a>
 
 </div>

@@ -1,7 +1,7 @@
 {{#property}}
 <fieldset>
 
-  <legend>Address</legend>
+  <legend>{{i18n "ResourceIndex.PostalAddress.edit.address"}}</legend>
   {{input (stringFormat "%s[streetAddress]" property_path) streetAddress}}
   {{input (stringFormat "%s[addressLocality]" property_path) addressLocality}}
   {{input (stringFormat "%s[postalCode]" property_path) postalCode}}
@@ -13,7 +13,7 @@
 {{^property}}
     <fieldset>
 
-        <legend>Address</legend>
+        <legend>{{i18n "ResourceIndex.PostalAddress.edit.address"}}</legend>
         {{input (stringFormat "%s[streetAddress]" property_path) streetAddress}}
         {{input (stringFormat "%s[addressLocality]" property_path) addressLocality}}
         {{input (stringFormat "%s[postalCode]" property_path) postalCode}}

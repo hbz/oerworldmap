@@ -1,19 +1,19 @@
 <div id="resource-share-{{type}}" class="clearfix visible-modal text-center">
 
-    <h2>Share this Resource</h2>
+    <h2>{{i18n "share.shareResource"}}</h2>
 
     <div class="container-top-line">
         <div class="input-group">
-            <span class="input-group-addon">Permalink:</span>
+            <span class="input-group-addon">{{i18n "share.permalink"}}:</span>
             <input class="form-control" type="text" value="{{url}}" data-behaviour="select-on-click" readonly />
         </div>
     </div>
 
     <div class="container-top-line">
-        <a class="icon-btn icon-btn-lg" title="via Twitter" href="https://twitter.com/intent/tweet?url={{encodeURIComponent url}}&hashtags=oerworldmap&via=oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a>
-        <a class="icon-btn icon-btn-lg" title="via Facebook" href="https://www.facebook.com/sharer.php?u={{encodeURIComponent url}}" target="_blank"><i class="fa fa-facebook"></i></a>
-        <a class="icon-btn icon-btn-lg" title="via Reddit" href="https://reddit.com/submit?url={{encodeURIComponent url}}" target="_blank"><i class="fa fa-reddit-alien"></i></a>
-        <a class="icon-btn icon-btn-lg" title="via Email" href="mailto:?subject={{encodeURIComponent name}}&body={{encodeURIComponent url}}" class="icon-btn"><i class="fa fa-envelope"></i></a>
+        <a class="icon-btn icon-btn-lg" title="{{i18n 'share.via'}} Twitter" href="https://twitter.com/intent/tweet?url={{encodeURIComponent url}}&hashtags=oerworldmap&via=oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a>
+        <a class="icon-btn icon-btn-lg" title="{{i18n 'share.via'}} Facebook" href="https://www.facebook.com/sharer.php?u={{encodeURIComponent url}}" target="_blank"><i class="fa fa-facebook"></i></a>
+        <a class="icon-btn icon-btn-lg" title="{{i18n 'share.via'}} Reddit" href="https://reddit.com/submit?url={{encodeURIComponent url}}" target="_blank"><i class="fa fa-reddit-alien"></i></a>
+        <a class="icon-btn icon-btn-lg" title="{{i18n 'share.via'}} Email" href="mailto:?subject={{encodeURIComponent name}}&body={{encodeURIComponent url}}" class="icon-btn"><i class="fa fa-envelope"></i></a>
     </div>
 
 </div>

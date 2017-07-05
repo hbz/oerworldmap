@@ -3,18 +3,18 @@
     <div class="text-center">
 
         <p>
-            User <strong>{{username}}</strong> verified. Please sign in using your email address and password. Afterwards you may edit your personal profile using the drop down menu in the upper right corner.
+           {{{stringFormat (i18n "UserIndex.verified.message") username}}} 
         </p>
 
-        <h2>Share this</h2>
+        <h2>{{i18n "UserIndex.verified.shareThis"}}</h2>
         <div class="container-top-line">
-            <a class="icon-btn icon-btn-lg" title="via Twitter" href="https://twitter.com/intent/tweet?text=I just signed up for the OER World Map&url={{encodeURIComponent url}}&hashtags=oerworldmap&via=oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a>
-            <a class="icon-btn icon-btn-lg" title="via Facebook" href="https://www.facebook.com/sharer.php?u={{encodeURIComponent url}}" target="_blank"><i class="fa fa-facebook"></i></a>
-            <a class="icon-btn icon-btn-lg" title="via Email" href="mailto:?subject=I just signed up for the OER World Map&body={{encodeURIComponent url}}" class="icon-btn"><i class="fa fa-envelope"></i></a>
+            <a class="icon-btn icon-btn-lg" title="{{i18n 'UserIndex.verified.via'}} Twitter" href="https://twitter.com/intent/tweet?text={{i18n 'UserIndex.verified.signedMessage'}}&url={{encodeURIComponent url}}&hashtags=oerworldmap&via=oerworldmap" target="_blank"><i class="fa fa-twitter"></i></a>
+            <a class="icon-btn icon-btn-lg" title="{{i18n 'UserIndex.verified.via'}} Facebook" href="https://www.facebook.com/sharer.php?u={{encodeURIComponent url}}" target="_blank"><i class="fa fa-facebook"></i></a>
+            <a class="icon-btn icon-btn-lg" title="{{i18n 'UserIndex.verified.via'}} Email" href="mailto:?subject={{i18n 'UserIndex.verified.signedMessage'}}&body={{encodeURIComponent url}}" class="icon-btn"><i class="fa fa-envelope"></i></a>
         </div>
 
         <div class="container-top-line">
-            <a class="btn btn-default" href="/.login?continue=/resource/{{id}}">Login</a>
+            <a class="btn btn-default" href="/.login?continue=/resource/{{id}}">{{i18n "UserIndex.verified.login"}}</a>
         </div>
 
     </div>
