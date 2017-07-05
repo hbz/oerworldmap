@@ -350,8 +350,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
 
 Handlebars.registerHelper('getBundle', function (field, options) {
   var bundles = {
-    'availableLanguage': 'languages',
-    'addressCountry': 'countries',
+    'availableLanguage': 'iso639-1',
+    'addressCountry': 'iso3166-1-alpha-2',
     'addressRegion' : 'iso3166-2'
   }
   return bundles[field] || 'messages';

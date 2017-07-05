@@ -2,8 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import helpers.Countries;
-import helpers.Languages;
 import org.apache.commons.lang3.StringEscapeUtils;
 import play.Configuration;
 import play.Environment;
@@ -21,6 +19,10 @@ import java.util.ResourceBundle;
  */
 public class I18n extends OERWorldMap {
 
+  private String[] mBundles = {
+    "ui", "messages", "iso3166-1-alpha-2", "iso3166-1-alpha-3", "iso3166-2", "iso639-1", "iso639-2"
+  };
+
   @Inject
   public I18n(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
@@ -29,7 +31,7 @@ public class I18n extends OERWorldMap {
   public Result get() {
     Map<String, Object> i18n = new HashMap<>();
 
-    for (String bundleName : new String[]{"messages", "iso3166-2", "ui"}) {
+    for (String bundleName : mBundles) {
       Map<String, String> strings = new HashMap<>();
       ResourceBundle bundle = ResourceBundle.getBundle(bundleName, getLocale());
       for (String key : Collections.list(ResourceBundle.getBundle(bundleName, getLocale()).getKeys())) {
@@ -43,10 +45,6 @@ public class I18n extends OERWorldMap {
       }
       i18n.put(bundleName, strings);
     }
-
-
-    i18n.put("countries", Countries.map(getLocale()));
-    i18n.put("languages", Languages.map(getLocale()));
 
     String countryMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
     return ok("window.i18nStrings = ".concat(countryMap)).as("application/javascript");

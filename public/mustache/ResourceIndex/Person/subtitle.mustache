@@ -3,7 +3,7 @@
     <span>
         {{i18n (stringFormat "%s.countryChampionFor" @type)}}
         {{#countryChampionFor}}
-            <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>{{#unless @last}},{{/unless}}
+            <a href="/country/{{.}}">{{i18n . bundle="iso3166-1-alpha-2"}}</a>{{#unless @last}},{{/unless}}
         {{/countryChampionFor}}
     </span>
 
@@ -13,7 +13,7 @@
 
     {{#if location.address.addressCountry}}
         <span>
-            <a href="/country/{{location.address.addressCountry}}">{{i18n location.address.addressCountry bundle = "countries"}}</a>
+            <a href="/country/{{location.address.addressCountry}}">{{i18n location.address.addressCountry bundle="iso3166-1-alpha-2"}}</a>
         </span>
     {{/if}}
 

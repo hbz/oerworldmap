@@ -1,7 +1,6 @@
 GET     /                           controllers.LandingPage.get()
 GET     /robots.txt                 controllers.Robots.get()
 GET     /assets/i18n.js             controllers.I18n.get()
-GET     /assets/iso3166.js          controllers.CountryIndex.iso3166()
 GET     /assets/json/context.json   controllers.Assets.at(path="/", file="context.json")
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /user/register              controllers.UserIndex.signup()

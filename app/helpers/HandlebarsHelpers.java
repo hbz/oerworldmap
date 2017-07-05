@@ -59,7 +59,7 @@ public class HandlebarsHelpers {
         return ResourceBundle.getBundle("languages", mController.getLocale()).getString(key);
       } catch (MissingResourceException notLanguage) {
         try {
-          return ResourceBundle.getBundle("countries", mController.getLocale()).getString(key);
+          return ResourceBundle.getBundle("iso3166-1", mController.getLocale()).getString(key);
         } catch (MissingResourceException notCountry) {
           try {
             return ResourceBundle.getBundle("labels", mController.getLocale()).getString(key);

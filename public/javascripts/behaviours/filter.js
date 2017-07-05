@@ -32,8 +32,8 @@ var Hijax = (function ($, Hijax, page) {
   };
 
   var i18n_bundles = {
-    "about.availableChannel.availableLanguage" : "languages",
-    "about.location.address.addressCountry" : "countries",
+    "about.availableChannel.availableLanguage" : "iso639-1",
+    "about.location.address.addressCountry" : "iso3166-1-alpha-2",
     "about.location.address.addressRegion" : "iso3166-2"
   };
 
@@ -59,7 +59,7 @@ var Hijax = (function ($, Hijax, page) {
       var bundle = 'messages';
     }
 
-    if(bundle == "countries") {
+    if(bundle == "iso3166-1-alpha-2") {
       key = key.toUpperCase();
     }
 

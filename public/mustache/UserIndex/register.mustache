@@ -52,9 +52,9 @@
             <div class="form-group">
                 <select class="form-control" name="location[address][addressCountry]" required id="register-country">
                     <option value="">{{i18n "UserIndex.register.placeholderCountry"}}</option>
-                    {{#scope.countries}}
-                    <option value="{{alpha-2}}">{{name}}</option>
-                    {{/scope.countries}}
+                    {{#each scope.countries}}
+                        <option value="{{@key}}">{{.}}</option>
+                    {{/each}}
                 </select>
             </div>
 

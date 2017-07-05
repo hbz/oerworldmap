@@ -12,10 +12,10 @@ var Hijax = (function ($, Hijax) {
 
       my.countries_array = [];
 
-      for(i in i18nStrings.countries) {
+      for(i in i18nStrings["iso3166-1-alpha-2"]) {
         my.countries_array.push({
           id: i,
-          label: i18nStrings.countries[i]
+          label: i18nStrings["iso3166-1-alpha-2"][i]
         });
       }
 
@@ -102,7 +102,7 @@ var Hijax = (function ($, Hijax) {
 
         if(current_country_code != "") {
           country_dropdown_button.find('.text').text(
-            i18nStrings.countries[ current_country_code ]
+            i18nStrings["iso3166-1-alpha-2"][ current_country_code ]
           );
         }
 
@@ -255,7 +255,7 @@ var Hijax = (function ($, Hijax) {
 
 
             setCoordinatesFromLonLat(suggestion.feature.geometry.coordinates);
-            country_dropdown_button.find('.text').text(i18nStrings.countries[properties.country_a2]);
+            country_dropdown_button.find('.text').text(i18nStrings["iso3166-1-alpha-2"][properties.country_a2]);
 
           });
 
