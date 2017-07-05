@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public class I18n extends OERWorldMap {
 
   private String[] mBundles = {
-    "ui", "messages", "iso3166-1-alpha-2", "iso3166-1-alpha-3", "iso3166-2", "iso639-1", "iso639-2"
+    "ui", "iso3166-1-alpha-2", "iso3166-1-alpha-3", "iso3166-2", "iso639-1", "iso639-2"
   };
 
   @Inject

@@ -203,12 +203,6 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  ResourceBundle getMessages() {
-
-    return ResourceBundle.getBundle("messages", getLocale());
-
-  }
-
   ResourceBundle getEmails() {
 
     return ResourceBundle.getBundle("emails", getLocale());
