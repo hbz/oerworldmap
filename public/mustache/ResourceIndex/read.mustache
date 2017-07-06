@@ -804,7 +804,7 @@
 
                 {{#if ../permissions.comment}}
 
-                    <h2>{{i18n "add"}} {{i18n "comment"}}</h2>
+                    <h2>{{i18n "comment"}}</h2>
                     {{#if user.name}}
                         <form method="post" action="/resource/{{[@id]}}/comment">
                             {{>ResourceIndex/Comment/edit.mustache}}
@@ -815,7 +815,7 @@
                     {{else}}
                         <p>
                             <em>
-                                {{{stringFormat (i18n "ResourceIndex.read.provideNameMessage") user.[@id]}}} 
+                                {{{stringFormat (i18n "ResourceIndex.read.provideNameMessage") user.[@id]}}}
                             </em>
                         </p>
                     {{/if}}
