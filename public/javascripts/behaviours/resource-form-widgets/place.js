@@ -65,13 +65,13 @@ var Hijax = (function ($, Hijax) {
         };
 
         var placeholders = {
-          'location[address][streetAddress]' : 'Address',
-          'location[address][addressLocality]' : 'City',
-          'location[address][postalCode]' : 'ZIP',
-          'location[address][addressRegion]' : 'Province',
-          'location[address][addressCountry]' : 'Country Code (DE, US, GB, ... to be replaced by dropdown)',
-          'location[geo][lat]' : 'Latitude',
-          'location[geo][lon]' : 'Longitude'
+          'location[address][streetAddress]' : i18nStrings['ui']['resourceFormWidgets.place.address'],
+          'location[address][addressLocality]' : i18nStrings['ui']['resourceFormWidgets.place.city'],
+          'location[address][postalCode]' : i18nStrings['ui']['resourceFormWidgets.place.zip'],
+          'location[address][addressRegion]' : i18nStrings['ui']['resourceFormWidgets.place.province'],
+          'location[address][addressCountry]' : i18nStrings['ui']['resourceFormWidgets.place.countryCode'],
+          'location[geo][lat]' : i18nStrings['ui']['resourceFormWidgets.place.latitude'],
+          'location[geo][lon]' : i18nStrings['ui']['resourceFormWidgets.place.longitude']
         }
 
         for(name in inputs) {

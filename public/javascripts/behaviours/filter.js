@@ -117,7 +117,7 @@ var Hijax = (function ($, Hijax, page) {
       aggregation.filter_options = parts;
       aggregation.button_title = get_filter_label(name) + ': ' + aggregation.filter_options.join(", ");
     } else {
-      aggregation.button_title = "Filter by " + get_filter_label(name);
+      aggregation.button_title = i18nStrings['ui']['filter.by'] + " " + get_filter_label(name);
     }
 
     // button text
