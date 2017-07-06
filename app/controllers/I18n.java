@@ -2,6 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import helpers.UniversalFunctions;
+import helpers.Utf8ResourceBundle;
 import org.apache.commons.lang3.StringEscapeUtils;
 import play.Configuration;
 import play.Environment;
@@ -29,25 +31,18 @@ public class I18n extends OERWorldMap {
   }
 
   public Result get() {
+
     Map<String, Object> i18n = new HashMap<>();
 
     for (String bundleName : mBundles) {
-      Map<String, String> strings = new HashMap<>();
-      ResourceBundle bundle = ResourceBundle.getBundle(bundleName, getLocale());
-      for (String key : Collections.list(ResourceBundle.getBundle(bundleName, getLocale()).getKeys())) {
-        try {
-          String message = StringEscapeUtils.unescapeJava(new String(bundle.getString(key)
-            .getBytes("ISO-8859-1"), "UTF-8"));
-          strings.put(key, message);
-        } catch (UnsupportedEncodingException e) {
-          strings.put(key, bundle.getString(key));
-        }
-      }
+      Map<String, String> strings = UniversalFunctions.resourceBundleToMap(
+        Utf8ResourceBundle.getBundle(bundleName, getLocale()));
       i18n.put(bundleName, strings);
     }
 
-    String countryMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
-    return ok("window.i18nStrings = ".concat(countryMap)).as("application/javascript");
+    String i18nMap = new ObjectMapper().convertValue(i18n, JsonNode.class).toString();
+    return ok("window.i18nStrings = ".concat(i18nMap)).as("application/javascript");
+
   }
 
 }

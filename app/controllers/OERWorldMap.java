@@ -14,6 +14,7 @@ import helpers.HandlebarsHelpers;
 import helpers.JSONForm;
 import helpers.ResourceTemplateLoader;
 import helpers.UniversalFunctions;
+import helpers.Utf8ResourceBundle;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -205,7 +206,7 @@ public abstract class OERWorldMap extends Controller {
 
   ResourceBundle getEmails() {
 
-    return ResourceBundle.getBundle("emails", getLocale());
+    return Utf8ResourceBundle.getBundle("emails", getLocale());
 
   }
 
