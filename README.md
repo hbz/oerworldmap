@@ -119,7 +119,7 @@ You are very welcome to translate the UI of the OER World Map to other languages
 
 #### Localization of UI elements
 
-In order to localize UI elements such as button labels, several files have to be translated: [labels](conf/labels.properties), [descriptions](conf/descriptions.properties), [messages](conf/messages.properties) and [ui](conf/ui.properties). The format is pretty straight forward, each line consists of a key that is assigned a value:
+In order to localize UI elements such as button labels, several files have to be translated: [labels](conf/labels.properties), [descriptions](conf/descriptions.properties) for the input templates and [ui](conf/ui.properties) for the rest of the UI. The format is pretty straight forward, each line consists of a key that is assigned a value:
 
 ```
 Article.name = Title
@@ -140,6 +140,8 @@ Article.dateCreated = Erstellungsdatum
 Article.image = Illustrierendes Bild
 Article.creator = Ersteller
 ```
+
+Other properties files such as those for country and language names need not be translated manually. We will automatically generate them when deploying your translation.
 
 #### Localization of content
 
