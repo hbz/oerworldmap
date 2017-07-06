@@ -24,7 +24,7 @@
 
                             {{#if permissions.administer}}
                                 <li>
-                                    <a href="/user/groups" title="Groups">
+                                    <a href="/user/groups" title="{{i18n 'ClientTemplates.app.groups'}}">
                                         <i class="fa fa-gear"></i>
                                     </a>
                                 </li>
@@ -33,7 +33,7 @@
                             {{#if permissions.add}}
 
                                 <li class="dropdown">
-                                    <button type="button" data-toggle="dropdown" title="Add Entry">
+                                    <button type="button" data-toggle="dropdown" title="{{i18n 'ClientTemplates.app.add'}}">
                                         <i class="fa fa-fw fa-plus"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dLabel">
@@ -50,19 +50,19 @@
 
 
                             <li>
-                                <a href="/user/newsletter" title="Subscribe to Newsletter">
+                                <a href="/user/newsletter" title="{{i18n 'ClientTemplates.app.newsletter'}}">
                                     <i class="fa fa-fw fa-envelope"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/aggregation/" title="Statistics">
+                                <a href="/aggregation/" title="{{i18n 'ClientTemplates.app.statistics'}}">
                                     <i class="fa fa-fw fa-pie-chart"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/feed/" title="Recent Additions">
+                                <a href="/feed/" title="{{i18n 'ClientTemplates.app.recentAdditions'}}">
                                     <i class="fa fa-fw fa-rss"></i>
                                 </a>
                             </li>
