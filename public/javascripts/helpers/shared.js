@@ -354,7 +354,7 @@ Handlebars.registerHelper('getBundle', function (field, options) {
     'addressCountry': 'iso3166-1-alpha-2',
     'addressRegion' : 'iso3166-2'
   }
-  return bundles[field] || 'messages';
+  return bundles[field] || 'ui';
 });
 
 Handlebars.registerHelper('getResourceUrl', function (url, options) {
@@ -518,7 +518,7 @@ function nestedAggregation(aggregation, collapsed, id) {
           '<div class="schema-tree-item">' +
             '<i class="fa fa-fw fa-tag schema-tree-icon"></i>' +
             '<a href="/resource/' + key + '">' +
-              Packages.helpers.HandlebarsHelpers._i18n(key, null) + " (" + aggregation[key]["doc_count"] + ")" +
+              key + " (" + aggregation[key]["doc_count"] + ")" +
             '</a>' +
             (
               Object.keys(aggregation[key]).length > 1 ?
@@ -655,7 +655,9 @@ Handlebars.registerHelper('formatLocation', function (format, location, prefix) 
     if(location && location.address && location.address.addressCountry) {
       elements.push(
         //i18nStrings['countries'][ location.addressCountry.toUpperCase() ]
-        Packages.helpers.HandlebarsHelpers._i18n(location.address.addressCountry, null)
+        //Packages.helpers.HandlebarsHelpers._i18n(location.address.addressCountry, null)
+        //FIXME: get country name
+        location.address.addressCountry
       );
     }
 

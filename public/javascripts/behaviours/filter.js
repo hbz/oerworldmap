@@ -56,7 +56,7 @@ var Hijax = (function ($, Hijax, page) {
     if(i18n_bundles[ aggregation ]) {
       var bundle = i18n_bundles[ aggregation ];
     } else {
-      var bundle = 'messages';
+      var bundle = 'ui';
     }
 
     if(bundle == "iso3166-1-alpha-2") {
@@ -124,7 +124,7 @@ var Hijax = (function ($, Hijax, page) {
     if(aggregation.active) {
       aggregation.button_text = aggregation.filter_options[0] + (aggregation.filter_options.length > 1 ? ', ...' : '');
     } else {
-      aggregation.button_text = localize('messages', get_field(name));
+      aggregation.button_text = localize('ui', get_field(name));
     }
 
     // pimp buckets

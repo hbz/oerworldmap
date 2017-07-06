@@ -163,7 +163,7 @@ var Hijax = (function ($, Hijax) {
         return $.map(
           lookup_url.match(/@type[=:](\w*)/g),
           function(val){
-            return window.i18nStrings.messages[val.replace(/@type[:=]/, '')] || val.replace(/@type[:=]/, '');
+            return window.i18nStrings.ui[val.replace(/@type[:=]/, '')] || val.replace(/@type[:=]/, '');
           }
         );
       }
