@@ -181,93 +181,137 @@
 
 {{#scope.iso3166}}
 
-    <div class="column-section-new">
+    <div class="visible-scope" data-app="scope">
 
-        <div class="resource-header">
-            <h1>{{i18n alpha-2 bundle="countries"}}</h1>
-        </div>
+        <h2>{{i18n alpha-2 bundle="countries"}}</h2>
 
-        {{#if champions}}
-            <div data-behaviour="carousel">
-                {{#champions}}
-                    {{#about}}
-                        <div class="country-champion">
+        <section>
 
-                            {{#image}}
-                                <img src="{{.}}" class="img" />
-                            {{/image}}
-                            {{^image}}
-                                <div class="img placeholder-image-qmark"></div>
-                            {{/image}}
+            <h4 class="section-head">
+                <a role="button" data-toggle="collapse" href="#country-champion">
+                    Country Champion
+                </a>
+            </h4>
 
-                            <div class="text">
-                                <h4>Country Champion</h4>
+            <div id="country-champion" class="section-body clearfix collapse in"><div class="inner">
 
-                                <ul class="resource-list truncated"><li>
-                                    {{>ResourceIndex/link.mustache}}
-                                </li></ul>
+                {{#if champions}}
 
-                                <p>
+                    {{#champions}}
+                        {{#about}}
+
+                            <div class="user">
+
+                                {{#image}}
+                                    <a href="/resource/{{@id}}" class="avatar" style="background-image: url({{.}});">
+                                        <img src="{{.}}" />
+                                    </a>
+                                {{/image}}
+                                {{^image}}
+                                    <div class="avatar placeholder-image-qmark"></div>
+                                {{/image}}
+
+                                <div class="text">
+
+                                    <a href="/resource/{{@id}}">
+                                        {{#localized this.displayName language=@root.language}}
+                                            {{[@value]}}
+                                        {{else}}
+                                            {{#localized name language=@root.language}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        {{/localized}}
+                                    </a>
+
+                                    <br/>
+
                                     <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
-                                </p>
+
+                                </div>
 
                             </div>
 
+                        {{/about}}
+                    {{/champions}}
+
+                {{else}}
+
+                    <div class="user">
+
+                        <div class="avatar placeholder-image-qmark"></div>
+
+                        <div class="text">
+                            There is no <a href="/contribute">country champion</a> for {{this.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
                         </div>
-                    {{/about}}
-                {{/champions}}
-            </div>
-        {{else}}
-            <div class="country-champion">
 
-                <div class="img placeholder-image-qmark"></div>
+                    </div>
 
-                <div class="text">
-                    There is no <a href="/contribute">country champion</a> for {{this.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
-                </div>
+                {{/if}}
 
-            </div>
+            </div></div>
+
+        </section>
+
+        {{#if reports}}
+
+            <section>
+
+                <h4 class="section-head">
+                    <a role="button" data-toggle="collapse" href="#country-reports" class="collapsed">
+                        Country Reports
+                    </a>
+                </h4>
+
+                <div id="country-reports" class="section-body collapse"><div class="inner">
+                    <ul class="resource-list">
+                        {{#reports}}
+                            {{#about}}
+                                <li about="{{@id}}">
+                                    {{>ResourceIndex/link.mustache}}
+                                </li>
+                            {{/about}}
+                        {{/reports}}
+                    </ul>
+                </div></div>
+
+            </section>
+
         {{/if}}
 
+        <section>
+
+            <h4 class="section-head">
+                <a role="button" data-toggle="collapse" href="#country-statistics" class="collapsed">
+                    Country Statistics
+                </a>
+            </h4>
+
+            <div id="country-statistics" class="section-body collapse"><div class="inner">
+
+                <script type="application/ld+json" id="json-aggregations">
+                    {{json countryAggregation}}
+                </script>
+
+                {{#countryAggregation.[about.location.address.addressCountry].buckets}}
+                    <table class="statistics-table">
+                        {{#by_type.buckets}}
+                            <tr>
+                                <td>{{doc_count}}</td>
+                                <td>{{getIcon key}}
+                                    <a href="?filter.about.@type={{key}}">{{i18n key}}</a>
+                                </td>
+                            </tr>
+                        {{/by_type.buckets}}
+                    </table>
+                {{/countryAggregation.[about.location.address.addressCountry].buckets}}
+
+            </div></div>
+
+        </section>
+
     </div>
-
-    <div class="column-section-new" id="country-statistics">
-
-        <script type="application/ld+json" id="json-aggregations">
-            {{json countryAggregation}}
-        </script>
-
-        <h3>Statistics</h3>
-
-        {{#countryAggregation.[about.location.address.addressCountry].buckets}}
-            <table class="statistics-table">
-                {{#by_type.buckets}}
-                    <tr>
-                        <td>{{doc_count}}</td>
-                        <td>{{getIcon key}}
-                            <a href="?filter.about.@type={{key}}">{{i18n key}}</a>
-                        </td>
-                    </tr>
-                {{/by_type.buckets}}
-            </table>
-        {{/countryAggregation.[about.location.address.addressCountry].buckets}}
-
-    </div>
-
-    {{#if reports}}
-        <div class="column-section-new" id="country-statistics">
-            <h3>Country reports</h3>
-            <ul class="resource-list" data-app="link-to-fragment">
-                {{#reports}}
-                    {{#about}}
-                        <li about="{{@id}}">
-                            {{>ResourceIndex/link.mustache}}
-                        </li>
-                    {{/about}}
-                {{/reports}}
-            </ul>
-        </div>
-    {{/if}}
 
 {{/scope.iso3166}}
 
