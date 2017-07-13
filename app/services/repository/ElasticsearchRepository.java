@@ -90,19 +90,20 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return Resource.fromMap(getDocument(Record.TYPE, aId));
   }
 
-  public List<Resource> getResources(final String[] aIndices, @Nonnull String aField, @Nonnull Object aValue) {
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
+                                     final String... aIndices) {
     List<Resource> resources = new ArrayList<>();
-    for (Map<String, Object> doc : getDocuments(aIndices, aField, aValue)) {
+    for (Map<String, Object> doc : getDocuments(aField, aValue, aIndices)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
   }
 
   @Override
-  public List<Resource> getAll(final String[] aIndices, @Nonnull String aType) throws IOException {
+  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) throws IOException {
     List<Resource> resources = new ArrayList<>();
-    for (Map<String, Object> doc : getDocuments(aIndices, Record.RESOURCE_KEY.concat(".")
-      .concat(JsonLdConstants.TYPE), aType)) {
+    for (Map<String, Object> doc : getDocuments(Record.RESOURCE_KEY.concat(".")
+      .concat(JsonLdConstants.TYPE), aType, aIndices)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
@@ -125,24 +126,25 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder)
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, final String... aIndices)
     throws IOException {
-    return aggregate(aIndices, aAggregationBuilder, null);
+    return aggregate(aAggregationBuilder, null, aIndices);
   }
 
-  public Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder,
-                            QueryContext aQueryContext) {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+                            QueryContext aQueryContext, final String... aIndices) {
     Resource aggregations = Resource
-      .fromJson(getAggregation(aIndices, aAggregationBuilder, aQueryContext).toString());
+      .fromJson(getAggregation(aAggregationBuilder, aQueryContext, aIndices).toString());
     if (null == aggregations) {
       return null;
     }
     return (Resource) aggregations.get("aggregations");
   }
 
-  public Resource aggregate(final String[] aIndices, @Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext) {
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
+                            QueryContext aQueryContext, final String... aIndices) {
     Resource aggregations = Resource
-      .fromJson(getAggregations(aIndices, aAggregationBuilders, aQueryContext).toString());
+      .fromJson(getAggregations(aAggregationBuilders, aQueryContext, aIndices).toString());
     if (null == aggregations) {
       return null;
     }
@@ -163,15 +165,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @throws IOException
    */
   @Override
-  public ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters) throws IOException {
-    return query(aIndices, aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, final String... aIndices)
+    throws IOException {
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, aIndices);
   }
 
-  public ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
+                            final String... aIndices) throws IOException {
 
-    SearchResponse response = esQuery(aIndices, aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters,
+      aQueryContext, aIndices);
 
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
@@ -219,7 +224,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private List<Map<String, Object>> getDocuments(final String[] aIndices, final String aField, final Object aValue) {
+  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue,
+                                                 final String... aIndices) {
     final int docsPerPage = 1024;
     int count = 0;
     SearchResponse response = null;
@@ -256,7 +262,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return response.isFound();
   }
 
-  private SearchResponse getAggregation(final String[] aIndices, final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
+  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder,
+                                        QueryContext aQueryContext, final String... aIndices) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(aIndices);
 
@@ -275,8 +282,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse getAggregations(final String[] aIndices, final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
-    aQueryContext) {
+  private SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders,
+                                         QueryContext aQueryContext, final String... aIndices) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(aIndices);
 
@@ -297,8 +304,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse esQuery(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize,
-                                 String aSortOrder, Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize,
+                                 String aSortOrder, Map<String, List<String>> aFilters,
+                                 QueryContext aQueryContext, final String... aIndices) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(aIndices);
 

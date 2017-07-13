@@ -164,16 +164,18 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters) {
-    return query(aIndices, aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, final String... aIndices) {
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, aIndices);
   }
 
-  public ResourceList query(final String[] aIndices, @Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
+                            final String... aIndices) {
     ResourceList resourceList;
     try {
-      resourceList = mESRepo.query(aIndices, aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+      resourceList = mESRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext,
+        aIndices);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
       return null;
@@ -191,30 +193,35 @@ public class BaseRepository extends Repository
     return mTriplestoreRepo.getResource(aId, aVersion);
   }
 
-  public List<Resource> getResources(final String[] aIndices, @Nonnull String aField, @Nonnull Object aValue) {
-    return mESRepo.getResources(aIndices, aField, aValue);
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
+                                     final String... aIndices) {
+    return mESRepo.getResources(aField, aValue, aIndices);
   }
 
   @Override
-  public Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return aggregate(aIndices, aAggregationBuilder, null);
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+                            final String... aIndices) throws IOException {
+    return aggregate(aAggregationBuilder, null, aIndices);
   }
 
-  public Resource aggregate(final String[] aIndices, @Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+                            QueryContext aQueryContext,
+    final String... aIndices)
       throws IOException {
-    return mESRepo.aggregate(aIndices, aAggregationBuilder, aQueryContext);
+    return mESRepo.aggregate(aAggregationBuilder, aQueryContext, aIndices);
   }
 
-  public Resource aggregate(final String[] aIndices, @Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
+                            QueryContext aQueryContext, final String... aIndices)
       throws IOException {
-    return mESRepo.aggregate(aIndices, aAggregationBuilders, aQueryContext);
+    return mESRepo.aggregate(aAggregationBuilders, aQueryContext, aIndices);
   }
 
   @Override
-  public List<Resource> getAll(final String[] aIndices, @Nonnull String aType) {
+  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = mESRepo.getAll(aIndices, aType);
+      resources = mESRepo.getAll(aType, aIndices);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
     }
