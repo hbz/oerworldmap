@@ -175,12 +175,12 @@ public class ResourceIndex extends IndexCommon {
   }
 
   public Result importResources() throws IOException {
-    return importResources(mBaseRepository);
+    return importResources();
   }
 
 
   public Result updateResource(String aId) throws IOException {
-    return updateResource(aId, mBaseRepository);
+    return updateResource(aId);
   }
 
   public Result readDefault(String id, String version) throws IOException {

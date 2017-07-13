@@ -21,7 +21,6 @@ import play.mvc.Result;
 import services.AggregationProvider;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
-import services.repository.BaseRepository;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -287,7 +286,7 @@ public abstract class IndexCommon extends OERWorldMap{
     return notFound("Not found");
   }
 
-  protected Result importResources(BaseRepository aBaseRepository) throws IOException {
+  protected Result importResources() throws IOException {
     JsonNode json = ctx().request().body().asJson();
     List<Resource> resources = new ArrayList<>();
     if (json.isArray()) {
@@ -299,14 +298,14 @@ public abstract class IndexCommon extends OERWorldMap{
     } else {
       return badRequest();
     }
-    aBaseRepository.importResources(resources, getMetadata());
+    mBaseRepository.importResources(resources, getMetadata());
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
 
-  protected Result updateResource(String aId, BaseRepository aBaseRepository) throws IOException {
+  protected Result updateResource(String aId) throws IOException {
     // If updating a resource, check if it actually exists
-    Resource originalResource = aBaseRepository.getResource(aId);
+    Resource originalResource = mBaseRepository.getResource(aId);
     if (originalResource == null) {
       return notFound("Not found: ".concat(aId));
     }
