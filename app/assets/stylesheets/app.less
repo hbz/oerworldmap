@@ -559,7 +559,7 @@
 
     width: 230px;
     max-height: calc(100% ~'-' (2 * @map-padding));
-    overflow: scroll;
+    overflow: auto;
 
     border: 1px solid @blue-paler;
     background: @blue;
@@ -615,8 +615,10 @@
       }
 
       .section-body {
-        margin-top: @scope-padding;
         font-size: @font-size-small;
+        .inner {
+          padding-top: @scope-padding;
+        }
       }
     }
 
