@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
@@ -166,7 +167,7 @@ public class BaseRepository extends Repository
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, final String... aIndices) {
-    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, aIndices);
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, checkIndices(aIndices));
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
@@ -175,7 +176,7 @@ public class BaseRepository extends Repository
     ResourceList resourceList;
     try {
       resourceList = mESRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext,
-        aIndices);
+        checkIndices(aIndices));
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
       return null;
@@ -195,33 +196,33 @@ public class BaseRepository extends Repository
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
                                      final String... aIndices) {
-    return mESRepo.getResources(aField, aValue, aIndices);
+    return mESRepo.getResources(aField, aValue, checkIndices(aIndices));
   }
 
   @Override
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
                             final String... aIndices) throws IOException {
-    return aggregate(aAggregationBuilder, null, aIndices);
+    return aggregate(aAggregationBuilder, null, checkIndices(aIndices));
   }
 
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
                             QueryContext aQueryContext,
     final String... aIndices)
       throws IOException {
-    return mESRepo.aggregate(aAggregationBuilder, aQueryContext, aIndices);
+    return mESRepo.aggregate(aAggregationBuilder, aQueryContext, checkIndices(aIndices));
   }
 
   public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
                             QueryContext aQueryContext, final String... aIndices)
       throws IOException {
-    return mESRepo.aggregate(aAggregationBuilders, aQueryContext, aIndices);
+    return mESRepo.aggregate(aAggregationBuilders, aQueryContext, checkIndices(aIndices));
   }
 
   @Override
   public List<Resource> getAll(@Nonnull String aType, final String... aIndices) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = mESRepo.getAll(aType, aIndices);
+      resources = mESRepo.getAll(aType, checkIndices(aIndices));
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
     }
@@ -290,6 +291,18 @@ public class BaseRepository extends Repository
       mResourceIndexer.index(aDiff);
     }
 
+  }
+
+  private String[] checkIndices(final String... aIndices){
+    if (aIndices == null || aIndices.length == 0){
+      return new String[]{"*"};
+    }
+    for (String index : aIndices){
+      if (! StringUtils.isEmpty(index)){
+        return aIndices;
+      }
+    }
+    return new String[]{"*"};
   }
 
 }

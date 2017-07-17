@@ -111,7 +111,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) throws IOException {
+  public List<Resource> getAll(@Nonnull String aType, String... aIndices) throws IOException {
 
     List<Resource> resources = new ArrayList<>();
 
