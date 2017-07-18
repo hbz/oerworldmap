@@ -287,7 +287,7 @@ Handlebars.registerHelper('localized', function(list, options) {
   }
 
   if (result.trim() != '') {
-    return result;
+    return result.trim();
   } else {
     return options.inverse(this);
   }
