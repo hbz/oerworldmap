@@ -1,5 +1,5 @@
 {{#location.address}}
   {{#streetAddress}}{{.}} <br />{{/streetAddress}}
   {{#postalCode}}{{.}} {{/postalCode}}{{#addressLocality}}{{.}} <br />{{/addressLocality}}
-  {{#addressCountry}}{{i18n . bundle = "countries"}}{{/addressCountry}}
+  {{#addressCountry}}{{i18n . bundle="iso3166-1-alpha-2"}}{{/addressCountry}}
 {{/location.address}}

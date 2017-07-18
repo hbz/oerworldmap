@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="hidden">
-        <legend>Service</legend>
+        <legend>{{i18n "service"}}</legend>
         {{input "@type" "Service" readonly="readonly"}}
         {{input "@id" [@id] readonly="readonly"}}
     </div>
@@ -31,16 +31,16 @@
         <div class="alert alert-info">
 
             <p>
-                The address of a service is inherited from the provider. That's why it's not shown per default. Only activate it, if this service is run in a different place then the provider is located.
+                {{i18n "ResourceIndex.Service.edit.info"}}
             </p>
 
             <p>
-                Read more: <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors#how-to-add-locations">FAQ Chapter: How to add locations?</a>
+                {{{i18n "ResourceIndex.Service.edit.readMore"}}}
             </p>
 
             <div class="container-top-line">
                 <button class="btn btn-default" type="button">
-                    Show Address
+                    {{i18n "showAddress"}}
                 </button>
             </div>
 

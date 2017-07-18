@@ -2,7 +2,7 @@
 
 {{#property}}
     <div class="hidden">
-        <legend>Grant</legend>
+        <legend>{{i18n "ResourceIndex.Grant.edit.grant"}}</legend>
         {{input (stringFormat "%s[%s][@type]" property_path @index) "Grant" readonly="readonly"}}
     </div>
 
@@ -34,7 +34,7 @@
 
 {{^property}}
     <div class="hidden">
-        <legend>Grant</legend>
+        <legend>{{i18n "ResourceIndex.Grant.edit.grant"}}</legend>
         {{input (stringFormat "%s[%s][@type]" property_path 0) "Grant" readonly="readonly"}}
     </div>
 

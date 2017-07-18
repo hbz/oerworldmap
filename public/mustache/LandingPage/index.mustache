@@ -1,20 +1,20 @@
 <div data-app="notification notification-dismissable" id="welcome">
 
-    <h1>Welcome to the OER World Map!</h1>
+    <h1>{{i18n "LandigPage.index.welcome"}}</h1>
 
     <div class="lead">
         <p>
-            Our goal is to provide the most complete and comprehensible picture of the global Open Educational Resources (OER) movement. Information is collected on people, organizations, services, projects and events related to OER.
+            {{i18n "LandigPage.index.goal"}}
         </p>
         <p>
-            Building the map is a collaborative process. You can <a href="/contribute">contribute</a>!
+            {{{i18n "LandigPage.index.contribute"}}}
         </p>
     </div>
 
 
     <div class="hidden-mobile">
 
-        <h2>Currently on the Map</h2>
+        <h2>{{i18n "LandigPage.index.currentlyTitle"}}</h2>
 
         {{#scope.typeAggregation.[about.@type]}}
 
@@ -37,21 +37,21 @@
         {{/scope.typeAggregation.[about.@type]}}
 
         <p>
-            <a href="/aggregation/">More Statistics</a>&ensp;–&ensp;<a href="/feed/">Recent Additions</a>
+            <a href="/aggregation/">{{i18n "LandigPage.index.moreStatistics"}}</a>&ensp;–&ensp;<a href="/feed/">{{i18n "LandigPage.index.recentAdditions"}}</a>
         </p>
 
     </div>
 
     <div class="visible-mobile" style="margin-top: 20px;">
         <button type="button" class="btn" data-app="close-notification">
-            Enter the map
+            {{i18n "LandigPage.index.enterMap"}}
         </button>
     </div>
 
     <div class="lead" style="margin-top: 20px;">
-        <h2>Announcement</h2>
+        <h2>{{i18n "LandigPage.index.announcement"}}</h2>
         <p>
-            Please take a moment to complete our <a href="https://www.surveymonkey.co.uk/r/OERWM2017" target="_blank">user evaluation survey</a>. Thank you!
+            {{{i18n "LandigPage.index.surveyMessage"}}}
         </p>
     </div>
 

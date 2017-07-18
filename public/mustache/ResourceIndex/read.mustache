@@ -15,15 +15,15 @@
                 {{/if}}
 
                 <li class="dropdown">
-                    <button type="button" class="icon-btn" data-toggle="dropdown" title="Share and Export">
+                    <button type="button" class="icon-btn" data-toggle="dropdown" title="{{i18n 'shareAndExport'}}">
                         <i class="fa fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#resource-share-detail" data-app="to-modal-and-attach-behaviours">Share <i class="fa fa-fw fa-share"></i></a></li>
-                        <li><a href="#resource-export-detail" data-app="to-modal-and-attach-behaviours">Export <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
-                        <li><button onclick="return window.print();">Print <i class="fa fa-fw fa-file-text-o"></i></button></li>
+                        <li><a href="#resource-share-detail" data-app="to-modal-and-attach-behaviours">{{i18n "share"}} <i class="fa fa-fw fa-share"></i></a></li>
+                        <li><a href="#resource-export-detail" data-app="to-modal-and-attach-behaviours">{{i18n "export"}} <i class="fa fa-fw fa-arrow-circle-o-right"></i></a></li>
+                        <li><button onclick="return window.print();">{{i18n "print"}} <i class="fa fa-fw fa-file-text-o"></i></button></li>
                         {{#if ../permissions.delete}}
-                            <li><a data-behaviour="delete-resource" href="/resource/{{[@id]}}">Delete <i class="fa fa-fw fa-trash"></i></a></li>
+                            <li><a data-behaviour="delete-resource" href="/resource/{{[@id]}}">{{i18n "ResourceIndex.read.delete"}} <i class="fa fa-fw fa-trash"></i></a></li>
                         {{/if}}
                     </ul>
                 </li>
@@ -41,9 +41,9 @@
                     <div class="topline">
                         {{getIcon [@type]}} <strong>{{i18n [@type]}}</strong>
                         {{#if ../permissions.log}}
-                            &nbsp;(last modified <a target="_blank" href="/log/{{[@id]}}">{{momentWrapper resource.dateModified "D. MMM YYYY"}}</a>)
+                            &nbsp;({{i18n "ResourceIndex.read.lastModified"}} <a target="_blank" href="/log/{{[@id]}}">{{momentWrapper resource.dateModified "D. MMM YYYY"}}</a>)
                         {{else}}
-                            &nbsp;(last modified {{momentWrapper resource.dateModified "D. MMM YYYY"}})
+                            &nbsp;({{i18n "ResourceIndex.read.lastModified"}} {{momentWrapper resource.dateModified "D. MMM YYYY"}})
                         {{/if}}
                     </div>
 
@@ -734,9 +734,9 @@
                     <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
                         <div class="modal-title">
-                            <h1>Edit {{[@type]}}</h1>
+                            <h1>{{i18n "ResourceIndex.read.edit"}} {{[@type]}}</h1>
                             <div class="right">
-                                <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                                <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                             </div>
                         </div>
 
@@ -747,17 +747,17 @@
                         {{#ifCond @type "!=" "Article"}}
                             <div class="alert alert-info clearfix">
                                 <p>
-                                    I agree to publish the information above under the conditions of <a href="/imprint#cc0" target="_blank">CC0-License</a>. I assure, that I have all rights necessary to publish the information to grant this license.
+                                    {{{i18n "ResourceIndex.read.agree"}}}
                                 </p>
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-inverted">Publish</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
                                 </div>
                             </div>
                         {{else}}
                             <div class="pull-right">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-inverted">Publish</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                                <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
                             </div>
                         {{/ifCond}}
 
@@ -777,7 +777,7 @@
 
                 {{#if comments}}
 
-                    <h2>Comments</h2>
+                    <h2>{{i18n "ResourceIndex.read.comments"}}</h2>
 
                     {{#sort comments "dateCreated" "asc"}}
                         {{#if author.[0].name}}
@@ -811,19 +811,18 @@
 
                 {{#if ../permissions.comment}}
 
-                    <h2>Add Comment</h2>
+                    <h2>{{i18n "comment"}}</h2>
                     {{#if user.name}}
                         <form method="post" action="/resource/{{[@id]}}/comment">
                             {{>ResourceIndex/Comment/edit.mustache}}
                             <div class="pull-right resource-form-top-padding">
-                                <button class="btn btn-inverted" type="submit">Submit</button>
+                                <button class="btn btn-inverted" type="submit">{{i18n "ResourceIndex.read.submit"}}</button>
                             </div>
                         </form>
                     {{else}}
                         <p>
                             <em>
-                                You need to provide your name on your <a href="/resource/{{user.[@id]}}">profile</a> in order to
-                                comment.
+                                {{{stringFormat (i18n "ResourceIndex.read.provideNameMessage") user.[@id]}}}
                             </em>
                         </p>
                     {{/if}}

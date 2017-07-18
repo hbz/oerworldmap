@@ -24,7 +24,7 @@
 
                             {{#if permissions.administer}}
                                 <li>
-                                    <a href="/user/groups" title="Groups">
+                                    <a href="/user/groups" title="{{i18n 'ClientTemplates.app.groups'}}">
                                         <i class="fa fa-gear"></i>
                                     </a>
                                 </li>
@@ -33,16 +33,16 @@
                             {{#if permissions.add}}
 
                                 <li class="dropdown">
-                                    <button type="button" data-toggle="dropdown" title="Add Entry">
+                                    <button type="button" data-toggle="dropdown" title="{{i18n 'ClientTemplates.app.add'}}">
                                         <i class="fa fa-fw fa-plus"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                                        <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Organization <i class="fa fa-users"></i></a></li>
-                                        <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Service <i class="fa fa-desktop"></i></a></li>
-                                        <li><a href="#form-resource-add-action" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Project <i class="fa fa-gears"></i></a></li>
-                                        <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Story <i class="fa fa-comment"></i></a></li>
-                                        <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Event <i class="fa fa-calendar"></i></a></li>
-                                        <li><a href="#form-resource-add-webpage" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Publication <i class="fa fa-book"></i></a></li>
+                                        <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Organization"}} <i class="fa fa-users"></i></a></li>
+                                        <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Service"}} <i class="fa fa-desktop"></i></a></li>
+                                        <li><a href="#form-resource-add-action" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Action"}} <i class="fa fa-gears"></i></a></li>
+                                        <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Article"}} <i class="fa fa-comment"></i></a></li>
+                                        <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Event"}} <i class="fa fa-calendar"></i></a></li>
+                                        <li><a href="#form-resource-add-webpage" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "WebPage"}} <i class="fa fa-book"></i></a></li>
                                     </ul>
                                 </li>
 
@@ -50,19 +50,19 @@
 
 
                             <li>
-                                <a href="/user/newsletter" title="Subscribe to Newsletter">
+                                <a href="/user/newsletter" title="{{i18n 'ClientTemplates.app.newsletter'}}">
                                     <i class="fa fa-fw fa-envelope"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/aggregation/" title="Statistics">
+                                <a href="/aggregation/" title="{{i18n 'ClientTemplates.app.statistics'}}">
                                     <i class="fa fa-fw fa-pie-chart"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/feed/" title="Recent Additions">
+                                <a href="/feed/" title="{{i18n 'ClientTemplates.app.recentAdditions'}}">
                                     <i class="fa fa-fw fa-rss"></i>
                                 </a>
                             </li>
@@ -122,7 +122,7 @@
             <div class="checkbox dismiss">
                 <label>
                     <input type="checkbox" name="dismiss">
-                    Don't show again
+                    {{i18n "ClientTemplates.app.notification.show"}}
                 </label>
             </div>
         </div>

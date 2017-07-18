@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="hidden">
-        <legend>Project</legend>
+        <legend>{{i18n "project"}}</legend>
         {{input "@type" "Action" readonly="readonly"}}
         {{input "@id" [@id] readonly="readonly"}}
     </div>
@@ -33,16 +33,16 @@
         <div class="alert alert-info">
 
             <p>
-                The address of a project is inherited from the operator. That's why it's not shown per default. Only activate it, if this project is run in a different place then the operator is located.
+                {{i18n "ResourceIndex.Action.edit.addressMessage"}}
             </p>
 
             <p>
-                Read more: <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors#how-to-add-locations">FAQ Chapter: How to add locations?</a>
+                {{{i18n "ResourceIndex.Action.edit.readMore"}}}
             </p>
 
             <div class="container-top-line">
                 <button class="btn btn-default" type="button">
-                    Show Address
+                    {{i18n "showAddress"}}
                 </button>
             </div>
 

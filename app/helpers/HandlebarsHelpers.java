@@ -15,9 +15,9 @@ import java.util.ResourceBundle;
  */
 public class HandlebarsHelpers {
 
-  private static OERWorldMap mController;
+  private OERWorldMap mController;
 
-  public static void setController(OERWorldMap aController) {
+  public HandlebarsHelpers(OERWorldMap aController) {
     mController = aController;
   }
 
@@ -44,27 +44,32 @@ public class HandlebarsHelpers {
     return _i18n(key, (String) options.hash.get("bundle"));
   }
 
-  public static CharSequence _i18n(String key, String bundle) {
+  public CharSequence _i18n(String key, String bundle) {
     if (bundle != null) {
       try {
-        return ResourceBundle.getBundle(bundle).getString(key);
+        return Utf8ResourceBundle.getBundle(bundle, mController.getLocale()).getString(key);
       } catch (MissingResourceException notInBundle) {
         return mController.getLabel(key);
       }
     }
+
     try {
-      return ResourceBundle.getBundle("messages").getString(key);
-    } catch (MissingResourceException notMessage) {
+      return Utf8ResourceBundle.getBundle("languages", mController.getLocale()).getString(key);
+    } catch (MissingResourceException notLanguage) {
       try {
-        return ResourceBundle.getBundle("languages").getString(key);
-      } catch (MissingResourceException notLanguage) {
+        return Utf8ResourceBundle.getBundle("iso3166-1", mController.getLocale()).getString(key);
+      } catch (MissingResourceException notCountry) {
         try {
-          return ResourceBundle.getBundle("countries").getString(key);
-        } catch (MissingResourceException notCountry) {
+          return Utf8ResourceBundle.getBundle("labels", mController.getLocale()).getString(key);
+        } catch (MissingResourceException notLabel) {
           try {
-            return ResourceBundle.getBundle("labels").getString(key);
-          } catch (MissingResourceException notLabel) {
-            return mController.getLabel(key);
+            return Utf8ResourceBundle.getBundle("iso3166-2", mController.getLocale()).getString(key);
+          } catch (MissingResourceException notDivision) {
+            try {
+              return Utf8ResourceBundle.getBundle("ui", mController.getLocale()).getString(key);
+            } catch (MissingResourceException notUi) {
+              return mController.getLabel(key);
+            }
           }
         }
       }
