@@ -1,7 +1,7 @@
 <div class="popover-main-section">
 
     <div class="popover-section bg-blue-palest">
-      <strong>{{i18n key bundle="countries"}}</strong>
+      <strong>{{i18n key bundle="iso3166-1-alpha-2"}}</strong>
 
         {{#by_type.buckets}}
             <span class="entity-count">
@@ -16,13 +16,13 @@
 
         {{#champions}}
             {{#if doc_count}}
-                Country Champion: <i class="fa fa-check"></i>
+                {{i18n "ClientTemplates.popoverCountry.champion"}}: <i class="fa fa-check"></i>
             {{else}}
-                Country Champion: <i class="fa fa-times"></i>
+                {{i18n "ClientTemplates.popoverCountry.champion"}}: <i class="fa fa-times"></i>
             {{/if}}
         {{/champions}}
         {{^champions}}
-            Country Champion: <i class="fa fa-times"></i>
+            {{i18n "ClientTemplates.popoverCountry.champion"}}: <i class="fa fa-times"></i>
         {{/champions}}
 
     </div>

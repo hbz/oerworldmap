@@ -12,10 +12,10 @@ var Hijax = (function ($, Hijax) {
 
       my.countries_array = [];
 
-      for(i in i18nStrings.countries) {
+      for(i in i18nStrings["iso3166-1-alpha-2"]) {
         my.countries_array.push({
           id: i,
-          label: i18nStrings.countries[i]
+          label: i18nStrings["iso3166-1-alpha-2"][i]
         });
       }
 
@@ -65,13 +65,13 @@ var Hijax = (function ($, Hijax) {
         };
 
         var placeholders = {
-          'location[address][streetAddress]' : 'Address',
-          'location[address][addressLocality]' : 'City',
-          'location[address][postalCode]' : 'ZIP',
-          'location[address][addressRegion]' : 'Province',
-          'location[address][addressCountry]' : 'Country Code (DE, US, GB, ... to be replaced by dropdown)',
-          'location[geo][lat]' : 'Latitude',
-          'location[geo][lon]' : 'Longitude'
+          'location[address][streetAddress]' : i18nStrings['ui']['resourceFormWidgets.place.address'],
+          'location[address][addressLocality]' : i18nStrings['ui']['resourceFormWidgets.place.city'],
+          'location[address][postalCode]' : i18nStrings['ui']['resourceFormWidgets.place.zip'],
+          'location[address][addressRegion]' : i18nStrings['ui']['resourceFormWidgets.place.province'],
+          'location[address][addressCountry]' : i18nStrings['ui']['resourceFormWidgets.place.countryCode'],
+          'location[geo][lat]' : i18nStrings['ui']['resourceFormWidgets.place.latitude'],
+          'location[geo][lon]' : i18nStrings['ui']['resourceFormWidgets.place.longitude']
         }
 
         for(name in inputs) {
@@ -102,7 +102,7 @@ var Hijax = (function ($, Hijax) {
 
         if(current_country_code != "") {
           country_dropdown_button.find('.text').text(
-            i18nStrings.countries[ current_country_code ]
+            i18nStrings["iso3166-1-alpha-2"][ current_country_code ]
           );
         }
 
@@ -255,7 +255,7 @@ var Hijax = (function ($, Hijax) {
 
 
             setCoordinatesFromLonLat(suggestion.feature.geometry.coordinates);
-            country_dropdown_button.find('.text').text(i18nStrings.countries[properties.country_a2]);
+            country_dropdown_button.find('.text').text(i18nStrings["iso3166-1-alpha-2"][properties.country_a2]);
 
           });
 

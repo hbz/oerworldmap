@@ -1,7 +1,7 @@
 <section>
     {{#scope.report}}
         <div class="alert alert-warning" role="alert">
-            Please {{> (stringFormat "ProcessingReport/%s.mustache" keyword)}}
+            {{i18n "ProcessingReport.list.please"}} {{> (stringFormat "ProcessingReport/%s.mustache" keyword)}}
         </div>
     {{/scope.report}}
 </section>

@@ -65,7 +65,7 @@ var Hijax = (function ($, Hijax) {
           ) {
             var id = "resource-list-collapsed-" + makeid();
             $(this).find('li:gt(4)').wrapAll('<div class="collapse" id="' + id + '"></div>');
-            $(this).after('<a href="#' + id + '" class="resource-list-show-more collapsed" data-toggle="collapse"><span class="more">Show more <i class="fa fa-arrow-down"></i></span><span class="less">Show less <i class="fa fa-arrow-up"></i></span></a>');
+            $(this).after('<a href="#' + id + '" class="resource-list-show-more collapsed" data-toggle="collapse"><span class="more">' + i18nStrings['ui']['other.showMore'] + ' <i class="fa fa-arrow-down"></i></span><span class="less">' + i18nStrings['ui']['other.showLess'] + ' <i class="fa fa-arrow-up"></i></span></a>');
           }
 
         });
@@ -135,7 +135,7 @@ var Hijax = (function ($, Hijax) {
             xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
           },
           error : function(jqXHR) {
-            alert('Wrong username or password.');
+            alert(i18nStrings['ui']['other.wrongUsernameOrPassword']);
             jqXHR.abort();
             // window.location = "/";
           },
@@ -211,7 +211,7 @@ var Hijax = (function ($, Hijax) {
         .not('[data-dont-behave] [data-behaviour~="delete-resource"]')
         .bind('click', function(e)
       {
-        if (window.confirm("Delete resource?")) {
+        if (window.confirm(i18nStrings['ui']['other.deleteResource'])) {
           $.ajax({
             url : this.getAttribute('href'),
             type : 'DELETE',
@@ -264,7 +264,7 @@ var Hijax = (function ($, Hijax) {
       /* --- show link to external image sources --- */
 
       $('.paragraph-image img[src^="http"], .html-from-markdown img[src^="http"]', context).each(function(){
-        $(this).after('<div class="image-source"><a href="' + this.src + '" target="_blank">(Image Source)</a></div>')
+        $(this).after('<div class="image-source"><a href="' + this.src + '" target="_blank">(' + i18nStrings['ui']['other.imageSource'] + ')</a></div>')
       });
 
     },

@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
+import helpers.UniversalFunctions;
+import helpers.Utf8ResourceBundle;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -68,7 +69,9 @@ public class ResourceIndex extends OERWorldMap {
     // Handle ISO 3166 param
     if (!StringUtils.isEmpty(iso3166)) {
 
-      if (!Countries.map(getLocale()).keySet().contains(iso3166.toUpperCase())) {
+      if (! UniversalFunctions.resourceBundleToMap(Utf8ResourceBundle
+        .getBundle("iso3166-1-alpha-2", getLocale()))
+        .containsKey(iso3166.toUpperCase())) {
         return notFound("Not found");
       }
 
@@ -80,8 +83,10 @@ public class ResourceIndex extends OERWorldMap {
       filters.clear();
 
       Map<String, Object> iso3166Scope = new HashMap<>();
+      String countryName = Utf8ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
+        .getString(iso3166.toUpperCase());
       iso3166Scope.put("alpha-2", iso3166.toUpperCase());
-      iso3166Scope.put("name", Countries.getNameFor(iso3166, getLocale()));
+      iso3166Scope.put("name", countryName);
       iso3166Scope.put("champions", champions.getItems());
       iso3166Scope.put("reports", reports.getItems());
       iso3166Scope.put("countryAggregation", countryAggregation);

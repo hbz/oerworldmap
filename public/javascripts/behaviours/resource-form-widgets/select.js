@@ -16,10 +16,10 @@ var Hijax = (function ($, Hijax) {
 
       my.data_arrays['countries'] = [];
 
-      for(var i in i18nStrings.countries) {
+      for(var i in i18nStrings["iso3166-1-alpha-2"]) {
         my.data_arrays['countries'].push({
           id: i,
-          label: i18nStrings.countries[i]
+          label: i18nStrings["iso3166-1-alpha-2"][i]
         });
       }
 
@@ -48,10 +48,10 @@ var Hijax = (function ($, Hijax) {
 
       my.data_arrays['languages'] = [];
 
-      for(var i in i18nStrings.languages) {
+      for(var i in i18nStrings["iso639-1"]) {
         my.data_arrays['languages'].push({
           id: i,
-          label: i18nStrings.languages[i]
+          label: i18nStrings["iso639-1"][i]
         });
       }
 

@@ -2,22 +2,22 @@
 <html class="no-js">
     <head>
         <meta charset="utf-8" />
-        <title>OER World Map - Update</title>
+        <title>OER World Map - {{i18n "ResourceIndex.Sparql.update.update"}}</title>
     </head>
     <body>
 
         <h1><a href="https://www.w3.org/TR/sparql11-update/#deleteInsert">SPARQL DELETE/INSERT</a></h1>
         <form method="get" action="/sparql/update">
-            <label>Delete {<input style="width:100%" name="delete" value="{{ delete }}">}</label><br>
-            <label>Insert {<input style="width:100%" name="insert" value="{{ insert }}">}</label><br>
-            <label>Where {<input style="width:100%" name="where" value="{{ where }}">}</label><br>
-            <p><button type="submit">Generate Diff</button></p>
+            <label>{{i18n "Sparql.update.delete"}} {<input style="width:100%" name="delete" value="{{ delete }}">}</label><br>
+            <label>{{i18n "Sparql.update.insert"}} {<input style="width:100%" name="insert" value="{{ insert }}">}</label><br>
+            <label>{{i18n "Sparql.update.where"}} {<input style="width:100%" name="where" value="{{ where }}">}</label><br>
+            <p><button type="submit">{{i18n "Sparql.update.generateDiff"}}</button></p>
         </form>
 
-        <h1>PATCH</h1>
+        <h1>{{i18n "Sparql.update.patch"}}</h1>
         <form method="post" action="/sparql/patch">
             <textarea style="width:100%;" rows="25" name="diff">{{ diff }}</textarea><br>
-            <p><button type="submit">Patch Database</button></p>
+            <p><button type="submit">{{i18n "Sparql.update.pathDatabase"}}</button></p>
         </form>
 
     </body>

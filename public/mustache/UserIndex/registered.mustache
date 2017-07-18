@@ -2,11 +2,11 @@
 
     {{#if scope.newsletter}}
         <p>
-            Successfully registered user <strong>{{scope.username}}</strong>. We just sent you two emails with verification links for the registration and the newsletter. Check your inbox.
+            {{i18n "UserIndex.registered.successfullyRegistere"}} <strong>{{scope.username}}</strong>. {{i18n "UserIndex.registered.sentMessageNewsletter"}}
         </p>
     {{else}}
         <p>
-            Successfully registered user <strong>{{scope.username}}</strong>. We just sent you an email with a verification link. Check your inbox.
+            {{i18n "UserIndex.registered.successfullyRegistere"}} <strong>{{scope.username}}</strong>. {{i18n "UserIndex.registered.sentMessage"}}
         </p>
     {{/if}}
 

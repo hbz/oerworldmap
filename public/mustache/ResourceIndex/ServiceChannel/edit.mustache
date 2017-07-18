@@ -6,7 +6,7 @@
         <fieldset>
             <legend>{{title}}</legend>
             {{input (stringFormat "%s[%s][serviceUrl]" property_path @index) serviceUrl input_type="url"}}
-            <ul title="Available language" class="multiple-list">
+            <ul title="{{i18n 'ResourceIndex.ServiceChannel.edit.avaliableLanguage'}}" class="multiple-list">
                 {{#availableLanguage}}
                     <li class="multiple-one">{{input (stringFormat "%s[%s][availableLanguage][%s]" property_path ../@index @index) .}}</li>
                 {{/availableLanguage}}
@@ -18,7 +18,7 @@
         <fieldset>
             <legend>{{title}}</legend>
             {{input (stringFormat "%s[0][serviceUrl]" property_path)  "" input_type="url"}}
-            <ul title="Available language" class="multiple-list">
+            <ul title="{{i18n 'ResourceIndex.ServiceChannel.edit.avaliableLanguage'}}" class="multiple-list">
                 <li class="multiple-one">{{input (stringFormat "%s[0][availableLanguage][0]" property_path) ""}}</li>
             </ul>
         </fieldset>
