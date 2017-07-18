@@ -65,14 +65,10 @@
 
             {{> ResourceIndex/Article/edit.mustache}}
 
-            <div class="alert alert-info clearfix">
-                <p>
-                    {{{i18n "CountryIndex.read.agreeConditions"}}}
-                </p>
-                <div class="pull-right">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
-                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
-                </div>
+
+            <div class="pull-right">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
             </div>
         </form>
 
@@ -223,7 +219,7 @@
                 <div class="img placeholder-image-qmark"></div>
 
                 <div class="text">
-                    {{{stringFormat (i18n "CountryIndex.read.noChampion") scope.name}}} 
+                    {{{stringFormat (i18n "CountryIndex.read.noChampion") scope.name}}}
                 </div>
 
             </div>
