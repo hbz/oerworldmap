@@ -5,7 +5,6 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
-import helpers.Utf8ResourceBundle;
 import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
@@ -66,7 +65,7 @@ public class UserIndex extends OERWorldMap {
   public Result signup() {
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", UniversalFunctions.resourceBundleToMap(Utf8ResourceBundle
+    scope.put("countries", UniversalFunctions.resourceBundleToMap(ResourceBundle
       .getBundle("iso3166-1-alpha-2", getLocale())));
     return ok(render("Registration", "UserIndex/register.mustache", scope));
 
