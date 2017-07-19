@@ -1,7 +1,7 @@
 files:
   - source: /conf/*.properties
     ignore:
-      - /conf/countries.properties
-      - /conf/languages.properties
+      - /conf/*_*.properties
+      - /conf/iso*
       - /conf/emails.properties
-    translation: /conf/%original_file_name%_%two_letters_code%.properties
+    translation: /conf/%file_name%_%two_letters_code%.properties
