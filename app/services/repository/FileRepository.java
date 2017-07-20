@@ -80,6 +80,7 @@ public class FileRepository extends Repository implements Writable, Readable {
     }
   }
 
+
   /**
    * Query all resources of a given type.
    *
@@ -87,7 +88,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @return All resources of the given type as a List.
    */
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
+  public List<Resource> getAll(@Nonnull String aType, String... aIndices) {
     ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(getPath().toString(), aType);
     try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir)) {

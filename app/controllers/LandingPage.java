@@ -21,8 +21,8 @@ public class LandingPage extends OERWorldMap {
 
   public Result get() throws IOException {
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-    Resource typeAggregation = mBaseRepository.aggregate(indices, AggregationProvider.getTypeAggregation(0),
-        new QueryContext(null));
+    Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(0),
+        new QueryContext(null), indices);
     Map<String, Object> scope = new HashMap<>();
     scope.put("typeAggregation", typeAggregation);
 

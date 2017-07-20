@@ -155,8 +155,8 @@ public abstract class IndexCommon extends OERWorldMap{
     String type = resource.get(JsonLdConstants.TYPE).toString();
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
     if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository.query(indices, "about.about.@id:\"".concat(id)
-        .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
+      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+        .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null, indices);
       resource.put("related", relatedList.getItems());
     }
 
@@ -177,7 +177,7 @@ public abstract class IndexCommon extends OERWorldMap{
           conceptAggregation.subAggregation(
             AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
-        Resource nestedConceptAggregation = mBaseRepository.aggregate(indices, conceptAggregation);
+        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation, indices);
         resource.put("aggregation", nestedConceptAggregation);
         return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
       }

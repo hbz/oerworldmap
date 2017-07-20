@@ -97,7 +97,8 @@ public class ResourceIndex extends IndexCommon {
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-    ResourceList resourceList = mBaseRepository.query(indices, q, from, size, sort, filters, queryContext);
+    ResourceList resourceList =
+      mBaseRepository.query(q, from, size, sort, filters, queryContext, indices);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
@@ -256,7 +257,8 @@ public class ResourceIndex extends IndexCommon {
 
   public Result feed() {
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-    ResourceList resourceList = mBaseRepository.query(indices, "", 0, 20, "dateCreated:DESC", null, getQueryContext());
+    ResourceList resourceList =
+      mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext(), indices);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 
