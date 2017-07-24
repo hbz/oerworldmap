@@ -19,9 +19,9 @@
     {{> FormElements/input.mustache property=additionalType property_path="additionalType" title=(i18n "Organization.additionalType") tooltip=(i18n "Organization.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
     {{#if ../../permissions.administer}}
-        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=false multiple=true input_type="text" options="countries"}}
+        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=false multiple=true input_type="text" options="iso3166-1-alpha-2"}}
     {{else}}
-        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="countries"}}
+        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="iso3166-1-alpha-2"}}
     {{/if}}
 
     {{> FormElements/localizedInput.mustache property=alternateName property_path="alternateName" title=(i18n "Organization.alternateName") tooltip=(i18n "Organization.alternateName" bundle="descriptions")}}

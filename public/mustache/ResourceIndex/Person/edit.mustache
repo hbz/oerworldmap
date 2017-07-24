@@ -21,9 +21,9 @@
     {{> FormElements/localizedTextarea.mustache property=description property_path="description" title=(i18n "Person.description") tooltip=(i18n "Person.description" bundle="descriptions")}}
 
     {{#if ../../permissions.administer}}
-        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Person.countryChampionFor") tooltip=(i18n "Person.countryChampionFor" bundle="descriptions") hidden=false multiple=true input_type="text" options="countries"}}
+        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Person.countryChampionFor") tooltip=(i18n "Person.countryChampionFor" bundle="descriptions") hidden=false multiple=true input_type="text" options="iso3166-1-alpha-2"}}
     {{else}}
-        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Person.countryChampionFor") tooltip=(i18n "Person.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="countries"}}
+        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Person.countryChampionFor") tooltip=(i18n "Person.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="iso3166-1-alpha-2"}}
     {{/if}}
 
     {{> FormElements/input.mustache property=image property_path="image" title=(i18n "Person.image") tooltip=(i18n "Person.image" bundle="descriptions") hidden=false multiple=false input_type="url"}}
