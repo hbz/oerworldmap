@@ -268,7 +268,7 @@
                             <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
-                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
+                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{lower .}} '>{{.}}</a></li>{{/keywords}}
                                 </ul>
                             </td>
                         </tr>
