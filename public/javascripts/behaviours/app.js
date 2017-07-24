@@ -342,6 +342,7 @@ var Hijax = (function ($, Hijax, page) {
       detail_loaded
     ).done(function(){
       Hijax.layout('triggered by routing_done');
+      $('#app-col-detail main').length && $('#app-col-detail main')[0].scrollIntoView(true);
     });
   }
 
