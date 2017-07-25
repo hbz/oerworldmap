@@ -47,26 +47,26 @@ public class HandlebarsHelpers {
   public CharSequence _i18n(String key, String bundle) {
     if (bundle != null) {
       try {
-        return Utf8ResourceBundle.getBundle(bundle, mController.getLocale()).getString(key);
+        return ResourceBundle.getBundle(bundle, mController.getLocale()).getString(key);
       } catch (MissingResourceException notInBundle) {
         return mController.getLabel(key);
       }
     }
 
     try {
-      return Utf8ResourceBundle.getBundle("languages", mController.getLocale()).getString(key);
+      return ResourceBundle.getBundle("languages", mController.getLocale()).getString(key);
     } catch (MissingResourceException notLanguage) {
       try {
-        return Utf8ResourceBundle.getBundle("iso3166-1", mController.getLocale()).getString(key);
+        return ResourceBundle.getBundle("iso3166-1", mController.getLocale()).getString(key);
       } catch (MissingResourceException notCountry) {
         try {
-          return Utf8ResourceBundle.getBundle("labels", mController.getLocale()).getString(key);
+          return ResourceBundle.getBundle("labels", mController.getLocale()).getString(key);
         } catch (MissingResourceException notLabel) {
           try {
-            return Utf8ResourceBundle.getBundle("iso3166-2", mController.getLocale()).getString(key);
+            return ResourceBundle.getBundle("iso3166-2", mController.getLocale()).getString(key);
           } catch (MissingResourceException notDivision) {
             try {
-              return Utf8ResourceBundle.getBundle("ui", mController.getLocale()).getString(key);
+              return ResourceBundle.getBundle("ui", mController.getLocale()).getString(key);
             } catch (MissingResourceException notUi) {
               return mController.getLabel(key);
             }
