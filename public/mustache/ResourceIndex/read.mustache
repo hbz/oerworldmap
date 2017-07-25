@@ -231,7 +231,7 @@
                                 <ul class="comma-seperated-list">
                                     {{#availableChannel}}
                                         {{#availableLanguage}}
-                                            <li>{{i18n . bundle = "languages"}}</li>
+                                            <li>{{i18n . bundle = "iso639-1"}}</li>
                                         {{/availableLanguage}}
                                     {{/availableChannel}}
                                 </ul>
@@ -245,7 +245,7 @@
                             <td>
                                 <ul class="comma-seperated-list">
                                     {{#inLanguage}}
-                                        <li>{{i18n . bundle = "languages"}}</li>
+                                        <li>{{i18n . bundle = "iso639-1"}}</li>
                                     {{/inLanguage}}
                                 </ul>
                             </td>
@@ -268,7 +268,7 @@
                             <td>{{i18n (stringFormat "%s.keywords" @type)}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
-                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{.}} '>{{.}}</a></li>{{/keywords}}
+                                    {{#keywords}}<li><a href='/resource/?filter.about.keywords={{lower .}} '>{{.}}</a></li>{{/keywords}}
                                 </ul>
                             </td>
                         </tr>
