@@ -167,6 +167,10 @@ var Hijax = (function ($, Hijax, page) {
       Hijax.behaviours.map.attach($('#app-col-detail [data-app="col-content"]'), attached);
     }
 
+    // reset scroll position
+
+    $('#app-col-detail [data-app="col-content"]').scrollTop(0);
+
     // set focus to fit highlighted
     // therefor waiting for map_and_index_loaded and map attachments
 
