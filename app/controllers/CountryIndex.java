@@ -1,7 +1,6 @@
 package controllers;
 
 import helpers.UniversalFunctions;
-import helpers.Utf8ResourceBundle;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -31,7 +30,7 @@ public class CountryIndex extends OERWorldMap {
 
   public Result read(String id) throws IOException {
 
-    if (! UniversalFunctions.resourceBundleToMap(Utf8ResourceBundle
+    if (! UniversalFunctions.resourceBundleToMap(ResourceBundle
       .getBundle("iso3166-1-alpha-2", getLocale()))
       .containsKey(id.toUpperCase())) {
       return notFound("Not found");
@@ -62,7 +61,7 @@ public class CountryIndex extends OERWorldMap {
     ResourceList resources = mBaseRepository.query("*", 0, 9999, null, filters, queryContext);
 
     Map<String, Object> scope = new HashMap<>();
-    String countryName = Utf8ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
+    String countryName = ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
       .getString(id.toUpperCase());
 
     scope.put("alpha-2", id.toUpperCase());

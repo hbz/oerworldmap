@@ -3,15 +3,11 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import helpers.UniversalFunctions;
-import helpers.Utf8ResourceBundle;
-import org.apache.commons.lang3.StringEscapeUtils;
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -36,7 +32,7 @@ public class I18n extends OERWorldMap {
 
     for (String bundleName : mBundles) {
       Map<String, String> strings = UniversalFunctions.resourceBundleToMap(
-        Utf8ResourceBundle.getBundle(bundleName, getLocale()));
+        ResourceBundle.getBundle(bundleName, getLocale()));
       i18n.put(bundleName, strings);
     }
 
