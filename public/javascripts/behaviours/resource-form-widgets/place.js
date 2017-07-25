@@ -236,15 +236,10 @@ var Hijax = (function ($, Hijax) {
 
             var properties = suggestion.feature.properties;
 
-            // kosovo workaround
-            if (properties.id == "85633259") {
-              properties.country_a = "UNK";
-            }
-
             // set iso3166 alpha2 code
             properties.country_a2 = iso3166.filter(function(country) {
-              return country['alpha-3'] == properties.country_a;
-            })[0]['alpha-2'];
+              return country['a3'] == properties.country_a;
+            })[0]['a2'];
 
             // populate remaining form inputs
             widget.find('[name="location[address][streetAddress]"]').val(properties.name || '');
