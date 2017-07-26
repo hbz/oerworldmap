@@ -44,33 +44,33 @@ var Hijax = (function ($, Hijax) {
         },
       });
 
-      // prepare languages array
+      // prepare iso639-1 array
 
-      my.data_arrays['languages'] = [];
+      my.data_arrays['iso639-1'] = [];
 
       for(var i in i18nStrings["iso639-1"]) {
-        my.data_arrays['languages'].push({
+        my.data_arrays['iso639-1'].push({
           id: i,
           label: i18nStrings["iso639-1"][i]
         });
       }
 
-      my.data_arrays['languages'].sort(function(a,b) {
+      my.data_arrays['iso639-1'].sort(function(a,b) {
         if(a.label < b.label) return -1;
         if(a.label == b.label) return 0;
         if(a.label > b.label) return 1;
       });
 
-      // init languages bloodhound
+      // init iso639-1 bloodhound
 
-      my.bloodhounds['languages'] = new Bloodhound({
+      my.bloodhounds['iso639-1'] = new Bloodhound({
         datumTokenizer: function(d){
           return Bloodhound.tokenizers.whitespace(
             bloodhoundAccentFolding.normalize(d.label)
           );
         },
         queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
-        local: my.data_arrays['languages'],
+        local: my.data_arrays['iso639-1'],
         identify: function(result){
           return result.id;
         },
@@ -86,7 +86,6 @@ var Hijax = (function ($, Hijax) {
         var widget = $(this);
         var key = widget.data('key');
         var options = widget.data('options');
-        console.log(widget.data());
         var title = widget.find('h4').text();
 
         $(this).addClass('behaving');

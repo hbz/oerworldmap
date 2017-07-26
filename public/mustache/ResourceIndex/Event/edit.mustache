@@ -30,7 +30,7 @@
 
     {{> FormElements/input.mustache property=recordedIn property_path="recordedIn" title=(i18n "Event.recordedIn") tooltip=(i18n "Event.recordedIn" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
-    {{> FormElements/select.mustache property=inLanguage property_path="inLanguage" title=(i18n "Event.inLanguage") tooltip=(i18n "Event.inLanguage" bundle="descriptions") multiple=true input_type="text" options="languages"}}
+    {{> FormElements/select.mustache property=inLanguage property_path="inLanguage" title=(i18n "Event.inLanguage") tooltip=(i18n "Event.inLanguage" bundle="descriptions") multiple=true input_type="text" options="iso639-1"}}
 
     {{> FormElements/id.mustache property=organizer property_path="organizer" title=(i18n "Event.organizer") tooltip=(i18n "Event.organizer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Action"}}
 
