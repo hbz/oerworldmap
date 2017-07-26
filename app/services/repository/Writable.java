@@ -1,5 +1,6 @@
 package services.repository;
 
+import models.ModelCommon;
 import models.Resource;
 
 import javax.annotation.Nonnull;
@@ -38,11 +39,15 @@ public interface Writable {
    *
    * @param aId
    *          The ID of the resource to be deleted
+   * @param aType
+   *          The type of the resource to be deleted
    * @param aMetadata
    *          Map containing metadata such as author, timestamp etc
    * @return The deleted resource
    * @throws IOException
    */
-  Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException;
+  ModelCommon deleteResource(@Nonnull final String aId,
+                             @Nonnull final String aType,
+                             final Map<String, String> aMetadata) throws IOException;
 
 }

@@ -33,7 +33,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
+public class Resource extends ModelCommon implements Comparable<Resource> {
 
   /**
    *

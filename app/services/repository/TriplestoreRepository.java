@@ -355,8 +355,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
-
+  public Resource deleteResource(@Nonnull final String aId,
+                                 @Nonnull final String aType,
+                                 final Map<String, String> aMetadata) throws IOException {
     // Current data, outbound links
     Model dbstate = getConciseBoundedDescription(aId, mDb);
 

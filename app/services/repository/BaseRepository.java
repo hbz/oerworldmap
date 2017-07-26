@@ -92,12 +92,12 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
-
-    Resource resource = mTriplestoreRepo.deleteResource(aId, aMetadata);
-
+  public Resource deleteResource(@Nonnull final String aId,
+                                 @Nonnull final String aType,
+                                 final Map<String, String> aMetadata) throws IOException {
+    Resource resource = mTriplestoreRepo.deleteResource(aId, aType, aMetadata);
     if (resource != null) {
-      mESRepo.deleteResource(aId, aMetadata);
+      mESRepo.deleteResource(aId, aType, aMetadata);
       Commit.Diff diff = mTriplestoreRepo.getDiff(resource).reverse();
       index(diff);
     }

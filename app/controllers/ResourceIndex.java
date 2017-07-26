@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
+import models.Record;
 import models.Resource;
 import models.ResourceList;
 import models.TripleCommit;
@@ -188,9 +189,14 @@ public class ResourceIndex extends IndexCommon {
     return read(id, version, null);
   }
 
-
+  // TODO: drop this method and add second parameter for delete() to route
   public Result delete(String aId) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
+    return delete(aId, Record.TYPE);
+  }
+
+
+  public Result delete(final String aId, final String aType) throws IOException {
+    Resource resource = mBaseRepository.deleteResource(aId, aType, getMetadata());
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {

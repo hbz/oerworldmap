@@ -2,9 +2,7 @@ package services.repository;
 
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
@@ -110,12 +108,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
-    Resource resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
+  public ModelCommon deleteResource(@Nonnull final String aId,
+                                 @Nonnull final String aType,
+                                 final Map<String, String> aMetadata) {
+    ModelCommon resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;
     }
-    boolean found = deleteDocument(Record.TYPE, resource.getId());
+    boolean found = deleteDocument(aType, resource.getId());
     refreshIndex(mConfig.getAllIndices());
     Logger.trace("Deleted " + aId + " from Elasticsearch");
     if (found) {
@@ -257,8 +257,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
-    final DeleteResponse response = mClient.prepareDelete(mConfig.getWebpageIndex(), aType, aIdentifier)
-      .execute().actionGet();
+    DeleteResponse response;
+    if (Record.TYPE.equals(aType)) {
+      response = mClient.prepareDelete(mConfig.getWebpageIndex(), aType, aIdentifier)
+        .execute().actionGet();
+    }
+    else if (Action.TYPE.equals(aType)) {
+      response = mClient.prepareDelete(mConfig.getActionIndex(), aType, aIdentifier)
+        .execute().actionGet();
+    }
+    else{
+      return false;
+    }
     return response.isFound();
   }
 
