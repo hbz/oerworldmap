@@ -212,12 +212,17 @@ var Hijax = (function ($, Hijax) {
         .bind('click', function(e)
       {
         if (window.confirm(i18nStrings['ui']['other.deleteResource'])) {
+          var reload = this.getAttribute('data-continue') == 'reload';
           $.ajax({
             url : this.getAttribute('href'),
             type : 'DELETE',
             success : function() {
               alert('Resource deleted.');
-              window.location = window.location.hash ? window.location.pathname + window.location.search : '/';
+              if (reload) {
+                window.location.reload();
+              } else {
+                window.location = window.location.hash ? window.location.pathname + window.location.search : '/';
+              }
             },
             error : function(jqXHR) {
               alert('An error has occurred.');
