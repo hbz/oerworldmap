@@ -795,6 +795,9 @@
                                         on
                                         <em>{{this.dateCreated}}</em>
                                     </small>
+                                    {{#if ../permissions.administer}}
+                                        <a data-behaviour="delete-resource" data-continue="reload" href="/resource/{{[@id]}}"><i class="fa fa-fw fa-trash"></i></a>
+                                    {{/if}}
                                 </p>
                                 <div>
                                     {{#localized this.text language=@root.language}}
