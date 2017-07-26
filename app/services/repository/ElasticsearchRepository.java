@@ -68,7 +68,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       record.put(key, aMetadata.get(key));
     }
     addJson(record.toString(), record.getId(), Record.TYPE);
-    refreshIndex(mConfig.getWebpageIndex());
+    refreshIndex(mConfig.getAllIndices());
   }
 
   @Override
@@ -82,7 +82,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       records.put(record.getId(), record.toString());
     }
     addJson(records, Record.TYPE);
-    refreshIndex(mConfig.getWebpageIndex());
+    refreshIndex(mConfig.getAllIndices());
   }
 
   @Override
@@ -116,7 +116,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       return null;
     }
     boolean found = deleteDocument(Record.TYPE, resource.getId());
-    refreshIndex(mConfig.getWebpageIndex());
+    refreshIndex(mConfig.getAllIndices());
     Logger.trace("Deleted " + aId + " from Elasticsearch");
     if (found) {
       return resource;
@@ -407,7 +407,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
-  private void refreshIndex(String aIndex) {
+  private void refreshIndex(String... aIndex) {
     try {
       mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
     } catch (IndexNotFoundException e) {

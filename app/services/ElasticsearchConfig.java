@@ -3,6 +3,8 @@ package services;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
 import helpers.UniversalFunctions;
+import models.Action;
+import models.Record;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -46,6 +48,8 @@ public class ElasticsearchConfig {
   private Client mClient;
   private TransportClient mTransportClient;
 
+  private String[] mAllIndices;
+
   public ElasticsearchConfig(Config aConfiguration) {
     mConfig = aConfiguration;
     init();
@@ -62,6 +66,8 @@ public class ElasticsearchConfig {
     mActionIndex = mConfig.getString("es.index.action.name");
     mActionType = mConfig.getString("es.index.action.type");
     mCluster = mConfig.getString("es.cluster.name");
+
+    mAllIndices = new String[]{mWebpageIndex, mActionIndex};
 
     if (mConfig.getBoolean("es.node.inmemory") || (mJavaPort == null) || Strings.isNullOrEmpty(mServer)) {
       mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
@@ -90,6 +96,20 @@ public class ElasticsearchConfig {
     mClientSettings.put("index.action.name", mActionIndex);
     mClientSettings.put("index.action.type", mActionType);
     mClientSettings.put("cluster.name", mCluster);
+  }
+
+  public String[] getAllIndices(){
+    return mAllIndices;
+  }
+
+  public String getIndex(final String aType){
+    if (Record.TYPE.equals(aType)){
+      return mWebpageIndex;
+    }
+    if (Action.TYPE.equals(aType)){
+      return mActionIndex;
+    }
+    return null;
   }
 
   public String getWebpageIndex() {
