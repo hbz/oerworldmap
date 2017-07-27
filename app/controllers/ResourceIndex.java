@@ -29,6 +29,7 @@ import services.SearchConfig;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 import services.export.GeoJsonExporter;
+import services.export.JsonSchemaExporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -145,6 +146,9 @@ public class ResourceIndex extends OERWorldMap {
         case "geojson":
           format = "application/geo+json";
           break;
+        case "schema":
+          format = "application/schema+json";
+          break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
@@ -154,6 +158,8 @@ public class ResourceIndex extends OERWorldMap {
       format = "text/calendar";
     } else if (request().accepts("application/geo+json")) {
       format = "application/geo+json";
+    } else if (request().accepts("application/schema+json")) {
+      format = "application/schema+json";
     } else {
       format = "application/json";
     }
@@ -174,6 +180,9 @@ public class ResourceIndex extends OERWorldMap {
     }
     else if (format.equals("application/geo+json")) {
       return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
+    }
+    else if (format.equals("application/schema+json")) {
+      return ok(new JsonSchemaExporter().export(resourceList)).as("application/schema+json");
     }
 
     return notFound("Not found");
@@ -433,6 +442,9 @@ public class ResourceIndex extends OERWorldMap {
         case "ics":
           format = "text/calendar";
           break;
+        case "schema":
+          format = "application/schema+json";
+          break;
       }
     } else if (request().accepts("text/html")) {
       format = "text/html";
@@ -440,9 +452,13 @@ public class ResourceIndex extends OERWorldMap {
       format = "text/csv";
     } else if (request().accepts("text/calendar")) {
       format = "text/calendar";
+    } else if (request().accepts("application/schema+json")) {
+      format = "application/schema+json";
     } else {
       format = "application/json";
     }
+
+    Logger.debug(format);
 
     if (format == null) {
       return notFound("Not found");
@@ -452,6 +468,8 @@ public class ResourceIndex extends OERWorldMap {
       return ok(resource.toString()).as("application/json");
     } else if (format.equals("text/csv")) {
       return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+    } else if (format.equals("application/schema+json")) {
+      return ok(new JsonSchemaExporter().export(resource)).as("application/schema+json");
     } else if (format.equals("text/calendar")) {
       String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
       if (ical != null) {
