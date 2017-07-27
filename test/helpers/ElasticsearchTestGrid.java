@@ -45,7 +45,7 @@ public class ElasticsearchTestGrid extends WithApplication {
   @AfterClass
   public static void tearDown() throws Exception {
     if (mConfig.getBoolean("es.node.inmemory")) {
-      mEsConfig.deleteIndices(mConfig.getString("es.index.webpage.name"));
+      mEsConfig.deleteIndices(mEsConfig.getAllIndices());
     }
     mEsConfig.tearDown();
   }
