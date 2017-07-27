@@ -195,8 +195,8 @@ public class ResourceIndex extends IndexCommon {
   }
 
 
-  public Result delete(final String aId, final String aType) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(aId, aType, getMetadata());
+  public Result delete(final String aId, final String aClassType) throws IOException {
+    Resource resource = mBaseRepository.deleteResource(aId, aClassType, getMetadata());
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {

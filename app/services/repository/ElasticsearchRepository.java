@@ -65,7 +65,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       record.put(key, aMetadata.get(key));
     }
     addJson(record.toString(), record.getId(), Record.TYPE);
-    refreshIndex(mConfig.getAllIndices());
+    refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
@@ -79,7 +79,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       records.put(record.getId(), record.toString());
     }
     addJson(records, Record.TYPE);
-    refreshIndex(mConfig.getAllIndices());
+    refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
@@ -108,14 +108,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public ModelCommon deleteResource(@Nonnull final String aId,
-                                 @Nonnull final String aType,
+                                 @Nonnull final String aClassType,
                                  final Map<String, String> aMetadata) {
     ModelCommon resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;
     }
-    boolean found = deleteDocument(aType, resource.getId());
-    refreshIndex(mConfig.getAllIndices());
+    boolean found = deleteDocument(aClassType, resource.getId());
+    refreshIndices(mConfig.getAllIndices());
     Logger.trace("Deleted " + aId + " from Elasticsearch");
     if (found) {
       return resource;
@@ -255,14 +255,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return response.getSource();
   }
 
-  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
+  private boolean deleteDocument(@Nonnull final String aClassType, @Nonnull final String aIdentifier) {
     DeleteResponse response;
-    if (Record.TYPE.equals(aType)) {
-      response = mClient.prepareDelete(mConfig.getIndex(Record.TYPE), aType, aIdentifier)
+    if (Record.TYPE.equals(aClassType)) {
+      response = mClient.prepareDelete(mConfig.getIndex(Record.TYPE), aClassType, aIdentifier)
         .execute().actionGet();
     }
-    else if (Action.TYPE.equals(aType)) {
-      response = mClient.prepareDelete(mConfig.getIndex(Action.TYPE), aType, aIdentifier)
+    else if (Action.TYPE.equals(aClassType)) {
+      response = mClient.prepareDelete(mConfig.getIndex(Action.TYPE), aClassType, aIdentifier)
         .execute().actionGet();
     }
     else{
@@ -412,16 +412,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
   }
 
-  public boolean hasIndex(String aIndex) {
-    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
-  }
-
-  private void refreshIndex(String... aIndex) {
-    try {
-      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
-    } catch (IndexNotFoundException e) {
-      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
-      e.printStackTrace();
+  private void refreshIndices(@Nonnull String... aIndices) {
+    for (String index : aIndices){
+      try {
+        mClient.admin().indices().refresh(new RefreshRequest(index)).actionGet();
+      } catch (IndexNotFoundException e) {
+        Logger.error("Trying to refresh index \"" + index + "\" in Elasticsearch.");
+        e.printStackTrace();
+      }
     }
   }
 

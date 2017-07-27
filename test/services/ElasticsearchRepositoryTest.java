@@ -20,12 +20,10 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   private static ElasticsearchRepository mElasticsearchRepo = new ElasticsearchRepository(mConfig);
 
-  private final String[] mIndices = new String[]{"es.index.webpage.name"};
-
   @BeforeClass
   public static void setupResources() throws IOException {
-    mEsConfig.deleteIndex(mConfig.getString("es.index.webpage.name"));
-    mEsConfig.createIndex(mConfig.getString("es.index.webpage.name"));
+    mEsConfig.deleteIndices(mEsConfig.getAllIndices());
+    mEsConfig.createIndices(mEsConfig.getAllIndices());
   }
 
   @Test
@@ -37,14 +35,18 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mElasticsearchRepo.addResource(in1, new HashMap<>());
     mElasticsearchRepo.addResource(in2, new HashMap<>());
 
+    mElasticsearchRepo.getAll("Person", mEsConfig.getAllIndices());
+    System.out.println("REACHED: testAddAndQueryResources");
+
     List<Resource> resourcesGotBack = ResourceHelpers.unwrapRecords(
-      mElasticsearchRepo.getAll("Person", mIndices));
+      mElasticsearchRepo.getAll("Person", mEsConfig.getAllIndices()));
     Assert.assertTrue(resourcesGotBack.contains(in1));
     Assert.assertFalse(resourcesGotBack.contains(in2));
   }
 
   @Test
   public void testUniqueFields() throws IOException {
+    System.out.println("REACHED: testUniqueFields");
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(
@@ -52,10 +54,10 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mElasticsearchRepo.addResource(in1, new HashMap<>());
     mElasticsearchRepo.addResource(in2, new HashMap<>());
     List<Resource> resourcesGotBack = ResourceHelpers.unwrapRecords(
-      mElasticsearchRepo.getAll("Person", mIndices));
-    Set<String> ids = new HashSet<String>();
-    Set<String> names = new HashSet<String>();
-    Set<String> employers = new HashSet<String>();
+      mElasticsearchRepo.getAll("Person", mEsConfig.getAllIndices()));
+    Set<String> ids = new HashSet<>();
+    Set<String> names = new HashSet<>();
+    Set<String> employers = new HashSet<>();
 
     for (Resource r : resourcesGotBack) {
       ids.add(r.getAsString(JsonLdConstants.ID));
@@ -75,13 +77,14 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   @Test
   public void testGetResourcesWithWildcard() throws IOException {
+    System.out.println("REACHED: testGetResourcesWithWildcard");
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mElasticsearchRepo.addResource(in1, new HashMap<>());
     mElasticsearchRepo.addResource(in2, new HashMap<>());
-    Assert.assertEquals(2, mElasticsearchRepo.getResources("\\*.@id", "info:123", mIndices).size());
+    Assert.assertEquals(2, mElasticsearchRepo.getResources("\\*.@id", "info:123", mEsConfig.getAllIndices()).size());
   }
 
 }

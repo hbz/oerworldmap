@@ -115,7 +115,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @return The resource that has been deleted.
    */
   @Override
-  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aType, Map<String, String> aMetadata) {
+  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aClassType, Map<String, String> aMetadata) {
     Resource resource = this.getResource(aId);
     try {
       Files.delete(getResourcePath(aId));

@@ -66,7 +66,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   @Override
-  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aType, Map<String, String> aMetadata) {
+  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aClassType, Map<String, String> aMetadata) {
     Resource resource = db.get(aId);
     db.remove(aId);
     return resource;

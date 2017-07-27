@@ -39,7 +39,7 @@ public interface Writable {
    *
    * @param aId
    *          The ID of the resource to be deleted
-   * @param aType
+   * @param aClassType
    *          The type of the resource to be deleted
    * @param aMetadata
    *          Map containing metadata such as author, timestamp etc
@@ -47,7 +47,7 @@ public interface Writable {
    * @throws IOException
    */
   ModelCommon deleteResource(@Nonnull final String aId,
-                             @Nonnull final String aType,
+                             @Nonnull final String aClassType,
                              final Map<String, String> aMetadata) throws IOException;
 
 }

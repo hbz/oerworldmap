@@ -80,8 +80,7 @@ public class ElasticsearchConfig {
         throw new RuntimeException(ex);
       }
     }
-    createIndex(mWebpageIndex);
-    createIndex(mActionIndex);
+    createIndices(getAllIndices());
 
     // CLIENT SETTINGS
     mClientSettings = new HashMap<>();
@@ -112,24 +111,26 @@ public class ElasticsearchConfig {
     return mClientSettings;
   }
 
-  private boolean indexExists(String... aIndices) {
+  private boolean indicesExist(String... aIndices) {
     return mClient.admin().indices().prepareExists(aIndices).execute().actionGet().isExists();
   }
 
-  public void createIndex(String aIndex) {
-    if (!indexExists(aIndex)) {
-      CreateIndexResponse response = mClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
-      refreshElasticsearch(aIndex);
-      if (response.isAcknowledged()) {
-        Logger.info("Created index \"" + aIndex + "\".");
-      } //
-      else {
-        Logger.warn("Not able to create index \"" + aIndex + "\".");
+  public void createIndices(String... aIndices) {
+    for (String index : aIndices){
+      if (!indicesExist(index)) {
+        CreateIndexResponse response = mClient.admin().indices().prepareCreate(index).execute().actionGet();
+        refreshElasticsearch(index);
+        if (response.isAcknowledged()) {
+          Logger.info("Created index \"" + index + "\".");
+        } //
+        else {
+          Logger.warn("Not able to create index \"" + index + "\".");
+        }
       }
     }
   }
 
-  public DeleteIndexResponse deleteIndex(String... aIndices) {
+  public DeleteIndexResponse deleteIndices(String... aIndices) {
     return mClient.admin().indices().delete(new DeleteIndexRequest(aIndices)).actionGet();
   }
 
