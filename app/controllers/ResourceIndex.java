@@ -186,7 +186,7 @@ public class ResourceIndex extends IndexCommon {
 
 
   public Result updateResource(String aId) throws IOException {
-    return updateResource(aId);
+    return super.updateResource(aId);
   }
 
   public Result readDefault(String id, String version) throws IOException {
