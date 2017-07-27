@@ -8,7 +8,7 @@ package models;
 
 public class Action extends ModelCommon implements Comparable<Action> {
 
-  public static final String TYPE = "WebPage";
+  public static final String TYPE = "Action";
 
   @Override
   public int compareTo(Action o) {
