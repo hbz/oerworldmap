@@ -51,6 +51,10 @@ public class ResourceIndex extends IndexCommon {
     return upsertResources(forbiddenTypes);
   }
 
+  public Result listDefault(String q, int from, int size, String sort, boolean list) throws IOException {
+    return list(q, from, size, sort, list, null);
+  }
+
   public Result list(String q, int from, int size, String sort, boolean list, String extension)
       throws IOException {
 
