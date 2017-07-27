@@ -7,7 +7,6 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import play.test.WithApplication;
 import services.ElasticsearchConfig;
@@ -32,6 +31,7 @@ public class ElasticsearchTestGrid extends WithApplication {
   @BeforeClass
   public static void setup() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    Types.init(mConfig);
     mRepo = new ElasticsearchRepository(mConfig);
     mEsConfig = mRepo.getConfig();
 
@@ -48,11 +48,6 @@ public class ElasticsearchTestGrid extends WithApplication {
       mEsConfig.deleteIndex(mConfig.getString("es.index.webpage.name"));
     }
     mEsConfig.tearDown();
-  }
-
-  @Before
-  public void setupIndex() {
-    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.webpage.name"));
   }
 
 }

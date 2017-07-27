@@ -5,8 +5,6 @@ import helpers.JsonLdConstants;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -52,7 +50,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Settings settings = Settings.settingsBuilder().put(mConfig.getClientSettings()).build();
     try {
       mClient = TransportClient.builder().settings(settings).build().addTransportAddress(
-        new InetSocketTransportAddress(InetAddress.getByName(mConfig.getServer()), mConfig.getJavaPort()));
+        new InetSocketTransportAddress(
+          InetAddress.getByName(mConfig.getServer()), mConfig.getJavaPort()));
     } catch (UnknownHostException ex) {
       throw new RuntimeException(ex);
     }
@@ -198,7 +197,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getWebpageIndex(), aType, aUuid).setSource(aJsonString).execute()
+    mClient.prepareIndex(mConfig.getIndex(Record.TYPE), aType, aUuid).setSource(aJsonString).execute()
       .actionGet();
   }
 
@@ -214,7 +213,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     for (Map.Entry<String, String> entry : aJsonStringIdMap.entrySet()) {
       String id = entry.getKey();
       String json = entry.getValue();
-      bulkRequest.add(mClient.prepareIndex(mConfig.getWebpageIndex(), aType, id).setSource(json));
+      bulkRequest.add(mClient.prepareIndex(mConfig.getIndex(Record.TYPE), aType, id).setSource(json));
     }
 
     BulkResponse bulkResponse = bulkRequest.execute().actionGet();
@@ -251,7 +250,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   private Map<String, Object> getDocument(@Nonnull final String aType,
                                          @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(mConfig.getWebpageIndex(), aType, aIdentifier)
+    final GetResponse response = mClient.prepareGet(mConfig.getIndex(Record.TYPE), aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
   }
@@ -259,11 +258,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
     DeleteResponse response;
     if (Record.TYPE.equals(aType)) {
-      response = mClient.prepareDelete(mConfig.getWebpageIndex(), aType, aIdentifier)
+      response = mClient.prepareDelete(mConfig.getIndex(Record.TYPE), aType, aIdentifier)
         .execute().actionGet();
     }
     else if (Action.TYPE.equals(aType)) {
-      response = mClient.prepareDelete(mConfig.getActionIndex(), aType, aIdentifier)
+      response = mClient.prepareDelete(mConfig.getIndex(Action.TYPE), aType, aIdentifier)
         .execute().actionGet();
     }
     else{
@@ -426,29 +425,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
-  public void deleteIndex(String aIndex) {
-    try {
-      mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
-    } catch (IndexNotFoundException e) {
-      Logger.error("Trying to delete index \"" + aIndex + "\" from Elasticsearch.");
-      e.printStackTrace();
-    }
-  }
-
-  public void createIndex(String aIndex) {
-    try {
-      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString()).execute().actionGet();
-      mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-    } catch (ElasticsearchException indexAlreadyExists) {
-      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
-      indexAlreadyExists.printStackTrace();
-    } catch (IOException ioException) {
-      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Couldn't read index config file.");
-      ioException.printStackTrace();
-    }
-  }
-
   public ElasticsearchConfig getConfig() {
     return mConfig;
   }
+
 }

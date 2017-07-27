@@ -1,6 +1,7 @@
 package services;
 
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Resource;
 import services.repository.Readable;
 import services.repository.Repository;
@@ -65,7 +66,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
+  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aType, Map<String, String> aMetadata) {
     Resource resource = db.get(aId);
     db.remove(aId);
     return resource;

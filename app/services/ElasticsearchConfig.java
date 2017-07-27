@@ -2,9 +2,7 @@ package services;
 
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
-import helpers.UniversalFunctions;
-import models.Action;
-import models.Record;
+import helpers.Types;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -19,16 +17,12 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import play.Logger;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ElasticsearchConfig {
-
-  private static final String INDEX_CONFIG_FILE = "conf/index-config.json";
 
   // CONFIG FILE
   private Config mConfig;
@@ -56,7 +50,6 @@ public class ElasticsearchConfig {
   }
 
   private void init() {
-
     // HOST
     mServer = mConfig.getString("es.host.server");
     mJavaPort = mConfig.getInt("es.host.port.java");
@@ -65,6 +58,7 @@ public class ElasticsearchConfig {
     mWebpageType = mConfig.getString("es.index.webpage.type");
     mActionIndex = mConfig.getString("es.index.action.name");
     mActionType = mConfig.getString("es.index.action.type");
+
     mCluster = mConfig.getString("es.cluster.name");
 
     mAllIndices = new String[]{mWebpageIndex, mActionIndex};
@@ -103,33 +97,7 @@ public class ElasticsearchConfig {
   }
 
   public String getIndex(final String aType){
-    if (Record.TYPE.equals(aType)){
-      return mWebpageIndex;
-    }
-    if (Action.TYPE.equals(aType)){
-      return mActionIndex;
-    }
-    return null;
-  }
-
-  public String getWebpageIndex() {
-    return mClientSettings.get("index.webpage.name");
-  }
-
-  public String getActionIndex() {
-    return mClientSettings.get("index.action.name");
-  }
-
-  public String getWebpageType() {
-    return mWebpageType;
-  }
-
-  public String getActionType() {
-    return mActionType;
-  }
-
-  public String getCluster() {
-    return mCluster;
+    return Types.getEsIndexFromClassType(aType);
   }
 
   public String getServer() {
@@ -140,27 +108,15 @@ public class ElasticsearchConfig {
     return mJavaPort;
   }
 
-  public String toString() {
-    return mConfig.toString();
-  }
-
-  public String getIndexConfigString() throws IOException {
-    return UniversalFunctions.readFile(INDEX_CONFIG_FILE, StandardCharsets.UTF_8);
-  }
-
   public Map<String, String> getClientSettings() {
     return mClientSettings;
   }
 
-  public Client getClient() {
-    return mClient;
+  private boolean indexExists(String... aIndices) {
+    return mClient.admin().indices().prepareExists(aIndices).execute().actionGet().isExists();
   }
 
-  private boolean indexExists(String aIndex) {
-    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
-  }
-
-  private void createIndex(String aIndex) {
+  public void createIndex(String aIndex) {
     if (!indexExists(aIndex)) {
       CreateIndexResponse response = mClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
       refreshElasticsearch(aIndex);
@@ -173,12 +129,12 @@ public class ElasticsearchConfig {
     }
   }
 
-  public DeleteIndexResponse deleteIndex(String aIndex) {
-    return mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
+  public DeleteIndexResponse deleteIndex(String... aIndices) {
+    return mClient.admin().indices().delete(new DeleteIndexRequest(aIndices)).actionGet();
   }
 
-  private void refreshElasticsearch(String aIndex) {
-    mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+  private void refreshElasticsearch(String... aIndices) {
+    mClient.admin().indices().refresh(new RefreshRequest(aIndices)).actionGet();
   }
 
   public void tearDown() throws Exception {

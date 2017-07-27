@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Resource;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.jena.atlas.RuntimeIOException;
@@ -15,11 +16,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class FileRepository extends Repository implements Writable, Readable {
@@ -118,7 +115,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @return The resource that has been deleted.
    */
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
+  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aType, Map<String, String> aMetadata) {
     Resource resource = this.getResource(aId);
     try {
       Files.delete(getResourcePath(aId));

@@ -14,4 +14,9 @@ public class Action extends ModelCommon implements Comparable<Action> {
   public int compareTo(Action o) {
     return 0;
   }
+
+  @Override
+  public String getId() {
+    return null;
+  }
 }

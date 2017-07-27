@@ -24,8 +24,8 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   @BeforeClass
   public static void setupResources() throws IOException {
-    mElasticsearchRepo.deleteIndex(mConfig.getString("es.index.webpage.name"));
-    mElasticsearchRepo.createIndex(mConfig.getString("es.index.webpage.name"));
+    mEsConfig.deleteIndex(mConfig.getString("es.index.webpage.name"));
+    mEsConfig.createIndex(mConfig.getString("es.index.webpage.name"));
   }
 
   @Test
