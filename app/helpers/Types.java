@@ -23,14 +23,14 @@ public class Types {
     TYPE_MAP = new HashMap<>();
 
     Type recordType = new Type(Record.class, Record.TYPE,
-      aConfig.getString("es.index.webpage.name"),
-      aConfig.getString("es.index.webpage.type"));
+      aConfig.getString("es.index.webpage.type"),
+      aConfig.getString("es.index.webpage.name"));
     CLASS_MAP.put(Record.class, recordType);
     TYPE_MAP.put(Record.TYPE, recordType);
 
     Type actionType = new Type(Action.class, Action.TYPE,
-      aConfig.getString("es.index.action.name"),
-      aConfig.getString("es.index.action.type"));
+      aConfig.getString("es.index.action.type"),
+      aConfig.getString("es.index.action.name"));
     CLASS_MAP.put(Action.class, actionType);
     TYPE_MAP.put(Action.TYPE, actionType);
   }
