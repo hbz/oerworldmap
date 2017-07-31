@@ -26,6 +26,7 @@ import play.mvc.Controller;
 import play.twirl.api.Html;
 import services.AccountService;
 import services.AggregationProvider;
+import services.PageProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
 import services.repository.ElasticsearchRepository;
@@ -68,6 +69,7 @@ public abstract class OERWorldMap extends Controller {
   protected static BaseRepository mBaseRepository = null;
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
+  static PageProvider mPageProvider;
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
@@ -101,6 +103,14 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
+  private static synchronized void createPageProvider(Configuration aConf) {
+    if (mPageProvider == null) {
+      Map<String, List<String>> sections = new HashMap<>();
+      mPageProvider = new PageProvider(aConf.getString("pages.dir"), aConf.getString("pages.extension"),
+        aConf.getConfig("pages.sections").asMap());
+    }
+  }
+
   @Inject
   public OERWorldMap(Configuration aConf, Environment aEnv) {
 
@@ -116,6 +126,9 @@ public abstract class OERWorldMap extends Controller {
     // Location lookup
     createLocationLookup(mEnv);
 
+    // Static pages
+    createPageProvider(mConf);
+
   }
 
   boolean getEmbed() {
@@ -124,7 +137,7 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  Locale getLocale() {
+  public Locale getLocale() {
 
     Locale locale = new Locale("en", "US");
     if (mConf.getBoolean("i18n.enabled")) {
@@ -187,12 +200,6 @@ public abstract class OERWorldMap extends Controller {
     }
 
     return new QueryContext(roles);
-
-  }
-
-  ResourceBundle getMessages() {
-
-    return ResourceBundle.getBundle("messages", getLocale());
 
   }
 
@@ -278,6 +285,7 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
     mustacheData.put("userLocation", getLocation());
     mustacheData.put("embed", getEmbed());
+    mustacheData.put("sections", mPageProvider.getSections(getLocale()));
     Map<String, Object> skos = new HashMap<>();
     try {
       skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
@@ -329,8 +337,7 @@ public abstract class OERWorldMap extends Controller {
       Logger.error("Could not register helpers", e);
     }
 
-    HandlebarsHelpers.setController(this);
-    handlebars.registerHelpers(new HandlebarsHelpers());
+    handlebars.registerHelpers(new HandlebarsHelpers(this));
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));

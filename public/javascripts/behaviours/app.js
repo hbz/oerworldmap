@@ -167,6 +167,10 @@ var Hijax = (function ($, Hijax, page) {
       Hijax.behaviours.map.attach($('#app-col-detail [data-app="col-content"]'), attached);
     }
 
+    // reset scroll position
+
+    $('#app-col-detail [data-app="col-content"]').scrollTop(0);
+
     // set focus to fit highlighted
     // therefor waiting for map_and_index_loaded and map attachments
 
@@ -480,7 +484,7 @@ var Hijax = (function ($, Hijax, page) {
       $('#app-modal').on('hide.bs.modal', function(e){
         var modal = $('#app-modal');
         if( modal.data('is_protected') ) {
-          var confirm = window.confirm("Are you sure you want to close? All form content will be lost.");
+          var confirm = window.confirm(i18nStrings['ui']['app.closeQuestion']);
           if(!confirm) {
             return false;
           }

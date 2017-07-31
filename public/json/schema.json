@@ -83,6 +83,16 @@
             "type": "string"
           }
         },
+        "publisher": {
+          "description": "The publisher of the bookmark",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
+            ]
+          }
+        },
         "comment": {
           "description": "A comment about the bookmark",
           "type": "array",
@@ -270,6 +280,31 @@
         "location": {
           "$ref": "#/definitions/Place"
         },
+        "exampleOfWork": {
+          "type": "string",
+          "format": "uri"
+        },
+        "citation": {
+          "type": "string"
+        },
+        "license": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
         "primarySector": {
           "type": "array",
           "items": {
@@ -307,8 +342,20 @@
           }
         }
       },
-      "required": [
-        "name", "description", "articleBody", "creator", "dateCreated", "location"
+      "allOf": [
+        {
+          "required": [
+            "name", "description", "articleBody", "location"
+          ],
+          "oneOf": [
+            {
+              "required": [ "license", "creator", "dateCreated" ]
+            },
+            {
+              "required": [ "citation", "exampleOfWork" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },
@@ -547,6 +594,16 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Event" ] } } }
+            ]
+          }
+        },
+        "publication": {
+          "description": "A publication of the Project",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
             ]
           }
         },
@@ -812,12 +869,22 @@
           }
         },
         "comment": {
-          "description": "A comment about the Organization",
+          "description": "A comment about the Service",
           "type": "array",
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        },
+        "publication": {
+          "description": "A publication of the Service",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
             ]
           }
         },
@@ -1043,6 +1110,16 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
+          }
+        },
+        "publication": {
+          "description": "A publication of the Person",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
             ]
           }
         },
@@ -1288,6 +1365,16 @@
             "$ref": "#/definitions/Grant"
           }
         },
+        "publication": {
+          "description": "A publication of the Organization",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
         "primarySector": {
           "type": "array",
           "items": {
@@ -1473,6 +1560,16 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
+          }
+        },
+        "publication": {
+          "description": "A publication of the Event",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
             ]
           }
         },

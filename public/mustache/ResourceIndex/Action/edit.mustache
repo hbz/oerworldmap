@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="hidden">
-        <legend>Project</legend>
+        <legend>{{i18n "Action"}}</legend>
         {{input "@type" "Action" readonly="readonly"}}
         {{input "@id" [@id] readonly="readonly"}}
     </div>
@@ -33,16 +33,16 @@
         <div class="alert alert-info">
 
             <p>
-                The address of a project is inherited from the operator. That's why it's not shown per default. Only activate it, if this project is run in a different place then the operator is located.
+                {{i18n "ResourceIndex.Action.edit.addressMessage"}}
             </p>
 
             <p>
-                Read more: <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors#how-to-add-locations">FAQ Chapter: How to add locations?</a>
+                {{{i18n "ResourceIndex.Action.edit.readMore"}}}
             </p>
 
             <div class="container-top-line">
                 <button class="btn btn-default" type="button">
-                    Show Address
+                    {{i18n "showAddress"}}
                 </button>
             </div>
 
@@ -74,11 +74,13 @@
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Action.comment") tooltip=(i18n "Action.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
-    {{> FormElements/id.mustache property=isPartOf property_path="isPartOf" title=(i18n "Action.isPartOf") tooltip=(i18n "Action.isPartOf" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=isPartOf property_path="isPartOf" title=(i18n "Action.isPartOf") tooltip=(i18n "Action.isPartOf" bundle="descriptions") hidden=false multiple=false lookup_url="/resource/?filter.about.@type=Action"}}
 
     {{> FormElements/id.mustache property=hasPart property_path="hasPart" title=(i18n "Action.hasPart") tooltip=(i18n "Action.hasPart" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
 
     {{> FormElements/id.mustache property=organizerFor property_path="organizerFor" title=(i18n "Action.organizerFor") tooltip=(i18n "Action.organizerFor" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Event"}}
+
+    {{> FormElements/id.mustache property=publication property_path="publication" title=(i18n "Action.publication") tooltip=(i18n "Action.publication" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=WebPage"}}
 
     {{> ResourceIndex/Grant/edit.mustache property=isFundedBy property_path="isFundedBy"}}
 

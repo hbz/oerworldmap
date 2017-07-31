@@ -1,7 +1,7 @@
 {{#property}}
 <fieldset>
 
-  <legend>Geo Coordinates</legend>
+  <legend>{{i18n "ResourceIndex.GeoCoordinates.edit.geoCoordinates"}}</legend>
   {{input (stringFormat "%s[lat]" property_path) lat}}
   {{input (stringFormat "%s[lon]" property_path) lon}}
 
@@ -10,7 +10,7 @@
 {{^property}}
     <fieldset>
 
-        <legend>Geo Coordinates</legend>
+        <legend>{{i18n "ResourceIndex.GeoCoordinates.edit.geoCoordinates"}}</legend>
         {{input (stringFormat "%s[lat]" property_path) lat}}
         {{input (stringFormat "%s[lon]" property_path) lon}}
 

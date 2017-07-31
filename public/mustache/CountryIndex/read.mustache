@@ -5,9 +5,9 @@
         <form id="form-resource-add-service" method="post" class="clearfix visible-modal" action="/resource/">
 
             <div class="modal-title">
-                <h1>Add Service</h1>
+                <h1>{{i18n "add"}} {{i18n "Service"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -15,9 +15,14 @@
 
             {{> ResourceIndex/Service/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "CountryIndex.read.agreeConditions"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
             </div>
         </form>
 
@@ -25,9 +30,9 @@
         <form id="form-resource-add-organization" method="post" class="clearfix visible-modal" action="/resource/">
 
             <div class="modal-title">
-                <h1>Add Organization</h1>
+                <h1>{{i18n "add"}} {{i18n "Organization"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -35,9 +40,14 @@
 
             {{> ResourceIndex/Organization/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "CountryIndex.read.agreeConditions"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
             </div>
         </form>
 
@@ -45,9 +55,9 @@
         <form id="form-resource-add-story" method="post" class="clearfix visible-modal" action="/resource/">
 
             <div class="modal-title">
-                <h1>Add Story</h1>
+                <h1>{{i18n "add"}} {{i18n "Article"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -55,9 +65,10 @@
 
             {{> ResourceIndex/Article/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+
+            <div class="pull-right">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
             </div>
         </form>
 
@@ -65,9 +76,9 @@
         <form id="form-resource-add-action" method="post" class="clearfix visible-modal" action="/resource/">
 
             <div class="modal-title">
-                <h1>Add Project</h1>
+                <h1>{{i18n "add"}} {{i18n "Action"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -75,9 +86,14 @@
 
             {{> ResourceIndex/Action/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "CountryIndex.read.agreeConditions"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
             </div>
         </form>
 
@@ -85,9 +101,9 @@
         <form id="form-resource-add-person" method="post" class="clearfix visible-modal" action="/user/">
 
             <div class="modal-title">
-                <h1>Add Person</h1>
+                <h1>{{i18n "add"}} {{i18n "Person"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -95,9 +111,14 @@
 
             {{> ResourceIndex/Person/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "CountryIndex.read.agreeConditions"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
             </div>
         </form>
 
@@ -105,9 +126,9 @@
         <form id="form-resource-add-event" method="post" class="clearfix visible-modal" action="/resource/">
 
             <div class="modal-title">
-                <h1>Add Event</h1>
+                <h1>{{i18n "add"}} {{i18n "Event"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -115,18 +136,23 @@
 
             {{> ResourceIndex/Event/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "CountryIndex.read.agreeConditions"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
             </div>
         </form>
 
         <form id="form-resource-add-webpage" method="post" class="clearfix visible-modal" action="/resource/">
 
             <div class="modal-title">
-                <h1>Add Publication</h1>
+                <h1>{{i18n "add"}} {{i18n "WebPage"}}</h1>
                 <div class="right">
-                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">Need Help?</a>
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                 </div>
             </div>
 
@@ -134,9 +160,14 @@
 
             {{> ResourceIndex/WebPage/edit.mustache}}
 
-            <div class="pull-right resource-form-top-padding">
-                <button type="submit" class="btn btn-default" data-dismiss="modal">Quit</button>
-                <button type="submit" class="btn btn-inverted">Save Changes</button>
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "CountryIndex.read.agreeConditions"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
             </div>
         </form>
 
@@ -149,7 +180,7 @@
     <div class="column-section-new">
 
         <div class="resource-header">
-            <h1>{{i18n scope.alpha-2 bundle="countries"}}</h1>
+            <h1>{{i18n scope.alpha-2 bundle="iso3166-1-alpha-2"}}</h1>
         </div>
 
         {{#if champions}}
@@ -166,7 +197,7 @@
                             {{/image}}
 
                             <div class="text">
-                                <h4>Country Champion</h4>
+                                <h4>{{i18n "CountryIndex.read.countryChampion"}}</h4>
 
                                 <ul class="resource-list truncated"><li>
                                     {{>ResourceIndex/link.mustache}}
@@ -188,7 +219,7 @@
                 <div class="img placeholder-image-qmark"></div>
 
                 <div class="text">
-                    There is no <a href="/contribute">country champion</a> for {{scope.name}}, yet. <a href="mailto:info@oerworldmap.org">Contact us</a> if you can jump in!
+                    {{{stringFormat (i18n "CountryIndex.read.noChampion") scope.name}}}
                 </div>
 
             </div>
@@ -202,7 +233,7 @@
             {{json countryAggregation}}
         </script>
 
-        <h3>Statistics</h3>
+        <h3>{{i18n "CountryIndex.read.statistics"}}</h3>
 
         {{#countryAggregation.[about.location.address.addressCountry].buckets}}
             <table class="statistics-table">
@@ -221,7 +252,7 @@
 
     {{#if scope.reports}}
         <div class="column-section-new" id="country-statistics">
-            <h3>Country reports</h3>
+            <h3>{{i18n "CountryIndex.read.countryReports"}}</h3>
             <ul class="resource-list" data-app="link-to-fragment">
                 {{#scope.reports}}
                     {{#about}}
@@ -251,7 +282,7 @@
         <div class="geo-filtered-list-control"></div>
 
         <p>
-            <span class="badge total-items">{{resources.totalItems}}</span> entries shown
+            <span class="badge total-items">{{resources.totalItems}}</span> {{i18n "CountryIndex.read.entriesShown"}}
         </p>
 
         <ul class="resource-list truncated" data-app="link-to-fragment" data-behaviour="linkedListEntries populateMap">
@@ -267,7 +298,7 @@
             {{/resources.member}}
         </ul>
         {{^resources}}
-            <em>No related entries found</em>
+            <em>{{i18n "CountryIndex.read.noRelatedEntries"}}</em>
         {{/resources}}
 
     </div>

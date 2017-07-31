@@ -1,7 +1,6 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import helpers.Countries;
+import helpers.UniversalFunctions;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -17,6 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author fo
@@ -30,7 +30,9 @@ public class CountryIndex extends OERWorldMap {
 
   public Result read(String id) throws IOException {
 
-    if (!Countries.map(getLocale()).keySet().contains(id.toUpperCase())) {
+    if (! UniversalFunctions.resourceBundleToMap(ResourceBundle
+      .getBundle("iso3166-1-alpha-2", getLocale()))
+      .containsKey(id.toUpperCase())) {
       return notFound("Not found");
     }
 
@@ -59,25 +61,22 @@ public class CountryIndex extends OERWorldMap {
     ResourceList resources = mBaseRepository.query("*", 0, 9999, null, filters, queryContext);
 
     Map<String, Object> scope = new HashMap<>();
+    String countryName = ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
+      .getString(id.toUpperCase());
 
     scope.put("alpha-2", id.toUpperCase());
-    scope.put("name", Countries.getNameFor(id, getLocale()));
+    scope.put("name", countryName);
     scope.put("champions", champions.getItems());
     scope.put("reports", reports.getItems());
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
 
     if (ctx().request().accepts("text/html")) {
-      return ok(render(Countries.getNameFor(id, getLocale()), "CountryIndex/read.mustache", scope));
+      return ok(render(countryName, "CountryIndex/read.mustache", scope));
     } else {
       return ok(resources.toResource().toString()).as("application/json");
     }
 
-  }
-
-  public Result iso3166() throws IOException {
-    return ok("window.iso3166 = ".concat(new ObjectMapper().writeValueAsString(Countries.list(getLocale()))))
-      .as("application/javascript");
   }
 
 }
