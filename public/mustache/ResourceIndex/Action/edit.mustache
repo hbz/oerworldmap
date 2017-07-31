@@ -84,4 +84,8 @@
 
     {{> ResourceIndex/Grant/edit.mustache property=isFundedBy property_path="isFundedBy"}}
 
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Action.primarySector") tooltip=(i18n "Action.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Action.secondarySector") tooltip=(i18n "Action.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
 </fieldset>
