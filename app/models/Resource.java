@@ -41,7 +41,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
+  public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
     "Comment"));
 

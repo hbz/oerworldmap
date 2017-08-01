@@ -545,8 +545,4 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public Result reconcile(String aQuery) {
-    return ok("Reconcile " + aQuery);
-  }
-
 }

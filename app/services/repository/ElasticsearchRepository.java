@@ -1,6 +1,9 @@
 package services.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import models.Record;
@@ -48,6 +51,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private static ElasticsearchConfig mConfig;
   private Client mClient;
   private Fuzziness mFuzziness;
+  private static JsonNodeFactory mJsonNodeFactory = new JsonNodeFactory(false);
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -185,9 +189,28 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  public JsonNode reconcile(String aQuery) {
-    SearchResponse response = esQuery(aQuery, 0, 10, null, null, null);
-    return null;
+  public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+    SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
+
+    while (searchHits.hasNext()) {
+      final SearchHit hit = searchHits.next();
+      Resource match = Resource.fromMap(hit.sourceAsMap());
+      String name = match.getNestedFieldValue("name.@value", Locale.ENGLISH); // TODO: trigger locale by reconcile request ?
+      ObjectNode item = new ObjectNode(mJsonNodeFactory);
+      item.put("id", match.getId());
+      item.put("match", aQuery.equals(name));
+      item.put("name", name);
+      item.put("score", hit.getScore());
+      item.put("type", match.getType());
+      resultItems.add(item);
+    }
+
+    ObjectNode result = new ObjectNode(mJsonNodeFactory);
+    result.set("result", resultItems);
+    return result;
   }
 
   /**
