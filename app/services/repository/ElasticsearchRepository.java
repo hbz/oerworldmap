@@ -1,5 +1,6 @@
 package services.repository;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import models.Record;
@@ -182,6 +183,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
       aFilters, aAggregations);
 
+  }
+
+  public JsonNode reconcile(String aQuery) {
+    SearchResponse response = esQuery(aQuery, 0, 10, null, null, null);
+    return null;
   }
 
   /**
