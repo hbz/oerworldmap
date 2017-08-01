@@ -197,7 +197,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     while (searchHits.hasNext()) {
       final SearchHit hit = searchHits.next();
-      Resource match = Resource.fromMap(hit.sourceAsMap());
+      Resource match = ((Record)Resource.fromMap(hit.sourceAsMap())).getResource();
       String name = match.getNestedFieldValue("name.@value", Locale.ENGLISH); // TODO: trigger locale by reconcile request ?
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
       item.put("id", match.getId());
