@@ -923,6 +923,16 @@
               } } }
             ]
           }
+        },
+        "isRelatedTo": {
+          "description": "Tools used to implement this service",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -1156,6 +1166,15 @@
                   }
                 }
               } } }
+            ]
+          }
+        },
+        "manufactured": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
             ]
           }
         }
@@ -1410,6 +1429,15 @@
               } } }
             ]
           }
+        },
+        "manufactured": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
+            ]
+          }
         }
       },
       "required": [ "name", "location" ],
@@ -1613,6 +1641,121 @@
       "required": [
         "name", "description", "startDate", "endDate", "location"
       ],
+      "additionalProperties": false
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Tool",
+      "description": "A tool used to implement OER services",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The tools's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Product"
+          ]
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "description": {
+          "description": "The description of the tool",
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "isRelatedTo": {
+          "description": "Services implemented using this Tool",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
+          }
+        },
+        "manufacturer": {
+          "description": "The manufacturer of this tool",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Person" ] } } }
+            ]
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "description": "A comment about the Tool",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        }
+      },
+      "required": [ "name" ],
       "additionalProperties": false
     },
     "Grant": {

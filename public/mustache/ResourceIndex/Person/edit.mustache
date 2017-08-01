@@ -62,4 +62,6 @@
 
     {{> FormElements/id.mustache property=publication property_path="publication" title=(i18n "Person.publication") tooltip=(i18n "Person.publication" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=WebPage"}}
 
+    {{> FormElements/id.mustache property=manufactured property_path="manufactured" title=(i18n "Product.manufactured") tooltip=(i18n "Product.manufactured" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
+
 </fieldset>

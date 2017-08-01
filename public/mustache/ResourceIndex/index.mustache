@@ -170,6 +170,30 @@
             </div>
         </form>
 
+        <form id="form-resource-add-product" method="post" class="clearfix visible-modal" action="/resource/">
+
+            <div class="modal-title">
+                <h1>{{stringFormat (i18n "add") (i18n "Product")}}</h1>
+                <div class="right">
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
+                </div>
+            </div>
+
+            <div class="messages resource-form-widget"></div>
+
+            {{> ResourceIndex/Product/edit.mustache}}
+
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "ResourceIndex.index.agreeMessage"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 
 {{/if}}

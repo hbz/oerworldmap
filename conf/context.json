@@ -130,6 +130,9 @@
       "@container": "@set"
     },
     "isPartOf": "dcterms:isPartOf",
+    "isRelatedTo": {
+      "@container": "@set"
+    },
     "keywords": {
       "@container": "@set"
     },
@@ -137,6 +140,12 @@
       "@container": "@set"
     },
     "license": {
+      "@container": "@set"
+    },
+    "manufacturer": {
+      "@container": "@set"
+    },
+    "manufactured": {
       "@container": "@set"
     },
     "mainEntityOf": {
