@@ -22,8 +22,11 @@ public class Reconciler extends OERWorldMap{
   }
 
 
-  public Result reconcile(String aQueryTerm) {
+  public Result  reconcile(final String aQueryTerm) {
+    return reconcile(aQueryTerm, null);
+  }
 
+  public Result reconcile(final String aQueryTerm, final QueryContext aQueryContext) {
     if (StringUtils.isEmpty(aQueryTerm)) {
       ObjectNode result = Json.newObject();
       result.put("name", "oerworldmap reconciliation");
@@ -33,7 +36,7 @@ public class Reconciler extends OERWorldMap{
       result.set("view", Json.newObject().put("url", "https://oerworldmap.org/resource/{{id}}"));
       return ok(result);
     } else {
-      QueryContext queryContext = getQueryContext();
+      QueryContext queryContext = aQueryContext != null ? aQueryContext : getQueryContext();
       final JsonNode reconciled = mBaseRepository.reconcile(aQueryTerm, 0, 10, null, null, queryContext);
       // TODO: parametrize dynamically
       return ok(reconciled);
