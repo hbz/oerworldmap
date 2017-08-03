@@ -18,7 +18,7 @@ import play.libs.Json;
 import play.mvc.Result;
 import play.test.Helpers;
 import services.QueryContext;
-import services.SearchConfig;
+import services.ReconcileConfig;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     mMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
     mDefaultQueryContext = new QueryContext(null);
-    mDefaultQueryContext.setElasticsearchFieldBoosts(new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
+    mDefaultQueryContext.setElasticsearchFieldBoosts(new ReconcileConfig().getBoostsForElasticsearch());
   }
 
   @Before

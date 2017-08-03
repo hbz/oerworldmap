@@ -1,14 +1,9 @@
 package helpers;
 
-import org.apache.bcel.util.ClassLoader;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
- * Created by pvb on 14.10.16.
+ * @author pvb
  */
 public class FileHelpers {
 
@@ -20,5 +15,13 @@ public class FileHelpers {
     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
     return reader;
   }
+
+  public static void checkFileExists(final File aFile, final String aFileType) throws FileNotFoundException {
+    if (!aFile.exists()) {
+      throw new java.io.FileNotFoundException(aFileType + " file \"" + aFile.getAbsolutePath() + "\" not found.");
+    }
+  }
+
+
 
 }
