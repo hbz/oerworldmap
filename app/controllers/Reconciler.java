@@ -55,10 +55,10 @@ public class Reconciler extends OERWorldMap{
     System.out.println(request); // TODO: remove (?)
 
     Iterator<Map.Entry<String, JsonNode>> inputQueries = request.fields();
-    return reconcile(inputQueries, null);
+    return ok(reconcile(inputQueries, null));
   }
 
-  public Result reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries, final QueryContext aQueryContext) {
+  public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries, final QueryContext aQueryContext) {
 
     QueryContext queryContext = aQueryContext != null ? aQueryContext : getQueryContext();
 
@@ -76,7 +76,7 @@ public class Reconciler extends OERWorldMap{
     }
 
     System.out.println(response); // TODO: remove (?)
-    return ok(response);
+    return response;
   }
 
 }

@@ -6,6 +6,7 @@ import helpers.ElasticsearchTestGrid;
 import helpers.JsonTest;
 import models.Resource;
 import models.TripleCommit;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,7 +16,6 @@ import play.Mode;
 import play.api.test.FakeApplication;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
-import play.mvc.Result;
 import play.test.Helpers;
 import services.QueryContext;
 import services.ReconcileConfig;
@@ -53,6 +53,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
 
   @Test
   public void testReconcileBasic() throws IOException {
+    final String correctTitle = "MyCorrectResourceTitle";
     Resource resource1 = getResourceFromJsonFile("ReconcilerTest/testReconcileBasic.IN.1.json");
     Resource resource2 = getResourceFromJsonFile("ReconcilerTest/testReconcileBasic.IN.2.json");
     mReconciler.getBaseRepository().addResource(resource1, mMetadata);
@@ -61,12 +62,12 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     // build query
     final Map<String, JsonNode> queryMap = new HashMap<>();
     final ObjectNode query0 = Json.newObject();
-    query0.put("query", "MyCorrectResourceTitle");
+    query0.put("query", correctTitle);
     query0.put("limit", 1);
     queryMap.put("q0", query0);
 
-    final Result myResourceTitle = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
-    // TODO Assert
+    final JsonNode myResourceTitle = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
+    Assert.assertEquals(correctTitle, myResourceTitle.get("q0").get("result").get(0).get("name").asText());
   }
 
 }
