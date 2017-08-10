@@ -442,6 +442,9 @@ public class ResourceIndex extends OERWorldMap {
         case "ics":
           format = "text/calendar";
           break;
+        case "geojson":
+          format = "application/geo+json";
+          break;
         case "schema":
           format = "application/schema+json";
           break;
@@ -452,6 +455,8 @@ public class ResourceIndex extends OERWorldMap {
       format = "text/csv";
     } else if (request().accepts("text/calendar")) {
       format = "text/calendar";
+    } else if (request().accepts("application/geo+json")) {
+      format = "application/geo+json";
     } else if (request().accepts("application/schema+json")) {
       format = "application/schema+json";
     } else {
@@ -468,6 +473,8 @@ public class ResourceIndex extends OERWorldMap {
       return ok(resource.toString()).as("application/json");
     } else if (format.equals("text/csv")) {
       return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+    } else if (request().accepts("application/geo+json")) {
+      return ok(new GeoJsonExporter().export(resource));
     } else if (format.equals("application/schema+json")) {
       return ok(new JsonSchemaExporter().export(resource)).as("application/schema+json");
     } else if (format.equals("text/calendar")) {
