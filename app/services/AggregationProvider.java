@@ -133,4 +133,14 @@ public class AggregationProvider {
           ).order(Histogram.Order.KEY_DESC);
   }
 
+  public static AggregationBuilder<?> getPrimarySectorsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.primarySector.@id").size(aSize)
+      .field("about.primarySector.@id");
+  }
+
+  public static AggregationBuilder<?> getSecondarySectorsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.secondarySector.@id").size(aSize)
+      .field("about.secondarySector.@id");
+  }
+
 }

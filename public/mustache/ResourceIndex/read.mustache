@@ -669,6 +669,34 @@
 
                     {{! --- }}
 
+                    {{#if manufacturer}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.manufacturer" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#manufacturer}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/manufacturer}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if manufactured}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.manufactured" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#manufactured}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/manufactured}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
                     {{#if mentions}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.mentions" @type)}}</td>
@@ -718,6 +746,49 @@
                                     {{#instrumentIn}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
                                     {{/instrumentIn}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
+                    {{#if isRelatedTo}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.isRelatedTo" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#isRelatedTo}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/isRelatedTo}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
+                    {{#if primarySector}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.primarySector" @type)}}</td>
+                            <td>
+                                <ul>
+                                    {{#each (reduceSkos @root.skos.sectors primarySector)}}
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="primarySector"}}</li>
+                                    {{/each}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if secondarySector}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.secondarySector" @type)}}</td>
+                            <td>
+                                <ul>
+                                    {{#each (reduceSkos @root.skos.sectors secondarySector)}}
+                                        <li>{{> ResourceIndex/Concept/read.mustache . filter="secondarySector"}}</li>
+                                    {{/each}}
                                 </ul>
                             </td>
                         </tr>
