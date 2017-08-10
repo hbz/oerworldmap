@@ -15,7 +15,7 @@ public class GeoJsonExporter implements Exporter {
 
   @Override
   public String export(Resource aResource) {
-    JsonNode node = toGeoJson(aResource);
+    JsonNode node = toGeoJson(aResource, true);
     return node == null ? null : node.toString();
   }
 
@@ -26,7 +26,7 @@ public class GeoJsonExporter implements Exporter {
     node.put("type", "FeatureCollection");
     node.set("aggregations", aResourceList.toResource().toJson().get("aggregations"));
     for (Resource resource : aResourceList.getItems()) {
-      JsonNode feature = toGeoJson(resource);
+      JsonNode feature = toGeoJson(resource, false);
       if (feature != null) {
         features.add(feature);
       }
@@ -35,7 +35,7 @@ public class GeoJsonExporter implements Exporter {
     return node.toString();
   }
 
-  private JsonNode toGeoJson(Resource aResource) {
+  private JsonNode toGeoJson(Resource aResource, boolean expand) {
 
     JsonNode resource = aResource.getAsResource(Record.RESOURCE_KEY).toJson();
     ArrayNode coordinates = getCoordinates(resource);
@@ -45,19 +45,26 @@ public class GeoJsonExporter implements Exporter {
     }
 
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
-    ObjectNode geometry = new ObjectNode(JsonNodeFactory.instance);
-    ObjectNode properties = new ObjectNode(JsonNodeFactory.instance);
+
+    if (expand) {
+      node.set("properties", aResource.toJson());
+    } else {
+      ObjectNode properties = new ObjectNode(JsonNodeFactory.instance);
+      properties.set("@id", resource.get("@id"));
+      properties.set("@type", resource.get("@type"));
+      if (resource.has("name")) {
+        properties.set("name", resource.get("name"));
+      }
+      node.set("properties", properties);
+    }
+
     node.put("type", "Feature");
-    node.set("geometry", geometry);
-    node.set("properties", properties);
     node.set("id", resource.get("@id"));
+    ObjectNode geometry = new ObjectNode(JsonNodeFactory.instance);
     geometry.put("type", "Point");
     geometry.set("coordinates", coordinates);
-    properties.set("@id", resource.get("@id"));
-    properties.set("@type", resource.get("@type"));
-    if (resource.has("name")) {
-      properties.set("name", resource.get("name"));
-    }
+    node.set("geometry", geometry);
+
     return node;
 
   }
