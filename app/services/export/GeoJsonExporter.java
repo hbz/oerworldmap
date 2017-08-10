@@ -24,6 +24,7 @@ public class GeoJsonExporter implements Exporter {
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
     ArrayNode features = new ArrayNode(JsonNodeFactory.instance);
     node.put("type", "FeatureCollection");
+    node.set("aggregations", aResourceList.toResource().toJson().get("aggregations"));
     for (Resource resource : aResourceList.getItems()) {
       JsonNode feature = toGeoJson(resource);
       if (feature != null) {
