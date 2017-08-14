@@ -71,11 +71,7 @@ public class CountryIndex extends OERWorldMap {
     scope.put("resources", resources.toResource());
     scope.put("countryAggregation", countryAggregation);
 
-    if (ctx().request().accepts("text/html")) {
-      return ok(render(countryName, "CountryIndex/read.mustache", scope));
-    } else {
-      return ok(resources.toResource().toString()).as("application/json");
-    }
+    return ok(resources.toResource().toString()).as("application/json");
 
   }
 

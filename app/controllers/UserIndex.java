@@ -62,16 +62,16 @@ public class UserIndex extends OERWorldMap {
       new File(mConf.getString("consents.history.file")));
   }
 
-  public Result signup() {
+  public Result signup() throws IOException {
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("countries", UniversalFunctions.resourceBundleToMap(ResourceBundle
       .getBundle("iso3166-1-alpha-2", getLocale())));
-    return ok(render("Registration", "UserIndex/register.mustache", scope));
+    return ok(mObjectMapper.writeValueAsString(scope));
 
   }
 
-  public Result register() {
+  public Result register() throws IOException {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
     user.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
@@ -138,7 +138,7 @@ public class UserIndex extends OERWorldMap {
         if (registerNewsletter && !registerNewsletter(username)) {
           Logger.error("Error registering newsletter for " + username);
         }
-        result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
+        result = ok(mObjectMapper.writeValueAsString(scope));
       }
     }
 
@@ -163,7 +163,7 @@ public class UserIndex extends OERWorldMap {
         String profileUrl = mConf.getString("proxy.host").concat(
           routes.ResourceIndex.readDefault(userId, "HEAD").url());
         scope.put("url", profileUrl);
-        result = ok(render("User verified", "UserIndex/verified.mustache", scope));
+        result = ok(mObjectMapper.writeValueAsString(scope));
       } else {
         result = badRequest("Invalid token ".concat(token));
       }
@@ -173,11 +173,11 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public Result requestPassword() {
-    return ok(render("Reset Password", "UserIndex/password.mustache"));
+  public Result requestPassword() throws IOException {
+    return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
   }
 
-  public Result sendPassword() {
+  public Result sendPassword() throws IOException {
 
     Result result;
 
@@ -198,7 +198,7 @@ public class UserIndex extends OERWorldMap {
       } else if (!mAccountService.updatePassword(username, password, updated)) {
         result = badRequest("Failed to update password for ".concat(username));
       } else {
-        result = ok(render("Password changed", "UserIndex/passwordChanged.mustache"));
+        result = ok(mObjectMapper.writeValueAsString(new HashMap<>()));
       }
     } else {
       username = user.getAsString("email");
@@ -209,7 +209,7 @@ public class UserIndex extends OERWorldMap {
         if (mAccountService.setPassword(username, password)) {
           sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
               getEmails().getString("account.password.subject"), null);
-          result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
+          result = ok(mObjectMapper.writeValueAsString(new HashMap<>()));
         } else {
           result = badRequest("Failed to reset password.");
         }
@@ -220,9 +220,9 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public Result newsletterSignup() {
+  public Result newsletterSignup() throws IOException {
 
-    return ok(render("Registration", "UserIndex/newsletter.mustache"));
+    return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
 
   }
 
@@ -246,7 +246,7 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public Result editGroups() {
+  public Result editGroups() throws IOException {
 
     Map<String, Map<String, Boolean>> groups = new HashMap<>();
     for (String group : mAccountService.getGroups()) {
@@ -259,11 +259,11 @@ public class UserIndex extends OERWorldMap {
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("groups", groups);
-    return ok(render("Edit Groups", "UserIndex/groups.mustache", scope));
+    return ok(mObjectMapper.writeValueAsString(scope));
 
   }
 
-  public Result setGroups() {
+  public Result setGroups() throws IOException {
 
     Map<String, List<String>> groupUsers = new HashMap<>();
 
@@ -275,13 +275,13 @@ public class UserIndex extends OERWorldMap {
         List<String> users = StreamSupport.stream(
           Spliterators.spliteratorUnknownSize(jsonNode.get(group).fieldNames(),
             Spliterator.ORDERED), false).collect(
-          Collectors.<String>toList());
+          Collectors.toList());
         groupUsers.put(group, users);
       }
     }
 
     if (mAccountService.setGroups(groupUsers)) {
-      return ok(render("Groups Updated", "UserIndex/groupsChanged.mustache"));
+      return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
     } else {
       return internalServerError("Failed to update groups");
     }

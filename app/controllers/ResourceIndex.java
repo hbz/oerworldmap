@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
@@ -131,9 +130,6 @@ public class ResourceIndex extends OERWorldMap {
     String format = null;
     if (! StringUtils.isEmpty(extension)) {
       switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
         case "json":
           format = "application/json";
           break;
@@ -150,8 +146,6 @@ public class ResourceIndex extends OERWorldMap {
           format = "application/schema+json";
           break;
       }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
     } else if (request().accepts("text/csv")) {
       format = "text/csv";
     } else if (request().accepts("text/calendar")) {
@@ -166,22 +160,15 @@ public class ResourceIndex extends OERWorldMap {
 
     if (format == null) {
       return notFound("Not found");
-    } else if (format.equals("text/html")) {
-      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
-    } //
-    else if (format.equals("text/csv")) {
+    } else if (format.equals("text/csv")) {
       return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
-    } //
-    else if (format.equals("text/calendar")) {
+    } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
-    } //
-    else if (format.equals("application/json")) {
+    } else if (format.equals("application/json")) {
       return ok(resourceList.toResource().toString()).as("application/json");
-    }
-    else if (format.equals("application/geo+json")) {
+    } else if (format.equals("application/geo+json")) {
       return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
-    }
-    else if (format.equals("application/schema+json")) {
+    } else if (format.equals("application/schema+json")) {
       return ok(new JsonSchemaExporter().export(resourceList)).as("application/schema+json");
     }
 
@@ -252,14 +239,7 @@ public class ResourceIndex extends OERWorldMap {
       } catch (ProcessingException e) {
         Logger.warn("Failed to create list processing report", e);
       }
-      if (request().accepts("text/html")) {
-        Map<String, Object> scope = new HashMap<>();
-        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
-        scope.put("type", resource.getType());
-        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
-      } else {
-        return badRequest(listProcessingReport.asJson());
-      }
+      return badRequest(listProcessingReport.asJson());
     }
 
     // Save
@@ -267,19 +247,11 @@ public class ResourceIndex extends OERWorldMap {
 
     // Respond
     if (isUpdate) {
-      if (request().accepts("text/html")) {
-        return read(resource.getId(), "HEAD", "html");
-      } else {
-        return ok("Updated " + resource.getId());
-      }
+      return ok(resource.toJson());
     } else {
       response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
         .absoluteURL(request()));
-      if (request().accepts("text/html")) {
-        return created(render("Created", "created.mustache", resource));
-      } else {
-        return created("Created " + resource.getId());
-      }
+      return created(resource.toJson());
     }
 
   }
@@ -363,7 +335,7 @@ public class ResourceIndex extends OERWorldMap {
         }
         Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
         resource.put("aggregation", nestedConceptAggregation);
-        return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
+        return ok(resource.toJson());
       }
     }
 
@@ -430,9 +402,6 @@ public class ResourceIndex extends OERWorldMap {
     String format = null;
     if (! StringUtils.isEmpty(extension)) {
       switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
         case "json":
           format = "application/json";
           break;
@@ -449,8 +418,6 @@ public class ResourceIndex extends OERWorldMap {
           format = "application/schema+json";
           break;
       }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
     } else if (request().accepts("text/csv")) {
       format = "text/csv";
     } else if (request().accepts("text/calendar")) {
@@ -467,8 +434,6 @@ public class ResourceIndex extends OERWorldMap {
 
     if (format == null) {
       return notFound("Not found");
-    } else if (format.equals("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json");
     } else if (format.equals("text/csv")) {
@@ -512,7 +477,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public Result log(String aId) {
+  public Result log(String aId) throws IOException {
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("commits", mBaseRepository.log(aId));
@@ -521,7 +486,7 @@ public class ResourceIndex extends OERWorldMap {
     if (StringUtils.isEmpty(aId)) {
       return ok(mBaseRepository.log(aId).toString());
     }
-    return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
+    return ok(mObjectMapper.writeValueAsString(scope));
 
   }
 
@@ -554,13 +519,13 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public Result feed() {
+  public Result feed() throws IOException {
 
     ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 
-    return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
+    return ok(mObjectMapper.writeValueAsString(scope));
 
   }
 

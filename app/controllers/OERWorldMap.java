@@ -2,18 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.MarkdownHelper;
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.helper.StringHelpers;
-import com.github.jknack.handlebars.io.TemplateLoader;
 import com.maxmind.geoip2.DatabaseReader;
-import helpers.HandlebarsHelpers;
 import helpers.JSONForm;
-import helpers.ResourceTemplateLoader;
-import helpers.UniversalFunctions;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -23,9 +13,7 @@ import play.Environment;
 import play.Logger;
 import play.i18n.Lang;
 import play.mvc.Controller;
-import play.twirl.api.Html;
 import services.AccountService;
-import services.AggregationProvider;
 import services.PageProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
@@ -70,6 +58,7 @@ public abstract class OERWorldMap extends Controller {
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
   static PageProvider mPageProvider;
+  static ObjectMapper mObjectMapper = new ObjectMapper();
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
@@ -258,131 +247,8 @@ public abstract class OERWorldMap extends Controller {
     return aId;
   }
 
-  public Resource getUser(String aId) {
-
-    Resource user = null;
-    String profileId = mAccountService.getProfileId(aId);
-    if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
-    }
-
-    return user;
-
-  }
-
-  protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
-      List<Map<String, Object>> messages) {
-    Map<String, Object> mustacheData = new HashMap<>();
-    mustacheData.put("scope", scope);
-    mustacheData.put("messages", messages);
-    mustacheData.put("user", getUser());
-    mustacheData.put("username", getHttpBasicAuthUser());
-    mustacheData.put("pageTitle", pageTitle);
-    mustacheData.put("template", templatePath);
-    mustacheData.put("config", mConf.asMap());
-    mustacheData.put("templates", getClientTemplates());
-    mustacheData.put("language", getLocale().toLanguageTag());
-    mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
-    mustacheData.put("userLocation", getLocation());
-    mustacheData.put("embed", getEmbed());
-    mustacheData.put("sections", mPageProvider.getSections(getLocale()));
-    Map<String, Object> skos = new HashMap<>();
-    try {
-      skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
-        HashMap.class));
-      skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
-        HashMap.class));
-      skos.put("sectors", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
-        HashMap.class));
-    } catch (IOException e) {
-      Logger.warn("Could not read SKOS file", e);
-    }
-    mustacheData.put("skos", skos);
-
-    try {
-      if (scope != null) {
-        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
-        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0));
-        scope.put("globalAggregation", globalAggregation);
-        scope.put("keywordAggregation", keywordAggregation);
-      }
-    } catch (IOException e) {
-      Logger.warn("Could not add global statistics", e);
-    }
-
-    boolean mayAdd = (getUser() != null);
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
-    Map<String, Object> permissions = new HashMap<>();
-    permissions.put("add", mayAdd);
-    permissions.put("administer", mayAdminister);
-    mustacheData.put("permissions", permissions);
-
-    TemplateLoader loader = new ResourceTemplateLoader(mEnv.classLoader());
-    loader.setPrefix("public/mustache");
-    loader.setSuffix("");
-    Handlebars handlebars = new Handlebars(loader);
-    handlebars.infiniteLoops(true);
-
-    handlebars.registerHelpers(StringHelpers.class);
-
-    handlebars.registerHelper("obfuscate", new Helper<String>() {
-      public CharSequence apply(String string, Options options) {
-        return UniversalFunctions.getHtmlEntities(string);
-      }
-    });
-
-    try {
-      handlebars.registerHelpers(new File("public/javascripts/helpers.js"));
-    } catch (Exception e) {
-      Logger.error("Could not register helpers", e);
-    }
-
-    handlebars.registerHelpers(new HandlebarsHelpers(this));
-
-    try {
-      handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));
-    } catch (Exception e) {
-      Logger.error("Could not register helpers", e);
-    }
-
-    try {
-      handlebars.registerHelpers(new File("public/javascripts/handlebars.form-helpers.js"));
-    } catch (Exception e) {
-      Logger.error("Could not register helpers", e);
-    }
-
-    try {
-      handlebars.registerHelpers(new File("public/vendor/moment/handlebars.moment.js"));
-    } catch (Exception e) {
-      Logger.error("Could not register helpers", e);
-    }
-
-    handlebars.registerHelper("md", new MarkdownHelper());
-
-    try {
-      Template template = handlebars.compile("main.mustache");
-      return Html.apply(template.apply(mustacheData));
-    } catch (IOException e) {
-      Logger.error("Could not compile template", e);
-      return null;
-    }
-
-  }
-
-  protected Html render(String pageTitle, String templatePath, Map<String, Object> scope) {
-    return render(pageTitle, templatePath, scope, null);
-  }
-
-  protected Html render(String pageTitle, String templatePath) {
-    return render(pageTitle, templatePath, null, null);
-  }
-
   protected BaseRepository getRepository() {
     return mBaseRepository;
-  }
-
-  protected AccountService getAccountService() {
-    return mAccountService;
   }
 
   /**

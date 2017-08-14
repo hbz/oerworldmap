@@ -46,7 +46,7 @@ public class AggregationIndex extends OERWorldMap {
     scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
       "#009380", "#627e45", "#6676b0", "#5ab18d"));
 
-    return ok(render("Country Aggregations", "AggregationIndex/index.mustache", scope));
+    return ok(mObjectMapper.writeValueAsString(scope));
 
   }
 
