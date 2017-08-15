@@ -15,6 +15,10 @@ For inital background information about this project please refer to the
     $ git submodule init
     $ git submodule update
 
+### Create configuration
+
+    $ cp conf/application.example.conf conf/application.conf
+
 ### Setup Elasticsearch
 
 #### [Download and install elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/)

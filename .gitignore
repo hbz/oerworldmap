@@ -1,6 +1,5 @@
 .settings/
 project/project
-project/target
 target
 logs
 .classpath
@@ -18,5 +17,5 @@ repo-deb-build*.*
 .idea/
 /node_modules/
 /public/css/main.css
-data/permissions/*
 !data/permissions/.system
+conf/application.conf
