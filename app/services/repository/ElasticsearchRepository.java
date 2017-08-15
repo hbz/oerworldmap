@@ -31,6 +31,7 @@ import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import play.Logger;
 import services.ElasticsearchConfig;
@@ -333,7 +334,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(new FieldSortBuilder(
+          sort[0]).order(sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC
+        ).unmappedType("string"));
       } else {
         Logger.trace("Invalid sort string: " + aSortOrder);
       }
@@ -385,7 +388,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     FunctionScoreQueryBuilder fqBuilder = QueryBuilders.functionScoreQuery(queryBuilder);
     fqBuilder.boostMode(CombineFunction.MULT);
     fqBuilder.scoreMode(FiltersFunctionScoreQuery.ScoreMode.Sum.name().toLowerCase());
-    fqBuilder.add(ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT));
+    fqBuilder.add(ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT).missing(0));
 
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
       .setQuery(QueryBuilders.boolQuery().must(fqBuilder).filter(globalAndFilter));
