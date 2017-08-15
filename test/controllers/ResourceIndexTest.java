@@ -86,11 +86,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   }
 
   private String getAuthString() {
-    Configuration conf = new Configuration(ConfigFactory.parseFile(new File("conf/test.conf")).resolve());
-    String email = conf.getString("admin.user");
-    String pass = conf.getString("admin.pass");
-    String authString = email.concat(":").concat(pass);
-    return Base64.getEncoder().encodeToString(authString.getBytes());
+    return Base64.getEncoder().encodeToString("user:pass".getBytes());
   }
 
 }

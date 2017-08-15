@@ -7,7 +7,6 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import helpers.FilesConfig;
 import helpers.JsonSchemaValidator;
 import helpers.JsonTest;
 import models.Resource;
@@ -27,18 +26,19 @@ import static org.junit.Assert.assertTrue;
  */
 public class SchemaTest implements JsonTest {
 
+  private static Config mConf;
   private static JsonSchemaValidator mSchemaValidator;
 
   @BeforeClass
   public static void setup() throws IOException {
-    Config config = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    mSchemaValidator = new JsonSchemaValidator(Paths.get(config.getString("json.schema")).toFile());
+    mConf = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
+    mSchemaValidator = new JsonSchemaValidator(Paths.get(mConf.getString("json.schema")).toFile());
   }
 
   @Test
   public void testSchema() throws IOException {
     SyntaxValidator syntaxValidator = JsonSchemaFactory.byDefault().getSyntaxValidator();
-    JsonNode schema = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
+    JsonNode schema = new ObjectMapper().readTree(Paths.get(mConf.getString("json.schema")).toFile());
     assertTrue(syntaxValidator.schemaIsValid(schema));
   }
 
