@@ -33,7 +33,7 @@ public class QueryContext {
 
     filters.put("concepts", concepts);
 
-    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name.@value");
+    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name");
     filters.put("emptyNames", emptyNames);
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
