@@ -8,6 +8,7 @@ import models.Resource;
 import models.ResourceList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,9 +18,7 @@ public class JsonSchemaExporter implements Exporter {
 
   @Override
   public String export(Resource aResource) {
-    List<Resource> foo = new ArrayList<>();
-    foo.add(aResource);
-    return export(new ResourceList(foo, 0, "", 0, 0, null, null, null));
+    return export(new ResourceList(Arrays.asList(aResource), 0, "", 0, 0, null, null, null));
   }
 
   @Override
