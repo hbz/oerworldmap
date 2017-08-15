@@ -42,6 +42,12 @@ import java.util.List;
  */
 public class ResourceFramer {
 
+  private static String mContextUrl;
+
+  public static void setContext(String aContextUrl) {
+    mContextUrl = aContextUrl;
+  }
+
   public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
 
     String describeStatement = String.format(TriplestoreRepository.EXTENDED_DESCRIPTION, aId);
@@ -63,7 +69,7 @@ public class ResourceFramer {
         if (types.hasNext()) {
           DatasetGraph g = DatasetFactory.create(dbstate).asDatasetGraph();
           JsonLDWriteContext ctx = new JsonLDWriteContext();
-          String context = "{ \"@context\": \"https://oerworldmap.org/assets/json/context.json\"}";
+          String context = String.format("{ \"@context\": \"%s\"}", mContextUrl);
           ctx.setJsonLDContext(context);
           ByteArrayOutputStream boas = new ByteArrayOutputStream();
           WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
@@ -76,14 +82,14 @@ public class ResourceFramer {
             for (JsonNode graph : graphs) {
               if (graph.get(JsonLdConstants.ID).asText().equals(aId)) {
                 ObjectNode result = (ObjectNode) buildTree(graph, graphs);
-                result.put(JsonLdConstants.CONTEXT, "https://oerworldmap.org/assets/json/context.json");
+                result.put(JsonLdConstants.CONTEXT, mContextUrl);
                 Logger.debug("Framed " + aId);
                 return Resource.fromJson(result);
               }
             }
           } else {
             ObjectNode result = (ObjectNode) jsonNode;
-            result.put(JsonLdConstants.CONTEXT, "https://oerworldmap.org/assets/json/context.json");
+            result.put(JsonLdConstants.CONTEXT, mContextUrl);
             Logger.debug("Framed " + aId);
             return Resource.fromJson(result);
           }

@@ -17,6 +17,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Logger;
 import services.IndexQueue;
 import services.QueryContext;
+import services.ResourceFramer;
 import services.ResourceIndexer;
 
 import javax.annotation.Nonnull;
@@ -75,6 +76,7 @@ public class BaseRepository extends Repository
 
     Model mDb = dataset.getDefaultModel();
     mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+    ResourceFramer.setContext(mConfiguration.getString("jsonld.context"));
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
