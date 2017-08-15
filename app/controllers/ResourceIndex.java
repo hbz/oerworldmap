@@ -344,13 +344,6 @@ public class ResourceIndex extends OERWorldMap {
       comments.add(mBaseRepository.getResource(commentId));
     }
 
-    String title;
-    try {
-      title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
-    } catch (NullPointerException e) {
-      title = id;
-    }
-
     boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
         || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
