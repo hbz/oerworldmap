@@ -2,15 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.maxmind.geoip2.DatabaseReader;
 import helpers.JSONForm;
-import helpers.JsonLdConstants;
+import helpers.JsonSchemaValidator;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
@@ -54,8 +49,7 @@ public abstract class OERWorldMap extends Controller {
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
   static ObjectMapper mObjectMapper = new ObjectMapper();
-  static JsonNode mSchemaNode;
-
+  private static JsonSchemaValidator mSchemaValidator;
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
@@ -89,9 +83,9 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  private static synchronized void createSchemaNode(Configuration aConf) {
+  private static synchronized void createSchemaValidator(Configuration aConf) {
     try {
-      mSchemaNode = new ObjectMapper().readTree(Paths.get(aConf.getString("json.schema")).toFile());
+      mSchemaValidator = new JsonSchemaValidator(Paths.get(aConf.getString("json.schema")).toFile());
     } catch (IOException e) {
       Logger.error("Could not read schema", e);
     }
@@ -112,8 +106,8 @@ public abstract class OERWorldMap extends Controller {
     // Location lookup
     createLocationLookup(mEnv);
 
-    // JSON schema
-    createSchemaNode(mConf);
+    // JSON schema validator
+    createSchemaValidator(mConf);
 
   }
 
@@ -207,24 +201,8 @@ public abstract class OERWorldMap extends Controller {
   }
 
   ProcessingReport validate(Resource aResource) {
-    ProcessingReport report = new ListProcessingReport();
-    try {
-      String type = aResource.getAsString(JsonLdConstants.TYPE);
-      if (null == type) {
-        report.error(new ProcessingMessage()
-          .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
-      } else if (null != mSchemaNode) {
-        JsonSchema schema = JsonSchemaFactory.byDefault().getJsonSchema(mSchemaNode, "/definitions/".concat(type));
-        report = schema.validate(aResource.toJson());
-      } else {
-        Logger.warn("No JSON schema present, validation disabled.");
-      }
-    } catch (ProcessingException e) {
-      e.printStackTrace();
-    }
-    return report;
+    return mSchemaValidator.validate(aResource);
   }
-
 
   protected BaseRepository getRepository() {
     return mBaseRepository;
