@@ -20,7 +20,6 @@ import play.Logger;
 import play.i18n.Lang;
 import play.mvc.Controller;
 import services.AccountService;
-import services.PageProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
 import services.repository.ElasticsearchRepository;
@@ -54,7 +53,6 @@ public abstract class OERWorldMap extends Controller {
   static BaseRepository mBaseRepository;
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
-  static PageProvider mPageProvider;
   static ObjectMapper mObjectMapper = new ObjectMapper();
   static JsonNode mSchemaNode;
 
@@ -91,14 +89,6 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  private static synchronized void createPageProvider(Configuration aConf) {
-    if (mPageProvider == null) {
-      Map<String, List<String>> sections = new HashMap<>();
-      mPageProvider = new PageProvider(aConf.getString("pages.dir"), aConf.getString("pages.extension"),
-        aConf.getConfig("pages.sections").asMap());
-    }
-  }
-
   private static synchronized void createSchemaNode(Configuration aConf) {
     try {
       mSchemaNode = new ObjectMapper().readTree(Paths.get(aConf.getString("json.schema")).toFile());
@@ -121,9 +111,6 @@ public abstract class OERWorldMap extends Controller {
 
     // Location lookup
     createLocationLookup(mEnv);
-
-    // Static pages
-    createPageProvider(mConf);
 
     // JSON schema
     createSchemaNode(mConf);
