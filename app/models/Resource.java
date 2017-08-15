@@ -4,12 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import helpers.FilesConfig;
 import helpers.JsonLdConstants;
 import org.apache.commons.io.IOUtils;
@@ -44,16 +38,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
     "Comment", "Product"));
-
-  private static JsonNode mSchemaNode = null;
-
-  static {
-    try {
-      mSchemaNode = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
-    } catch (IOException e) {
-      Logger.error("Could not read schema", e);
-    }
-  }
 
   /**
    * Constructor which sets up a random UUID.
@@ -155,25 +139,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     String json = IOUtils.toString(aInputStream, "UTF-8");
     aInputStream.close();
     return fromJson(json);
-  }
-
-  public ProcessingReport validate() {
-    ProcessingReport report = new ListProcessingReport();
-    try {
-      String type = this.getAsString(JsonLdConstants.TYPE);
-      if (null == type) {
-        report.error(new ProcessingMessage()
-            .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
-      } else if (null != mSchemaNode) {
-        JsonSchema schema = JsonSchemaFactory.byDefault().getJsonSchema(mSchemaNode, "/definitions/".concat(type));
-        report = schema.validate(toJson());
-      } else {
-        Logger.warn("No JSON schema present, validation disabled.");
-      }
-    } catch (ProcessingException e) {
-      e.printStackTrace();
-    }
-    return report;
   }
 
   /**

@@ -2,8 +2,15 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.maxmind.geoip2.DatabaseReader;
 import helpers.JSONForm;
+import helpers.JsonLdConstants;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -43,11 +51,13 @@ public abstract class OERWorldMap extends Controller {
 
   Configuration mConf;
   Environment mEnv;
-  protected static BaseRepository mBaseRepository = null;
+  static BaseRepository mBaseRepository;
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
   static PageProvider mPageProvider;
   static ObjectMapper mObjectMapper = new ObjectMapper();
+  static JsonNode mSchemaNode;
+
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
@@ -89,6 +99,14 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
+  private static synchronized void createSchemaNode(Configuration aConf) {
+    try {
+      mSchemaNode = new ObjectMapper().readTree(Paths.get(aConf.getString("json.schema")).toFile());
+    } catch (IOException e) {
+      Logger.error("Could not read schema", e);
+    }
+  }
+
   @Inject
   public OERWorldMap(Configuration aConf, Environment aEnv) {
 
@@ -106,6 +124,9 @@ public abstract class OERWorldMap extends Controller {
 
     // Static pages
     createPageProvider(mConf);
+
+    // JSON schema
+    createSchemaNode(mConf);
 
   }
 
@@ -198,6 +219,26 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
+  ProcessingReport validate(Resource aResource) {
+    ProcessingReport report = new ListProcessingReport();
+    try {
+      String type = aResource.getAsString(JsonLdConstants.TYPE);
+      if (null == type) {
+        report.error(new ProcessingMessage()
+          .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
+      } else if (null != mSchemaNode) {
+        JsonSchema schema = JsonSchemaFactory.byDefault().getJsonSchema(mSchemaNode, "/definitions/".concat(type));
+        report = schema.validate(aResource.toJson());
+      } else {
+        Logger.warn("No JSON schema present, validation disabled.");
+      }
+    } catch (ProcessingException e) {
+      e.printStackTrace();
+    }
+    return report;
+  }
+
+
   protected BaseRepository getRepository() {
     return mBaseRepository;
   }
@@ -206,7 +247,7 @@ public abstract class OERWorldMap extends Controller {
    * Get resource from JSON body or form data
    * @return The JSON node
    */
-  protected JsonNode getJsonFromRequest() {
+  JsonNode getJsonFromRequest() {
 
     JsonNode jsonNode = ctx().request().body().asJson();
     if (jsonNode == null) {

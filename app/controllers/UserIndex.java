@@ -92,7 +92,7 @@ public class UserIndex extends OERWorldMap {
     user.remove("add-email");
     user.remove("register-newsletter");
 
-    ProcessingReport processingReport = user.validate();
+    ProcessingReport processingReport = validate(user);
 
     Result result;
 
@@ -230,7 +230,7 @@ public class UserIndex extends OERWorldMap {
 
     Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
-    if (!user.validate().isSuccess()) {
+    if (!validate(user).isSuccess()) {
       return badRequest("Please provide a valid email address and select a country.");
     }
 

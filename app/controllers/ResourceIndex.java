@@ -231,7 +231,7 @@ public class ResourceIndex extends OERWorldMap {
 
     // Validate
     Resource staged = mBaseRepository.stage(resource);
-    ProcessingReport processingReport = staged.validate();
+    ProcessingReport processingReport = validate(staged);
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
       try {
@@ -276,7 +276,7 @@ public class ResourceIndex extends OERWorldMap {
       // Stage and validate each resource
       try {
         Resource staged = mBaseRepository.stage(resource);
-        ProcessingReport processingMessages = staged.validate();
+        ProcessingReport processingMessages = validate(staged);
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
           Logger.debug(staged.toString());
