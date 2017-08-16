@@ -385,6 +385,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       queryBuilder = QueryBuilders.matchAllQuery();
     }
 
+
+    /* FIXME: using a double as missing results in elasticsearch exception, providing no
+              missing value results in exception when missing mapping
     FunctionScoreQueryBuilder fqBuilder = QueryBuilders.functionScoreQuery(queryBuilder);
     fqBuilder.boostMode(CombineFunction.MULT);
     fqBuilder.scoreMode(FiltersFunctionScoreQuery.ScoreMode.Sum.name().toLowerCase());
@@ -392,6 +395,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
       .setQuery(QueryBuilders.boolQuery().must(fqBuilder).filter(globalAndFilter));
+    */
+
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+      .setQuery(QueryBuilders.boolQuery().filter(globalAndFilter));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
   }

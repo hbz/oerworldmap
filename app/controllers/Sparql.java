@@ -23,6 +23,8 @@ public class Sparql extends OERWorldMap  {
 
   public Result query(String q) throws IOException {
 
+    q = "DESCRIBE * WHERE {?s ?p ?o}";
+
     return StringUtils.isEmpty(q) ? ok("") : ok(mBaseRepository.sparql(q));
 
   }

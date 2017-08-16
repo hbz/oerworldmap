@@ -10,7 +10,7 @@
     "Content-Type": "application/ld+json"
   },
   {
-    "Content-Location": "https://oerworldmap.org/assets/json/context.json",
+    "Content-Location": "https://crg.hbz-nrw.de/context.json",
     "X-Classpath": "context.json",
     "Content-Type": "application/ld+json"
   }
