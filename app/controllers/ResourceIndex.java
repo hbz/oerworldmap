@@ -247,11 +247,11 @@ public class ResourceIndex extends OERWorldMap {
 
     // Respond
     if (isUpdate) {
-      return ok(resource.toJson());
+      return ok(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     } else {
       response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
         .absoluteURL(request()));
-      return created(resource.toJson());
+      return created(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     }
 
   }
@@ -369,22 +369,7 @@ public class ResourceIndex extends OERWorldMap {
       alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
     }
 
-    List<Commit> history = mBaseRepository.log(id);
-    resource = new Record(resource);
-    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
-    try {
-      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
-    } catch (NullPointerException e) {
-      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
-    }
-    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
-      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    try {
-      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
-        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    } catch (NullPointerException e) {
-      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
-    }
+    resource = getRecord(resource);
 
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
@@ -444,6 +429,26 @@ public class ResourceIndex extends OERWorldMap {
 
     return notFound("Not found");
 
+  }
+
+  private Record getRecord(Resource aResource) {
+    Record record = new Record(aResource);
+    List<Commit> history = mBaseRepository.log(aResource.getId());
+    record.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    try {
+      record.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    } catch (NullPointerException e) {
+      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
+    }
+    record.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    try {
+      record.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    } catch (NullPointerException e) {
+      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+    }
+    return record;
   }
 
   public Result delete(String aId) throws IOException {
