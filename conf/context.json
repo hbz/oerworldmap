@@ -9,6 +9,19 @@
     },
     "customer": {
       "@container": "@set"
+    },
+    "businessPartner": {
+      "@container": "@set"
+    },
+    "sameAs": {
+      "@container": "@set"
+    },
+    "additionalType": {
+      "@container": "@set"
+    },
+    "product": {
+      "@container": "@set"
     }
+
   }
 }

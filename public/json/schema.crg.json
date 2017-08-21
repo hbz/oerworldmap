@@ -26,6 +26,7 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "A link to another entity",
       "type": "object",
+      "remote": true,
       "properties": {
         "@id": {
           "description": "The referenced entities unique identifier",
@@ -46,18 +47,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The concept schemes's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "ConceptScheme"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "hasTopConcept": {
           "type": "array",
@@ -79,18 +89,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The concepts's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Concept"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -143,24 +162,36 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The product's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Product"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "type": "string"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
         },
         "logo": {
           "type": "string",
@@ -178,18 +209,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The contact point's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "ContactPoint"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "type": "string"
@@ -204,7 +244,10 @@
           "type": "string"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
         },
         "worksFor": {
           "type": "array",
@@ -260,18 +303,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The organization's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Organization"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "fte": {
           "type": "integer"
@@ -289,16 +341,17 @@
           "format": "uri"
         },
         "isil": {
-          "type": "string",
-          "format": "uri"
+          "type": "string"
         },
         "dbsID": {
-          "type": "string",
-          "format": "uri"
+          "type": "string"
         },
         "parentOrganization": {
           "description": "The organization's superordinated organization",
-          "$ref": "#/definitions/Organization"
+          "allOf": [
+            { "$ref": "#/definitions/Link" },
+            { "properties": { "@type": { "enum": [ "Organization" ] } } }
+          ]
         },
         "rs": {
           "type": "string"
@@ -327,13 +380,7 @@
         "sameAs": {
           "type": "array",
           "items": {
-                    "allOf": [
-          {
-            "required": [
-              "name"
-            ]
-          }
-        ],"type": "string",
+            "type": "string",
             "format": "uri"
           }
         },
@@ -346,7 +393,10 @@
         },
         "description": {
           "description": "The description of the organization",
-          "type": "string"
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
         },
         "name": {
           "type": "string"
@@ -390,32 +440,41 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The customer relationship's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "CustomerRelationship"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
-          "contactPoint": {
-            "description": "A contact point",
-            "type": "array",
-            "items": {
-              "allOf": [
-                { "$ref": "#/definitions/Link" },
-                { "properties": { "@type": { "enum": [ "ContactPoint" ] } } }
-              ]
-            }
-          },
+        "contactPoint": {
+          "description": "A contact point",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "ContactPoint" ] } } }
+            ]
+          }
+        },
         "businessPartner": {
           "description": "The business partner of this customer relationship",
-          "type": "object",
+          "type": "array",
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -435,7 +494,7 @@
         },
         "product": {
           "description": "The product of this customer relationship",
-          "type": "object",
+          "type": "array",
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -447,7 +506,10 @@
           "type": "string"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
         },
         "startDate": {
           "$ref": "#/definitions/iso-8601-date"
@@ -477,18 +539,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The place's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Place"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "type": "string"
@@ -525,12 +596,18 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The geo coordinates's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "lat": {
           "type": "number"
@@ -553,41 +630,36 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The geo addresses' unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "PostalAddress"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "streetAddress": {
           "type": "string"
         },
         "postalCode": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ]
+          "type": "string"
         },
         "postOfficeBoxNumber": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ]
+          "type": "string"
         },
         "addressLocality": {
           "type": "string"
@@ -610,25 +682,36 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
-          "description": "The geo addresses' unique identifier",
+          "description": "The opening hours specification's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "OpeningHoursSpecification"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "comment": {
           "type": "string"
         },
-
         "description": {
-          "type": "string"
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
         }
       },
       "required": [ "description" ],
