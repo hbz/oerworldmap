@@ -1,15 +1,15 @@
 ---
-title: FAQ
+title: FAQ (((Deutsche Übersetzung)))
 ---
 
-## What is OER?
-'OER' stands for 'Open Educational Resources' and this refers to freely accessible materials that can be used for a [range of activities around teaching and learning](https://www.opencontent.org/definition/). What makes them open is typically an open license instead of a traditional copyright license.
+## Was ist OER?
+'OER' ist die Abkürzung für'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch eine offene Lizenz anstelle einer traditionellen Copyright-Lizenz.
 
-According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
+Nach der [UNESCO Definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER sind “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions” ("Lehr-, Lern- und Forschungsmaterialien in jeder Art von Medium, sei es digital oder nicht, die gemeinfrei sind oder unter einer offenen Lizenz veröffentlicht wurden, die kostenfreien Zugang, Verwendung, Anpassung und Weiterbverbreitung erlaubt").
 
-Following the definition by [The William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) OER can be (or include) full courses, course materials, modules, textbooks, streaming videos, tests, software, and any other tools, materials, or techniques used to support access to knowledge.
+Nach der Definition der [William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) können OER  vollständige Kurse, Kursmaterialien, Module, Lehrbücher, Videos, Tests, Software und alle anderen Tools, Materialien oder Techniken sein (oder enthalten), die verwendet werden, um Wissen zugänglich zu machen.
 
-The detail of how to define OER still remains contested. The OER World Map project takes a broad and inclusive approach, providing information about actors and activities from the field of OER in the strict sense of the term, but also about related subjects like Open Education, Open Access and MOOCs. For more information on our collection strategy, please see “What belongs on the OER World Map?”
+Details der Definition von OER sind noch umstritten. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln., finden Sie hier: “Was gehört auf die OER World Map?”
 
 ## Who is this website for?
 The OER World Map provides helpful information for everyone who is interested in or connected to OER and Open Education. The system is designed to provide real-time answers to questions like:
