@@ -3,71 +3,72 @@ title: FAQ (((Deutsche Übersetzung)))
 ---
 
 ## Was ist OER?
-'OER' ist die Abkürzung für'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch eine offene Lizenz anstelle einer traditionellen Copyright-Lizenz.
+'OER' ist die Abkürzung für'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch Veröffentlichung unter einer offenen Lizenz anstelle einer traditionellen Copyright-Lizenz. Ein wesentliches Merkmal ist, dass sie neue Möglichkeiten für kollaboratives Arbeiten bieten und innovatives Lehren und Lernen ermöglichen.
 
 Nach der [UNESCO Definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER sind “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions” ("Lehr-, Lern- und Forschungsmaterialien in jeder Art von Medium, sei es digital oder nicht, die gemeinfrei sind oder unter einer offenen Lizenz veröffentlicht wurden, die kostenfreien Zugang, Verwendung, Anpassung und Weiterbverbreitung erlaubt").
 
 Nach der Definition der [William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) können OER  vollständige Kurse, Kursmaterialien, Module, Lehrbücher, Videos, Tests, Software und alle anderen Tools, Materialien oder Techniken sein (oder enthalten), die verwendet werden, um Wissen zugänglich zu machen.
 
-Details der Definition von OER sind noch umstritten. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln., finden Sie hier: “Was gehört auf die OER World Map?”
+Obwohl umfassende Definitionen wie diese sehr bekannt sind, werden die Details einer endgültigen Definition von OER noch diskutiert. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln., finden Sie hier: “Was gehört auf die OER World Map?”
 
-## Who is this website for?
-The OER World Map provides helpful information for everyone who is interested in or connected to OER and Open Education. The system is designed to provide real-time answers to questions like:
-- "Where can I find OER?"
-- "Which projects are working on a similar topic to our project?"
-- "Which experts have the knowledge to answer a question related to a special area of OER?" 
+## An wen wendet sich diese Website?
+Die OER World Map liefert nützliche Informationen für alle, die sich für OER und Open Education interessieren oder in diesem Bereich bereits tätig sind. Sie wurde entwickelt um Antworten zu geben auf Fragen wie:
+- "Wo finde ich OER?"
+- "Welche Projekte arbeiten an ähnlichen Fragestellungen wie unser Projekt?"
+- "Welche Experten verfügen über das Wissen, Fragen zu einem bestimmten Bereich von OER zu beantworten?" 
 
-We believe that this set of data is of special importance, since it provides a solid foundation for future attempts to collect knowledge about OER and Open Education in a systematic way. 
+Wir glauben, dass diese Datensammlung von besonderer Bedeutung ist, da sie eine solide Grundlage ist für zukünftige Versuche, Wissen über OER und Open Education systematisch zu sammeln.
 
-Our platform provides data and information with relevance to all stakeholder groups from the field of OER. This manifoldness provides a major challenge for system design since the design of a user orientated interface is only possible if guided by the clear needs of the key target groups.
+Unsere Website bietet allen Interessensgruppen im Bereich OER relevante Informationen. Die Vielfalt der Interssen ist eine große Herauforderung für das Systemdesign, da benutzerorientierte Oberflächen normalerweise nach den klar definierten Bedürfnissen von bestimmten Nutzertypen entwickelt werden.
 
-At the moment, we focus on three main use cases (known as "epics"):
-- Teachers and learners should be provided with qualified lists of OER services (e.g. repositories of OER) in order to help them finding resources more efficiently;
-- OER actors should be supported in their communication and collaboration through  connecting to relevant OER experts and projects working on similar tasks
-- OER Policy makers should be supported by reliable statistical data.
+Momentan konzentrieren wir uns auf drei Anwendungsfälle (oder "Epics"):
+- Lehrer und Lernende sollen Listen von OER-Services (z.B. OER-Repositorys) bekommen, die ihnen helfen, geeignete Materialien schneller zu finden;
+- OER-Akteure sollen bei ihrer Kommunikation und Zusammenarbeit unterstützt werden, indem sie mit OER-Experten und mit Projekten, die an ähnlichen Fragestellungen arbeiten, vernetzt werden;
+- Entscheider im Bereich Bildung und OER sollen duch zuverlässige statistische Daten unterstützt werden.
 
-In addition to browser access (on desktop and mobile) The OER World Map makes data available to other systems through an Application Programming Interface (API), which will allow other services to reuse our data easily.  
+Über die Website hinaus macht die OER World Map ihre Daten über eine Programmierschnittstelle (API) zugänglich, die es anderen Services erleichtert die Daten wiederzuverwenden.
 
-Our use cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please tell us so!
+Wir sammeln unsere "Use Cases" auf [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Wenn Sie Ihnen etwas fehlt, [teilen Sie es uns bitte mit!](mailto:info@oerworldmap.org).
 
-## How can I participate?
-The success of the project is dependent on the participation of the OER community.  There are many ways to contribute. The most important ways are:
+## Wie kann ich mich beteiligen?
+Der Erfolg dieses Projekts hängt von der Beteiligung der OER-Community ab. Es gibt viele Möglichkeiten, sich zu beteiligen. Die wichtigsten sind:
 
-- Collecting and entering data using our input templates
-- Contributing ‘stories’
-- Becoming a ‘country champion’
+- Daten sammeln und über unsere Formulare auf der Website eingeben 
+- 'Storys' veröffentlichen
+- ‘Country Champion’ werden
 
-There are many other ways of contributing to the project. A complete overview can be found [here](https://oerworldmap.org/contribute).
+Es gibt noch viele andere Wege zur OER World Map beizutragen. Eine vollständige Übersicht finden Sie [hier](https://oerworldmap.org/contribute).
 
-## How can I input and edit data?
-If you want to contribute by becoming an editor, please register and send us a mail. You can find further information on how to use our input templates in our [wiki here](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors). Getting editing permission is expected to become even more comfortable in the future. 
+## Wie kann ich Daten eingeben?
+Um Daten einzugeben, müssen Sie sich nur bei der OER World Map anmelden. Weitergehende Informationen zur Dateneingabe finden Sie in unserem [Wiki](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
 
-## What belongs on the OER World Map? 
-The OER World Map collects data about actors and activities related to OER and Open Education. At the moment we concentrate on elements of the OER infrastructure. We are particularly interested in:
+## Was gehört auf die OER World Map? 
+Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich der OER und der Open Education. Momentan konzentrieren wir uns auf die Elemnte der OER-Infrastruktur. Wir sind besonders interessiert an:
 
 <table class="table"> 
-<tr> <th>Data type</th><th>Definition</th> <th>Examples</th></tr> 
-<tr> <td>organizations</td><td>An organization is a steady group of people sharing collective goals. The spectrum reaches from fully incorporated legal persons on the one hand to loosely connected communities on the other.</td> <td>universities, corporations, associations, communities</td></tr>
-<tr> <td>projects</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
-<tr> <td>services</td><td>A service is an online offer, which exists on a steady basis, and provides functionality and value related to OER to its users.</td> <td>repositories, aggregators, authoring tools, communication platforms.</td></tr>
-<tr> <td>events</td><td>An events is a gathering of people, which take place at a certain location (virtual or physical) at a certain time.</td><td>conferences, workshops, barcamps, moocs</td></tr>
+<tr> <th>Datentyp</th><th>Definition</th><th>Beispiele</th></tr> 
+<tr> <td>Organisationen</td><td>Eine Organisation ist eine stabile Gruppe von Personen, die gemeinsame Ziele verfolgen. Das Spektrum reicht von eingetragenen juristischen Personen auf der einen Seite bis hin zu informellen, lose verbundenen Gemeinschaften auf der anderen Seite.</td> <td>Universitäten, Gesellschaften, Vereine, Gemeinschaften</td></tr>
+<tr> <td>Projekte</td><td>Ein Projekt ist ein zeitlich begrenztes Unterfangen (innerhalb einer Organisation oder organisationsübergreifend) mit dem Ziel, eine bestimmte Aufgabe innerhalb einer bestimmten Zeitspanne zu erledigen.</td> <td>Das OER World Map Projekt</td></tr>
+<tr> <td>Services</td><td>Ein Service ist ein Online-Angebot, das kontinuierlich zur Verfügung steht und Funktionen oder Inhalte im Zusammenhang mit OER bzw. für deren Nutzer zur Verfügung stellt.</td> <td>Repositorys, Sammlungen, Authoring-Tools, Kommunikationsplattformen</td></tr>
+<tr> <td>Veranstaltungen</td><td>Eine Veranstaltung ist eine zusammenkunft von Personen, die an einem bestimmten Ort (virtuell oder real) zu einer bestimmten Zeit stattfindet.</td><td>Konferenzen, Workshops, Barcamps, MOOCs</td></tr>
 </table>
 
-It is very easy to think of ways to expand the model in the future. For example we are currently discussing to include Open Educational Practices (OEP), OER policies and tools used to build services.
+Es gibt viele Möglichkeiten dieses Modell in der Zukunft auszubauen. Beispielsweise denken wir darüber nach, Open Educational Practices (OEP), OER-Strategieen und Tools, die verwendet werden um OER-Services aufzubauen, zu ergänzen.
 
-## Where are the OER?
-We believe that the discovery of individual OER has to be provided by search engine based services. The OER World Map facilitates the discovery of OER indirectly by providing qualified lists of OER services
+## Wo sind die Open Educational Resources?
+Wir denken, dass das Auffinden einzelner Resourcen von einem suchmaschinenbasierten Service geleistet werden sollte. Die OER World Map erleichtert das Auffinden von OER indirekt, indem sie Listen von passenden OER-Services liefert. 
 
-## What is an open license?
-The widely accepted OER definitions by UNESCO and The William and Flora Hewlett Foundation require the use of a special ‘open’ license, which transforms a conventional educational resource into an open educational resource. 
+## Was ist eine offene Lizenz?
 
-Depending on the specific license this allows for a range of behaviours known as the '5 Rs' of openness:
+Die weithin akzeptierten OER-Definintionen von der UNESCO und der Flora Hewlett Foundation verlangen die Verwendung eine speziellen "offenen" Lizenez, die aus gewöhnlichen Bildungsmaterialien offene Bildungsmaterialien (OER) macht. Das traditionelle Copyright beschreibt, was mit Matherial, das jemand verfasst hat, gemacht werden darf und was nicht. Eine offene Lizenz beschränkt nicht das Recht des Autors als Autor seines Werkes anerkannt zu werden. Vielmehr würdigt sie den Autor und legt genauere Bedingungen fest für die verwendung.
 
-- **Retain** – the right to make, own, and control copies of the content
-- **Reuse** – the right to use the content in a wide range of ways (e.g., in a class, in a study group, on a website, in a video)
-- **Revise** – the right to adapt, adjust, modify, or alter the content itself (e.g., translate the content into another language)
-- **Remix** – the right to combine the original or revised content with other open content to create something new (e.g., incorporate the content into a mashup)
-- **Redistribute** – the right to share copies of the original content, your revisions, or your remixes with others (e.g., give a copy of the content to a friend)
+In Abhängigkeit von der jeweils gewählten Lizenz gewährt eine offene Lizenz  eine Reihe von Verwendungsmöglichkeiten bekannt als die "5 Rs" der Offenheit (oder auf deutsch die ["5 Vs"](http://open-educational-resources.de/5rs-auf-deutsch/) in Anlenung an Jöran Muuß-Merholz):
+
+- **Retain (verwahren/vervielfältigen)** – das Recht, Kopien des Inhalts anzufertigen, zu besitzen und zu kontrollieren
+- **Reuse (verwenden)** – das Recht, den Inhalt in verschiedennen Zusammenhängen einzusetzen (z.B. in der Schule, in einer Lerngruppe, auf einer Website, in einem Video)
+- **Revise (verändern)** – das Recht, den Inhalt anzupassen oder abzuändern (z.B.den Inhalt in eine andere Sprache zu übersetzen)
+- **Remix (vermischen)** – das Recht, den Inhalt (original oder verändert) mit anderen offenen Inhalten zu kombinieren, um etwas Neues zu schaffen (z.B. Inhalte in einem Mashup zu verbinden)
+- **Redistribute (verbreiten)** – das Recht, Kopien des Originalinhalts, veränderter oder remixter Inhalte weiter zu verbreiten (z.B. ein Kopie des Inhalts einem Freund geben)
 
 A slightly different focus is provided by the [Open Definition](http://opendefinition.org/) which states that:
 "Open data and content can be freely used, modified, and shared by anyone for any purpose"
