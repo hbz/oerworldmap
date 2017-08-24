@@ -14,6 +14,7 @@ import play.Environment;
 import play.Logger;
 import play.i18n.Lang;
 import play.mvc.Controller;
+import play.mvc.With;
 import services.AccountService;
 import services.QueryContext;
 import services.repository.BaseRepository;
@@ -22,13 +23,11 @@ import services.repository.ElasticsearchRepository;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -38,9 +37,7 @@ import java.util.ResourceBundle;
 /**
  * @author fo
  */
-//FIXME: re-enable Authorized.class, currently solved by getHttpBasicAuthUser()
-// see https://github.com/playframework/playframework/issues/4706
-//@With(Authorized.class)
+@With(Authorized.class)
 public abstract class OERWorldMap extends Controller {
 
   Configuration mConf;
@@ -134,40 +131,13 @@ public abstract class OERWorldMap extends Controller {
   Resource getUser() {
 
     Resource user = null;
-    Logger.trace("Username " + getHttpBasicAuthUser());
-    String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
+    Logger.trace("Username " + request().username());
+    String profileId = mAccountService.getProfileId(request().username());
     if (!StringUtils.isEmpty(profileId)) {
       user = getRepository().getResource(profileId);
     }
 
     return user;
-
-  }
-
-  String getHttpBasicAuthUser() {
-
-    String authHeader = ctx().request().getHeader(AUTHORIZATION);
-
-    if (null == authHeader) {
-      return null;
-    }
-
-    String auth = authHeader.substring(6);
-    byte[] decoded = Base64.getDecoder().decode(auth);
-
-    String[] credentials;
-    try {
-      credentials = new String(decoded, "UTF-8").split(":");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-      return null;
-    }
-
-    if (credentials.length != 2) {
-      return null;
-    }
-
-    return credentials[0];
 
   }
 
@@ -233,8 +203,8 @@ public abstract class OERWorldMap extends Controller {
   protected Map<String, String> getMetadata() {
 
     Map<String, String> metadata = new HashMap<>();
-    if (!StringUtils.isEmpty(getHttpBasicAuthUser())) {
-      metadata.put(TripleCommit.Header.AUTHOR_HEADER, getHttpBasicAuthUser());
+    if (!StringUtils.isEmpty(request().username())) {
+      metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
     } else {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, "System");
     }

@@ -15,6 +15,7 @@ import java.util.concurrent.CompletionStage;
 class Authorized extends Action.Simple {
 
   private static final String AUTHORIZATION = "authorization";
+  private static final String REQUEST_USER = "X-Request-User";
 
   @Override
   public CompletionStage<Result> call(Http.Context ctx) {
@@ -23,6 +24,7 @@ class Authorized extends Action.Simple {
 
     if (!StringUtils.isEmpty(username)) {
       ctx.request().withUsername(username);
+      ctx.response().setHeader(REQUEST_USER, username);
     }
 
     return delegate.call(ctx);

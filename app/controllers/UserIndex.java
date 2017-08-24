@@ -184,8 +184,8 @@ public class UserIndex extends OERWorldMap {
     Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     String username;
-    if (getHttpBasicAuthUser() != null) {
-      username = getHttpBasicAuthUser();
+    if (request().username() != null) {
+      username = request().username();
       String password = user.getAsString("password");
       String updated = user.getAsString("password-new");
       String confirm = user.getAsString("password-confirm");
