@@ -22,6 +22,11 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
   Redirect "/.login" "/.loggedIn"
 </Location>
 
+<Location /.logout>
+  AuthUserFile /dev/null
+  Require valid-user
+</Location>
+
 <Location /resource/>
   <LimitExcept GET DELETE>
     Require valid-user
