@@ -9,6 +9,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 
@@ -22,7 +23,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation(int aSize) {
     return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
-        .exclude("Concept|ConceptScheme|Comment");
+        .exclude("Concept|ConceptScheme|Comment").order(Terms.Order.term(false));
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
