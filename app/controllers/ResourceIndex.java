@@ -7,6 +7,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
+import helpers.MimeTypes;
 import helpers.SCHEMA;
 import models.Commit;
 import models.Record;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,7 +107,6 @@ public class ResourceIndex extends OERWorldMap {
 
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
 
-    Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
     String filterString = "";
     for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
@@ -115,48 +116,22 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "json").url().concat(filterString)));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "csv").url().concat(filterString)));
-    alternates.put("GeoJSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "geojson").url().concat(filterString)));
-    if (resourceList.containsType("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "ics").url().concat(filterString)));
+    Set<String> alternates = MimeTypes.all().keySet();
+    if (!resourceList.containsType("Event")) {
+      alternates.remove("ics");
+    }
+    List<String> links = new ArrayList<>();
+    for (String alternate : alternates) {
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, alternate).url()
+        .concat(filterString));
+      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("list", list);
-    scope.put("resources", resourceList.toResource());
-    scope.put("alternates", alternates);
+    response().setHeader("Link", String.join(", ", links));
 
-    String format = null;
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "json":
-          format = "application/json";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-        case "geojson":
-          format = "application/geo+json";
-          break;
-        case "schema":
-          format = "application/schema+json";
-          break;
-      }
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else if (request().accepts("application/geo+json")) {
-      format = "application/geo+json";
-    } else if (request().accepts("application/schema+json")) {
-      format = "application/schema+json";
-    } else {
-      format = "application/json";
-    }
+    String format = StringUtils.isEmpty(extension)
+      ? MimeTypes.fromRequest(request())
+      : MimeTypes.fromExtension(extension);
 
     if (format == null) {
       return notFound("Not found");
@@ -339,76 +314,24 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    List<Resource> comments = new ArrayList<>();
-    for (String commentId : resource.getIdList("comment")) {
-      comments.add(mBaseRepository.getResource(commentId));
-    }
-
-    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
-        || (!resource.getType().equals("Person"))
-        || mAccountService.getGroups(request().username()).contains("admin"));
-    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(request().username()).contains("admin")
-        || mAccountService.getGroups(request().username()).contains("editor"));
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(request().username()).contains("admin");
-    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
-        || mAccountService.getGroups(request().username()).contains("admin"));
-
-    Map<String, Object> permissions = new HashMap<>();
-    permissions.put("edit", mayEdit);
-    permissions.put("log", mayLog);
-    permissions.put("administer", mayAdminister);
-    permissions.put("comment", mayComment);
-    permissions.put("delete", mayDelete);
-
-    Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
-    if (resource.getType().equals("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+    Set<String> alternates = MimeTypes.all().keySet();
+    if (!resource.getType().equals("Event")) {
+      alternates.remove("ics");
     }
+    List<String> links = new ArrayList<>();
+    for (String alternate : alternates) {
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.read(id, version, alternate).url());
+      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
+    }
+
+    response().setHeader("Link", String.join(", ", links));
+
+    String format = StringUtils.isEmpty(extension)
+      ? MimeTypes.fromRequest(request())
+      : MimeTypes.fromExtension(extension);
 
     resource = getRecord(resource);
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    scope.put("comments", comments);
-    scope.put("permissions", permissions);
-    scope.put("alternates", alternates);
-
-    String format = null;
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "json":
-          format = "application/json";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-        case "geojson":
-          format = "application/geo+json";
-          break;
-        case "schema":
-          format = "application/schema+json";
-          break;
-      }
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else if (request().accepts("application/geo+json")) {
-      format = "application/geo+json";
-    } else if (request().accepts("application/schema+json")) {
-      format = "application/schema+json";
-    } else {
-      format = "application/json";
-    }
-
-    Logger.debug(format);
 
     if (format == null) {
       return notFound("Not found");
