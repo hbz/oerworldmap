@@ -78,11 +78,14 @@
 
 .country-champion {
   .clearfix();
+  height: 150px;
 }
 
 .country-champion .img {
   width: 130px;
+  height: 150px;
   float: left;
+  object-fit: cover;
 }
 
 .country-champion .text {
@@ -185,4 +188,13 @@ div.page img {
   &.icon-btn-lg {
     font-size: (@font-size-base * 1.3);
   }
+}
+
+
+/* --- image source --- */
+
+.image-source {
+  padding-top: 3px;
+  font-size: @font-size-small;
+  text-align: right;
 }

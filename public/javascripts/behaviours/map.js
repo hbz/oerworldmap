@@ -766,9 +766,6 @@ var Hijax = (function ($, Hijax) {
 
       var mapboxKey = "pk.eyJ1IjoibGl0ZXJhcnltYWNoaW5lIiwiYSI6ImNpZ3M1Y3pnajAyNGZ0N2tuenBjN2NkN2oifQ.TvQji1BZcWAQBfYBZcULwQ";
       mapboxTileSource = new ol.source.XYZ({
-        attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
-          '© <a href="http://www.openstreetmap.org/copyright">' +
-          'OpenStreetMap contributors</a>',
         tileSize: [512, 512],
         url: 'https://api.mapbox.com/styles/v1/literarymachine/ciq3njijr004kq7nduyya7hxg/tiles/{z}/{x}/{y}?access_token=' + mapboxKey
       });
@@ -820,7 +817,7 @@ var Hijax = (function ($, Hijax) {
         layers : [countryVectorLayer, mapboxTileLayer, countryVectorLayerHovered, placemarksVectorLayer],
         target : container,
         view : view,
-        controls : ol.control.defaults({ attribution: false })
+        controls : ol.control.defaults({attribution:false})
       });
 
       /*
@@ -831,6 +828,14 @@ var Hijax = (function ($, Hijax) {
       world.addLayer(countryVectorLayerHovered);
       world.addLayer(placemarksVectorLayer);
       */
+
+      // add attribution to map footer
+
+      $('#page-footer nav ul')
+          .append('<li>© <a href="http://mapbox.com/about/maps/">Mapbox</a></li>')
+          .append('<li>© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></li>')
+          .append('<li><a href="https://www.mapbox.com/feedback/" target="_blank">'+ i18nStrings['ui']['map.improveThisMap'] +'</a></li>')
+          .append('<li><a href="https://www.mapbox.com/about/maps/" class="mapbox-wordmark" target="_blank">Mapbox</a></li>');
 
       // bind events
 

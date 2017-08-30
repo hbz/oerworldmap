@@ -252,6 +252,9 @@
               "index": "not_analyzed",
               "type": "string"
             },
+            "citation": {
+              "type": "string"
+            },
             "narrower": {
               "properties": {
                 "@id": {
@@ -345,6 +348,9 @@
                     "address": {
                       "properties": {
                         "addressLocality": {
+                          "type": "string"
+                        },
+                        "postOfficeBoxNumber": {
                           "type": "string"
                         },
                         "addressCountry": {
@@ -458,6 +464,82 @@
                           "type": "string"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            },
+            "secondarySector": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "primarySector": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
                     }
                   }
                 }
@@ -982,6 +1064,44 @@
                 }
               }
             },
+            "publication": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
             "availableChannel": {
               "properties": {
                 "serviceUrl": {
@@ -1279,19 +1399,15 @@
                 }
               }
             },
-            "hasPart": {
+            "organizerFor": {
               "properties": {
-                "image": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "endDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
                 "name": {
                   "properties": {
@@ -1318,6 +1434,10 @@
                       "type": "string"
                     }
                   }
+                },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "location": {
                   "properties": {
@@ -1357,8 +1477,19 @@
                       }
                     }
                   }
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 }
               }
+            },
+            "exampleOfWork": {
+              "type": "string"
             },
             "attends": {
               "properties": {
@@ -1477,6 +1608,9 @@
                 "address": {
                   "properties": {
                     "addressLocality": {
+                      "type": "string"
+                    },
+                    "postOfficeBoxNumber": {
                       "type": "string"
                     },
                     "addressCountry": {
@@ -1946,95 +2080,6 @@
                 }
               }
             },
-            "organizerFor": {
-              "properties": {
-                "startDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
-                },
-                "endDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
-                },
-                "name": {
-                  "properties": {
-                    "@value": {
-                      "fields": {
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "string",
-                          "analyzer": "simple"
-                        },
-                        "variations": {
-                          "search_analyzer": "title_analyzer",
-                          "type": "string",
-                          "analyzer": "title_analyzer"
-                        },
-                        "@value": {
-                          "type": "string"
-                        }
-                      },
-                      "type": "multi_field"
-                    },
-                    "@language": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    }
-                  }
-                },
-                "image": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "location": {
-                  "properties": {
-                    "geo": {
-                      "type": "geo_point"
-                    },
-                    "address": {
-                      "properties": {
-                        "addressCountry": {
-                          "fields": {
-                            "addressCountry": {
-                              "index": "not_analyzed",
-                              "type": "string"
-                            },
-                            "name": {
-                              "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
-                              "analyzer": "country_synonyms_analyzer"
-                            }
-                          },
-                          "type": "multi_field"
-                        },
-                        "addressLocality": {
-                          "type": "string"
-                        },
-                        "streetAddress": {
-                          "type": "string"
-                        },
-                        "postalCode": {
-                          "index": "not_analyzed",
-                          "type": "string"
-                        },
-                        "addressRegion": {
-                          "index": "not_analyzed",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                }
-              }
-            },
             "description": {
               "properties": {
                 "@value": {
@@ -2064,15 +2109,19 @@
             "notation": {
               "type": "string"
             },
-            "affiliation": {
+            "hasPart": {
               "properties": {
-                "startDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
-                "endDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "name": {
                   "properties": {
@@ -2100,24 +2149,13 @@
                     }
                   }
                 },
-                "image": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
                 "location": {
                   "properties": {
                     "geo": {
                       "type": "geo_point"
                     },
-                    "@type": {
-                      "index": "not_analyzed",
-                      "type": "string"
-                    },
                     "address": {
                       "properties": {
-                        "addressLocality": {
-                          "type": "string"
-                        },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
@@ -2132,8 +2170,7 @@
                           },
                           "type": "multi_field"
                         },
-                        "addressRegion": {
-                          "index": "not_analyzed",
+                        "addressLocality": {
                           "type": "string"
                         },
                         "streetAddress": {
@@ -2143,21 +2180,13 @@
                           "index": "not_analyzed",
                           "type": "string"
                         },
-                        "@type": {
+                        "addressRegion": {
                           "index": "not_analyzed",
                           "type": "string"
                         }
                       }
                     }
                   }
-                },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
                 }
               }
             },
@@ -2246,11 +2275,92 @@
               "type": "date",
               "format": "dateOptionalTime"
             },
+            "isRelatedTo": {
+              "properties": {
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "addressCountry": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "string",
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
             "countryChampionFor": {
               "type": "string"
             },
             "awards": {
               "properties": {
+                "sameAs": {
+                  "type": "string"
+                },
                 "funds": {
                   "properties": {
                     "image": {
@@ -2525,6 +2635,9 @@
             },
             "isFundedBy": {
               "properties": {
+                "sameAs": {
+                  "type": "string"
+                },
                 "funds": {
                   "properties": {
                     "image": {
@@ -2658,8 +2771,15 @@
                         "geo": {
                           "type": "geo_point"
                         },
+                        "@type": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
                         "address": {
                           "properties": {
+                            "addressLocality": {
+                              "type": "string"
+                            },
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
@@ -2674,7 +2794,8 @@
                               },
                               "type": "multi_field"
                             },
-                            "addressLocality": {
+                            "addressRegion": {
+                              "index": "not_analyzed",
                               "type": "string"
                             },
                             "streetAddress": {
@@ -2684,11 +2805,88 @@
                               "index": "not_analyzed",
                               "type": "string"
                             },
-                            "addressRegion": {
+                            "@type": {
                               "index": "not_analyzed",
                               "type": "string"
                             }
                           }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "publisher": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "addressCountry": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "string",
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
                         }
                       }
                     }
@@ -2828,19 +3026,15 @@
                 }
               }
             },
-            "created": {
+            "affiliation": {
               "properties": {
-                "image": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "endDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
                 "name": {
                   "properties": {
@@ -2868,13 +3062,24 @@
                     }
                   }
                 },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
                 "location": {
                   "properties": {
                     "geo": {
                       "type": "geo_point"
                     },
+                    "@type": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    },
                     "address": {
                       "properties": {
+                        "addressLocality": {
+                          "type": "string"
+                        },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
@@ -2889,7 +3094,8 @@
                           },
                           "type": "multi_field"
                         },
-                        "addressLocality": {
+                        "addressRegion": {
+                          "index": "not_analyzed",
                           "type": "string"
                         },
                         "streetAddress": {
@@ -2899,13 +3105,21 @@
                           "index": "not_analyzed",
                           "type": "string"
                         },
-                        "addressRegion": {
+                        "@type": {
                           "index": "not_analyzed",
                           "type": "string"
                         }
                       }
                     }
                   }
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 }
               }
             },
@@ -3007,6 +3221,87 @@
                 "@type": {
                   "index": "not_analyzed",
                   "type": "string"
+                }
+              }
+            },
+            "created": {
+              "properties": {
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "addressCountry": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "string",
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             },

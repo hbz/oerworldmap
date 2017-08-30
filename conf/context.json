@@ -130,6 +130,9 @@
       "@container": "@set"
     },
     "isPartOf": "dcterms:isPartOf",
+    "isRelatedTo": {
+      "@container": "@set"
+    },
     "keywords": {
       "@container": "@set"
     },
@@ -137,6 +140,12 @@
       "@container": "@set"
     },
     "license": {
+      "@container": "@set"
+    },
+    "manufacturer": {
+      "@container": "@set"
+    },
+    "manufactured": {
       "@container": "@set"
     },
     "mainEntityOf": {
@@ -183,10 +192,19 @@
     "performerIn": {
       "@container": "@set"
     },
+    "primarySector": {
+      "@container": "@set"
+    },
     "provider": {
       "@container": "@set"
     },
     "provides": {
+      "@container": "@set"
+    },
+    "publisher": {
+      "@container": "@set"
+    },
+    "publication": {
       "@container": "@set"
     },
     "recordedIn": {
@@ -215,6 +233,9 @@
     "url": {
       "@type": "@id"
     },
+    "secondarySector": {
+      "@container": "@set"
+    },
     "serviceUrl": {
       "@type": "@id"
     },
@@ -238,6 +259,9 @@
     },
     "comment": {
       "@container": "@set"
+    },
+    "exampleOfWork": {
+      "@type": "@id"
     }
   }
 }

@@ -86,6 +86,16 @@
             "type": "string"
           }
         },
+        "publisher": {
+          "description": "The publisher of the bookmark",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
+            ]
+          }
+        },
         "comment": {
           "description": "A comment about the bookmark",
           "type": "array",
@@ -272,10 +282,83 @@
         },
         "location": {
           "$ref": "#/definitions/Place"
+        },
+        "exampleOfWork": {
+          "type": "string",
+          "format": "uri"
+        },
+        "citation": {
+          "type": "string"
+        },
+        "license": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
-      "required": [
-        "name", "description", "articleBody", "creator", "dateCreated", "location"
+      "allOf": [
+        {
+          "required": [
+            "name", "description", "articleBody", "location"
+          ],
+          "oneOf": [
+            {
+              "required": [ "license", "creator", "dateCreated" ]
+            },
+            {
+              "required": [ "citation", "exampleOfWork" ]
+            }
+          ]
+        }
       ],
       "additionalProperties": false
     },
@@ -516,6 +599,52 @@
               { "properties": { "@type": { "enum": [ "Event" ] } } }
             ]
           }
+        },
+        "publication": {
+          "description": "A publication of the Project",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -743,12 +872,68 @@
           }
         },
         "comment": {
-          "description": "A comment about the Organization",
+          "description": "A comment about the Service",
           "type": "array",
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        },
+        "publication": {
+          "description": "A publication of the Service",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "isRelatedTo": {
+          "description": "Tools used to implement this service",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
             ]
           }
         }
@@ -938,6 +1123,61 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
+          }
+        },
+        "publication": {
+          "description": "A publication of the Person",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "manufactured": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
             ]
           }
         }
@@ -1146,6 +1386,61 @@
           "items": {
             "$ref": "#/definitions/Grant"
           }
+        },
+        "publication": {
+          "description": "A publication of the Organization",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "manufactured": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
+            ]
+          }
         }
       },
       "required": [ "name", "location" ],
@@ -1298,11 +1593,172 @@
               { "properties": { "@type": { "enum": [ "Person" ] } } }
             ]
           }
+        },
+        "publication": {
+          "description": "A publication of the Event",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "required": [
         "name", "description", "startDate", "endDate", "location"
       ],
+      "additionalProperties": false
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Tool",
+      "description": "A tool used to implement OER services",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri"
+        },
+        "@id": {
+          "description": "The tools's unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Product"
+          ]
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "description": {
+          "description": "The description of the tool",
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "isRelatedTo": {
+          "description": "Services implemented using this Tool",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Service" ] } } }
+            ]
+          }
+        },
+        "manufacturer": {
+          "description": "The manufacturer of this tool",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Person" ] } } }
+            ]
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "description": "A comment about the Tool",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        },
+        "primarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://github.com/hbz/oerworldmap/public/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        }
+      },
+      "required": [ "name" ],
       "additionalProperties": false
     },
     "Grant": {

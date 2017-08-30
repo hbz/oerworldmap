@@ -12,65 +12,65 @@ var Hijax = (function ($, Hijax) {
       my.templates['item'] = Handlebars.compile($('#select_item\\.mustache').html());
       my.templates['multiple-one'] = Handlebars.compile($('#select_multiple-one\\.mustache').html());
 
-      // prepare countries array
+      // prepare iso3166-1-alpha-2 array
 
-      my.data_arrays['countries'] = [];
+      my.data_arrays['iso3166-1-alpha-2'] = [];
 
-      for(var i in i18nStrings.countries) {
-        my.data_arrays['countries'].push({
+      for(var i in i18nStrings["iso3166-1-alpha-2"]) {
+        my.data_arrays['iso3166-1-alpha-2'].push({
           id: i,
-          label: i18nStrings.countries[i]
+          label: i18nStrings["iso3166-1-alpha-2"][i]
         });
       }
 
-      my.data_arrays['countries'].sort(function(a,b) {
+      my.data_arrays['iso3166-1-alpha-2'].sort(function(a,b) {
         if(a.label < b.label) return -1;
         if(a.label == b.label) return 0;
         if(a.label > b.label) return 1;
       });
 
-      // init countries bloodhound
+      // init iso3166-1-alpha-2 bloodhound
 
-      my.bloodhounds['countries'] = new Bloodhound({
+      my.bloodhounds['iso3166-1-alpha-2'] = new Bloodhound({
         datumTokenizer: function(d){
           return Bloodhound.tokenizers.whitespace(
             bloodhoundAccentFolding.normalize(d.label)
           );
         },
         queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
-        local: my.data_arrays['countries'],
+        local: my.data_arrays['iso3166-1-alpha-2'],
         identify: function(result){
           return result.id;
         },
       });
 
-      // prepare languages array
+      // prepare iso639-1 array
 
-      my.data_arrays['languages'] = [];
+      my.data_arrays['iso639-1'] = [];
 
-      for(var i in i18nStrings.languages) {
-        my.data_arrays['languages'].push({
+      for(var i in i18nStrings["iso639-1"]) {
+        my.data_arrays['iso639-1'].push({
           id: i,
-          label: i18nStrings.languages[i]
+          label: i18nStrings["iso639-1"][i]
         });
       }
 
-      my.data_arrays['languages'].sort(function(a,b) {
+      my.data_arrays['iso639-1'].sort(function(a,b) {
         if(a.label < b.label) return -1;
         if(a.label == b.label) return 0;
         if(a.label > b.label) return 1;
       });
 
-      // init languages bloodhound
+      // init iso639-1 bloodhound
 
-      my.bloodhounds['languages'] = new Bloodhound({
+      my.bloodhounds['iso639-1'] = new Bloodhound({
         datumTokenizer: function(d){
           return Bloodhound.tokenizers.whitespace(
             bloodhoundAccentFolding.normalize(d.label)
           );
         },
         queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
-        local: my.data_arrays['languages'],
+        local: my.data_arrays['iso639-1'],
         identify: function(result){
           return result.id;
         },
@@ -96,7 +96,7 @@ var Hijax = (function ($, Hijax) {
           .find('.multiple-list')
           .detach()[0].outerHTML;
 
-        if(options == "countries") {
+        if(options == "iso3166-1-alpha-2") {
           var add_what = "Country";
         } else {
           var add_what = "Language";
@@ -190,7 +190,7 @@ var Hijax = (function ($, Hijax) {
 
     initOne : function(one, options) {
 
-      var label = i18nStrings[ options ][ $(one).find('input').val() ]; console.log(options, label);
+      var label = i18nStrings[ options ][ $(one).find('input').val() ];
 
       $(one).append(
         my.templates['item']({

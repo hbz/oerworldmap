@@ -40,6 +40,8 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getProjectByLocationAggregation(0));
     statisticsAggregations.add(AggregationProvider.getFunderAggregation(0));
     statisticsAggregations.add(AggregationProvider.getLikeAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
 
     scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)));
     scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
