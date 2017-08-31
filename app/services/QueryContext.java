@@ -34,7 +34,7 @@ public class QueryContext {
     filters.put("concepts", concepts);
 
     QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name.@value");
-    //filters.put("emptyNames", emptyNames);
+    filters.put("emptyNames", emptyNames);
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation(0));

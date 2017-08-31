@@ -237,6 +237,7 @@ public class ResourceIndexer {
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }
         metadata.put(Record.LINK_COUNT, String.valueOf(aResource.getNumberOfSubFields("**.@id")));
+        metadata.put(Record.LIKE_COUNT, String.valueOf(aResource.getAsList("objectIn").size()));
         mTargetRepo.addResource(aResource, metadata);
       } catch (IndexOutOfBoundsException | IOException e) {
         Logger.error("Could not index resource", e);

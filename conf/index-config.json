@@ -1295,7 +1295,7 @@
                 }
               }
             },
-            "topConceptOf": {
+            "objectIn": {
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
@@ -2058,6 +2058,9 @@
                 },
                 "location": {
                   "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
                     "address": {
                       "properties": {
                         "addressCountry": {
@@ -2073,6 +2076,20 @@
                             }
                           },
                           "type": "multi_field"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
                         }
                       }
                     }
@@ -2819,13 +2836,9 @@
             },
             "publisher": {
               "properties": {
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
                 "name": {
                   "properties": {
@@ -2852,6 +2865,10 @@
                       "type": "string"
                     }
                   }
+                },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "location": {
                   "properties": {
@@ -2891,6 +2908,14 @@
                       }
                     }
                   }
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 }
               }
             },
@@ -3305,6 +3330,18 @@
                 }
               }
             },
+            "topConceptOf": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                }
+              }
+            },
             "participantIn": {
               "properties": {
                 "image": {
@@ -3565,6 +3602,9 @@
                         "addressLocality": {
                           "type": "string"
                         },
+                        "postOfficeBoxNumber": {
+                          "type": "string"
+                        },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
@@ -3734,6 +3774,9 @@
           "type": "string"
         },
         "link_count": {
+          "type": "integer"
+        },
+        "like_count": {
           "type": "integer"
         }
       }

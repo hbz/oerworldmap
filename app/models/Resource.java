@@ -225,12 +225,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return list;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        list.add((Resource) value);
+    if (result instanceof Resource) {
+      list.add((Resource) result);
+    } else if (result instanceof List<?>) {
+      for (Object value : (List<?>) result) {
+        if (value instanceof Resource) {
+          list.add((Resource) value);
+        }
       }
     }
     return list;

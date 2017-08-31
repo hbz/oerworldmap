@@ -388,8 +388,8 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    boolean mayEdit = (currentUser != null) && ((resource.getType().equals("Person") && currentUser.getId().equals(id))
-        || (!resource.getType().equals("Person"))
+    boolean mayEdit = (currentUser != null) && (!resource.getType().equals("LikeAction")) &&
+      ((resource.getType().equals("Person") && currentUser.getId().equals(id)) || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
     boolean mayLog = (currentUser != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
