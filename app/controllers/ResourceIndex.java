@@ -36,6 +36,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -259,13 +260,22 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
+        if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+            "HEAD").absoluteURL(request()));
+        }
         return read(resource.getId(), "HEAD", "html");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
-        .absoluteURL(request()));
+      if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+          "HEAD").absoluteURL(request()));
+      } else {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+          .absoluteURL(request()));
+      }
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
@@ -367,9 +377,8 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
-    List<Resource> likes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
-      .getItems();
-    int likesCount = likes.size();
+    int likesCount = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems().size();
 
     boolean userLikesResource = false;
     if (currentUser != null) {
@@ -379,6 +388,30 @@ public class ResourceIndex extends OERWorldMap {
       );
       userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
         .getItems().size() > 0;
+    }
+
+    String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
+    int lighthousesCount = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
+      .getItems().size();
+
+    Resource userLighthouseResource = null;
+    if (currentUser != null) {
+      String userLighthouseQuery = String.format(
+        "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      List<Resource> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
+        .getItems();
+      if (userLighthouseResources.size() > 0) {
+        userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
+      }
+    }
+
+    if (userLighthouseResource == null) {
+      userLighthouseResource = new Resource("LighthouseAction");
+      userLighthouseResource.remove("@id");
+      userLighthouseResource.put("object", resource);
+      userLighthouseResource.put("agent", Collections.singletonList(getUser()));
     }
 
     String title;
@@ -437,6 +470,8 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("comments", comments);
     scope.put("likes", likesCount);
     scope.put("userLikesResource", userLikesResource);
+    scope.put("lighthouses", lighthousesCount);
+    scope.put("userLighthouseResource", userLighthouseResource);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 
