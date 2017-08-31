@@ -376,9 +376,9 @@
                             <td>{{i18n (stringFormat "%s.agentIn" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#agentIn}}
+                                    {{#array_filter agentIn "@type" "Action"}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/agentIn}}
+                                    {{/array_filter}}
                                 </ul>
                             </td>
                         </tr>

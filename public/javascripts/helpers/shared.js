@@ -604,6 +604,20 @@ Handlebars.registerHelper('sort', function(context, field, direction, options) {
 
 });
 
+Handlebars.registerHelper('array_filter', function(arr, field, value, options) {
+
+  arr = toNative(arr);
+  var filtered = arr.filter(function(item) {
+    return item[field] == value;
+  });
+  var ret = "";
+  for (var i = 0; i < filtered.length; i++) {
+    ret = ret + options.fn(filtered[i]);
+  }
+  return ret;
+
+})
+
 Handlebars.registerHelper('reduceSkos', function(tree, list, options) {
   return filterTree(toNative(tree['hasTopConcept']), toNative(list).map(function(obj){ return obj['@id'] }));
 });
