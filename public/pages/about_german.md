@@ -6,13 +6,13 @@ title: Über uns
 
 Seit mehr als 10 Jahren werden stetig mehr Open Educational Resources (OER) geschaffen und verwendet. Die OER World Map sammelt und veranschaulicht Daten zur wachsenden Zahl der Aktuere und Aktivitäten im Bereich der offenen Bildung weltweit. Ihr Ziel ist es, die Entwicklung des OER-Ökosystems zu beschleunigen, indem sie ein möglichst umfassendes und aktuelles Bild der OER-Bewegung zeigt. Die dargestellten Informationen können für ganze verschiedene Zwecken verwendet werden, beispielsweise:
 
-- verschienen Aktuere miteinander vernetzen, um Zusammenarbeit zu erleichtern und um Wissen und Resourcen zu teilen
-- Listen von Repositorys und anderen OER-Services bereitstellen, um Lehrern und Lerneneden zu helfen, passende Bildungsmaterialien zu finden
+- verschienen Akteure miteinander vernetzen, um Zusammenarbeit zu erleichtern und um Wissen und Resourcen zu teilen
+- Listen von Repositorys und anderen OER-Services bereitstellen, um Lehrern und Lernenden zu helfen, passende Bildungsmaterialien zu finden
 - Entscheider unterstützen, stratigischen Entscheidungen zu treffen und zu verteidigen, durch aussagekräftige Statistiken und Überblicksdarstellungen zur OER-Bewegung und deren Auswirkungen
 
 Die OER World Map soll Informationen bereitstellen für die selbstorganisierte Entwicklung der OER-Bewegung. Sie erfasst und zeigt relevante Organisationen, Projekte, Personen und Services. Gleichzeitig unterstützt die Plattform das Netzwerken, das Finden von OER-Sammlungen und das Treffen von Entscheidungen. Als Ganzes kann die OER World Map als eine Art "Steuerzentrale" für die Open Education Community gesehen werden.
 
-![Die OER World Map als eine Art "Steuerzentrale" für die Open Education Community](/assets/images/open-control-room.jpg)
+![Die OER World Map als "Steuerzentrale" für die Open Education Community](/assets/images/open-control-room.jpg)
 
 Die OER World map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthinking GmbH](http://www.graphthinking.com) in Verbindung mit der [Open University (UK)](http://www.open.ac.uk/) gefördert von der [William and Flora Hewlett Foundation](http://www.hewlett.org/). Aber sie gehört der weltweiten OER-Community. Durch den Einsatz und die Ideen auf lokaler Ebene und ein globales Netz von Partnern und freiwilligen Helfern wird die OER World Map aufgebaut und aktuell gehalten werden als Ressource für alle. 
 
@@ -24,7 +24,8 @@ Die OER World map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthi
 
 ### Philipp von Böselager (Back-End Developer)
 ![Philipp von Böselager](/assets/images/image05.png)
-Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java developer in the field of Computational Linguistics (CL). After having worked with search engines, parsers, neural networks and speech synthesis in the course of his CL studies at the University of Cologne he went on to gain general IT experience at a German 1000 head counting, Java focused company. Later on he worked as a backend developer in an Gardner Magic Quadrant American eDiscovery company, finally heading for the open minded spirit of the University-related hbz again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
+Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) ist Java-Entwickler im Bereich Computerlinguistik (CL). Nachdem er im Laufe seines Studiums an der Universität Köln mit Suchmaschinen, Parsern, neuronalen Netzen und Sprachanalyse gearbeitet hat, hat er sich allgemeine IT-Erfahrung ####
+ he went on to gain general IT experience at a German 1000 head counting, Java focused company. Later on he worked as a backend developer in an Gardner Magic Quadrant American eDiscovery company, finally heading for the open minded spirit of the University-related hbz again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
 
 ### Karin Driesen (Online Editor)
 ![Karin Driesen](/assets/images/Karin-Driesen-130.jpg)
@@ -36,7 +37,7 @@ Robert ([@philosopher1978](https://twitter.com/philosopher1978) on Twitter)  is 
 
 ### Felix Link (Design)
 ![Felix Link](/assets/images/felix-link.png)
-Felix joined the project in October 2015, being the UI-/frontend-designer of the OER World Map. He studied graphic and communication design from 2006 to 2012. Since 2008 he has been working as a freelance designer for both agencies and own clients, developing and implementing projects in corporate, editorial and web design. He is interested in design as a conceptual and integrated process as well as a characteristic expression of its content.
+Felix ist seit 2015  als UI-/Frontend-Designer im OER World Map Team. Er hat von 2006 bis 2012 Grafik und Kommunikationsdesign studiert. Seit 2008 arbeitet er als Freelancer sowohl für Agenturen als auch für eigene Kunden. Er entwickelt und implementiert Projekte im Bereich redaktioneller Gestaltung, Corporate und Webdesign. Er interessiert sich für Design als konzeptionellen, integrierten Prozess ebenso wie als charakteristischen Ausdruck seines Inhalts.  
 
 ### Jan Neumann (Project Management)
 ![Jan Neumann](/assets/images/image03.jpg)
