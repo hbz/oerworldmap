@@ -86,7 +86,7 @@ We do, however, take an active lead in highlighting the special benefits of open
 
 Projects are handled more flexibly than services. Many projects aim at goals related to Open Education in the wider sense and provide results which are valuable to the OER movement, even if they do not provide openly licensed materials. To avoid excluding valuable experiences, we believe that the OER World Map should be open to all projects which believe they make a contribution to the field of Open Education.
 
-## Should MOOCs (Massive Open Online Courses) be added to theOER World Map?
+## Should MOOCs (Massive Open Online Courses) be added to the OER World Map?
 This is an interesting question. The simple answer is "Yes!" But things are more complicated, if you look at it in more detail:
 
 A criticism that has frequently been made is that many [MOOCs](https://en.wikipedia.org/wiki/Massive_open_online_course) are not using openly licensed material (which arguably makes them "free" or “gratis” but not really "open"). As stated above, the World Map can also include gratis services and materials. This is true for MOOCs as well. But if a MOOC does not provide open resources, it will be classified accordingly using the "openness indicator" in the future.
