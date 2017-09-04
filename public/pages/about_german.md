@@ -1,20 +1,20 @@
 ---
-title: About
+title: Über uns
 ---
 
-## The Vision
+## Die Vision
 
-For more than a decade the creation and use of Open Educational Resources (OER) has been increasing around the globe. The OER World Map collects and visualizes data on the growing number of actors and activities in the field of open education worldwide. The goal is to accelerate  the evolution of the global OER ecosystem by providing a comprehensive and responsive picture of the OER movement. The information provided can be used for a wide range of purposes, including:
+Seit mehr als 10 Jahren werden stetig mehr Open Educational Resources (OER) geschaffen und verwendet. Die OER World Map sammelt und veranschaulicht Daten zur wachsenden Zahl der Aktuere und Aktivitäten im Bereich der offenen Bildung weltweit. Ihr Ziel ist es, die Entwicklung des OER-Ökosystems zu beschleunigen, indem sie ein möglichst umfassendes und aktuelles Bild der OER-Bewegung zeigt. Die dargestellten Informationen können für ganze verschiedene Zwecken verwendet werden, beispielsweise:
 
-- connecting actors with each other facilitating co-operation and sharing of resources and knowledge
-- providing qualified lists of repositories and other OER services to help teachers and learners find educational resources relevant to them
-- supporting policy makers in taking and defending strategic decisions by providing meaningful statistics and overviews of the open education movement and its associated impacts
+- verschienen Aktuere miteinander vernetzen, um Zusammenarbeit zu erleichtern und um Wissen und Resourcen zu teilen
+- Listen von Repositorys und anderen OER-Services bereitstellen, um Lehrern und Lerneneden zu helfen, passende Bildungsmaterialien zu finden
+- Entscheider unterstützen, stratigischen Entscheidungen zu treffen und zu verteidigen, durch aussagekräftige Statistiken und Überblicksdarstellungen zur OER-Bewegung und deren Auswirkungen
 
-The OER World Map is intended to provide the information needed to support the self-organization processes of the OER movement.  In addition to mapping relevant organisations, projects, people and services, the platform provides social networking, allows the identification of OER collections, and supports decision making. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
+Die OER World Map soll Informationen bereitstellen für die selbstorganisierte Entwicklung der OER-Bewegung. Sie erfasst und zeigt relevante Organisationen, Projekte, Personen und Services. Gleichzeitig unterstützt die Plattform das Netzwerken, das Finden von OER-Sammlungen und das Treffen von Entscheidungen. Als Ganzes kann die OER World Map als eine Art "Steuerzentrale" für die Open Education Community gesehen werden.
 
-![The OER World Map seen as 'operations room' for the open education community](/assets/images/open-control-room.jpg)
+![Die OER World Map als eine Art "Steuerzentrale" für die Open Education Community](/assets/images/open-control-room.jpg)
 
-The OER World Map is being built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) funded by [The William and Flora Hewlett Foundation](http://www.hewlett.org/). But it belongs to the global OER community. With input and intelligence from local sources and a global network of partners and volunteers, the OER World Map will be built and updated – a resource for all. 
+Die OER World map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthinking GmbH](http://www.graphthinking.com) in Verbindung mit der [Open University (UK)](http://www.open.ac.uk/) gefördert von der [William and Flora Hewlett Foundation](http://www.hewlett.org/). Aber sie gehört der weltweiten OER-Community. Durch den Einsatz und die Ideen auf lokaler Ebene und ein globales Netz von Partnern und freiwilligen Helfern wird die OER World Map aufgebaut und aktuell gehalten werden als Ressource für alle. 
 
 ![hbz](/assets/images/image06.gif) ![graphthinkingGmbH](/assets/images/image10.png) ![The Open University](/assets/images/image07.png) ![The William and Flora Hewlett Foundation](/assets/images/image04.jpg)
 
