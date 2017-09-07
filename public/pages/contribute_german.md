@@ -11,7 +11,7 @@ Developing the OER World Map depends upon collaboration. It will be built best b
  
 Many countries do not have a Country Champion yet. More information on the OER World Map Country Champion Network can be found on our [blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). If you or your institution could play this role please write to [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
 
-###Teilen Sie Ihre OER-Story
+### Teilen Sie Ihre OER-Story
 Wir können viel voneinander lernen! Teilen Sie Ihre Erfahrungen mit OER mit uns und schreiben Sie über Ihre Erfahrungen:
 - mit Ihrem Projekt oder Ihrer Initiative
 - mit Open Educational Practice
