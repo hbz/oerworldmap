@@ -49,7 +49,7 @@ Felix ([@literarymachine](https://twitter.com/literarymachine) bei Twitter) ist 
 
 ### Adrian Pohl (Metadaten & allgemeiner Support)
 ![Adrian Pohl](/assets/images/image09.jpg)
-Adrian ([@acka47](https://twitter.com/acka47) bei Twitter) arbeitet seit 2008 am hbz. Er ist der Metadaten- und RDF-Vocabulary-Spezialist und Projekt-Manager für das Linked Open Data Service "lobid" des hbz. Er tritt innerhalb der internationalen Bibliothekscommunity ein für Open Knowledge, Web Standards und die Verwendung von Open Source Software. Adrian hat die Bildung einer deutschsprachigen Arbeitsgruppe für [OER Metadaten](https://wiki.dnb.de/display/DINIAGKIM/OER-Metadaten-Gruppe) innerhalb des Kompetenzzentrums Interoperable Metadaten (KIM) der Deutschen Initiative für Netzwerkinformation (DINI) initiiert.
+Adrian ([@acka47](https://twitter.com/acka47) bei Twitter) arbeitet seit 2008 am hbz. Er ist spezialisiert auf den Bereich Datenmodellierung und RDF-Vokabulare und Projekt-Manager für den Linked-Open-Data-Dienst "lobid" des hbz. Seit Jahren fördert Adrian in der Bibliothekswelt die Entwicklung und Implementierung von offenem Wissen und Webstandards und die Nutzung von Open-Source-Software. Adrian initiierte die Bildung einer deutschsprachigen Arbeitsgruppe für [OER Metadaten](https://wiki.dnb.de/display/DINIAGKIM/OER-Metadaten-Gruppe) innerhalb des Kompetenzzentrums Interoperable Metadaten (KIM) der Deutschen Initiative für Netzwerkinformation (DINI).
 
 ### Johannes Schnettker (Frontend-Entwickler)
 ![Johannes Schnettker](/assets/images/image01.jpg)
