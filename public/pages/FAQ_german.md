@@ -5,11 +5,11 @@ title: FAQ (((Deutsche Übersetzung)))
 ## Was ist OER?
 'OER' ist die Abkürzung für 'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch Veröffentlichung unter einer offenen Lizenz anstelle einer traditionellen Copyright-Lizenz. Ein wesentliches Merkmal ist, dass sie neue Möglichkeiten für kollaboratives Arbeiten bieten und innovatives Lehren und Lernen ermöglichen.
 
-Nach der [UNESCO Definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), sind OER "Lehr-, Lern- und Forschungsmaterialien in jeder Art von Medium, sei es digital oder nicht, die gemeinfrei sind oder unter einer offenen Lizenz veröffentlicht wurden, die kostenfreien Zugang, Verwendung, Anpassung und Weiterbverbreitung erlaubt" (“teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions”).
+Nach der [UNESCO Definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), sind OER "Lehr-, Lern- und Forschungsmaterialien in jeder Art von Medium, sei es digital oder nicht, die gemeinfrei sind oder unter einer offenen Lizenz veröffentlicht wurden, die kostenfreien Zugang, Verwendung, Anpassung und Weiterbverbreitung erlaubt".
 
 Nach der Definition der [William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) können OER  vollständige Kurse, Kursmaterialien, Module, Lehrbücher, Videos, Tests, Software und alle anderen Tools, Materialien oder Techniken sein (oder enthalten), die verwendet werden, um Wissen zugänglich zu machen.
 
-Obwohl umfassende Definitionen wie diese sehr bekannt sind, werden die Details einer endgültigen Definition von OER noch diskutiert. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln, finden Sie hier: “Was gehört auf die OER World Map?”
+Obwohl umfassende Definitionen wie diese sehr bekannt sind, werden die Details einer endgültigen Definition von OER noch diskutiert. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln, finden Sie unter “Was gehört auf die OER World Map?”
 
 ## An wen wendet sich diese Website?
 Die OER World Map liefert nützliche Informationen für alle, die sich für OER und Open Education interessieren oder in diesem Bereich bereits tätig sind. Sie wurde entwickelt um Antworten zu geben auf Fragen wie:
@@ -22,13 +22,13 @@ Wir glauben, dass diese Datensammlung von besonderer Bedeutung ist, da sie eine 
 Unsere Website bietet allen Interessensgruppen im Bereich OER relevante Informationen. Die Vielfalt der Interessen ist eine große Herausforderung für das Systemdesign, da benutzerorientierte Oberflächen normalerweise nach den klar definierten Bedürfnissen von bestimmten Nutzertypen entwickelt werden.
 
 Momentan konzentrieren wir uns auf drei Anwendungsfälle (oder "Epics"):
-- Lehrer und Lernende sollen Listen von OER-Services (z.B. OER-Repositorys) bekommen, die ihnen helfen, geeignete Materialien schneller zu finden;
+- Lehrer und Lernende sollen qualifizierte Listen von OER-Services (z.B. OER-Repositorys) bekommen, die ihnen helfen, geeignete Materialien schneller zu finden;
 - OER-Akteure sollen bei ihrer Kommunikation und Zusammenarbeit unterstützt werden, indem sie mit OER-Experten und mit Projekten, die an ähnlichen Fragestellungen arbeiten, vernetzt werden;
 - Entscheider im Bereich Bildung und OER sollen durch zuverlässige statistische Daten unterstützt werden.
 
 Über die Website hinaus macht die OER World Map ihre Daten über eine Programmierschnittstelle (API) zugänglich, die es anderen Services erleichtert die Daten wiederzuverwenden.
 
-Wir sammeln unsere "Use Cases" für die Weiterentwicklung der World Map auf [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Wenn Sie Ihnen etwas fehlt, [teilen Sie es uns bitte mit!](mailto:info@oerworldmap.org).
+Wir sammeln unsere "Use Cases" für die Weiterentwicklung der World Map auf [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Wenn Sie Ihnen etwas fehlt, [teilen Sie es uns bitte mit](mailto:info@oerworldmap.org).
 
 ## Wie kann ich mich beteiligen?
 Der Erfolg dieses Projekts hängt von der Beteiligung der OER-Community ab. Es gibt viele Möglichkeiten, sich zu beteiligen. Die wichtigsten sind:
@@ -53,7 +53,7 @@ Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich d
 <tr> <td>Veranstaltungen</td><td>Eine Veranstaltung ist eine Zusammenkunft von Personen, die an einem bestimmten Ort (virtuell oder real) zu einer bestimmten Zeit stattfindet.</td><td>Konferenzen, Workshops, Barcamps, MOOCs</td></tr>
 </table>
 
-Es gibt viele Möglichkeiten dieses Modell in der Zukunft auszubauen.
+Es gibt noch viele Möglichkeiten dieses Modell in der Zukunft auszubauen.
 
 ## Wo sind die Open Educational Resources?
 Wir denken, dass das Auffinden einzelner Ressourcen von einem suchmaschinenbasierten Service geleistet werden sollte. Die OER World Map erleichtert das Auffinden von OER indirekt, indem sie Listen von passenden OER-Services liefert. 
@@ -99,7 +99,7 @@ Wir halten Datenschutz für sehr wichtig. Sie finden Informationen dazu in unser
 ## Wie kann ich eine Story teilen?
 Wir freuen uns, wenn Sie Ihre OER-Story mit der Community teilen und anderen von Ihren OER-Aktivitäten berichten wollen! Themen können sein OER-Projekte oder -Initiativen, Open Educational Practices, beispielsweise OER erstellen oder mit OER unterrichten, das Schreiben von OER-Richtlinien oder -Strategien, neue Erkenntnisse und Forschungsergebnisse zu OER, sowie das Entwickeln oder Verwenden nützlicher Tools für OER. Wählen Sie einen aussagekräftigen Titel und schreiben Sie einen Text (nicht mehr als 5000 Zeichen), der beschreibt, wer was wann warum und wie getan hat. Ein Foto zur Geschichte wäre schön. 
 
-Bitte beachten Sie, dass Storys unter [CC-BY](https://creativecommons.org/licenses/by/4.0/) veröffentlicht werden. Wenn Sie eine OER-Story teilen wollen, registrieren Sie sich bitte und tragen Sie sie als Story auf der OER World Map ein. Wir freuen uns, von Ihnen zu lesen! Wir können auch Artikel oder Blogposts wiederveröffentlichen, wenn sie entsprechend lizensiert sind. 
+Bitte beachten Sie, dass Storys unter [CC-BY](https://creativecommons.org/licenses/by/4.0/) veröffentlicht werden. Wenn Sie eine OER-Story teilen wollen, registrieren Sie sich bitte und tragen Sie sie als Story auf der OER World Map ein. Wir freuen uns, von Ihnen zu lesen! Sie können auch Artikel oder Blogposts wiederveröffentlichen, wenn sie entsprechend lizensiert sind. 
 
 ## Wollen Sie nur von Lehrenden hören, oder auch von Lernenden?
 Ja, wir wollen auch von Schülern und Studenten hören. Unserer Überzeugung nach ist die Stimme der Lernenden in den Diskussionen über OER häufig nicht laut genug. Wir wollen von allen hören, wie ihre Erfahrungen mit OER sind, besonders aus der Perspektive der Lernenden! 
