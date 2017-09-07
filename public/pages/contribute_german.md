@@ -6,10 +6,10 @@ title: Mitmachen
 ### Schreiben und sprechen Sie über die OER World Map
 Möglichst viele Menschen sollen erfahren, dass die OER World Map einen guten Überblick über OER-Akteure und -Aktivitäten gibt. Dazu müssen wir gemeinsam ein Netzwerk aufbauen. Bitte sprechen Sie mit Ihren Freunden und Kollegen über die OER World Map, persönlich oder über Social Media ([#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
 
-### Become a Country Champion
-Developing the OER World Map depends upon collaboration. It will be built best by a network of Country Champions who will have or want to create an overview of the OER movement in their own country.  From their local base they will raise awareness with their connections, gather data and assure its quality. 
- 
-Many countries do not have a Country Champion yet. More information on the OER World Map Country Champion Network can be found on our [blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). If you or your institution could play this role please write to [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
+### Werden Sie Country Champion
+Die OER World Map weiterzuentwickeln ist ein Gemeinschaftswerk. Sie wird von einem Netzwerk von Country Champions aufgebaut, die einen Überblick über die OER-Bewegung in ihrem Land haben oder sich aneignen wollen. Mit ihren lokalen Vernetzungen schaffen die Country Champions Bewusstsein, sammeln Daten und sichern die Qualität der Daten.
+
+Viele Länder haben noch keinen Country Champion. Weitere Informationen über das OER World Map Country Champion Netzwerk finden Sie in unseren [Blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). Wenn Sie oder Ihre Institution diese Aufgabe übernehmen könnten, schreiben Sie uns bitte an  [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
 
 ### Teilen Sie Ihre OER-Story
 Wir können viel voneinander lernen! Teilen Sie Ihre Erfahrungen mit OER mit uns und schreiben Sie über Ihre Erfahrungen:
