@@ -1,0 +1,127 @@
+{
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@id": "https://oerworldmap.org/assets/json/sectors.json",
+  "@type": "ConceptScheme",
+  "hasTopConcept": [
+    {
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#earlyChildhood",
+      "@type": "Concept",
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Early Childhood Education"
+        },
+        {
+          "@language": "de",
+          "@value": "Frühkindliche Erziehung"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#school",
+      "@type": "Concept",
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "School"
+        },
+        {
+          "@language": "de",
+          "@value": "Schule"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#higherEd",
+      "@type": "Concept",
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Higher Education"
+        },
+        {
+          "@language": "de",
+          "@value": "Hochschule"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#vocational",
+      "@type": "Concept",
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Vocational Education"
+        },
+        {
+          "@language": "de",
+          "@value": "Berufliche Bildung"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#further",
+      "@type": "Concept",
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Further Education"
+        },
+        {
+          "@language": "de",
+          "@value": "Weiterbildung"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#general",
+      "@type": "Concept",
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      },
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Cross-sector"
+        },
+        {
+          "@language": "de",
+          "@value": "Sektorenübergreifend"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/sectors.json"
+      }
+    }
+  ]
+}

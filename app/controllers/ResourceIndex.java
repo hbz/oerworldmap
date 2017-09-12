@@ -10,7 +10,6 @@ import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
 import helpers.UniversalFunctions;
-import helpers.Utf8ResourceBundle;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -42,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,7 +69,7 @@ public class ResourceIndex extends OERWorldMap {
     // Handle ISO 3166 param
     if (!StringUtils.isEmpty(iso3166)) {
 
-      if (! UniversalFunctions.resourceBundleToMap(Utf8ResourceBundle
+      if (! UniversalFunctions.resourceBundleToMap(ResourceBundle
         .getBundle("iso3166-1-alpha-2", getLocale()))
         .containsKey(iso3166.toUpperCase())) {
         return notFound("Not found");
@@ -83,7 +83,7 @@ public class ResourceIndex extends OERWorldMap {
       filters.clear();
 
       Map<String, Object> iso3166Scope = new HashMap<>();
-      String countryName = Utf8ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
+      String countryName = ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
         .getString(iso3166.toUpperCase());
       iso3166Scope.put("alpha-2", iso3166.toUpperCase());
       iso3166Scope.put("name", countryName);

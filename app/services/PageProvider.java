@@ -1,7 +1,9 @@
 package services;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.options.MutableDataSet;
 import org.apache.commons.io.IOUtils;
-import org.pegdown.PegDownProcessor;
 import play.Logger;
 
 import java.io.BufferedReader;
@@ -18,17 +20,21 @@ import java.util.Map;
  */
 public class PageProvider {
 
-  private static PegDownProcessor pegDownProcessor = new PegDownProcessor();
-
   private String mPath;
   private String mExtension;
   private Map<String, Object> mSections;
+  private HtmlRenderer mHtmlRenderer;
+  private Parser mParser;
 
   public PageProvider(String aPath, String aExtension, Map<String, Object> aSections) {
 
     mPath = aPath;
     mExtension = aExtension;
     mSections = aSections;
+
+    MutableDataSet options = new MutableDataSet();
+    mParser = Parser.builder(options).build();
+    mHtmlRenderer = HtmlRenderer.builder(options).build();
 
   }
 
@@ -109,7 +115,7 @@ public class PageProvider {
       line = br.readLine();
     }
 
-    page.put("body", pegDownProcessor.markdownToHtml(IOUtils.toString(br)));
+    page.put("body", mHtmlRenderer.render(mParser.parse(IOUtils.toString(br))));
 
     return page;
 

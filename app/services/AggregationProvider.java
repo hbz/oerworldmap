@@ -140,4 +140,14 @@ public class AggregationProvider {
       .size(aSize);
   }
 
+  public static AggregationBuilder<?> getPrimarySectorsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.primarySector.@id").size(aSize)
+      .field("about.primarySector.@id");
+  }
+
+  public static AggregationBuilder<?> getSecondarySectorsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.secondarySector.@id").size(aSize)
+      .field("about.secondarySector.@id");
+  }
+
 }

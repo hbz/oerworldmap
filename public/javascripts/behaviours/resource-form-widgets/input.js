@@ -34,7 +34,7 @@ var Hijax = (function ($, Hijax) {
 
           // append add control
 
-          $('<span class="small" data-action="add">+ ' + i18nStrings['ui']['add'] + ' ' + widget.find('.multiple-list').attr('title') + '</span>')
+          $('<span class="small" data-action="add">+ ' + stringFormat(i18nStrings['ui']['add'], widget.find('.multiple-list').attr('title')) + '</span>')
             .appendTo(widget)
             .click(function(){
               var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
