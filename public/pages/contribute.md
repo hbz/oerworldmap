@@ -6,12 +6,12 @@ title: Contribute
 ### Spread the news
 People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities.  We need to build the network together, so please speak to your friends and colleagues or use social media to reach out more widely (use [#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
 
-### Werden Sie Country Champion
-Die OER World Map weiterzuentwickeln ist ein Gemeinschaftswerk. Sie wird von einem Netzwerk von Country Champions aufgebaut, die einen Überblick über die OER-Bewegung in ihrem Land haben oder sich aneignen wollen. Mit ihren lokalen Vernetzungen schaffen die Country Champions Bewusstsein, sammeln Daten und sichern die Qualität der Daten.
+### Become a Country Champion
+Developing the OER World Map depends upon collaboration. It will be built best by a network of Country Champions who will have or want to create an overview of the OER movement in their own country.  From their local base they will raise awareness with their connections, gather data and assure its quality. 
+ 
+Many countries do not have a Country Champion yet. More information on the OER World Map Country Champion Network can be found on our [blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). If you or your institution could play this role please write to [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
 
-Viele Länder haben noch keinen Country Champion. Weitere Informationen über das OER World Map Country Champion Netzwerk finden Sie in unseren [Blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). Wenn Sie oder Ihre Institution diese Aufgabe übernehmen könnten, schreiben Sie uns bitte an (mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
-
-### Contribute stories
+###Contribute stories
 We have much to learn from each other. Please consider sharing a story describing your
 - project or initiative
 - Open Educational Practice
@@ -27,7 +27,7 @@ To become a truly global resource, OER World Map web site pages need to be avail
 
 ## Build and use the data
 ### Become an editor and contribute data
-If you are interested in collecting data for the OER World Map, you can use templates to edit data directly on the platform. In order to do this, just register on the platform and start entering data. Please have a look at the [FAQs for OER World Map editors](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors) in our wiki.
+If you are interested in collecting data for the OER World Map, you can use templates to edit data directly on the platform. In order to do this, just register on the platform and contact us at [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
 
 ### Upload existing data
 Existing OER data can be uploaded to the OER World Map platform using a powerful API. If you think you have relevant information to add, please contact us at [in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org](mailto:in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org).
