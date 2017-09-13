@@ -107,10 +107,10 @@ var Hijax = (function ($, Hijax) {
               },
               queryTokenizer: bloodhoundAccentFolding.queryTokenizer,
               initialize: false,
-              prefetch: {
+              remote: {
                 url: lookup_url,
-                cache: false,
-                prepare: function(settings){
+                prepare: function(query, settings){
+                  settings.url += ('&q=' + query + '*');
                   settings.headers = {
               	    Accept: 'application/json'
             	    };
@@ -219,7 +219,7 @@ var Hijax = (function ($, Hijax) {
         // prevent paging
 
         if( ! is_vocabulary ) {
-          lookup_url = lookup_url + '&size=9999';
+          lookup_url = lookup_url + '&size=10';
         }
 
         // mark behaving for styling
