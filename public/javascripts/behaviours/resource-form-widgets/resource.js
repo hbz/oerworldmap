@@ -66,7 +66,7 @@ var Hijax = (function ($, Hijax) {
                 datumTokenizer: function(d){
                   return Bloodhound.tokenizers.whitespace(
                     bloodhoundAccentFolding.normalize(
-                      d.name[0]['@value']
+                      my.getLocalizedName(d.name)
                     )
                   );
                 },
@@ -88,11 +88,11 @@ var Hijax = (function ($, Hijax) {
                 var token_parts = [];
 
                 if( typeof d.name !== 'undefined' ) {
-                  token_parts.push( d.name[0]['@value'] );
+                  token_parts.push( my.getLocalizedName(d.name) );
                 }
 
                 if( typeof d.alternateName !== 'undefined' ) {
-                  token_parts.push( d.alternateName[0]['@value'] );
+                  token_parts.push( my.getLocalizedName(d.alternateName) );
                 }
 
                 if( token_parts.length == 0 ) {
@@ -118,13 +118,7 @@ var Hijax = (function ($, Hijax) {
                 },
                 transform: function(response) {
                   return response.member.map(function(member) {
-                    var member = member.about;
-                    if( typeof member.name !== 'undefined' ) {
-                      member.label_x = member.name[0]['@value'];
-                    } else {
-                      member.label_x = member['@id'];
-                    }
-                    return member;
+                    return member.about;
                   });
                 }
               },
@@ -175,6 +169,27 @@ var Hijax = (function ($, Hijax) {
       } else {
         return false;
       }
+    },
+
+    getLocalizedName : function(name) {
+
+      // Check for entries in requested language
+      for (var i = 0; i < name.length; i++) {
+        if (name[i]['@language'] == window.user_language) {
+          return name[i]['@value'];
+        }
+      }
+
+      // Requested language not available, default to en
+      for (var i = 0; i < name.length; i++) {
+        if (name[i]['@language'] == 'en') {
+          return name[i]['@value'];
+        }
+      }
+
+      // Neither requested language nor en available, return all of first available
+      return name[0]['@value'];
+
     },
 
     attach : function(context) {
@@ -260,7 +275,6 @@ var Hijax = (function ($, Hijax) {
           },{
             name: 'xyz',
             limit: 9999,
-            displayKey: 'label_x',
             source: function(q, sync, async){
               if (q === '') {
                 sync(my.datasets[ lookup_url ]);
