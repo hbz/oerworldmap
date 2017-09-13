@@ -15,7 +15,9 @@ import play.mvc.Result;
 import services.QueryContext;
 import services.SearchConfig;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ public class Reconciler extends OERWorldMap{
     ObjectNode result = Json.newObject();
     result.put("name", "oerworldmap reconciliation");
     result.put("identifierSpace", "https://oerworldmap.org/resource");
-    result.put("schemaSpace", "https://oerworldmap.org/resource");
+    result.put("schemaSpace", "http://schema.org");
     ArrayNode defaultTypes = Json.newArray();
     Resource.mIdentifiedTypes.forEach(x -> {
       ObjectNode defaultType = Json.newObject();
@@ -49,18 +51,16 @@ public class Reconciler extends OERWorldMap{
       : ok(String.format("/**/%s(%s);", aCallback, result.toString()));
   }
 
+
   public Result  reconcile() {
     DynamicForm requestData = formFactory.form().bindFromRequest();
     JsonNode request = Json.parse(requestData.get("queries"));
-
-    System.out.println(request); // TODO: remove (?)
-
     Iterator<Map.Entry<String, JsonNode>> inputQueries = request.fields();
     return ok(reconcile(inputQueries, null));
   }
 
-  public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries, final QueryContext aQueryContext) {
 
+  public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries, final QueryContext aQueryContext) {
     QueryContext queryContext = aQueryContext != null ? aQueryContext : getQueryContext();
     queryContext.setFetchSource(new String[]{
       "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
@@ -77,15 +77,14 @@ public class Reconciler extends OERWorldMap{
 
     while (aInputQueries.hasNext()) {
       Map.Entry<String, JsonNode> inputQuery = aInputQueries.next();
-
-      System.out.println("Query entry: " + inputQuery);
-
+      System.out.println("Reconcile query entry: " + inputQuery);             // TODO: delete
       JsonNode limitNode = inputQuery.getValue().get("limit");
       int limit = limitNode == null ? -1 : limitNode.asInt();
       String queryString = inputQuery.getValue().get("query").asText();
-      JsonNode reconciled = mBaseRepository.reconcile(queryString, 0, limit, null, null, queryContext);
+      JsonNode reconciled = mBaseRepository.reconcile(queryString, 0, limit, null, new HashMap<String, List<String>>(), queryContext);
       response.set(inputQuery.getKey(), reconciled);
     }
+    System.out.println("Reconcile response: " + response);                   // TODO: delete
     return response;
   }
 
