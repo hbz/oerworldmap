@@ -204,7 +204,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       item.put("match", aQuery.equals(name));
       item.put("name", name);
       item.put("score", hit.getScore());
-      item.put("type", match.getType());
+      ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
+      typeArray.add(match.getType());
+      item.set("type", typeArray);
       resultItems.add(item);
     }
 
