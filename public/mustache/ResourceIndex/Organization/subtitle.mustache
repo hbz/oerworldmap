@@ -2,14 +2,14 @@
     <span>
         {{i18n (stringFormat "%s.countryChampionFor" @type)}}
         {{#countryChampionFor}}
-            <a href="/country/{{.}}">{{i18n . bundle="countries"}}</a>{{#unless @last}},{{/unless}}
+            <a href="/country/{{.}}">{{i18n . bundle="iso3166-1-alpha-2"}}</a>{{#unless @last}},{{/unless}}
         {{/countryChampionFor}}
   </span>
 {{/if}}
 
 {{#if additionalType}}
     <span>
-        Additional Type:
+        {{i18n "additionalType"}}:
         {{#additionalType}}
             {{.}}{{#unless @last}},{{/unless}}
         {{/additionalType}}

@@ -251,7 +251,7 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('localized', function(list, options) {
 
-  language = options.hash.language || navigator.language || navigator.userLanguage || "en";
+  language = options.hash.language || window.user_language || navigator.language || navigator.userLanguage || "en";
   language = language.split('-')[0];
 
   var result = '';
@@ -287,7 +287,7 @@ Handlebars.registerHelper('localized', function(list, options) {
   }
 
   if (result.trim() != '') {
-    return result;
+    return result.trim();
   } else {
     return options.inverse(this);
   }
@@ -341,7 +341,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'concept': 'tag',
     'conceptscheme': 'sitemap',
     'event': 'calendar',
-    'webpage': 'book'
+    'webpage': 'book',
+    'product': 'folder'
   };
   return new Handlebars.SafeString(
     '<i class="fa fa-fw fa-' + (icons[type.toLowerCase()] || 'question') + '"></i>'
@@ -350,10 +351,11 @@ Handlebars.registerHelper('getIcon', function (string, options) {
 
 Handlebars.registerHelper('getBundle', function (field, options) {
   var bundles = {
-    'availableLanguage': 'languages',
-    'addressCountry': 'countries'
+    'availableLanguage': 'iso639-1',
+    'addressCountry': 'iso3166-1-alpha-2',
+    'addressRegion' : 'iso3166-2'
   }
-  return bundles[field] || 'messages';
+  return bundles[field] || 'ui';
 });
 
 Handlebars.registerHelper('getResourceUrl', function (url, options) {
@@ -459,9 +461,8 @@ Handlebars.registerHelper('removeFilterLink', function (filter, value, href) {
     var href = urltemplate.parse(options.hash['href-template']).expand(url_params);
     var arc = createElement("a", true, {
       "xlink:href": href,
-      // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?),
-      // we are accessing the Java handlebars helpers here for internationalization.
-      "xlink:title": Packages.helpers.HandlebarsHelpers._i18n(buckets[i]['key'], null) + " (" + buckets[i]['doc_count'] + ")"
+      // FIXME: since we cannot access other javascript helpers via Handlebars.helpers (why?), title cannot be localized
+      "xlink:title": buckets[i]['key'] + " (" + buckets[i]['doc_count'] + ")"
     }, path);
     arcs.push(arc);
   }
@@ -518,7 +519,7 @@ function nestedAggregation(aggregation, collapsed, id) {
           '<div class="schema-tree-item">' +
             '<i class="fa fa-fw fa-tag schema-tree-icon"></i>' +
             '<a href="/resource/' + key + '">' +
-              Packages.helpers.HandlebarsHelpers._i18n(key, null) + " (" + aggregation[key]["doc_count"] + ")" +
+              key + " (" + aggregation[key]["doc_count"] + ")" +
             '</a>' +
             (
               Object.keys(aggregation[key]).length > 1 ?
@@ -545,6 +546,10 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
       return (v1 == v2) ? options.fn(this) : options.inverse(this);
     case '===':
       return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case '!=':
+      return (v1 != v2) ? options.fn(this) : options.inverse(this);
+    case '!==':
+      return (v1 !== v2) ? options.fn(this) : options.inverse(this);
     case '<':
       return (v1 < v2) ? options.fn(this) : options.inverse(this);
     case '<=':
@@ -655,7 +660,9 @@ Handlebars.registerHelper('formatLocation', function (format, location, prefix) 
     if(location && location.address && location.address.addressCountry) {
       elements.push(
         //i18nStrings['countries'][ location.addressCountry.toUpperCase() ]
-        Packages.helpers.HandlebarsHelpers._i18n(location.address.addressCountry, null)
+        //Packages.helpers.HandlebarsHelpers._i18n(location.address.addressCountry, null)
+        //FIXME: get country name
+        location.address.addressCountry
       );
     }
 

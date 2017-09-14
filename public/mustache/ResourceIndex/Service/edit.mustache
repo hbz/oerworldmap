@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="hidden">
-        <legend>Service</legend>
+        <legend>{{i18n "Service"}}</legend>
         {{input "@type" "Service" readonly="readonly"}}
         {{input "@id" [@id] readonly="readonly"}}
     </div>
@@ -31,16 +31,16 @@
         <div class="alert alert-info">
 
             <p>
-                The address of a service is inherited from the provider. That's why it's not shown per default. Only activate it, if this service is run in a different place then the provider is located.
+                {{i18n "ResourceIndex.Service.edit.info"}}
             </p>
 
             <p>
-                Read more: <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors#how-to-add-locations">FAQ Chapter: How to add locations?</a>
+                {{{i18n "ResourceIndex.Service.edit.readMore"}}}
             </p>
 
             <div class="container-top-line">
                 <button class="btn btn-default" type="button">
-                    Show Address
+                    {{i18n "showAddress"}}
                 </button>
             </div>
 
@@ -79,5 +79,11 @@
     {{> FormElements/id.mustache property=publication property_path="publication" title=(i18n "Service.publication") tooltip=(i18n "Service.publication" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=WebPage"}}
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Service.comment") tooltip=(i18n "Service.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
+
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Service.primarySector") tooltip=(i18n "Service.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Service.secondarySector") tooltip=(i18n "Service.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=isRelatedTo property_path="isRelatedTo" title=(i18n "Service.provides") tooltip=(i18n "Service.provides" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
 
 </fieldset>

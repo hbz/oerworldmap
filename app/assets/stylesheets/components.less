@@ -78,11 +78,14 @@
 
 .country-champion {
   .clearfix();
+  height: 150px;
 }
 
 .country-champion .img {
   width: 130px;
+  height: 150px;
   float: left;
+  object-fit: cover;
 }
 
 .country-champion .text {
@@ -194,4 +197,45 @@ div.page img {
   padding-top: 3px;
   font-size: @font-size-small;
   text-align: right;
+}
+
+
+/* --- user --- */
+
+.user {
+
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
+  .avatar {
+    float: left;
+    display: block;
+    margin-right: 12px;
+
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid white;
+    background-size: cover;
+    background-position: center center;
+
+    img {
+      display: none;
+    }
+
+    &.placeholder-image-qmark {
+      font-size: 28px;
+      line-height: 28px;
+    }
+  }
+
+  .text {
+    position: relative;
+    top: -0.2em;
+    margin-left: 42px;
+  }
+
 }

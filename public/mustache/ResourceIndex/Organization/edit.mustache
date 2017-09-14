@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="hidden">
-        <legend>Organization</legend>
+        <legend>{{i18n "Organization"}}</legend>
         {{input "@type" "Organization" readonly="readonly"}}
         {{input "@id" [@id] readonly="readonly"}}
     </div>
@@ -19,9 +19,9 @@
     {{> FormElements/input.mustache property=additionalType property_path="additionalType" title=(i18n "Organization.additionalType") tooltip=(i18n "Organization.additionalType" bundle="descriptions") hidden=true multiple=true input_type="text"}}
 
     {{#if ../../permissions.administer}}
-        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=false multiple=true input_type="text" options="countries"}}
+        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=false multiple=true input_type="text" options="iso3166-1-alpha-2"}}
     {{else}}
-        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="countries"}}
+        {{> FormElements/select.mustache property=countryChampionFor property_path="countryChampionFor" title=(i18n "Organization.countryChampionFor") tooltip=(i18n "Organization.countryChampionFor" bundle="descriptions") hidden=true multiple=true input_type="text" options="iso3166-1-alpha-2"}}
     {{/if}}
 
     {{> FormElements/localizedInput.mustache property=alternateName property_path="alternateName" title=(i18n "Organization.alternateName") tooltip=(i18n "Organization.alternateName" bundle="descriptions")}}
@@ -59,5 +59,11 @@
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Organization.comment") tooltip=(i18n "Organization.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
     {{> ResourceIndex/Grant/edit.mustache property=awards property_path="awards" hidden=true}}
+
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Organization.primarySector") tooltip=(i18n "Organization.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Organization.secondarySector") tooltip=(i18n "Organization.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=manufactured property_path="manufactured" title=(i18n "Organization.manufactured") tooltip=(i18n "Organization.manufactured" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
 
 </fieldset>

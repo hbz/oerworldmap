@@ -6,7 +6,7 @@
                 <a href="/resource/{{[@id]}}">
                     <div class="icon-indented">
                         {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
-                        {{#localized this.name language=@root.language}}
+                        {{#localized this.name}}
                             {{[@value]}}
                         {{else}}
                             {{[@id]}}
@@ -20,7 +20,7 @@
                     <a href="/resource/{{[@id]}}">
                         <div class="icon-indented">
                             {{getIcon [@type]}}<strong>{{i18n [@type]}}:</strong>
-                            {{#localized this.name language=@root.language}}
+                            {{#localized this.name}}
                                 {{[@value]}}
                             {{/localized}}
                         </div>

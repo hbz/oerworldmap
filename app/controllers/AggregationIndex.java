@@ -39,6 +39,8 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getLicenseAggregation(0));
     statisticsAggregations.add(AggregationProvider.getProjectByLocationAggregation(0));
     statisticsAggregations.add(AggregationProvider.getFunderAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
 
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
     scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null), indices));

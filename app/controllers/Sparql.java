@@ -3,6 +3,7 @@ package controllers;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import helpers.HandlebarsHelpers;
 import helpers.ResourceTemplateLoader;
 import models.Commit;
 import models.TripleCommit;
@@ -32,6 +33,7 @@ public class Sparql extends OERWorldMap  {
     loader.setPrefix("public/mustache");
     loader.setSuffix("");
     handlebars = new Handlebars(loader);
+    handlebars.registerHelpers(new HandlebarsHelpers(this));
   }
 
   public Result query(String q) throws IOException {

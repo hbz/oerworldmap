@@ -9,6 +9,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 public class UniversalFunctions {
@@ -16,7 +20,7 @@ public class UniversalFunctions {
   public static String readFile(String aPath, Charset aEncoding) throws IOException {
     return new String(Files.readAllBytes(Paths.get(aPath)), aEncoding);
   }
-  
+
   public static String collectionToString(Collection<? extends Object> aCollection){
     String string = aCollection.getClass().getName() + ": {";
     for (Object entry : aCollection){
@@ -58,6 +62,16 @@ public class UniversalFunctions {
       return(path.delete());
     }
     return false;
+  }
+
+  public static Map<String, String> resourceBundleToMap(ResourceBundle aResourceBundle) {
+    Map<String, String> map = new HashMap<>();
+    Enumeration<String> keys = aResourceBundle.getKeys();
+    while (keys.hasMoreElements()) {
+      String key = keys.nextElement();
+      map.put(key, aResourceBundle.getString(key));
+    }
+    return map;
   }
 
 }

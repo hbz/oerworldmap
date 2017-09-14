@@ -19,10 +19,10 @@ var Hijax = (function ($, Hijax) {
 
       my.languages_array = [];
 
-      for(i in i18nStrings.languages) {
+      for(i in i18nStrings["iso639-1"]) {
         my.languages_array.push({
           id: i,
-          label: i18nStrings.languages[i]
+          label: i18nStrings["iso639-1"][i]
         });
       }
 
@@ -156,7 +156,7 @@ var Hijax = (function ($, Hijax) {
 
     initOne : function(one) {
 
-      var language = i18nStrings.languages[ $(one).find('input').val() ]
+      var language = i18nStrings["iso639-1"][ $(one).find('input').val() ]
 
       $(one).append(
         my.templates['item']({

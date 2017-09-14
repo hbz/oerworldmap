@@ -2,10 +2,9 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.Countries;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
-import models.Commit;
+import helpers.UniversalFunctions;
 import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
@@ -13,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
@@ -45,6 +43,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
@@ -66,7 +65,8 @@ public class UserIndex extends OERWorldMap {
   public Result signup() {
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(getLocale()));
+    scope.put("countries", UniversalFunctions.resourceBundleToMap(ResourceBundle
+      .getBundle("iso3166-1-alpha-2", getLocale())));
     return ok(render("Registration", "UserIndex/register.mustache", scope));
 
   }
@@ -222,9 +222,7 @@ public class UserIndex extends OERWorldMap {
 
   public Result newsletterSignup() {
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", Countries.list(getLocale()));
-    return ok(render("Registration", "UserIndex/newsletter.mustache", scope));
+    return ok(render("Registration", "UserIndex/newsletter.mustache"));
 
   }
 
@@ -385,7 +383,7 @@ public class UserIndex extends OERWorldMap {
 
     TripleCommit.Header header = new TripleCommit.Header(aIp, ZonedDateTime.now());
     TripleCommit.Diff diff = new TripleCommit.Diff();
-    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress);
+    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress.trim());
     Property predicate = ResourceFactory.createProperty("info:accepted");
     diff.addStatement(ResourceFactory.createStatement(subject, predicate,
       ResourceFactory.createPlainLiteral("Terms Of Service")));

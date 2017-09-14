@@ -249,11 +249,11 @@ var Hijax = (function ($, Hijax) {
       setPopoverContent(features, popoverType);
       setPopoverPosition(features, popoverType, pixel);
       setFeaturesStyle(features, 'hover' );
+      setCursor(features);
 
       state.hover.ids = ids;
       state.hover.features = features;
       state.hover.popoverType = popoverType;
-      world.getTarget().style.cursor = 'pointer';
 
     } else if(
       state.hover.ids &&
@@ -276,6 +276,7 @@ var Hijax = (function ($, Hijax) {
       setPopoverPosition(features, popoverType, pixel);
       resetFeaturesStyle(state.hover.features);
       setFeaturesStyle(features, 'hover');
+      setCursor(features);
 
       state.hover.ids = ids;
       state.hover.features = features;
@@ -289,10 +290,11 @@ var Hijax = (function ($, Hijax) {
 
       $(popoverElement).hide();
       resetFeaturesStyle(state.hover.features);
+      setCursor(features);
+
       state.hover.ids = false;
       state.hover.features = false;
       state.hover.popoverType = false;
-      world.getTarget().style.cursor = '';
 
     } else {
 
@@ -408,6 +410,17 @@ var Hijax = (function ($, Hijax) {
   }
 
 
+  function setCursor(features) {
+    if(! features.length) {
+      world.getTarget().style.cursor = '';
+    } else if(features.length <= maxPopoverStackSize) {
+      world.getTarget().style.cursor = 'pointer';
+    } else {
+      world.getTarget().style.cursor = 'zoom-in';
+    }
+  }
+
+
   function setCountryData(aggregations) {
 
     if (!countryVectorSource) return;
@@ -433,24 +446,21 @@ var Hijax = (function ($, Hijax) {
 
     var heat_data = {};
 
-    // determine focused country
-
-    var focusId = $('[data-behaviour="map"]').attr("data-focus");
-
     if(
-      focusId &&
-      getFeatureTypeById(focusId) == "country"
+      getFeatureTypeById(state.scope) == "country"
     ) {
-      var focused_country = focusId;
+      var focused_country = state.scope;
     } else {
       var focused_country = false;
     }
 
-    // build heat data hashmap
+    // build heat data hashmap, currently only in case of global scope
 
-    for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
-      var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
-      heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
+    if (aggregations["about.location.address.addressCountry"]) {
+      for(var j = 0; j < aggregations["about.location.address.addressCountry"]["buckets"].length; j++) {
+        var aggregation = aggregations["about.location.address.addressCountry"]["buckets"][j];
+        heat_data[ aggregation.key.toUpperCase() ] = aggregation["doc_count"];
+      }
     }
 
     // setup d3 color callback
@@ -482,13 +492,13 @@ var Hijax = (function ($, Hijax) {
 
         var color_rgb = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
         var color_d3 = d3.rgb(color_rgb);
-        var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.9)";
+        var color = "rgba(" + color_d3.r + "," + color_d3.g + "," + color_d3.b + ",0.2)";
       } else {
         var stroke_width = world.getView().getZoom() > 4 ? 2 : 1.5;
         var stroke_color = '#0c75bf';
         var zIndex = 2;
 
-        var color = heat_data[ feature.getId() ] ? get_color( heat_data[ feature.getId() ] ) : "#fff";
+        var color = "#a1cd3f";
       }
 
       return [new ol.style.Style({
@@ -803,7 +813,7 @@ var Hijax = (function ($, Hijax) {
           return [new ol.style.Style({
             stroke : new ol.style.Stroke({
               color : '#0c75bf',
-              width : world.getView().getZoom() > 4 ? 2 : 1.5
+              width : world.getView().getZoom() > 4 ? 4 : 2.5
             })
           })];
         },
@@ -834,7 +844,7 @@ var Hijax = (function ($, Hijax) {
       $('#page-footer nav ul')
           .append('<li>© <a href="http://mapbox.com/about/maps/">Mapbox</a></li>')
           .append('<li>© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></li>')
-          .append('<li><a href="https://www.mapbox.com/feedback/" target="_blank">Improve this map</a></li>')
+          .append('<li><a href="https://www.mapbox.com/feedback/" target="_blank">'+ i18nStrings['ui']['map.improveThisMap'] +'</a></li>')
           .append('<li><a href="https://www.mapbox.com/about/maps/" class="mapbox-wordmark" target="_blank">Mapbox</a></li>');
 
       // bind events
@@ -1007,15 +1017,10 @@ var Hijax = (function ($, Hijax) {
     var parser = document.createElement('a');
     parser.href = url;
     var url_geojson;
-    if (parser.pathname.indexOf("/country/") == 0) {
-      url_geojson = "/resource.geojson?size=9999&filter.about.location.address.addressCountry="
-        + parser.pathname.split("/")[2].toUpperCase();
-    } else {
-      var params = queryString(parser);
-      params.size = 9999;
-      params.from = 0;
-      url_geojson = parser.pathname.slice(0, -1) + ".geojson?" + $.param(params);
-    }
+    var params = queryString(parser);
+    params.size = 9999;
+    params.from = 0;
+    url_geojson = parser.pathname.replace(/\/+$/,'') + ".geojson?" + $.param(params);
 
     placemarksVectorSource = new ol.source.Vector({
       wrapX : true,

@@ -1,4 +1,5 @@
 language: scala
+dist: precise
 scala:
   - 2.11.7
 jdk: oraclejdk8
