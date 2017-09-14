@@ -170,13 +170,173 @@
             </div>
         </form>
 
+        <form id="form-resource-add-product" method="post" class="clearfix visible-modal" action="/resource/">
+
+            <div class="modal-title">
+                <h1>{{stringFormat (i18n "add") (i18n "Product")}}</h1>
+                <div class="right">
+                    <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
+                </div>
+            </div>
+
+            <div class="messages resource-form-widget"></div>
+
+            {{> ResourceIndex/Product/edit.mustache}}
+
+            <div class="alert alert-info clearfix">
+                <p>
+                    {{{i18n "ResourceIndex.index.agreeMessage"}}}
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                    <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 
 {{/if}}
 
+{{#scope.iso3166}}
+
+    <div class="visible-scope" data-app="scope">
+
+        <h2>{{i18n alpha-2 bundle="iso3166-1-alpha-2"}}</h2>
+
+        <section>
+
+            <h4 class="section-head">
+                <a role="button" data-toggle="collapse" href="#country-champion">
+                    {{i18n "CountryIndex.read.countryChampion" bundle="ui"}}
+                </a>
+            </h4>
+
+            <div id="country-champion" class="section-body clearfix collapse in"><div class="inner">
+
+                {{#if champions}}
+
+                    {{#champions}}
+                        {{#about}}
+
+                            <div class="user">
+
+                                {{#image}}
+                                    <a href="/resource/{{@id}}" class="avatar" style="background-image: url({{.}});">
+                                        <img src="{{.}}" />
+                                    </a>
+                                {{/image}}
+                                {{^image}}
+                                    <div class="avatar placeholder-image-qmark"></div>
+                                {{/image}}
+
+                                <div class="text">
+
+                                    <a href="/resource/{{@id}}">
+                                        {{#localized this.displayName language=@root.language}}
+                                            {{[@value]}}
+                                        {{else}}
+                                            {{#localized name language=@root.language}}
+                                                {{[@value]}}
+                                            {{else}}
+                                                {{[@id]}}
+                                            {{/localized}}
+                                        {{/localized}}
+                                    </a>
+
+                                    <br/>
+
+                                    <a href="mailto:{{{obfuscate email}}}">{{{obfuscate email}}}</a>
+
+                                </div>
+
+                            </div>
+
+                        {{/about}}
+                    {{/champions}}
+
+                {{else}}
+
+                    <div class="user">
+
+                        <div class="avatar placeholder-image-qmark"></div>
+
+                        <div class="text">
+                            {{{stringFormat (i18n "CountryIndex.read.noChampion" bundle="ui") (i18n alpha-2 bundle="iso3166-1-alpha-2")}}}
+                        </div>
+
+                    </div>
+
+                {{/if}}
+
+            </div></div>
+
+        </section>
+
+        {{#if reports}}
+
+            <section>
+
+                <h4 class="section-head">
+                    <a role="button" data-toggle="collapse" href="#country-reports" class="collapsed">
+                        {{i18n "CountryIndex.read.countryReports" bundle="ui"}}
+                    </a>
+                </h4>
+
+                <div id="country-reports" class="section-body collapse"><div class="inner">
+                    <ul class="resource-list">
+                        {{#reports}}
+                            {{#about}}
+                                <li about="{{@id}}">
+                                    {{>ResourceIndex/link.mustache}}
+                                </li>
+                            {{/about}}
+                        {{/reports}}
+                    </ul>
+                </div></div>
+
+            </section>
+
+        {{/if}}
+
+        <section>
+
+            <h4 class="section-head">
+                <a role="button" data-toggle="collapse" href="#country-statistics" class="collapsed">
+                    {{i18n "CountryIndex.read.statistics" bundle="ui"}}
+                </a>
+            </h4>
+
+            <div id="country-statistics" class="section-body collapse"><div class="inner">
+
+                <script type="application/ld+json" id="json-aggregations">
+                    {{json countryAggregation}}
+                </script>
+
+                {{#countryAggregation.[about.location.address.addressCountry].buckets}}
+                    <table class="statistics-table">
+                        {{#by_type.buckets}}
+                            <tr>
+                                <td>{{doc_count}}</td>
+                                <td>{{getIcon key}}
+                                    <a href="?filter.about.@type={{key}}">{{i18n key}}</a>
+                                </td>
+                            </tr>
+                        {{/by_type.buckets}}
+                    </table>
+                {{/countryAggregation.[about.location.address.addressCountry].buckets}}
+
+            </div></div>
+
+        </section>
+
+    </div>
+
+{{/scope.iso3166}}
+
 <div id="filter-container"{{#if embed}} class="hidden"{{/if}}>
 
-    <form id="form-resource-filter" class="app-hidden" action="/resource/">
+    <form id="form-resource-filter" class="app-hidden" action="{{#if scope.iso3166.[alpha-2]}}/country/{{scope.iso3166.[alpha-2]}}{{else}}/resource/{{/if}}">
 
         <script type="application/ld+json" id="json-filters">
             {{json scope.resources.filters}}

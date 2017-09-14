@@ -43,6 +43,7 @@
                                         <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Article"}} <i class="fa fa-comment"></i></a></li>
                                         <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Event"}} <i class="fa fa-calendar"></i></a></li>
                                         <li><a href="#form-resource-add-webpage" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "WebPage"}} <i class="fa fa-book"></i></a></li>
+                                        <li><a href="#form-resource-add-product" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Product"}} <i class="fa fa-folder"></i></a></li>
                                     </ul>
                                 </li>
 
@@ -72,6 +73,13 @@
 
                     <div class="visible-mobile logo">
                         <h1><a href="/" {{#if @root.embed}}target="_blank"{{/if}}>OER <i class="fa fa-globe"></i> MAP</a></h1>
+                    </div>
+
+                    <div id="app-scope" class="hide">
+                    </div>
+
+                    <div class="close-scope">
+                        <a href="/"><i class="fa fa-times"></i></a>
                     </div>
 
                     {{{footer}}}

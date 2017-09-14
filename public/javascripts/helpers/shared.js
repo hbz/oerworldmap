@@ -251,7 +251,7 @@ if (!Object.keys) {
 
 Handlebars.registerHelper('localized', function(list, options) {
 
-  language = options.hash.language || navigator.language || navigator.userLanguage || "en";
+  language = options.hash.language || window.user_language || navigator.language || navigator.userLanguage || "en";
   language = language.split('-')[0];
 
   var result = '';
@@ -341,7 +341,8 @@ Handlebars.registerHelper('getIcon', function (string, options) {
     'concept': 'tag',
     'conceptscheme': 'sitemap',
     'event': 'calendar',
-    'webpage': 'book'
+    'webpage': 'book',
+    'product': 'folder'
   };
   return new Handlebars.SafeString(
     '<i class="fa fa-fw fa-' + (icons[type.toLowerCase()] || 'question') + '"></i>'

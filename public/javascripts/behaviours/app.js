@@ -203,6 +203,11 @@ var Hijax = (function ($, Hijax, page) {
       modal.modal('hide');
     }
 
+    var scope = $('#app-scope');
+    scope
+      .addClass('hide')
+      .empty();
+
     next();
   }
 
@@ -276,7 +281,7 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    var country_code = pagejs_ctx.path.split("/").pop().toUpperCase();
+    var country_code = pagejs_ctx.pathname.split("/").pop().toUpperCase();
 
     setScope(country_code);
     setHighlights([]);
@@ -706,6 +711,16 @@ var Hijax = (function ($, Hijax, page) {
           .append( content );
 
         $('#app-notification-area').append(notification);
+      });
+
+      /* --- scope --- */
+
+      $(context).find('[data-app~="scope"]').each(function(){
+        var content = $( this ).children().clone();
+        var scope = $('#app-scope');
+        scope
+          .append(content)
+          .removeClass('hide');
       });
 
     },

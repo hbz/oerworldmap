@@ -1,8 +1,8 @@
 <ul class="list-group">
     <li class="list-group-item">
         {{getIcon [@type]}}
-        {{#if name}}
-            {{name.[0].[@value]}}
+        {{#if this.name}}
+            {{#localized this.name}}{{[@value]}}{{/localized}}
         {{ else }}
             {{[@id]}}
         {{/if}}
