@@ -134,9 +134,9 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder<?> getRegionAggregation(int aSize) {
-    //FIXME: wring agg name
     return AggregationBuilders.terms("about.location.address.addressRegion")
       .field("about.location.address.addressRegion")
+      .include("..\\....?")
       .size(aSize);
   }
 
