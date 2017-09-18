@@ -7,13 +7,7 @@ import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
@@ -36,10 +30,11 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
 
 /**
  * Created by fo on 10.12.15.
@@ -135,8 +130,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = getDiff(aResource);
 
     commit(new TripleCommit(header, diff));
@@ -146,8 +140,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = getDiff(aResources);
 
     commit(new TripleCommit(header, diff));
@@ -393,8 +386,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Record removal in history
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 

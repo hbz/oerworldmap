@@ -30,6 +30,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
+
 /**
  * @author fo
  */
@@ -287,9 +289,7 @@ public class ResourceIndex extends IndexCommon {
       ResourceFactory.createResource(aId), SCHEMA.comment, ResourceFactory.createResource(comment.getId())
     ));
 
-    Map<String, Object> metadata = getMetadata();
-    TripleCommit.Header header = new TripleCommit.Header(metadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)metadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(getMetadata());
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
 

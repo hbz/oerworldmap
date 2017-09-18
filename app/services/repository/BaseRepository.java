@@ -19,11 +19,12 @@ import services.ResourceIndexer;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable, Versionable {
@@ -109,9 +110,7 @@ public class BaseRepository extends Repository
   @Override
   public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = mTriplestoreRepo.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
 
@@ -131,9 +130,7 @@ public class BaseRepository extends Repository
   @Override
   public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
     for (Resource resource : aResources) {
@@ -156,9 +153,7 @@ public class BaseRepository extends Repository
   public void importResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
     Commit.Diff diff = mTriplestoreRepo.getDiffs(aResources);
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
-      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     mTriplestoreRepo.commit(new TripleCommit(header, diff));
     index(diff);
 
