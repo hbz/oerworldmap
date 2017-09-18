@@ -26,7 +26,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   private static BaseRepository mBaseRepo;
   final private static QueryContext mDefaultQueryContext;
 
-  final private static String[] mIndices = new String[]{mConfig.getString("es.index.webpage.name")};
+  final private static String[] mIndices = new String[2];
 
   static {
     try {
@@ -34,6 +34,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     } catch (Exception e) {
       e.printStackTrace();
     }
+    mIndices[0] = mConfig.getString("es.index.webpage.name");
+    mIndices[1] = mConfig.getString("es.index.action.name");
     mDefaultQueryContext = new QueryContext(null);
     mDefaultQueryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
   }
