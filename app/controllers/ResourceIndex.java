@@ -287,9 +287,9 @@ public class ResourceIndex extends IndexCommon {
       ResourceFactory.createResource(aId), SCHEMA.comment, ResourceFactory.createResource(comment.getId())
     ));
 
-    Map<String, String> metadata = getMetadata();
-    TripleCommit.Header header = new TripleCommit.Header(metadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(metadata.get(TripleCommit.Header.DATE_HEADER)));
+    Map<String, Object> metadata = getMetadata();
+    TripleCommit.Header header = new TripleCommit.Header(metadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)metadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
 

@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 public class TriplestoreRepositoryTest implements JsonTest {
 
   private Config mConfig = ConfigFactory.load(ClassLoader.getSystemClassLoader(), "test.conf");
-  private static Map<String, String> mMetadata = new HashMap<>();
+  private static Map<String, Object> mMetadata = new HashMap<>();
 
   @BeforeClass
   public static void setUp() {
@@ -227,7 +227,7 @@ public class TriplestoreRepositoryTest implements JsonTest {
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
     Resource toBeDeleted = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
-    triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), Record.TYPE ,mMetadata);
+    triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), Record.TYPE, mMetadata);
 
     Resource result1 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
     Resource result2 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");

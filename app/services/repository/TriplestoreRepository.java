@@ -133,10 +133,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     Commit.Diff diff = getDiff(aResource);
 
     commit(new TripleCommit(header, diff));
@@ -144,10 +144,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     Commit.Diff diff = getDiff(aResources);
 
     commit(new TripleCommit(header, diff));
@@ -357,7 +357,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   @Override
   public Resource deleteResource(@Nonnull final String aId,
                                  @Nonnull final String aClassType,
-                                 final Map<String, String> aMetadata) throws IOException {
+                                 final Map<String, Object> aMetadata) throws IOException {
     // Current data, outbound links
     Model dbstate = getConciseBoundedDescription(aId, mDb);
 
@@ -393,8 +393,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Record removal in history
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 

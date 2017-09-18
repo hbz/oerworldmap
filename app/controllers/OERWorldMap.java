@@ -389,9 +389,9 @@ public abstract class OERWorldMap extends Controller {
    *
    * @return Map containing current getUser() in author and current time in date field.
    */
-  protected Map<String, String> getMetadata() {
+  protected Map<String, Object> getMetadata() {
 
-    Map<String, String> metadata = new HashMap<>();
+    Map<String, Object> metadata = new HashMap<>();
     if (!StringUtils.isEmpty(getHttpBasicAuthUser())) {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, getHttpBasicAuthUser());
     } else {

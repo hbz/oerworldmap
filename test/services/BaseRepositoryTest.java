@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
-  private static Map<String, String> mMetadata = new HashMap<>();
+  private static Map<String, Object> mMetadata = new HashMap<>();
   private static BaseRepository mBaseRepo;
   final private static QueryContext mDefaultQueryContext;
 

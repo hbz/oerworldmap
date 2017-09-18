@@ -21,7 +21,7 @@ public interface Writable {
    * @param aMetadata
    *          Map containing metadata such as author, timestamp etc
    */
-  void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException;
+  void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException;
 
   /**
    * Add multiple resources to the repository
@@ -32,7 +32,7 @@ public interface Writable {
    *          Map containing metadata such as author, timestamp etc
    * @throws IOException
    */
-  void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException;
+  void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException;
 
   /**
    * Delete a resource from the repository
@@ -48,6 +48,6 @@ public interface Writable {
    */
   ModelCommon deleteResource(@Nonnull final String aId,
                              @Nonnull final String aClassType,
-                             final Map<String, String> aMetadata) throws IOException;
+                             final Map<String, Object> aMetadata) throws IOException;
 
 }

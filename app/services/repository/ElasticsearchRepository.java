@@ -59,7 +59,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull final Resource aResource, Map<String, Object> aMetadata) throws IOException {
     Record record = new Record(aResource);
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
@@ -69,7 +69,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
     Map<String, String> records = new HashMap<>();
     for (Resource resource : aResources) {
       Record record = new Record(resource);
@@ -109,7 +109,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public ModelCommon deleteResource(@Nonnull final String aId,
                                  @Nonnull final String aClassType,
-                                 final Map<String, String> aMetadata) {
+                                 final Map<String, Object> aMetadata) {
     ModelCommon resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;

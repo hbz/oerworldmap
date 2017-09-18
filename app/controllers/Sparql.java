@@ -67,8 +67,8 @@ public class Sparql extends OERWorldMap  {
     String diffString = ctx().request().body().asFormUrlEncoded().get("diff")[0];
 
     Commit.Diff diff = TripleCommit.Diff.fromString(diffString);
-    TripleCommit.Header header = new TripleCommit.Header(getMetadata().get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(getMetadata().get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(getMetadata().get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)getMetadata().get(TripleCommit.Header.DATE_HEADER)));
 
     Commit commit = new TripleCommit(header, diff);
 

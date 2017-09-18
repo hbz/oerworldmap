@@ -94,7 +94,7 @@ public class BaseRepository extends Repository
   @Override
   public Resource deleteResource(@Nonnull final String aId,
                                  @Nonnull final String aClassType,
-                                 final Map<String, String> aMetadata) throws IOException {
+                                 final Map<String, Object> aMetadata) throws IOException {
     Resource resource = mTriplestoreRepo.deleteResource(aId, aClassType, aMetadata);
     if (resource != null) {
       mESRepo.deleteResource(aId, aClassType, aMetadata);
@@ -107,10 +107,10 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
     Commit.Diff diff = mTriplestoreRepo.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
@@ -129,10 +129,10 @@ public class BaseRepository extends Repository
    * @throws IOException
    */
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
 
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
@@ -153,12 +153,12 @@ public class BaseRepository extends Repository
    *          The resources to flatten and import
    * @throws IOException
    */
-  public void importResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void importResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
     Commit.Diff diff = mTriplestoreRepo.getDiffs(aResources);
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     mTriplestoreRepo.commit(new TripleCommit(header, diff));
     index(diff);
 
