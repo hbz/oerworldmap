@@ -111,13 +111,13 @@ public class ElasticsearchConfig {
     return mClientSettings;
   }
 
-  private boolean indicesExist(String... aIndices) {
-    return mClient.admin().indices().prepareExists(aIndices).execute().actionGet().isExists();
+  private boolean indexExists(String aIndex) {
+    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
   public void createIndices(String... aIndices) {
     for (String index : aIndices){
-      if (!indicesExist(index)) {
+      if (!indexExists(index)) {
         CreateIndexResponse response = mClient.admin().indices().prepareCreate(index).execute().actionGet();
         refreshElasticsearch(index);
         if (response.isAcknowledged()) {
