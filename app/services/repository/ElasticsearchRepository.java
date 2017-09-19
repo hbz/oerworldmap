@@ -5,6 +5,7 @@ import helpers.JsonLdConstants;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -420,6 +421,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         Logger.error("Trying to refresh index \"" + index + "\" in Elasticsearch.");
         e.printStackTrace();
       }
+    }
+  }
+
+  public boolean hasIndex(String aIndex) {
+    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
+  }
+
+  public void deleteIndex(String aIndex) {
+    try {
+      mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
+    } catch (IndexNotFoundException e) {
+      Logger.error("Trying to delete index \"" + aIndex + "\" from Elasticsearch.");
+      e.printStackTrace();
     }
   }
 

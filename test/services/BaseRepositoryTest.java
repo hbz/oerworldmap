@@ -1,9 +1,6 @@
 package services;
 
-import helpers.ElasticsearchTestGrid;
-import helpers.JsonLdConstants;
-import helpers.JsonTest;
-import helpers.ResourceHelpers;
+import helpers.*;
 import models.Record;
 import models.Resource;
 import models.TripleCommit;
@@ -44,6 +41,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public static void setUp() {
     mMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
+    ElasticsearchHelpers.deleteIndex(ElasticsearchTestGrid.getEsRepo(), mIndices[0]);
+    ElasticsearchHelpers.deleteIndex(ElasticsearchTestGrid.getEsRepo(), mIndices[1]);
   }
 
   @Test
