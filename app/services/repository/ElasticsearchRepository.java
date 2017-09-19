@@ -44,7 +44,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private Client mClient;
   private Fuzziness mFuzziness;
 
-  public ElasticsearchRepository(Config aConfiguration) {
+  public ElasticsearchRepository(Config aConfiguration) throws IOException {
     super(aConfiguration);
     mConfig = new ElasticsearchConfig(aConfiguration);
     Settings settings = Settings.settingsBuilder().put(mConfig.getClientSettings()).build();

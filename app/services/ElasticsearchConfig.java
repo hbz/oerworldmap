@@ -1,8 +1,11 @@
 package services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
 import helpers.Types;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -17,6 +20,7 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import play.Logger;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -35,8 +39,10 @@ public class ElasticsearchConfig {
   // CLIENT
   private String mWebpageIndex;
   private String mWebpageType;
+  private String mWebpageMapping;
   private String mActionIndex;
   private String mActionType;
+  private String mActionMapping;
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Client mClient;
@@ -44,20 +50,22 @@ public class ElasticsearchConfig {
 
   private String[] mAllIndices;
 
-  public ElasticsearchConfig(Config aConfiguration) {
+  public ElasticsearchConfig(Config aConfiguration) throws IOException {
     mConfig = aConfiguration;
     init();
   }
 
-  private void init() {
+  private void init() throws IOException {
     // HOST
     mServer = mConfig.getString("es.host.server");
     mJavaPort = mConfig.getInt("es.host.port.java");
 
     mWebpageIndex = mConfig.getString("es.index.webpage.name");
     mWebpageType = mConfig.getString("es.index.webpage.type");
+    mWebpageMapping = mConfig.getString("es.index.webpage.mapping.file");
     mActionIndex = mConfig.getString("es.index.action.name");
     mActionType = mConfig.getString("es.index.action.type");
+    mActionMapping = mConfig.getString("es.index.action.mapping.file");
 
     mCluster = mConfig.getString("es.cluster.name");
 
@@ -80,7 +88,8 @@ public class ElasticsearchConfig {
         throw new RuntimeException(ex);
       }
     }
-    createIndices(getAllIndices());
+
+    createAllIndices();
 
     // CLIENT SETTINGS
     mClientSettings = new HashMap<>();
@@ -115,17 +124,25 @@ public class ElasticsearchConfig {
     return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
-  public void createIndices(String... aIndices) {
-    for (String index : aIndices){
-      if (!indexExists(index)) {
-        CreateIndexResponse response = mClient.admin().indices().prepareCreate(index).execute().actionGet();
-        refreshElasticsearch(index);
-        if (response.isAcknowledged()) {
-          Logger.info("Created index \"" + index + "\".");
-        } //
-        else {
-          Logger.warn("Not able to create index \"" + index + "\".");
-        }
+  public void createAllIndices() throws IOException {
+    createIndexIfNotExists(mWebpageIndex, mWebpageMapping);
+    createIndexIfNotExists(mActionIndex, mActionMapping);
+  }
+
+  public void createIndexIfNotExists(final String aIndex, final String aIndexConfig) throws IOException {
+    if (!indexExists(aIndex)) {
+      final String indexConfigString = IOUtils.toString(ClassLoader.getSystemResourceAsStream(aIndexConfig), "UTF-8");
+      JsonNode indexConfigNode = new ObjectMapper().readTree(indexConfigString);
+      CreateIndexResponse response = mClient.admin().indices().prepareCreate(aIndex)
+        .addMapping("WebPage", indexConfigNode.get("mappings").get("WebPage").toString())
+        .setSettings(indexConfigNode.get("settings").toString())
+        .execute().actionGet();
+      refreshElasticsearch(aIndex);
+      if (response.isAcknowledged()) {
+        Logger.info("Created index \"" + aIndex + "\".");
+      } //
+      else {
+        Logger.warn("Not able to create index \"" + aIndex + "\".");
       }
     }
   }

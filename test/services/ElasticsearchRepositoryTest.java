@@ -18,12 +18,20 @@ import java.util.Set;
 
 public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implements JsonTest {
 
-  private static ElasticsearchRepository mElasticsearchRepo = new ElasticsearchRepository(mConfig);
+  private static ElasticsearchRepository mElasticsearchRepo;
+
+  static {
+    try {
+      mElasticsearchRepo = new ElasticsearchRepository(mConfig);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   @BeforeClass
   public static void setupResources() throws IOException {
     mEsConfig.deleteIndices(mEsConfig.getAllIndices());
-    mEsConfig.createIndices(mEsConfig.getAllIndices());
+    mEsConfig.createAllIndices();
   }
 
   @Test
