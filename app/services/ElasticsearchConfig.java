@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
 import helpers.Types;
-import org.apache.commons.io.IOUtils;
+import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -23,6 +23,7 @@ import play.Logger;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -131,7 +132,7 @@ public class ElasticsearchConfig {
 
   public void createIndexIfNotExists(final String aIndex, final String aIndexConfig) throws IOException {
     if (!indexExists(aIndex)) {
-      final String indexConfigString = IOUtils.toString(ClassLoader.getSystemResourceAsStream(aIndexConfig), "UTF-8");
+      final String indexConfigString = UniversalFunctions.readFile(aIndexConfig, StandardCharsets.UTF_8);
       JsonNode indexConfigNode = new ObjectMapper().readTree(indexConfigString);
       CreateIndexResponse response = mClient.admin().indices().prepareCreate(aIndex)
         .addMapping("WebPage", indexConfigNode.get("mappings").get("WebPage").toString())

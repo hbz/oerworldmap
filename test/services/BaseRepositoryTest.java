@@ -41,8 +41,14 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public static void setUp() {
     mMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
-    ElasticsearchHelpers.deleteIndex(ElasticsearchTestGrid.getEsRepo(), mIndices[0]);
-    ElasticsearchHelpers.deleteIndex(ElasticsearchTestGrid.getEsRepo(), mIndices[1]);
+    ElasticsearchHelpers.cleanIndex(
+      ElasticsearchTestGrid.getEsRepo(),
+      mConfig.getString("es.index.webpage.name"),
+      mConfig.getString("es.index.webpage.mapping.file"));
+    ElasticsearchHelpers.cleanIndex(
+      ElasticsearchTestGrid.getEsRepo(),
+      mConfig.getString("es.index.action.name"),
+      mConfig.getString("es.index.action.mapping.file"));
   }
 
   @Test
@@ -58,6 +64,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(resource2, mMetadata);
     Assert.assertEquals(expected1, mBaseRepo.getResource("info:id001"));
     Assert.assertEquals(expected2, mBaseRepo.getResource("info:OER15"));
+    mBaseRepo.deleteResource("info:id001", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("info:OER15", Record.TYPE, mMetadata);
   }
 
   @Test
@@ -69,6 +77,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource expected = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
     mBaseRepo.addResource(resource, mMetadata);
     Assert.assertEquals(expected, mBaseRepo.getResource("info:id002"));
+    mBaseRepo.deleteResource("info:id002", Record.TYPE, mMetadata);
   }
 
   @Test
@@ -94,6 +103,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals(expected1, result1);
     Assert.assertEquals(expected2, result2);
     Assert.assertNull(mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
+    mBaseRepo.deleteResource(in1.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(in2.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(in3.getId(), Record.TYPE, mMetadata);
   }
 
   @Test
@@ -106,6 +118,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665", Record.TYPE, mMetadata);
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
+    mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
   }
 
   @Test
@@ -122,6 +136,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
     Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
     Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
+    mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db3.getId(), Record.TYPE, mMetadata);
   }
 
   @Test
@@ -146,6 +163,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource get2 = mBaseRepo.getResource(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
     assertEquals(out2, get2);
+    mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(in.getId(), Record.TYPE, mMetadata);
   }
 
 
@@ -493,7 +513,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       mBaseRepo.query("epai", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Accidentally found \"epai\".", withoutHyphen.size() == 0);
 
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:6d16ca4f-b99c-4b46-9a54-fe42e6e2027d", Record.TYPE, mMetadata);
   }
 
   @Test
@@ -507,7 +527,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // query all by name
     List<Resource> queryByName =
       mBaseRepo.query("Service", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
-    Assert.assertTrue("Did not find all by name.", queryByName.size() == 2);
+    Assert.assertTrue("Did not find all by name.", queryByName.size() > 1);
+    Assert.assertTrue("Unexpected hits for name query.", queryByName.size() < 3);
 
     // query with special chars
     List<Resource> queryMissingChannel =
@@ -515,7 +536,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
     Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
 
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("", Record.TYPE , mMetadata);
   }
 
   @Test
@@ -531,7 +552,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> queryByUppercaseKeyword =
       mBaseRepo.query("Vocational Education And Training", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find resource by uppercased keyword.", queryByUppercaseKeyword.size() == 1);
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:efdeb7a5-4975-4ac0-b55b-00b9b371b579", Record.TYPE, mMetadata);
   }
 
   @Test
@@ -630,6 +651,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> hit = mBaseRepo.query("Accra", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals(1, hit.size());
+    mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
   }
 
   @Test
@@ -644,7 +666,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
     Assert.assertEquals("Did not get linked hit first.",
       db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
   }
 
   @Test
@@ -661,7 +684,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     // The nested link of db3 does not count, so db2 must be first
     Assert.assertEquals("Did not get linked hit first.",
       db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(db3.getId(), Record.TYPE, mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

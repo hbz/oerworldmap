@@ -2,9 +2,11 @@ package services.repository;
 
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
+import helpers.UniversalFunctions;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -37,6 +39,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
@@ -441,4 +444,17 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return mConfig;
   }
 
+  public void createIndex(final String aIndex, final String aIndexConfigFile) {
+    try {
+      final String config = UniversalFunctions.readFile(aIndexConfigFile, StandardCharsets.UTF_8);
+      mClient.admin().indices().prepareCreate(aIndex).setSource(config).execute().actionGet();
+      mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+    } catch (ElasticsearchException indexAlreadyExists) {
+      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
+      indexAlreadyExists.printStackTrace();
+    } catch (IOException ioException) {
+      Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Couldn't read index config file.");
+      ioException.printStackTrace();
+    }
+  }
 }
