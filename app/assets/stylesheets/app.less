@@ -1,6 +1,6 @@
 @toggle-col-size: 32px;
 @index-min-width: 470px;
-@notification-width: 400px;
+@notification-width: 600px;
 @col-background: fadeout(#fff, 5%);
 
 
@@ -547,6 +547,98 @@
     }
   }
 
+  .visible-scope {
+    display: none;
+  }
+
+  #app-scope {
+    position: absolute;
+    top: @map-padding;
+    left: @map-padding;
+    padding: @scope-padding;
+
+    width: 230px;
+    max-height: calc(100% ~'-' (2 * @map-padding));
+    overflow: auto;
+
+    border: 1px solid @blue-paler;
+    background: @blue;
+    color: white;
+
+    a {
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    h2, h4 {
+      font-weight: normal;
+    }
+
+    .resource-list {
+      border-top: none;
+      margin-bottom: 0px;
+      li:last-child {
+        border-bottom: none;
+      }
+    }
+
+    section {
+      padding: @scope-padding 0px;
+      border-top: 1px solid @blue-paler;
+
+      &:last-child {
+        padding-bottom: 0px;
+      }
+
+      .section-head {
+        font-size: @font-size-base;
+        margin: 0px;
+
+        a {
+          display: block;
+          position: relative;
+
+          &:after {
+            content: '–';
+            position: absolute;
+            right: 0px;
+          }
+
+          &.collapsed:after {
+            content: '+';
+          }
+        }
+      }
+
+      .section-body {
+        font-size: @font-size-small;
+        .inner {
+          padding-top: @scope-padding;
+        }
+      }
+    }
+
+    .visible-scope {
+      display: block;
+    }
+  }
+
+  .close-scope {
+    position: absolute;
+    top: @map-padding;
+    right: @map-padding;
+    margin-top: -0.5em;
+
+    a {
+      color: white;
+      font-size: 1.7em;
+    }
+  }
+
   @spinner-size: 150px;
 
   #app-loading {
@@ -599,4 +691,8 @@
     text-align: right;
     margin-top: 6px;
   }
+}
+
+#app[data-scope="world"] #app-scope {
+  display: none;
 }

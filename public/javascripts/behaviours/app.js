@@ -203,6 +203,13 @@ var Hijax = (function ($, Hijax, page) {
       modal.modal('hide');
     }
 
+    if(pagejs_ctx.path.indexOf('/country/') !== 0) {
+      var scope = $('#app-scope');
+      scope
+        .addClass('hide')
+        .empty();
+    }
+
     next();
   }
 
@@ -276,7 +283,7 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    var country_code = pagejs_ctx.path.split("/").pop().toUpperCase();
+    var country_code = pagejs_ctx.pathname.split("/").pop().toUpperCase();
 
     setScope(country_code);
     setHighlights([]);
@@ -312,9 +319,7 @@ var Hijax = (function ($, Hijax, page) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
 
-    if(app_history.length == 1) {
-      Hijax.behaviours.map.scheduleViewChange('highlights');
-    }
+    Hijax.behaviours.map.scheduleViewChange('highlights');
 
     next();
   }
@@ -561,22 +566,29 @@ var Hijax = (function ($, Hijax, page) {
 
             if(location) {
 
-              // null map and index source as it's outdated
+              // null detail and map and index source as it's outdated
               map_and_index_source = '';
+              detail_source = '';
 
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
               var just_a_parser = document.createElement('a');
               just_a_parser.href = location;
+              Hijax.behaviours.map.scheduleViewChange('highlights');
               page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
 
-              // if updated resource is currently lodaded in the detail column, update column and close modal
-              $('#app-col-detail [data-app="col-content"]').html( contents );
+              // null detail map and index source so that GeoJSON layer is reloaded
+              map_and_index_source = '';
+              detail_source = '';
+
+              // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
-              Hijax.layout('triggered by modal submit because it updated the detail_source');
+
+              Hijax.behaviours.map.scheduleViewChange('highlights');
+              page(app_history[app_history.length - 1].canonicalPath);
 
             } else {
 
@@ -706,6 +718,17 @@ var Hijax = (function ($, Hijax, page) {
           .append( content );
 
         $('#app-notification-area').append(notification);
+      });
+
+      /* --- scope --- */
+
+      $(context).find('[data-app~="scope"]').each(function(){
+        var content = $( this ).children().clone();
+        var scope = $('#app-scope');
+        scope
+          .empty()
+          .append(content)
+          .removeClass('hide');
       });
 
     },
