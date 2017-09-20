@@ -209,8 +209,6 @@ public class ResourceIndex extends OERWorldMap {
     if (isUpdate) {
       return ok(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", null)
-        .absoluteURL(request()));
       return created(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     }
 
@@ -240,8 +238,8 @@ public class ResourceIndex extends OERWorldMap {
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
           Logger.debug(staged.toString());
+          listProcessingReport.mergeWith(processingMessages);
         }
-        listProcessingReport.mergeWith(processingMessages);
       } catch (ProcessingException e) {
         Logger.error("Could not process validation report", e);
         return badRequest();

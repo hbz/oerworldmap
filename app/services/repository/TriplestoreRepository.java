@@ -225,7 +225,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // Validate URI
     try {
       new URI(aId);
-    } catch (URISyntaxException e) {
+    } catch (URISyntaxException | NullPointerException e) {
+      Logger.error("Failed to parse URI " + aId, e);
       return extendedDescription;
     }
 
