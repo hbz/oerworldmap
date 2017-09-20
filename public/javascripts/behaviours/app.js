@@ -317,9 +317,7 @@ var Hijax = (function ($, Hijax, page) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
 
-    if(app_history.length == 1) {
-      Hijax.behaviours.map.scheduleViewChange('highlights');
-    }
+    Hijax.behaviours.map.scheduleViewChange('highlights');
 
     next();
   }
