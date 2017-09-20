@@ -19,9 +19,8 @@
     "additionalType": {
       "@container": "@set"
     },
-    "product": {
+    "affiliation": {
       "@container": "@set"
     }
-
   }
 }
