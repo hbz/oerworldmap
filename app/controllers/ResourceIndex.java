@@ -395,6 +395,7 @@ public class ResourceIndex extends OERWorldMap {
       .getItems().size();
 
     Resource userLighthouseResource = null;
+    boolean userLighthouseIsset = false;
     if (currentUser != null) {
       String userLighthouseQuery = String.format(
         "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
@@ -404,6 +405,7 @@ public class ResourceIndex extends OERWorldMap {
         .getItems();
       if (userLighthouseResources.size() > 0) {
         userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
+        userLighthouseIsset = true;
       }
     }
 
@@ -472,6 +474,7 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("userLikesResource", userLikesResource);
     scope.put("lighthouses", lighthousesCount);
     scope.put("userLighthouseResource", userLighthouseResource);
+    scope.put("userLighthouseIsset", userLighthouseIsset);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 

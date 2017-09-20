@@ -9,17 +9,13 @@
                 {{#if ../permissions.like}}
                     <li>
                         <form action="/resource/{{[@id]}}/like" method="post">
-                            <button type="submit" class="icon-btn" title="Like">
-                                {{#if scope.userLikesResource}}
-                                    <i class="fa fa-star"></i> ({{scope.likes}})
-                                {{else}}
-                                    <i class="fa fa-star-o"></i> ({{scope.likes}})
-                                {{/if}}
+                            <button type="submit" class="icon-btn{{#if scope.userLikesResource}} text-orange{{/if}}" title="Like">
+                                <i class="fa fa-thumbs-up"></i> ({{scope.likes}})
                             </button>
                         </form>
                     </li>
                     <li>
-                        <a href="#resource-lighthouse" class="icon-btn" data-app="to-modal-and-attach-behaviours modal-protected">
+                        <a href="#resource-lighthouse" class="icon-btn{{#if scope.userLighthouseIsset}} text-orange{{/if}}" data-app="to-modal-and-attach-behaviours modal-protected">
                             <i class="fa fa-lightbulb-o"></i> ({{scope.lighthouses}})
                         </a>
                     </li>
