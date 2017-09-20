@@ -319,9 +319,7 @@ var Hijax = (function ($, Hijax, page) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
 
-    if(app_history.length == 1) {
-      Hijax.behaviours.map.scheduleViewChange('highlights');
-    }
+    Hijax.behaviours.map.scheduleViewChange('highlights');
 
     next();
   }
@@ -568,22 +566,29 @@ var Hijax = (function ($, Hijax, page) {
 
             if(location) {
 
-              // null map and index source as it's outdated
+              // null detail and map and index source as it's outdated
               map_and_index_source = '';
+              detail_source = '';
 
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
               var just_a_parser = document.createElement('a');
               just_a_parser.href = location;
+              Hijax.behaviours.map.scheduleViewChange('highlights');
               page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
 
-              // if updated resource is currently lodaded in the detail column, update column and close modal
-              $('#app-col-detail [data-app="col-content"]').html( contents );
+              // null detail map and index source so that GeoJSON layer is reloaded
+              map_and_index_source = '';
+              detail_source = '';
+
+              // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
-              Hijax.layout('triggered by modal submit because it updated the detail_source');
+
+              Hijax.behaviours.map.scheduleViewChange('highlights');
+              page(app_history[app_history.length - 1].canonicalPath);
 
             } else {
 
