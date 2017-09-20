@@ -490,7 +490,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       mBaseRepo.query("OERforever!", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Could not find \"OERforever!\".", withChars.size() == 1);
 
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-OERforever", Record.TYPE, mMetadata);
   }
 
   @Test
@@ -536,7 +536,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
     Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
 
-    mBaseRepo.deleteResource("", Record.TYPE , mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-channel00001", Record.TYPE , mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-channel00002", Record.TYPE , mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-channel00003", Record.TYPE , mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:9843bac3-028f-4be8-ac54-channel00004", Record.TYPE , mMetadata);
   }
 
   @Test
@@ -566,7 +569,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       mBaseRepo.query("TVET", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find desired resource first while searching for keyword.",
       rankedList.get(0).getAsResource(Record.RESOURCE_KEY).getId().equals(desired.getId()));
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    ElasticsearchHelpers.cleanIndex(ElasticsearchTestGrid.getEsRepo(),
+      mConfig.getString("es.index.webpage.name"),
+      mConfig.getString("es.index.webpage.mapping.file"));
   }
 
   @Test
@@ -576,7 +581,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> searchBySubject =
       mBaseRepo.query("Mytestsubject", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find resource by subject.", searchBySubject.size() > 0);
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    ElasticsearchHelpers.cleanIndex(ElasticsearchTestGrid.getEsRepo(),
+      mConfig.getString("es.index.webpage.name"),
+      mConfig.getString("es.index.webpage.mapping.file"));
   }
 
   @Test
@@ -586,7 +593,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> searchBySubject =
       mBaseRepo.query("Mytestaudience", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    ElasticsearchHelpers.cleanIndex(ElasticsearchTestGrid.getEsRepo(),
+      mConfig.getString("es.index.webpage.name"),
+      mConfig.getString("es.index.webpage.mapping.file"));
   }
 
   @Test
@@ -610,7 +619,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> aHit =
       mBaseRepo.query("Education", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertTrue("Missing hit for \"Education\".", aHit.size() > 0);
-    mBaseRepo.deleteResource("", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:ff73ca5f-c39d-4f12-b838-3e6b759e2aa4", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:ecfa38aa-e45b-49a6-a2d3-af075967ae55", Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4", Record.TYPE, mMetadata);
   }
 
   @Test
@@ -668,6 +679,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource("urn:uuid:167b8283-fff2-4b4e-b0a0-90908330003", Record.TYPE, mMetadata);
   }
 
   @Test
