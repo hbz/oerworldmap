@@ -21,7 +21,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation(int aSize) {
     return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
-        .exclude("Concept|ConceptScheme|Comment|LikeAction");
+        .exclude("Concept|ConceptScheme|Comment|LikeAction|LighthouseAction");
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
