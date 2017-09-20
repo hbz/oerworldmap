@@ -203,10 +203,12 @@ var Hijax = (function ($, Hijax, page) {
       modal.modal('hide');
     }
 
-    var scope = $('#app-scope');
-    scope
-      .addClass('hide')
-      .empty();
+    if(pagejs_ctx.path.indexOf('/country/') !== 0) {
+      var scope = $('#app-scope');
+      scope
+        .addClass('hide')
+        .empty();
+    }
 
     next();
   }
@@ -719,6 +721,7 @@ var Hijax = (function ($, Hijax, page) {
         var content = $( this ).children().clone();
         var scope = $('#app-scope');
         scope
+          .empty()
           .append(content)
           .removeClass('hide');
       });
