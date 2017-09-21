@@ -1,0 +1,10 @@
+{
+  "@type": "Service",
+  "name": [
+    {
+      "@value": "Ice Cream Service",
+      "@language": "en"
+    }
+  ],
+  "@id": "testLikeAction002"
+}

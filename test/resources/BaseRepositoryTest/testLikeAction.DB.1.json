@@ -1,0 +1,10 @@
+{
+  "@type": "Person",
+  "@id": "testLikeAction001",
+  "name": [
+    {
+      "@value": "Mike Like",
+      "@language": "en"
+    }
+  ]
+}

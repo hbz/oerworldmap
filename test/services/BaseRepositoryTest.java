@@ -602,8 +602,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testNoGroundlessHits() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testNoGroundlessHits.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> noHit =
       mBaseRepo.query("Schokolade", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertTrue("Unintended hit for \"Schokolade\".", noHit.size() == 0);
@@ -628,8 +627,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testCountrySynonyms() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    QueryContext queryContext = getQueryContextWithBoosts();
     BufferedReader countrySynonyms = new BufferedReader(new FileReader("scripts/country_synonyms.txt"));
     String countryLine = countrySynonyms.readLine();
     while (countryLine != null){
@@ -658,8 +656,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testLocalityNameSearch()  throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> hit = mBaseRepo.query("Accra", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals(1, hit.size());
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
@@ -670,8 +667,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.2.json");
     mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2}), mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals("Did not get expected number of hits (2).", 2,  hits.size());
     List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
@@ -688,8 +684,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.3.json");
     mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2, db3}), mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals("Did not get expected number of hits (3).", 3,  hits.size());
     List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
@@ -699,6 +694,41 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(db3.getId(), Record.TYPE, mMetadata);
+  }
+
+  @Test
+  public void testLikeAction()  throws IOException {
+    Resource likingPerson = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.1.json");
+    Resource likedOrganization = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.2.json");
+    Resource likeAction = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.3.json");
+    mBaseRepo.importResources(Arrays.asList(new Resource[]{likingPerson, likedOrganization}), mMetadata);
+    mBaseRepo.addResource(likeAction, mMetadata);
+    QueryContext queryContext = getQueryContextWithBoosts();
+
+    final List<Resource> allLikeActions = mBaseRepo.andQuerySqlLike(
+      new HashMap<String, String>() {{
+        put("about.@type", "LikeAction");
+      }},
+      0, 10, null, null, queryContext, mIndices).getItems();
+    Assert.assertEquals("Did not get expected number for all likes (1).", 1,  allLikeActions.size());
+
+    final List<Resource> likeActionsByLikingPerson = mBaseRepo.andQuerySqlLike(
+      new HashMap<String, String>() {{
+        put("about.@type", "LikeAction");
+        put("about.agent.@id", likingPerson.getId());
+      }},
+      0, 10, null, null, queryContext, mIndices).getItems();
+    Assert.assertEquals("Did not get expected number of likes by person (1).", 1,  likeActionsByLikingPerson.size());
+
+    mBaseRepo.deleteResource(likingPerson.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(likedOrganization.getId(), Record.TYPE, mMetadata);
+    mBaseRepo.deleteResource(likeAction.getId(), Record.TYPE, mMetadata);
+  }
+
+  private QueryContext getQueryContextWithBoosts() {
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    return queryContext;
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

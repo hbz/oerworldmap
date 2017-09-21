@@ -1,0 +1,12 @@
+{
+  "@type" : "LikeAction",
+  "agent" : {
+    "@type": "Person",
+    "@id": "testLikeAction001"
+  },
+  "object" : {
+    "@type": "Service",
+    "@id": "testLikeAction002"
+  },
+  "@id" : "testLikeAction003"
+}
