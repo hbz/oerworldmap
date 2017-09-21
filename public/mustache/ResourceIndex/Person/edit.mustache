@@ -38,7 +38,7 @@
 
     {{> FormElements/id.mustache property=provides property_path="provides" title=(i18n "Person.provides") tooltip=(i18n "Person.provides" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=agentIn property_path="agentIn" title=(i18n "Person.agentIn") tooltip=(i18n "Person.agentIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action"}}
+    {{> FormElements/id.mustache property=agentIn property_path="agentIn" title=(i18n "Person.agentIn") tooltip=(i18n "Person.agentIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Action,LikeAction,LighthouseAction"}}
 
     {{> FormElements/id.mustache property=affiliation property_path="affiliation" title=(i18n "Person.affiliation") tooltip=(i18n "Person.affiliation" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Service&filter.about.@type=Action"}}
 

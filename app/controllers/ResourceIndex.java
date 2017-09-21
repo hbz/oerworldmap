@@ -1,16 +1,21 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
 import helpers.UniversalFunctions;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -40,19 +45,6 @@ public class ResourceIndex extends IndexCommon {
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
-  }
-
-  @Override
-  protected Result upsertResource(boolean isUpdate) throws IOException {
-    String[] forbiddenTypes = new String[]{"Person"};
-    final ReverseResourceIndex resourceIndex = routes.ResourceIndex;
-    return upsertResource(isUpdate, resourceIndex, forbiddenTypes);
-  }
-
-  @Override
-  protected Result upsertResources() throws IOException {
-    String[] forbiddenTypes = new String[]{"Person"};
-    return upsertResources(forbiddenTypes);
   }
 
   public Result listDefault(String q, int from, int size, String sort, boolean list, String iso3166) throws IOException {
@@ -215,21 +207,311 @@ public class ResourceIndex extends IndexCommon {
   }
 
   public Result importResources() throws IOException {
-    return importResources();
+    return super.importResources();
   }
-
 
   public Result updateResource(String aId) throws IOException {
     return super.updateResource(aId);
+  }
+
+  protected Result upsertResource(boolean isUpdate) throws IOException {
+
+    // Extract resource
+    Resource resource = Resource.fromJson(getJsonFromRequest());
+    resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+
+    // Person create /update only through UserIndex, which is restricted to admin
+    if (!isUpdate && "Person".equals(resource.getType())) {
+      return forbidden("Upsert Person forbidden.");
+    }
+
+    // Validate
+    Resource staged = mBaseRepository.stage(resource);
+    ProcessingReport processingReport = staged.validate();
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
+      }
+      if (request().accepts("text/html")) {
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("type", resource.getType());
+        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+      } else {
+        return badRequest(listProcessingReport.asJson());
+      }
+    }
+
+    // Save
+    mBaseRepository.addResource(resource, getMetadata());
+
+    // Respond
+    if (isUpdate) {
+      if (request().accepts("text/html")) {
+        if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+            "HEAD").absoluteURL(request()));
+        }
+        return read(resource.getId(), "HEAD", "html");
+      } else {
+        return ok("Updated " + resource.getId());
+      }
+    } else {
+      if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+          "HEAD").absoluteURL(request()));
+      } else {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+          .absoluteURL(request()));
+      }
+      if (request().accepts("text/html")) {
+        return created(render("Created", "created.mustache", resource));
+      } else {
+        return created("Created " + resource.getId());
+      }
+    }
+  }
+
+  protected Result upsertResources() throws IOException {
+
+    // Extract resources
+    List<Resource> resources = new ArrayList<>();
+    for (JsonNode jsonNode : getJsonFromRequest()) {
+      Resource resource = Resource.fromJson(jsonNode);
+      resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+      resources.add(resource);
+    }
+
+    // Validate
+    ListProcessingReport listProcessingReport = new ListProcessingReport();
+    for (Resource resource : resources) {
+      // Person create /update only through UserIndex, which is restricted to admin
+      if ("Person".equals(resource.getType())) {
+        return forbidden("Upsert Person forbidden.");
+      }
+      // Stage and validate each resource
+      try {
+        Resource staged = mBaseRepository.stage(resource);
+        ProcessingReport processingMessages = staged.validate();
+        if (!processingMessages.isSuccess()) {
+          Logger.debug(processingMessages.toString());
+          Logger.debug(staged.toString());
+        }
+        listProcessingReport.mergeWith(processingMessages);
+      } catch (ProcessingException e) {
+        Logger.error("Could not process validation report", e);
+        return badRequest();
+      }
+    }
+
+    if (!listProcessingReport.isSuccess()) {
+      return badRequest(listProcessingReport.asJson());
+    }
+
+    mBaseRepository.addResources(resources, getMetadata());
+
+    return ok("Added resources");
   }
 
   public Result readDefault(String id, String version) throws IOException {
     return read(id, version, null);
   }
 
+
   // TODO: drop this method and add second parameter for delete() to route
   public Result delete(String aId) throws IOException {
     return delete(aId, Record.TYPE);
+  }
+
+  public Result read(String id, String version, String extension) throws IOException {
+    Resource currentUser = getUser();
+    Resource resource = mBaseRepository.getResource(id, version);
+    if (null == resource) {
+      return notFound("Not found");
+    }
+    String type = resource.get(JsonLdConstants.TYPE).toString();
+
+    if (type.equals("Concept")) {
+      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+          .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
+      resource.put("related", relatedList.getItems());
+    }
+
+    if (type.equals("ConceptScheme")) {
+      Resource conceptScheme = null;
+      String field = null;
+      if ("https://w3id.org/class/esc/scheme".equals(id)) {
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
+        field = "about.about.@id";
+      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
+        field = "about.audience.@id";
+        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
+      }
+      if (!(null == conceptScheme)) {
+        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
+            .filter(QueryBuilders.termQuery("about.@type", "Service"));
+        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
+          conceptAggregation.subAggregation(
+              AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
+        }
+        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
+        resource.put("aggregation", nestedConceptAggregation);
+        return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
+      }
+    }
+
+    List<Resource> comments = new ArrayList<>();
+    for (String commentId : resource.getIdList("comment")) {
+      comments.add(mBaseRepository.getResource(commentId));
+    }
+
+    String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
+    int likesCount = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems().size();
+
+    boolean userLikesResource = false;
+    if (currentUser != null) {
+      String userLikesQuery = String.format(
+        "about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
+        .getItems().size() > 0;
+    }
+
+    String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
+    int lighthousesCount = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
+      .getItems().size();
+
+    Resource userLighthouseResource = null;
+    boolean userLighthouseIsset = false;
+    if (currentUser != null) {
+      String userLighthouseQuery = String.format(
+        "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      List<Resource> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
+        .getItems();
+      if (userLighthouseResources.size() > 0) {
+        userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
+        userLighthouseIsset = true;
+      }
+    }
+
+    if (userLighthouseResource == null) {
+      userLighthouseResource = new Resource("LighthouseAction");
+      userLighthouseResource.remove("@id");
+      userLighthouseResource.put("object", resource);
+      userLighthouseResource.put("agent", Collections.singletonList(getUser()));
+    }
+
+    String title;
+    try {
+      title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
+    } catch (NullPointerException e) {
+      title = id;
+    }
+
+    boolean mayEdit = (currentUser != null) && (!resource.getType().equals("LikeAction")) &&
+      ((resource.getType().equals("Person") && currentUser.getId().equals(id)) || (!resource.getType().equals("Person"))
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLog = (currentUser != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
+    boolean mayAdminister = (currentUser != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
+        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLike = (currentUser != null) && Arrays.asList("Organization", "Action", "Service").contains(resource.getType());
+
+    Map<String, Object> permissions = new HashMap<>();
+    permissions.put("edit", mayEdit);
+    permissions.put("log", mayLog);
+    permissions.put("administer", mayAdminister);
+    permissions.put("comment", mayComment);
+    permissions.put("delete", mayDelete);
+    permissions.put("like", mayLike);
+
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
+    if (resource.getType().equals("Event")) {
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
+    }
+
+    List<Commit> history = mBaseRepository.log(id);
+    resource = new Record(resource);
+    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    try {
+      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    } catch (NullPointerException e) {
+      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
+    }
+    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    try {
+      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    } catch (NullPointerException e) {
+      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+    }
+
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("resource", resource);
+    scope.put("comments", comments);
+    scope.put("likes", likesCount);
+    scope.put("userLikesResource", userLikesResource);
+    scope.put("lighthouses", lighthousesCount);
+    scope.put("userLighthouseResource", userLighthouseResource);
+    scope.put("userLighthouseIsset", userLighthouseIsset);
+    scope.put("permissions", permissions);
+    scope.put("alternates", alternates);
+
+    String format = null;
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "json":
+          format = "application/json";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
+    } else {
+      format = "application/json";
+    }
+
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    } else if (format.equals("application/json")) {
+      return ok(resource.toString()).as("application/json");
+    } else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+    } else if (format.equals("text/calendar")) {
+      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
+      if (ical != null) {
+        return ok(ical).as("text/calendar");
+      }
+    }
+
+    return notFound("Not found");
   }
 
 
@@ -292,6 +574,39 @@ public class ResourceIndex extends IndexCommon {
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(getMetadata());
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
+
+    return seeOther("/resource/" + aId);
+
+  }
+
+  public Result likeResource(String aId) throws IOException {
+
+    Resource object = mBaseRepository.getResource(aId);
+    Resource agent = getUser();
+
+    if (object == null || agent == null) {
+      return badRequest("Object or agent missing");
+    }
+
+    String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+      agent.getId(), object.getId());
+
+    List<Resource> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems();
+
+    if (existingLikes.size() > 0) {
+      for (Resource like : existingLikes) {
+        mBaseRepository.deleteResource(like.getAsResource(Record.RESOURCE_KEY).getId(),
+                                                          Record.TYPE, getMetadata());
+      }
+    } else {
+      Resource likeAction = new Resource("LikeAction");
+      likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+      likeAction.put("agent", agent);
+      likeAction.put("object", object);
+      likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+      mBaseRepository.addResource(likeAction, getMetadata());
+    }
 
     return seeOther("/resource/" + aId);
 

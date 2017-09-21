@@ -64,7 +64,6 @@ var Hijax = (function ($, Hijax, page) {
     pathname : window.location.pathname,
     search : window.location.search
   };
-  var initialization_content = document.documentElement.innerHTML;
 
   var map_and_index_source = '';
   var detail_source = '';
@@ -79,25 +78,19 @@ var Hijax = (function ($, Hijax, page) {
 
   function get(url, callback, callback_error) {
     log.debug('APP get:', url);
-    if(url == initialization_source.pathname + initialization_source.search) {
-      log.debug('APP ... which is the initialization_content');
-      callback(initialization_content);
-    } else {
-      log.debug('APP ... which needs to be ajaxed');
-      $.ajax(url, {
-        method : 'GET',
-        success : callback,
-        error : function(jqXHR) {
-          to_modal(templates['http_error']({
-            url : url,
-            error : jqXHR.status + ' / ' + jqXHR.responseText
-          }), 'load');
-          if(typeof callback_error == 'function') {
-            callback_error();
-          }
+    $.ajax(url, {
+      method : 'GET',
+      success : callback,
+      error : function(jqXHR) {
+        to_modal(templates['http_error']({
+          url : url,
+          error : jqXHR.status + ' / ' + jqXHR.responseText
+        }), 'load');
+        if(typeof callback_error == 'function') {
+          callback_error();
         }
-      });
-    }
+      }
+    });
   }
 
   function get_main(data, url) {
@@ -203,10 +196,12 @@ var Hijax = (function ($, Hijax, page) {
       modal.modal('hide');
     }
 
-    var scope = $('#app-scope');
-    scope
-      .addClass('hide')
-      .empty();
+    if(pagejs_ctx.path.indexOf('/country/') !== 0) {
+      var scope = $('#app-scope');
+      scope
+        .addClass('hide')
+        .empty();
+    }
 
     next();
   }
@@ -317,9 +312,7 @@ var Hijax = (function ($, Hijax, page) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
 
-    if(app_history.length == 1) {
-      Hijax.behaviours.map.scheduleViewChange('highlights');
-    }
+    Hijax.behaviours.map.scheduleViewChange('highlights');
 
     next();
   }
@@ -566,22 +559,29 @@ var Hijax = (function ($, Hijax, page) {
 
             if(location) {
 
-              // null map and index source as it's outdated
+              // null detail and map and index source as it's outdated
               map_and_index_source = '';
+              detail_source = '';
 
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
               var just_a_parser = document.createElement('a');
               just_a_parser.href = location;
+              Hijax.behaviours.map.scheduleViewChange('highlights');
               page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
 
-              // if updated resource is currently lodaded in the detail column, update column and close modal
-              $('#app-col-detail [data-app="col-content"]').html( contents );
+              // null detail map and index source so that GeoJSON layer is reloaded
+              map_and_index_source = '';
+              detail_source = '';
+
+              // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
-              Hijax.layout('triggered by modal submit because it updated the detail_source');
+
+              Hijax.behaviours.map.scheduleViewChange('highlights');
+              page(app_history[app_history.length - 1].canonicalPath);
 
             } else {
 
@@ -719,6 +719,7 @@ var Hijax = (function ($, Hijax, page) {
         var content = $( this ).children().clone();
         var scope = $('#app-scope');
         scope
+          .empty()
           .append(content)
           .removeClass('hide');
       });
