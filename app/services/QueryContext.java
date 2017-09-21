@@ -25,19 +25,21 @@ public class QueryContext {
   private GeoPoint mZoomBottomRight = null;
   private List<GeoPoint> mPolygonFilter = new ArrayList<>();
 
-  public QueryContext(List<String> roles) {
+  public QueryContext(final List<String> aRoles, final List<String> aMandatoryFields) {
 
     QueryBuilder concepts = QueryBuilders.boolQuery()
       .mustNot(QueryBuilders.termQuery("about.@type", "Concept"))
       .mustNot(QueryBuilders.termQuery("about.@type", "ConceptScheme"));
-
     filters.put("concepts", concepts);
 
-    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name.@value");
-    filters.put("emptyNames", emptyNames);
+    if (null != aMandatoryFields) {
+      for (int i=0; i<aMandatoryFields.size(); i++) {
+        filters.put("mandatoryField"+i, QueryBuilders.existsQuery(aMandatoryFields.get(i)));
+      }
+    }
 
-    if (roles != null) {
-      this.roles = roles;
+    if (aRoles != null) {
+      this.roles = aRoles;
     } else {
       this.roles.add("guest");
     }

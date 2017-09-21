@@ -33,7 +33,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     }
     mIndices[0] = mConfig.getString("es.index.webpage.name");
     mIndices[1] = mConfig.getString("es.index.action.name");
-    mDefaultQueryContext = new QueryContext(null);
+    mDefaultQueryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
     mDefaultQueryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
   }
 
@@ -194,7 +194,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db1, mMetadata);
 
     try {
-      QueryContext queryContext = new QueryContext(null);
+      QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
       queryContext.setElasticsearchFieldBoosts( //
         new String[] { //
           "about.name.@value^9.0", //
@@ -257,7 +257,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
+    QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
 
     // query before zooming
     List<Resource> beforeZoomList = ResourceHelpers.unwrapRecords(
@@ -296,7 +296,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
+    QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
 
     // query before filtering
     List<Resource> beforeFilterList = ResourceHelpers.unwrapRecords(
@@ -341,7 +341,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.addResource(db2, mMetadata);
     mBaseRepo.addResource(db3, mMetadata);
 
-    QueryContext queryContext = new QueryContext(null);
+    QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
 
     // query before zooming
     List<Resource> beforeFilterList = ResourceHelpers.unwrapRecords(
@@ -703,13 +703,13 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource likeAction = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.3.json");
     mBaseRepo.importResources(Arrays.asList(new Resource[]{likingPerson, likedOrganization}), mMetadata);
     mBaseRepo.addResource(likeAction, mMetadata);
-    QueryContext queryContext = getQueryContextWithBoosts();
+    QueryContext queryContextForAction = new QueryContext(null, null);
 
     final List<Resource> allLikeActions = mBaseRepo.andQuerySqlLike(
       new HashMap<String, String>() {{
         put("about.@type", "LikeAction");
       }},
-      0, 10, null, null, queryContext, mIndices).getItems();
+      0, 10, null, null, queryContextForAction, mIndices).getItems();
     Assert.assertEquals("Did not get expected number for all likes (1).", 1,  allLikeActions.size());
 
     final List<Resource> likeActionsByLikingPerson = mBaseRepo.andQuerySqlLike(
@@ -717,7 +717,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
         put("about.@type", "LikeAction");
         put("about.agent.@id", likingPerson.getId());
       }},
-      0, 10, null, null, queryContext, mIndices).getItems();
+      0, 10, null, null, queryContextForAction, mIndices).getItems();
     Assert.assertEquals("Did not get expected number of likes by person (1).", 1,  likeActionsByLikingPerson.size());
 
     mBaseRepo.deleteResource(likingPerson.getId(), Record.TYPE, mMetadata);
@@ -726,7 +726,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   private QueryContext getQueryContextWithBoosts() {
-    QueryContext queryContext = new QueryContext(null);
+    QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     return queryContext;
   }

@@ -268,26 +268,20 @@ public class BaseRepository extends Repository
   }
 
   public void index(String aId) {
-
     if (mAsyncIndexing) {
       mIndexQueue.tell(aId, mIndexQueue);
     } else {
       mResourceIndexer.index(aId);
     }
-
   }
 
   public String sparql(String q) {
-
     return mTriplestoreRepo.sparql(q);
-
   }
 
   public String update(String delete, String insert, String where) {
-
     Commit.Diff diff = mTriplestoreRepo.update(delete, insert, where);
     return diff.toString();
-
   }
 
   public String label(String aId) {

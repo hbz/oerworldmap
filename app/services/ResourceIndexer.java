@@ -223,7 +223,6 @@ public class ResourceIndexer {
   }
 
   public void index(Resource aResource) {
-
     if (aResource.hasId()) {
       try {
         Map<String, Object> metadata = new HashMap<>();
@@ -243,7 +242,6 @@ public class ResourceIndexer {
         Logger.error("Could not index resource", e);
       }
     }
-
   }
 
   public void index(Set<Resource> aResources) {

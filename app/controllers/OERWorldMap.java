@@ -180,7 +180,7 @@ public abstract class OERWorldMap extends Controller {
       roles.add("authenticated");
     }
 
-    return new QueryContext(roles);
+    return new QueryContext(roles, Arrays.asList("about.name.@value"));
 
   }
 
