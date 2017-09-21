@@ -64,7 +64,6 @@ var Hijax = (function ($, Hijax, page) {
     pathname : window.location.pathname,
     search : window.location.search
   };
-  var initialization_content = document.documentElement.innerHTML;
 
   var map_and_index_source = '';
   var detail_source = '';
@@ -79,25 +78,19 @@ var Hijax = (function ($, Hijax, page) {
 
   function get(url, callback, callback_error) {
     log.debug('APP get:', url);
-    if(url == initialization_source.pathname + initialization_source.search) {
-      log.debug('APP ... which is the initialization_content');
-      callback(initialization_content);
-    } else {
-      log.debug('APP ... which needs to be ajaxed');
-      $.ajax(url, {
-        method : 'GET',
-        success : callback,
-        error : function(jqXHR) {
-          to_modal(templates['http_error']({
-            url : url,
-            error : jqXHR.status + ' / ' + jqXHR.responseText
-          }), 'load');
-          if(typeof callback_error == 'function') {
-            callback_error();
-          }
+    $.ajax(url, {
+      method : 'GET',
+      success : callback,
+      error : function(jqXHR) {
+        to_modal(templates['http_error']({
+          url : url,
+          error : jqXHR.status + ' / ' + jqXHR.responseText
+        }), 'load');
+        if(typeof callback_error == 'function') {
+          callback_error();
         }
-      });
-    }
+      }
+    });
   }
 
   function get_main(data, url) {
