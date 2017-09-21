@@ -179,6 +179,24 @@ public class BaseRepository extends Repository
     return resourceList;
   }
 
+  /**
+   * Concatenates the mappings of the first parameter by "AND"
+   */
+  // TODO: use this method in Controllers after merge with branch 1128-likes.
+  public ResourceList andQuerySqlLike(final Map<String, String> aParameters, final int aFrom, final int aSize,
+                                      final String aSortOrder, final Map<String, List<String>> aFilters,
+                                      final QueryContext aQueryContext, final String... aIndices){
+    if (aParameters == null || aParameters.isEmpty()){
+      return null;
+    }
+    final StringBuilder queryString = new StringBuilder();
+    aParameters.forEach((k, v) -> {
+      queryString.append(" AND ").append(k).append(":\"").append(v).append("\"");
+    });
+    queryString.replace(0, 5, "");
+    return query(queryString.toString(), aFrom, aSize, aSortOrder, aFilters, aQueryContext, aIndices);
+  }
+
   @Override
   public Resource getResource(@Nonnull String aId) {
     return getResource(aId, null);
