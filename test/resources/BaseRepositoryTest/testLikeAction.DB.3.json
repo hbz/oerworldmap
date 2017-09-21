@@ -1,12 +1,13 @@
 {
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@type" : "LikeAction",
   "agent" : {
     "@type": "Person",
-    "@id": "testLikeAction001"
+    "@id": "urn:uuid:testLikeAction001"
   },
   "object" : {
     "@type": "Service",
-    "@id": "testLikeAction002"
+    "@id": "urn:uuid:testLikeAction002"
   },
-  "@id" : "testLikeAction003"
+  "@id" : "urn:uuid:testLikeAction003"
 }

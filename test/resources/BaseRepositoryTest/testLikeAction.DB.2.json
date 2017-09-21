@@ -1,4 +1,5 @@
 {
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@type": "Service",
   "name": [
     {
@@ -6,5 +7,5 @@
       "@language": "en"
     }
   ],
-  "@id": "testLikeAction002"
+  "@id": "urn:uuid:testLikeAction002"
 }
