@@ -21,6 +21,9 @@
     },
     "affiliation": {
       "@container": "@set"
+    },
+    "implementingService": {
+      "@container": "@set"
     }
   }
 }
