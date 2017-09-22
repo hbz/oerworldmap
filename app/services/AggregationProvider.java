@@ -130,7 +130,7 @@ public class AggregationProvider {
           .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
             "about.location"}, null)
           .addSort("about.startDate", SortOrder.ASC).setSize(Integer.MAX_VALUE)
-      ).order(Histogram.Order.KEY_DESC);
+      ).order(Histogram.Order.KEY_DESC).minDocCount(1);
   }
 
   public static AggregationBuilder<?> getRegionAggregation(int aSize) {
