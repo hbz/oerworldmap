@@ -35,7 +35,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
-    "Comment", "Product", "ContactPoint", "CustomerRelationship"));
+    "Comment", "Product", "ContactPoint", "CustomerRelationship", "Offer"));
 
   /**
    * Constructor which sets up a random UUID.
