@@ -1,0 +1,11 @@
+{
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@type": "Service",
+  "name": [
+    {
+      "@value": "Ice Cream Service",
+      "@language": "en"
+    }
+  ],
+  "@id": "urn:uuid:testLikeAction002"
+}

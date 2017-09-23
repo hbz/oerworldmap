@@ -2,9 +2,8 @@ package services.repository;
 
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import helpers.UniversalFunctions;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.ElasticsearchException;
@@ -40,6 +39,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
@@ -48,13 +48,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private Client mClient;
   private Fuzziness mFuzziness;
 
-  public ElasticsearchRepository(Config aConfiguration) {
+  public ElasticsearchRepository(Config aConfiguration) throws IOException {
     super(aConfiguration);
     mConfig = new ElasticsearchConfig(aConfiguration);
     Settings settings = Settings.settingsBuilder().put(mConfig.getClientSettings()).build();
     try {
       mClient = TransportClient.builder().settings(settings).build().addTransportAddress(
-        new InetSocketTransportAddress(InetAddress.getByName(mConfig.getServer()), mConfig.getJavaPort()));
+        new InetSocketTransportAddress(
+          InetAddress.getByName(mConfig.getServer()), mConfig.getJavaPort()));
     } catch (UnknownHostException ex) {
       throw new RuntimeException(ex);
     }
@@ -62,17 +63,17 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull final Resource aResource, Map<String, Object> aMetadata) throws IOException {
     Record record = new Record(aResource);
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
     }
     addJson(record.toString(), record.getId(), Record.TYPE);
-    refreshIndex(mConfig.getIndex());
+    refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
     Map<String, String> records = new HashMap<>();
     for (Resource resource : aResources) {
       Record record = new Record(resource);
@@ -82,7 +83,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       records.put(record.getId(), record.toString());
     }
     addJson(records, Record.TYPE);
-    refreshIndex(mConfig.getIndex());
+    refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
@@ -90,32 +91,35 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return Resource.fromMap(getDocument(Record.TYPE, aId));
   }
 
-  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
+                                     final String... aIndices) {
     List<Resource> resources = new ArrayList<>();
-    for (Map<String, Object> doc : getDocuments(aField, aValue)) {
+    for (Map<String, Object> doc : getDocuments(aField, aValue, aIndices)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) throws IOException {
+  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) throws IOException {
     List<Resource> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(Record.RESOURCE_KEY.concat(".")
-      .concat(JsonLdConstants.TYPE), aType)) {
+      .concat(JsonLdConstants.TYPE), aType, aIndices)) {
       resources.add(Resource.fromMap(doc));
     }
     return resources;
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
-    Resource resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
+  public ModelCommon deleteResource(@Nonnull final String aId,
+                                 @Nonnull final String aClassType,
+                                 final Map<String, Object> aMetadata) {
+    ModelCommon resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;
     }
-    boolean found = deleteDocument(Record.TYPE, resource.getId());
-    refreshIndex(mConfig.getIndex());
+    boolean found = deleteDocument(aClassType, resource.getId());
+    refreshIndices(mConfig.getAllIndices());
     Logger.trace("Deleted " + aId + " from Elasticsearch");
     if (found) {
       return resource;
@@ -125,22 +129,25 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return aggregate(aAggregationBuilder, null);
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, final String... aIndices)
+    throws IOException {
+    return aggregate(aAggregationBuilder, null, aIndices);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+                            QueryContext aQueryContext, final String... aIndices) {
     Resource aggregations = Resource
-      .fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
+      .fromJson(getAggregation(aAggregationBuilder, aQueryContext, aIndices).toString());
     if (null == aggregations) {
       return null;
     }
     return (Resource) aggregations.get("aggregations");
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext) {
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
+                            QueryContext aQueryContext, final String... aIndices) {
     Resource aggregations = Resource
-      .fromJson(getAggregations(aAggregationBuilders, aQueryContext).toString());
+      .fromJson(getAggregations(aAggregationBuilders, aQueryContext, aIndices).toString());
     if (null == aggregations) {
       return null;
     }
@@ -162,14 +169,17 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters) throws IOException {
-    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+                            Map<String, List<String>> aFilters, final String... aIndices)
+    throws IOException {
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, aIndices);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
+                            final String... aIndices) throws IOException {
 
-    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters,
+      aQueryContext, aIndices);
 
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
@@ -191,7 +201,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+    mClient.prepareIndex(mConfig.getIndex(Record.TYPE), aType, aUuid).setSource(aJsonString).execute()
       .actionGet();
   }
 
@@ -207,7 +217,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     for (Map.Entry<String, String> entry : aJsonStringIdMap.entrySet()) {
       String id = entry.getKey();
       String json = entry.getValue();
-      bulkRequest.add(mClient.prepareIndex(mConfig.getIndex(), aType, id).setSource(json));
+      bulkRequest.add(mClient.prepareIndex(mConfig.getIndex(Record.TYPE), aType, id).setSource(json));
     }
 
     BulkResponse bulkResponse = bulkRequest.execute().actionGet();
@@ -217,13 +227,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue) {
+  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue,
+                                                 final String... aIndices) {
     final int docsPerPage = 1024;
     int count = 0;
     SearchResponse response = null;
     final List<Map<String, Object>> docs = new ArrayList<>();
     while (response == null || response.getHits().hits().length != 0) {
-      response = mClient.prepareSearch(mConfig.getIndex())
+      response = mClient.prepareSearch(aIndices)
         .setQuery(QueryBuilders.queryStringQuery(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
         .setSize(docsPerPage).setFrom(count * docsPerPage).execute().actionGet();
       for (SearchHit hit : response.getHits()) {
@@ -243,20 +254,31 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   private Map<String, Object> getDocument(@Nonnull final String aType,
                                          @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(mConfig.getIndex(), aType, aIdentifier)
+    final GetResponse response = mClient.prepareGet(mConfig.getIndex(Record.TYPE), aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
   }
 
-  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) {
-    final DeleteResponse response = mClient.prepareDelete(mConfig.getIndex(), aType, aIdentifier)
-      .execute().actionGet();
+  private boolean deleteDocument(@Nonnull final String aClassType, @Nonnull final String aIdentifier) {
+    DeleteResponse response;
+    if (Record.TYPE.equals(aClassType)) {
+      response = mClient.prepareDelete(mConfig.getIndex(Record.TYPE), aClassType, aIdentifier)
+        .execute().actionGet();
+    }
+    else if (Action.TYPE.equals(aClassType)) {
+      response = mClient.prepareDelete(mConfig.getIndex(Action.TYPE), aClassType, aIdentifier)
+        .execute().actionGet();
+    }
+    else{
+      return false;
+    }
     return response.isFound();
   }
 
-  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext) {
+  private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder,
+                                        QueryContext aQueryContext, final String... aIndices) {
 
-    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(aIndices);
 
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
@@ -273,10 +295,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders, QueryContext
-    aQueryContext) {
+  private SearchResponse getAggregations(final List<AggregationBuilder<?>> aAggregationBuilders,
+                                         QueryContext aQueryContext, final String... aIndices) {
 
-    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(aIndices);
 
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
@@ -295,10 +317,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                 Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize,
+                                 String aSortOrder, Map<String, List<String>> aFilters,
+                                 QueryContext aQueryContext, final String... aIndices) {
 
-    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
+    SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(aIndices);
 
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
@@ -393,17 +416,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
   }
 
-  public boolean hasIndex(String aIndex) {
-    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
+  private void refreshIndices(@Nonnull String... aIndices) {
+    for (String index : aIndices){
+      try {
+        mClient.admin().indices().refresh(new RefreshRequest(index)).actionGet();
+      } catch (IndexNotFoundException e) {
+        Logger.error("Trying to refresh index \"" + index + "\" in Elasticsearch.");
+        e.printStackTrace();
+      }
+    }
   }
 
-  private void refreshIndex(String aIndex) {
-    try {
-      mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
-    } catch (IndexNotFoundException e) {
-      Logger.error("Trying to refresh index \"" + aIndex + "\" in Elasticsearch.");
-      e.printStackTrace();
-    }
+  public boolean hasIndex(String aIndex) {
+    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
   public void deleteIndex(String aIndex) {
@@ -415,9 +440,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
-  public void createIndex(String aIndex) {
+  public ElasticsearchConfig getConfig() {
+    return mConfig;
+  }
+
+  public void createIndex(final String aIndex, final String aIndexConfigFile) {
     try {
-      mClient.admin().indices().prepareCreate(aIndex).setSource(mConfig.getIndexConfigString()).execute().actionGet();
+      final String config = UniversalFunctions.readFile(aIndexConfigFile, StandardCharsets.UTF_8);
+      mClient.admin().indices().prepareCreate(aIndex).setSource(config).execute().actionGet();
       mClient.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
     } catch (ElasticsearchException indexAlreadyExists) {
       Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Index already exists.");
@@ -426,9 +456,5 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       Logger.error("Trying to create index \"" + aIndex + "\" in Elasticsearch. Couldn't read index config file.");
       ioException.printStackTrace();
     }
-  }
-
-  public ElasticsearchConfig getConfig() {
-    return mConfig;
   }
 }

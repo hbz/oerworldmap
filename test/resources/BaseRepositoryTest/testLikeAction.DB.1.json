@@ -1,0 +1,11 @@
+{
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@type": "Person",
+  "@id": "urn:uuid:testLikeAction001",
+  "name": [
+    {
+      "@value": "Mike Like",
+      "@language": "en"
+    }
+  ]
+}

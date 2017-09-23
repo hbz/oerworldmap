@@ -79,7 +79,7 @@ var Hijax = (function ($, Hijax, page) {
 
   function get(url, callback, callback_error) {
     log.debug('APP get:', url);
-    if(url == initialization_source.pathname + initialization_source.search) {
+    if(initialization_content && (url == initialization_source.pathname + initialization_source.search)) {
       log.debug('APP ... which is the initialization_content');
       callback(initialization_content);
     } else {
@@ -345,6 +345,9 @@ var Hijax = (function ($, Hijax, page) {
 
   function routing_done(pagejs_ctx) {
     log.debug('APP routing_done', pagejs_ctx);
+
+    // content should be refreshed upon subsequent requests
+    initialization_content = null;
 
     $.when(
       map_and_index_loaded,

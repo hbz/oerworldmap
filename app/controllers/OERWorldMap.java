@@ -2,18 +2,11 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.MarkdownHelper;
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.maxmind.geoip2.DatabaseReader;
-import helpers.HandlebarsHelpers;
-import helpers.JSONForm;
-import helpers.ResourceTemplateLoader;
-import helpers.UniversalFunctions;
+import helpers.*;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -32,27 +25,14 @@ import services.repository.BaseRepository;
 import services.repository.ElasticsearchRepository;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -116,6 +96,7 @@ public abstract class OERWorldMap extends Controller {
 
     mConf = aConf;
     mEnv = aEnv;
+    Types.init(mConf.underlying());
 
     // Repository
     createBaseRepository(mConf);
@@ -199,7 +180,7 @@ public abstract class OERWorldMap extends Controller {
       roles.add("authenticated");
     }
 
-    return new QueryContext(roles);
+    return new QueryContext(roles, Arrays.asList("about.name.@value"));
 
   }
 
@@ -301,8 +282,9 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       if (scope != null) {
-        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
-        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0));
+        String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0), indices);
+        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0), indices);
         scope.put("globalAggregation", globalAggregation);
         scope.put("keywordAggregation", keywordAggregation);
       }
@@ -407,9 +389,9 @@ public abstract class OERWorldMap extends Controller {
    *
    * @return Map containing current getUser() in author and current time in date field.
    */
-  protected Map<String, String> getMetadata() {
+  protected Map<String, Object> getMetadata() {
 
-    Map<String, String> metadata = new HashMap<>();
+    Map<String, Object> metadata = new HashMap<>();
     if (!StringUtils.isEmpty(getHttpBasicAuthUser())) {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, getHttpBasicAuthUser());
     } else {

@@ -1,7 +1,10 @@
 package services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
+import helpers.Types;
 import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
@@ -26,8 +29,6 @@ import java.util.Map;
 
 public class ElasticsearchConfig {
 
-  private static final String INDEX_CONFIG_FILE = "conf/index-config.json";
-
   // CONFIG FILE
   private Config mConfig;
 
@@ -37,27 +38,39 @@ public class ElasticsearchConfig {
   private Node mInternalNode;
 
   // CLIENT
-  private String mIndex;
-  private String mType;
+  private String mWebpageIndex;
+  private String mWebpageType;
+  private String mWebpageMapping;
+  private String mActionIndex;
+  private String mActionType;
+  private String mActionMapping;
   private String mCluster;
   private Map<String, String> mClientSettings;
   private Client mClient;
   private TransportClient mTransportClient;
 
-  public ElasticsearchConfig(Config aConfiguration) {
+  private String[] mAllIndices;
+
+  public ElasticsearchConfig(Config aConfiguration) throws IOException {
     mConfig = aConfiguration;
     init();
   }
 
-  private void init() {
-
+  private void init() throws IOException {
     // HOST
     mServer = mConfig.getString("es.host.server");
     mJavaPort = mConfig.getInt("es.host.port.java");
 
-    mIndex = mConfig.getString("es.index.name");
-    mType = mConfig.getString("es.index.type");
+    mWebpageIndex = mConfig.getString("es.index.webpage.name");
+    mWebpageType = mConfig.getString("es.index.webpage.type");
+    mWebpageMapping = mConfig.getString("es.index.webpage.mapping.file");
+    mActionIndex = mConfig.getString("es.index.action.name");
+    mActionType = mConfig.getString("es.index.action.type");
+    mActionMapping = mConfig.getString("es.index.action.mapping.file");
+
     mCluster = mConfig.getString("es.cluster.name");
+
+    mAllIndices = new String[]{mWebpageIndex, mActionIndex};
 
     if (mConfig.getBoolean("es.node.inmemory") || (mJavaPort == null) || Strings.isNullOrEmpty(mServer)) {
       mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
@@ -77,34 +90,23 @@ public class ElasticsearchConfig {
       }
     }
 
-    if (!indexExists(mIndex)) {
-      CreateIndexResponse response = createIndex(mIndex);
-      refreshElasticsearch(mIndex);
-      if (response.isAcknowledged()) {
-        Logger.info("Created index \"" + mIndex + "\".");
-      } //
-      else {
-        Logger.warn("Not able to create index \"" + mIndex + "\".");
-      }
-    }
+    createAllIndices();
 
     // CLIENT SETTINGS
     mClientSettings = new HashMap<>();
-    mClientSettings.put("index.name", mIndex);
-    mClientSettings.put("index.type", mType);
+    mClientSettings.put("index.webpage.name", mWebpageIndex);
+    mClientSettings.put("index.webpage.type", mWebpageType);
+    mClientSettings.put("index.action.name", mActionIndex);
+    mClientSettings.put("index.action.type", mActionType);
     mClientSettings.put("cluster.name", mCluster);
   }
 
-  public String getIndex() {
-    return mClientSettings.get("index.name");
+  public String[] getAllIndices(){
+    return mAllIndices;
   }
 
-  public String getType() {
-    return mType;
-  }
-
-  public String getCluster() {
-    return mCluster;
+  public String getIndex(final String aType){
+    return Types.getEsIndexFromClassType(aType);
   }
 
   public String getServer() {
@@ -115,36 +117,43 @@ public class ElasticsearchConfig {
     return mJavaPort;
   }
 
-  public String toString() {
-    return mConfig.toString();
-  }
-
-  public String getIndexConfigString() throws IOException {
-    return UniversalFunctions.readFile(INDEX_CONFIG_FILE, StandardCharsets.UTF_8);
-  }
-
   public Map<String, String> getClientSettings() {
     return mClientSettings;
-  }
-
-  public Client getClient() {
-    return mClient;
   }
 
   private boolean indexExists(String aIndex) {
     return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
-  private CreateIndexResponse createIndex(String aIndex) {
-    return mClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
+  public void createAllIndices() throws IOException {
+    createIndexIfNotExists(mWebpageIndex, mWebpageMapping);
+    createIndexIfNotExists(mActionIndex, mActionMapping);
   }
 
-  public DeleteIndexResponse deleteIndex(String aIndex) {
-    return mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
+  public void createIndexIfNotExists(final String aIndex, final String aIndexConfig) throws IOException {
+    if (!indexExists(aIndex)) {
+      final String indexConfigString = UniversalFunctions.readFile(aIndexConfig, StandardCharsets.UTF_8);
+      JsonNode indexConfigNode = new ObjectMapper().readTree(indexConfigString);
+      CreateIndexResponse response = mClient.admin().indices().prepareCreate(aIndex)
+        .addMapping("WebPage", indexConfigNode.get("mappings").get("WebPage").toString())
+        .setSettings(indexConfigNode.get("settings").toString())
+        .execute().actionGet();
+      refreshElasticsearch(aIndex);
+      if (response.isAcknowledged()) {
+        Logger.info("Created index \"" + aIndex + "\".");
+      } //
+      else {
+        Logger.warn("Not able to create index \"" + aIndex + "\".");
+      }
+    }
   }
 
-  private void refreshElasticsearch(String aIndex) {
-    mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+  public DeleteIndexResponse deleteIndices(String... aIndices) {
+    return mClient.admin().indices().delete(new DeleteIndexRequest(aIndices)).actionGet();
+  }
+
+  private void refreshElasticsearch(String... aIndices) {
+    mClient.admin().indices().refresh(new RefreshRequest(aIndices)).actionGet();
   }
 
   public void tearDown() throws Exception {

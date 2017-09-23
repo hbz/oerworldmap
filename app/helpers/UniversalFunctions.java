@@ -1,5 +1,7 @@
 package helpers;
 
+import models.TripleCommit;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -7,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -73,5 +76,11 @@ public class UniversalFunctions {
     }
     return map;
   }
+
+  public static TripleCommit.Header getTripleCommitHeaderFromMetadata(final Map<String, Object> aMetadata){
+    return new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+  }
+
 
 }

@@ -4,11 +4,8 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
-import models.Commit;
-import models.GraphHistory;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
+import models.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
@@ -22,30 +19,31 @@ import services.ResourceIndexer;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
+
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable, Versionable {
 
-  private ElasticsearchRepository mElasticsearchRepo;
-  private TriplestoreRepository mTriplestoreRepository;
+  private ElasticsearchRepository mESRepo;
+  private TriplestoreRepository mTriplestoreRepo;
   private ResourceIndexer mResourceIndexer;
   private ActorRef mIndexQueue;
   private boolean mAsyncIndexing;
 
-  public BaseRepository(final Config aConfiguration, final ElasticsearchRepository aElasticsearchRepo) throws IOException {
+  public BaseRepository(final Config aConfiguration, final ElasticsearchRepository aESRepo) throws IOException {
 
     super(aConfiguration);
 
-    if (aElasticsearchRepo == null) {
-      mElasticsearchRepo = new ElasticsearchRepository(mConfiguration);
+    if (aESRepo == null) {
+      mESRepo = new ElasticsearchRepository(mConfiguration);
     }
     else {
-      mElasticsearchRepo = aElasticsearchRepo;
+      mESRepo = aESRepo;
     }
     Dataset dataset;
 
@@ -74,7 +72,7 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+    mResourceIndexer = new ResourceIndexer(mDb, mESRepo, graphHistory);
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
@@ -88,20 +86,20 @@ public class BaseRepository extends Repository
     }
 
     mIndexQueue = ActorSystem.create().actorOf(IndexQueue.props(mResourceIndexer));
-    mTriplestoreRepository = new TriplestoreRepository(mConfiguration, mDb, graphHistory);
+    mTriplestoreRepo = new TriplestoreRepository(mConfiguration, mDb, graphHistory);
 
     mAsyncIndexing = mConfiguration.getBoolean("index.async");
 
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
-
-    Resource resource = mTriplestoreRepository.deleteResource(aId, aMetadata);
-
+  public Resource deleteResource(@Nonnull final String aId,
+                                 @Nonnull final String aClassType,
+                                 final Map<String, Object> aMetadata) throws IOException {
+    Resource resource = mTriplestoreRepo.deleteResource(aId, aClassType, aMetadata);
     if (resource != null) {
-      mElasticsearchRepo.deleteResource(aId, aMetadata);
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource).reverse();
+      mESRepo.deleteResource(aId, aClassType, aMetadata);
+      Commit.Diff diff = mTriplestoreRepo.getDiff(resource).reverse();
       index(diff);
     }
 
@@ -110,15 +108,13 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
-    Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
+    Commit.Diff diff = mTriplestoreRepo.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
 
-    mTriplestoreRepository.commit(commit);
+    mTriplestoreRepo.commit(commit);
     index(diff);
 
   }
@@ -132,20 +128,18 @@ public class BaseRepository extends Repository
    * @throws IOException
    */
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
     for (Resource resource : aResources) {
-      Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
+      Commit.Diff diff = mTriplestoreRepo.getDiff(resource);
       indexDiff.append(diff);
       commits.add(new TripleCommit(header, diff));
     }
 
-    mTriplestoreRepository.commit(commits);
+    mTriplestoreRepo.commit(commits);
     index(indexDiff);
 
   }
@@ -156,33 +150,51 @@ public class BaseRepository extends Repository
    *          The resources to flatten and import
    * @throws IOException
    */
-  public void importResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void importResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
-    Commit.Diff diff = mTriplestoreRepository.getDiffs(aResources);
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-    mTriplestoreRepository.commit(new TripleCommit(header, diff));
+    Commit.Diff diff = mTriplestoreRepo.getDiffs(aResources);
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
+    mTriplestoreRepo.commit(new TripleCommit(header, diff));
     index(diff);
 
   }
 
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters) {
-    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
+                            Map<String, List<String>> aFilters, final String... aIndices) {
+    return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, checkIndices(aIndices));
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
+                            final String... aIndices) {
     ResourceList resourceList;
     try {
-      resourceList = mElasticsearchRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+      resourceList = mESRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext,
+        checkIndices(aIndices));
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
       return null;
     }
     return resourceList;
+  }
+
+  /**
+   * Concatenates the mappings of the first parameter by "AND"
+   */
+  // TODO: use this method in Controllers after merge with branch 1128-likes.
+  public ResourceList andQuerySqlLike(final Map<String, String> aParameters, final int aFrom, final int aSize,
+                                      final String aSortOrder, final Map<String, List<String>> aFilters,
+                                      final QueryContext aQueryContext, final String... aIndices){
+    if (aParameters == null || aParameters.isEmpty()){
+      return null;
+    }
+    final StringBuilder queryString = new StringBuilder();
+    aParameters.forEach((k, v) -> {
+      queryString.append(" AND ").append(k).append(":\"").append(v).append("\"");
+    });
+    queryString.replace(0, 5, "");
+    return query(queryString.toString(), aFrom, aSize, aSortOrder, aFilters, aQueryContext, aIndices);
   }
 
   @Override
@@ -192,33 +204,38 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource getResource(@Nonnull String aId, String aVersion) {
-    return mTriplestoreRepository.getResource(aId, aVersion);
+    return mTriplestoreRepo.getResource(aId, aVersion);
   }
 
-  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
-    return mElasticsearchRepo.getResources(aField, aValue);
-  }
-
-  @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
-    return aggregate(aAggregationBuilder, null);
-  }
-
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
-      throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
-  }
-
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
-      throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
+  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
+                                     final String... aIndices) {
+    return mESRepo.getResources(aField, aValue, checkIndices(aIndices));
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+                            final String... aIndices) throws IOException {
+    return aggregate(aAggregationBuilder, null, checkIndices(aIndices));
+  }
+
+  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+                            QueryContext aQueryContext,
+    final String... aIndices)
+      throws IOException {
+    return mESRepo.aggregate(aAggregationBuilder, aQueryContext, checkIndices(aIndices));
+  }
+
+  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
+                            QueryContext aQueryContext, final String... aIndices)
+      throws IOException {
+    return mESRepo.aggregate(aAggregationBuilders, aQueryContext, checkIndices(aIndices));
+  }
+
+  @Override
+  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = mElasticsearchRepo.getAll(aType);
+      resources = mESRepo.getAll(aType, checkIndices(aIndices));
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
     }
@@ -227,55 +244,49 @@ public class BaseRepository extends Repository
 
   @Override
   public Resource stage(Resource aResource) throws IOException {
-    return mTriplestoreRepository.stage(aResource);
+    return mTriplestoreRepo.stage(aResource);
   }
 
   @Override
   public List<Commit> log(String aId) {
-    return mTriplestoreRepository.log(aId);
+    return mTriplestoreRepo.log(aId);
   }
 
   @Override
   public void commit(Commit aCommit) throws IOException {
-    mTriplestoreRepository.commit(aCommit);
+    mTriplestoreRepo.commit(aCommit);
   }
 
   @Override
   public Commit.Diff getDiff(Resource aResource) {
-    return mTriplestoreRepository.getDiff(aResource);
+    return mTriplestoreRepo.getDiff(aResource);
   }
 
   @Override
   public Commit.Diff getDiff(List<Resource> aResources) {
-    return mTriplestoreRepository.getDiff(aResources);
+    return mTriplestoreRepo.getDiff(aResources);
   }
 
   public void index(String aId) {
-
     if (mAsyncIndexing) {
       mIndexQueue.tell(aId, mIndexQueue);
     } else {
       mResourceIndexer.index(aId);
     }
-
   }
 
   public String sparql(String q) {
-
-    return mTriplestoreRepository.sparql(q);
-
+    return mTriplestoreRepo.sparql(q);
   }
 
   public String update(String delete, String insert, String where) {
-
-    Commit.Diff diff = mTriplestoreRepository.update(delete, insert, where);
+    Commit.Diff diff = mTriplestoreRepo.update(delete, insert, where);
     return diff.toString();
-
   }
 
   public String label(String aId) {
 
-    return mTriplestoreRepository.label(aId);
+    return mTriplestoreRepo.label(aId);
 
   }
 
@@ -287,6 +298,18 @@ public class BaseRepository extends Repository
       mResourceIndexer.index(aDiff);
     }
 
+  }
+
+  private String[] checkIndices(final String... aIndices){
+    if (aIndices == null || aIndices.length == 0){
+      return new String[]{"*"};
+    }
+    for (String index : aIndices){
+      if (! StringUtils.isEmpty(index)){
+        return aIndices;
+      }
+    }
+    return new String[]{"*"};
   }
 
 }

@@ -1,12 +1,11 @@
 package controllers;
 
-import java.util.Map;
-
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 /**
  * @author fo

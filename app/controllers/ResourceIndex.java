@@ -10,11 +10,7 @@ import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
 import helpers.UniversalFunctions;
-import models.Commit;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
-import models.TripleCommit;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -35,20 +31,16 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
 
 /**
  * @author fo
  */
-public class ResourceIndex extends OERWorldMap {
+public class ResourceIndex extends IndexCommon {
 
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
@@ -136,7 +128,9 @@ public class ResourceIndex extends OERWorldMap {
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
+    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+    ResourceList resourceList =
+      mBaseRepository.query(q, from, size, sort, filters, queryContext, indices);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
@@ -213,48 +207,14 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public Result importResources() throws IOException {
-    JsonNode json = ctx().request().body().asJson();
-    List<Resource> resources = new ArrayList<>();
-    if (json.isArray()) {
-      for (JsonNode node : json) {
-        resources.add(Resource.fromJson(node));
-      }
-    } else if (json.isObject()) {
-      resources.add(Resource.fromJson(json));
-    } else {
-      return badRequest();
-    }
-    mBaseRepository.importResources(resources, getMetadata());
-    return ok(Integer.toString(resources.size()).concat(" resources imported."));
-  }
-
-  public Result addResource() throws IOException {
-
-    JsonNode jsonNode = getJsonFromRequest();
-
-    if (jsonNode == null || (!jsonNode.isArray() && !jsonNode.isObject())) {
-      return badRequest("Bad or empty JSON");
-    } else if (jsonNode.isArray()) {
-      return upsertResources();
-    } else {
-      return upsertResource(false);
-    }
-
+    return super.importResources();
   }
 
   public Result updateResource(String aId) throws IOException {
-
-    // If updating a resource, check if it actually exists
-    Resource originalResource = mBaseRepository.getResource(aId);
-    if (originalResource == null) {
-      return notFound("Not found: ".concat(aId));
-    }
-
-    return upsertResource(true);
-
+    return super.updateResource(aId);
   }
 
-  private Result upsertResource(boolean isUpdate) throws IOException {
+  protected Result upsertResource(boolean isUpdate) throws IOException {
 
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
@@ -291,23 +251,31 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
+        if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+            "HEAD").absoluteURL(request()));
+        }
         return read(resource.getId(), "HEAD", "html");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
-        .absoluteURL(request()));
+      if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+          "HEAD").absoluteURL(request()));
+      } else {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+          .absoluteURL(request()));
+      }
       if (request().accepts("text/html")) {
         return created(render("Created", "created.mustache", resource));
       } else {
         return created("Created " + resource.getId());
       }
     }
-
   }
 
-  private Result upsertResources() throws IOException {
+  protected Result upsertResources() throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
@@ -346,7 +314,6 @@ public class ResourceIndex extends OERWorldMap {
     mBaseRepository.addResources(resources, getMetadata());
 
     return ok("Added resources");
-
   }
 
   public Result readDefault(String id, String version) throws IOException {
@@ -354,7 +321,13 @@ public class ResourceIndex extends OERWorldMap {
   }
 
 
+  // TODO: drop this method and add second parameter for delete() to route
+  public Result delete(String aId) throws IOException {
+    return delete(aId, Record.TYPE);
+  }
+
   public Result read(String id, String version, String extension) throws IOException {
+    Resource currentUser = getUser();
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
@@ -395,6 +368,46 @@ public class ResourceIndex extends OERWorldMap {
       comments.add(mBaseRepository.getResource(commentId));
     }
 
+    String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
+    int likesCount = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems().size();
+
+    boolean userLikesResource = false;
+    if (currentUser != null) {
+      String userLikesQuery = String.format(
+        "about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
+        .getItems().size() > 0;
+    }
+
+    String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
+    int lighthousesCount = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
+      .getItems().size();
+
+    Resource userLighthouseResource = null;
+    boolean userLighthouseIsset = false;
+    if (currentUser != null) {
+      String userLighthouseQuery = String.format(
+        "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      List<Resource> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
+        .getItems();
+      if (userLighthouseResources.size() > 0) {
+        userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
+        userLighthouseIsset = true;
+      }
+    }
+
+    if (userLighthouseResource == null) {
+      userLighthouseResource = new Resource("LighthouseAction");
+      userLighthouseResource.remove("@id");
+      userLighthouseResource.put("object", resource);
+      userLighthouseResource.put("agent", Collections.singletonList(getUser()));
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -402,15 +415,16 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
-        || (!resource.getType().equals("Person"))
+    boolean mayEdit = (currentUser != null) && (!resource.getType().equals("LikeAction")) &&
+      ((resource.getType().equals("Person") && currentUser.getId().equals(id)) || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+    boolean mayLog = (currentUser != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
-    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
+    boolean mayAdminister = (currentUser != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLike = (currentUser != null) && Arrays.asList("Organization", "Action", "Service").contains(resource.getType());
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -418,6 +432,7 @@ public class ResourceIndex extends OERWorldMap {
     permissions.put("administer", mayAdminister);
     permissions.put("comment", mayComment);
     permissions.put("delete", mayDelete);
+    permissions.put("like", mayLike);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
@@ -447,6 +462,11 @@ public class ResourceIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     scope.put("comments", comments);
+    scope.put("likes", likesCount);
+    scope.put("userLikesResource", userLikesResource);
+    scope.put("lighthouses", lighthousesCount);
+    scope.put("userLighthouseResource", userLighthouseResource);
+    scope.put("userLighthouseIsset", userLighthouseIsset);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 
@@ -492,11 +512,11 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     return notFound("Not found");
-
   }
 
-  public Result delete(String aId) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
+
+  public Result delete(final String aId, final String aClassType) throws IOException {
+    Resource resource = mBaseRepository.deleteResource(aId, aClassType, getMetadata());
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {
@@ -551,9 +571,7 @@ public class ResourceIndex extends OERWorldMap {
       ResourceFactory.createResource(aId), SCHEMA.comment, ResourceFactory.createResource(comment.getId())
     ));
 
-    Map<String, String> metadata = getMetadata();
-    TripleCommit.Header header = new TripleCommit.Header(metadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(metadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(getMetadata());
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
 
@@ -561,19 +579,47 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public Result feed() {
+  public Result likeResource(String aId) throws IOException {
 
-    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
+    Resource object = mBaseRepository.getResource(aId);
+    Resource agent = getUser();
+
+    if (object == null || agent == null) {
+      return badRequest("Object or agent missing");
+    }
+
+    String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+      agent.getId(), object.getId());
+
+    List<Resource> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems();
+
+    if (existingLikes.size() > 0) {
+      for (Resource like : existingLikes) {
+        mBaseRepository.deleteResource(like.getAsResource(Record.RESOURCE_KEY).getId(),
+                                                          Record.TYPE, getMetadata());
+      }
+    } else {
+      Resource likeAction = new Resource("LikeAction");
+      likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+      likeAction.put("agent", agent);
+      likeAction.put("object", object);
+      likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+      mBaseRepository.addResource(likeAction, getMetadata());
+    }
+
+    return seeOther("/resource/" + aId);
+
+  }
+
+  public Result feed() {
+    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+    ResourceList resourceList =
+      mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext(), indices);
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 
     return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
-
-  }
-
-  public Result label(String aId) {
-
-    return ok(mBaseRepository.label(aId));
 
   }
 

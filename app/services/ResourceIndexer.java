@@ -223,10 +223,9 @@ public class ResourceIndexer {
   }
 
   public void index(Resource aResource) {
-
     if (aResource.hasId()) {
       try {
-        Map<String, String> metadata = new HashMap<>();
+        Map<String, Object> metadata = new HashMap<>();
         if (mGraphHistory != null) {
           List<Commit> history = mGraphHistory.log(aResource.getId());
           metadata.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
@@ -236,13 +235,13 @@ public class ResourceIndexer {
           metadata.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }
-        metadata.put(Record.LINK_COUNT, String.valueOf(aResource.getNumberOfSubFields("**.@id")));
+        metadata.put(Record.LINK_COUNT, Integer.valueOf(aResource.getNumberOfSubFields("**.@id")));
+        metadata.put(Record.LIKE_COUNT, String.valueOf(aResource.getAsList("objectIn").size()));
         mTargetRepo.addResource(aResource, metadata);
       } catch (IndexOutOfBoundsException | IOException e) {
         Logger.error("Could not index resource", e);
       }
     }
-
   }
 
   public void index(Set<Resource> aResources) {

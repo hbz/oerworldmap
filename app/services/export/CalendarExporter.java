@@ -203,17 +203,8 @@ public class CalendarExporter implements Exporter {
     if (originalStartDate == null || Strings.isEmpty(originalStartDate)){
       return "";
     }
-    Matcher matcher = mSimpleDatePattern.matcher(originalStartDate);
-    if (matcher.find()) {
-      result.append(DATE_START)
-        .append(formatSimpleDate(matcher, DEFAULT_TIME_START));
-    }
-    else {
-      final DateTime dateTime = parseISO8601toUTC(originalStartDate);
-      if (dateTime == null) {
-        return "";
-      }
-      result.append(dateTimeToIcalDate(DATE_START, dateTime));
+    if (!appendDate(originalStartDate, result, DATE_START, DEFAULT_TIME_START)){
+      return "";
     }
     return result.append("\n").toString();
   }
@@ -224,19 +215,27 @@ public class CalendarExporter implements Exporter {
     if (originalEndDate == null || Strings.isEmpty(originalEndDate)){
       return "";
     }
-    Matcher matcher = mSimpleDatePattern.matcher(originalEndDate);
-    if (matcher.find()) {
-      result.append(DATE_END)
-        .append(formatSimpleDate(matcher, DEFAULT_TIME_END));
-    }
-    else {
-      final DateTime dateTime = parseISO8601toUTC(originalEndDate);
-      if (dateTime == null) {
-        return "";
-      }
-      result.append(dateTimeToIcalDate(DATE_END, dateTime));
+    if (!appendDate(originalEndDate, result, DATE_END, DEFAULT_TIME_END)){
+      return "";
     }
     return result.append("\n").toString();
+  }
+
+  private static boolean appendDate(final String aOriginalDate, final StringBuilder aResult,
+                                    final String aDateLineHeader, final String aDefaultTimeString) {
+    Matcher matcher = mSimpleDatePattern.matcher(aOriginalDate);
+    if (matcher.find()) {
+      aResult.append(aDateLineHeader)
+        .append(formatSimpleDate(matcher, aDefaultTimeString));
+    }
+    else {
+      final DateTime dateTime = parseISO8601toUTC(aOriginalDate);
+      if (dateTime == null) {
+        return false;
+      }
+      aResult.append(dateTimeToIcalDate(aDateLineHeader, dateTime));
+    }
+    return true;
   }
 
   private static String formatSimpleDate(final Matcher aMatcher, final String aTime){

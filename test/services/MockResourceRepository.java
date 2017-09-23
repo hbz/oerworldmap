@@ -1,6 +1,7 @@
 package services;
 
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Resource;
 import services.repository.Readable;
 import services.repository.Repository;
@@ -35,7 +36,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }
@@ -47,7 +48,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
     for (Resource resource : aResources) {
       addResource(resource, aMetadata);
     }
@@ -65,14 +66,14 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
+  public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aClassType, Map<String, Object> aMetadata) {
     Resource resource = db.get(aId);
     db.remove(aId);
     return resource;
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
+  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) {
     return new ArrayList<>(db.values());
   }
 

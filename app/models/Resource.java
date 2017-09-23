@@ -33,7 +33,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
+public class Resource extends ModelCommon implements Comparable<Resource> {
 
   /**
    *
@@ -43,7 +43,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
-    "Comment", "Product"));
+    "Comment", "Product", "LikeAction", "LighthouseAction"));
 
   private static JsonNode mSchemaNode = null;
 
@@ -225,12 +225,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return list;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        list.add((Resource) value);
+    if (result instanceof Resource) {
+      list.add((Resource) result);
+    } else if (result instanceof List<?>) {
+      for (Object value : (List<?>) result) {
+        if (value instanceof Resource) {
+          list.add((Resource) value);
+        }
       }
     }
     return list;

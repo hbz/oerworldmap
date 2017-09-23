@@ -4,7 +4,7 @@
         {{#localized this.displayName language=@root.language}}
             {{[@value]}}
         {{else}}
-            {{#localized name language=@root.language}}
+            {{#localized this.name language=@root.language}}
                 {{[@value]}}
             {{else}}
                 {{[@id]}}

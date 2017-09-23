@@ -15,9 +15,10 @@ import play.twirl.api.Html;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
 
 /**
  * Created by fo on 21.07.16.
@@ -67,8 +68,7 @@ public class Sparql extends OERWorldMap  {
     String diffString = ctx().request().body().asFormUrlEncoded().get("diff")[0];
 
     Commit.Diff diff = TripleCommit.Diff.fromString(diffString);
-    TripleCommit.Header header = new TripleCommit.Header(getMetadata().get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(getMetadata().get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(getMetadata());
 
     Commit commit = new TripleCommit(header, diff);
 

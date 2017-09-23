@@ -1,5 +1,6 @@
 package services.repository;
 
+import models.ModelCommon;
 import models.Resource;
 
 import javax.annotation.Nonnull;
@@ -20,7 +21,7 @@ public interface Writable {
    * @param aMetadata
    *          Map containing metadata such as author, timestamp etc
    */
-  void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException;
+  void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException;
 
   /**
    * Add multiple resources to the repository
@@ -31,18 +32,22 @@ public interface Writable {
    *          Map containing metadata such as author, timestamp etc
    * @throws IOException
    */
-  void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException;
+  void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException;
 
   /**
    * Delete a resource from the repository
    *
    * @param aId
    *          The ID of the resource to be deleted
+   * @param aClassType
+   *          The type of the resource to be deleted
    * @param aMetadata
    *          Map containing metadata such as author, timestamp etc
    * @return The deleted resource
    * @throws IOException
    */
-  Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException;
+  ModelCommon deleteResource(@Nonnull final String aId,
+                             @Nonnull final String aClassType,
+                             final Map<String, Object> aMetadata) throws IOException;
 
 }
