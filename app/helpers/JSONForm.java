@@ -229,7 +229,11 @@ public class JSONForm {
           ObjectNode value = setJsonLdTextValues((ObjectNode) fieldValue);
           result.set(fieldName, value);
         } else if (!fieldValue.isArray() && !fieldValue.isObject()) {
-          result.set(fieldName, fieldValue);
+          if (fieldValue.isTextual()) {
+            result.put(fieldName, fieldValue.asText().trim());
+          } else {
+            result.set(fieldName, fieldValue);
+          }
         }
       }
     }

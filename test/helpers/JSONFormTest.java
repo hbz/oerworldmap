@@ -134,4 +134,13 @@ public class JSONFormTest {
     assertEquals(expected, result);
   }
 
+  @Test
+  public void testTrimTextValues() {
+    Map<String,String[]> formData= new HashMap<>();
+    formData.put("foo", new String[]{" bar"});
+    String expected = "{\"foo\":\"bar\"}";
+    String result = JSONForm.parseFormData(formData).toString();
+    assertEquals(expected, result);
+  }
+
 }
