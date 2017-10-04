@@ -40,3 +40,4 @@ dcterms:hasPart owl:inverseOf dcterms:isPartOf .
 :publication owl:inverseOf :publisher .
 :isRelatedTo owl:inverseOf :isRelatedTo .
 :manufacturer owl:inverseOf :manufactured .
+:manufactured owl:inverseOf :manufacturer .
