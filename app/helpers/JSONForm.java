@@ -100,23 +100,6 @@ public class JSONForm {
       : setJsonLdTextValues((ObjectNode) merge(results));
   }
 
-  public static List<Map<String, Object>> generateErrorReport(ProcessingReport report) {
-    List<Map<String, Object>> errorReport = new ArrayList<>();
-    for (ProcessingMessage message : report) {
-      ObjectNode messageNode = (ObjectNode) message.asJson();
-      String messageText = messageNode.get("instance").get("pointer").asText() + ": "
-          + messageNode.get("message").asText();
-      messageNode.put("message", messageText);
-      switch (messageNode.get("level").asText()) {
-      case "error":
-        messageNode.put("level", "danger");
-        break;
-      }
-      errorReport.add(Resource.fromJson(messageNode));
-    }
-    return errorReport;
-  }
-
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
 
     ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
