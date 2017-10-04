@@ -279,7 +279,9 @@ public class ResourceIndex extends OERWorldMap {
         Map<String, Object> scope = new HashMap<>();
         scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
         scope.put("type", resource.getType());
-        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+          .getString("ResourceIndex.upsertResource.failed");
+        return badRequest(render(pageTitle, "ProcessingReport/list.mustache", scope));
       } else {
         return badRequest(listProcessingReport.asJson());
       }
@@ -298,8 +300,10 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
         .absoluteURL(request()));
+      String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+        .getString("ResourceIndex.upsertResource.created");
       if (request().accepts("text/html")) {
-        return created(render("Created", "created.mustache", resource));
+        return created(render(pageTitle, "created.mustache", resource));
       } else {
         return created("Created " + resource.getId());
       }
