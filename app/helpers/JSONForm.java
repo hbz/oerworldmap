@@ -88,7 +88,7 @@ public class JSONForm {
             context = object;
           } else {
             ObjectNode object = new ObjectNode(JsonNodeFactory.instance);
-            object.put(step.key, context);
+            object.set(step.key, context);
             context = object;
           }
         }
@@ -121,18 +121,18 @@ public class JSONForm {
       boolean nully = (valy == null);
 
       if (nullx && !nully) {
-        result.put(key, valy);
+        result.set(key, valy);
       } else if (nully && !nullx) {
-        result.put(key, valx);
+        result.set(key, valx);
       } else if (valx instanceof ArrayNode && valy instanceof ArrayNode) {
-        result.put(key, merge((ArrayNode) valx, (ArrayNode) valy));
+        result.set(key, merge((ArrayNode) valx, (ArrayNode) valy));
       } else if (valx instanceof ObjectNode && valy instanceof ObjectNode) {
-        result.put(key, merge((ObjectNode) valx, (ObjectNode) valy));
+        result.set(key, merge((ObjectNode) valx, (ObjectNode) valy));
       } else if (!nullx) {
         ArrayNode val = new ArrayNode(JsonNodeFactory.instance);
         val.add(valx);
         val.add(valy);
-        result.put(key, val);
+        result.set(key, val);
       }
     }
     return result;
@@ -182,13 +182,13 @@ public class JSONForm {
       if (fieldValue.isArray() && fieldValue.size() > 0) {
         ArrayNode value = removeEmptyValues((ArrayNode) fieldValue);
         //if (value.size() > 0)
-          result.put(fieldName, value);
+          result.set(fieldName, value);
       } else if (fieldValue.isObject() && fieldValue.size() > 0) {
         ObjectNode value = removeEmptyValues((ObjectNode) fieldValue);
         //if (value.size() > 0)
-          result.put(fieldName, value);
+          result.set(fieldName, value);
       } else if (!fieldValue.isArray() && !fieldValue.isObject() && !fieldValue.isNull()) {
-        result.put(fieldName, fieldValue);
+        result.set(fieldName, fieldValue);
       }
     }
     return result;
@@ -224,12 +224,12 @@ public class JSONForm {
         JsonNode fieldValue = node.get(fieldName);
         if (fieldValue.isArray() && fieldValue.size() > 0) {
           ArrayNode value = setJsonLdTextValues((ArrayNode) fieldValue);
-          result.put(fieldName, value);
+          result.set(fieldName, value);
         } else if (fieldValue.isObject() && fieldValue.size() > 0) {
           ObjectNode value = setJsonLdTextValues((ObjectNode) fieldValue);
-          result.put(fieldName, value);
+          result.set(fieldName, value);
         } else if (!fieldValue.isArray() && !fieldValue.isObject()) {
-          result.put(fieldName, fieldValue);
+          result.set(fieldName, fieldValue);
         }
       }
     }
