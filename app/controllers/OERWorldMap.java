@@ -258,18 +258,6 @@ public abstract class OERWorldMap extends Controller {
     return aId;
   }
 
-  public Resource getUser(String aId) {
-
-    Resource user = null;
-    String profileId = mAccountService.getProfileId(aId);
-    if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
-    }
-
-    return user;
-
-  }
-
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
