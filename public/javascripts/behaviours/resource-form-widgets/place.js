@@ -25,7 +25,7 @@ var Hijax = (function ($, Hijax) {
         if(a.label > b.label) return 1;
       });
 
-      my.countries_array.unshift({id: null, label: "None"});
+      my.countries_array.unshift({id: null, label: i18nStrings["ui"]["none"]});
 
       // init countries bloodhound
 

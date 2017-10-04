@@ -99,7 +99,7 @@ var Hijax = (function ($, Hijax) {
         if(options == "iso3166-1-alpha-2") {
           var add_what = "Country";
         } else {
-          var add_what = "Language";
+          var add_what = "availableLanguage";
         }
 
         widget.append(

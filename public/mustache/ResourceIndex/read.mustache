@@ -805,7 +805,7 @@
                     <form id="resource-edit" method="post" class="clearfix visible-modal" action="/resource/{{[@id]}}">
 
                         <div class="modal-title">
-                            <h1>{{i18n "ResourceIndex.read.edit"}} {{[@type]}}</h1>
+                            <h1>{{stringFormat (i18n "edit") (i18n [@type])}}</h1>
                             <div class="right">
                                 <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
                             </div>
