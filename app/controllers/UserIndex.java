@@ -383,7 +383,7 @@ public class UserIndex extends OERWorldMap {
 
     TripleCommit.Header header = new TripleCommit.Header(aIp, ZonedDateTime.now());
     TripleCommit.Diff diff = new TripleCommit.Diff();
-    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress);
+    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress.trim());
     Property predicate = ResourceFactory.createProperty("info:accepted");
     diff.addStatement(ResourceFactory.createStatement(subject, predicate,
       ResourceFactory.createPlainLiteral("Terms Of Service")));

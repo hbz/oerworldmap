@@ -9,6 +9,7 @@ import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
 import helpers.SCHEMA;
+import helpers.UniversalFunctions;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -42,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,11 +57,44 @@ public class ResourceIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
-  public Result list(String q, int from, int size, String sort, boolean list, String extension)
+  public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
       throws IOException {
 
-    // Extract filters directly from query params
+    Map<String, Object> scope = new HashMap<>();
     Map<String, List<String>> filters = new HashMap<>();
+    QueryContext queryContext = getQueryContext();
+
+    // Handle ISO 3166 param
+    if (!StringUtils.isEmpty(iso3166)) {
+
+      if (! UniversalFunctions.resourceBundleToMap(ResourceBundle
+        .getBundle("iso3166-1-alpha-2", getLocale()))
+        .containsKey(iso3166.toUpperCase())) {
+        return notFound("Not found");
+      }
+
+      Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
+      filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
+      ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
+      ResourceList reports = mBaseRepository.query(
+        "about.keywords:\"countryreport:".concat(iso3166.toUpperCase()).concat("\""), 0, 10, null, null);
+      filters.clear();
+
+      Map<String, Object> iso3166Scope = new HashMap<>();
+      String countryName = ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
+        .getString(iso3166.toUpperCase());
+      iso3166Scope.put("alpha-2", iso3166.toUpperCase());
+      iso3166Scope.put("name", countryName);
+      iso3166Scope.put("champions", champions.getItems());
+      iso3166Scope.put("reports", reports.getItems());
+      iso3166Scope.put("countryAggregation", countryAggregation);
+      scope.put("iso3166", iso3166Scope);
+
+      queryContext.setIso3166Scope(iso3166.toUpperCase());
+
+    }
+
+    // Extract filters directly from query params
     Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
     for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
       Matcher filterMatcher = filterPattern.matcher(entry.getKey());
@@ -67,8 +102,6 @@ public class ResourceIndex extends OERWorldMap {
         filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
     }
-
-    QueryContext queryContext = getQueryContext();
 
     // Check for bounding box
     String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");

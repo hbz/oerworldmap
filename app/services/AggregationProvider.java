@@ -137,7 +137,14 @@ public class AggregationProvider {
               "about.location"}, null)
           .addSort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
           .setSize(Integer.MAX_VALUE)
-      ).order(Histogram.Order.KEY_DESC);
+      ).order(Histogram.Order.KEY_DESC).minDocCount(1);
+  }
+
+  public static AggregationBuilder<?> getRegionAggregation(int aSize) {
+    return AggregationBuilders.terms("about.location.address.addressRegion")
+      .field("about.location.address.addressRegion")
+      .include("..\\....?")
+      .size(aSize);
   }
 
   public static AggregationBuilder<?> getPrimarySectorsAggregation(int aSize) {
