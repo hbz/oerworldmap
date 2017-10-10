@@ -17,6 +17,7 @@ import java.util.Map;
 public class QueryContext {
 
   private Map<String, QueryBuilder> filters = new HashMap<>();
+  private String iso3166Scope;
   private Map<String, List<AggregationBuilder<?>>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
   private String[] fetchSource = new String[] {};
@@ -78,11 +79,12 @@ public class QueryContext {
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation(0));
-    guestAggregations.add(
-      filters.containsKey("iso3166")
-        ? AggregationProvider.getRegionAggregation(0)
-        : AggregationProvider.getByCountryAggregation(0)
-    );
+    if (filters.containsKey("iso3166")) {
+      guestAggregations.add(AggregationProvider.getRegionAggregation(0));
+      guestAggregations.add(AggregationProvider.getForCountryAggregation(iso3166Scope, 0));
+    } else {
+      guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
+    }
     guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
     guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
     guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
@@ -155,6 +157,7 @@ public class QueryContext {
   }
 
   public void setIso3166Scope(String aISOCode) {
+    iso3166Scope = aISOCode;
     QueryBuilder iso3166 = QueryBuilders.boolQuery()
       .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));
     filters.put("iso3166", iso3166);

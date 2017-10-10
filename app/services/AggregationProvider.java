@@ -99,7 +99,12 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")))
+            .subAggregation(AggregationBuilders.topHits("country_champions"))
+        .subAggregation(AggregationBuilders
+            .filter("reports")
+            .filter(QueryBuilders.termQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
+            .subAggregation(AggregationBuilders.topHits("country_reports")));
   }
 
   public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
