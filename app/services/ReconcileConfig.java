@@ -5,7 +5,7 @@ package services;
  */
 public class ReconcileConfig extends AbstractConfig {
 
-  private static final String DEFAULT_CONFIG_FILE = "conf/search.conf";
+  private static final String DEFAULT_CONFIG_FILE = "conf/reconcile.conf";
 
   public ReconcileConfig() {
     this(DEFAULT_CONFIG_FILE);
