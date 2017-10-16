@@ -5,22 +5,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author fo
+ * @author pvb
  */
-public class ResourceList extends ModelCommonList{
 
-  public ResourceList(@Nonnull List<ModelCommon> aResourceList, long aTotalItems, String aQuery, int aFrom,
+public class ActionList extends ModelCommonList{
+
+  public ActionList(@Nonnull List<ModelCommon> aResourceList, long aTotalItems, String aQuery, int aFrom,
                       int aSize, String aSort, Map<String, List<String>> aFilters, Resource aAggregations) {
     super(aResourceList, aTotalItems, aQuery, aFrom, aSize, aSort, aFilters, aAggregations);
   }
 
-  public ResourceList(Resource aPagedCollection) {
+  public ActionList(Resource aPagedCollection) {
     super(aPagedCollection);
   }
 
   private String getCurrentPage() {
     Map<String, Object> params = buildParamsMap(from);
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
+    return params.isEmpty() ? null : "/action/?".concat(joiner.join(params));
   }
 
   private String getNextPage() {
@@ -28,7 +29,7 @@ public class ResourceList extends ModelCommonList{
       return null;
     }
     Map<String, Object> params = buildParamsMap(from + size);
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
+    return params.isEmpty() ? null : "/action/?".concat(joiner.join(params));
   }
 
   private String getPreviousPage() {
@@ -36,7 +37,7 @@ public class ResourceList extends ModelCommonList{
       return null;
     }
     Map<String, Object> params = buildParamsMap(from - size);
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
+    return params.isEmpty() ? null : "/action/?".concat(joiner.join(params));
   }
 
   private String getFirstPage() {
@@ -44,19 +45,19 @@ public class ResourceList extends ModelCommonList{
       return null;
     }
     Map<String, Object> params = buildParamsMap(Long.valueOf(0));
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
+    return params.isEmpty() ? null : "/action/?".concat(joiner.join(params));
   }
 
   private String getLastPage(){
-    return super.getLastPage("resource");
+    return super.getLastPage("action");
   }
 
   private List<String> getPages(){
-    return super.getPages("resource");
+    return super.getPages("action");
   }
 
-  public Resource toResource() {
-    Resource pagedCollection = new Resource("PagedCollection");
+  public Action toAction() {
+    Action pagedCollection = new Action("PagedCollection"); // TODO: change schema? or change code?
     pagedCollection.put("totalItems", totalItems);
     pagedCollection.put("size", Long.toString(size));
     pagedCollection.put("currentPage", getCurrentPage());
@@ -72,5 +73,9 @@ public class ResourceList extends ModelCommonList{
     pagedCollection.put("pages", getPages());
     return pagedCollection;
   }
+
+
+
+
 
 }
