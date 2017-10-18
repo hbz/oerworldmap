@@ -1,0 +1,13 @@
+{
+  "@type" : "Organization",
+  "name" : [ {
+    "@value" : "MyCorrectResourceTitle",
+    "@language" : "en"
+  } ],
+  "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-reconcile1",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "description" : [ {
+    "@value" : "Some distorting text. This organization should be returned first in the reconcile result, because it provides the desired name in the title field. This description is chosen long in order score the document down. Because description is not respected by reconsiliation per default, the long description should not affect the result in this case.",
+    "@language" : "en"
+  } ]
+}

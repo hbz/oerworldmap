@@ -124,7 +124,10 @@ public abstract class OERWorldMap extends Controller {
     createAccountService(mConf);
 
     // Location lookup
-    createLocationLookup(mEnv);
+    if (mEnv != null) {
+      // can be null in tests
+      createLocationLookup(mEnv);
+    }
 
     // Static pages
     createPageProvider(mConf);
@@ -495,6 +498,10 @@ public abstract class OERWorldMap extends Controller {
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
+  }
+
+  public BaseRepository getBaseRepository(){
+    return mBaseRepository;
   }
 
 }
