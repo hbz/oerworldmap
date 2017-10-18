@@ -1,115 +1,121 @@
 ---
 title: FAQ
 ---
+## What is OER?
 
-## Was ist OER?
-'OER' ist die Abkürzung für 'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch Veröffentlichung unter einer offenen Lizenz anstelle einer traditionellen Copyright-Lizenz. Ein wesentliches Merkmal ist, dass sie neue Möglichkeiten für kollaboratives Arbeiten bieten und innovatives Lehren und Lernen ermöglichen.
+'OER' stands for 'Open Educational Resources' and refers to freely accessible materials that can be used for a [range of activities around teaching and learning](https://www.opencontent.org/definition/). What makes them open is that they are typically published with an open license instead of a traditional copyright license. One key feature of OER is that they afford new opportunities for collaboration and innovation in teaching and learning.
 
-Nach der [UNESCO Definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), sind OER "Lehr-, Lern- und Forschungsmaterialien in jeder Art von Medium, sei es digital oder nicht, die gemeinfrei sind oder unter einer offenen Lizenz veröffentlicht wurden, die kostenfreien Zugang, Verwendung, Anpassung und Weiterbverbreitung erlaubt".
+According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
 
-Nach der Definition der [William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) können OER  vollständige Kurse, Kursmaterialien, Module, Lehrbücher, Videos, Tests, Software und alle anderen Tools, Materialien oder Techniken sein (oder enthalten), die verwendet werden, um Wissen zugänglich zu machen.
+Following the definition by [The William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) OER can be (or include) full courses, course materials, modules, textbooks, streaming videos, tests, software, and any other tools, materials, or techniques used to support access to knowledge.
 
-Obwohl umfassende Definitionen wie diese sehr bekannt sind, werden die Details einer endgültigen Definition von OER noch diskutiert. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln, finden Sie unter “Was gehört auf die OER World Map?”
+Although comprehensive definitions like these are well-known, the detail of how to arrive at a final definition for OER remains debated. The OER World Map project takes a broad and inclusive approach, providing information about actors and activities from the field of OER in the strict sense of the term, but also about related subjects like Open Education, Open Access and MOOCs. For more information on our collection strategy, please see “What belongs on the OER World Map?”
 
-## An wen wendet sich diese Website?
-Die OER World Map liefert nützliche Informationen für alle, die sich für OER und Open Education interessieren oder in diesem Bereich bereits tätig sind. Sie wurde entwickelt um Antworten zu geben auf Fragen wie:
-- "Wo finde ich OER?"
-- "Welche Projekte arbeiten an ähnlichen Fragestellungen wie unser Projekt?"
-- "Welche Experten verfügen über das Wissen, Fragen zu einem bestimmten Bereich von OER zu beantworten?"
+## Who is this website for?
 
-Wir glauben, dass diese Datensammlung von besonderer Bedeutung ist, da sie eine solide Grundlage ist für zukünftige Versuche, Wissen über OER und Open Education systematisch zu sammeln.
+The OER World Map provides helpful information for everyone who is interested in or connected to OER and Open Education. The system is designed to provide real-time answers to questions like: - "Where can I find OER?" - "Which projects are working on a similar topic to our project?" - "Which experts have the knowledge to answer a question related to a special area of OER?"
 
-Unsere Website bietet allen Interessensgruppen im Bereich OER relevante Informationen. Die Vielfalt der Interessen ist eine große Herausforderung für das Systemdesign, da benutzerorientierte Oberflächen normalerweise nach den klar definierten Bedürfnissen von bestimmten Nutzertypen entwickelt werden.
+We believe that this set of data is of special importance, since it provides a solid foundation for future attempts to collect knowledge about OER and Open Education in a systematic way.
 
-Momentan konzentrieren wir uns auf drei Anwendungsfälle (oder "Epics"):
-- Lehrer und Lernende sollen qualifizierte Listen von OER-Services (z.B. OER-Repositorys) bekommen, die ihnen helfen, geeignete Materialien schneller zu finden;
-- OER-Akteure sollen bei ihrer Kommunikation und Zusammenarbeit unterstützt werden, indem sie mit OER-Experten und mit Projekten, die an ähnlichen Fragestellungen arbeiten, vernetzt werden;
-- Entscheider im Bereich Bildung und OER sollen durch zuverlässige statistische Daten unterstützt werden.
+Our platform provides relevant data and information to all stakeholder groups from the field of OER. This diversity provides a major challenge for system design since user oriented interfaces are typically informed by the clearly defined needs of user types.
 
-Über die Website hinaus macht die OER World Map ihre Daten über eine Programmierschnittstelle (API) zugänglich, die es anderen Services erleichtert die Daten wiederzuverwenden.
+At the moment, we focus on three main use cases (or "epics"): - Teachers and learners should be provided with qualified lists of OER services (e.g. repositories of OER) in order to help them finding resources more efficiently; - OER actors should be supported in their communication and collaboration through connecting to relevant OER experts and projects working on similar tasks - OER Policy makers should be supported by reliable statistical data.
 
-Wir sammeln unsere "Use Cases" für die Weiterentwicklung der World Map auf [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Wenn Sie Ihnen etwas fehlt, [teilen Sie es uns bitte mit](mailto:info@oerworldmap.org).
+In addition to browser access (on desktop and mobile) The OER World Map makes data available to other systems through an Application Programming Interface (API), which will allow other services to reuse our data easily.
 
-## Wie kann ich mich beteiligen?
-Der Erfolg dieses Projekts hängt von der Beteiligung der OER-Community ab. Es gibt viele Möglichkeiten, sich zu beteiligen. Die wichtigsten sind:
+Our use - which are used to design the services we provide - cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please [contact us](mailto:info@oerworldmap.org)!
 
-- Daten sammeln und über unsere Formulare auf der Website eingeben
-- 'Storys' veröffentlichen
-- ‘Country Champion’ werden
+## How can I participate?
 
-Es gibt noch viele andere Wege zur OER World Map beizutragen. Eine vollständige Übersicht finden Sie [hier](https://oerworldmap.org/contribute).
+The success of the project is dependent on the participation of the OER community. There are many ways to contribute. The most important ways are:
 
-## Wie kann ich Daten eingeben?
-Um Daten einzugeben, müssen Sie sich nur bei der OER World Map anmelden. Weitergehende Informationen zur Dateneingabe finden Sie in unserem [Wiki](https://github.com/hbz/oerworldmap/wiki/Wiki-für-OER-World-Map-Editoren).
+- Collecting and entering data using our input templates
+- Contributing ‘stories’
+- Becoming a ‘country champion’
 
-## Was gehört auf die OER World Map?
-Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich der OER und der Open Education. Momentan konzentrieren wir uns auf die Elemente der OER-Infrastruktur. Wir sind besonders interessiert an:
+There are many other ways of contributing to the project. A complete overview can be found [here](https://oerworldmap.org/contribute).
+
+## How can I input and edit data?
+
+To be able to enter data, you only have to register yourself to the OER World Map. You can find further information on how to use our input templates in our [wiki here](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
+
+## What belongs on the OER World Map?
+
+The OER World Map collects data about actors and activities related to OER and Open Education. At the moment we concentrate on elements of the OER infrastructure. We are particularly interested in:
 
 <table class="table">
-<tr> <th>Datentyp</th><th>Definition</th><th>Beispiele</th></tr>
-<tr> <td>Organisationen</td><td>Eine Organisation ist eine stabile Gruppe von Personen, die gemeinsame Ziele verfolgen. Das Spektrum reicht von eingetragenen juristischen Personen auf der einen Seite bis hin zu informellen, lose verbundenen Gemeinschaften auf der anderen Seite.</td> <td>Universitäten, Gesellschaften, Vereine, Gemeinschaften</td></tr>
-<tr> <td>Projekte</td><td>Ein Projekt ist ein zeitlich begrenztes Unterfangen (innerhalb einer Organisation oder organisationsübergreifend) mit dem Ziel, eine bestimmte Aufgabe innerhalb einer bestimmten Zeitspanne zu erledigen.</td> <td>das OER World Map Projekt</td></tr>
-<tr> <td>Services</td><td>Ein Service ist ein Online-Angebot, das kontinuierlich zur Verfügung steht und Funktionen oder Inhalte im Zusammenhang mit OER bzw. für deren Nutzer zur Verfügung stellt.</td> <td>Repositorys, Sammlungen, Authoring-Tools, Kommunikationsplattformen</td></tr>
-<tr> <td>Veranstaltungen</td><td>Eine Veranstaltung ist eine Zusammenkunft von Personen, die an einem bestimmten Ort (virtuell oder real) zu einer bestimmten Zeit stattfindet.</td><td>Konferenzen, Workshops, Barcamps, MOOCs</td></tr>
+  
+<tr> <th>Data type</th><th>Definition</th> <th>Examples</th></tr> 
+<tr> <td>organizations</td><td>An organization is a steady group of people sharing collective goals. The spectrum reaches from fully incorporated legal persons on the one hand to loosely connected communities on the other.</td> <td>universities, corporations, associations, communities</td></tr>
+<tr> <td>projects</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
+<tr> <td>services</td><td>A service is an online offer, which exists on a steady basis, and provides functionality and value related to OER to its users.</td> <td>repositories, aggregators, authoring tools, communication platforms</td></tr>
+<tr> <td>events</td><td>An events is a gathering of people, which take place at a certain location (virtual or physical) at a certain time.</td><td>conferences, workshops, barcamps, moocs</td></tr>
 </table>
 
-Es gibt noch viele Möglichkeiten dieses Modell in der Zukunft auszubauen.
+There are many opportunities for future expansion of the model.
 
-## Wo sind die Open Educational Resources?
-Wir denken, dass das Auffinden einzelner Ressourcen von einem suchmaschinenbasierten Service geleistet werden sollte. Die OER World Map erleichtert das Auffinden von OER indirekt, indem sie Listen von passenden OER-Services liefert.
+## Where are the OER?
 
-## Was ist eine offene Lizenz?
+We believe that the discovery of individual OER has to be provided by search engine based services. The OER World Map facilitates the discovery of OER indirectly by providing qualified lists of OER services.
 
-Die weithin akzeptierten OER-Definitionen von der UNESCO und der William and Flora Hewlett Foundation verlangen die Verwendung eine speziellen "offenen" Lizenz, die aus gewöhnlichen Bildungsmaterialien offene Bildungsmaterialien (OER) macht. Das traditionelle Copyright beschreibt, was mit Material, das jemand verfasst hat, gemacht werden darf und was nicht. Eine offene Lizenz beschränkt nicht das Recht des Autors als Autor seines Werkes anerkannt zu werden. Vielmehr würdigt sie den Autor und legt genauere Bedingungen fest für die (Wieder-)Verwendung.
+## What is an open license?
 
-In Abhängigkeit von der jeweils gewählten Lizenz gewährt eine offene Lizenz  eine Reihe von Verwendungsmöglichkeiten bekannt als die "5 Rs" der Offenheit (oder auf Deutsch die ["5 Vs"](http://open-educational-resources.de/5rs-auf-deutsch/) in Anlehnung an Jöran Muuß-Merholz):
+The widely accepted OER definitions by UNESCO and The William and Flora Hewlett Foundation require the use of a special ‘open’ license, which transforms a conventional educational resource into an open educational resource. Traditional copyright prescribes what can and can’t be done with materials that one has authored (or owns the rights to). Rather, it acknowledges and expresses these rights by recognising the author and prescribing specific conditions for use and reuse.
 
-- **Retain (verwahren/vervielfältigen)** – das Recht, Kopien des Inhalts anzufertigen, zu besitzen und zu kontrollieren
-- **Reuse (verwenden)** – das Recht, den Inhalt in verschiedenen Zusammenhängen einzusetzen (z.B. in der Schule, in einer Lerngruppe, auf einer Website, in einem Video)
-- **Revise (verändern)** – das Recht, den Inhalt anzupassen oder abzuändern (z.B. den Inhalt in eine andere Sprache zu übersetzen)
-- **Remix (vermischen)** – das Recht, den Inhalt (original oder verändert) mit anderen offenen Inhalten zu kombinieren, um etwas Neues zu schaffen (z.B. Inhalte in einem Mashup zu verbinden)
-- **Redistribute (verbreiten)** – das Recht, Kopien des Originalinhalts, veränderter oder remixter Inhalte weiter zu verbreiten (z.B. ein Kopie des Inhalts einem Freund geben)
+An open licence doesn’t undermine someone’s right to be recognised as the author of their work. Rather, it recognises the author and sets out more specific conditions for use and reuse.
 
-Einen ein wenig anderen Blickwinkel nimmt die  [Open Definition](http://opendefinition.org/) ein, die besagt:
-"Offene Daten und Inhalte können frei verwendet, verändert und geteilt werden, von jedem für jeden Zweck."
+Depending on the specific license this allows for a range of behaviours known as the '5 Rs' of openness:
 
-Obwohl viele verschiedene offene Lizenzen zur Verfügung stehen, sind die Lizenzen von  [Creative Commons](https://creativecommons.org/licenses/) die am häufigsten benutzte Lizenz-Familie. Wir empfehlen im Allgemeinen die CC-By- oder CC-BY-SA-Lizenz für OER zu verwenden. Beide Lizenzen entsprechen den strengen Anforderungen der Open Definition und wurden von Creative Commons für freie kulturelle Werke empfohlen. Weitere Informationen zum Einsatz von offenen Lizenzen finden sie [hier](https://www.unesco.de/fileadmin/medien/Dokumente/Kommunikation/Open_Content_A_Practical_Guide_to_Using_Open_Content_Licences_web.pdf).
+- **Retain** – the right to make, own, and control copies of the content
+- **Reuse** – the right to use the content in a wide range of ways (e.g., in a class, in a study group, on a website, in a video)
+- **Revise** – the right to adapt, adjust, modify, or alter the content itself (e.g., translate the content into another language)
+- **Remix** – the right to combine the original or revised content with other open content to create something new (e.g., incorporate the content into a mashup)
+- **Redistribute** – the right to share copies of the original content, your revisions, or your remixes with others (e.g., give a copy of the content to a friend)
 
-## Kann ich Services auf der Karte eintragen, die nicht-offene Materialien anbieten?
-Die verbreitetsten OER-Definitionen der UNESCO und der William and Flora Hewlett Foundation verlangen zwingend die Verwendung einer offenen Lizenz. "Freie" oder "kostenlose" Materialien (Materialien, die ohne Gebühr im Internet zugänglich, aber nicht offen lizensiert sind) sind keine OER nach diesen Definitionen. Wir nehmen die Idee der Offenheit sehr ernst, da das Weiterverwenden und Verändern von Materialien ein zentraler Punkt im Konzept offener Bildungsmaterialien sind. Indem sie ihren Schwerpunkt auf frei lizensierte Materialien legt, wird die OER World Map von großem Nutzen sein für Besucher, die insbesondere nach weiterverwendbaren Materialien suchen.
+A slightly different focus is provided by the [Open Definition](http://opendefinition.org/) which states that: "Open data and content can be freely used, modified, and shared by anyone for any purpose"
 
-Dennoch glauben wir nicht, dass es sinnvoll ist, nicht-offenen Services auszuschließen, denn die Gratis-Angebote von heute können die offen lizensierten Services von Morgen sein. Deshalb werden auf der OER World Map auch Services gezeigt, die Material unter verschiedensten Lizenzen anbieten, solange das Material online frei verfügbar ist ("gratis").
+Though there are many different open licenses available, [Creative Commons](https://creativecommons.org/licenses/) provides the by far most used open license family. We generally recommend the use of CC-BY or CC BY-SA licenses for OER. Both license meet the strict requirement of the open definition and also have been approved for free cultural works by Creative Commons. More information about the use of open content licenses can be found [here](https://www.unesco.de/fileadmin/medien/Dokumente/Kommunikation/Open_Content_A_Practical_Guide_to_Using_Open_Content_Licences_web.pdf).
 
-Wir betonen allerdings sehr stark den besonderen Nutzen von freien Lizenzen. So kann bereits jetzt die Suche auf der OER World Map auf offen lizensiertes Material beschränkt werden. Außerdem arbeiten wir daran, einen [Offenheitsindikator](https://github.com/hbz/oerworldmap/issues/237) zu entwickeln, der in Zukunft den Grad der Offenheit von Services auf den ersten Blick sichtbar machen wird.
+## Can I add services which provide non open resources to the map?
 
-Projekte sollten flexibler betrachtet werden als Services. Viele Projekte verfolgen Ziele, die mit Open Education im weiteren Sinne zu tun haben, und liefern Ergebnisse, die wichtig für die OER-Bewegung sind, auch wenn sie kein offen lizensiertes Material veröffentlichen. Da wir keine relevanten Ergebnisse ausschließen wollen, sind wir überzeugt davon, dass die OER World Map offen für alle Projekte sein soll, die glauben zum Bereich der "Open Education" beitragen zu können.
+The most common OER definitions by UNESCO and by The William and Flora Hewlett Foundation compulsory require the use of open licenses. "Free" or "gratis" resources (resources which are accessible without any cost on the internet but not openly licensed) are not OER according to these definitions. We take openness very serious since the idea of reusing and modifying resources is central to the concept of OER. By focusing on openly licensed material the OER World Map will provide real value to users, who are especially looking for reusable material.
 
-## Sollen MOOCs (Massive Open Online Courses) auf der OER World Map eingetragen werden?
-Das ist eine interessante Frage. Die einfache Antwort lautet "Ja!" Aber im Detail ist die Sache komplizierter:
+Nevertheless, since the gratis offerings of today might become the openly licensed services of tomorrow, we don`t think that it makes sense to exclude non-open services dogmatically. Therefore, the OER World Map records and shares services providing material under a variety of licenses, with a minimum requirement that the material must be freely available online (“gratis”).
 
-Ein häufig vorgetragener Kritikpunkt ist, dass viele [MOOCs](https://en.wikipedia.org/wiki/Massive_open_online_course) kein offen lizensiertes Material verwenden (was sie zwar "frei" bzw. "gratis" macht, aber eben nicht "offen"). Wie oben bereits dargelegt, können auch Gratis-Services und -Materialien auf der OER World Map erfasst werden. Das gilt für auch für MOOCS. Wenn ein MOOC keine offenen Materialien verwendet, wird es in Zukunft mit dem "Offenheitsindikator" entsprechend gekennzeichnet werden.
+We do, however, take an active lead in highlighting the special benefits of open licenses. In order to do so, we currently provide search for openly licensed material. We are also working on developing an [openness indicator](https://github.com/hbz/oerworldmap/issues/237), which will be used in the future to visually convey information about the degree of openness of a service at one sight.
 
-Man könnte auch argumentieren, dass MOOCs Kurse sind, die OER verwenden oder zur Verfügung stellen (wenn offene Lizenzen verwendet werden), aber dies sie nicht selbst zu OER macht. Man könnte argumentiert, dass MOOCs eher als Open Educational Practices (OEP), denn als OER eingeordnet werden müssen. Trotz allem halten wir es für sinnvoll MOOCs aufzunehmen, denn es gibt einen Zusammenhang zwischen MOOCs und OER und außerdem großes Interesse an MOOCs.
+Projects are handled more flexibly than services. Many projects aim at goals related to Open Education in the wider sense and provide results which are valuable to the OER movement, even if they do not provide openly licensed materials. To avoid excluding valuable experiences, we believe that the OER World Map should be open to all projects which believe they make a contribution to the field of Open Education.
 
-Ganz konkret können MOOC-Anbieter als Service eingetragen werden und einzelne MOOCs als Veranstaltungen. Momentan liegt der Schwerpunkt bei der Datensammlung nicht auf MOOCs, aber das könnte sich in Zukunft ändern.
+## Should MOOCs (Massive Open Online Courses) be added to the OER World Map?
 
-## Wie verwenden Sie Daten, die ich eingebe?
-Wir halten Datenschutz für sehr wichtig. Sie finden Informationen dazu in unseren [Nutzungsbedingungen & Datenschutz](https://oerworldmap.org/imprint). Um sicher zu stellen, dass Ihre Daten so sicher wie möglich sind, arbeiten wir mit einem [Rechtsanwalt](http://irights-law.de/team/jan-schallaboeck/) zusammen, der auf Datenschutz spezialisiert ist. Wir verwenden einen Privacy-by-Design-Ansatz, der sicherstellt, dass Datenschutz von Beginn an bei der Entwicklung berücksichtigt wird. Das betrifft alle persönlichen Daten, die uns übermittelt werden. Auf der anderen Seite sind alle Daten, die auf der OER World Map veröffentlicht werden - einschließlich Ihres persönlichen Profils - für jedermann als [Offene Daten](https://en.wikipedia.org/wiki/Open_data) zugänglich.
+This is an interesting question. The simple answer is "Yes!" But things are more complicated, if you look at it in more detail:
 
-## Wie kann ich eine Story teilen?
-Wir freuen uns, wenn Sie Ihre OER-Story mit der Community teilen und anderen von Ihren OER-Aktivitäten berichten wollen! Themen können sein OER-Projekte oder -Initiativen, Open Educational Practices, beispielsweise OER erstellen oder mit OER unterrichten, das Schreiben von OER-Richtlinien oder -Strategien, neue Erkenntnisse und Forschungsergebnisse zu OER, sowie das Entwickeln oder Verwenden nützlicher Tools für OER. Wählen Sie einen aussagekräftigen Titel und schreiben Sie einen Text (nicht mehr als 5000 Zeichen), der beschreibt, wer was wann warum und wie getan hat. Ein Foto zur Geschichte wäre schön.
+A criticism that has frequently been made is that many [MOOCs](https://en.wikipedia.org/wiki/Massive_open_online_course) are not using openly licensed material (which arguably makes them "free" or “gratis” but not really "open"). As stated above, the World Map can also include gratis services and materials. This is true for MOOCs as well. But if a MOOC does not provide open resources, it will be classified accordingly using the "openness indicator" in the future.
 
-Bitte beachten Sie, dass Storys unter [CC-BY](https://creativecommons.org/licenses/by/4.0/) veröffentlicht werden. Wenn Sie eine OER-Story teilen wollen, registrieren Sie sich bitte und tragen Sie sie als Story auf der OER World Map ein. Wir freuen uns, von Ihnen zu lesen! Sie können auch Artikel oder Blogposts wiederveröffentlichen, wenn sie entsprechend lizensiert sind.
+One could alternatively argue that MOOCs are courses, which are using and providing OER (if open licenses are used), but that this does not make them OER themselves. Indeed it could be argued that MOOCs might be better classified as Open Educational Practices (OEP), than OER. Nevertheless, since there is an obvious connection between MOOCs and OER - and there is much interest in MOOCs - we believe that it makes sense to include MOOCs as well.
 
-## Wollen Sie nur von Lehrenden hören, oder auch von Lernenden?
-Ja, wir wollen auch von Schülern und Studenten hören. Unserer Überzeugung nach ist die Stimme der Lernenden in den Diskussionen über OER häufig nicht laut genug. Wir wollen von allen hören, wie ihre Erfahrungen mit OER sind, besonders aus der Perspektive der Lernenden!
+Concretely, the OER World Map offers the possibility of including MOOC providers as services and individual MOOCs as events. Our current collection strategy does not concentrate on MOOCs, but this could potentially be a focus in the future.
 
-## Was bedeutet es, Country Champion zu sein?
-Die Country Champions helfen dabei, die OER-Welt in ihrem Land zu erfassen: Daten sammeln, die Qualität von Daten sichern und die OER World Map bekannt machen. Lesen Sie auch unseren [Blogartikel](https://oerworldmap.wordpress.com/2015/04/17/what-does-it-mean-to-become-a-country-champion/) dazu. In der Homepage-Ansicht der Worldmap Sehen Sie, wo noch Country Champions fehlen. Wenn Sie Interesse haben, Country Champion für Ihr Land zu werden, zögern Sie nicht, uns eine [Mail](mailto:info@oerworldmap.org) zu schreiben.
+## How will you use any information I share?
 
-## Wird es die OER World Map in verschiedenen Sprachen geben?
-Die Ausgangsversion der Webiste wird in Englisch entwickelt. Wir sind überzeugt, dass auf lange Sicht die Website in vielen Sprachen verfügbar sein sollte, und das System unterstützt Mehrsprachigkeit. Derzeit unterstützt die Plattform bereits die Eingabe von Daten in nahezu allen Sprachen der Welt und das System zeigt Ihnen die Daten in der Sprache, die Sie für Ihren Browser gewählt haben (sofern die Daten in dieser Sprache vorliegen). Wenn Sie Interesse haben die Benutzeroberfläche der Website in ihre Muttersprache zu übersetzen, schreiben Sie uns bitte eine [Mail](mailto:info@oerworldmap.org).
+We believe data privacy is important. You can find information about our legal and privacy policy [here](https://oerworldmap.org/imprint). In order to assure that your data will be as safe as possible, we cooperate with a [lawyer specialized in data protection law](http://irights-law.de/team/jan-schallaboeck/). We follow a privacy by design approach, which makes sure that data privacy is taken into account from the beginning of the development process. This is true for all personal data provided to us. Nevertheless it has to be understood that all data published on the platform, including your personal profiles will be available to everyone as [open data](https://en.wikipedia.org/wiki/Open_data).
 
-## Warum werden die Länder in verschiedenen Grüntönen dargestellt?
-Länder, in denen OER-Aktivitäten erfasst wurden, werden grün dargestellt. Je mehr Aktivitäten erfasst wurden, desto dunkler ist die Farbe. Diese Art der Darstellung wird auch Heatmap genannt. Die Heatmap basiert im Moment auf einem sehr einfachen Algorithmus, der Anzahl der Einträge. Wir denken darüber nach, den Mechanismus in Zukunft zu erweitern (z.B. indem wir die Zahl der Einträge in Relation setzen zur Zahl der Einwohner).
+## How can I contribute stories?
 
+We invite you to share your OER story with the community and tell others about your OER activities! These could be OER projects or initiatives, Open Educational Practices like someone generating OER or teaching with OER, the development of guidelines & institutional policies on OER, new insights and research on OER, as well as the development or use of helpful infrastructure tools for OER. Please include a title and a text (no longer than 5000 characters) that describes the who, what, when, where, why and how of the activity. A photo connected to the story would also be great. Please note that stories will be published under [CC-BY](https://creativecommons.org/licenses/by/4.0/). If you have an OER story which you consider worth sharing, please register yourself and add it to the OER World Map. We are looking forward to hearing from you soon! We can also republish articles, blog post and other sources directly where these are available openly.
+
+## Do you want to hear from students as well as educators?
+
+Yes! We believe that the student voice is often not loud enough in discussions about OER. We are interested in hearing from anyone with a good story to tell about OER and how it has made a difference to them. This is especially true for stories from a learner perspective.
+
+## What does it mean to become a country champion?
+
+Country champions help to map the OER world by country – gathering data, assuring its quality and raising awareness of the project. Check out our [blog post](https://oerworldmap.wordpress.com/2015/04/17/what-does-it-mean-to-become-a-country-champion/) for more information about the country champion network. The map on the homepage shows where country champions are still needed. If you are interested in acting as champion for your country, please do not hesitate to [contact us](mailto:info@oerworldmap.org).
+
+## Will the OER World Map be available in several languages?
+
+The initial version of the website is beeing developed in English. Nevertheless, we believe that in the long run the site should be available in many languages and the system is prepared to support multilingualism. At the time being the platform supports data input in all major languages of the world and the system will show you data within the language chosen in your browser, if available. If you are interested in translating the website into your own language, please [contact us](mailto:info@oerworldmap.org).
+
+## Why are countries displayed in different shades of green?
+
+Countries with documented OER activity are displayed green. The more activity there is, the darker the colour. We call this mechanism “heat map”. The heat map is based right now on a very simple algorithm: the number of entries. We are thinking about refining the algorithm in the future (e.g. by representing the number of entries into relation to the number of inhabitants).
