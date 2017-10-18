@@ -10,7 +10,7 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login", "/api"];
 
   var init_app = true;
 
