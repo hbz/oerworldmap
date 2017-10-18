@@ -72,7 +72,7 @@ public class Reconciler extends OERWorldMap{
       "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
       "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName", "about.email"
     });
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
     ObjectNode response = Json.newObject();
 
     while (aInputQueries.hasNext()) {
