@@ -191,6 +191,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+
+    aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
+
     SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
@@ -201,7 +204,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       String name = match.getNestedFieldValue("name.@value", Locale.ENGLISH); // TODO: trigger locale by reconcile request ?
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
       item.put("id", match.getId());
-      item.put("match", aQuery.equals(name));
+      item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
+        .equals(name.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")));
       item.put("name", name);
       item.put("score", hit.getScore());
       ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
