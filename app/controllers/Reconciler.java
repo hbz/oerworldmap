@@ -77,14 +77,12 @@ public class Reconciler extends OERWorldMap{
 
     while (aInputQueries.hasNext()) {
       Map.Entry<String, JsonNode> inputQuery = aInputQueries.next();
-      System.out.println("Reconcile query entry: " + inputQuery);             // TODO: delete
       JsonNode limitNode = inputQuery.getValue().get("limit");
       int limit = limitNode == null ? -1 : limitNode.asInt();
       String queryString = inputQuery.getValue().get("query").asText();
       JsonNode reconciled = mBaseRepository.reconcile(queryString, 0, limit, null, new HashMap<String, List<String>>(), queryContext);
       response.set(inputQuery.getKey(), reconciled);
     }
-    System.out.println("Reconcile response: " + response);                   // TODO: delete
     return response;
   }
 
