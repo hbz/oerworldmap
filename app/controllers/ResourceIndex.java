@@ -196,16 +196,16 @@ public class ResourceIndex extends OERWorldMap {
       return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
     } //
     else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv; charset=UTF-8");
     } //
     else if (format.equals("text/calendar")) {
-      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar; charset=UTF-8");
     } //
     else if (format.equals("application/json")) {
-      return ok(resourceList.toResource().toString()).as("application/json");
+      return ok(resourceList.toResource().toString()).as("application/json; charset=UTF-8");
     }
     else if (format.equals("application/geo+json")) {
-      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
+      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json; charset=UTF-8");
     }
 
     return notFound("Not found");
@@ -485,13 +485,13 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("text/html")) {
       return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else if (format.equals("application/json")) {
-      return ok(resource.toString()).as("application/json");
+      return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
     } else if (format.equals("text/calendar")) {
       String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
       if (ical != null) {
-        return ok(ical).as("text/calendar");
+        return ok(ical).as("text/calendar; charset=UTF-8");
       }
     }
 
