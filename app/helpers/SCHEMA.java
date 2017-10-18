@@ -27,9 +27,6 @@ public class SCHEMA {
     return ResourceFactory.createProperty( uri, local );
   }
 
-  public static final Property about = property("about");
-
   public static final Property comment = property("comment");
-
 
 }
