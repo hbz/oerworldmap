@@ -50,6 +50,8 @@ import java.util.regex.Pattern;
  */
 public class ResourceIndex extends OERWorldMap {
 
+  GeoJsonExporter mGeoJsonExporter = new GeoJsonExporter();
+
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
@@ -149,7 +151,7 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       return ok(resourceList.toResource().toString()).as("application/json");
     } else if (format.equals("application/geo+json")) {
-      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
+      return ok(mGeoJsonExporter.export(resourceList)).as("application/geo+json");
     } else if (format.equals("application/schema+json")) {
       return ok(new JsonSchemaExporter().export(resourceList)).as("application/schema+json");
     }
@@ -342,7 +344,7 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("text/csv")) {
       return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
     } else if (request().accepts("application/geo+json")) {
-      return ok(new GeoJsonExporter().export(resource));
+      return ok(mGeoJsonExporter.export(resource));
     } else if (format.equals("application/schema+json")) {
       return ok(new JsonSchemaExporter().export(resource)).as("application/schema+json");
     } else if (format.equals("text/calendar")) {
@@ -372,6 +374,10 @@ public class ResourceIndex extends OERWorldMap {
         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     } catch (NullPointerException e) {
       Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+    }
+    JsonNode geoJson = mGeoJsonExporter.exportJson(record);
+    if (geoJson != null) {
+      record.put("feature", geoJson);
     }
     return record;
   }

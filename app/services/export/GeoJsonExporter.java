@@ -19,6 +19,11 @@ public class GeoJsonExporter implements Exporter {
     return node == null ? null : node.toString();
   }
 
+  public JsonNode exportJson(Resource aResource) {
+    return toGeoJson(aResource, false);
+  }
+
+
   @Override
   public String export(ResourceList aResourceList) {
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
