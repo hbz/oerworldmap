@@ -8,7 +8,6 @@ import models.ModelCommon;
 import models.Resource;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.jena.atlas.RuntimeIOException;
-import org.elasticsearch.client.Client;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -21,14 +20,12 @@ import java.util.*;
 
 public class FileRepository extends Repository implements Writable, Readable {
 
-  private Client mClient;
-
-  private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>() {
-  };
-
+  private TypeReference<HashMap<String, Object>> mMapType =
+    new TypeReference<HashMap<String, Object>>() {};
   private Path getPath() {
     return Paths.get(mConfiguration.getString("filerepo.dir"));
   }
+  private static ObjectMapper mObjectMapper = new ObjectMapper();
 
   public FileRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -66,11 +63,10 @@ public class FileRepository extends Repository implements Writable, Readable {
    */
   @Override
   public Resource getResource(@Nonnull String aId) {
-    ObjectMapper objectMapper = new ObjectMapper();
     Path resourceFile;
     try {
       resourceFile = getResourcePath(aId);
-      Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+      Map<String, Object> resourceMap = mObjectMapper.readValue(resourceFile.toFile(), mMapType);
       return Resource.fromMap(resourceMap);
     } catch (IOException e) {
       return null;
@@ -89,11 +85,10 @@ public class FileRepository extends Repository implements Writable, Readable {
     ArrayList<Resource> results = new ArrayList<>();
     Path typeDir = Paths.get(getPath().toString(), aType);
     try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir)) {
-      ObjectMapper objectMapper = new ObjectMapper();
       for (Path resourceFile : resourceFiles) {
         Map<String, Object> resourceMap;
         try {
-          resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+          resourceMap = mObjectMapper.readValue(resourceFile.toFile(), mMapType);
         } catch (IOException ex) {
           ex.printStackTrace();
           continue;

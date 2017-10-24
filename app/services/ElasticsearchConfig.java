@@ -51,6 +51,8 @@ public class ElasticsearchConfig {
 
   private String[] mAllIndices;
 
+  final private static ObjectMapper mObjectMapper = new ObjectMapper();
+
   public ElasticsearchConfig(Config aConfiguration) throws IOException {
     mConfig = aConfiguration;
     init();
@@ -133,7 +135,7 @@ public class ElasticsearchConfig {
   public void createIndexIfNotExists(final String aIndex, final String aIndexConfig) throws IOException {
     if (!indexExists(aIndex)) {
       final String indexConfigString = UniversalFunctions.readFile(aIndexConfig, StandardCharsets.UTF_8);
-      JsonNode indexConfigNode = new ObjectMapper().readTree(indexConfigString);
+      JsonNode indexConfigNode = mObjectMapper.readTree(indexConfigString);
       CreateIndexResponse response = mClient.admin().indices().prepareCreate(aIndex)
         .addMapping("WebPage", indexConfigNode.get("mappings").get("WebPage").toString())
         .setSettings(indexConfigNode.get("settings").toString())

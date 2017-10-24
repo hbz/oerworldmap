@@ -35,6 +35,7 @@ public abstract class IndexCommon extends OERWorldMap{
   public IndexCommon(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
   }
+  private static ObjectMapper mObjectMapper = new ObjectMapper();
 
   public Result addResource() throws IOException {
     JsonNode jsonNode = getJsonFromRequest();
@@ -74,7 +75,7 @@ public abstract class IndexCommon extends OERWorldMap{
       }
       if (request().accepts("text/html")) {
         Map<String, Object> scope = new HashMap<>();
-        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("report", mObjectMapper.convertValue(listProcessingReport.asJson(), ArrayList.class));
         scope.put("type", resource.getType());
         return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
       } else {

@@ -1,5 +1,6 @@
 package services.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import helpers.UniversalFunctions;
@@ -47,6 +48,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private static ElasticsearchConfig mConfig;
   private Client mClient;
   private Fuzziness mFuzziness;
+  private static ObjectMapper mObjectMapper = new ObjectMapper();
 
   public ElasticsearchRepository(Config aConfiguration) throws IOException {
     super(aConfiguration);
@@ -182,15 +184,16 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       aQueryContext, aIndices);
 
     Iterator<SearchHit> searchHits = response.getHits().iterator();
-    List<Resource> matches = new ArrayList<>();
+    List<ModelCommon> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
       Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
       matches.add(match);
     }
     // FIXME: response.toString returns string serializations of scripted keys
-    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+    Resource aggregations = new Resource(mObjectMapper.readTree(response.toString()))
+                .get("aggregations");
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
-      aFilters, aAggregations);
+      aFilters, aggregations);
 
   }
 

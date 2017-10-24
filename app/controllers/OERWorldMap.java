@@ -47,6 +47,7 @@ public abstract class OERWorldMap extends Controller {
   Configuration mConf;
   Environment mEnv;
   protected static BaseRepository mBaseRepository = null;
+  private static ObjectMapper mObjectMapper = new ObjectMapper();
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
   static PageProvider mPageProvider;
@@ -269,11 +270,11 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("sections", mPageProvider.getSections(getLocale()));
     Map<String, Object> skos = new HashMap<>();
     try {
-      skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
+      skos.put("esc", mObjectMapper.readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
         HashMap.class));
-      skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
+      skos.put("isced", mObjectMapper.readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
         HashMap.class));
-      skos.put("sectors", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
+      skos.put("sectors", mObjectMapper.readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
         HashMap.class));
     } catch (IOException e) {
       Logger.warn("Could not read SKOS file", e);

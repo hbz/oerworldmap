@@ -42,6 +42,8 @@ import java.util.List;
  */
 public class ResourceFramer {
 
+  final private static ObjectMapper mObjectMapper = new ObjectMapper();
+
   public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
 
     String describeStatement = String.format(TriplestoreRepository.EXTENDED_DESCRIPTION, aId);
@@ -68,8 +70,7 @@ public class ResourceFramer {
           ByteArrayOutputStream boas = new ByteArrayOutputStream();
           WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
           w.write(boas, g, RiotLib.prefixMap(g), null, ctx);
-          ObjectMapper objectMapper = new ObjectMapper();
-          JsonNode jsonNode = objectMapper.readTree(boas.toByteArray());
+          JsonNode jsonNode = mObjectMapper.readTree(boas.toByteArray());
 
           if (jsonNode.has(JsonLdConstants.GRAPH)) {
             ArrayNode graphs = (ArrayNode) jsonNode.get(JsonLdConstants.GRAPH);

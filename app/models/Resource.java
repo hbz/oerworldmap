@@ -39,6 +39,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    *
    */
   private static final long serialVersionUID = -6177433021348713601L;
+  private static final ObjectMapper mObjectMapper = new ObjectMapper();
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
@@ -49,7 +50,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
 
   static {
     try {
-      mSchemaNode = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
+      mSchemaNode = mObjectMapper.readTree(Paths.get(FilesConfig.getSchema()).toFile());
     } catch (IOException e) {
       Logger.error("Could not read schema", e);
     }
@@ -136,7 +137,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
   }
 
   public static Resource fromJson(JsonNode aJson) {
-    Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
+    Map<String, Object> resourceMap = mObjectMapper.convertValue(aJson,
         new TypeReference<HashMap<String, Object>>() {
         });
     return fromMap(resourceMap);
@@ -144,7 +145,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
 
   public static Resource fromJson(String aJsonString) {
     try {
-      return fromJson(new ObjectMapper().readTree(aJsonString));
+      return fromJson(mObjectMapper.readTree(aJsonString));
     } catch (IOException e) {
       Logger.error("Could not read resource from JSON", e);
       return null;
@@ -182,7 +183,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    * @return JSON JsonNode
    */
   public JsonNode toJson() {
-    return new ObjectMapper().convertValue(this, JsonNode.class);
+    return mObjectMapper.convertValue(this, JsonNode.class);
   }
 
   /**
@@ -206,7 +207,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    */
   @Override
   public String toString() {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = mObjectMapper;
     String output;
     try {
       output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());

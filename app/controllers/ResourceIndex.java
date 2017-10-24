@@ -42,6 +42,8 @@ import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
  */
 public class ResourceIndex extends IndexCommon {
 
+  private static ObjectMapper mObjectMapper = new ObjectMapper();
+
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
@@ -237,7 +239,7 @@ public class ResourceIndex extends IndexCommon {
       }
       if (request().accepts("text/html")) {
         Map<String, Object> scope = new HashMap<>();
-        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("report", mObjectMapper.convertValue(listProcessingReport.asJson(), ArrayList.class));
         scope.put("type", resource.getType());
         return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
       } else {
