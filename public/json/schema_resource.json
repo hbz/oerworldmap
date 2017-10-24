@@ -28,12 +28,6 @@
     },
     {
       "$ref": "#/definitions/WebPage"
-    },
-    {
-      "$ref": "#/definitions/LikeAction"
-    },
-    {
-      "$ref": "#/definitions/LighthouseAction"
     }
   ],
   "definitions": {
@@ -1985,99 +1979,6 @@
         }
       },
       "required": [ "addressCountry" ],
-      "additionalProperties": false
-    },
-    "LikeAction": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "Like action",
-      "description": "An action indicating that an agent likes an object",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "type": "string",
-          "format": "uri"
-        },
-        "@id": {
-          "description": "The like action's unique identifier",
-          "type": "string",
-          "format": "uri"
-        },
-        "@type": {
-          "type": "string",
-          "enum": [
-            "LikeAction"
-          ]
-        },
-        "agent": {
-          "description": "The agent of the like action",
-          "type": "object",
-          "allOf": [
-            { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Person" ] } } }
-          ]
-        },
-        "object": {
-          "description": "The object of the like action",
-          "type": "object",
-          "allOf": [
-            { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service" ] } } }
-          ]
-        },
-        "startTime": {
-          "$ref": "#/definitions/iso-8601-date"
-        }
-      },
-      "required": [ "agent", "object", "startTime" ],
-      "additionalProperties": false
-    },
-    "LighthouseAction": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "Lighthouse action",
-      "description": "An action indicating that an object is considered a lighthouse by an agent",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "type": "string",
-          "format": "uri"
-        },
-        "@id": {
-          "description": "The like action's unique identifier",
-          "type": "string",
-          "format": "uri"
-        },
-        "@type": {
-          "type": "string",
-          "enum": [
-            "LighthouseAction"
-          ]
-        },
-        "agent": {
-          "description": "The agent of the like action",
-          "type": "array",
-          "items": {
-            "allOf": [
-              { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Person" ] } } }
-            ]
-          }
-        },
-        "object": {
-          "description": "The object of the like action",
-          "type": "object",
-          "allOf": [
-            { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service" ] } } }
-          ]
-        },
-        "description": {
-          "$ref": "#/definitions/LocalizedString"
-        },
-        "startTime": {
-          "$ref": "#/definitions/iso-8601-date"
-        }
-      },
-      "required": [ "agent", "object", "description" ],
       "additionalProperties": false
     },
     "LocalizedString": {

@@ -43,7 +43,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
 
   static {
     try {
-      mSchemaNode = mObjectMapper.readTree(Paths.get(FilesConfig.getSchema()).toFile());
+      mSchemaNode = mObjectMapper.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     } catch (IOException e) {
       Logger.error("Could not read schema", e);
     }

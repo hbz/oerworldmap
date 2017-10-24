@@ -27,7 +27,7 @@ public class SchemaTest implements JsonTest {
   @Test
   public void testSchema() throws IOException {
     SyntaxValidator syntaxValidator = JsonSchemaFactory.byDefault().getSyntaxValidator();
-    JsonNode schema = mObjectMapper.readTree(Paths.get(FilesConfig.getSchema()).toFile());
+    JsonNode schema = mObjectMapper.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     assertTrue(syntaxValidator.schemaIsValid(schema));
   }
 
