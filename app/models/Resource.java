@@ -335,4 +335,8 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
   protected JsonNode getSchemaNode(){
     return mSchemaNode;
   }
+
+  public static List<String> getIdentifiedTypes(){
+    return mIdentifiedTypes;
+  }
 }

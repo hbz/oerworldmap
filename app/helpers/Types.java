@@ -1,10 +1,20 @@
 package helpers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.typesafe.config.Config;
 import models.Action;
-import models.Record;
+import models.ModelCommon;
+import models.Resource;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,69 +22,118 @@ import java.util.Map;
  */
 public class Types {
 
-  static private Map<Class, Type> CLASS_MAP;
+  private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private Map<Class, Type> mTypes;
+  private Map<String, String> mIndexTypes;
+  private Map<String, String> mClassTypes;
 
-  static private Map<String, Type> TYPE_MAP;
+  public Types(final Config aConfig) throws ProcessingException, IOException {
 
-  private Types(){ /*no instantiation */ }
+    mTypes = new HashMap<>();
+    mIndexTypes = new HashMap<>();
 
-  public static void init(final Config aConfig){
-    CLASS_MAP = new HashMap<>();
-    TYPE_MAP = new HashMap<>();
+    JsonNode resourceSchemaNode = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
+    JsonSchema resourceSchema = JsonSchemaFactory.byDefault().getJsonSchema(resourceSchemaNode);
+    Type resourceType = new Type(
+      Resource.class,
+      "WebPage",
+      aConfig.getString("es.index.webpage.name"),
+      resourceSchema,
+      Resource.getIdentifiedTypes());
+    mTypes.put(Resource.class, resourceType);
 
-    Type recordType = new Type(Record.class, Record.TYPE,
-      aConfig.getString("es.index.webpage.type"),
-      aConfig.getString("es.index.webpage.name"));
-    CLASS_MAP.put(Record.class, recordType);
-    TYPE_MAP.put(Record.TYPE, recordType);
+    JsonNode actionSchemaNode = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getActionSchema()).toFile());
+    JsonSchema actionSchema = JsonSchemaFactory.byDefault().getJsonSchema(actionSchemaNode);
+    Type actionType = new Type(
+      Action.class,
+      "Action",
+      aConfig.getString("es.index.action.name"),
+      actionSchema,
+      Action.getIdentifiedTypes());
+    mTypes.put(Action.class, actionType);
 
-    Type actionType = new Type(Action.class, Action.TYPE,
-      aConfig.getString("es.index.action.type"),
-      aConfig.getString("es.index.action.name"));
-    CLASS_MAP.put(Action.class, actionType);
-    TYPE_MAP.put(Action.TYPE, actionType);
+    putIndexTypes();
   }
 
-  static public String getEsIndexFromClass(final Class aClass){
-    return CLASS_MAP.get(aClass).getEsIndex();
+  private void putIndexTypes() {
+    for (Map.Entry<Class, Type> type : mTypes.entrySet()){
+      for (String subtype : type.getValue().getSubtypes()){
+        mIndexTypes.put(subtype, type.getValue().getIndexType());
+      }
+    }
   }
 
-  static public String getEsTypeFromClass(final Class aClass){
-    return CLASS_MAP.get(aClass).getEsType();
+  private Class getClassByIndexType(final String aIndexType) {
+    for (Map.Entry<Class, Type> type : mTypes.entrySet()){
+      if (type.getValue().getIndexType().equals(aIndexType)){
+        return type.getValue().getClazz();
+      }
+    }
+    return null;
   }
 
-  static public String getEsIndexFromClassType(final String aClassType){
-    return TYPE_MAP.get(aClassType).getEsIndex();
+  private String getIndexTypeByType(final String aType){
+    return mIndexTypes.get(aType);
+  }
+
+  public Class getClassByType(String aType){
+    return getClassByIndexType(getIndexTypeByType(aType));
+  }
+
+  public String getEsIndexFromClassType(final Class aClass){
+    return mTypes.get(aClass).getEsIndex();
+  }
+
+  public List<Class> getAllTypeClasses(){
+    return Arrays.asList(Resource.class, Action.class);
+  }
+
+  public JsonSchema getSchema(final Class aClass) throws IOException{
+    return mTypes.get(aClass).mSchema;
+  }
+
+  public String getIndexType(Class aClass){
+    return mTypes.get(aClass).getIndexType();
+  }
+
+  public String getIndexType(ModelCommon aItem) {
+    return getIndexType(getClassByType(aItem.getType()));
   }
 
   public static class Type {
 
     final private Class mClass;
-    final private String mClassType;
-    final private String mEsType;
-    final private String mEsIndex;
+    final private String mIndexType;
+    final private String mEsIndexName;
+    final private JsonSchema mSchema;
+    final private List<String> mSubtypes;
 
-    public Type(final Class aClass, final String aClassType, final String aEsType, final String aEsIndex){
+    public Type(final Class aClass,
+                final String aIndexType,
+                final String aEsIndex,
+                final JsonSchema aSchema,
+                final List<String> aSubtypes){
       mClass = aClass;
-      mClassType = aClassType;
-      mEsType = aEsType;
-      mEsIndex = aEsIndex;
+      mIndexType = aIndexType;
+      mEsIndexName = aEsIndex;
+      mSchema = aSchema;
+      mSubtypes = aSubtypes;
     }
 
     public Class getClazz(){
       return mClass;
     }
 
-    public String getClassType() {
-      return mClassType;
-    }
-
-    public String getEsType() {
-      return mEsType;
+    public String getIndexType(){
+      return mIndexType;
     }
 
     public String getEsIndex() {
-      return mEsIndex;
+      return mEsIndexName;
+    }
+
+    public List<String> getSubtypes(){
+      return mSubtypes;
     }
   }
 

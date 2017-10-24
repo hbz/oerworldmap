@@ -90,4 +90,8 @@ public class Action extends ModelCommon implements Comparable<Action> {
   protected JsonNode getSchemaNode(){
     return mSchemaNode;
   }
+
+  public static List<String> getIdentifiedTypes(){
+    return mIdentifiedTypes;
+  }
 }
