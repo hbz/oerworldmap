@@ -12,6 +12,7 @@ import helpers.SCHEMA;
 import helpers.UniversalFunctions;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -71,8 +72,8 @@ public class ResourceIndex extends IndexCommon {
 
       Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
       filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
-      ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
-      ResourceList reports = mBaseRepository.query(
+      ModelCommonList champions = mBaseRepository.query("*", 0, 9999, null, filters);
+      ModelCommonList reports = mBaseRepository.query(
         "about.keywords:\"countryreport:".concat(iso3166.toUpperCase()).concat("\""), 0, 10, null, null);
       filters.clear();
 
@@ -131,7 +132,7 @@ public class ResourceIndex extends IndexCommon {
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-    ResourceList resourceList =
+    ModelCommonList resourceList =
       mBaseRepository.query(q, from, size, sort, filters, queryContext, indices);
 
     Map<String, String> alternates = new HashMap<>();
@@ -152,7 +153,7 @@ public class ResourceIndex extends IndexCommon {
     }
 
     scope.put("list", list);
-    scope.put("resources", resourceList.toResource());
+    scope.put("resources", resourceList.toModelCommon());
     scope.put("alternates", alternates);
 
     String format = null;
@@ -198,7 +199,7 @@ public class ResourceIndex extends IndexCommon {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } //
     else if (format.equals("application/json")) {
-      return ok(resourceList.toResource().toString()).as("application/json");
+      return ok(resourceList.toModelCommon().toString()).as("application/json");
     }
     else if (format.equals("application/geo+json")) {
       return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
@@ -228,7 +229,7 @@ public class ResourceIndex extends IndexCommon {
     }
 
     // Validate
-    Resource staged = mBaseRepository.stage(resource);
+    ModelCommon staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
@@ -296,7 +297,7 @@ public class ResourceIndex extends IndexCommon {
       }
       // Stage and validate each resource
       try {
-        Resource staged = mBaseRepository.stage(resource);
+        ModelCommon staged = mBaseRepository.stage(resource);
         ProcessingReport processingMessages = staged.validate();
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
@@ -330,14 +331,14 @@ public class ResourceIndex extends IndexCommon {
 
   public Result read(String id, String version, String extension) throws IOException {
     Resource currentUser = getUser();
-    Resource resource = mBaseRepository.getItem(id, version);
+    ModelCommon resource = mBaseRepository.getItem(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
 
     if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+      ModelCommonList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
           .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
       resource.put("related", relatedList.getItems());
     }
@@ -365,7 +366,7 @@ public class ResourceIndex extends IndexCommon {
       }
     }
 
-    List<Resource> comments = new ArrayList<>();
+    List<ModelCommon> comments = new ArrayList<>();
     for (String commentId : resource.getIdList("comment")) {
       comments.add(mBaseRepository.getItem(commentId));
     }
@@ -583,7 +584,7 @@ public class ResourceIndex extends IndexCommon {
 
   public Result likeResource(String aId) throws IOException {
 
-    Resource object = mBaseRepository.getItem(aId);
+    ModelCommon object = mBaseRepository.getItem(aId);
     Resource agent = getUser();
 
     if (object == null || agent == null) {
@@ -615,10 +616,10 @@ public class ResourceIndex extends IndexCommon {
 
   public Result feed() {
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-    ResourceList resourceList =
+    ModelCommonList resourceList =
       mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext(), indices);
     Map<String, Object> scope = new HashMap<>();
-    scope.put("resources", resourceList.toResource());
+    scope.put("resources", resourceList.toModelCommon());
 
     return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
   }

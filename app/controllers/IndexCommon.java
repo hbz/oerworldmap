@@ -61,7 +61,7 @@ public abstract class IndexCommon extends OERWorldMap{
     }
 
     // Validate
-    Resource staged = mBaseRepository.stage(resource);
+    ModelCommon staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate();
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
@@ -125,7 +125,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
       // Stage and validate each resource
       try {
-        Resource staged = mBaseRepository.stage(resource);
+        ModelCommon staged = mBaseRepository.stage(resource);
         ProcessingReport processingMessages = staged.validate();
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
@@ -146,14 +146,14 @@ public abstract class IndexCommon extends OERWorldMap{
   }
 
   public Result read(String id, String version, String extension) throws IOException {
-    Resource resource = mBaseRepository.getItem(id, version);
+    ModelCommon resource = mBaseRepository.getItem(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
     String type = resource.get(JsonLdConstants.TYPE).toString();
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
     if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
+      ModelCommonList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
         .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null, indices);
       resource.put("related", relatedList.getItems());
     }
@@ -183,7 +183,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
     List<Resource> comments = new ArrayList<>();
     for (String commentId : resource.getIdList("comment")) {
-      comments.add(mBaseRepository.getItem(commentId));
+      comments.add((Resource) mBaseRepository.getItem(commentId));
     }
 
     String title;
@@ -303,7 +303,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
   protected Result updateItem(String aId) throws IOException {
     // If updating a resource, check if it actually exists
-    Resource originalResource = mBaseRepository.getItem(aId);
+    ModelCommon originalResource = mBaseRepository.getItem(aId);
     if (originalResource == null) {
       return notFound("Not found: ".concat(aId));
     }

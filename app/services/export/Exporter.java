@@ -1,15 +1,15 @@
 package services.export;
 
-import models.Resource;
-import models.ResourceList;
+import models.ModelCommon;
+import models.ModelCommonList;
 
 /**
  * Created by fo on 13.10.16.
  */
 public interface Exporter {
 
-  String export(Resource aResource);
+  String export(ModelCommon aResource);
 
-  String export(ResourceList aResourceList);
+  String export(ModelCommonList aResourceList);
 
 }

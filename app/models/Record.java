@@ -18,7 +18,7 @@ public class Record extends Resource {
   public static final String LINK_COUNT = "link_count";
   public static final String LIKE_COUNT = "like_count";
 
-  public Record(Resource aResource) {
+  public Record(ModelCommon aResource) {
     super(TYPE, aResource.get(JsonLdConstants.ID) + "." + RESOURCE_KEY);
     put(RESOURCE_KEY, aResource);
     put(DATE_MODIFIED, UniversalFunctions.getCurrentTime());
