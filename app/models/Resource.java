@@ -184,20 +184,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
     return output;
   }
 
-  public List<String> getIdList(final Object aKey) {
-    List<String> ids = new ArrayList<>();
-    Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return ids;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
-      }
-    }
-    return ids;
-  }
-
   @SuppressWarnings("unchecked")
   @Override
   public boolean equals(final Object aOther) {

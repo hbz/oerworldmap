@@ -68,6 +68,21 @@ public abstract class ModelCommon extends HashMap<String, Object> {
   }
 
 
+  public List<String> getIdList(final Object aKey) {
+    List<String> ids = new ArrayList<>();
+    Object result = get(aKey);
+    if (null == result || !(result instanceof List<?>)) {
+      return ids;
+    }
+    for (Object value : (List<?>) result) {
+      if (value instanceof Resource) {
+        ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
+      }
+    }
+    return ids;
+  }
+
+
   public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale){
     final String[] split = aNestedKey.split("\\.", 2);
     if (split.length == 0){
