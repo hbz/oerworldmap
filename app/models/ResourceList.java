@@ -18,59 +18,5 @@ public class ResourceList extends ModelCommonList{
     super(aPagedCollection);
   }
 
-  private String getCurrentPage() {
-    Map<String, Object> params = buildParamsMap(from);
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
-  }
-
-  private String getNextPage() {
-    if (from + size >= totalItems) {
-      return null;
-    }
-    Map<String, Object> params = buildParamsMap(from + size);
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
-  }
-
-  private String getPreviousPage() {
-    if (from - size < 0) {
-      return null;
-    }
-    Map<String, Object> params = buildParamsMap(from - size);
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
-  }
-
-  private String getFirstPage() {
-    if (from <= 0) {
-      return null;
-    }
-    Map<String, Object> params = buildParamsMap(Long.valueOf(0));
-    return params.isEmpty() ? null : "/resource/?".concat(joiner.join(params));
-  }
-
-  private String getLastPage(){
-    return super.getLastPage("resource");
-  }
-
-  private List<String> getPages(){
-    return super.getPages("resource");
-  }
-
-  public Resource toResource() {
-    Resource pagedCollection = new Resource("PagedCollection");
-    pagedCollection.put("totalItems", totalItems);
-    pagedCollection.put("size", Long.toString(size));
-    pagedCollection.put("currentPage", getCurrentPage());
-    pagedCollection.put("nextPage", getNextPage());
-    pagedCollection.put("previousPage", getPreviousPage());
-    pagedCollection.put("lastPage", getLastPage());
-    pagedCollection.put("firstPage", getFirstPage());
-    pagedCollection.put("from", Long.toString(from));
-    pagedCollection.put("member", items);
-    pagedCollection.put("filters", filters);
-    pagedCollection.put("query", query);
-    pagedCollection.put("aggregations", aggregations);
-    pagedCollection.put("pages", getPages());
-    return pagedCollection;
-  }
 
 }
