@@ -42,7 +42,7 @@ public abstract class IndexCommon extends OERWorldMap{
     if (jsonNode == null || (!jsonNode.isArray() && !jsonNode.isObject())) {
       return badRequest("Bad or empty JSON");
     } else if (jsonNode.isArray()) {
-      return upsertResources();
+      return upsertItems();
     } else {
       return upsertItem(false);
     }
@@ -50,7 +50,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
   protected abstract Result upsertItem(boolean isUpdate) throws IOException;
 
-  protected Result upsertResource(boolean isUpdate, final ReverseResourceIndex aResourceIndex,
+  protected Result upsertItem(boolean isUpdate, final ReverseResourceIndex aResourceIndex,
                                   final String... aForbiddenTypes) throws IOException {
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());

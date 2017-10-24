@@ -206,7 +206,7 @@ public abstract class OERWorldMap extends Controller {
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
           Resource r = (Resource) n;
-          String language = (r.getAsString("@language");
+          String language = (r.getAsString("@language"));
           if (language.equals(getLocale().getLanguage())) {
             return r.getAsString("@value");
           }

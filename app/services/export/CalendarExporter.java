@@ -1,6 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -97,15 +98,15 @@ public class CalendarExporter implements Exporter {
   @Override
   public String export(ResourceList aResourceList) {
     StringBuilder result = new StringBuilder(HEADER);
-    aResourceList.getItems().stream().filter(resource -> resource.getAsResource(Record.RESOURCE_KEY).getType()
+    aResourceList.getItems().stream().filter(resource -> resource.getAsItem(Record.RESOURCE_KEY).getType()
       .equals("Event")).forEach(resource ->
-        result.append(exportResourceWithoutHeader(resource.getAsResource(Record.RESOURCE_KEY)))
+        result.append(exportResourceWithoutHeader(resource.getAsItem(Record.RESOURCE_KEY)))
     );
     result.append(FOOTER);
     return result.toString();
   }
 
-  private String exportResourceWithoutHeader(final Resource aResource){
+  private String exportResourceWithoutHeader(final ModelCommon aResource){
     final String startDate = parseStartDate(aResource);
     final String dateStamp = getTimeStamp();
     // Check required fields according to https://tools.ietf.org/html/rfc5545#section-3.6.1
@@ -149,20 +150,20 @@ public class CalendarExporter implements Exporter {
     return result.toString();
   }
 
-  private void completeFields(final StringBuilder aStringBuilder, final Resource aResource){
+  private void completeFields(final StringBuilder aStringBuilder, final ModelCommon aResource){
     if (aResource.getNestedFieldValue("name.@value", mPreferredLocale) == null){
       // no summary could be added --> append empty summary to comply to ical specification
       aStringBuilder.append("SUMMARY:\n");
     }
   }
 
-  private String getExportedOrganizer(Resource aResource){
+  private String getExportedOrganizer(ModelCommon aResource){
     StringBuilder result = new StringBuilder();
-    List<Resource> organizers = aResource.getAsList("organizer");
+    List<ModelCommon> organizers = aResource.getAsList("organizer");
     result.append(ORGANIZER);
     boolean hasOrganizer = false;
     if (organizers != null && !organizers.isEmpty()){
-      for (Resource organizer : organizers) {
+      for (ModelCommon organizer : organizers) {
         String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
         String email = organizer.getAsString("email");
         boolean hasName = false;
@@ -197,7 +198,7 @@ public class CalendarExporter implements Exporter {
     return result.toString();
   }
 
-  private String parseStartDate(final Resource aResource) {
+  private String parseStartDate(final ModelCommon aResource) {
     final String originalStartDate = aResource.getAsString("startDate");
     StringBuilder result = new StringBuilder();
     if (originalStartDate == null || Strings.isEmpty(originalStartDate)){
@@ -209,7 +210,7 @@ public class CalendarExporter implements Exporter {
     return result.append("\n").toString();
   }
 
-  private static String parseEndDate(final Resource aResource) {
+  private static String parseEndDate(final ModelCommon aResource) {
     final String originalEndDate = aResource.getAsString("endDate");
     StringBuilder result = new StringBuilder();
     if (originalEndDate == null || Strings.isEmpty(originalEndDate)){
@@ -298,7 +299,7 @@ public class CalendarExporter implements Exporter {
     return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15)).concat("Z\n");
   }
 
-  private String getDescription(Resource aResource){
+  private String getDescription(ModelCommon aResource){
     String description = aResource.getNestedFieldValue("description.@value", mPreferredLocale);
     if (description == null || Strings.isEmpty(description)){
       return "";

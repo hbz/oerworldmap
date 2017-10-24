@@ -38,7 +38,7 @@ public abstract class ModelCommonList {
     aggregations = aAggregations;
   }
 
-  public ModelCommonList(Resource aPagedCollection) {
+  public ModelCommonList(ModelCommon aPagedCollection) {
     items = aPagedCollection.getAsList("member");
     totalItems = Long.valueOf(aPagedCollection.getAsString("totalItems"));
     query = aPagedCollection.getAsString("query");
