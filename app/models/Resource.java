@@ -144,15 +144,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
   }
 
   /**
-   * Get a JsonNode representation of the resource.
-   *
-   * @return JSON JsonNode
-   */
-  public JsonNode toJson() {
-    return OBJECT_MAPPER.convertValue(this, JsonNode.class);
-  }
-
-  /**
    * Get an RDF representation of the resource.
    *
    * @return Model The RDF Model
@@ -338,5 +329,10 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
       }
     }
     return count;
+  }
+
+  @Override
+  protected JsonNode getSchemaNode(){
+    return mSchemaNode;
   }
 }

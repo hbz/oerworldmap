@@ -1,6 +1,14 @@
 package models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchema;
 import helpers.JsonLdConstants;
+import play.Logger;
 
 import java.util.*;
 
@@ -9,6 +17,7 @@ import java.util.*;
  */
 public abstract class ModelCommon extends HashMap<String, Object> {
 
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   protected static String generateId() {
     return "urn:uuid:" + UUID.randomUUID().toString();
   }
@@ -165,4 +174,36 @@ public abstract class ModelCommon extends HashMap<String, Object> {
       }
     }
   }
+
+
+  public ProcessingReport validate(final JsonSchema aSchema) {
+    ProcessingReport report = new ListProcessingReport();
+    try {
+      String type = this.getAsString(JsonLdConstants.TYPE);
+      if (null == type) {
+        report.error(new ProcessingMessage()
+          .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
+      } else if (null != getSchemaNode()) {
+        report = aSchema.validate(toJson());
+      } else {
+        Logger.warn("No JSON schema present, validation disabled.");
+      }
+    } catch (ProcessingException e) {
+      e.printStackTrace();
+    }
+    return report;
+  }
+
+
+  /**
+   * Get a JsonNode representation of the resource.
+   *
+   * @return JSON JsonNode
+   */
+  public JsonNode toJson() {
+    return OBJECT_MAPPER.convertValue(this, JsonNode.class);
+  }
+
+  protected abstract JsonNode getSchemaNode();
+
 }

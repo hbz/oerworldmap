@@ -85,4 +85,9 @@ public class Action extends ModelCommon implements Comparable<Action> {
   public String getId() {
     return null;
   }
+
+  @Override
+  protected JsonNode getSchemaNode(){
+    return mSchemaNode;
+  }
 }
