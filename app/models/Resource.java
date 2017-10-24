@@ -28,16 +28,13 @@ import java.util.*;
 
 public class Resource extends ModelCommon implements Comparable<Resource> {
 
-  /**
-   *
-   */
   private static final long serialVersionUID = -6177433021348713601L;
   private static final ObjectMapper mObjectMapper = new ObjectMapper();
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
-    "Comment", "Product", "LikeAction", "LighthouseAction"));
+    "Comment", "Product"));
 
   private static JsonNode mSchemaNode = null;
 
@@ -51,7 +48,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
 
   /**
    * Constructor which sets up a random UUID.
-   *
    * @param type
    *          The type of the resource.
    */

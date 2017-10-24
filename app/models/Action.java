@@ -7,6 +7,9 @@ import play.Logger;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author pvb
@@ -19,6 +22,10 @@ public class Action extends ModelCommon implements Comparable<Action> {
   public static final String TYPE = "Action";
   private static final ObjectMapper mObjectMapper = new ObjectMapper();
   private static JsonNode mSchemaNode = null;
+
+  // identified ("primary") data types that get an ID
+  private static final List<String> mIdentifiedTypes =
+    new ArrayList<>(Arrays.asList("LikeAction", "LighthouseAction"));
 
   static {
     try {
