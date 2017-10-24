@@ -37,18 +37,18 @@ public abstract class IndexCommon extends OERWorldMap{
   }
   private static ObjectMapper mObjectMapper = new ObjectMapper();
 
-  public Result addResource() throws IOException {
+  public Result addItem() throws IOException {
     JsonNode jsonNode = getJsonFromRequest();
     if (jsonNode == null || (!jsonNode.isArray() && !jsonNode.isObject())) {
       return badRequest("Bad or empty JSON");
     } else if (jsonNode.isArray()) {
       return upsertResources();
     } else {
-      return upsertResource(false);
+      return upsertItem(false);
     }
   }
 
-  protected abstract Result upsertResource(boolean isUpdate) throws IOException;
+  protected abstract Result upsertItem(boolean isUpdate) throws IOException;
 
   protected Result upsertResource(boolean isUpdate, final ReverseResourceIndex aResourceIndex,
                                   final String... aForbiddenTypes) throws IOException {
@@ -84,7 +84,7 @@ public abstract class IndexCommon extends OERWorldMap{
     }
 
     // Save
-    mBaseRepository.addResource(resource, getMetadata());
+    mBaseRepository.addItem(resource, getMetadata());
 
     // Respond
     if (isUpdate) {
@@ -104,9 +104,9 @@ public abstract class IndexCommon extends OERWorldMap{
     }
   }
 
-  protected abstract Result upsertResources() throws IOException;
+  protected abstract Result upsertItems() throws IOException;
 
-  protected Result upsertResources(final String... aForbiddenTypes) throws IOException {
+  protected Result upsertItems(final String... aForbiddenTypes) throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
@@ -144,12 +144,12 @@ public abstract class IndexCommon extends OERWorldMap{
     if (!listProcessingReport.isSuccess()) {
       return badRequest(listProcessingReport.asJson());
     }
-    mBaseRepository.addResources(resources, getMetadata());
+    mBaseRepository.addItems(resources, getMetadata());
     return ok("Added resources");
   }
 
   public Result read(String id, String version, String extension) throws IOException {
-    Resource resource = mBaseRepository.getResource(id, version);
+    Resource resource = mBaseRepository.getItem(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
@@ -186,7 +186,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
     List<Resource> comments = new ArrayList<>();
     for (String commentId : resource.getIdList("comment")) {
-      comments.add(mBaseRepository.getResource(commentId));
+      comments.add(mBaseRepository.getItem(commentId));
     }
 
     String title;
@@ -299,18 +299,18 @@ public abstract class IndexCommon extends OERWorldMap{
     } else {
       return badRequest();
     }
-    mBaseRepository.importResources(resources, getMetadata());
+    mBaseRepository.importItems(resources, getMetadata());
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
 
-  protected Result updateResource(String aId) throws IOException {
+  protected Result updateItem(String aId) throws IOException {
     // If updating a resource, check if it actually exists
-    Resource originalResource = mBaseRepository.getResource(aId);
+    Resource originalResource = mBaseRepository.getItem(aId);
     if (originalResource == null) {
       return notFound("Not found: ".concat(aId));
     }
-    return upsertResource(true);
+    return upsertItem(true);
   }
 
 

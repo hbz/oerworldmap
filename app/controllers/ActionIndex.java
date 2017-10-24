@@ -16,12 +16,12 @@ public class ActionIndex extends IndexCommon {
   }
 
   @Override
-  protected Result upsertResource(boolean aBoolean) throws IOException {
+  protected Result upsertItem(boolean aBoolean) throws IOException {
     return null; // TODO
   }
 
   @Override
-  protected Result upsertResources() throws IOException {
+  protected Result upsertItems() throws IOException {
     return null; // TODO
   }
 }

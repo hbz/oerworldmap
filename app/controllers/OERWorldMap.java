@@ -7,6 +7,8 @@ import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.maxmind.geoip2.DatabaseReader;
 import helpers.*;
+import models.Action;
+import models.ModelCommon;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -133,30 +135,25 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  Resource getUser() {
 
+  Resource getUser() {
     Resource user = null;
     Logger.trace("Username " + getHttpBasicAuthUser());
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
+      user = getRepository().getItem(profileId);
     }
-
     return user;
-
   }
 
+
   String getHttpBasicAuthUser() {
-
     String authHeader = ctx().request().getHeader(AUTHORIZATION);
-
     if (null == authHeader) {
       return null;
     }
-
     String auth = authHeader.substring(6);
     byte[] decoded = Base64.getDecoder().decode(auth);
-
     String[] credentials;
     try {
       credentials = new String(decoded, "UTF-8").split(":");
@@ -164,13 +161,10 @@ public abstract class OERWorldMap extends Controller {
       e.printStackTrace();
       return null;
     }
-
     if (credentials.length != 2) {
       return null;
     }
-
     return credentials[0];
-
   }
 
   QueryContext getQueryContext() {
@@ -186,26 +180,23 @@ public abstract class OERWorldMap extends Controller {
   }
 
   ResourceBundle getEmails() {
-
     return ResourceBundle.getBundle("emails", getLocale());
-
   }
 
-  String getLocation() {
 
+  String getLocation() {
     try {
       return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry().getIsoCode();
     } catch (Exception ex) {
       Logger.trace("Could not read host", ex);
       return "GB";
     }
-
   }
 
   //TODO: is this right here? how else to implement?
   public String getLabel(String aId) {
 
-    Resource resource = mBaseRepository.getResource(aId);
+    ModelCommon resource = mBaseRepository.getItem(aId);
     if (null == resource) {
       return aId;
     }
@@ -214,18 +205,34 @@ public abstract class OERWorldMap extends Controller {
       // Return requested language
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
-          String language = ((Resource) n).getAsString("@language");
+          Resource r = (Resource) n;
+          String language = (r.getAsString("@language");
           if (language.equals(getLocale().getLanguage())) {
-            return ((Resource) n).getAsString("@value");
+            return r.getAsString("@value");
+          }
+        }
+        else if (n instanceof Action) {
+          Action a = (Action) n;
+          String language = (a.getAsString("@language"));
+          if (language.equals(getLocale().getLanguage())) {
+            return a.getAsString("@value");
           }
         }
       }
       // Return English if requested language is not available
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
-          String language = ((Resource) n).getAsString("@language");
+          Resource r = (Resource) n;
+          String language = r.getAsString("@language");
           if (language.equals("en")) {
-            return ((Resource) n).getAsString("@value");
+            return r.getAsString("@value");
+          }
+        }
+        else if (n instanceof Action) {
+          Action a = (Action) n;
+          String language = a.getAsString("@language");
+          if (language.equals("en")) {
+            return a.getAsString("@value");
           }
         }
       }
@@ -234,23 +241,25 @@ public abstract class OERWorldMap extends Controller {
         if (n instanceof Resource) {
           return ((Resource) n).getAsString("@value");
         }
+        if (n instanceof Action) {
+          return ((Action) n).getAsString("@value");
+        }
       }
     }
 
     return aId;
   }
 
-  public Resource getUser(String aId) {
 
+  public Resource getUser(String aId) {
     Resource user = null;
     String profileId = mAccountService.getProfileId(aId);
     if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
+      user = getRepository().getItem(profileId);
     }
-
     return user;
-
   }
+
 
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {

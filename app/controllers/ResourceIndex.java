@@ -212,11 +212,11 @@ public class ResourceIndex extends IndexCommon {
     return super.importResources();
   }
 
-  public Result updateResource(String aId) throws IOException {
-    return super.updateResource(aId);
+  public Result updateItem(String aId) throws IOException {
+    return super.updateItem(aId);
   }
 
-  protected Result upsertResource(boolean isUpdate) throws IOException {
+  protected Result upsertItem(boolean isUpdate) throws IOException {
 
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
@@ -248,13 +248,13 @@ public class ResourceIndex extends IndexCommon {
     }
 
     // Save
-    mBaseRepository.addResource(resource, getMetadata());
+    mBaseRepository.addItem(resource, getMetadata());
 
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
         if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
-          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsItem("object").getId(),
             "HEAD").absoluteURL(request()));
         }
         return read(resource.getId(), "HEAD", "html");
@@ -263,7 +263,7 @@ public class ResourceIndex extends IndexCommon {
       }
     } else {
       if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsItem("object").getId(),
           "HEAD").absoluteURL(request()));
       } else {
         response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
@@ -277,7 +277,7 @@ public class ResourceIndex extends IndexCommon {
     }
   }
 
-  protected Result upsertResources() throws IOException {
+  protected Result upsertItems() throws IOException {
 
     // Extract resources
     List<Resource> resources = new ArrayList<>();
@@ -313,7 +313,7 @@ public class ResourceIndex extends IndexCommon {
       return badRequest(listProcessingReport.asJson());
     }
 
-    mBaseRepository.addResources(resources, getMetadata());
+    mBaseRepository.addItems(resources, getMetadata());
 
     return ok("Added resources");
   }
@@ -330,7 +330,7 @@ public class ResourceIndex extends IndexCommon {
 
   public Result read(String id, String version, String extension) throws IOException {
     Resource currentUser = getUser();
-    Resource resource = mBaseRepository.getResource(id, version);
+    Resource resource = mBaseRepository.getItem(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
@@ -367,7 +367,7 @@ public class ResourceIndex extends IndexCommon {
 
     List<Resource> comments = new ArrayList<>();
     for (String commentId : resource.getIdList("comment")) {
-      comments.add(mBaseRepository.getResource(commentId));
+      comments.add(mBaseRepository.getItem(commentId));
     }
 
     String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
@@ -388,17 +388,17 @@ public class ResourceIndex extends IndexCommon {
     int lighthousesCount = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
       .getItems().size();
 
-    Resource userLighthouseResource = null;
+    ModelCommon userLighthouseResource = null;
     boolean userLighthouseIsset = false;
     if (currentUser != null) {
       String userLighthouseQuery = String.format(
         "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
         currentUser.getId(), resource.getId()
       );
-      List<Resource> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
+      List<ModelCommon> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
         .getItems();
       if (userLighthouseResources.size() > 0) {
-        userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
+        userLighthouseResource = userLighthouseResources.get(0).getAsItem(Record.RESOURCE_KEY);
         userLighthouseIsset = true;
       }
     }
@@ -578,12 +578,12 @@ public class ResourceIndex extends IndexCommon {
     mBaseRepository.commit(commit);
 
     return seeOther("/resource/" + aId);
-
   }
+
 
   public Result likeResource(String aId) throws IOException {
 
-    Resource object = mBaseRepository.getResource(aId);
+    Resource object = mBaseRepository.getItem(aId);
     Resource agent = getUser();
 
     if (object == null || agent == null) {
@@ -593,13 +593,13 @@ public class ResourceIndex extends IndexCommon {
     String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
       agent.getId(), object.getId());
 
-    List<Resource> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+    List<ModelCommon> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
       .getItems();
 
     if (existingLikes.size() > 0) {
-      for (Resource like : existingLikes) {
-        mBaseRepository.deleteResource(like.getAsResource(Record.RESOURCE_KEY).getId(),
-                                                          Record.TYPE, getMetadata());
+      for (ModelCommon like : existingLikes) {
+        mBaseRepository.deleteResource(like.getAsItem(Record.RESOURCE_KEY).getId(),
+          Record.TYPE, getMetadata());
       }
     } else {
       Resource likeAction = new Resource("LikeAction");
@@ -607,12 +607,11 @@ public class ResourceIndex extends IndexCommon {
       likeAction.put("agent", agent);
       likeAction.put("object", object);
       likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-      mBaseRepository.addResource(likeAction, getMetadata());
+      mBaseRepository.addItem(likeAction, getMetadata());
     }
-
     return seeOther("/resource/" + aId);
-
   }
+
 
   public Result feed() {
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
@@ -622,7 +621,6 @@ public class ResourceIndex extends IndexCommon {
     scope.put("resources", resourceList.toResource());
 
     return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
-
   }
 
 }
