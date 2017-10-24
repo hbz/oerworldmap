@@ -218,11 +218,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
     return output;
   }
 
-  public String getAsString(final Object aKey) {
-    Object result = get(aKey);
-    return (result == null) ? null : result.toString();
-  }
-
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
@@ -250,11 +245,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
       }
     }
     return ids;
-  }
-
-  public Resource getAsResource(final Object aKey) {
-    Object result = get(aKey);
-    return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
   }
 
   public Map<?, ?> getAsMap(final String aKey) {
