@@ -75,7 +75,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId, String aVersion) {
+  public Resource getItem(@Nonnull String aId, String aVersion) {
 
     Model dbstate = getExtendedDescription(aId, mDb);
 
@@ -99,9 +99,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId) {
+  public Resource getItem(@Nonnull String aId) {
 
-    return getResource(aId, null);
+    return getItem(aId, null);
 
   }
 
@@ -116,7 +116,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         ResultSet resultSet = queryExecution.execSelect();
         while (resultSet.hasNext()) {
           QuerySolution querySolution = resultSet.next();
-          resources.add(getResource(querySolution.get("s").toString()));
+          resources.add(getItem(querySolution.get("s").toString()));
         }
       }
     } finally {
@@ -128,7 +128,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = getDiff(aResource);
@@ -138,7 +138,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = getDiff(aResources);

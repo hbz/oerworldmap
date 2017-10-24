@@ -23,7 +23,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
     StringBuffer result = new StringBuffer();
     List<Resource> resources = new ArrayList<>();
     for (Resource record : aResourceList.getItems()) {
-      resources.add(record.getAsResource(Record.RESOURCE_KEY));
+      resources.add(record.getAsItem(Record.RESOURCE_KEY));
     }
     defineHeaderColumns(resources);
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
@@ -37,7 +37,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
   @Override
   public String export(Resource aResource) {
     StringBuffer result = new StringBuffer();
-    Resource resource = aResource.getAsResource(Record.RESOURCE_KEY);
+    Resource resource = aResource.getAsItem(Record.RESOURCE_KEY);
     defineHeaderColumns(Arrays.asList(resource));
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));

@@ -19,7 +19,7 @@ public interface Versionable {
 
   Resource stage(Resource aResource) throws IOException;
 
-  Resource getResource(String aId, String aVersion);
+  Resource getItem(String aId, String aVersion);
 
   List<Commit> log(String aId);
 

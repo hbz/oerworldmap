@@ -38,7 +38,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull final Resource aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     String encodedId = DigestUtils.sha256Hex(id);
     Path dir = Paths.get(getPath().toString(), aResource.getAsString(JsonLdConstants.TYPE));
@@ -50,7 +50,7 @@ public class FileRepository extends Repository implements Writable, Readable {
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
     throw new UnsupportedOperationException();
   }
 
@@ -62,7 +62,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * exists.
    */
   @Override
-  public Resource getResource(@Nonnull String aId) {
+  public Resource getItem(@Nonnull String aId) {
     Path resourceFile;
     try {
       resourceFile = getResourcePath(aId);
@@ -111,7 +111,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    */
   @Override
   public ModelCommon deleteResource(@Nonnull String aId, @Nonnull String aClassType, Map<String, Object> aMetadata) {
-    Resource resource = this.getResource(aId);
+    Resource resource = this.getItem(aId);
     try {
       Files.delete(getResourcePath(aId));
     } catch (IOException e) {

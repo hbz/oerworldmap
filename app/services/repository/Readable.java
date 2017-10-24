@@ -16,7 +16,7 @@ public interface Readable {
    * @param  aId The identifier of the resource
    * @return The resource
    */
-  Resource getResource(@Nonnull String aId) throws IOException;
+  Resource getItem(@Nonnull String aId) throws IOException;
 
   List<Resource> getAll(@Nonnull String aType, final String... aIndices) throws IOException;
 

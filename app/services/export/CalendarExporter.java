@@ -88,10 +88,10 @@ public class CalendarExporter implements Exporter {
 
   @Override
   public String export(Resource aResource) {
-    if (!aResource.getAsResource(Record.RESOURCE_KEY).getType().equals("Event")) {
+    if (!aResource.getAsItem(Record.RESOURCE_KEY).getType().equals("Event")) {
       return null;
     }
-    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsResource(Record.RESOURCE_KEY))).concat(FOOTER);
+    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsItem(Record.RESOURCE_KEY))).concat(FOOTER);
   }
 
   @Override

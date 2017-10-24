@@ -108,7 +108,7 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
 
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = mTriplestoreRepo.getDiff(aResource);
@@ -128,7 +128,7 @@ public class BaseRepository extends Repository
    * @throws IOException
    */
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     List<Commit> commits = new ArrayList<>();
@@ -150,7 +150,7 @@ public class BaseRepository extends Repository
    *          The resources to flatten and import
    * @throws IOException
    */
-  public void importResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void importItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
 
     Commit.Diff diff = mTriplestoreRepo.getDiffs(aResources);
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
@@ -198,17 +198,17 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId) {
-    return getResource(aId, null);
+  public Resource getItem(@Nonnull String aId) {
+    return getItem(aId, null);
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId, String aVersion) {
-    return mTriplestoreRepo.getResource(aId, aVersion);
+  public Resource getItem(@Nonnull String aId, String aVersion) {
+    return mTriplestoreRepo.getItem(aId, aVersion);
   }
 
-  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
-                                     final String... aIndices) {
+  public List<Resource> getItems(@Nonnull String aField, @Nonnull Object aValue,
+                                 final String... aIndices) {
     return mESRepo.getResources(aField, aValue, checkIndices(aIndices));
   }
 
