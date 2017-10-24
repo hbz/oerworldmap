@@ -20,7 +20,7 @@ public class ResourceHelpers {
   }
 
   public static Resource unwrapRecord(Resource aRecord) {
-    return aRecord.getAsResource(Record.RESOURCE_KEY);
+    return aRecord.getAsItem(Record.RESOURCE_KEY);
   }
 
 }

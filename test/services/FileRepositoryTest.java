@@ -28,12 +28,12 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
     resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
-    resourceRepository.addResource(resource, new HashMap<>());
+    resourceRepository.addItem(resource, new HashMap<>());
   }
 
   @Test
   public void testGetResource() throws IOException {
-    Resource fromStore = resourceRepository.getResource("1");
+    Resource fromStore = resourceRepository.getItem("1");
     assertTrue(resource.equals(fromStore));
   }
 

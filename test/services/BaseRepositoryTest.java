@@ -60,10 +60,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     resource1.put("attended", resource2);
     Resource expected1 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithIdentifiedSubObject.OUT.2.json");
-    mBaseRepo.addResource(resource1, mMetadata);
-    mBaseRepo.addResource(resource2, mMetadata);
-    Assert.assertEquals(expected1, mBaseRepo.getResource("info:id001"));
-    Assert.assertEquals(expected2, mBaseRepo.getResource("info:OER15"));
+    mBaseRepo.addItem(resource1, mMetadata);
+    mBaseRepo.addItem(resource2, mMetadata);
+    Assert.assertEquals(expected1, mBaseRepo.getItem("info:id001"));
+    Assert.assertEquals(expected2, mBaseRepo.getItem("info:OER15"));
     mBaseRepo.deleteResource("info:id001", Record.TYPE, mMetadata);
     mBaseRepo.deleteResource("info:OER15", Record.TYPE, mMetadata);
   }
@@ -75,8 +75,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource value = new Resource("Foo", null);
     resource.put("attended", value);
     Resource expected = getResourceFromJsonFile("BaseRepositoryTest/testResourceWithUnidentifiedSubObject.OUT.1.json");
-    mBaseRepo.addResource(resource, mMetadata);
-    Assert.assertEquals(expected, mBaseRepo.getResource("info:id002"));
+    mBaseRepo.addItem(resource, mMetadata);
+    Assert.assertEquals(expected, mBaseRepo.getItem("info:id002"));
     mBaseRepo.deleteResource("info:id002", Record.TYPE, mMetadata);
   }
 
@@ -91,18 +91,18 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource expected2 = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.2.json");
 
-    mBaseRepo.addResource(in1, mMetadata);
-    mBaseRepo.addResource(in2, mMetadata);
-    mBaseRepo.addResource(in3, mMetadata);
+    mBaseRepo.addItem(in1, mMetadata);
+    mBaseRepo.addItem(in2, mMetadata);
+    mBaseRepo.addItem(in3, mMetadata);
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
-    Resource toBeDeleted = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
+    Resource toBeDeleted = mBaseRepo.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
     mBaseRepo.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), Record.TYPE, mMetadata);
-    Resource result1 = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
-    Resource result2 = mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
+    Resource result1 = mBaseRepo.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
+    Resource result2 = mBaseRepo.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
     Assert.assertEquals(expected1, result1);
     Assert.assertEquals(expected2, result2);
-    Assert.assertNull(mBaseRepo.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
+    Assert.assertNull(mBaseRepo.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
     mBaseRepo.deleteResource(in1.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(in2.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(in3.getId(), Record.TYPE, mMetadata);
@@ -113,11 +113,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteLastResourceInList.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteLastResourceInList.DB.2.json");
     Resource out = getResourceFromJsonFile("BaseRepositoryTest/testDeleteLastResourceInList.OUT.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665", Record.TYPE, mMetadata);
-    Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
-    Assert.assertEquals(out, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
+    Assert.assertNull(mBaseRepo.getItem("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
+    Assert.assertEquals(out, mBaseRepo.getItem("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
   }
@@ -129,13 +129,13 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.DB.3.json");
     Resource out1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.OUT.1.json");
     Resource out2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceFromList.OUT.2.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(db3, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
+    mBaseRepo.addItem(db3, mMetadata);
     mBaseRepo.deleteResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665", Record.TYPE, mMetadata);
-    Assert.assertNull(mBaseRepo.getResource("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
-    Assert.assertEquals(out1, mBaseRepo.getResource("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
-    Assert.assertEquals(out2, mBaseRepo.getResource("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
+    Assert.assertNull(mBaseRepo.getItem("urn:uuid:3a25e950-a3c0-425d-946d-9806665ec665"));
+    Assert.assertEquals(out1, mBaseRepo.getItem("urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e25503"));
+    Assert.assertEquals(out2, mBaseRepo.getItem("urn:uuid:7cfb9aab-1a3f-494c-8fb1-64755faf180c"));
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(db2.getId(), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(db3.getId(), Record.TYPE, mMetadata);
@@ -144,9 +144,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testDeletedResourceIsRemovedFromIndex() throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testDeletedResourceIsRemovedFromIndex.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
-    Assert.assertEquals(0, mBaseRepo.getResources("about.@id", db1.getId(), mIndices).size());
+    Assert.assertEquals(0, mBaseRepo.getItems("about.@id", db1.getId(), mIndices).size());
   }
 
   @Test
@@ -156,11 +156,11 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testRemoveReference.DB.2.json");
     Resource out1 = getResourceFromJsonFile("BaseRepositoryTest/testRemoveReference.OUT.1.json");
     Resource out2 = getResourceFromJsonFile("BaseRepositoryTest/testRemoveReference.OUT.2.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(in, mMetadata);
-    Resource get1 = mBaseRepo.getResource(out1.getAsString(JsonLdConstants.ID));
-    Resource get2 = mBaseRepo.getResource(out2.getAsString(JsonLdConstants.ID));
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
+    mBaseRepo.addItem(in, mMetadata);
+    Resource get1 = mBaseRepo.getItem(out1.getAsString(JsonLdConstants.ID));
+    Resource get2 = mBaseRepo.getItem(out2.getAsString(JsonLdConstants.ID));
     assertEquals(out1, get1);
     assertEquals(out2, get2);
     mBaseRepo.deleteResource(db1.getId(), Record.TYPE, mMetadata);
@@ -173,9 +173,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testGetResourcesWithWildcard() throws IOException, InterruptedException {
     Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
     Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
-    mBaseRepo.addResource(in1, mMetadata);
-    mBaseRepo.addResource(in2, mMetadata);
-    Assert.assertEquals(2, mBaseRepo.getResources("\\*.@id", "info:123", mIndices).size());
+    mBaseRepo.addItem(in1, mMetadata);
+    mBaseRepo.addItem(in2, mMetadata);
+    Assert.assertEquals(2, mBaseRepo.getItems("\\*.@id", "info:123", mIndices).size());
     mBaseRepo.deleteResource(in1.getAsString(JsonLdConstants.ID), Record.TYPE, mMetadata);
     mBaseRepo.deleteResource(in2.getAsString(JsonLdConstants.ID), Record.TYPE, mMetadata);
   }
@@ -188,10 +188,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.3.json");
     Resource db4 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.4.json");
 
-    mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(db3, mMetadata);
-    mBaseRepo.addResource(db4, mMetadata);
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
+    mBaseRepo.addItem(db3, mMetadata);
+    mBaseRepo.addItem(db4, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     try {
       QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
@@ -236,8 +236,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testExactPersonHits() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.2.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
     List<Resource> searchResults =
       mBaseRepo.query("Berger", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not get expected number of hits (1).", searchResults.size() == 1);
@@ -253,9 +253,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.3.json");
 
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(db3, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
+    mBaseRepo.addItem(db3, mMetadata);
 
     QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
 
@@ -292,9 +292,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testPolygonFilteredSearch.DB.3.json");
 
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(db3, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
+    mBaseRepo.addItem(db3, mMetadata);
 
     QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
 
@@ -337,9 +337,9 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedPolygonQueryResults.DB.3.json");
 
-    mBaseRepo.addResource(db1, mMetadata);
-    mBaseRepo.addResource(db2, mMetadata);
-    mBaseRepo.addResource(db3, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
+    mBaseRepo.addItem(db3, mMetadata);
 
     QueryContext queryContext = new QueryContext(null, Arrays.asList("about.name.@value"));
 
@@ -385,7 +385,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchFuzzyWordSplit() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyWordSplit.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     // query correct spelling:
     List<Resource> correctQuery = ResourceHelpers.unwrapRecords(
@@ -406,7 +406,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchFuzzyExtension() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyExtension.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     // query correct spelling:
     List<Resource> correctQuery =
@@ -425,7 +425,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchFuzzyDiacritica() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyDiacritica.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     // query with diacritica
     List<Resource> correctQuery =
@@ -444,7 +444,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testAbbreviatedSearch() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testAbbreviatedSearch.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     // query with first letter only --> no hit
     List<Resource> oneLetterQuery =
@@ -478,7 +478,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchSpecialChars() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     // query without special chars
     List<Resource> withoutChars =
@@ -496,7 +496,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchHyphenWords() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     // query complete word
     List<Resource> completeWord =
@@ -519,10 +519,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchMissing() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
 
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.2.json");
-    mBaseRepo.addResource(db2, mMetadata);
+    mBaseRepo.addItem(db2, mMetadata);
 
     // query all by name
     List<Resource> queryByName =
@@ -545,7 +545,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchKeyword() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
     List<Resource> queryByKeyword =
       mBaseRepo.query("TVET", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
@@ -562,13 +562,13 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testRankKeyword() throws IOException, InterruptedException {
     for (int i=1; i<=8; i++){
       Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN."+i+".json");
-      mBaseRepo.addResource(db1, mMetadata);
+      mBaseRepo.addItem(db1, mMetadata);
     }
     Resource desired = getResourceFromJsonFile("BaseRepositoryTest/testRankKeyword.IN.3.json");
     List<Resource> rankedList =
       mBaseRepo.query("TVET", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find desired resource first while searching for keyword.",
-      rankedList.get(0).getAsResource(Record.RESOURCE_KEY).getId().equals(desired.getId()));
+      rankedList.get(0).getAsItem(Record.RESOURCE_KEY).getId().equals(desired.getId()));
     ElasticsearchHelpers.cleanIndex(ElasticsearchTestGrid.getEsRepo(),
       mConfig.getString("es.index.webpage.name"),
       mConfig.getString("es.index.webpage.mapping.file"));
@@ -577,7 +577,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchBySubjectClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchBySubjectClassification.DB.1.json");
-    mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
+    mBaseRepo.importItems(Arrays.asList(db1), mMetadata);
     List<Resource> searchBySubject =
       mBaseRepo.query("Mytestsubject", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find resource by subject.", searchBySubject.size() > 0);
@@ -589,7 +589,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testSearchByEducationClassification() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
-    mBaseRepo.importResources(Arrays.asList(db1), mMetadata);
+    mBaseRepo.importItems(Arrays.asList(db1), mMetadata);
     List<Resource> searchBySubject =
       mBaseRepo.query("Mytestaudience", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems();
     Assert.assertTrue("Did not find resource by audience.", searchBySubject.size() > 0);
@@ -601,7 +601,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testNoGroundlessHits() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testNoGroundlessHits.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
     QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> noHit =
       mBaseRepo.query("Schokolade", 0, 10, null, null, queryContext, mIndices).getItems();
@@ -626,7 +626,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testCountrySynonyms() throws IOException, InterruptedException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
     QueryContext queryContext = getQueryContextWithBoosts();
     BufferedReader countrySynonyms = new BufferedReader(new FileReader("scripts/country_synonyms.txt"));
     String countryLine = countrySynonyms.readLine();
@@ -655,7 +655,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   @Test
   public void testLocalityNameSearch()  throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addItem(db1, mMetadata);
     QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> hit = mBaseRepo.query("Accra", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals(1, hit.size());
@@ -666,7 +666,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testBoostByLinks()  throws IOException {
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.2.json");
-    mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2}), mMetadata);
+    mBaseRepo.importItems(Arrays.asList(new Resource[]{db1, db2}), mMetadata);
     QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals("Did not get expected number of hits (2).", 2,  hits.size());
@@ -683,7 +683,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.2.json");
     Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.3.json");
-    mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2, db3}), mMetadata);
+    mBaseRepo.importItems(Arrays.asList(new Resource[]{db1, db2, db3}), mMetadata);
     QueryContext queryContext = getQueryContextWithBoosts();
     List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext, mIndices).getItems();
     Assert.assertEquals("Did not get expected number of hits (3).", 3,  hits.size());
@@ -701,8 +701,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Resource likingPerson = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.1.json");
     Resource likedOrganization = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.2.json");
     Resource likeAction = getResourceFromJsonFile("BaseRepositoryTest/testLikeAction.DB.3.json");
-    mBaseRepo.importResources(Arrays.asList(new Resource[]{likingPerson, likedOrganization}), mMetadata);
-    mBaseRepo.addResource(likeAction, mMetadata);
+    mBaseRepo.importItems(Arrays.asList(new Resource[]{likingPerson, likedOrganization}), mMetadata);
+    mBaseRepo.addItem(likeAction, mMetadata);
     QueryContext queryContextForAction = new QueryContext(null, null);
 
     final List<Resource> allLikeActions = mBaseRepo.andQuerySqlLike(

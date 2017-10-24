@@ -26,7 +26,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
   }
 
   public void addResource(@Nonnull Resource aResource) throws IOException {
-    addResource(aResource, new HashMap<>());
+    addItem(aResource, new HashMap<>());
   }
 
   /**
@@ -36,7 +36,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }
@@ -48,9 +48,9 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
     for (Resource resource : aResources) {
-      addResource(resource, aMetadata);
+      addItem(resource, aMetadata);
     }
   }
 
@@ -61,7 +61,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @return the Resource
    */
   @Override
-  public Resource getResource(@Nonnull String aId) throws IOException {
+  public Resource getItem(@Nonnull String aId) throws IOException {
     return db.get(aId);
   }
 
