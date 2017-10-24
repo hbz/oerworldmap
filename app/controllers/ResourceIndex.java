@@ -101,17 +101,6 @@ public class ResourceIndex extends OERWorldMap {
       sort = "dateCreated:DESC";
     }
 
-    queryContext.setFetchSource(new String[]{
-      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
-      "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
-      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
-      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
-      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
-      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName", "about.email"
-    });
-
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
@@ -149,7 +138,13 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
-      return ok(resourceList.toResource().toString()).as("application/json");
+      Resource result = resourceList.toResource();
+      if (!StringUtils.isEmpty(iso3166)) {
+        if (!StringUtils.isEmpty(iso3166)) {
+          result.put("iso3166", iso3166);
+        }
+      }
+      return ok(result.toString()).as("application/json");
     } else if (format.equals("application/geo+json")) {
       return ok(mGeoJsonExporter.export(resourceList)).as("application/geo+json");
     } else if (format.equals("application/schema+json")) {
