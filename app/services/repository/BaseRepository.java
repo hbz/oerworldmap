@@ -160,15 +160,15 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, final String... aIndices) {
+  public ModelCommonList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                               Map<String, List<String>> aFilters, final String... aIndices) {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, checkIndices(aIndices));
   }
 
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+  public ModelCommonList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
                             final String... aIndices) {
-    ResourceList resourceList;
+    ModelCommonList resourceList;
     try {
       resourceList = mESRepo.query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext,
         checkIndices(aIndices));
@@ -183,7 +183,7 @@ public class BaseRepository extends Repository
    * Concatenates the mappings of the first parameter by "AND"
    */
   // TODO: use this method in Controllers after merge with branch 1128-likes.
-  public ResourceList andQuerySqlLike(final Map<String, String> aParameters, final int aFrom, final int aSize,
+  public ModelCommonList andQuerySqlLike(final Map<String, String> aParameters, final int aFrom, final int aSize,
                                       final String aSortOrder, final Map<String, List<String>> aFilters,
                                       final QueryContext aQueryContext, final String... aIndices){
     if (aParameters == null || aParameters.isEmpty()){
@@ -198,16 +198,16 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource getItem(@Nonnull String aId) {
+  public ModelCommon getItem(@Nonnull String aId) {
     return getItem(aId, null);
   }
 
   @Override
-  public Resource getItem(@Nonnull String aId, String aVersion) {
+  public ModelCommon getItem(@Nonnull String aId, String aVersion) {
     return mTriplestoreRepo.getItem(aId, aVersion);
   }
 
-  public List<Resource> getItems(@Nonnull String aField, @Nonnull Object aValue,
+  public List<ModelCommon> getItems(@Nonnull String aField, @Nonnull Object aValue,
                                  final String... aIndices) {
     return mESRepo.getResources(aField, aValue, checkIndices(aIndices));
   }
@@ -232,8 +232,8 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) {
-    List<Resource> resources = new ArrayList<>();
+  public List<ModelCommon> getAll(@Nonnull String aType, final String... aIndices) {
+    List<ModelCommon> resources = new ArrayList<>();
     try {
       resources = mESRepo.getAll(aType, checkIndices(aIndices));
     } catch (IOException e) {
@@ -243,7 +243,7 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource stage(Resource aResource) throws IOException {
+  public ModelCommon stage(ModelCommon aResource) throws IOException {
     return mTriplestoreRepo.stage(aResource);
   }
 
@@ -258,12 +258,12 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Commit.Diff getDiff(Resource aResource) {
+  public Commit.Diff getDiff(ModelCommon aResource) {
     return mTriplestoreRepo.getDiff(aResource);
   }
 
   @Override
-  public Commit.Diff getDiff(List<Resource> aResources) {
+  public Commit.Diff getDiff(List<ModelCommon> aResources) {
     return mTriplestoreRepo.getDiff(aResources);
   }
 

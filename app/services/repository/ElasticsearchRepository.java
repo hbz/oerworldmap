@@ -93,9 +93,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return new Resource(getDocument(Record.TYPE, aId));
   }
 
-  public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
+  public List<ModelCommon> getResources(@Nonnull String aField, @Nonnull Object aValue,
                                      final String... aIndices) {
-    List<Resource> resources = new ArrayList<>();
+    List<ModelCommon> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(aField, aValue, aIndices)) {
       resources.add(new Resource(doc));
     }
@@ -103,8 +103,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) throws IOException {
-    List<Resource> resources = new ArrayList<>();
+  public List<ModelCommon> getAll(@Nonnull String aType, final String... aIndices) throws IOException {
+    List<ModelCommon> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(Record.RESOURCE_KEY.concat(".")
       .concat(JsonLdConstants.TYPE), aType, aIndices)) {
       resources.add(new Resource(doc));
@@ -171,8 +171,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @throws IOException
    */
   @Override
-  public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, final String... aIndices)
+  public ModelCommonList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                               Map<String, List<String>> aFilters, final String... aIndices)
     throws IOException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null, aIndices);
   }

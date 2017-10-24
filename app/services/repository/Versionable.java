@@ -1,7 +1,7 @@
 package services.repository;
 
 import models.Commit;
-import models.Resource;
+import models.ModelCommon;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,13 +13,13 @@ public interface Versionable {
 
   void commit(Commit aCommit) throws IOException;
 
-  Commit.Diff getDiff(Resource aResource);
+  Commit.Diff getDiff(ModelCommon aResource);
 
-  Commit.Diff getDiff(List<Resource> aResources);
+  Commit.Diff getDiff(List<ModelCommon> aResources);
 
-  Resource stage(Resource aResource) throws IOException;
+  ModelCommon stage(ModelCommon aResource) throws IOException;
 
-  Resource getItem(String aId, String aVersion);
+  ModelCommon getItem(String aId, String aVersion);
 
   List<Commit> log(String aId);
 

@@ -1,6 +1,6 @@
 package services.repository;
 
-import models.ResourceList;
+import models.ModelCommonList;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public interface Queryable {
    * @return A resource resembling the result set of resources matching the
    *         criteria given in the query string
    */
-  ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                     Map<String, List<String>> aFilters, final String... aIndices) throws IOException;
+  ModelCommonList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                        Map<String, List<String>> aFilters, final String... aIndices) throws IOException;
 
 }
