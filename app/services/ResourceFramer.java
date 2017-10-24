@@ -5,23 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import helpers.JsonLdConstants;
+import helpers.Types;
+import models.ModelCommon;
 import models.Resource;
 import org.apache.commons.io.IOUtils;
-import org.apache.jena.query.DatasetFactory;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.riot.JsonLDWriteContext;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.riot.WriterDatasetRIOT;
+import org.apache.jena.riot.*;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.sparql.core.DatasetGraph;
@@ -44,7 +38,13 @@ public class ResourceFramer {
 
   final private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
+  private Types mTypes = null;
+
+  public ResourceFramer(final Types aTypes) throws IOException, ProcessingException {
+    mTypes = aTypes;
+  }
+
+  public static ModelCommon resourceFromModel(Model aModel, String aId) throws IOException {
 
     String describeStatement = String.format(TriplestoreRepository.EXTENDED_DESCRIPTION, aId);
     Model dbstate = ModelFactory.createDefaultModel();
@@ -172,11 +172,12 @@ public class ResourceFramer {
     return new ObjectNode(JsonNodeFactory.instance);
   }
 
-  public static List<Resource> flatten(Resource resource) throws IOException {
+
+  public static List<ModelCommon> flatten(Resource resource) throws IOException {
 
     Model model = ModelFactory.createDefaultModel();
     RDFDataMgr.read(model, IOUtils.toInputStream(resource.toString(), StandardCharsets.UTF_8), Lang.JSONLD);
-    List<Resource> resources = new ArrayList<>();
+    List<ModelCommon> resources = new ArrayList<>();
 
     String subjectsQuery = "SELECT DISTINCT ?s WHERE { ?s ?p ?o . FILTER isIRI(?s) }";
     try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(subjectsQuery), model)) {
@@ -187,9 +188,7 @@ public class ResourceFramer {
         resources.add(resourceFromModel(model, subject));
       }
     }
-
     return resources;
-
   }
 
 }

@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
@@ -49,6 +50,7 @@ public abstract class OERWorldMap extends Controller {
   Configuration mConf;
   Environment mEnv;
   protected static BaseRepository mBaseRepository = null;
+  protected static Types mTypes;
   private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
@@ -57,7 +59,15 @@ public abstract class OERWorldMap extends Controller {
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
       try {
-        mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
+        try {
+          mTypes = new Types(aConf.underlying());
+        } catch (ProcessingException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        mBaseRepository = new BaseRepository(aConf.underlying(),
+          new ElasticsearchRepository(aConf.underlying(), mTypes));
       } catch (final Exception ex) {
         throw new RuntimeException("Failed to create Respository", ex);
       }
@@ -99,7 +109,6 @@ public abstract class OERWorldMap extends Controller {
 
     mConf = aConf;
     mEnv = aEnv;
-    Types.init(mConf.underlying());
 
     // Repository
     createBaseRepository(mConf);
@@ -141,7 +150,7 @@ public abstract class OERWorldMap extends Controller {
     Logger.trace("Username " + getHttpBasicAuthUser());
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getItem(profileId);
+      user = (Resource) getRepository().getItem(profileId);
     }
     return user;
   }
@@ -255,7 +264,7 @@ public abstract class OERWorldMap extends Controller {
     Resource user = null;
     String profileId = mAccountService.getProfileId(aId);
     if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getItem(profileId);
+      user = (Resource) getRepository().getItem(profileId);
     }
     return user;
   }

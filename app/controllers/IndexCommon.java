@@ -62,7 +62,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
     // Validate
     ModelCommon staged = mBaseRepository.stage(resource);
-    ProcessingReport processingReport = staged.validate();
+    ProcessingReport processingReport = staged.validate(mTypes.getSchema(staged.getClass()));
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
       try {
@@ -126,7 +126,7 @@ public abstract class IndexCommon extends OERWorldMap{
       // Stage and validate each resource
       try {
         ModelCommon staged = mBaseRepository.stage(resource);
-        ProcessingReport processingMessages = staged.validate();
+        ProcessingReport processingMessages = staged.validate(mTypes.getSchema(staged.getClass()));
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
           Logger.debug(staged.toString());

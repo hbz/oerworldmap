@@ -40,7 +40,7 @@ public class BaseRepository extends Repository
     super(aConfiguration);
 
     if (aESRepo == null) {
-      mESRepo = new ElasticsearchRepository(mConfiguration);
+      throw new IllegalStateException("Missing ElasticsearchRepository while creating BaseRepository.");
     }
     else {
       mESRepo = aESRepo;
@@ -72,7 +72,7 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mESRepo, graphHistory);
+    mResourceIndexer = new ResourceIndexer(mDb, mESRepo, graphHistory, mESRepo.getTypes());
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();

@@ -1,5 +1,6 @@
 package helpers;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.elasticsearch.client.Client;
@@ -23,6 +24,7 @@ public class ElasticsearchTestGrid extends WithApplication {
   protected static Settings mClientSettings;
   protected static Client mClient;
   protected static ElasticsearchConfig mEsConfig;
+  protected static Types mTypes;
 
   public static ElasticsearchRepository getEsRepo() {
     return mRepo;
@@ -31,8 +33,12 @@ public class ElasticsearchTestGrid extends WithApplication {
   @BeforeClass
   public static void setup() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    Types.init(mConfig);
-    mRepo = new ElasticsearchRepository(mConfig);
+    try {
+      mTypes = new Types(mConfig);
+    } catch (ProcessingException e) {
+      e.printStackTrace();
+    }
+    mRepo = new ElasticsearchRepository(mConfig, mTypes);
     mEsConfig = mRepo.getConfig();
 
     mClientSettings = Settings.settingsBuilder().put(mEsConfig.getClientSettings())

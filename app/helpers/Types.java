@@ -25,7 +25,6 @@ public class Types {
   private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private Map<Class, Type> mTypes;
   private Map<String, String> mIndexTypes;
-  private Map<String, String> mClassTypes;
 
   public Types(final Config aConfig) throws ProcessingException, IOException {
 

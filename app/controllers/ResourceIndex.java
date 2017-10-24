@@ -12,7 +12,6 @@ import helpers.SCHEMA;
 import helpers.UniversalFunctions;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -230,7 +229,7 @@ public class ResourceIndex extends IndexCommon {
 
     // Validate
     ModelCommon staged = mBaseRepository.stage(resource);
-    ProcessingReport processingReport = staged.validate();
+    ProcessingReport processingReport = staged.validate(mTypes.getSchema(staged.getClass()));
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
       try {
@@ -298,7 +297,7 @@ public class ResourceIndex extends IndexCommon {
       // Stage and validate each resource
       try {
         ModelCommon staged = mBaseRepository.stage(resource);
-        ProcessingReport processingMessages = staged.validate();
+        ProcessingReport processingMessages = staged.validate(mTypes.getSchema(staged.getClass()));
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
           Logger.debug(staged.toString());

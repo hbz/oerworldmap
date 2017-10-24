@@ -4,6 +4,7 @@ import helpers.ElasticsearchTestGrid;
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
 import helpers.ResourceHelpers;
+import models.ModelCommon;
 import models.Resource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -22,7 +23,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
 
   static {
     try {
-      mElasticsearchRepo = new ElasticsearchRepository(mConfig);
+      mElasticsearchRepo = new ElasticsearchRepository(mConfig, mTypes);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -42,7 +43,7 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mElasticsearchRepo.addItem(in1, new HashMap<>());
     mElasticsearchRepo.addItem(in2, new HashMap<>());
-    List<Resource> resourcesGotBack = ResourceHelpers.unwrapRecords(
+    List<ModelCommon> resourcesGotBack = ResourceHelpers.unwrapRecords(
       mElasticsearchRepo.getAll("Person", mEsConfig.getAllIndices()));
     Assert.assertTrue(resourcesGotBack.contains(in1));
     Assert.assertFalse(resourcesGotBack.contains(in2));
@@ -56,13 +57,13 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mElasticsearchRepo.addItem(in1, new HashMap<>());
     mElasticsearchRepo.addItem(in2, new HashMap<>());
-    List<Resource> resourcesGotBack = ResourceHelpers.unwrapRecords(
+    List<ModelCommon> resourcesGotBack = ResourceHelpers.unwrapRecords(
       mElasticsearchRepo.getAll("Person", mEsConfig.getAllIndices()));
     Set<String> ids = new HashSet<>();
     Set<String> names = new HashSet<>();
     Set<String> employers = new HashSet<>();
 
-    for (Resource r : resourcesGotBack) {
+    for (ModelCommon r : resourcesGotBack) {
       ids.add(r.getAsString(JsonLdConstants.ID));
       if (r.get("name") != null) {
         names.add(r.get("name").toString());

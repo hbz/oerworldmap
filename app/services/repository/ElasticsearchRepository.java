@@ -3,6 +3,7 @@ package services.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
+import helpers.Types;
 import helpers.UniversalFunctions;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
@@ -46,13 +47,15 @@ import java.util.*;
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchConfig mConfig;
+  private static Types mTypes;
   private Client mClient;
   private Fuzziness mFuzziness;
   private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  public ElasticsearchRepository(Config aConfiguration) throws IOException {
+  public ElasticsearchRepository(final Config aConfiguration, final Types aTypes) throws IOException {
     super(aConfiguration);
-    mConfig = new ElasticsearchConfig(aConfiguration);
+    mTypes = aTypes;
+    mConfig = new ElasticsearchConfig(aConfiguration, mTypes);
     Settings settings = Settings.settingsBuilder().put(mConfig.getClientSettings()).build();
     try {
       mClient = TransportClient.builder().settings(settings).build().addTransportAddress(
@@ -445,6 +448,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   public ElasticsearchConfig getConfig() {
     return mConfig;
+  }
+
+  public Types getTypes(){
+    return mTypes;
   }
 
   public void createIndex(final String aIndex, final String aIndexConfigFile) {

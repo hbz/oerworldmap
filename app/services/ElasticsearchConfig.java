@@ -50,10 +50,12 @@ public class ElasticsearchConfig {
   private TransportClient mTransportClient;
 
   private String[] mAllIndices;
+  final private Types mTypes;
 
   final private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  public ElasticsearchConfig(Config aConfiguration) throws IOException {
+  public ElasticsearchConfig(final Config aConfiguration, final Types aTypes) throws IOException {
+    mTypes = aTypes;
     mConfig = aConfiguration;
     init();
   }
@@ -107,8 +109,8 @@ public class ElasticsearchConfig {
     return mAllIndices;
   }
 
-  public String getIndex(final String aType){
-    return Types.getEsIndexFromClassType(aType);
+  public String getIndex(final Class aType){
+    return mTypes.getEsIndexFromClassType(aType);
   }
 
   public String getServer() {
