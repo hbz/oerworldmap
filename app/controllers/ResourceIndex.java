@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
  */
 public class ResourceIndex extends OERWorldMap {
 
-  GeoJsonExporter mGeoJsonExporter = new GeoJsonExporter();
+  private GeoJsonExporter mGeoJsonExporter = new GeoJsonExporter();
 
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
@@ -374,10 +374,6 @@ public class ResourceIndex extends OERWorldMap {
         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     } catch (NullPointerException e) {
       Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
-    }
-    JsonNode geoJson = mGeoJsonExporter.exportJson(record);
-    if (geoJson != null) {
-      record.put("feature", geoJson);
     }
     return record;
   }
