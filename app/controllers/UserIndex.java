@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
@@ -53,6 +54,7 @@ public class UserIndex extends OERWorldMap {
 
   private File mProfiles;
   private GraphHistory mConsents;
+  private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   @Inject
   public UserIndex(Configuration aConf, Environment aEnv) {
@@ -73,7 +75,7 @@ public class UserIndex extends OERWorldMap {
 
   public Result register() {
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
+    Resource user = new Resource(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
     user.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     String username = user.getAsString("email");
@@ -181,7 +183,7 @@ public class UserIndex extends OERWorldMap {
 
     Result result;
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
+    Resource user = new Resource(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     String username;
     if (getHttpBasicAuthUser() != null) {
@@ -228,7 +230,7 @@ public class UserIndex extends OERWorldMap {
 
   public Result newsletterRegister() {
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
+    Resource user = new Resource(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
 
     if (!user.validate().isSuccess()) {
       return badRequest("Please provide a valid email address and select a country.");
@@ -329,9 +331,8 @@ public class UserIndex extends OERWorldMap {
   }
 
   private void saveProfileToDb(String aToken) throws IOException {
-
     File profile = new File(mProfiles, aToken);
-    Resource person = Resource.fromJson(FileUtils.readFileToString(profile, StandardCharsets.UTF_8));
+    Resource person = new Resource(OBJECT_MAPPER.readTree(profile));
     if (person == null || !profile.delete()) {
       throw new IOException("Could not process profile for " + aToken);
     }
@@ -344,7 +345,6 @@ public class UserIndex extends OERWorldMap {
     mBaseRepository.addItem(person, getMetadata());
     mAccountService.setPermissions(person.getId(), username);
     mAccountService.setProfileId(username, person.getId());
-
   }
 
   private boolean registerNewsletter(String aEmailAddress) {

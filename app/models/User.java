@@ -15,11 +15,11 @@ public class User {
   public String email;
   public String name;
 
-  final private static ObjectMapper mObjectMapper = new ObjectMapper();
+  final private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   @Override
   public String toString() {
-    ObjectWriter ow = mObjectMapper.writer().withDefaultPrettyPrinter();
+    ObjectWriter ow = OBJECT_MAPPER.writer().withDefaultPrettyPrinter();
     String json = null;
     try {
       json = ow.writeValueAsString(this);

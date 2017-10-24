@@ -48,7 +48,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private static ElasticsearchConfig mConfig;
   private Client mClient;
   private Fuzziness mFuzziness;
-  private static ObjectMapper mObjectMapper = new ObjectMapper();
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   public ElasticsearchRepository(Config aConfiguration) throws IOException {
     super(aConfiguration);
@@ -90,14 +90,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource getItem(@Nonnull String aId) {
-    return Resource.fromMap(getDocument(Record.TYPE, aId));
+    return new Resource(getDocument(Record.TYPE, aId));
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue,
                                      final String... aIndices) {
     List<Resource> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(aField, aValue, aIndices)) {
-      resources.add(Resource.fromMap(doc));
+      resources.add(new Resource(doc));
     }
     return resources;
   }
@@ -107,15 +107,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     List<Resource> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(Record.RESOURCE_KEY.concat(".")
       .concat(JsonLdConstants.TYPE), aType, aIndices)) {
-      resources.add(Resource.fromMap(doc));
+      resources.add(new Resource(doc));
     }
     return resources;
   }
 
   @Override
   public ModelCommon deleteResource(@Nonnull final String aId,
-                                 @Nonnull final String aClassType,
-                                 final Map<String, Object> aMetadata) {
+                                    @Nonnull final String aClassType,
+                                    final Map<String, Object> aMetadata) {
     ModelCommon resource = getItem(aId.concat(".").concat(Record.RESOURCE_KEY));
     if (null == resource) {
       return null;
@@ -137,9 +137,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
-                            QueryContext aQueryContext, final String... aIndices) {
-    Resource aggregations = Resource
-      .fromJson(getAggregation(aAggregationBuilder, aQueryContext, aIndices).toString());
+                            QueryContext aQueryContext, final String... aIndices) throws IOException {
+    Resource aggregations =
+      new Resource(OBJECT_MAPPER.readTree(
+        getAggregation(aAggregationBuilder, aQueryContext, aIndices).toString()));
     if (null == aggregations) {
       return null;
     }
@@ -147,9 +148,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
-                            QueryContext aQueryContext, final String... aIndices) {
-    Resource aggregations = Resource
-      .fromJson(getAggregations(aAggregationBuilders, aQueryContext, aIndices).toString());
+                            QueryContext aQueryContext, final String... aIndices) throws IOException {
+    Resource aggregations =
+      new Resource(OBJECT_MAPPER.readTree(
+        getAggregations(aAggregationBuilders, aQueryContext, aIndices).toString()));
     if (null == aggregations) {
       return null;
     }
@@ -162,11 +164,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * http://www.elasticsearch.org/guide
    * /en/elasticsearch/reference/current/search-uri-request.html .
    *
-   * @param aQueryString
-   *          A string describing the query
+   * @param aQueryString A string describing the query
    * @param aFilters
    * @return A resource resembling the result set of resources matching the
-   *         criteria given in the query string
+   * criteria given in the query string
    * @throws IOException
    */
   @Override
@@ -186,15 +187,16 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<ModelCommon> matches = new ArrayList<>();
     while (searchHits.hasNext()) {
-      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
+      Resource match = new Resource(searchHits.next().sourceAsMap());
       matches.add(match);
     }
     // FIXME: response.toString returns string serializations of scripted keys
-    Resource aggregations = new Resource(mObjectMapper.readTree(response.toString()))
-                .get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
-      aFilters, aggregations);
-
+    final Object aggregations = new Resource(OBJECT_MAPPER.readTree(response.toString())).get("aggregations");
+    if (aggregations != null && aggregations instanceof Resource) {
+      return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+        aFilters, (Resource) aggregations);
+    }
+    return null;
   }
 
   /**
@@ -256,7 +258,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @return the document as Map of String/Object
    */
   private Map<String, Object> getDocument(@Nonnull final String aType,
-                                         @Nonnull final String aIdentifier) {
+                                          @Nonnull final String aIdentifier) {
     final GetResponse response = mClient.prepareGet(mConfig.getIndex(Record.TYPE), aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
@@ -267,12 +269,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (Record.TYPE.equals(aClassType)) {
       response = mClient.prepareDelete(mConfig.getIndex(Record.TYPE), aClassType, aIdentifier)
         .execute().actionGet();
-    }
-    else if (Action.TYPE.equals(aClassType)) {
+    } else if (Action.TYPE.equals(aClassType)) {
       response = mClient.prepareDelete(mConfig.getIndex(Action.TYPE), aClassType, aIdentifier)
         .execute().actionGet();
-    }
-    else{
+    } else {
       return false;
     }
     return response.isFound();
@@ -349,7 +349,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       }
       if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()) {
         GeoPolygonQueryBuilder polygonFilter = QueryBuilders.geoPolygonQuery("about.location.geo");
-        for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()){
+        for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()) {
           polygonFilter.addPoint(geoPoint);
         }
         globalAndFilter.must(polygonFilter);
@@ -372,7 +372,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         String filterName = entry.getKey();
         for (String filterValue : entry.getValue()) {
           if (filterName.endsWith(".GTE")) {
-            filterName = filterName.substring(0, filterName.length()-".GTE".length());
+            filterName = filterName.substring(0, filterName.length() - ".GTE".length());
             orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
           } else {
             // This could also be 'must' queries, allowing to narrow down the result list
@@ -420,7 +420,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   private void refreshIndices(@Nonnull String... aIndices) {
-    for (String index : aIndices){
+    for (String index : aIndices) {
       try {
         mClient.admin().indices().refresh(new RefreshRequest(index)).actionGet();
       } catch (IndexNotFoundException e) {

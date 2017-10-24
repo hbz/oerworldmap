@@ -6,10 +6,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
-import models.Commit;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -35,7 +32,7 @@ public abstract class IndexCommon extends OERWorldMap{
   public IndexCommon(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
   }
-  private static ObjectMapper mObjectMapper = new ObjectMapper();
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   public Result addItem() throws IOException {
     JsonNode jsonNode = getJsonFromRequest();
@@ -53,7 +50,7 @@ public abstract class IndexCommon extends OERWorldMap{
   protected Result upsertItem(boolean isUpdate, final ReverseResourceIndex aResourceIndex,
                                   final String... aForbiddenTypes) throws IOException {
     // Extract resource
-    Resource resource = Resource.fromJson(getJsonFromRequest());
+    Resource resource = new Resource(getJsonFromRequest());
     resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     // Person create /update only through UserIndex, which is restricted to admin
@@ -75,7 +72,7 @@ public abstract class IndexCommon extends OERWorldMap{
       }
       if (request().accepts("text/html")) {
         Map<String, Object> scope = new HashMap<>();
-        scope.put("report", mObjectMapper.convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("report", OBJECT_MAPPER.convertValue(listProcessingReport.asJson(), ArrayList.class));
         scope.put("type", resource.getType());
         return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
       } else {
@@ -111,7 +108,7 @@ public abstract class IndexCommon extends OERWorldMap{
     // Extract resources
     List<Resource> resources = new ArrayList<>();
     for (JsonNode jsonNode : getJsonFromRequest()) {
-      Resource resource = Resource.fromJson(jsonNode);
+      Resource resource = new Resource(jsonNode);
       resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
       resources.add(resource);
     }
@@ -165,16 +162,16 @@ public abstract class IndexCommon extends OERWorldMap{
       Resource conceptScheme = null;
       String field = null;
       if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
+        conceptScheme = new Resource(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
         field = "about.about.@id";
       } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
         field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
+        conceptScheme = new Resource(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
           .filter(QueryBuilders.termQuery("about.@type", "Service"));
-        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
+        for (ModelCommon topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(
             AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
@@ -292,10 +289,10 @@ public abstract class IndexCommon extends OERWorldMap{
     List<Resource> resources = new ArrayList<>();
     if (json.isArray()) {
       for (JsonNode node : json) {
-        resources.add(Resource.fromJson(node));
+        resources.add(new Resource(node));
       }
     } else if (json.isObject()) {
-      resources.add(Resource.fromJson(json));
+      resources.add(new Resource(json));
     } else {
       return badRequest();
     }

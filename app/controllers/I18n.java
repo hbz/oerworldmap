@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  */
 public class I18n extends OERWorldMap {
 
-  private static ObjectMapper mObjectMapper = new ObjectMapper();
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   private String[] mBundles = {
     "ui", "iso3166-1-alpha-2", "iso3166-1-alpha-3", "iso3166-2", "iso639-1", "iso639-2"
@@ -38,7 +38,7 @@ public class I18n extends OERWorldMap {
       i18n.put(bundleName, strings);
     }
 
-    String i18nMap = mObjectMapper.convertValue(i18n, JsonNode.class).toString();
+    String i18nMap = OBJECT_MAPPER.convertValue(i18n, JsonNode.class).toString();
     return ok("window.i18nStrings = ".concat(i18nMap)).as("application/javascript");
 
   }

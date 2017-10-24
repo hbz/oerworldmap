@@ -1,8 +1,8 @@
 package services;
 
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Record;
-import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -96,12 +96,12 @@ public class AggregationProvider {
             .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
-  public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
+  public static AggregationBuilder<?> getNestedConceptAggregation(ModelCommon aConcept, String aField) {
     String id = aConcept.getAsString(JsonLdConstants.ID);
     AggregationBuilder conceptAggregation = AggregationBuilders.filter(id).filter(
       QueryBuilders.termQuery(aField, id)
     );
-    for (Resource aNarrowerConcept : aConcept.getAsList("narrower")) {
+    for (ModelCommon aNarrowerConcept : aConcept.getAsList("narrower")) {
       conceptAggregation.subAggregation(getNestedConceptAggregation(aNarrowerConcept, aField));
     }
     return conceptAggregation;

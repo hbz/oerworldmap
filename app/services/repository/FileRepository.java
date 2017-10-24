@@ -25,7 +25,7 @@ public class FileRepository extends Repository implements Writable, Readable {
   private Path getPath() {
     return Paths.get(mConfiguration.getString("filerepo.dir"));
   }
-  private static ObjectMapper mObjectMapper = new ObjectMapper();
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   public FileRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -66,8 +66,8 @@ public class FileRepository extends Repository implements Writable, Readable {
     Path resourceFile;
     try {
       resourceFile = getResourcePath(aId);
-      Map<String, Object> resourceMap = mObjectMapper.readValue(resourceFile.toFile(), mMapType);
-      return Resource.fromMap(resourceMap);
+      Map<String, Object> resourceMap = OBJECT_MAPPER.readValue(resourceFile.toFile(), mMapType);
+      return new Resource(resourceMap);
     } catch (IOException e) {
       return null;
     }
@@ -88,12 +88,12 @@ public class FileRepository extends Repository implements Writable, Readable {
       for (Path resourceFile : resourceFiles) {
         Map<String, Object> resourceMap;
         try {
-          resourceMap = mObjectMapper.readValue(resourceFile.toFile(), mMapType);
+          resourceMap = OBJECT_MAPPER.readValue(resourceFile.toFile(), mMapType);
         } catch (IOException ex) {
           ex.printStackTrace();
           continue;
         }
-        results.add(Resource.fromMap(resourceMap));
+        results.add(new Resource(resourceMap));
       }
     } catch (IOException e) {
       throw new RuntimeIOException(e);

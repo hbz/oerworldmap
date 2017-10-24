@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class ResourceFramer {
 
-  final private static ObjectMapper mObjectMapper = new ObjectMapper();
+  final private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
 
@@ -70,7 +70,7 @@ public class ResourceFramer {
           ByteArrayOutputStream boas = new ByteArrayOutputStream();
           WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
           w.write(boas, g, RiotLib.prefixMap(g), null, ctx);
-          JsonNode jsonNode = mObjectMapper.readTree(boas.toByteArray());
+          JsonNode jsonNode = OBJECT_MAPPER.readTree(boas.toByteArray());
 
           if (jsonNode.has(JsonLdConstants.GRAPH)) {
             ArrayNode graphs = (ArrayNode) jsonNode.get(JsonLdConstants.GRAPH);
@@ -79,14 +79,14 @@ public class ResourceFramer {
                 ObjectNode result = (ObjectNode) buildTree(graph, graphs);
                 result.put(JsonLdConstants.CONTEXT, "https://oerworldmap.org/assets/json/context.json");
                 Logger.debug("Framed " + aId);
-                return Resource.fromJson(result);
+                return new Resource(result);
               }
             }
           } else {
             ObjectNode result = (ObjectNode) jsonNode;
             result.put(JsonLdConstants.CONTEXT, "https://oerworldmap.org/assets/json/context.json");
             Logger.debug("Framed " + aId);
-            return Resource.fromJson(result);
+            return new Resource(result);
           }
         }
       }

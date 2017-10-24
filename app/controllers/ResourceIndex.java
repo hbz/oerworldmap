@@ -42,7 +42,7 @@ import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
  */
 public class ResourceIndex extends IndexCommon {
 
-  private static ObjectMapper mObjectMapper = new ObjectMapper();
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
@@ -219,7 +219,7 @@ public class ResourceIndex extends IndexCommon {
   protected Result upsertItem(boolean isUpdate) throws IOException {
 
     // Extract resource
-    Resource resource = Resource.fromJson(getJsonFromRequest());
+    Resource resource = new Resource(getJsonFromRequest());
     resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     // Person create /update only through UserIndex, which is restricted to admin
@@ -239,7 +239,7 @@ public class ResourceIndex extends IndexCommon {
       }
       if (request().accepts("text/html")) {
         Map<String, Object> scope = new HashMap<>();
-        scope.put("report", mObjectMapper.convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("report", OBJECT_MAPPER.convertValue(listProcessingReport.asJson(), ArrayList.class));
         scope.put("type", resource.getType());
         return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
       } else {
@@ -282,7 +282,7 @@ public class ResourceIndex extends IndexCommon {
     // Extract resources
     List<Resource> resources = new ArrayList<>();
     for (JsonNode jsonNode : getJsonFromRequest()) {
-      Resource resource = Resource.fromJson(jsonNode);
+      Resource resource = new Resource(jsonNode);
       resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
       resources.add(resource);
     }
@@ -346,16 +346,16 @@ public class ResourceIndex extends IndexCommon {
       Resource conceptScheme = null;
       String field = null;
       if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
+        conceptScheme = new Resource(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
         field = "about.about.@id";
       } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
         field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
+        conceptScheme = new Resource(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
         AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
             .filter(QueryBuilders.termQuery("about.@type", "Service"));
-        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
+        for (ModelCommon topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
@@ -563,7 +563,7 @@ public class ResourceIndex extends IndexCommon {
 
     ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
     jsonNode.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-    Resource comment = Resource.fromJson(jsonNode);
+    Resource comment = new Resource(jsonNode);
 
     comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));

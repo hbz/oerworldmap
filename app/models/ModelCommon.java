@@ -9,6 +9,11 @@ import java.util.*;
  */
 public abstract class ModelCommon extends HashMap<String, Object> {
 
+  protected static String generateId() {
+    return "urn:uuid:" + UUID.randomUUID().toString();
+  }
+
+
   public Map<?, ?> getAsMap(final String aKey) {
     Object result = get(aKey);
     return (null == result || !(result instanceof Map<?, ?>)) ? null : (ModelCommon) result;
@@ -119,4 +124,30 @@ public abstract class ModelCommon extends HashMap<String, Object> {
     return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
   }
 
+
+  protected void fillFromMap(final Map<String, Object> aProperties,
+                             final List<String> aIdentifiedTypes) {
+    for (Entry<String, Object> entry : aProperties.entrySet()) {
+      String key = entry.getKey();
+      Object value = entry.getValue();
+      if (key.equals(JsonLdConstants.ID) && !aIdentifiedTypes.contains(getType())) {
+        continue;
+      }
+      if (value instanceof Map<?, ?>) {
+        put(key, new Resource((Map<String, Object>) value));
+      } else if (value instanceof List<?>) {
+        List<Object> vals = new ArrayList<>();
+        for (Object v : (List<?>) value) {
+          if (v instanceof Map<?, ?>) {
+            vals.add(new Resource((Map<String, Object>) v));
+          } else {
+            vals.add(v);
+          }
+        }
+        put(key, vals);
+      } else {
+        put(key, value);
+      }
+    }
+  }
 }

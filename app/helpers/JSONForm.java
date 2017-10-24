@@ -112,7 +112,7 @@ public class JSONForm {
         messageNode.put("level", "danger");
         break;
       }
-      errorReport.add(Resource.fromJson(messageNode));
+      errorReport.add(new Resource(messageNode));
     }
     return errorReport;
   }

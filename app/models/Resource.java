@@ -19,6 +19,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
 
+import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +30,7 @@ import java.util.*;
 public class Resource extends ModelCommon implements Comparable<Resource> {
 
   private static final long serialVersionUID = -6177433021348713601L;
-  private static final ObjectMapper mObjectMapper = new ObjectMapper();
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   // identified ("primary") data types that get an ID
   private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
@@ -40,7 +41,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
 
   static {
     try {
-      mSchemaNode = mObjectMapper.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
+      mSchemaNode = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     } catch (IOException e) {
       Logger.error("Could not read schema", e);
     }
@@ -74,10 +75,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
     }
   }
 
-  private static String generateId() {
-    return "urn:uuid:" + UUID.randomUUID().toString();
-  }
-
   /**
    * Convert a Map of String/Object to a Resource, assuming that all Object
    * values of the map are properly represented by the toString() method of
@@ -87,13 +84,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    *          The map to create the resource from
    * @return a Resource containing all given properties
    */
-  @SuppressWarnings("unchecked")
-  public static Resource fromMap(Map<String, Object> aProperties) {
-
-    if (aProperties == null) {
-      return null;
-    }
-
+  public Resource(@Nonnull Map<String, Object> aProperties) {
     String type = (String) aProperties.get(JsonLdConstants.TYPE);
     String id = (String) aProperties.get(JsonLdConstants.ID);
     Resource resource = new Resource(type, id);
@@ -105,12 +96,12 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
         continue;
       }
       if (value instanceof Map<?, ?>) {
-        resource.put(key, Resource.fromMap((Map<String, Object>) value));
+        resource.put(key, new Resource((Map<String, Object>) value));
       } else if (value instanceof List<?>) {
         List<Object> vals = new ArrayList<>();
         for (Object v : (List<?>) value) {
           if (v instanceof Map<?, ?>) {
-            vals.add(Resource.fromMap((Map<String, Object>) v));
+            vals.add(new Resource((Map<String, Object>) v));
           } else {
             vals.add(v);
           }
@@ -120,31 +111,17 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
         resource.put(key, value);
       }
     }
-
-    return resource;
-
   }
 
-  public static Resource fromJson(JsonNode aJson) {
-    Map<String, Object> resourceMap = mObjectMapper.convertValue(aJson,
-        new TypeReference<HashMap<String, Object>>() {
-        });
-    return fromMap(resourceMap);
+  public Resource(JsonNode aJson) {
+    this((Map<String, Object>) OBJECT_MAPPER.convertValue(aJson,
+      new TypeReference<HashMap<String, Object>>() {
+      }));
   }
 
-  public static Resource fromJson(String aJsonString) {
-    try {
-      return fromJson(mObjectMapper.readTree(aJsonString));
-    } catch (IOException e) {
-      Logger.error("Could not read resource from JSON", e);
-      return null;
-    }
-  }
-
-  public static Resource fromJson(InputStream aInputStream) throws IOException {
-    String json = IOUtils.toString(aInputStream, "UTF-8");
+  public Resource (InputStream aInputStream) throws IOException {
+    this(IOUtils.toString(aInputStream, "UTF-8"));
     aInputStream.close();
-    return fromJson(json);
   }
 
   public ProcessingReport validate() {
@@ -172,7 +149,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    * @return JSON JsonNode
    */
   public JsonNode toJson() {
-    return mObjectMapper.convertValue(this, JsonNode.class);
+    return OBJECT_MAPPER.convertValue(this, JsonNode.class);
   }
 
   /**
@@ -196,7 +173,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    */
   @Override
   public String toString() {
-    ObjectMapper mapper = mObjectMapper;
+    ObjectMapper mapper = OBJECT_MAPPER;
     String output;
     try {
       output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
