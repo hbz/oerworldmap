@@ -23,6 +23,7 @@ import play.Configuration;
 import play.Environment;
 import play.Logger;
 import play.mvc.Result;
+import play.mvc.With;
 import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
@@ -37,6 +38,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -57,6 +59,7 @@ public class ResourceIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
+  @With(Cached.class)
   public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
       throws IOException {
 
@@ -168,6 +171,7 @@ public class ResourceIndex extends OERWorldMap {
       return badRequest();
     }
     mBaseRepository.importResources(resources, getMetadata());
+    Cached.lastModified = new Date();
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
@@ -223,6 +227,7 @@ public class ResourceIndex extends OERWorldMap {
 
     // Save
     mBaseRepository.addResource(resource, getMetadata());
+    Cached.lastModified = new Date();
 
     // Respond
     if (isUpdate) {
@@ -272,11 +277,13 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     mBaseRepository.addResources(resources, getMetadata());
+    Cached.lastModified = new Date();
 
     return ok("Added resources");
 
   }
 
+  @With(Cached.class)
   public Result read(String id, String version, String extension) throws IOException {
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
