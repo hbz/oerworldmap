@@ -63,22 +63,8 @@ public abstract class IndexCommon extends OERWorldMap{
     // Validate
     ModelCommon staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate(mTypes.getSchema(staged.getClass()));
-    if (!processingReport.isSuccess()) {
-      ListProcessingReport listProcessingReport = new ListProcessingReport();
-      try {
-        listProcessingReport.mergeWith(processingReport);
-      } catch (ProcessingException e) {
-        Logger.warn("Failed to create list processing report", e);
-      }
-      if (request().accepts("text/html")) {
-        Map<String, Object> scope = new HashMap<>();
-        scope.put("report", OBJECT_MAPPER.convertValue(listProcessingReport.asJson(), ArrayList.class));
-        scope.put("type", resource.getType());
-        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
-      } else {
-        return badRequest(listProcessingReport.asJson());
-      }
-    }
+    Result badListProcessingReport = addListProcessingReport(resource, processingReport);
+    if (badListProcessingReport != null) return badListProcessingReport;
 
     // Save
     mBaseRepository.addItem(resource, getMetadata());
@@ -99,6 +85,26 @@ public abstract class IndexCommon extends OERWorldMap{
         return created("Created " + resource.getId());
       }
     }
+  }
+
+  protected Result addListProcessingReport(Resource resource, ProcessingReport processingReport) {
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
+      }
+      if (request().accepts("text/html")) {
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("report", OBJECT_MAPPER.convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("type", resource.getType());
+        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+      } else {
+        return badRequest(listProcessingReport.asJson());
+      }
+    }
+    return null;
   }
 
   protected abstract Result upsertItems() throws IOException;
@@ -124,16 +130,7 @@ public abstract class IndexCommon extends OERWorldMap{
       }
 
       // Stage and validate each resource
-      try {
-        ModelCommon staged = mBaseRepository.stage(resource);
-        ProcessingReport processingMessages = staged.validate(mTypes.getSchema(staged.getClass()));
-        if (!processingMessages.isSuccess()) {
-          Logger.debug(processingMessages.toString());
-          Logger.debug(staged.toString());
-        }
-        listProcessingReport.mergeWith(processingMessages);
-      } catch (ProcessingException e) {
-        Logger.error("Could not process validation report", e);
+      if (!stageAndValidate(listProcessingReport, resource)) {
         return badRequest();
       }
     }
@@ -143,6 +140,22 @@ public abstract class IndexCommon extends OERWorldMap{
     }
     mBaseRepository.addItems(resources, getMetadata());
     return ok("Added resources");
+  }
+
+  protected boolean stageAndValidate(ListProcessingReport listProcessingReport, ModelCommon resource) throws IOException {
+    try {
+      ModelCommon staged = mBaseRepository.stage(resource);
+      ProcessingReport processingMessages = staged.validate(mTypes.getSchema(staged.getClass()));
+      if (!processingMessages.isSuccess()) {
+        Logger.debug(processingMessages.toString());
+        Logger.debug(staged.toString());
+      }
+      listProcessingReport.mergeWith(processingMessages);
+    } catch (ProcessingException e) {
+      Logger.error("Could not process validation report", e);
+      return false;
+    }
+    return true;
   }
 
   public Result read(String id, String version, String extension) throws IOException {
@@ -242,6 +255,14 @@ public abstract class IndexCommon extends OERWorldMap{
     scope.put("alternates", alternates);
 
     String format = null;
+    format = getFormatString(extension, format);
+
+    Result ical = renderResult(resource, title, scope, format);
+    if (ical != null) return ical;
+    return notFound("Not found");
+  }
+
+  protected String getFormatString(String extension, String format) {
     if (! StringUtils.isEmpty(extension)) {
       switch (extension) {
         case "html":
@@ -266,7 +287,10 @@ public abstract class IndexCommon extends OERWorldMap{
     } else {
       format = "application/json";
     }
+    return format;
+  }
 
+  protected Result renderResult(ModelCommon resource, String title, Map<String, Object> scope, String format) {
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("text/html")) {
@@ -281,7 +305,7 @@ public abstract class IndexCommon extends OERWorldMap{
         return ok(ical).as("text/calendar");
       }
     }
-    return notFound("Not found");
+    return null;
   }
 
   protected Result importResources() throws IOException {

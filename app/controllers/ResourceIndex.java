@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
@@ -230,22 +229,8 @@ public class ResourceIndex extends IndexCommon {
     // Validate
     ModelCommon staged = mBaseRepository.stage(resource);
     ProcessingReport processingReport = staged.validate(mTypes.getSchema(staged.getClass()));
-    if (!processingReport.isSuccess()) {
-      ListProcessingReport listProcessingReport = new ListProcessingReport();
-      try {
-        listProcessingReport.mergeWith(processingReport);
-      } catch (ProcessingException e) {
-        Logger.warn("Failed to create list processing report", e);
-      }
-      if (request().accepts("text/html")) {
-        Map<String, Object> scope = new HashMap<>();
-        scope.put("report", OBJECT_MAPPER.convertValue(listProcessingReport.asJson(), ArrayList.class));
-        scope.put("type", resource.getType());
-        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
-      } else {
-        return badRequest(listProcessingReport.asJson());
-      }
-    }
+    Result badListProcessingReport = addListProcessingReport(resource, processingReport);
+    if (badListProcessingReport != null) return badListProcessingReport;
 
     // Save
     mBaseRepository.addItem(resource, getMetadata());
@@ -295,16 +280,7 @@ public class ResourceIndex extends IndexCommon {
         return forbidden("Upsert Person forbidden.");
       }
       // Stage and validate each resource
-      try {
-        ModelCommon staged = mBaseRepository.stage(resource);
-        ProcessingReport processingMessages = staged.validate(mTypes.getSchema(staged.getClass()));
-        if (!processingMessages.isSuccess()) {
-          Logger.debug(processingMessages.toString());
-          Logger.debug(staged.toString());
-        }
-        listProcessingReport.mergeWith(processingMessages);
-      } catch (ProcessingException e) {
-        Logger.error("Could not process validation report", e);
+      if (!stageAndValidate(listProcessingReport, resource)) {
         return badRequest();
       }
     }
@@ -473,46 +449,10 @@ public class ResourceIndex extends IndexCommon {
     scope.put("alternates", alternates);
 
     String format = null;
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
-        case "json":
-          format = "application/json";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-      }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else {
-      format = "application/json";
-    }
+    format = getFormatString(extension, format);
 
-    if (format == null) {
-      return notFound("Not found");
-    } else if (format.equals("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", scope));
-    } else if (format.equals("application/json")) {
-      return ok(resource.toString()).as("application/json");
-    } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
-    } else if (format.equals("text/calendar")) {
-      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
-      if (ical != null) {
-        return ok(ical).as("text/calendar");
-      }
-    }
-
+    Result ical = renderResult(resource, title, scope, format);
+    if (ical != null) return ical;
     return notFound("Not found");
   }
 
