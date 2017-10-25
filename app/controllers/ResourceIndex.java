@@ -171,7 +171,7 @@ public class ResourceIndex extends OERWorldMap {
       return badRequest();
     }
     mBaseRepository.importResources(resources, getMetadata());
-    Cached.lastModified = new Date();
+    Cached.updateLastModified();
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
@@ -227,7 +227,7 @@ public class ResourceIndex extends OERWorldMap {
 
     // Save
     mBaseRepository.addResource(resource, getMetadata());
-    Cached.lastModified = new Date();
+    Cached.updateLastModified();
 
     // Respond
     if (isUpdate) {
@@ -277,7 +277,7 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     mBaseRepository.addResources(resources, getMetadata());
-    Cached.lastModified = new Date();
+    Cached.updateLastModified();
 
     return ok("Added resources");
 
