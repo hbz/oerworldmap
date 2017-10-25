@@ -68,24 +68,24 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addItem(@Nonnull final ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
-    Record record = new Record(aResource, mTypes.getIndexType(aResource));
+  public void addItem(@Nonnull final ModelCommon aItem, Map<String, Object> aMetadata) throws IOException {
+    Record record = new Record(aItem, mTypes.getIndexType(aItem));
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
     }
-    addJson(record.toString(), record.getId(), Record.class.getName());
+    addJson(record.toString(), record.getId(), aItem.getClass());
     refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
   public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
-    Map<String, String> records = new HashMap<>();
+    Map<String, Record> records = new HashMap<>();
     for (ModelCommon resource : aResources) {
       Record record = new Record(resource, mTypes.getIndexType(resource));
       for (String key : aMetadata.keySet()) {
         record.put(key, aMetadata.get(key));
       }
-      records.put(record.getId(), record.toString());
+      records.put(record.getId(), record);
     }
     addJson(records, Record.class.getName());
     refreshIndices(mConfig.getAllIndices());
@@ -116,14 +116,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public ModelCommon deleteResource(@Nonnull final String aId,
-                                    @Nonnull final String aClassType,
-                                    final Map<String, Object> aMetadata) {
+  public ModelCommon deleteItem(@Nonnull final String aId,
+                                @Nonnull final Class aClazz,
+                                final Map<String, Object> aMetadata) {
     ModelCommon resource = getItem(aId.concat(".").concat(Record.CONTENT_KEY));
     if (null == resource) {
       return null;
     }
-    boolean found = deleteDocument(aClassType, resource.getId());
+    boolean found = deleteDocument(aClazz, resource.getId());
     refreshIndices(mConfig.getAllIndices());
     Logger.trace("Deleted " + aId + " from Elasticsearch");
     if (found) {
@@ -208,9 +208,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    *
    * @param aJsonString
    */
-  public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getIndex(Record.TYPE), aType, aUuid).setSource(aJsonString).execute()
-      .actionGet();
+  public void addJson(final String aJsonString, final String aUuid, final Class aClass) {
+    mClient.prepareIndex(mConfig.getIndex(Resource.class),
+      mTypes.getIndexType(aClass), aUuid).setSource(aJsonString).execute().actionGet();
   }
 
   /**
@@ -219,21 +219,21 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    *
    * @param aJsonStringIdMap
    */
-  public void addJson(final Map<String, String> aJsonStringIdMap, final String aType) {
+  public void addJson(final Map<String, Record> aJsonStringIdMap, final String aType) {
 
     BulkRequestBuilder bulkRequest = mClient.prepareBulk();
-    for (Map.Entry<String, String> entry : aJsonStringIdMap.entrySet()) {
+    for (Map.Entry<String, Record> entry : aJsonStringIdMap.entrySet()) {
       String id = entry.getKey();
-      String json = entry.getValue();
-      bulkRequest.add(mClient.prepareIndex(mConfig.getIndex(Record.TYPE), aType, id).setSource(json));
+      Record json = entry.getValue();
+      bulkRequest.add(mClient.prepareIndex(
+        mConfig.getIndex(json.getRecordContent().getClass()), aType, id).setSource(json));
     }
-
     BulkResponse bulkResponse = bulkRequest.execute().actionGet();
     if (bulkResponse.hasFailures()) {
       Logger.error(bulkResponse.buildFailureMessage());
     }
-
   }
+
 
   private List<Map<String, Object>> getDocuments(final String aField, final Object aValue,
                                                  final String... aIndices) {
@@ -262,24 +262,17 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   private Map<String, Object> getDocument(@Nonnull final String aType,
                                           @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(mConfig.getIndex(Record.TYPE), aType, aIdentifier)
+    final GetResponse response = mClient.prepareGet(mConfig.getIndex(Record.class), aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
   }
 
-  private boolean deleteDocument(@Nonnull final String aClassType, @Nonnull final String aIdentifier) {
-    DeleteResponse response;
-    if (Record.TYPE.equals(aClassType)) {
-      response = mClient.prepareDelete(mConfig.getIndex(Record.TYPE), aClassType, aIdentifier)
-        .execute().actionGet();
-    } else if (Action.TYPE.equals(aClassType)) {
-      response = mClient.prepareDelete(mConfig.getIndex(Action.TYPE), aClassType, aIdentifier)
-        .execute().actionGet();
-    } else {
-      return false;
-    }
+  private boolean deleteDocument(@Nonnull final Class aClass, @Nonnull final String aIdentifier) {
+    DeleteResponse response = mClient.prepareDelete(
+      mConfig.getIndex(aClass), mTypes.getIndexType(aClass), aIdentifier).execute().actionGet();
     return response.isFound();
   }
+
 
   private SearchResponse getAggregation(final AggregationBuilder<?> aAggregationBuilder,
                                         QueryContext aQueryContext, final String... aIndices) {

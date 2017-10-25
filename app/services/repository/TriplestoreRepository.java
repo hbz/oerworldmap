@@ -318,9 +318,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
 
   @Override
-  public ModelCommon deleteResource(@Nonnull final String aId,
-                                 @Nonnull final String aClassType,
-                                 final Map<String, Object> aMetadata) throws IOException {
+  public ModelCommon deleteItem(@Nonnull final String aId,
+                                @Nonnull final Class aClazz,
+                                final Map<String, Object> aMetadata) throws IOException {
     // Current data, outbound links
     Model dbstate = getConciseBoundedDescription(aId, mDb);
 

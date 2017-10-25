@@ -38,15 +38,15 @@ public interface Writable {
    *
    * @param aId
    *          The ID of the resource to be deleted
-   * @param aClassType
-   *          The type of the resource to be deleted
+   * @param aClazz
+   *          The class of the resource to be deleted
    * @param aMetadata
    *          Map containing metadata such as author, timestamp etc
    * @return The deleted resource
    * @throws IOException
    */
-  ModelCommon deleteResource(@Nonnull final String aId,
-                             @Nonnull final String aClassType,
-                             final Map<String, Object> aMetadata) throws IOException;
+  ModelCommon deleteItem(@Nonnull final String aId,
+                         @Nonnull final Class aClazz,
+                         final Map<String, Object> aMetadata) throws IOException;
 
 }

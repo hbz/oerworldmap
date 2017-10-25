@@ -173,7 +173,7 @@ public class ResourceFramer {
   }
 
 
-  public static List<ModelCommon> flatten(Resource resource) throws IOException {
+  public static List<ModelCommon> flatten(ModelCommon resource) throws IOException {
 
     Model model = ModelFactory.createDefaultModel();
     RDFDataMgr.read(model, IOUtils.toInputStream(resource.toString(), StandardCharsets.UTF_8), Lang.JSONLD);

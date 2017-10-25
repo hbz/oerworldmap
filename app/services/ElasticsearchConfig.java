@@ -109,8 +109,8 @@ public class ElasticsearchConfig {
     return mAllIndices;
   }
 
-  public String getIndex(final Class aType){
-    return mTypes.getEsIndexFromClassType(aType);
+  public String getIndex(final Class aClass){
+    return mTypes.getEsIndexFromClassType(aClass);
   }
 
   public String getServer() {

@@ -280,7 +280,7 @@ public class ResourceIndex extends IndexCommon {
   protected Result upsertItems() throws IOException {
 
     // Extract resources
-    List<Resource> resources = new ArrayList<>();
+    List<ModelCommon> resources = new ArrayList<>();
     for (JsonNode jsonNode : getJsonFromRequest()) {
       Resource resource = new Resource(jsonNode);
       resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
@@ -289,7 +289,7 @@ public class ResourceIndex extends IndexCommon {
 
     // Validate
     ListProcessingReport listProcessingReport = new ListProcessingReport();
-    for (Resource resource : resources) {
+    for (ModelCommon resource : resources) {
       // Person create /update only through UserIndex, which is restricted to admin
       if ("Person".equals(resource.getType())) {
         return forbidden("Upsert Person forbidden.");
@@ -325,7 +325,7 @@ public class ResourceIndex extends IndexCommon {
 
   // TODO: drop this method and add second parameter for delete() to route
   public Result delete(String aId) throws IOException {
-    return delete(aId, Record.TYPE);
+    return delete(aId, mBaseRepository.getItem(aId).getClass());
   }
 
   public Result read(String id, String version, String extension) throws IOException {
@@ -398,7 +398,7 @@ public class ResourceIndex extends IndexCommon {
       List<ModelCommon> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
         .getItems();
       if (userLighthouseResources.size() > 0) {
-        userLighthouseResource = userLighthouseResources.get(0).getAsItem(Record.RESOURCE_KEY);
+        userLighthouseResource = userLighthouseResources.get(0).getAsItem(Record.CONTENT_KEY);
         userLighthouseIsset = true;
       }
     }
@@ -445,24 +445,24 @@ public class ResourceIndex extends IndexCommon {
     }
 
     List<Commit> history = mBaseRepository.log(id);
-    resource = new Record(resource);
-    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    Record record = new Record(resource, mTypes.getIndexType(resource.getClass()));
+    record.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
     try {
-      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+      record.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
     } catch (NullPointerException e) {
       Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
     }
-    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+    record.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     try {
-      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+      record.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     } catch (NullPointerException e) {
       Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
     }
 
     Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
+    scope.put("resource", record);
     scope.put("comments", comments);
     scope.put("likes", likesCount);
     scope.put("userLikesResource", userLikesResource);
@@ -517,8 +517,8 @@ public class ResourceIndex extends IndexCommon {
   }
 
 
-  public Result delete(final String aId, final String aClassType) throws IOException {
-    Resource resource = mBaseRepository.deleteResource(aId, aClassType, getMetadata());
+  public Result delete(final String aId, final Class aClazz) throws IOException {
+    ModelCommon resource = mBaseRepository.deleteItem(aId, aClazz, getMetadata());
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {
@@ -598,8 +598,8 @@ public class ResourceIndex extends IndexCommon {
 
     if (existingLikes.size() > 0) {
       for (ModelCommon like : existingLikes) {
-        mBaseRepository.deleteResource(like.getAsItem(Record.RESOURCE_KEY).getId(),
-          Record.TYPE, getMetadata());
+        mBaseRepository.deleteItem(like.getAsItem(Record.CONTENT_KEY).getId(),
+          Action.class, getMetadata());
       }
     } else {
       Resource likeAction = new Resource("LikeAction");

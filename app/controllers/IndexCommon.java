@@ -106,7 +106,7 @@ public abstract class IndexCommon extends OERWorldMap{
   protected Result upsertItems(final String... aForbiddenTypes) throws IOException {
 
     // Extract resources
-    List<Resource> resources = new ArrayList<>();
+    List<ModelCommon> resources = new ArrayList<>();
     for (JsonNode jsonNode : getJsonFromRequest()) {
       Resource resource = new Resource(jsonNode);
       resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
@@ -115,7 +115,7 @@ public abstract class IndexCommon extends OERWorldMap{
 
     // Validate
     ListProcessingReport listProcessingReport = new ListProcessingReport();
-    for (Resource resource : resources) {
+    for (ModelCommon resource : resources) {
       // Person create /update only through UserIndex, which is restricted to admin
       for (String forbiddenType : aForbiddenTypes) {
         if (forbiddenType.equals(resource.getType())) {
@@ -219,7 +219,7 @@ public abstract class IndexCommon extends OERWorldMap{
     }
 
     List<Commit> history = mBaseRepository.log(id);
-    resource = new Record(resource);
+    resource = new Record(resource, mTypes.getIndexType(resource));
     resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
     try {
       resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
