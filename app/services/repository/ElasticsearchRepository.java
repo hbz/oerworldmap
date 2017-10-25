@@ -68,32 +68,32 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addItem(@Nonnull final Resource aResource, Map<String, Object> aMetadata) throws IOException {
-    Record record = new Record(aResource);
+  public void addItem(@Nonnull final ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
+    Record record = new Record(aResource, mTypes.getIndexType(aResource));
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
     }
-    addJson(record.toString(), record.getId(), Record.TYPE);
+    addJson(record.toString(), record.getId(), Record.class.getName());
     refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
-  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
     Map<String, String> records = new HashMap<>();
-    for (Resource resource : aResources) {
-      Record record = new Record(resource);
+    for (ModelCommon resource : aResources) {
+      Record record = new Record(resource, mTypes.getIndexType(resource));
       for (String key : aMetadata.keySet()) {
         record.put(key, aMetadata.get(key));
       }
       records.put(record.getId(), record.toString());
     }
-    addJson(records, Record.TYPE);
+    addJson(records, Record.class.getName());
     refreshIndices(mConfig.getAllIndices());
   }
 
   @Override
   public Resource getItem(@Nonnull String aId) {
-    return new Resource(getDocument(Record.TYPE, aId));
+    return new Resource(getDocument(Record.class.getName(), aId));
   }
 
   public List<ModelCommon> getResources(@Nonnull String aField, @Nonnull Object aValue,
@@ -108,7 +108,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public List<ModelCommon> getAll(@Nonnull String aType, final String... aIndices) throws IOException {
     List<ModelCommon> resources = new ArrayList<>();
-    for (Map<String, Object> doc : getDocuments(Record.RESOURCE_KEY.concat(".")
+    for (Map<String, Object> doc : getDocuments(Record.CONTENT_KEY.concat(".")
       .concat(JsonLdConstants.TYPE), aType, aIndices)) {
       resources.add(new Resource(doc));
     }
@@ -119,7 +119,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ModelCommon deleteResource(@Nonnull final String aId,
                                     @Nonnull final String aClassType,
                                     final Map<String, Object> aMetadata) {
-    ModelCommon resource = getItem(aId.concat(".").concat(Record.RESOURCE_KEY));
+    ModelCommon resource = getItem(aId.concat(".").concat(Record.CONTENT_KEY));
     if (null == resource) {
       return null;
     }

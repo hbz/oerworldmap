@@ -38,7 +38,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @param aMetadata
    */
   @Override
-  public void addItem(@Nonnull final Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull final ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     String encodedId = DigestUtils.sha256Hex(id);
     Path dir = Paths.get(getPath().toString(), aResource.getAsString(JsonLdConstants.TYPE));
@@ -50,7 +50,7 @@ public class FileRepository extends Repository implements Writable, Readable {
   }
 
   @Override
-  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
     throw new UnsupportedOperationException();
   }
 
@@ -81,8 +81,8 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @return All resources of the given type as a List.
    */
   @Override
-  public List<Resource> getAll(@Nonnull String aType, String... aIndices) {
-    ArrayList<Resource> results = new ArrayList<>();
+  public List<ModelCommon> getAll(@Nonnull String aType, String... aIndices) {
+    ArrayList<ModelCommon> results = new ArrayList<>();
     Path typeDir = Paths.get(getPath().toString(), aType);
     try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir)) {
       for (Path resourceFile : resourceFiles) {

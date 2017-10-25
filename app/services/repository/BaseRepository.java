@@ -93,10 +93,10 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource deleteResource(@Nonnull final String aId,
+  public ModelCommon deleteResource(@Nonnull final String aId,
                                  @Nonnull final String aClassType,
                                  final Map<String, Object> aMetadata) throws IOException {
-    Resource resource = mTriplestoreRepo.deleteResource(aId, aClassType, aMetadata);
+    ModelCommon resource = mTriplestoreRepo.deleteResource(aId, aClassType, aMetadata);
     if (resource != null) {
       mESRepo.deleteResource(aId, aClassType, aMetadata);
       Commit.Diff diff = mTriplestoreRepo.getDiff(resource).reverse();
@@ -108,7 +108,7 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public void addItem(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
 
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = mTriplestoreRepo.getDiff(aResource);
@@ -128,12 +128,12 @@ public class BaseRepository extends Repository
    * @throws IOException
    */
   @Override
-  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
 
     TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
-    for (Resource resource : aResources) {
+    for (ModelCommon resource : aResources) {
       Commit.Diff diff = mTriplestoreRepo.getDiff(resource);
       indexDiff.append(diff);
       commits.add(new TripleCommit(header, diff));
