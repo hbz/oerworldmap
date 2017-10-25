@@ -1,10 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
-import models.ModelCommon;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
@@ -88,19 +85,19 @@ public class CalendarExporter implements Exporter {
   }
 
   @Override
-  public String export(Resource aResource) {
-    if (!aResource.getAsItem(Record.RESOURCE_KEY).getType().equals("Event")) {
+  public String export(ModelCommon aResource) {
+    if (!aResource.getAsItem(Record.CONTENT_KEY).getType().equals("Event")) {
       return null;
     }
-    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsItem(Record.RESOURCE_KEY))).concat(FOOTER);
+    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsItem(Record.CONTENT_KEY))).concat(FOOTER);
   }
 
   @Override
-  public String export(ResourceList aResourceList) {
+  public String export(ModelCommonList aResourceList) {
     StringBuilder result = new StringBuilder(HEADER);
-    aResourceList.getItems().stream().filter(resource -> resource.getAsItem(Record.RESOURCE_KEY).getType()
+    aResourceList.getItems().stream().filter(resource -> resource.getAsItem(Record.CONTENT_KEY).getType()
       .equals("Event")).forEach(resource ->
-        result.append(exportResourceWithoutHeader(resource.getAsItem(Record.RESOURCE_KEY)))
+        result.append(exportResourceWithoutHeader(resource.getAsItem(Record.CONTENT_KEY)))
     );
     result.append(FOOTER);
     return result.toString();

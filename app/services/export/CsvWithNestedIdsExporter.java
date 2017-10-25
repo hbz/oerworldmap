@@ -1,9 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import models.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,25 +17,25 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
   private List<String> mDropFields = new ArrayList<>();
 
   @Override
-  public String export(ResourceList aResourceList){
+  public String export(ModelCommonList aResourceList){
     StringBuffer result = new StringBuffer();
-    List<Resource> resources = new ArrayList<>();
-    for (Resource record : aResourceList.getItems()) {
-      resources.add(record.getAsItem(Record.RESOURCE_KEY));
+    List<ModelCommon> resources = new ArrayList<>();
+    for (ModelCommon record : aResourceList.getItems()) {
+      resources.add(record.getAsItem(Record.CONTENT_KEY));
     }
     defineHeaderColumns(resources);
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));
-    for (Resource resource : resources) {
+    for (ModelCommon resource : resources) {
       result.append(buildRow(resource).concat("\n"));
     }
     return result.toString();
   }
 
   @Override
-  public String export(Resource aResource) {
+  public String export(ModelCommon aResource) {
     StringBuffer result = new StringBuffer();
-    Resource resource = aResource.getAsItem(Record.RESOURCE_KEY);
+    ModelCommon resource = aResource.getAsItem(Record.CONTENT_KEY);
     defineHeaderColumns(Arrays.asList(resource));
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));
@@ -45,7 +43,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
     return result.toString();
   }
 
-  private String buildRow(Resource aResource) {
+  private String buildRow(ModelCommon aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
@@ -107,9 +105,9 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
   }
 
   @Override
-  public void defineHeaderColumns(List<Resource> aResourceList) {
+  public void defineHeaderColumns(List<ModelCommon> aResourceList) {
     mKeys.clear();
-    for (Resource resource : aResourceList) {
+    for (ModelCommon resource : aResourceList) {
       Iterator<Entry<String, Object>> it = resource.entrySet().iterator();
       while (it.hasNext()) {
         flattenKeys(it.next());

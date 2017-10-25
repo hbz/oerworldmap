@@ -34,7 +34,7 @@ public class GeoJsonExporter implements Exporter {
 
   private JsonNode toGeoJson(ModelCommon aResource) {
 
-    JsonNode resource = aResource.getAsItem(Record.RESOURCE_KEY).toJson();
+    JsonNode resource = aResource.getAsItem(Record.CONTENT_KEY).toJson();
     ArrayNode coordinates = getCoordinates(resource);
 
     if (coordinates == null) {
