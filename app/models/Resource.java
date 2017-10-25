@@ -1,6 +1,5 @@
 package models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +18,6 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import play.Logger;
 
-import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +41,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
     try {
       mSchemaNode = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     } catch (IOException e) {
-      Logger.error("Could not read schema", e);
+      Logger.error("Could not read resources schema", e);
     }
   }
 
@@ -84,42 +82,19 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
    *          The map to create the resource from
    * @return a Resource containing all given properties
    */
-  public Resource(@Nonnull Map<String, Object> aProperties) {
-    String type = (String) aProperties.get(JsonLdConstants.TYPE);
-    String id = (String) aProperties.get(JsonLdConstants.ID);
-    Resource resource = new Resource(type, id);
-
-    for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
-      String key = entry.getKey();
-      Object value = entry.getValue();
-      if (key.equals(JsonLdConstants.ID) && !mIdentifiedTypes.contains(type)) {
-        continue;
-      }
-      if (value instanceof Map<?, ?>) {
-        resource.put(key, new Resource((Map<String, Object>) value));
-      } else if (value instanceof List<?>) {
-        List<Object> vals = new ArrayList<>();
-        for (Object v : (List<?>) value) {
-          if (v instanceof Map<?, ?>) {
-            vals.add(new Resource((Map<String, Object>) v));
-          } else {
-            vals.add(v);
-          }
-        }
-        resource.put(key, vals);
-      } else {
-        resource.put(key, value);
-      }
-    }
+  public Resource(final Map<String, Object> aProperties) {
+    this((String) aProperties.get(JsonLdConstants.TYPE),
+      (String) aProperties.get(JsonLdConstants.ID));
+    fillFromMap(aProperties, getIdentifiedTypes());
   }
 
-  public Resource(JsonNode aJson) {
+  public Resource(final JsonNode aJson) {
     this((Map<String, Object>) OBJECT_MAPPER.convertValue(aJson,
       new TypeReference<HashMap<String, Object>>() {
       }));
   }
 
-  public Resource (InputStream aInputStream) throws IOException {
+  public Resource(final InputStream aInputStream) throws IOException {
     this(IOUtils.toString(aInputStream, "UTF-8"));
     aInputStream.close();
   }
@@ -157,23 +132,6 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
 
   }
 
-  /**
-   * Get a JSON string representation of the resource.
-   *
-   * @return JSON string
-   */
-  @Override
-  public String toString() {
-    ObjectMapper mapper = OBJECT_MAPPER;
-    String output;
-    try {
-      output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
-    } catch (JsonProcessingException e) {
-      output = toJson().toString();
-      e.printStackTrace();
-    }
-    return output;
-  }
 
   @SuppressWarnings("unchecked")
   @Override

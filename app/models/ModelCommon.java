@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -256,6 +257,24 @@ public abstract class ModelCommon extends HashMap<String, Object> {
    */
   public JsonNode toJson() {
     return OBJECT_MAPPER.convertValue(this, JsonNode.class);
+  }
+
+  /**
+   * Get a JSON string representation of the resource.
+   *
+   * @return JSON string
+   */
+  @Override
+  public String toString() {
+    ObjectMapper mapper = OBJECT_MAPPER;
+    String output;
+    try {
+      output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
+    } catch (JsonProcessingException e) {
+      output = toJson().toString();
+      e.printStackTrace();
+    }
+    return output;
   }
 
   protected abstract JsonNode getSchemaNode();
