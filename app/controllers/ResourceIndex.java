@@ -70,7 +70,7 @@ public class ResourceIndex extends IndexCommon {
       }
 
       Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
-      filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
+      filters.put(Record.CONTENT_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
       ModelCommonList champions = mBaseRepository.query("*", 0, 9999, null, filters);
       ModelCommonList reports = mBaseRepository.query(
         "about.keywords:\"countryreport:".concat(iso3166.toUpperCase()).concat("\""), 0, 10, null, null);

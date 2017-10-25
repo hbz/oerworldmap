@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class MockResourceRepository extends Repository implements Readable, Writable {
 
-  private Map<String, Resource> db = new HashMap<>();
+  private Map<String, ModelCommon> db = new HashMap<>();
 
   public MockResourceRepository() {
     super(null);
@@ -36,7 +36,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addItem(@Nonnull Resource aResource, Map<String, Object> aMetadata) throws IOException {
+  public void addItem(@Nonnull ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }
@@ -48,8 +48,8 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addItems(@Nonnull List<Resource> aResources, Map<String, Object> aMetadata) throws IOException {
-    for (Resource resource : aResources) {
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
+    for (ModelCommon resource : aResources) {
       addItem(resource, aMetadata);
     }
   }
@@ -61,19 +61,19 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @return the Resource
    */
   @Override
-  public Resource getItem(@Nonnull String aId) throws IOException {
+  public ModelCommon getItem(@Nonnull String aId) throws IOException {
     return db.get(aId);
   }
 
   @Override
-  public ModelCommon deleteItem(@Nonnull String aId, @Nonnull String aClassType, Map<String, Object> aMetadata) {
-    Resource resource = db.get(aId);
+  public ModelCommon deleteItem(@Nonnull String aId, @Nonnull Class aClazz, Map<String, Object> aMetadata) {
+    ModelCommon resource = db.get(aId);
     db.remove(aId);
     return resource;
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType, final String... aIndices) {
+  public List<ModelCommon> getAll(@Nonnull String aType, final String... aIndices) {
     return new ArrayList<>(db.values());
   }
 
