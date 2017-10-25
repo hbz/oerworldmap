@@ -1,6 +1,7 @@
 package controllers;
 
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -8,6 +9,7 @@ import play.mvc.Result;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -34,10 +36,14 @@ public class Cached extends Action.Simple {
 
     String ifModifiedSince = ctx.request().getHeader(IF_MODIFIED_SINCE);
     if (!StringUtils.isEmpty(ifModifiedSince)) {
-      ZonedDateTime modifiedSince = ZonedDateTime.parse(ifModifiedSince, mDateTimeFormatter)
-        .truncatedTo(ChronoUnit.SECONDS);
-      if (!mLastModified.isAfter(modifiedSince)) {
-        return CompletableFuture.completedFuture(status(304));
+      try {
+        ZonedDateTime modifiedSince = ZonedDateTime.parse(ifModifiedSince, mDateTimeFormatter)
+          .truncatedTo(ChronoUnit.SECONDS);
+        if (!mLastModified.isAfter(modifiedSince)) {
+          return CompletableFuture.completedFuture(status(304));
+        }
+      } catch (DateTimeParseException e) {
+        Logger.info("Invalid " + IF_MODIFIED_SINCE, e);
       }
     }
 
@@ -47,7 +53,7 @@ public class Cached extends Action.Simple {
 
   }
 
-  public static void updateLastModified() {
+  static void updateLastModified() {
     mLastModified = ZonedDateTime.now(ZoneId.of("GMT")).truncatedTo(ChronoUnit.SECONDS);
   }
 
