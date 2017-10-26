@@ -99,6 +99,11 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
+    // Check for fields to fetch
+    if (ctx().request().queryString().containsKey("fields")) {
+      queryContext.setFetchSource(ctx().request().queryString().get("fields"));
+    }
+
     // Sort by dateCreated if no query string given
     if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
       sort = "dateCreated:DESC";
