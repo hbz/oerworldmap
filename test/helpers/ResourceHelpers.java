@@ -20,7 +20,7 @@ public class ResourceHelpers {
   }
 
   public static ModelCommon unwrapRecord(ModelCommon aRecord) {
-    return aRecord.getAsItem(Record.RESOURCE_KEY);
+    return aRecord.getAsItem(Record.CONTENT_KEY);
   }
 
 }

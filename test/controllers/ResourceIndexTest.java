@@ -38,7 +38,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     data.put("description[0][@value]", "Foo");
     data.put("description[0][@language]", "en");
     data.put("location[address][addressCountry]", "DE");
-    Result result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+    Result result = route(fakeRequest("POST", routes.ResourceIndex.addItem().url())
       .bodyForm(data));
     assertEquals(201, result.status());
 
@@ -49,7 +49,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   public void createResourceFromJson() {
 
     Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
-    Result result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+    Result result = route(fakeRequest("POST", routes.ResourceIndex.addItem().url())
       .bodyJson(event.toJson()));
     assertEquals(201, result.status());
 
@@ -58,17 +58,17 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   @Test
   public void updateResourceFromJson() {
     Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
-    Result createEventResult = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+    Result createEventResult = route(fakeRequest("POST", routes.ResourceIndex.addItem().url())
       .bodyJson(event.toJson()));
     assertEquals(201, createEventResult.status());
 
     Resource organization = getResourceFromJsonFileUnsafe("ResourceIndexTest/testOrganization.json");
-    Result createOrganizationResult = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+    Result createOrganizationResult = route(fakeRequest("POST", routes.ResourceIndex.addItem().url())
       .bodyJson(organization.toJson()));
     assertEquals(201, createOrganizationResult.status());
 
     organization.put("email", "foo@bar.de");
-    Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.updateResource(organization.getId()).url())
+    Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.updateItem(organization.getId()).url())
       .bodyJson(organization.toJson()));
     assertEquals(200, updateResult.status());
 
@@ -79,7 +79,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
 
     Resource organization = getResourceFromJsonFileUnsafe("SchemaTest/testOrganization.json");
     String auth = getAuthString();
-    Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.updateResource(organization.getId()).url())
+    Result updateResult = route(fakeRequest("POST", routes.ResourceIndex.updateItem(organization.getId()).url())
       .header("Authorization", "Basic " + auth).bodyJson(organization.toJson()));
     assertEquals(404, updateResult.status());
 

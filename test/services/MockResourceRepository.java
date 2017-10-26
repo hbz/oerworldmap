@@ -25,7 +25,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
     super(null);
   }
 
-  public void addResource(@Nonnull Resource aResource) throws IOException {
+  public void addItem(@Nonnull Resource aResource) throws IOException {
     addItem(aResource, new HashMap<>());
   }
 

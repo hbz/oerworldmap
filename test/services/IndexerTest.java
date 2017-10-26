@@ -1,12 +1,18 @@
 package services;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.typesafe.config.ConfigFactory;
 import helpers.JsonTest;
+import helpers.Types;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import play.Configuration;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
@@ -16,6 +22,14 @@ import static org.junit.Assert.assertNull;
  * Created by fo on 11.02.16.
  */
 public class IndexerTest implements JsonTest {
+
+  private static Types mTypes;
+
+  @BeforeClass
+  public static void setup() throws IOException, ProcessingException {
+    mTypes = new Types(new Configuration(
+      ConfigFactory.parseFile(new File("conf/test.conf")).resolve()).underlying());
+  }
 
   @Test
   public void testIndexNewResourceWithNewReference() throws IOException {
@@ -33,7 +47,7 @@ public class IndexerTest implements JsonTest {
 
     // Index diff to mock repo
     MockResourceRepository mockResourceRepository = new MockResourceRepository();
-    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository, null);
+    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository, null, mTypes);
     indexer.index(commit.getDiff());
 
     // Check presence of indexed resources

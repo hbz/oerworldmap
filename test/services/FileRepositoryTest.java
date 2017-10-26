@@ -2,6 +2,7 @@ package services;
 
 import helpers.ElasticsearchTestGrid;
 import helpers.UniversalFunctions;
+import models.ModelCommon;
 import models.Resource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -33,13 +34,13 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
 
   @Test
   public void testGetResource() throws IOException {
-    Resource fromStore = resourceRepository.getItem("1");
+    ModelCommon fromStore = resourceRepository.getItem("1");
     assertTrue(resource.equals(fromStore));
   }
 
   @Test
   public void testGetAll() throws IOException {
-    List<Resource> results = resourceRepository.getAll("Person");
+    List<ModelCommon> results = resourceRepository.getAll("Person");
     assertEquals(results.size(), 1);
   }
 

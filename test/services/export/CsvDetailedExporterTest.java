@@ -1,6 +1,7 @@
 package services.export;
 
 import helpers.JsonTest;
+import models.ModelCommon;
 import models.Resource;
 import models.ResourceList;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class CsvDetailedExporterTest implements JsonTest {
   public void setup() throws IOException {
     in1 = getResourceFromJsonFile("CsvDetailedExporterTest/testPlainExport.IN.1.json");
     in2 = getResourceFromJsonFile("CsvDetailedExporterTest/testPlainExport.IN.2.json");
-    List<Resource> mockSearchResultItems = new ArrayList<>();
+    List<ModelCommon> mockSearchResultItems = new ArrayList<>();
     mockSearchResultItems.add(in1);
     mockSearchResultItems.add(in2);
     mCsvExporter.defineHeaderColumns(mockSearchResultItems);
@@ -55,7 +56,7 @@ public class CsvDetailedExporterTest implements JsonTest {
   public void testEscapedStringExport() throws IOException {
     AbstractCsvExporter csvExporter = new CsvDetailedExporter();
     Resource resource = getResourceFromJsonFile("CsvDetailedExporterTest/testEscapedStringExport.IN.1.json");
-    List<Resource> asList = new ArrayList<>();
+    List<ModelCommon> asList = new ArrayList<>();
     asList.add(resource);
     csvExporter.defineHeaderColumns(asList);
     String csv = csvExporter.export(resource);
