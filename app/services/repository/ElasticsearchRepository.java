@@ -78,7 +78,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
+  public void addItems(@Nonnull final List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
     Map<String, Record> records = new HashMap<>();
     for (ModelCommon resource : aResources) {
       Record record = new Record(resource, mTypes.getIndexType(resource));
@@ -92,12 +92,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource getItem(@Nonnull String aId) {
-    return new Resource(getDocument(Record.class.getName(), aId));
+    public ModelCommon getItem(@Nonnull String aId) {
+    Map<String, Object> item;
+    for (Class clazz : mTypes.getAllTypeClasses()){
+      item = getDocument(mTypes.getIndexType(clazz), aId, mTypes.getEsIndexFromClassType(clazz));
+      if (item != null && !item.isEmpty()){
+        return new Resource(item);
+      }
+    }
+    return null;
   }
 
-  public List<ModelCommon> getResources(@Nonnull String aField, @Nonnull Object aValue,
-                                     final String... aIndices) {
+  public List<ModelCommon> getItems(@Nonnull String aField, @Nonnull Object aValue,
+                                    final String... aIndices) {
     List<ModelCommon> resources = new ArrayList<>();
     for (Map<String, Object> doc : getDocuments(aField, aValue, aIndices)) {
       resources.add(new Resource(doc));
@@ -261,8 +268,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @return the document as Map of String/Object
    */
   private Map<String, Object> getDocument(@Nonnull final String aType,
-                                          @Nonnull final String aIdentifier) {
-    final GetResponse response = mClient.prepareGet(mConfig.getIndex(Record.class), aType, aIdentifier)
+                                          @Nonnull final String aIdentifier,
+                                          @Nonnull final String aIndex) {
+    final GetResponse response = mClient.prepareGet(aIndex, aType, aIdentifier)
       .execute().actionGet();
     return response.getSource();
   }
