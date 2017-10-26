@@ -62,6 +62,32 @@ public class ResourceIndex extends OERWorldMap {
   public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
       throws IOException {
 
+    String format = "application/json";
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
+        case "geojson":
+          format = "application/geo+json";
+          break;
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
+    } else if (request().accepts("application/geo+json")) {
+      format = "application/geo+json";
+    }
+
     Map<String, Object> scope = new HashMap<>();
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
@@ -123,16 +149,11 @@ public class ResourceIndex extends OERWorldMap {
       sort = "dateCreated:DESC";
     }
 
-    queryContext.setFetchSource(new String[]{
-      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
-      "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
-      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
-      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
-      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
-      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName", "about.email"
-    });
+    if (format.equals("text/html")) {
+      queryContext.setFetchSource(new String[]{
+        "@id", "@type", "dateCreated", "author", "dateModified", "contributor", "about.@id", "about.@type", "about.name"
+      });
+    }
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
@@ -158,37 +179,6 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("list", list);
     scope.put("resources", resourceList.toResource());
     scope.put("alternates", alternates);
-
-    String format = null;
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
-        case "json":
-          format = "application/json";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-        case "geojson":
-          format = "application/geo+json";
-          break;
-      }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else if (request().accepts("application/geo+json")) {
-      format = "application/geo+json";
-    } else {
-      format = "application/json";
-    }
 
     if (format == null) {
       return notFound("Not found");
