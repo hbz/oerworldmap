@@ -47,7 +47,7 @@ public class Cached extends Action.Simple {
       }
     }
 
-    ctx.response().setHeader(CACHE_CONTROL, "private");
+    ctx.response().setHeader(CACHE_CONTROL, "private, max-age=86400");
     ctx.response().setHeader(LAST_MODIFIED, mDateTimeFormatter.format(mLastModified));
     return delegate.call(ctx);
 
