@@ -9,6 +9,7 @@ import com.typesafe.config.Config;
 import models.Action;
 import models.ModelCommon;
 import models.Resource;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -25,6 +26,7 @@ public class Types {
   private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private Map<Class, Type> mTypes;
   private Map<String, Map.Entry<Class, Type>> mSubtypesMap;
+
 
   public Types(final Config aConfig) throws ProcessingException, IOException {
 
@@ -54,6 +56,7 @@ public class Types {
     putIndexTypes();
   }
 
+
   private void putIndexTypes() {
     for (Map.Entry<Class, Type> type : mTypes.entrySet()){
       for (String subtype : type.getValue().getSubtypes()){
@@ -61,6 +64,7 @@ public class Types {
       }
     }
   }
+
 
   private Class getClassByIndexType(final String aIndexType) {
     for (Map.Entry<Class, Type> type : mTypes.entrySet()){
@@ -71,33 +75,55 @@ public class Types {
     return null;
   }
 
+
   private String getIndexTypeByType(final String aType){
     return mSubtypesMap.get(aType).getValue().getIndexType();
   }
+
 
   public Class getClassByType(String aType){
     return getClassByIndexType(getIndexTypeByType(aType));
   }
 
+
   public String getEsIndexFromClassType(final Class aClass){
     return mTypes.get(aClass).getEsIndex();
   }
+
 
   public List<Class> getAllTypeClasses(){
     return Arrays.asList(Resource.class, Action.class);
   }
 
+
   public JsonSchema getSchema(final Class aClass) throws IOException{
     return mTypes.get(aClass).mSchema;
   }
+
 
   public String getIndexType(Class aClass){
     return mTypes.get(aClass).getIndexType();
   }
 
+
   public String getIndexType(ModelCommon aItem) {
     return getIndexType(getClassByType(aItem.getType()));
   }
+
+
+  public Class getItemClass(JsonNode aItem){
+    String itemType = aItem.get("@type").asText();
+    if (StringUtils.isEmpty(itemType)){
+      return null;
+    }
+    for (Map.Entry<String, Map.Entry<Class, Type>> subtype : mSubtypesMap.entrySet()){
+      if (itemType.equals(subtype.getKey())){
+        return subtype.getValue().getKey();
+      }
+    }
+    return null;
+  }
+
 
   public static class Type {
 
@@ -119,17 +145,21 @@ public class Types {
       mSubtypes = aSubtypes;
     }
 
+
     public Class getClazz(){
       return mClass;
     }
+
 
     public String getIndexType(){
       return mIndexType;
     }
 
+
     public String getEsIndex() {
       return mEsIndexName;
     }
+
 
     public List<String> getSubtypes(){
       return mSubtypes;

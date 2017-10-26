@@ -217,47 +217,54 @@ public class ResourceIndex extends IndexCommon {
 
   protected Result upsertItem(boolean isUpdate) throws IOException {
 
-    // Extract resource
-    Resource resource = new Resource(getJsonFromRequest());
-    resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+    // Extract item
+    ModelCommon item = null;
+    JsonNode requestJson = getJsonFromRequest();
+    try {
+      item = UniversalFunctions.buildItemFromJson(requestJson, mTypes);
+    }
+    catch (IllegalArgumentException iae){
+      return badRequest("Non existent or unknown Json type in:\n" + requestJson);
+    }
+    item.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     // Person create /update only through UserIndex, which is restricted to admin
-    if (!isUpdate && "Person".equals(resource.getType())) {
+    if (!isUpdate && "Person".equals(item.getType())) {
       return forbidden("Upsert Person forbidden.");
     }
 
     // Validate
-    ModelCommon staged = mBaseRepository.stage(resource);
+    ModelCommon staged = mBaseRepository.stage(item);
     ProcessingReport processingReport = staged.validate(mTypes.getSchema(staged.getClass()));
-    Result badListProcessingReport = addListProcessingReport(resource, processingReport);
+    Result badListProcessingReport = addListProcessingReport(item, processingReport);
     if (badListProcessingReport != null) return badListProcessingReport;
 
     // Save
-    mBaseRepository.addItem(resource, getMetadata());
+    mBaseRepository.addItem(item, getMetadata());
 
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
-          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsItem("object").getId(),
+        if (Arrays.asList("LikeAction", "LighthouseAction").contains(item.getType())) {
+          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getAsItem("object").getId(),
             "HEAD").absoluteURL(request()));
         }
-        return read(resource.getId(), "HEAD", "html");
+        return read(item.getId(), "HEAD", "html");
       } else {
-        return ok("Updated " + resource.getId());
+        return ok("Updated " + item.getId());
       }
     } else {
-      if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsItem("object").getId(),
+      if (Arrays.asList("LikeAction", "LighthouseAction").contains(item.getType())) {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getAsItem("object").getId(),
           "HEAD").absoluteURL(request()));
       } else {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getId(), "HEAD")
           .absoluteURL(request()));
       }
       if (request().accepts("text/html")) {
-        return created(render("Created", "created.mustache", resource));
+        return created(render("Created", "created.mustache", item));
       } else {
-        return created("Created " + resource.getId());
+        return created("Created " + item.getId());
       }
     }
   }

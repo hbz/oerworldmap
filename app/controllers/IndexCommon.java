@@ -87,7 +87,7 @@ public abstract class IndexCommon extends OERWorldMap{
     }
   }
 
-  protected Result addListProcessingReport(Resource resource, ProcessingReport processingReport) {
+  protected Result addListProcessingReport(ModelCommon resource, ProcessingReport processingReport) {
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
       try {
