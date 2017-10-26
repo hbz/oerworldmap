@@ -24,12 +24,12 @@ public class Types {
 
   private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private Map<Class, Type> mTypes;
-  private Map<String, String> mIndexTypes;
+  private Map<String, Map.Entry<Class, Type>> mSubtypesMap;
 
   public Types(final Config aConfig) throws ProcessingException, IOException {
 
     mTypes = new HashMap<>();
-    mIndexTypes = new HashMap<>();
+    mSubtypesMap = new HashMap<>();
 
     JsonNode resourceSchemaNode = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     JsonSchema resourceSchema = JsonSchemaFactory.byDefault().getJsonSchema(resourceSchemaNode);
@@ -57,7 +57,7 @@ public class Types {
   private void putIndexTypes() {
     for (Map.Entry<Class, Type> type : mTypes.entrySet()){
       for (String subtype : type.getValue().getSubtypes()){
-        mIndexTypes.put(subtype, type.getValue().getIndexType());
+        mSubtypesMap.put(subtype, type);
       }
     }
   }
@@ -72,7 +72,7 @@ public class Types {
   }
 
   private String getIndexTypeByType(final String aType){
-    return mIndexTypes.get(aType);
+    return mSubtypesMap.get(aType).getValue().getIndexType();
   }
 
   public Class getClassByType(String aType){
