@@ -134,12 +134,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, final String... aIndices)
+  public ModelCommon aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, final String... aIndices)
     throws IOException {
     return aggregate(aAggregationBuilder, null, aIndices);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+  public ModelCommon aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
                             QueryContext aQueryContext, final String... aIndices) throws IOException {
     Resource aggregations =
       new Resource(OBJECT_MAPPER.readTree(
@@ -150,7 +150,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return (Resource) aggregations.get("aggregations");
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
+  public ModelCommon aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
                             QueryContext aQueryContext, final String... aIndices) throws IOException {
     Resource aggregations =
       new Resource(OBJECT_MAPPER.readTree(

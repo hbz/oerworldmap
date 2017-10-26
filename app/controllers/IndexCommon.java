@@ -188,7 +188,7 @@ public abstract class IndexCommon extends OERWorldMap{
           conceptAggregation.subAggregation(
             AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
-        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation, indices);
+        Resource nestedConceptAggregation = (Resource) mBaseRepository.aggregate(conceptAggregation, indices);
         resource.put("aggregation", nestedConceptAggregation);
         return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
       }

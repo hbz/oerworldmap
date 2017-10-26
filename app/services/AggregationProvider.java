@@ -83,7 +83,7 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
           .filter("champions")
-          .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+          .filter(QueryBuilders.existsQuery(Record.CONTENT_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
@@ -93,7 +93,7 @@ public class AggregationProvider {
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
             .filter("champions")
-            .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+            .filter(QueryBuilders.existsQuery(Record.CONTENT_KEY + ".countryChampionFor")));
   }
 
   public static AggregationBuilder<?> getNestedConceptAggregation(ModelCommon aConcept, String aField) {

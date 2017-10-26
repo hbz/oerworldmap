@@ -213,19 +213,19 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+  public ModelCommon aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
                             final String... aIndices) throws IOException {
     return aggregate(aAggregationBuilder, null, checkIndices(aIndices));
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
+  public ModelCommon aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder,
                             QueryContext aQueryContext,
     final String... aIndices)
       throws IOException {
     return mESRepo.aggregate(aAggregationBuilder, aQueryContext, checkIndices(aIndices));
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
+  public ModelCommon aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders,
                             QueryContext aQueryContext, final String... aIndices)
       throws IOException {
     return mESRepo.aggregate(aAggregationBuilders, aQueryContext, checkIndices(aIndices));

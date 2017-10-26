@@ -302,8 +302,8 @@ public abstract class OERWorldMap extends Controller {
     try {
       if (scope != null) {
         String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0), indices);
-        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0), indices);
+        Resource globalAggregation = (Resource) mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0), indices);
+        Resource keywordAggregation = (Resource) mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0), indices);
         scope.put("globalAggregation", globalAggregation);
         scope.put("keywordAggregation", keywordAggregation);
       }

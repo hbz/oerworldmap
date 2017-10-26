@@ -68,7 +68,7 @@ public class ResourceIndex extends IndexCommon {
         return notFound("Not found");
       }
 
-      Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
+      Resource countryAggregation = (Resource) mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
       filters.put(Record.CONTENT_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
       ModelCommonList champions = mBaseRepository.query("*", 0, 9999, null, filters);
       ModelCommonList reports = mBaseRepository.query(
@@ -335,7 +335,7 @@ public class ResourceIndex extends IndexCommon {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
         }
-        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
+        Resource nestedConceptAggregation = (Resource) mBaseRepository.aggregate(conceptAggregation);
         resource.put("aggregation", nestedConceptAggregation);
         return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
       }

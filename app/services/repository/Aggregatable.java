@@ -1,6 +1,6 @@
 package services.repository;
 
-import models.Resource;
+import models.ModelCommon;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
 import javax.annotation.Nonnull;
@@ -17,7 +17,7 @@ public interface Aggregatable {
    * @return A resource resembling the reqeusted aggregation
    * @throws IOException
    */
-  Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, final String... aIndices)
+  ModelCommon aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, final String... aIndices)
     throws IOException;
 
 }
