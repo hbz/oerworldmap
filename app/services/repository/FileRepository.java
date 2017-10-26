@@ -62,7 +62,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * exists.
    */
   @Override
-  public Resource getItem(@Nonnull String aId) {
+  public ModelCommon getItem(@Nonnull String aId) {
     Path resourceFile;
     try {
       resourceFile = getResourcePath(aId);
@@ -111,7 +111,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    */
   @Override
   public ModelCommon deleteItem(@Nonnull String aId, @Nonnull Class aClazz, Map<String, Object> aMetadata) {
-    Resource resource = this.getItem(aId);
+    ModelCommon resource = this.getItem(aId);
     try {
       Files.delete(getResourcePath(aId));
     } catch (IOException e) {

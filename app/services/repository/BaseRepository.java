@@ -209,7 +209,7 @@ public class BaseRepository extends Repository
 
   public List<ModelCommon> getItems(@Nonnull String aField, @Nonnull Object aValue,
                                  final String... aIndices) {
-    return mESRepo.getResources(aField, aValue, checkIndices(aIndices));
+    return mESRepo.getItems(aField, aValue, checkIndices(aIndices));
   }
 
   @Override

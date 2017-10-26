@@ -152,7 +152,7 @@ public class ResourceIndexer {
     return indexScope;
   }
 
-  public ModelCommon getResource(String aId) {
+  public ModelCommon getItem(String aId) {
     try {
       ModelCommon resource = ResourceFramer.resourceFromModel(mDb, aId);
       if (resource != null) {
@@ -164,31 +164,31 @@ public class ResourceIndexer {
     return null;
   }
 
-  public Set<ModelCommon> getResources(String aId) {
+  public Set<ModelCommon> getItems(String aId) {
     Set<ModelCommon> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aId);
     for (String id : idsToIndex) {
-      resourcesToIndex.add(getResource(id));
+      resourcesToIndex.add(getItem(id));
     }
     return resourcesToIndex;
   }
 
 
-  public Set<ModelCommon> getResources(Commit.Diff aDiff) {
+  public Set<ModelCommon> getItems(Commit.Diff aDiff) {
     Set<ModelCommon> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aDiff);
     for (String id : idsToIndex) {
-      resourcesToIndex.add(getResource(id));
+      resourcesToIndex.add(getItem(id));
     }
     return resourcesToIndex;
   }
 
 
-  public Set<ModelCommon> getResources() {
+  public Set<ModelCommon> getItems() {
     Set<ModelCommon> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope();
     for (String id : idsToIndex) {
-      resourcesToIndex.add(getResource(id));
+      resourcesToIndex.add(getItem(id));
     }
     return resourcesToIndex;
   }
@@ -230,16 +230,16 @@ public class ResourceIndexer {
   }
 
   public void index(Commit.Diff aDiff) {
-    Set<ModelCommon> denormalizedResources = getResources(aDiff);
+    Set<ModelCommon> denormalizedResources = getItems(aDiff);
     index(denormalizedResources);
   }
 
   public void index(String aId) {
     Set<ModelCommon> denormalizedResources;
     if (aId.equals("*")) {
-      denormalizedResources = getResources();
+      denormalizedResources = getItems();
     } else {
-      denormalizedResources = getResources(aId);
+      denormalizedResources = getItems(aId);
     }
     index(denormalizedResources);
   }
