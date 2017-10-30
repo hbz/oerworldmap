@@ -2,6 +2,7 @@ package services.repository;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import models.*;
@@ -179,14 +180,15 @@ public class BaseRepository extends Repository
     return resourceList;
   }
 
+
   /**
    * Concatenates the mappings of the first parameter by "AND"
    */
   // TODO: use this method in Controllers after merge with branch 1128-likes.
   public ModelCommonList andQuerySqlLike(final Map<String, String> aParameters, final int aFrom, final int aSize,
                                       final String aSortOrder, final Map<String, List<String>> aFilters,
-                                      final QueryContext aQueryContext, final String... aIndices){
-    if (aParameters == null || aParameters.isEmpty()){
+                                      final QueryContext aQueryContext, final String... aIndices) {
+    if (aParameters == null || aParameters.isEmpty()) {
       return null;
     }
     final StringBuilder queryString = new StringBuilder();
@@ -196,6 +198,13 @@ public class BaseRepository extends Repository
     queryString.replace(0, 5, "");
     return query(queryString.toString(), aFrom, aSize, aSortOrder, aFilters, aQueryContext, aIndices);
   }
+
+
+  public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+    return mESRepo.reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+  }
+
 
   @Override
   public ModelCommon getItem(@Nonnull String aId) {

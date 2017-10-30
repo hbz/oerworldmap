@@ -397,9 +397,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<ModelCommon> alternateQuery = ResourceHelpers.unwrapRecords(
       mBaseRepo.query("Le Test", 0, 10, null, null, mDefaultQueryContext, mIndices).getItems());
     Assert.assertTrue("Could not find \"Le Test\".", alternateQuery.size() == 1);
-
-    System.out.println("alternateName: " + getNameList(alternateQuery));
-
     mBaseRepo.deleteItem("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001", Resource.class, mMetadata);
     mBaseRepo.deleteItem("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00002", Resource.class, mMetadata);
   }

@@ -10,7 +10,7 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login", "/api"];
 
   var init_app = true;
 
@@ -542,10 +542,11 @@ var Hijax = (function ($, Hijax, page) {
         }
       });
 
-      // catch form submition inside modals and handle it async
+      // catch form submission inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
         e.preventDefault();
+        $('#app').addClass('loading');
 
         var form = $(this);
 
@@ -598,6 +599,7 @@ var Hijax = (function ($, Hijax, page) {
               $('#app-modal').find('.modal-body')
                 .empty()
                 .append( contents );
+              $('#app').removeClass('loading');
 
             }
 
@@ -629,6 +631,7 @@ var Hijax = (function ($, Hijax, page) {
             }
 
             form[0].scrollIntoView(true);
+            $('#app').removeClass('loading');
 
           }
         });

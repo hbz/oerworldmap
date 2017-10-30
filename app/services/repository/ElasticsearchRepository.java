@@ -1,6 +1,10 @@
 package services.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import helpers.Types;
@@ -51,6 +55,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private Client mClient;
   private Fuzziness mFuzziness;
   private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static JsonNodeFactory mJsonNodeFactory = new JsonNodeFactory(false);
 
   public ElasticsearchRepository(final Config aConfiguration, final Types aTypes) throws IOException {
     super(aConfiguration);
@@ -207,6 +212,36 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         aFilters, (Resource) aggregations);
     }
     return null;
+  }
+
+  public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+
+    aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
+
+    SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
+
+    while (searchHits.hasNext()) {
+      final SearchHit hit = searchHits.next();
+      ModelCommon match = new Resource(hit.sourceAsMap()).getAsItem(Record.CONTENT_KEY);
+      String name = match.getNestedFieldValue("name.@value", Locale.ENGLISH); // TODO: trigger locale by reconcile request ?
+      ObjectNode item = new ObjectNode(mJsonNodeFactory);
+      item.put("id", match.getId());
+      item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
+        .equals(name.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")));
+      item.put("name", name);
+      item.put("score", hit.getScore());
+      ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
+      typeArray.add(match.getType());
+      item.set("type", typeArray);
+      resultItems.add(item);
+    }
+
+    ObjectNode result = new ObjectNode(mJsonNodeFactory);
+    result.set("result", resultItems);
+    return result;
   }
 
   /**

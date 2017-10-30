@@ -88,7 +88,7 @@ public class JSONForm {
             context = object;
           } else {
             ObjectNode object = new ObjectNode(JsonNodeFactory.instance);
-            object.put(step.key, context);
+            object.set(step.key, context);
             context = object;
           }
         }
@@ -99,6 +99,7 @@ public class JSONForm {
       ? setJsonLdTextValues(removeEmptyValues((ObjectNode) merge(results)))
       : setJsonLdTextValues((ObjectNode) merge(results));
   }
+
 
   public static List<Map<String, Object>> generateErrorReport(ProcessingReport report) {
     List<Map<String, Object>> errorReport = new ArrayList<>();
@@ -116,6 +117,7 @@ public class JSONForm {
     }
     return errorReport;
   }
+
 
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
 
@@ -138,26 +140,25 @@ public class JSONForm {
       boolean nully = (valy == null);
 
       if (nullx && !nully) {
-        result.put(key, valy);
+        result.set(key, valy);
       } else if (nully && !nullx) {
-        result.put(key, valx);
+        result.set(key, valx);
       } else if (valx instanceof ArrayNode && valy instanceof ArrayNode) {
-        result.put(key, merge((ArrayNode) valx, (ArrayNode) valy));
+        result.set(key, merge((ArrayNode) valx, (ArrayNode) valy));
       } else if (valx instanceof ObjectNode && valy instanceof ObjectNode) {
-        result.put(key, merge((ObjectNode) valx, (ObjectNode) valy));
+        result.set(key, merge((ObjectNode) valx, (ObjectNode) valy));
       } else if (!nullx) {
         ArrayNode val = new ArrayNode(JsonNodeFactory.instance);
         val.add(valx);
         val.add(valy);
-        result.put(key, val);
+        result.set(key, val);
       }
     }
     return result;
-
   }
 
-  private static ArrayNode merge(ArrayNode x, ArrayNode y) {
 
+  private static ArrayNode merge(ArrayNode x, ArrayNode y) {
     ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
     int size = Math.max(x.size(), y.size());
     for (int i = 0; i < size; i++) {
@@ -179,8 +180,8 @@ public class JSONForm {
       }
     }
     return result;
-
   }
+
 
   public static JsonNode merge(List<JsonNode> nodes) {
     ObjectNode merged = new ObjectNode(JsonNodeFactory.instance);
@@ -189,6 +190,7 @@ public class JSONForm {
     }
     return merged;
   }
+
 
   private static ObjectNode removeEmptyValues(ObjectNode node) {
     ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
@@ -199,17 +201,18 @@ public class JSONForm {
       if (fieldValue.isArray() && fieldValue.size() > 0) {
         ArrayNode value = removeEmptyValues((ArrayNode) fieldValue);
         //if (value.size() > 0)
-          result.put(fieldName, value);
+          result.set(fieldName, value);
       } else if (fieldValue.isObject() && fieldValue.size() > 0) {
         ObjectNode value = removeEmptyValues((ObjectNode) fieldValue);
         //if (value.size() > 0)
-          result.put(fieldName, value);
+          result.set(fieldName, value);
       } else if (!fieldValue.isArray() && !fieldValue.isObject() && !fieldValue.isNull()) {
-        result.put(fieldName, fieldValue);
+        result.set(fieldName, fieldValue);
       }
     }
     return result;
   }
+
 
   private static ArrayNode removeEmptyValues(ArrayNode node) {
     ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
@@ -229,6 +232,7 @@ public class JSONForm {
     return result;
   }
 
+
   private static ObjectNode setJsonLdTextValues(ObjectNode node) {
     ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
     if (node.has(JsonLdConstants.LANGUAGE) && node.has(JsonLdConstants.VALUE)) {
@@ -241,17 +245,22 @@ public class JSONForm {
         JsonNode fieldValue = node.get(fieldName);
         if (fieldValue.isArray() && fieldValue.size() > 0) {
           ArrayNode value = setJsonLdTextValues((ArrayNode) fieldValue);
-          result.put(fieldName, value);
+          result.set(fieldName, value);
         } else if (fieldValue.isObject() && fieldValue.size() > 0) {
           ObjectNode value = setJsonLdTextValues((ObjectNode) fieldValue);
-          result.put(fieldName, value);
+          result.set(fieldName, value);
         } else if (!fieldValue.isArray() && !fieldValue.isObject()) {
-          result.put(fieldName, fieldValue);
+          if (fieldValue.isTextual()) {
+            result.put(fieldName, fieldValue.asText().trim());
+          } else {
+            result.set(fieldName, fieldValue);
+          }
         }
       }
     }
     return result;
   }
+
 
   private static ArrayNode setJsonLdTextValues(ArrayNode node) {
     ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
@@ -271,11 +280,9 @@ public class JSONForm {
 
 
   private static class Step {
-
-    private static enum Type {
+    private enum Type {
       Object, Array
     }
-
     public Type type;
     public Type nextType;
     public String key;
@@ -286,8 +293,8 @@ public class JSONForm {
       return "{Type: " + type + ", Key: " + key + ", Last: " + last + ", Append: " + append
           + ", Next type: " + nextType + "}";
     }
-
   }
+
 
   private static List<Step> parsePath(String path) {
 
@@ -353,10 +360,9 @@ public class JSONForm {
         steps.get(i).nextType = steps.get(i + 1).type;
       }
     }
-
     return steps;
-
   }
+
 
   private static List<Step> failParsePath(String path) {
     List<Step> steps = new ArrayList<>();

@@ -117,21 +117,22 @@ public abstract class OERWorldMap extends Controller {
     createAccountService(mConf);
 
     // Location lookup
-    createLocationLookup(mEnv);
+    if (mEnv != null) {
+      // can be null in tests
+      createLocationLookup(mEnv);
+    }
 
     // Static pages
     createPageProvider(mConf);
-
   }
+
 
   boolean getEmbed() {
-
     return ctx().request().queryString().containsKey("embed");
-
   }
 
-  public Locale getLocale() {
 
+  public Locale getLocale() {
     Locale locale = new Locale("en", "US");
     if (mConf.getBoolean("i18n.enabled")) {
       List<Lang> acceptLanguages = request().acceptLanguages();
@@ -139,9 +140,7 @@ public abstract class OERWorldMap extends Controller {
         locale = acceptLanguages.get(0).toLocale();
       }
     }
-
     return locale;
-
   }
 
 
@@ -176,17 +175,16 @@ public abstract class OERWorldMap extends Controller {
     return credentials[0];
   }
 
-  QueryContext getQueryContext() {
 
+  QueryContext getQueryContext() {
     List<String> roles = new ArrayList<>();
     roles.add("guest");
     if (getUser() != null) {
       roles.add("authenticated");
     }
-
     return new QueryContext(roles, Arrays.asList("about.name.@value"));
-
   }
+
 
   ResourceBundle getEmails() {
     return ResourceBundle.getBundle("emails", getLocale());
@@ -257,16 +255,6 @@ public abstract class OERWorldMap extends Controller {
     }
 
     return aId;
-  }
-
-
-  public Resource getUser(String aId) {
-    Resource user = null;
-    String profileId = mAccountService.getProfileId(aId);
-    if (!StringUtils.isEmpty(profileId)) {
-      user = (Resource) getRepository().getItem(profileId);
-    }
-    return user;
   }
 
 
@@ -508,6 +496,10 @@ public abstract class OERWorldMap extends Controller {
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
+  }
+
+  public BaseRepository getBaseRepository(){
+    return mBaseRepository;
   }
 
 }

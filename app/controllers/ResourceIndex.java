@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
@@ -116,17 +117,6 @@ public class ResourceIndex extends IndexCommon {
       sort = "dateCreated:DESC";
     }
 
-    queryContext.setFetchSource(new String[]{
-      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
-      "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
-      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
-      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
-      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
-      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName", "about.email"
-    });
-
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
@@ -191,32 +181,32 @@ public class ResourceIndex extends IndexCommon {
       return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
     } //
     else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv; charset=UTF-8");
     } //
     else if (format.equals("text/calendar")) {
-      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar; charset=UTF-8");
     } //
     else if (format.equals("application/json")) {
-      return ok(resourceList.toModelCommon().toString()).as("application/json");
+      return ok(resourceList.toModelCommon().toString()).as("application/json; charset=UTF-8");
     }
     else if (format.equals("application/geo+json")) {
-      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
+      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json; charset=UTF-8");
     }
-
     return notFound("Not found");
-
   }
+
 
   public Result importResources() throws IOException {
     return super.importResources();
   }
 
+
   public Result updateItem(String aId) throws IOException {
     return super.updateItem(aId);
   }
 
-  protected Result upsertItem(boolean isUpdate) throws IOException {
 
+  protected Result upsertItem(boolean isUpdate) throws IOException {
     // Extract item
     ModelCommon item = null;
     JsonNode requestJson = getJsonFromRequest();
@@ -236,8 +226,25 @@ public class ResourceIndex extends IndexCommon {
     // Validate
     ModelCommon staged = mBaseRepository.stage(item);
     ProcessingReport processingReport = staged.validate(mTypes.getSchema(staged.getClass()));
-    Result badListProcessingReport = addListProcessingReport(item, processingReport);
-    if (badListProcessingReport != null) return badListProcessingReport;
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
+      }
+      if (request().accepts("text/html")) {
+        Map<String, Object> scope = new HashMap<>();
+        scope.put("report", OBJECT_MAPPER.convertValue(listProcessingReport.asJson(), ArrayList.class));
+        scope.put("type", item.getType());
+        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+          .getString("ResourceIndex.upsertResource.failed");
+        return badRequest(render(pageTitle, "ProcessingReport/list.mustache", scope));
+      }
+      else {
+        return badRequest(listProcessingReport.asJson());
+      }
+    }
 
     // Save
     mBaseRepository.addItem(item, getMetadata());
@@ -250,24 +257,25 @@ public class ResourceIndex extends IndexCommon {
             "HEAD").absoluteURL(request()));
         }
         return read(item.getId(), "HEAD", "html");
-      } else {
+      }
+      else {
         return ok("Updated " + item.getId());
       }
-    } else {
-      if (Arrays.asList("LikeAction", "LighthouseAction").contains(item.getType())) {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getAsItem("object").getId(),
-          "HEAD").absoluteURL(request()));
-      } else {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getId(), "HEAD")
+    }
+    else {
+      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getId(), "HEAD")
           .absoluteURL(request()));
-      }
+      String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+        .getString("ResourceIndex.upsertResource.created");
       if (request().accepts("text/html")) {
-        return created(render("Created", "created.mustache", item));
-      } else {
+        return created(render(pageTitle, "created.mustache", item));
+      }
+      else {
         return created("Created " + item.getId());
       }
     }
   }
+
 
   protected Result upsertItems() throws IOException {
 
@@ -278,7 +286,6 @@ public class ResourceIndex extends IndexCommon {
       resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
       resources.add(resource);
     }
-
     // Validate
     ListProcessingReport listProcessingReport = new ListProcessingReport();
     for (ModelCommon resource : resources) {
@@ -291,15 +298,13 @@ public class ResourceIndex extends IndexCommon {
         return badRequest();
       }
     }
-
     if (!listProcessingReport.isSuccess()) {
       return badRequest(listProcessingReport.asJson());
     }
-
     mBaseRepository.addItems(resources, getMetadata());
-
     return ok("Added resources");
   }
+
 
   public Result readDefault(String id, String version) throws IOException {
     return read(id, version, null);
@@ -458,8 +463,20 @@ public class ResourceIndex extends IndexCommon {
     String format = null;
     format = getFormatString(extension, format);
 
-    Result ical = renderResult(resource, title, scope, format);
-    if (ical != null) return ical;
+    if (format == null) {
+      return notFound("Not found");
+    } else if (format.equals("text/html")) {
+      return ok(render(title, "ResourceIndex/read.mustache", scope));
+    } else if (format.equals("application/json")) {
+      return ok(resource.toString()).as("application/json; charset=UTF-8");
+    } else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
+    } else if (format.equals("text/calendar")) {
+      String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
+      if (ical != null) {
+        return ok(ical).as("text/calendar; charset=UTF-8");
+      }
+    }
     return notFound("Not found");
   }
 

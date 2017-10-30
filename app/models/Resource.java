@@ -31,7 +31,7 @@ public class Resource extends ModelCommon implements Comparable<Resource> {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
+  public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
     "Comment", "Product"));
 

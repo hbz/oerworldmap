@@ -40,7 +40,7 @@ Der Erfolg dieses Projekts hängt von der Beteiligung der OER-Community ab. Es g
 Es gibt noch viele andere Wege zur OER World Map beizutragen. Eine vollständige Übersicht finden Sie [hier](https://oerworldmap.org/contribute).
 
 ## Wie kann ich Daten eingeben?
-Um Daten einzugeben, müssen Sie sich nur bei der OER World Map anmelden. Weitergehende Informationen zur Dateneingabe finden Sie in unserem [Wiki](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
+Um Daten einzugeben, müssen Sie sich nur bei der OER World Map anmelden. Weitergehende Informationen zur Dateneingabe finden Sie in unserem [Wiki](https://github.com/hbz/oerworldmap/wiki/Wiki-für-OER-World-Map-Editoren).
 
 ## Was gehört auf die OER World Map?
 Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich der OER und der Open Education. Momentan konzentrieren wir uns auf die Elemente der OER-Infrastruktur. Wir sind besonders interessiert an:
