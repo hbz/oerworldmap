@@ -359,8 +359,8 @@ public class ResourceIndex extends IndexCommon {
     }
 
     String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
-    int likesCount = mBaseRepository.query(likesQuery, 0, 9999, null, null)
-      .getItems().size();
+    ModelCommonList likeItems = mBaseRepository.query(likesQuery, 0, 9999, null, null);
+    int likesCount = (likeItems == null) ? 0 : likeItems.getItems().size();
 
     boolean userLikesResource = false;
     if (currentUser != null) {
@@ -373,8 +373,8 @@ public class ResourceIndex extends IndexCommon {
     }
 
     String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
-    int lighthousesCount = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
-      .getItems().size();
+    ModelCommonList lighthouseItems = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null);
+    int lighthouseCount = (lighthouseItems == null) ? 0 : lighthouseItems.getItems().size();
 
     ModelCommon userLighthouseResource = null;
     boolean userLighthouseIsset = false;
@@ -454,7 +454,7 @@ public class ResourceIndex extends IndexCommon {
     scope.put("comments", comments);
     scope.put("likes", likesCount);
     scope.put("userLikesResource", userLikesResource);
-    scope.put("lighthouses", lighthousesCount);
+    scope.put("lighthouses", lighthouseCount);
     scope.put("userLighthouseResource", userLighthouseResource);
     scope.put("userLighthouseIsset", userLighthouseIsset);
     scope.put("permissions", permissions);
