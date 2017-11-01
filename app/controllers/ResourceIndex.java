@@ -147,6 +147,8 @@ public class ResourceIndex extends OERWorldMap {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
       Resource result = resourceList.toResource();
+      ResourceList geoFeatures = mBaseRepository.query(q, 0, -1, sort, filters, queryContext);
+      result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
       if (!StringUtils.isEmpty(iso3166)) {
         if (!StringUtils.isEmpty(iso3166)) {
           result.put("iso3166", iso3166);

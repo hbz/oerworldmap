@@ -8,6 +8,8 @@ import models.Record;
 import models.Resource;
 import models.ResourceList;
 
+import java.util.List;
+
 /**
  * Created by fo on 27.03.17.
  */
@@ -19,25 +21,31 @@ public class GeoJsonExporter implements Exporter {
     return node == null ? null : node.toString();
   }
 
+  @Override
+  public String export(ResourceList aResourceList) {
+    return exportJson(aResourceList.getItems()).toString();
+  }
+
   public JsonNode exportJson(Resource aResource) {
     return toGeoJson(aResource, false);
   }
 
+  public JsonNode exportJson(ResourceList aResourceList) {
+    return exportJson(aResourceList.getItems());
+  }
 
-  @Override
-  public String export(ResourceList aResourceList) {
+  private JsonNode exportJson(List<Resource> aResources) {
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
     ArrayNode features = new ArrayNode(JsonNodeFactory.instance);
     node.put("type", "FeatureCollection");
-    node.set("aggregations", aResourceList.toResource().toJson().get("aggregations"));
-    for (Resource resource : aResourceList.getItems()) {
+    for (Resource resource : aResources) {
       JsonNode feature = toGeoJson(resource, false);
       if (feature != null) {
         features.add(feature);
       }
     }
     node.set("features", features);
-    return node.toString();
+    return node;
   }
 
   private JsonNode toGeoJson(Resource aResource, boolean expand) {
