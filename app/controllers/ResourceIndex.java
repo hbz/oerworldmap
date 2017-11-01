@@ -151,7 +151,7 @@ public class ResourceIndex extends OERWorldMap {
       result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
       if (!StringUtils.isEmpty(iso3166)) {
         if (!StringUtils.isEmpty(iso3166)) {
-          result.put("iso3166", iso3166);
+          result.put("iso3166", iso3166.toUpperCase());
         }
       }
       return ok(result.toString()).as("application/json");
