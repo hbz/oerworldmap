@@ -25,6 +25,7 @@ import org.elasticsearch.common.lucene.search.function.FiltersFunctionScoreQuery
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.IndexNotFoundException;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
@@ -170,18 +171,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
-    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
-
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
-    List<Resource> matches = new ArrayList<>();
-    while (searchHits.hasNext()) {
-      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
-      matches.add(match);
-    }
-    // FIXME: response.toString returns string serializations of scripted keys
-    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
-      aFilters, aAggregations);
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
 
   }
 
@@ -296,7 +286,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+  private ResourceList esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                                  Map<String, List<String>> aFilters, QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
@@ -385,22 +375,36 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       queryBuilder = QueryBuilders.matchAllQuery();
     }
 
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(QueryBuilders.boolQuery()
+      .filter(globalAndFilter).must(queryBuilder)).setFrom(aFrom);
 
-    /* FIXME: using a double as missing results in elasticsearch exception, providing no
-              missing value results in exception when missing mapping
-    FunctionScoreQueryBuilder fqBuilder = QueryBuilders.functionScoreQuery(queryBuilder);
-    fqBuilder.boostMode(CombineFunction.MULT);
-    fqBuilder.scoreMode(FiltersFunctionScoreQuery.ScoreMode.Sum.name().toLowerCase());
-    fqBuilder.add(ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT).missing(0));
+    List<SearchHit> searchHits = new ArrayList<>();
+    SearchResponse response;
+    Resource aAggregations;
+    if (aSize == -1) {
+      response = searchRequestBuilder.setScroll(new TimeValue(60000)).setSize(100).execute().actionGet();
+      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
+      while (nextHits.size() > 0) {
+        searchHits.addAll(nextHits);
+        response = mClient.prepareSearchScroll(response.getScrollId()).setScroll(new TimeValue(60000)).execute()
+          .actionGet();
+        nextHits = Arrays.asList(response.getHits().getHits());
+      }
+    } else {
+      response = searchRequestBuilder.setSize(aSize).execute().actionGet();
+      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      searchHits.addAll(Arrays.asList(response.getHits().getHits()));
+    }
 
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-      .setQuery(QueryBuilders.boolQuery().must(fqBuilder).filter(globalAndFilter));
-    */
+    List<Resource> resources = new ArrayList<>();
+    for (SearchHit hit: searchHits) {
+      resources.add(Resource.fromMap(hit.sourceAsMap()));
+    }
 
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-      .setQuery(QueryBuilders.boolQuery().filter(globalAndFilter).must(queryBuilder));
+    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+      aFilters, aAggregations);
 
-    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
   }
 
   public boolean hasIndex(String aIndex) {

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class ResourceList {
 
   private String getNextPage() {
 
-    if (from + size >= totalItems) {
+    if (size == -1 || from + size >= totalItems) {
       return null;
     }
 
@@ -110,7 +111,7 @@ public class ResourceList {
 
   private String getPreviousPage() {
 
-    if (from - size < 0) {
+    if (size == -1 || from - size < 0) {
       return null;
     }
 
@@ -127,7 +128,7 @@ public class ResourceList {
 
   private String getFirstPage() {
 
-    if (from <= 0) {
+    if (size == -1 || from <= 0) {
       return null;
     }
 
@@ -144,7 +145,7 @@ public class ResourceList {
 
   private String getLastPage() {
 
-    if (from + size >= totalItems) {
+    if (size == -1 || from + size >= totalItems) {
       return null;
     }
 
@@ -177,18 +178,17 @@ public class ResourceList {
 
   private List<String> getPages() {
 
-    List<String> pages = new ArrayList<>();
-
-    if (size == 0) {
-      return pages;
+    if (size <= 0) {
+      return Collections.singletonList(getCurrentPage());
     }
+
+    List<String> pages = new ArrayList<>();
 
     Map<String, Object> params = new HashMap<>();
     params.putAll(buildParam("q", query));
     params.putAll(buildParam("size", Long.toString(size)));
     params.putAll(buildParam("sort", sort));
     params.putAll(getFilterParams());
-
 
     for (int i = 0; i <= totalItems; i += size) {
       Map<String, Object> pageParams = new HashMap<>();
@@ -238,7 +238,7 @@ public class ResourceList {
 
   public boolean containsType(String aType) {
     for (Resource item : items) {
-      if (item.getAsResource("about").getType().equals(aType)) {
+      if (item.getAsResource("about") != null && aType.equals(item.getAsResource("about").getType())) {
         return true;
       }
     }
