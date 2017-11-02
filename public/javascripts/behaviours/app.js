@@ -339,6 +339,9 @@ var Hijax = (function ($, Hijax, page) {
         log.debug('APP getting main from:', pagejs_ctx.path)
         get_main(data, pagejs_ctx.path);
       });
+      // needed, because on this route the vector source is not set otherwise
+      // ... and placemarksSourceLoaded in MAP doesn't resolve then.
+      Hijax.behaviours.map.setPlacemarksVectorSource('/resource/');
     }
     next();
   }
