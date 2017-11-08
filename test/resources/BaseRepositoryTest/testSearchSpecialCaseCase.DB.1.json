@@ -1,0 +1,181 @@
+{
+  "image" : "https://bccampus.ca/wp-content/themes/wordpress-bootstrap-child/images/bccampus-logo.png",
+  "organizerFor" : [ {
+    "endDate" : "2017-05-25",
+    "@type" : "Event",
+    "name" : [ {
+      "@value" : "Open Textbooks Summit 2017",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -123.108551,
+        "lat" : 49.282403
+      },
+      "address" : {
+        "addressCountry" : "CA",
+        "streetAddress" : "Simon Fraser University",
+        "addressLocality" : "Vancouver",
+        "addressRegion" : "CA.BC"
+      }
+    },
+    "@id" : "urn:uuid:924a7992-aa61-4a7f-a4fa-64c339f270f3",
+    "startDate" : "2017-05-24"
+  } ],
+  "@type" : "Organization",
+  "participantIn" : [ {
+    "image" : "http://albertaoer.com/sites/albertaoer.com/files/OER-Colour-250.png",
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "Campus Alberta OER Initiative",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "address" : {
+        "addressCountry" : "CA"
+      }
+    },
+    "@id" : "urn:uuid:e5579da0-ff00-4db2-ab70-90640ab92ddc"
+  } ],
+  "agentIn" : [ {
+    "image" : "http://www.bccampus.ca/files/2013/08/open-textbook-graphic.jpg",
+    "@type" : "Action",
+    "name" : [ {
+      "@value" : "B.C. Open Textbook Project",
+      "@language" : "en"
+    } ],
+    "location" : { },
+    "@id" : "urn:uuid:4a15dd14-2fbb-11e5-9571-001999ac7927"
+  } ],
+  "description" : [ {
+    "@value" : "BCcampus is a publicly funded organization that aims to unify B.C.'s post-secondary system and make higher education available to everyone, through the smart use of collaborative information technology services.",
+    "@language" : "en"
+  } ],
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "url" : "http://bccampus.ca/",
+  "mentionedIn" : [ {
+    "image" : "https://oerworldmap.org/assets/images/oerhub.png",
+    "@type" : "Article",
+    "name" : [ {
+      "@value" : "OER Research Hub",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927"
+  }, {
+    "@type" : "Article",
+    "name" : [ {
+      "@value" : "Understanding educator use of OER and open textbooks across British Columbia",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -123.117816,
+        "lat" : 49.281416
+      },
+      "address" : {
+        "addressCountry" : "CA",
+        "streetAddress" : "Seymour Street",
+        "addressLocality" : "Vancouver",
+        "addressRegion" : "CA.BC"
+      }
+    },
+    "@id" : "urn:uuid:9558fb49-0f49-4ab8-8288-508fe99d4762"
+  }, {
+    "image" : "http://wikieducator.org/images/8/8d/BCcampus_logo.png",
+    "@type" : "Article",
+    "name" : [ {
+      "@value" : "BCcampus: a Creative Commons case study ",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -124.557003,
+        "lat" : 54.790277
+      },
+      "address" : {
+        "addressCountry" : "CA",
+        "streetAddress" : "British Columbia",
+        "addressRegion" : "CA.BC"
+      }
+    },
+    "@id" : "urn:uuid:4407d715-bbaf-4490-9142-c084dbb3ea45"
+  } ],
+  "provides" : [ {
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "Manitoba Open Textbook Initiative",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:d6c70abe-d9e7-4749-8501-072179855b47",
+    "startDate" : "2015"
+  }, {
+    "image" : "https://open.bccampus.ca/files/2013/11/opened-logo.png",
+    "@type" : "Service",
+    "name" : [ {
+      "@value" : "BC Campus OpenEd",
+      "@language" : "en"
+    } ],
+    "@id" : "urn:uuid:e536b1e8-8d7b-4048-8c0f-061e41228842"
+  } ],
+  "name" : [ {
+    "@value" : "BCcampus",
+    "@language" : "en"
+  } ],
+  "location" : {
+    "geo" : {
+      "lon" : -123.11498,
+      "lat" : 49.28341
+    },
+    "address" : {
+      "addressCountry" : "CA",
+      "streetAddress" : "200-555 Seymour Street",
+      "postalCode" : "V6B 3H6",
+      "addressLocality" : "Vancouver",
+      "addressRegion" : "CA.BC"
+    }
+  },
+  "@id" : "urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927",
+  "memberOf" : [ {
+    "image" : "http://www.oeconsortium.org/wp-content/themes/ocwc-mainsite/images/logo.png",
+    "@type" : "Organization",
+    "name" : [ {
+      "@value" : "Open Education Consortium",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -71.35834,
+        "lat" : 42.45709
+      },
+      "address" : {
+        "addressCountry" : "US",
+        "streetAddress" : "60 Thoreau St, Suite 238",
+        "postalCode" : 1742,
+        "addressLocality" : "Concord",
+        "addressRegion" : "US.MA"
+      }
+    },
+    "@id" : "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f"
+  }, {
+    "image" : "http://creativecommons.ca/sites/all/themes/cc/logo.png",
+    "@type" : "Organization",
+    "name" : [ {
+      "@value" : "Creative Commons Canada",
+      "@language" : "en"
+    } ],
+    "location" : {
+      "geo" : {
+        "lon" : -112.384858,
+        "lat" : 58.33747
+      },
+      "address" : {
+        "addressCountry" : "CA",
+        "addressRegion" : "CA.AB"
+      }
+    },
+    "@id" : "urn:uuid:d6b16fbb-834e-4f1f-ab6c-e19e867c4d80"
+  } ],
+  "email" : "communications@bccampus.ca",
+  "sameAs" : [ "http://www.oeconsortium.org/members/view/581/" ]
+}
+
