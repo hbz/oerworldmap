@@ -638,8 +638,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchWithTypo()  throws IOException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchWithTypo.DB.1.json");
+  public void testFuzzyPhraseSearch()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testFuzzyPhraseSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
