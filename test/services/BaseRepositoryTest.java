@@ -637,40 +637,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     }
   }
 
-  @Test
-  public void testFuzzyTokenSearch()  throws IOException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testFuzzyTokenSearch.DB.1.json"); // TODO
-    mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    try {
-      List<Resource> hitsWithoutTypo = mBaseRepo.query("Politischebildung", 0, 10, null, null, queryContext).getItems();
-      Assert.assertEquals("Did not get expected number of hits (1) for search without typo.", 1, hitsWithoutTypo.size());
-      List<Resource> hitsWithTypo = mBaseRepo.query("Poltischebildung", 0, 10, null, null, queryContext).getItems();
-      Assert.assertEquals("Did not get expected number of hits (1) for search with typo.", 1, hitsWithTypo.size());
-    }
-    finally {
-      mBaseRepo.deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
-    }
-  }
-
-  @Test
-  public void testFuzzyPhraseSearch()  throws IOException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testFuzzyPhraseSearch.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    try {
-      List<Resource> hitsWithoutTypo = mBaseRepo.query("Bundeszentrale für politische Bildung", 0, 10, null, null, queryContext).getItems();
-      Assert.assertEquals("Did not get expected number of hits (1) for search without typo.", 1, hitsWithoutTypo.size());
-      List<Resource> hitsWithTypo = mBaseRepo.query("Bundeszentrale für poltische Bildung", 0, 10, null, null, queryContext).getItems();
-      Assert.assertEquals("Did not get expected number of hits (1) for search with typo.", 1, hitsWithTypo.size());
-    }
-    finally {
-      mBaseRepo.deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab15", mMetadata);
-    }
-  }
-
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {

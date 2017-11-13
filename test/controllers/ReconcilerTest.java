@@ -70,4 +70,63 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     Assert.assertEquals(correctTitle, myResourceTitle.get("q0").get("result").get(0).get("name").asText());
   }
 
+  @Test
+  public void testFuzzyTokenSearch()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testFuzzyTokenSearch.DB.1.json"); // TODO
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+
+    final String withoutTypo = "Politischebildung";
+    final String withTypo = "Poltischebildung";
+
+    // build query
+    final Map<String, JsonNode> queryMap = new HashMap<>();
+    final ObjectNode query0 = Json.newObject();
+    query0.put("limit", 1);
+
+    try {
+      query0.put("query", withoutTypo);
+      queryMap.put("q0", query0);
+      final JsonNode noTypoSearchNode = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
+      Assert.assertEquals(withoutTypo, noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
+
+      query0.put("query", withTypo);
+      queryMap.put("q0", query0);
+      final JsonNode typoSearchNode = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
+      Assert.assertEquals(withTypo, typoSearchNode.get("q0").get("result").get(0).get("name").asText());
+    }
+    finally {
+      mReconciler.getBaseRepository().deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
+    }
+  }
+
+  @Test
+  public void testFuzzyPhraseSearch()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testFuzzyPhraseSearch.DB.1.json"); // TODO
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+
+    final String withoutTypo = "Bundeszentrale für politische Bildung";
+    final String withTypo = "Bundeszentrale für poltische Bildung";
+
+    // build query
+    final Map<String, JsonNode> queryMap = new HashMap<>();
+    final ObjectNode query0 = Json.newObject();
+    query0.put("limit", 1);
+
+    try {
+      query0.put("query", withoutTypo);
+      queryMap.put("q0", query0);
+      final JsonNode noTypoSearchNode = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
+      Assert.assertEquals(withoutTypo, noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
+
+      query0.put("query", withTypo);
+      queryMap.put("q0", query0);
+      final JsonNode typoSearchNode = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
+      Assert.assertEquals(withTypo, typoSearchNode.get("q0").get("result").get(0).get("name").asText());
+    }
+    finally {
+      mReconciler.getBaseRepository().deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
+    }
+  }
+
+
 }
