@@ -1,0 +1,13 @@
+{
+  "@type" : "Organization",
+  "name" : [ {
+    "@value" : "TheWrongResourceTitle",
+    "@language" : "en"
+  } ],
+  "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-reconcile2",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "description" : [ {
+    "@value" : "MyCorrectResourceTitle MyCorrectResourceTitle MyCorrectResourceTitle MyCorrectResourceTitle MyCorrectResourceTitle doesn't make any difference here.",
+    "@language" : "en"
+  } ]
+}

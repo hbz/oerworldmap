@@ -10,7 +10,7 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login", "/api"];
 
   var init_app = true;
 
@@ -339,6 +339,10 @@ var Hijax = (function ($, Hijax, page) {
         log.debug('APP getting main from:', pagejs_ctx.path)
         get_main(data, pagejs_ctx.path);
       });
+      setScope('world');
+      // needed, because on this route the vector source is not set otherwise
+      // ... and placemarksSourceLoaded in MAP doesn't resolve then.
+      Hijax.behaviours.map.setPlacemarksVectorSource('/resource/');
     }
     next();
   }
@@ -542,10 +546,11 @@ var Hijax = (function ($, Hijax, page) {
         }
       });
 
-      // catch form submition inside modals and handle it async
+      // catch form submission inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
         e.preventDefault();
+        $('#app').addClass('loading');
 
         var form = $(this);
 
@@ -598,6 +603,7 @@ var Hijax = (function ($, Hijax, page) {
               $('#app-modal').find('.modal-body')
                 .empty()
                 .append( contents );
+              $('#app').removeClass('loading');
 
             }
 
@@ -629,6 +635,7 @@ var Hijax = (function ($, Hijax, page) {
             }
 
             form[0].scrollIntoView(true);
+            $('#app').removeClass('loading');
 
           }
         });

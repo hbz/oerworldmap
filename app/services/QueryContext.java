@@ -6,10 +6,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author fo
@@ -153,6 +150,38 @@ public class QueryContext {
     throw new NumberFormatException();
   }
 
+  @Override
+  public String toString(){
+    StringBuilder result = new StringBuilder();
+    result.append(super.toString()).append(": {\n");
+    if (filters != null && !filters.isEmpty()) {
+      result.append("filters : ").append(filters);
+    }
+    if (aggregations != null && !aggregations.isEmpty()) {
+      result.append("aggregations : ").append(aggregations).append("\n");
+    }
+    if (roles != null && !roles.isEmpty()) {
+      result.append("roles : ").append(roles).append("\n");
+    }
+    if (fetchSource != null && fetchSource.length>0) {
+      result.append("fetchSource : ").append(fetchSource).append("\n");
+    }
+    if (mElasticsearchFieldBoosts != null && mElasticsearchFieldBoosts.length>0) {
+      result.append("elasticsearchFieldBoosts : ").append(mElasticsearchFieldBoosts).append("\n");
+    }
+    if (mZoomTopLeft != null && !StringUtils.isEmpty(mZoomTopLeft.toString())) {
+      result.append("zoomTopLeft : ").append(mZoomTopLeft).append("\n");
+    }
+    if (mZoomBottomRight != null && !StringUtils.isEmpty(mZoomBottomRight.toString())) {
+      result.append("zoomBottomRight : ").append(mZoomBottomRight).append("\n");
+    }
+    if (mPolygonFilter != null && !mPolygonFilter.isEmpty()) {
+      result.append("polygonFilter : ").append(mPolygonFilter).append("\n");
+    }
+    result.append("}");
+    return result.toString();
+  }
+  
   public void setIso3166Scope(String aISOCode) {
     QueryBuilder iso3166 = QueryBuilders.boolQuery()
       .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));

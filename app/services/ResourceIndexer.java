@@ -1,6 +1,5 @@
 package services;
 
-import helpers.SCHEMA;
 import models.Commit;
 import models.GraphHistory;
 import models.Record;
@@ -13,16 +12,13 @@ import org.apache.jena.query.QueryParseException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.Lock;
-import org.apache.jena.vocabulary.RDF;
 import play.Logger;
 import services.repository.Writable;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,13 +39,14 @@ public class ResourceIndexer {
     "    ?s a []" +
     "}";
 
+  // TODO: evaluate if there are other properties to exclude from triggering indexing
   private final static String SCOPE_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s1 WHERE {" +
     "    ?s1 ?p1 <%1$s> ." +
+    "    FILTER ( ?p1 != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> )" +
+    "    OPTIONAL { ?y a <http://www.w3.org/2004/02/skos/core#Concept> . FILTER (<%1$s> = ?y) . }" +
+    "    FILTER ( !BOUND(?y) ) " +
     "}";
-
-  // TODO: evaluate if there are other properties to exclude from triggering indexing
-  private final List<RDFNode> mDoNotTrigger = Arrays.asList(new RDFNode[]{RDF.type, SCHEMA.about});
 
   public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
 
@@ -75,15 +72,12 @@ public class ResourceIndexer {
 
     for (Commit.Diff.Line line : aDiff.getLines()) {
       RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
-      Property property = ((TripleCommit.Diff.Line)line).stmt.getPredicate();
       RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
-      if (!mDoNotTrigger.contains(property)) {
-        if (subject.isURIResource()) {
-          commitScope.add(subject.toString());
-        }
-        if (object.isURIResource()) {
-          commitScope.add(object.toString());
-        }
+      if (subject.isURIResource()) {
+        commitScope.add(subject.toString());
+      }
+      if (object.isURIResource()) {
+        commitScope.add(object.toString());
       }
     }
 

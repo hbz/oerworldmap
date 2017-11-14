@@ -58,7 +58,11 @@
 
     {{> FormElements/id.mustache property=provider property_path="provider" title=(i18n "Service.provider") tooltip=(i18n "Service.provider" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
-    {{> ResourceIndex/ServiceChannel/edit.mustache property=availableChannel property_path="availableChannel" title=(i18n "Service.availableChannel") tooltip=(i18n "Service.availableChannel" bundle="descriptions")}}
+    {{> ResourceIndex/ServiceChannel/edit.mustache property=availableChannel.[0] property_path="availableChannel[0]" title=(i18n "Service.availableChannel") tooltip=(i18n "Service.availableChannel" bundle="descriptions")}}
+
+    {{> FormElements/input.mustache property=availableChannel.[1].serviceUrl property_path="availableChannel[1][serviceUrl]" title=(i18n "Service.availableChannel.apiUrl") tooltip=(i18n "Service.availableChannel.apiUrl" bundle="descriptions") hidden=false multiple=false input_type="url"}}
+
+    {{> FormElements/input.mustache property=availableChannel.[1].documentation property_path="availableChannel[1][documentation]" title=(i18n "Service.availableChannel.documentation") tooltip=(i18n "Service.availableChannel.documentation" bundle="descriptions") hidden=false multiple=false input_type="url"}}
 
     {{> FormElements/id.mustache property=mentionedIn property_path="mentionedIn" title=(i18n "Service.mentionedIn") tooltip=(i18n "Service.mentionedIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Article"}}
 
@@ -84,7 +88,7 @@
 
     {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Service.secondarySector") tooltip=(i18n "Service.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
 
-    {{> FormElements/id.mustache property=isRelatedTo property_path="isRelatedTo" title=(i18n "Service.provides") tooltip=(i18n "Service.provides" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
+    {{> FormElements/id.mustache property=isRelatedTo property_path="isRelatedTo" title=(i18n "Service.isRelatedTo") tooltip=(i18n "Service.isRelatedTo" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
 
     {{> FormElements/id.mustache property=objectIn property_path="objectIn" title=(i18n "Service.objectIn") tooltip=(i18n "Service.objectIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=LikeAction,LighthouseAction"}}
 

@@ -124,7 +124,10 @@ public abstract class OERWorldMap extends Controller {
     createAccountService(mConf);
 
     // Location lookup
-    createLocationLookup(mEnv);
+    if (mEnv != null) {
+      // can be null in tests
+      createLocationLookup(mEnv);
+    }
 
     // Static pages
     createPageProvider(mConf);
@@ -256,18 +259,6 @@ public abstract class OERWorldMap extends Controller {
     }
 
     return aId;
-  }
-
-  public Resource getUser(String aId) {
-
-    Resource user = null;
-    String profileId = mAccountService.getProfileId(aId);
-    if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
-    }
-
-    return user;
-
   }
 
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
@@ -507,6 +498,10 @@ public abstract class OERWorldMap extends Controller {
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
+  }
+
+  public BaseRepository getBaseRepository(){
+    return mBaseRepository;
   }
 
 }
