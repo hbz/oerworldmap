@@ -62,14 +62,16 @@ public abstract class OERWorldMap extends Controller {
         try {
           mTypes = new Types(aConf.underlying());
         } catch (ProcessingException e) {
+          Logger.error("Could not build types from conf file: " + aConf.asMap());
           e.printStackTrace();
         } catch (IOException e) {
+          Logger.error("Could not read types configuration file.");
           e.printStackTrace();
         }
         mBaseRepository = new BaseRepository(aConf.underlying(),
           new ElasticsearchRepository(aConf.underlying(), mTypes));
       } catch (final Exception ex) {
-        throw new RuntimeException("Failed to create Respository", ex);
+        throw new RuntimeException("Failed to create Repository.", ex);
       }
     }
   }
@@ -165,7 +167,9 @@ public abstract class OERWorldMap extends Controller {
     String[] credentials;
     try {
       credentials = new String(decoded, "UTF-8").split(":");
-    } catch (UnsupportedEncodingException e) {
+    }
+    catch (UnsupportedEncodingException e) {
+      Logger.error("Could not read credentials encoding.");
       e.printStackTrace();
       return null;
     }
