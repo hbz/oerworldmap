@@ -417,8 +417,8 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
-    int lighthousesCount = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
-      .getItems().size();
+    List<Resource> lighthouses = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
+      .getItems();
 
     Resource userLighthouseResource = null;
     boolean userLighthouseIsset = false;
@@ -498,7 +498,7 @@ public class ResourceIndex extends OERWorldMap {
     scope.put("comments", comments);
     scope.put("likes", likesCount);
     scope.put("userLikesResource", userLikesResource);
-    scope.put("lighthouses", lighthousesCount);
+    scope.put("lighthouses", lighthouses);
     scope.put("userLighthouseResource", userLighthouseResource);
     scope.put("userLighthouseIsset", userLighthouseIsset);
     scope.put("permissions", permissions);

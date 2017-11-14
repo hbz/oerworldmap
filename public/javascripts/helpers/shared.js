@@ -712,3 +712,8 @@ Handlebars.registerHelper("inc", function(value, options) {
 
 });
 
+Handlebars.registerHelper("length", function(value, options) {
+
+    return parseInt(toNative(value).length).toString();
+
+});
