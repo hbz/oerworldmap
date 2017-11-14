@@ -174,7 +174,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
-    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
 
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     List<Resource> matches = new ArrayList<>();
@@ -194,7 +194,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
 
-    SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
     Iterator<SearchHit> searchHits = response.getHits().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
 
@@ -330,11 +330,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                 Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+  private SearchResponse esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
+                                 final String aSortOrder, final Map<String, List<String>> aFilters,
+                                 final QueryContext aQueryContext, final boolean allowsTypos) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
-
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
     String[] fieldBoosts = processQueryContext(aQueryContext, searchRequestBuilder, globalAndFilter);
@@ -343,9 +343,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
     FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-      .setQuery(QueryBuilders.boolQuery().must(fqBuilder).filter(globalAndFilter));
-
+    final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
+    if (allowsTypos){
+      bqBuilder.should(fqBuilder);
+    }
+    else{
+      bqBuilder.must(fqBuilder);
+    }
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(bqBuilder);
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
   }
 
