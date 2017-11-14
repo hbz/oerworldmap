@@ -215,18 +215,11 @@ public abstract class OERWorldMap extends Controller {
     if (name instanceof ArrayList) {
       // Return requested language
       for (Object n : ((ArrayList) name)) {
-        if (n instanceof Resource) {
-          Resource r = (Resource) n;
-          String language = (r.getAsString("@language"));
+        if (ModelCommon.class.isAssignableFrom(n.getClass())){
+          ModelCommon m = (Resource) n;
+          String language = (m.getAsString("@language"));
           if (language.equals(getLocale().getLanguage())) {
-            return r.getAsString("@value");
-          }
-        }
-        else if (n instanceof Action) {
-          Action a = (Action) n;
-          String language = (a.getAsString("@language"));
-          if (language.equals(getLocale().getLanguage())) {
-            return a.getAsString("@value");
+            return m.getAsString("@value");
           }
         }
       }
