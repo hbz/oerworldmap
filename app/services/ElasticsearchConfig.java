@@ -39,7 +39,6 @@ public class ElasticsearchConfig {
 
   // CLIENT
   private String mWebpageIndex;
-  private String mWebpageType;
   private String mWebpageMapping;
   private String mActionIndex;
   private String mActionType;
@@ -66,7 +65,6 @@ public class ElasticsearchConfig {
     mJavaPort = mConfig.getInt("es.host.port.java");
 
     mWebpageIndex = mConfig.getString("es.index.webpage.name");
-    mWebpageType = mConfig.getString("es.index.webpage.type");
     mWebpageMapping = mConfig.getString("es.index.webpage.mapping.file");
     mActionIndex = mConfig.getString("es.index.action.name");
     mActionType = mConfig.getString("es.index.action.type");
@@ -99,7 +97,6 @@ public class ElasticsearchConfig {
     // CLIENT SETTINGS
     mClientSettings = new HashMap<>();
     mClientSettings.put("index.webpage.name", mWebpageIndex);
-    mClientSettings.put("index.webpage.type", mWebpageType);
     mClientSettings.put("index.action.name", mActionIndex);
     mClientSettings.put("index.action.type", mActionType);
     mClientSettings.put("cluster.name", mCluster);
