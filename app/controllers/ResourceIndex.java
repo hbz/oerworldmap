@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.JSONForm;
-import helpers.JsonLdConstants;
-import helpers.SCHEMA;
-import helpers.UniversalFunctions;
+import helpers.*;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -55,6 +52,32 @@ public class ResourceIndex extends IndexCommon {
 
   public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
       throws IOException {
+
+    String format = "application/json";
+    if (! StringUtils.isEmpty(extension)) {
+      switch (extension) {
+        case "html":
+          format = "text/html";
+          break;
+        case "csv":
+          format = "text/csv";
+          break;
+        case "ics":
+          format = "text/calendar";
+          break;
+        case "geojson":
+          format = "application/geo+json";
+          break;
+      }
+    } else if (request().accepts("text/html")) {
+      format = "text/html";
+    } else if (request().accepts("text/csv")) {
+      format = "text/csv";
+    } else if (request().accepts("text/calendar")) {
+      format = "text/calendar";
+    } else if (request().accepts("application/geo+json")) {
+      format = "application/geo+json";
+    }
 
     Map<String, Object> scope = new HashMap<>();
     Map<String, List<String>> filters = new HashMap<>();
@@ -117,6 +140,12 @@ public class ResourceIndex extends IndexCommon {
       sort = "dateCreated:DESC";
     }
 
+    if (format.equals("text/html")) {
+      queryContext.setFetchSource(new String[]{
+        "@id", "@type", "dateCreated", "author", "dateModified", "contributor", "about.@id", "about.@type", "about.name"
+      });
+    }
+
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
@@ -143,37 +172,6 @@ public class ResourceIndex extends IndexCommon {
     scope.put("list", list);
     scope.put("resources", resourceList.toModelCommon());
     scope.put("alternates", alternates);
-
-    String format = null;
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
-        case "json":
-          format = "application/json";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-        case "geojson":
-          format = "application/geo+json";
-          break;
-      }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else if (request().accepts("application/geo+json")) {
-      format = "application/geo+json";
-    } else {
-      format = "application/json";
-    }
 
     if (format == null) {
       return notFound("Not found");
@@ -252,7 +250,7 @@ public class ResourceIndex extends IndexCommon {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
-        if (Arrays.asList("LikeAction", "LighthouseAction").contains(item.getType())) {
+        if (mTypes.getClassByType(item.getType()).equals(Action.class)) {
           response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getAsItem("object").getId(),
             "HEAD").absoluteURL(request()));
         }
@@ -263,11 +261,16 @@ public class ResourceIndex extends IndexCommon {
       }
     }
     else {
-      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getId(), "HEAD")
+      if (mTypes.getClassByType(item.getType()).equals(Action.class)) {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getAsItem("object").getId(),
+          "HEAD").absoluteURL(request()));
+      } else {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(item.getId(), "HEAD")
           .absoluteURL(request()));
-      String pageTitle = ResourceBundle.getBundle("ui", getLocale())
-        .getString("ResourceIndex.upsertResource.created");
+      }
       if (request().accepts("text/html")) {
+        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+          .getString("ResourceIndex.upsertResource.created");
         return created(render(pageTitle, "created.mustache", item));
       }
       else {
