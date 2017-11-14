@@ -1,7 +1,5 @@
 package services;
 
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import helpers.Types;
 import models.*;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
@@ -39,16 +37,11 @@ public class ResourceIndexer {
     "}";
 
 
-  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory, final Types aTypes) {
+  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
     mDb = aDb;
     mTargetRepo = aTargetRepo;
     mGraphHistory = aGraphHistory;
-    try {
-      mResourceFramer = new ResourceFramer(aTypes);
-    } catch (ProcessingException | IOException e) {
-      Logger.error("Could not build types from types object: " + aTypes);
-      e.printStackTrace();
-    }
+    mResourceFramer = new ResourceFramer();
   }
 
   /**

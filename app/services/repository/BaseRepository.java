@@ -73,7 +73,7 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mESRepo, graphHistory, mESRepo.getTypes());
+    mResourceIndexer = new ResourceIndexer(mDb, mESRepo, graphHistory);
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();

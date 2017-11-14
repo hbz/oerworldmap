@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import helpers.JsonLdConstants;
-import helpers.Types;
 import models.ModelCommon;
 import models.Resource;
 import org.apache.commons.io.IOUtils;
@@ -37,12 +35,6 @@ import java.util.List;
 public class ResourceFramer {
 
   final private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
-  private Types mTypes = null;
-
-  public ResourceFramer(final Types aTypes) throws IOException, ProcessingException {
-    mTypes = aTypes;
-  }
 
   public static ModelCommon resourceFromModel(Model aModel, String aId) throws IOException {
 
