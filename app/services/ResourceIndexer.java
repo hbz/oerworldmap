@@ -1,21 +1,9 @@
 package services;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import helpers.SCHEMA;
 import helpers.Types;
 import models.*;
 import org.apache.jena.query.*;
-import models.Commit;
-import models.GraphHistory;
-import models.Record;
-import models.Resource;
-import models.TripleCommit;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QueryParseException;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.Lock;
@@ -25,11 +13,6 @@ import services.repository.Writable;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by fo on 23.03.16.
@@ -62,9 +45,8 @@ public class ResourceIndexer {
     mGraphHistory = aGraphHistory;
     try {
       mResourceFramer = new ResourceFramer(aTypes);
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ProcessingException e) {
+    } catch (ProcessingException | IOException e) {
+      Logger.error("Could not build types from types object: " + aTypes);
       e.printStackTrace();
     }
   }
