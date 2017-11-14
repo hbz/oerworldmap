@@ -24,4 +24,9 @@ public class ActionIndex extends IndexCommon {
   protected Result upsertItems() throws IOException {
     return null; // TODO
   }
+
+  @Override
+  public Result read(String id, String version, String extension) throws IOException {
+    return null; // TODO
+  }
 }

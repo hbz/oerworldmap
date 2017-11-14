@@ -6,21 +6,17 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
-import models.*;
+import models.ModelCommon;
+import models.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
 import play.mvc.Result;
-import services.AggregationProvider;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -158,109 +154,7 @@ public abstract class IndexCommon extends OERWorldMap{
     return true;
   }
 
-  public Result read(String id, String version, String extension) throws IOException {
-    ModelCommon resource = mBaseRepository.getItem(id, version);
-    if (null == resource) {
-      return notFound("Not found");
-    }
-    String type = resource.get(JsonLdConstants.TYPE).toString();
-    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
-    if (type.equals("Concept")) {
-      ModelCommonList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
-        .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null, indices);
-      resource.put("related", relatedList.getItems());
-    }
-
-    if (type.equals("ConceptScheme")) {
-      Resource conceptScheme = null;
-      String field = null;
-      if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = new Resource(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
-        field = "about.about.@id";
-      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
-        field = "about.audience.@id";
-        conceptScheme = new Resource(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
-      }
-      if (!(null == conceptScheme)) {
-        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-          .filter(QueryBuilders.termQuery("about.@type", "Service"));
-        for (ModelCommon topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
-          conceptAggregation.subAggregation(
-            AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
-        }
-        Resource nestedConceptAggregation = (Resource) mBaseRepository.aggregate(conceptAggregation, indices);
-        resource.put("aggregation", nestedConceptAggregation);
-        return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
-      }
-    }
-
-    List<Resource> comments = new ArrayList<>();
-    for (String commentId : resource.getIdList("comment")) {
-      comments.add((Resource) mBaseRepository.getItem(commentId));
-    }
-
-    String title;
-    try {
-      title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
-    } catch (NullPointerException e) {
-      title = id;
-    }
-
-    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
-      || (!resource.getType().equals("Person"))
-      || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
-      || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
-    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
-      || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-
-    Map<String, Object> permissions = new HashMap<>();
-    permissions.put("edit", mayEdit);
-    permissions.put("log", mayLog);
-    permissions.put("administer", mayAdminister);
-    permissions.put("comment", mayComment);
-    permissions.put("delete", mayDelete);
-
-    Map<String, String> alternates = new HashMap<>();
-    String baseUrl = mConf.getString("proxy.host");
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
-    if (resource.getType().equals("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
-    }
-
-    List<Commit> history = mBaseRepository.log(id);
-    resource = new Record(resource, mTypes.getIndexType(resource));
-    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
-    try {
-      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
-    } catch (NullPointerException e) {
-      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
-    }
-    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
-      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    try {
-      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
-        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    } catch (NullPointerException e) {
-      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
-    }
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    scope.put("comments", comments);
-    scope.put("permissions", permissions);
-    scope.put("alternates", alternates);
-
-    String format = null;
-    format = getFormatString(extension, format);
-
-    Result ical = renderResult(resource, title, scope, format);
-    if (ical != null) return ical;
-    return notFound("Not found");
-  }
+  public abstract Result read(String id, String version, String extension) throws IOException;
 
   protected String getFormatString(String extension, String format) {
     if (! StringUtils.isEmpty(extension)) {
