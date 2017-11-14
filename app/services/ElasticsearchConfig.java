@@ -41,7 +41,6 @@ public class ElasticsearchConfig {
   private String mWebpageIndex;
   private String mWebpageMapping;
   private String mActionIndex;
-  private String mActionType;
   private String mActionMapping;
   private String mCluster;
   private Map<String, String> mClientSettings;
@@ -67,7 +66,6 @@ public class ElasticsearchConfig {
     mWebpageIndex = mConfig.getString("es.index.webpage.name");
     mWebpageMapping = mConfig.getString("es.index.webpage.mapping.file");
     mActionIndex = mConfig.getString("es.index.action.name");
-    mActionType = mConfig.getString("es.index.action.type");
     mActionMapping = mConfig.getString("es.index.action.mapping.file");
 
     mCluster = mConfig.getString("es.cluster.name");
@@ -98,7 +96,6 @@ public class ElasticsearchConfig {
     mClientSettings = new HashMap<>();
     mClientSettings.put("index.webpage.name", mWebpageIndex);
     mClientSettings.put("index.action.name", mActionIndex);
-    mClientSettings.put("index.action.type", mActionType);
     mClientSettings.put("cluster.name", mCluster);
   }
 
