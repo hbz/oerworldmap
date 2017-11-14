@@ -371,8 +371,8 @@ public class ResourceIndex extends IndexCommon {
         "about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
         currentUser.getId(), resource.getId()
       );
-      userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
-        .getItems().size() > 0;
+      final List<ModelCommon> items = mBaseRepository.query(userLikesQuery, 0, 1, null, null).getItems();
+      userLikesResource = items != null && items.size() > 0;
     }
 
     String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
