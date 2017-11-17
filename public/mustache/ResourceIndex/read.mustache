@@ -14,11 +14,6 @@
                             </button>
                         </form>
                     </li>
-                    <li>
-                        <a href="#resource-lighthouse" class="icon-btn{{#if scope.userLighthouseIsset}} text-orange{{/if}}" data-app="to-modal-and-attach-behaviours modal-protected">
-                            <i class="fa fa-lightbulb-o"></i> ({{length scope.lighthouses}})
-                        </a>
-                    </li>
                 {{/if}}
 
                 {{#if ../permissions.edit}}
@@ -78,6 +73,14 @@
                     <div class="subtitle">
                         {{> (stringFormat "ResourceIndex/%s/subtitle.mustache" @type)}}
                     </div>
+
+                    <a
+                        href="#resource-lighthouse"
+                        class="lighthouse {{#if scope.userLighthouseIsset}}active{{/if}}"
+                        data-app="to-modal-and-attach-behaviours modal-protected"
+                    >
+                        {{length scope.lighthouses}}
+                    </a>
 
                 </div>
 

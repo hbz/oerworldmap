@@ -81,6 +81,43 @@
 }
 
 
+/* --- lighthouse --- */
+
+@new_action_blue: #1991E6;
+
+.lighthouse {
+  margin: 1.5em 0 0 10px;
+  border: 1px solid @new_action_blue;
+  border-radius: @border-radius-base;
+  padding: 0.2em 0.6em 0.2em 2.1em;
+  font-size: @font-size-small;
+  text-decoration: none;
+  color: @new_action_blue !important;
+  display: inline-block;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    background-image: url('/assets/images/icon_lighthouse_static.svg');
+    left: -10px;
+    top: -4px;
+    width: 31px;
+    height: 31px;
+  }
+
+  &:hover,
+  &.active {
+    background: @new_action_blue;
+    color: white !important;
+
+    &:before {
+      background-image: url('/assets/images/icon_lighthouse_active.svg');
+    }
+  }
+}
+
+
 /* --- & seperated list (for "attributed by") */
 
 .comma-seperated-list, .comma-seperated-list>li {
