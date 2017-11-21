@@ -1,7 +1,7 @@
 ---
 title: Termos de Serviço
 ---
-Overview:
+Resumo:
 
 1. [Informação legal](#imprint)
 2. [Responsabilidade / Haftung](#liability)
@@ -11,10 +11,10 @@ Overview:
     3. [Informativo](#privacy-newsletter)
 4. [Copyright](#copyright) 
     1. [CC0, exceto onde indicado](#cc0)
-    2. [Other licenses, e.g. for stories, fonts and maps](#other-licenses)
-5. [Versions](#versions)
+    2. [Outras licenças, por exemplo, para as histórias, fontes e mapas](#other-licenses)
+5. [Versões](#versions)
 
-In case of any questions of requests please do not hesitate to get in touch with the administrators of this website directly via <info@oerworldmap.org>.
+Em caso de dúvidas não hesite em entrar em contato com os administradores deste site diretamente via <info@oerworldmap.org>.
 
 <h2 id="imprint">1. Imprint</h2>
 
