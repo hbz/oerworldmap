@@ -72,9 +72,9 @@ Dependendo da licença específica isto permite uma gama de atividades, conhecid
 - **Remix** – o direito de combinar o conteúdo revisado ou o conteúdo original com outro conteúdo aberto para criar algo novo (por exemplo, incorporar o conteúdo em um 'mashup')
 - **Redistribuir** – o direito de partilhar cópias do conteúdo original, suas revisões ou seus remixes com terceiros (por exemplo, dar uma cópia do conteúdo para um amigo)
 
-A slightly different focus is provided by the [Open Definition](http://opendefinition.org/) which states that: "Open data and content can be freely used, modified, and shared by anyone for any purpose"
+Um foco um pouco diferente é fornecido pela [ Definição Aberta](http://opendefinition.org/) que afirma que: "dados e conteúdo abertos podem ser livremente utilizados, modificados e compartilhados por qualquer pessoa para qualquer finalidade"
 
-Though there are many different open licenses available, [Creative Commons](https://creativecommons.org/licenses/) provides the by far most used open license family. We generally recommend the use of CC-BY or CC BY-SA licenses for OER. Both license meet the strict requirement of the open definition and also have been approved for free cultural works by Creative Commons. More information about the use of open content licenses can be found [here](https://www.unesco.de/fileadmin/medien/Dokumente/Kommunikation/Open_Content_A_Practical_Guide_to_Using_Open_Content_Licences_web.pdf).
+Embora existam muitas licenças abertas diferentes disponíveis, [ Creative Commons](https://creativecommons.org/licenses/) fornece o modelo mais utilizado de licenças abertas. Geralmente recomendamos o uso de licenças CC-BY ou CC BY-SA para REA. As licenças cumprem a exigência estrita da 'definição aberta' e também foram aprovadas como obras culturais livres pelo Creative Commons. More information about the use of open content licenses can be found [here](https://www.unesco.de/fileadmin/medien/Dokumente/Kommunikation/Open_Content_A_Practical_Guide_to_Using_Open_Content_Licences_web.pdf).
 
 ## Can I add services which provide non open resources to the map?
 
