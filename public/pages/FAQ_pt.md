@@ -47,30 +47,30 @@ O Mapa Global REAcoleta dados sobre os atores e as atividades relacionadas à RE
   
 <tr> <th>Tipo de dado</th><th>Definição</th> <th>Exemplos</th></tr> 
 <tr> <td>organizações</td><td>Uma organização é um grupo estável de pessoas que compartilham metas coletivas. O espectro atinge desde pessoas jurídicas (corporações) às comunidades frouxamente conectadas.</td> <td>universidades, empresas, associações e comunidades</td></tr>
-<tr> <td>projetos</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
-<tr> <td>services</td><td>A service is an online offer, which exists on a steady basis, and provides functionality and value related to OER to its users.</td> <td>repositories, aggregators, authoring tools, communication platforms</td></tr>
-<tr> <td>events</td><td>An events is a gathering of people, which take place at a certain location (virtual or physical) at a certain time.</td><td>conferences, workshops, barcamps, moocs</td></tr>
+<tr> <td>projetos</td><td>Um projeto é um empreendimento temporário (envolvendo uma ou mais organizações) e destina-se a realizar tarefas específicas com restrições temporais.</td> <td>O projeto Mapa Global REA</td></tr>
+<tr> <td>serviços</td><td>Um serviço é uma oferta on-line, que existe de maneira perene e que fornece funcionalidade e valor relacionados com REA para seus usuários.</td> <td>repositórios, agregadores, ferramentas para autoria, plataformas de comunicação</td></tr>
+<tr> <td>eventos</td><td>Um eventos é um ajuntamento de pessoas, que têm lugar em um determinado local (virtual ou físico) em um determinado momento.</td><td>conferências, oficinas, barcamps, MOOCs</td></tr>
 </table>
 
-There are many opportunities for future expansion of the model.
+Existem muitas oportunidades para a expansão futura do modelo.
 
-## Where are the OER?
+## Onde estão os REA?
 
-We believe that the discovery of individual OER has to be provided by search engine based services. The OER World Map facilitates the discovery of OER indirectly by providing qualified lists of OER services.
+Acreditamos que a descoberta de REAs individuais tem de ser fornecida pelos serviços de motor de busca. O Mapa Global REA facilita a descoberta de REA indiretamente fornecendo listas qualificadas de serviços de REA.
 
-## What is an open license?
+## O que é uma licença aberta?
 
-The widely accepted OER definitions by UNESCO and The William and Flora Hewlett Foundation require the use of a special ‘open’ license, which transforms a conventional educational resource into an open educational resource. Traditional copyright prescribes what can and can’t be done with materials that one has authored (or owns the rights to). Rather, it acknowledges and expresses these rights by recognising the author and prescribing specific conditions for use and reuse.
+As definições de OER amplamente aceitas pela UNESCO e o William e Flora Hewlett Foundation requerem o uso de uma licença especial 'aberta', que transforma um recurso educacional convencional em um recurso educacional aberto. O copyright tradicional define o que pode e não pode ser feito com materiais de um autor (ou do detentor dos direitos). Com os recursos abertos, os diretos são reconhecidos através de atribuição e a declaração de condições específicas de utilização e reutilização.
 
-An open licence doesn’t undermine someone’s right to be recognised as the author of their work. Rather, it recognises the author and sets out more specific conditions for use and reuse.
+Uma licença aberta não remove o direito de reconhecimento da autoria. Ao invés disso, ela reconhece o autor e estabelece condições mais específicas para a utilização e reutilização.
 
-Depending on the specific license this allows for a range of behaviours known as the '5 Rs' of openness:
+Dependendo da licença específica isto permite uma gama de atividades, conhecidas como os '5 Rs' da abertura:
 
-- **Retain** – the right to make, own, and control copies of the content
-- **Reuse** – the right to use the content in a wide range of ways (e.g., in a class, in a study group, on a website, in a video)
-- **Revise** – the right to adapt, adjust, modify, or alter the content itself (e.g., translate the content into another language)
-- **Remix** – the right to combine the original or revised content with other open content to create something new (e.g., incorporate the content into a mashup)
-- **Redistribute** – the right to share copies of the original content, your revisions, or your remixes with others (e.g., give a copy of the content to a friend)
+- **Reter** – o direito de fazer, possuir e controlar cópias do conteúdo
+- **Reutilizar** – o direito de usar o conteúdo em uma ampla gama de formas (por exemplo, em uma classe, um grupo de estudo, em um site, em um vídeo)
+- **Revisar** – o direito de adaptar, ajustar, modificar ou alterar o conteúdo propriamente dito (por exemplo, traduzir o conteúdo para outro idioma)
+- **Remix** – o direito de combinar o conteúdo revisado ou o conteúdo original com outro conteúdo aberto para criar algo novo (por exemplo, incorporar o conteúdo em um 'mashup')
+- **Redistribuir** – o direito de partilhar cópias do conteúdo original, suas revisões ou seus remixes com terceiros (por exemplo, dar uma cópia do conteúdo para um amigo)
 
 A slightly different focus is provided by the [Open Definition](http://opendefinition.org/) which states that: "Open data and content can be freely used, modified, and shared by anyone for any purpose"
 
