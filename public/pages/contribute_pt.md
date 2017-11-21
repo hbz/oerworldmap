@@ -29,28 +29,28 @@ Para se tornar um recurso verdadeiramente global, páginas do site do Mapa Globa
 
 ### Torne-se um editor e contriba com dados
 
-Se você está interessado em coletar dados para o Mapa Global REA, você pode usar modelos para editar dados diretamente na plataforma. Para fazer isso, basta se registrar para usar a plataforma e começar a inserir dados. Please have a look at the [FAQs for OER World Map editors](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors) in our wiki.
+Se você está interessado em coletar dados para o Mapa Global REA, você pode usar modelos para editar dados diretamente na plataforma. Para fazer isso, basta se registrar para usar a plataforma e começar a inserir dados. Por favor, dê uma olhada no [ FAQ para editores de mapa-múndi OER](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors) em nossa wiki.
 
-### Upload existing data
+### Upload de dados existentes
 
-Existing OER data can be uploaded to the OER World Map platform using a powerful API. If you think you have relevant information to add, please contact us at <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+Dados existentes sobre REA podem ser enviados para a plataforma usando uma API poderosa. Se você acha que tem informações relevantes para adicionar, por favor contacte-nos em: <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
-### Export data
+### Exporte dados
 
-The API of the OER World Map can be used to generate and export data with no delay. Complete or filtered data can be used in other web sites. A special functionality currently is developed to support the reuse of data with flexible and easily integrated gadgets. If you would like to reuse OER World Map data, please contact us at <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+A API do Mapa Global REA pode ser usada para gerar e exportar dados com rapidez. Dados completos ou selecionados podem ser usados em outros sites. Uma funcionalidade especial atualmente em desenvolvimento permite a reutilização de dados com apps flexíveis e facilmente integrados ao Mapa. Se você gostaria de reutilizar dados do Mapa Global de REA, por favor contacte-nos em: <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
 * * *
 
-## Technical input
+## Sugestões técnicas
 
-### Report bugs
+### Relate erros
 
-Please report any bugs you identify by opening a new ticket if you are registered on [GitHub](https://github.com/hbz/oerworldmap). Otherwise you can send a message to <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+Por favor reporte quaisquer erros que você identifica, abrindo um novo 'ticket', se você está registrado no [ GitHub](https://github.com/hbz/oerworldmap). Alternativamente você pode enviar mensagem para <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
-### Propose new features
+### Proponha novas funcionalidades
 
-The OER World Map has been developed using an agile approach. This means that you can contribute to its development by proposing new features. We store new features as [“user stories”](https://github.com/hbz/oerworldmap/labels/story) in our GitHub. If you think something is missing, you can either directly open a new ticket on GitHub or send us a message to <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+O Mapa Global REA foi desenvolvido usando uma abordagem ágil. Isto significa que você pode contribuir para seu desenvolvimento, propondo novas funcionalidades. Nós armazenamos novos recursos como [ "histórias de usuário"](https://github.com/hbz/oerworldmap/labels/story) em nosso GitHub. Se você acha que está faltando alguma coisa, você pode abrir um novo ticket no GitHub ou enviar uma mensagem para <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
-### Contribute code and new applications
+### Contribua com código e novas aplicações
 
-The OER World Map is 100% open – its complete source code is available on GitHub. Developers can contribute to the code or even develop applications that interact with the OER World Map.
+O Mapa Global REA é 100% aberto – seu código-fonte completo está disponível no GitHub. Desenvolvedores podem contribuir para o código ou mesmo desenvolver aplicativos que interagem com o Mapa.
