@@ -1,8 +1,8 @@
 package helpers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Resource;
 import models.ResourceList;
-import org.apache.commons.io.IOUtils;
 import play.Logger;
 
 import java.io.File;
@@ -21,25 +21,22 @@ public interface JsonTest {
 
   default Resource getResourceFromJsonFile(String aFile) throws IOException {
     InputStream in = ClassLoader.getSystemResourceAsStream(aFile);
-    String json = IOUtils.toString(in, "UTF-8");
-    return Resource.fromJson(json);
+    return new Resource(new ObjectMapper().readTree(in));
   }
 
   default Resource getResourceFromJsonFileUnsafe(String aFile) {
     InputStream in = ClassLoader.getSystemResourceAsStream(aFile);
     try {
-      String json = IOUtils.toString(in, "UTF-8");
-      return Resource.fromJson(json);
+      return new Resource(new ObjectMapper().readTree(in));
     } catch (IOException e) {
       Logger.error(e.toString());
-      return new Resource(null);
+      return null;
     }
   }
 
   default ResourceList getResourcesFromPagedCollectionFile(String aPagedCollectionFile) throws IOException {
     InputStream in = ClassLoader.getSystemResourceAsStream(aPagedCollectionFile);
-    String json = IOUtils.toString(in, "UTF-8");
-    return new ResourceList(Resource.fromJson(json));
+    return new ResourceList(new Resource(new ObjectMapper().readTree(in)));
   }
 
   default List<Resource> getResourcesFromJsonDir(String aDir) throws IOException {
@@ -50,8 +47,7 @@ public interface JsonTest {
         for (String file : new File(pathURL.toURI()).list()) {
           if (file.endsWith(".json")) {
             InputStream in = ClassLoader.getSystemResourceAsStream(aDir.concat(file));
-            String json = IOUtils.toString(in, "UTF-8");
-            resources.add(Resource.fromJson(json));
+            resources.add(new Resource(new ObjectMapper().readTree(in)));
           }
         }
       }

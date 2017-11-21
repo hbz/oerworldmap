@@ -1,12 +1,19 @@
 package helpers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import models.ModelCommon;
+import models.TripleCommit;
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -72,6 +79,35 @@ public class UniversalFunctions {
       map.put(key, aResourceBundle.getString(key));
     }
     return map;
+  }
+
+  public static TripleCommit.Header getTripleCommitHeaderFromMetadata(final Map<String, Object> aMetadata){
+    return new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER).toString(),
+      ZonedDateTime.parse((CharSequence)aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+  }
+
+  public static ModelCommon buildItemFromJson(final JsonNode aJsonNode, final Types aTypes){
+    ModelCommon item = null;
+    Class clazz = aTypes.getItemClass(aJsonNode);
+    if (clazz == null) {
+      throw new IllegalArgumentException("No class found for type of node:\n" + aJsonNode);
+    }
+    Constructor<? extends ModelCommon> constructor = null;
+    try {
+      constructor = (Constructor<? extends ModelCommon>) clazz.getConstructor(JsonNode.class);
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+    try {
+      item = constructor.newInstance(aJsonNode);
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
+    return item;
   }
 
 }

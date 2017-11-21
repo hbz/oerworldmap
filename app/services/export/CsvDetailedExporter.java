@@ -1,15 +1,12 @@
 package services.export;
 
 import helpers.JsonLdConstants;
+import models.ModelCommon;
+import models.ModelCommonList;
 import models.Resource;
-import models.ResourceList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.TreeSet;
 
 public class CsvDetailedExporter implements AbstractCsvExporter {
 
@@ -20,19 +17,19 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
   private List<String> mDropFields = new ArrayList<>();
 
   @Override
-  public String export(ResourceList aResourceList){
+  public String export(ModelCommonList aResourceList){
     StringBuffer result = new StringBuffer();
     defineHeaderColumns(aResourceList.getItems());
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
     result.append(headerKeysToCsvString().concat("\n"));
-    for (Resource resource : aResourceList.getItems()) {
+    for (ModelCommon resource : aResourceList.getItems()) {
       result.append(export(resource).concat("\n"));
     }
     return result.toString();
   }
 
   @Override
-  public String export(Resource aResource) {
+  public String export(ModelCommon aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
           "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
@@ -88,9 +85,9 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
     }
   }
 
-  public void defineHeaderColumns(List<Resource> aResourceList) {
+  public void defineHeaderColumns(List<ModelCommon> aResourceList) {
     mKeys.clear();
-    for (Resource resource : aResourceList) {
+    for (ModelCommon resource : aResourceList) {
       Iterator<Entry<String, Object>> it = resource.entrySet().iterator();
       while (it.hasNext()) {
         flattenKeys(it.next(), "");

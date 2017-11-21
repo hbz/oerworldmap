@@ -1,16 +1,7 @@
 package services;
 
-import models.Commit;
-import models.GraphHistory;
-import models.Record;
-import models.Resource;
-import models.TripleCommit;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QueryParseException;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+import models.*;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.Lock;
@@ -19,20 +10,17 @@ import services.repository.Writable;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by fo on 23.03.16.
  */
 public class ResourceIndexer {
 
-  Model mDb;
-  Writable mTargetRepo;
-  GraphHistory mGraphHistory;
+  private Model mDb;
+  private Writable mTargetRepo;
+  private GraphHistory mGraphHistory;
+  private ResourceFramer mResourceFramer;
 
   private final static String GLOBAL_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s WHERE {" +
@@ -48,12 +36,12 @@ public class ResourceIndexer {
     "    FILTER ( !BOUND(?y) ) " +
     "}";
 
+
   public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
-
-    this.mDb = aDb;
-    this.mTargetRepo = aTargetRepo;
-    this.mGraphHistory = aGraphHistory;
-
+    mDb = aDb;
+    mTargetRepo = aTargetRepo;
+    mGraphHistory = aGraphHistory;
+    mResourceFramer = new ResourceFramer();
   }
 
   /**
@@ -62,14 +50,11 @@ public class ResourceIndexer {
    * @return The list of resources touched by the diff
    */
   public Set<String> getScope(Commit.Diff aDiff) {
-
     Set<String> commitScope = new HashSet<>();
     Set<String> indexScope = new HashSet<>();
-
     if (aDiff.getLines().isEmpty()) {
       return commitScope;
     }
-
     for (Commit.Diff.Line line : aDiff.getLines()) {
       RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
       RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
@@ -80,14 +65,10 @@ public class ResourceIndexer {
         commitScope.add(object.toString());
       }
     }
-
     indexScope.addAll(commitScope);
     indexScope.addAll(getScope(commitScope));
-
     Logger.debug("Indexing scope is " + indexScope);
-
     return indexScope;
-
   }
 
   /**
@@ -134,9 +115,7 @@ public class ResourceIndexer {
     } catch (QueryParseException e) {
       Logger.error("Failed to execute query " + query, e);
     }
-
     return indexScope;
-
   }
 
   /**
@@ -144,7 +123,6 @@ public class ResourceIndexer {
    * @return The list of typed resources
    */
   public Set<String> getScope() {
-
     Set<String> indexScope = new HashSet<>();
     String query = GLOBAL_QUERY_TEMPLATE;
     try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
@@ -158,69 +136,55 @@ public class ResourceIndexer {
     } catch (QueryParseException e) {
       Logger.error("Failed to execute query " + query, e);
     }
-
     Logger.debug("Indexing scope" + indexScope.toString());
-
     return indexScope;
-
   }
 
-  public Resource getResource(String aId) {
-
+  public ModelCommon getItem(String aId) {
     try {
-      Resource resource = ResourceFramer.resourceFromModel(mDb, aId);
+      ModelCommon resource = ResourceFramer.resourceFromModel(mDb, aId);
       if (resource != null) {
         return resource;
       }
     } catch (IOException e) {
       Logger.error("Could not create resource from model", e);
     }
-
     return null;
-
   }
 
-  public Set<Resource> getResources(String aId) {
-
-    Set<Resource> resourcesToIndex = new HashSet<>();
+  public Set<ModelCommon> getItems(String aId) {
+    Set<ModelCommon> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aId);
     for (String id : idsToIndex) {
-      resourcesToIndex.add(getResource(id));
+      resourcesToIndex.add(getItem(id));
     }
-
     return resourcesToIndex;
-
   }
 
-  public Set<Resource> getResources(Commit.Diff aDiff) {
 
-    Set<Resource> resourcesToIndex = new HashSet<>();
+  public Set<ModelCommon> getItems(Commit.Diff aDiff) {
+    Set<ModelCommon> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aDiff);
     for (String id : idsToIndex) {
-      resourcesToIndex.add(getResource(id));
+      resourcesToIndex.add(getItem(id));
     }
-
     return resourcesToIndex;
-
   }
 
-  public Set<Resource> getResources() {
 
-    Set<Resource> resourcesToIndex = new HashSet<>();
+  public Set<ModelCommon> getItems() {
+    Set<ModelCommon> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope();
     for (String id : idsToIndex) {
-      resourcesToIndex.add(getResource(id));
+      resourcesToIndex.add(getItem(id));
     }
-
     return resourcesToIndex;
-
   }
 
-  public void index(Resource aResource) {
-
+  public void index(ModelCommon aResource) {
     if (aResource.hasId()) {
       try {
-        Map<String, String> metadata = new HashMap<>();
+        Map<String, Object> metadata = new HashMap<>();
         if (mGraphHistory != null) {
           List<Commit> history = mGraphHistory.log(aResource.getId());
           metadata.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
@@ -230,19 +194,19 @@ public class ResourceIndexer {
           metadata.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }
-        metadata.put(Record.LINK_COUNT, String.valueOf(aResource.getNumberOfSubFields("**.@id")));
-        mTargetRepo.addResource(aResource, metadata);
+        metadata.put(Record.LINK_COUNT, Integer.valueOf(aResource.getNumberOfSubFields("**.@id")));
+        metadata.put(Record.LIKE_COUNT, String.valueOf(aResource.getAsList("objectIn").size()));
+        mTargetRepo.addItem(aResource, metadata);
       } catch (IndexOutOfBoundsException | IOException e) {
         Logger.error("Could not index resource", e);
       }
     }
-
   }
 
-  public void index(Set<Resource> aResources) {
+  public void index(Set<ModelCommon> aResources) {
 
     long startTime = System.nanoTime();
-    for (Resource resource : aResources) {
+    for (ModelCommon resource : aResources) {
       if (resource != null) {
         index(resource);
       }
@@ -254,24 +218,18 @@ public class ResourceIndexer {
   }
 
   public void index(Commit.Diff aDiff) {
-
-    Set<Resource> denormalizedResources = getResources(aDiff);
+    Set<ModelCommon> denormalizedResources = getItems(aDiff);
     index(denormalizedResources);
-
   }
 
   public void index(String aId) {
-
-    Set<Resource> denormalizedResources;
-
+    Set<ModelCommon> denormalizedResources;
     if (aId.equals("*")) {
-      denormalizedResources = getResources();
+      denormalizedResources = getItems();
     } else {
-      denormalizedResources = getResources(aId);
+      denormalizedResources = getItems(aId);
     }
-
     index(denormalizedResources);
-
   }
 
 }

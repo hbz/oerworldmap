@@ -100,6 +100,25 @@ public class JSONForm {
       : setJsonLdTextValues((ObjectNode) merge(results));
   }
 
+
+  public static List<Map<String, Object>> generateErrorReport(ProcessingReport report) {
+    List<Map<String, Object>> errorReport = new ArrayList<>();
+    for (ProcessingMessage message : report) {
+      ObjectNode messageNode = (ObjectNode) message.asJson();
+      String messageText = messageNode.get("instance").get("pointer").asText() + ": "
+          + messageNode.get("message").asText();
+      messageNode.put("message", messageText);
+      switch (messageNode.get("level").asText()) {
+      case "error":
+        messageNode.put("level", "danger");
+        break;
+      }
+      errorReport.add(new Resource(messageNode));
+    }
+    return errorReport;
+  }
+
+
   private static ObjectNode merge(ObjectNode x, ObjectNode y) {
 
     ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
@@ -136,11 +155,10 @@ public class JSONForm {
       }
     }
     return result;
-
   }
 
-  private static ArrayNode merge(ArrayNode x, ArrayNode y) {
 
+  private static ArrayNode merge(ArrayNode x, ArrayNode y) {
     ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
     int size = Math.max(x.size(), y.size());
     for (int i = 0; i < size; i++) {
@@ -162,8 +180,8 @@ public class JSONForm {
       }
     }
     return result;
-
   }
+
 
   public static JsonNode merge(List<JsonNode> nodes) {
     ObjectNode merged = new ObjectNode(JsonNodeFactory.instance);
@@ -172,6 +190,7 @@ public class JSONForm {
     }
     return merged;
   }
+
 
   private static ObjectNode removeEmptyValues(ObjectNode node) {
     ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
@@ -194,6 +213,7 @@ public class JSONForm {
     return result;
   }
 
+
   private static ArrayNode removeEmptyValues(ArrayNode node) {
     ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
     for (JsonNode arrayValue : node) {
@@ -211,6 +231,7 @@ public class JSONForm {
     }
     return result;
   }
+
 
   private static ObjectNode setJsonLdTextValues(ObjectNode node) {
     ObjectNode result = new ObjectNode((JsonNodeFactory.instance));
@@ -240,6 +261,7 @@ public class JSONForm {
     return result;
   }
 
+
   private static ArrayNode setJsonLdTextValues(ArrayNode node) {
     ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
     for (JsonNode arrayValue : node) {
@@ -258,11 +280,9 @@ public class JSONForm {
 
 
   private static class Step {
-
-    private static enum Type {
+    private enum Type {
       Object, Array
     }
-
     public Type type;
     public Type nextType;
     public String key;
@@ -273,8 +293,8 @@ public class JSONForm {
       return "{Type: " + type + ", Key: " + key + ", Last: " + last + ", Append: " + append
           + ", Next type: " + nextType + "}";
     }
-
   }
+
 
   private static List<Step> parsePath(String path) {
 
@@ -340,10 +360,9 @@ public class JSONForm {
         steps.get(i).nextType = steps.get(i + 1).type;
       }
     }
-
     return steps;
-
   }
+
 
   private static List<Step> failParsePath(String path) {
     List<Step> steps = new ArrayList<>();

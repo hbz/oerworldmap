@@ -4,9 +4,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
-import models.Commit;
-import models.Resource;
-import models.TripleCommit;
+import models.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -33,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 public class TriplestoreRepositoryTest implements JsonTest {
 
   private Config mConfig = ConfigFactory.load(ClassLoader.getSystemClassLoader(), "test.conf");
-  private static Map<String, String> mMetadata = new HashMap<>();
+  private static Map<String, Object> mMetadata = new HashMap<>();
 
   @BeforeClass
   public static void setUp() {
@@ -51,8 +49,8 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResource.IN.1.nt", Lang.NTRIPLES);
@@ -73,9 +71,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
-    triplestoreRepository.addResource(resource3, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
+    triplestoreRepository.addItem(resource3, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.nt", Lang.NTRIPLES);
@@ -96,9 +94,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
-    triplestoreRepository.addResource(update1, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
+    triplestoreRepository.addItem(update1, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResource.IN.1.nt", Lang.NTRIPLES);
@@ -121,10 +119,10 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
-    triplestoreRepository.addResource(resource3, mMetadata);
-    triplestoreRepository.addResource(update1, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
+    triplestoreRepository.addItem(resource3, mMetadata);
+    triplestoreRepository.addItem(update1, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResourceWithReferences.IN.1.nt", Lang.NTRIPLES);
@@ -140,9 +138,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
       "TriplestoreRepositoryTest/testAddResource.IN.1.json");
 
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig);
-    triplestoreRepository.addResource(resource1, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
 
-    Resource back = triplestoreRepository.getResource(resource1.getId());
+    Resource back = (Resource) triplestoreRepository.getItem(resource1.getId());
     assertEquals(resource1, back);
 
   }
@@ -161,14 +159,14 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
-    triplestoreRepository.addResource(resource3, mMetadata);
-    triplestoreRepository.addResource(update1, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
+    triplestoreRepository.addItem(resource3, mMetadata);
+    triplestoreRepository.addItem(update1, mMetadata);
 
     Resource expected = getResourceFromJsonFile(
       "TriplestoreRepositoryTest/testGetUpdatedResource.OUT.1.json");
-    Resource back = triplestoreRepository.getResource(resource1.getId());
+    Resource back = (Resource) triplestoreRepository.getItem(resource1.getId());
 
     assertEquals(expected, back);
 
@@ -186,20 +184,20 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
-    triplestoreRepository.addResource(resource3, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
+    triplestoreRepository.addItem(resource3, mMetadata);
 
-    assertNotNull(triplestoreRepository.getResource("info:alice"));
-    assertNotNull(triplestoreRepository.getResource("info:bob"));
-    assertNotNull(triplestoreRepository.getResource("info:carol"));
+    assertNotNull(triplestoreRepository.getItem("info:alice"));
+    assertNotNull(triplestoreRepository.getItem("info:bob"));
+    assertNotNull(triplestoreRepository.getItem("info:carol"));
     assertEquals(10, actual.size());
 
-    triplestoreRepository.deleteResource("info:alice", mMetadata);
+    triplestoreRepository.deleteItem("info:alice", Record.class, mMetadata);
 
-    assertNull(triplestoreRepository.getResource("info:alice"));
-    assertNotNull(triplestoreRepository.getResource("info:bob"));
-    assertNotNull(triplestoreRepository.getResource("info:carol"));
+    assertNull(triplestoreRepository.getItem("info:alice"));
+    assertNotNull(triplestoreRepository.getItem("info:bob"));
+    assertNotNull(triplestoreRepository.getItem("info:carol"));
     assertEquals(6, actual.size());
 
   }
@@ -218,21 +216,21 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
 
-    triplestoreRepository.addResource(in1, mMetadata);
-    triplestoreRepository.addResource(in2, mMetadata);
-    triplestoreRepository.addResource(in3, mMetadata);
+    triplestoreRepository.addItem(in1, mMetadata);
+    triplestoreRepository.addItem(in2, mMetadata);
+    triplestoreRepository.addItem(in3, mMetadata);
 
 
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
-    Resource toBeDeleted = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
-    triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), mMetadata);
+    Resource toBeDeleted = (Resource) triplestoreRepository.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
+    triplestoreRepository.deleteItem(toBeDeleted.getAsString(JsonLdConstants.ID), Record.class, mMetadata);
 
-    Resource result1 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
-    Resource result2 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
+    Resource result1 = (Resource) triplestoreRepository.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
+    Resource result2 = (Resource) triplestoreRepository.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
     Assert.assertEquals(expected1, result1);
     Assert.assertEquals(expected2, result2);
-    Assert.assertNull(triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
+    Assert.assertNull(triplestoreRepository.getItem("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
   }
 
   @Test
@@ -247,11 +245,11 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource1, mMetadata);
-    triplestoreRepository.addResource(resource2, mMetadata);
-    triplestoreRepository.addResource(resource3, mMetadata);
+    triplestoreRepository.addItem(resource1, mMetadata);
+    triplestoreRepository.addItem(resource2, mMetadata);
+    triplestoreRepository.addItem(resource3, mMetadata);
 
-    List<Resource> resources = triplestoreRepository.getAll("http://schema.org/Person");
+    List<ModelCommon> resources = triplestoreRepository.getAll("http://schema.org/Person");
 
     assertEquals(3, resources.size());
 
@@ -269,16 +267,16 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
 
-    Resource staged1 = triplestoreRepository.stage(resource1);
+    Resource staged1 = (Resource) triplestoreRepository.stage(resource1);
 
     assertEquals(resource1, staged1);
     assertTrue(actual.isEmpty());
 
-    triplestoreRepository.addResource(staged1, mMetadata);
+    triplestoreRepository.addItem(staged1, mMetadata);
 
-    Resource staged2 = triplestoreRepository.stage(update1);
+    Resource staged2 = (Resource) triplestoreRepository.stage(update1);
 
-    assertEquals(triplestoreRepository.getResource("info:alice"), resource1);
+    assertEquals(triplestoreRepository.getItem("info:alice"), resource1);
     assertEquals(update1, staged2);
 
   }
@@ -291,9 +289,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Model actual = ModelFactory.createDefaultModel();
     TriplestoreRepository triplestoreRepository = new TriplestoreRepository(mConfig, actual);
-    triplestoreRepository.addResource(resource, mMetadata);
+    triplestoreRepository.addItem(resource, mMetadata);
 
-    Resource staged = triplestoreRepository.stage(resource);
+    Resource staged = (Resource) triplestoreRepository.stage(resource);
 
     assertEquals(resource, staged);
 

@@ -2,18 +2,14 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.MarkdownHelper;
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.Template;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.maxmind.geoip2.DatabaseReader;
-import helpers.HandlebarsHelpers;
-import helpers.JSONForm;
-import helpers.ResourceTemplateLoader;
-import helpers.UniversalFunctions;
+import helpers.*;
+import models.Action;
+import models.ModelCommon;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.io.IOUtils;
@@ -32,27 +28,14 @@ import services.repository.BaseRepository;
 import services.repository.ElasticsearchRepository;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -67,6 +50,8 @@ public abstract class OERWorldMap extends Controller {
   Configuration mConf;
   Environment mEnv;
   protected static BaseRepository mBaseRepository = null;
+  protected static Types mTypes;
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
   static PageProvider mPageProvider;
@@ -74,9 +59,19 @@ public abstract class OERWorldMap extends Controller {
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
       try {
-        mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
+        try {
+          mTypes = new Types(aConf.underlying());
+        } catch (ProcessingException e) {
+          Logger.error("Could not build types from conf file: " + aConf.asMap());
+          e.printStackTrace();
+        } catch (IOException e) {
+          Logger.error("Could not read types configuration file.");
+          e.printStackTrace();
+        }
+        mBaseRepository = new BaseRepository(aConf.underlying(),
+          new ElasticsearchRepository(aConf.underlying(), mTypes));
       } catch (final Exception ex) {
-        throw new RuntimeException("Failed to create Respository", ex);
+        throw new RuntimeException("Failed to create Repository.", ex);
       }
     }
   }
@@ -131,17 +126,15 @@ public abstract class OERWorldMap extends Controller {
 
     // Static pages
     createPageProvider(mConf);
-
   }
+
 
   boolean getEmbed() {
-
     return ctx().request().queryString().containsKey("embed");
-
   }
 
-  public Locale getLocale() {
 
+  public Locale getLocale() {
     Locale locale = new Locale("en", "US");
     if (mConf.getBoolean("i18n.enabled")) {
       List<Lang> acceptLanguages = request().acceptLanguages();
@@ -149,84 +142,72 @@ public abstract class OERWorldMap extends Controller {
         locale = acceptLanguages.get(0).toLocale();
       }
     }
-
     return locale;
-
   }
 
-  Resource getUser() {
 
+  Resource getUser() {
     Resource user = null;
     Logger.trace("Username " + getHttpBasicAuthUser());
     String profileId = mAccountService.getProfileId(getHttpBasicAuthUser());
     if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
+      user = (Resource) getRepository().getItem(profileId);
     }
-
     return user;
-
   }
 
+
   String getHttpBasicAuthUser() {
-
     String authHeader = ctx().request().getHeader(AUTHORIZATION);
-
     if (null == authHeader) {
       return null;
     }
-
     String auth = authHeader.substring(6);
     byte[] decoded = Base64.getDecoder().decode(auth);
-
     String[] credentials;
     try {
       credentials = new String(decoded, "UTF-8").split(":");
-    } catch (UnsupportedEncodingException e) {
+    }
+    catch (UnsupportedEncodingException e) {
+      Logger.error("Could not read credentials encoding.");
       e.printStackTrace();
       return null;
     }
-
     if (credentials.length != 2) {
       return null;
     }
-
     return credentials[0];
-
   }
 
-  QueryContext getQueryContext() {
 
+  QueryContext getQueryContext() {
     List<String> roles = new ArrayList<>();
     roles.add("guest");
     if (getUser() != null) {
       roles.add("authenticated");
     }
-
-    return new QueryContext(roles);
-
+    return new QueryContext(roles, Arrays.asList("about.name.@value"));
   }
+
 
   ResourceBundle getEmails() {
-
     return ResourceBundle.getBundle("emails", getLocale());
-
   }
 
-  String getLocation() {
 
+  String getLocation() {
     try {
       return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry().getIsoCode();
     } catch (Exception ex) {
       Logger.trace("Could not read host", ex);
       return "GB";
     }
-
   }
 
   //TODO: is this right here? how else to implement?
   public String getLabel(String aId) {
 
-    Resource resource = mBaseRepository.getResource(aId);
+    ModelCommon resource = mBaseRepository.getItem(aId);
     if (null == resource) {
       return aId;
     }
@@ -234,19 +215,28 @@ public abstract class OERWorldMap extends Controller {
     if (name instanceof ArrayList) {
       // Return requested language
       for (Object n : ((ArrayList) name)) {
-        if (n instanceof Resource) {
-          String language = ((Resource) n).getAsString("@language");
+        if (ModelCommon.class.isAssignableFrom(n.getClass())){
+          ModelCommon m = (Resource) n;
+          String language = (m.getAsString("@language"));
           if (language.equals(getLocale().getLanguage())) {
-            return ((Resource) n).getAsString("@value");
+            return m.getAsString("@value");
           }
         }
       }
       // Return English if requested language is not available
       for (Object n : ((ArrayList) name)) {
         if (n instanceof Resource) {
-          String language = ((Resource) n).getAsString("@language");
+          Resource r = (Resource) n;
+          String language = r.getAsString("@language");
           if (language.equals("en")) {
-            return ((Resource) n).getAsString("@value");
+            return r.getAsString("@value");
+          }
+        }
+        else if (n instanceof Action) {
+          Action a = (Action) n;
+          String language = a.getAsString("@language");
+          if (language.equals("en")) {
+            return a.getAsString("@value");
           }
         }
       }
@@ -255,11 +245,15 @@ public abstract class OERWorldMap extends Controller {
         if (n instanceof Resource) {
           return ((Resource) n).getAsString("@value");
         }
+        if (n instanceof Action) {
+          return ((Action) n).getAsString("@value");
+        }
       }
     }
 
     return aId;
   }
+
 
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
@@ -279,11 +273,11 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("sections", mPageProvider.getSections(getLocale()));
     Map<String, Object> skos = new HashMap<>();
     try {
-      skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
+      skos.put("esc", OBJECT_MAPPER.readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
         HashMap.class));
-      skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
+      skos.put("isced", OBJECT_MAPPER.readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
         HashMap.class));
-      skos.put("sectors", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
+      skos.put("sectors", OBJECT_MAPPER.readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
         HashMap.class));
     } catch (IOException e) {
       Logger.warn("Could not read SKOS file", e);
@@ -292,8 +286,9 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       if (scope != null) {
-        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
-        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0));
+        String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+        Resource globalAggregation = (Resource) mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0), indices);
+        Resource keywordAggregation = (Resource) mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0), indices);
         scope.put("globalAggregation", globalAggregation);
         scope.put("keywordAggregation", keywordAggregation);
       }
@@ -398,9 +393,9 @@ public abstract class OERWorldMap extends Controller {
    *
    * @return Map containing current getUser() in author and current time in date field.
    */
-  protected Map<String, String> getMetadata() {
+  protected Map<String, Object> getMetadata() {
 
-    Map<String, String> metadata = new HashMap<>();
+    Map<String, Object> metadata = new HashMap<>();
     if (!StringUtils.isEmpty(getHttpBasicAuthUser())) {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, getHttpBasicAuthUser());
     } else {

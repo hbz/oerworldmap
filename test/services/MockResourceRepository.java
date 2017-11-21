@@ -1,6 +1,7 @@
 package services;
 
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Resource;
 import services.repository.Readable;
 import services.repository.Repository;
@@ -18,14 +19,14 @@ import java.util.Map;
  */
 public class MockResourceRepository extends Repository implements Readable, Writable {
 
-  private Map<String, Resource> db = new HashMap<>();
+  private Map<String, ModelCommon> db = new HashMap<>();
 
   public MockResourceRepository() {
     super(null);
   }
 
-  public void addResource(@Nonnull Resource aResource) throws IOException {
-    addResource(aResource, new HashMap<>());
+  public void addItem(@Nonnull Resource aResource) throws IOException {
+    addItem(aResource, new HashMap<>());
   }
 
   /**
@@ -35,7 +36,7 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addItem(@Nonnull ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     db.put(id, aResource);
   }
@@ -47,9 +48,9 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @param aMetadata
    */
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
-    for (Resource resource : aResources) {
-      addResource(resource, aMetadata);
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
+    for (ModelCommon resource : aResources) {
+      addItem(resource, aMetadata);
     }
   }
 
@@ -60,19 +61,19 @@ public class MockResourceRepository extends Repository implements Readable, Writ
    * @return the Resource
    */
   @Override
-  public Resource getResource(@Nonnull String aId) throws IOException {
+  public ModelCommon getItem(@Nonnull String aId) throws IOException {
     return db.get(aId);
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
-    Resource resource = db.get(aId);
+  public ModelCommon deleteItem(@Nonnull String aId, @Nonnull Class aClazz, Map<String, Object> aMetadata) {
+    ModelCommon resource = db.get(aId);
     db.remove(aId);
     return resource;
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
+  public List<ModelCommon> getAll(@Nonnull String aType, final String... aIndices) {
     return new ArrayList<>(db.values());
   }
 

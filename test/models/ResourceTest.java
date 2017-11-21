@@ -77,7 +77,7 @@ public class ResourceTest {
     String value = "value";
     map.put(JsonLdConstants.TYPE, type);
     map.put(property, value);
-    Resource resource = Resource.fromMap(map);
+    Resource resource = new Resource(map);
     assertEquals(resource.get(property), value);
   }
 
@@ -97,8 +97,8 @@ public class ResourceTest {
     map.put(JsonLdConstants.ID, id);
 
     map.put(property, value);
-    Resource resource = Resource.fromMap(map);
-    assertEquals(resource.get(property), Resource.fromMap(value));
+    Resource resource = new Resource(map);
+    assertEquals(resource.get(property), new Resource(value));
 
   }
 
@@ -118,7 +118,7 @@ public class ResourceTest {
     map.put(JsonLdConstants.ID, id);
 
     map.put(property, value);
-    Resource resource = Resource.fromMap(map);
+    Resource resource = new Resource(map);
     assertEquals((ArrayList<?>) resource.get(property), value);
 
   }
@@ -146,7 +146,7 @@ public class ResourceTest {
     value.add(val2);
 
     map.put(property, value);
-    Resource resource = Resource.fromMap(map);
+    Resource resource = new Resource(map);
     assertEquals(resource.get(property), value);
 
   }

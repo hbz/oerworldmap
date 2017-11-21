@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import models.*;
 
 /**
  * Created by fo on 27.03.17.
@@ -14,17 +12,17 @@ import models.ResourceList;
 public class GeoJsonExporter implements Exporter {
 
   @Override
-  public String export(Resource aResource) {
+  public String export(ModelCommon aResource) {
     JsonNode node = toGeoJson(aResource);
     return node == null ? null : node.toString();
   }
 
   @Override
-  public String export(ResourceList aResourceList) {
+  public String export(ModelCommonList aResourceList) {
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
     ArrayNode features = new ArrayNode(JsonNodeFactory.instance);
     node.put("type", "FeatureCollection");
-    for (Resource resource : aResourceList.getItems()) {
+    for (ModelCommon resource : aResourceList.getItems()) {
       JsonNode feature = toGeoJson(resource);
       if (feature != null) {
         features.add(feature);
@@ -34,9 +32,9 @@ public class GeoJsonExporter implements Exporter {
     return node.toString();
   }
 
-  private JsonNode toGeoJson(Resource aResource) {
+  private JsonNode toGeoJson(ModelCommon aResource) {
 
-    JsonNode resource = aResource.getAsResource(Record.RESOURCE_KEY).toJson();
+    JsonNode resource = aResource.getAsItem(Record.CONTENT_KEY).toJson();
     ArrayNode coordinates = getCoordinates(resource);
 
     if (coordinates == null) {

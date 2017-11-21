@@ -30,7 +30,7 @@ import java.util.Map;
 public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
 
   private static Reconciler mReconciler;
-  private static Map<String, String> mMetadata = new HashMap<>();
+  private static Map<String, Object> mMetadata = new HashMap<>();
   private static QueryContext mDefaultQueryContext;
   protected Application application;
 
@@ -39,7 +39,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     mReconciler = new Reconciler(new Configuration(mConfig), null);
     mMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
-    mDefaultQueryContext = new QueryContext(null);
+    mDefaultQueryContext = new QueryContext(null, null);
     mDefaultQueryContext.setElasticsearchFieldBoosts(new ReconcileConfig().getBoostsForElasticsearch());
   }
 
@@ -56,8 +56,8 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     final String correctTitle = "MyCorrectResourceTitle";
     Resource resource1 = getResourceFromJsonFile("ReconcilerTest/testReconcileBasic.IN.1.json");
     Resource resource2 = getResourceFromJsonFile("ReconcilerTest/testReconcileBasic.IN.2.json");
-    mReconciler.getBaseRepository().addResource(resource1, mMetadata);
-    mReconciler.getBaseRepository().addResource(resource2, mMetadata);
+    mReconciler.getBaseRepository().addItem(resource1, mMetadata);
+    mReconciler.getBaseRepository().addItem(resource2, mMetadata);
 
     // build query
     final Map<String, JsonNode> queryMap = new HashMap<>();

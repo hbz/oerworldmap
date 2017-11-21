@@ -6,22 +6,14 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Resource;
 import org.apache.commons.io.IOUtils;
-import org.apache.jena.query.DatasetFactory;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.riot.JsonLDWriteContext;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.riot.WriterDatasetRIOT;
+import org.apache.jena.riot.*;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.sparql.core.DatasetGraph;
@@ -42,7 +34,9 @@ import java.util.List;
  */
 public class ResourceFramer {
 
-  public static Resource resourceFromModel(Model aModel, String aId) throws IOException {
+  final private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+  public static ModelCommon resourceFromModel(Model aModel, String aId) throws IOException {
 
     String describeStatement = String.format(TriplestoreRepository.EXTENDED_DESCRIPTION, aId);
     Model dbstate = ModelFactory.createDefaultModel();
@@ -68,8 +62,7 @@ public class ResourceFramer {
           ByteArrayOutputStream boas = new ByteArrayOutputStream();
           WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
           w.write(boas, g, RiotLib.prefixMap(g), null, ctx);
-          ObjectMapper objectMapper = new ObjectMapper();
-          JsonNode jsonNode = objectMapper.readTree(boas.toByteArray());
+          JsonNode jsonNode = OBJECT_MAPPER.readTree(boas.toByteArray());
 
           if (jsonNode.has(JsonLdConstants.GRAPH)) {
             ArrayNode graphs = (ArrayNode) jsonNode.get(JsonLdConstants.GRAPH);
@@ -78,14 +71,14 @@ public class ResourceFramer {
                 ObjectNode result = (ObjectNode) buildTree(graph, graphs);
                 result.put(JsonLdConstants.CONTEXT, "https://oerworldmap.org/assets/json/context.json");
                 Logger.debug("Framed " + aId);
-                return Resource.fromJson(result);
+                return new Resource(result);
               }
             }
           } else {
             ObjectNode result = (ObjectNode) jsonNode;
             result.put(JsonLdConstants.CONTEXT, "https://oerworldmap.org/assets/json/context.json");
             Logger.debug("Framed " + aId);
-            return Resource.fromJson(result);
+            return new Resource(result);
           }
         }
       }
@@ -171,11 +164,12 @@ public class ResourceFramer {
     return new ObjectNode(JsonNodeFactory.instance);
   }
 
-  public static List<Resource> flatten(Resource resource) throws IOException {
+
+  public static List<ModelCommon> flatten(ModelCommon resource) throws IOException {
 
     Model model = ModelFactory.createDefaultModel();
     RDFDataMgr.read(model, IOUtils.toInputStream(resource.toString(), StandardCharsets.UTF_8), Lang.JSONLD);
-    List<Resource> resources = new ArrayList<>();
+    List<ModelCommon> resources = new ArrayList<>();
 
     String subjectsQuery = "SELECT DISTINCT ?s WHERE { ?s ?p ?o . FILTER isIRI(?s) }";
     try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(subjectsQuery), model)) {
@@ -186,9 +180,7 @@ public class ResourceFramer {
         resources.add(resourceFromModel(model, subject));
       }
     }
-
     return resources;
-
   }
 
 }

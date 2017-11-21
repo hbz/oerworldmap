@@ -2,6 +2,7 @@ package services;
 
 import helpers.ElasticsearchTestGrid;
 import helpers.UniversalFunctions;
+import models.ModelCommon;
 import models.Resource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -28,18 +29,18 @@ public class FileRepositoryTest extends ElasticsearchTestGrid {
     resourceRepository = new FileRepository(mConfig);
     resource = new Resource("Person", "1");
     resource.put("name", "John Doe");
-    resourceRepository.addResource(resource, new HashMap<>());
+    resourceRepository.addItem(resource, new HashMap<>());
   }
 
   @Test
   public void testGetResource() throws IOException {
-    Resource fromStore = resourceRepository.getResource("1");
+    ModelCommon fromStore = resourceRepository.getItem("1");
     assertTrue(resource.equals(fromStore));
   }
 
   @Test
   public void testGetAll() throws IOException {
-    List<Resource> results = resourceRepository.getAll("Person");
+    List<ModelCommon> results = resourceRepository.getAll("Person");
     assertEquals(results.size(), 1);
   }
 

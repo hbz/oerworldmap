@@ -1,9 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
-import models.Record;
-import models.Resource;
-import models.ResourceList;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
@@ -87,25 +85,25 @@ public class CalendarExporter implements Exporter {
   }
 
   @Override
-  public String export(Resource aResource) {
-    if (!aResource.getAsResource(Record.RESOURCE_KEY).getType().equals("Event")) {
+  public String export(ModelCommon aResource) {
+    if (!aResource.getAsItem(Record.CONTENT_KEY).getType().equals("Event")) {
       return null;
     }
-    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsResource(Record.RESOURCE_KEY))).concat(FOOTER);
+    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsItem(Record.CONTENT_KEY))).concat(FOOTER);
   }
 
   @Override
-  public String export(ResourceList aResourceList) {
+  public String export(ModelCommonList aResourceList) {
     StringBuilder result = new StringBuilder(HEADER);
-    aResourceList.getItems().stream().filter(resource -> resource.getAsResource(Record.RESOURCE_KEY).getType()
+    aResourceList.getItems().stream().filter(resource -> resource.getAsItem(Record.CONTENT_KEY).getType()
       .equals("Event")).forEach(resource ->
-        result.append(exportResourceWithoutHeader(resource.getAsResource(Record.RESOURCE_KEY)))
+        result.append(exportResourceWithoutHeader(resource.getAsItem(Record.CONTENT_KEY)))
     );
     result.append(FOOTER);
     return result.toString();
   }
 
-  private String exportResourceWithoutHeader(final Resource aResource){
+  private String exportResourceWithoutHeader(final ModelCommon aResource){
     final String startDate = parseStartDate(aResource);
     final String dateStamp = getTimeStamp();
     // Check required fields according to https://tools.ietf.org/html/rfc5545#section-3.6.1
@@ -149,20 +147,20 @@ public class CalendarExporter implements Exporter {
     return result.toString();
   }
 
-  private void completeFields(final StringBuilder aStringBuilder, final Resource aResource){
+  private void completeFields(final StringBuilder aStringBuilder, final ModelCommon aResource){
     if (aResource.getNestedFieldValue("name.@value", mPreferredLocale) == null){
       // no summary could be added --> append empty summary to comply to ical specification
       aStringBuilder.append("SUMMARY:\n");
     }
   }
 
-  private String getExportedOrganizer(Resource aResource){
+  private String getExportedOrganizer(ModelCommon aResource){
     StringBuilder result = new StringBuilder();
-    List<Resource> organizers = aResource.getAsList("organizer");
+    List<ModelCommon> organizers = aResource.getAsList("organizer");
     result.append(ORGANIZER);
     boolean hasOrganizer = false;
     if (organizers != null && !organizers.isEmpty()){
-      for (Resource organizer : organizers) {
+      for (ModelCommon organizer : organizers) {
         String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
         String email = organizer.getAsString("email");
         boolean hasName = false;
@@ -197,46 +195,45 @@ public class CalendarExporter implements Exporter {
     return result.toString();
   }
 
-  private String parseStartDate(final Resource aResource) {
+  private String parseStartDate(final ModelCommon aResource) {
     final String originalStartDate = aResource.getAsString("startDate");
     StringBuilder result = new StringBuilder();
     if (originalStartDate == null || Strings.isEmpty(originalStartDate)){
       return "";
     }
-    Matcher matcher = mSimpleDatePattern.matcher(originalStartDate);
-    if (matcher.find()) {
-      result.append(DATE_START)
-        .append(formatSimpleDate(matcher, DEFAULT_TIME_START));
-    }
-    else {
-      final DateTime dateTime = parseISO8601toUTC(originalStartDate);
-      if (dateTime == null) {
-        return "";
-      }
-      result.append(dateTimeToIcalDate(DATE_START, dateTime));
+    if (!appendDate(originalStartDate, result, DATE_START, DEFAULT_TIME_START)){
+      return "";
     }
     return result.append("\n").toString();
   }
 
-  private static String parseEndDate(final Resource aResource) {
+  private static String parseEndDate(final ModelCommon aResource) {
     final String originalEndDate = aResource.getAsString("endDate");
     StringBuilder result = new StringBuilder();
     if (originalEndDate == null || Strings.isEmpty(originalEndDate)){
       return "";
     }
-    Matcher matcher = mSimpleDatePattern.matcher(originalEndDate);
-    if (matcher.find()) {
-      result.append(DATE_END)
-        .append(formatSimpleDate(matcher, DEFAULT_TIME_END));
-    }
-    else {
-      final DateTime dateTime = parseISO8601toUTC(originalEndDate);
-      if (dateTime == null) {
-        return "";
-      }
-      result.append(dateTimeToIcalDate(DATE_END, dateTime));
+    if (!appendDate(originalEndDate, result, DATE_END, DEFAULT_TIME_END)){
+      return "";
     }
     return result.append("\n").toString();
+  }
+
+  private static boolean appendDate(final String aOriginalDate, final StringBuilder aResult,
+                                    final String aDateLineHeader, final String aDefaultTimeString) {
+    Matcher matcher = mSimpleDatePattern.matcher(aOriginalDate);
+    if (matcher.find()) {
+      aResult.append(aDateLineHeader)
+        .append(formatSimpleDate(matcher, aDefaultTimeString));
+    }
+    else {
+      final DateTime dateTime = parseISO8601toUTC(aOriginalDate);
+      if (dateTime == null) {
+        return false;
+      }
+      aResult.append(dateTimeToIcalDate(aDateLineHeader, dateTime));
+    }
+    return true;
   }
 
   private static String formatSimpleDate(final Matcher aMatcher, final String aTime){
@@ -299,7 +296,7 @@ public class CalendarExporter implements Exporter {
     return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15)).concat("Z\n");
   }
 
-  private String getDescription(Resource aResource){
+  private String getDescription(ModelCommon aResource){
     String description = aResource.getNestedFieldValue("description.@value", mPreferredLocale);
     if (description == null || Strings.isEmpty(description)){
       return "";

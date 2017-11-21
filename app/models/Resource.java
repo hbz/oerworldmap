@@ -1,6 +1,5 @@
 package models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,21 +23,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
-public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
+public class Resource extends ModelCommon implements Comparable<Resource> {
 
-  /**
-   *
-   */
   private static final long serialVersionUID = -6177433021348713601L;
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   // identified ("primary") data types that get an ID
   public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
@@ -49,15 +39,14 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   static {
     try {
-      mSchemaNode = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
+      mSchemaNode = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     } catch (IOException e) {
-      Logger.error("Could not read schema", e);
+      Logger.error("Could not read resources schema", e);
     }
   }
 
   /**
    * Constructor which sets up a random UUID.
-   *
    * @param type
    *          The type of the resource.
    */
@@ -84,10 +73,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
-  private static String generateId() {
-    return "urn:uuid:" + UUID.randomUUID().toString();
-  }
-
   /**
    * Convert a Map of String/Object to a Resource, assuming that all Object
    * values of the map are properly represented by the toString() method of
@@ -97,64 +82,21 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
    *          The map to create the resource from
    * @return a Resource containing all given properties
    */
-  @SuppressWarnings("unchecked")
-  public static Resource fromMap(Map<String, Object> aProperties) {
-
-    if (aProperties == null) {
-      return null;
-    }
-
-    String type = (String) aProperties.get(JsonLdConstants.TYPE);
-    String id = (String) aProperties.get(JsonLdConstants.ID);
-    Resource resource = new Resource(type, id);
-
-    for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
-      String key = entry.getKey();
-      Object value = entry.getValue();
-      if (key.equals(JsonLdConstants.ID) && !mIdentifiedTypes.contains(type)) {
-        continue;
-      }
-      if (value instanceof Map<?, ?>) {
-        resource.put(key, Resource.fromMap((Map<String, Object>) value));
-      } else if (value instanceof List<?>) {
-        List<Object> vals = new ArrayList<>();
-        for (Object v : (List<?>) value) {
-          if (v instanceof Map<?, ?>) {
-            vals.add(Resource.fromMap((Map<String, Object>) v));
-          } else {
-            vals.add(v);
-          }
-        }
-        resource.put(key, vals);
-      } else {
-        resource.put(key, value);
-      }
-    }
-
-    return resource;
-
+  public Resource(final Map<String, Object> aProperties) {
+    this((String) aProperties.get(JsonLdConstants.TYPE),
+      (String) aProperties.get(JsonLdConstants.ID));
+    fillFromMap(aProperties, getIdentifiedTypes());
   }
 
-  public static Resource fromJson(JsonNode aJson) {
-    Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
-        new TypeReference<HashMap<String, Object>>() {
-        });
-    return fromMap(resourceMap);
+  public Resource(final JsonNode aJson) {
+    this((Map<String, Object>) OBJECT_MAPPER.convertValue(aJson,
+      new TypeReference<HashMap<String, Object>>() {
+      }));
   }
 
-  public static Resource fromJson(String aJsonString) {
-    try {
-      return fromJson(new ObjectMapper().readTree(aJsonString));
-    } catch (IOException e) {
-      Logger.error("Could not read resource from JSON", e);
-      return null;
-    }
-  }
-
-  public static Resource fromJson(InputStream aInputStream) throws IOException {
-    String json = IOUtils.toString(aInputStream, "UTF-8");
+  public Resource(final InputStream aInputStream) throws IOException {
+    this(IOUtils.toString(aInputStream, "UTF-8"));
     aInputStream.close();
-    return fromJson(json);
   }
 
   public ProcessingReport validate() {
@@ -177,15 +119,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   }
 
   /**
-   * Get a JsonNode representation of the resource.
-   *
-   * @return JSON JsonNode
-   */
-  public JsonNode toJson() {
-    return new ObjectMapper().convertValue(this, JsonNode.class);
-  }
-
-  /**
    * Get an RDF representation of the resource.
    *
    * @return Model The RDF Model
@@ -197,67 +130,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     RDFDataMgr.read(model, stream, Lang.JSONLD);
     return model;
 
-  }
-
-  /**
-   * Get a JSON string representation of the resource.
-   *
-   * @return JSON string
-   */
-  @Override
-  public String toString() {
-    ObjectMapper mapper = new ObjectMapper();
-    String output;
-    try {
-      output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
-    } catch (JsonProcessingException e) {
-      output = toJson().toString();
-      e.printStackTrace();
-    }
-    return output;
-  }
-
-  public String getAsString(final Object aKey) {
-    Object result = get(aKey);
-    return (result == null) ? null : result.toString();
-  }
-
-  public List<Resource> getAsList(final Object aKey) {
-    List<Resource> list = new ArrayList<>();
-    Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return list;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        list.add((Resource) value);
-      }
-    }
-    return list;
-  }
-
-  public List<String> getIdList(final Object aKey) {
-    List<String> ids = new ArrayList<>();
-    Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return ids;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
-      }
-    }
-    return ids;
-  }
-
-  public Resource getAsResource(final Object aKey) {
-    Object result = get(aKey);
-    return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
-  }
-
-  public Map<?, ?> getAsMap(final String aKey) {
-    Object result = get(aKey);
-    return (null == result || !(result instanceof Map<?, ?>)) ? null : (Resource) result;
   }
 
 
@@ -288,18 +160,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       }
     }
     return true;
-  }
-
-  public boolean hasId() {
-    return containsKey(JsonLdConstants.ID);
-  }
-
-  public String getId() {
-    return getAsString(JsonLdConstants.ID);
-  }
-
-  public String getType() {
-    return getAsString(JsonLdConstants.TYPE);
   }
 
   public void merge(Resource aOther) {
@@ -375,112 +235,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return result.toString();
   }
 
-  public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale){
-    final String[] split = aNestedKey.split("\\.", 2);
-    if (split.length == 0){
-      return null;
-    }
-    if (split.length == 1){
-      Object o = get(split[0]);
-      if (o != null) {
-        return o.toString();
-      }
-      return null;
-    }
-    // split.length == 2
-    final Object o = get(split[0]);
-    if (o instanceof ArrayList<?>){
-      String next = getNestedValueOfList(split[1], (ArrayList<?>) o, aPreferredLocale);
-      if (next != null) return next;
-    } //
-    else if (o instanceof Resource){
-      Resource resource = (Resource) o;
-      if (resource.size() == 0){
-        return null;
-      }
-      return resource.getNestedFieldValue(split[1], aPreferredLocale);
-    }
-    return null;
+
+  @Override
+  protected JsonNode getSchemaNode(){
+    return mSchemaNode;
   }
 
-  private String getNestedValueOfList(final String aKey, final ArrayList<?> aList, final Locale aPreferredLocale) {
-    Object next;
-    final Locale fallbackLocale = Locale.ENGLISH;
-    String fallback1 = null;
-    String fallback2 = null;
-    String fallback3 = null;
-    for (Iterator it = aList.iterator(); it.hasNext(); ){
-      next = it.next();
-      if (next instanceof Resource){
-        Resource resource = (Resource) next;
-        Object language = resource.get("@language");
-        if (language.equals(aPreferredLocale.getLanguage())){
-          return resource.getNestedFieldValue(aKey, aPreferredLocale);
-        }
-        if (language == null){
-          fallback1 = resource.getNestedFieldValue(aKey, aPreferredLocale);
-        }
-        else if (language.equals(fallbackLocale.getLanguage())){
-          fallback2 = resource.getNestedFieldValue(aKey, fallbackLocale);
-        }
-        else {
-          fallback3 = resource.getNestedFieldValue(aKey, Locale.forLanguageTag(language.toString()));
-        }
-      }
-    }
-    return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
-  }
-
-  /**
-   * Counts the number of subfields matching the argument string.
-   * A simple wildcard ("*") defines 1 level of arbitrary path specifiers.
-   * A double wildcard ("**") defines 0-n levels of arbitrary path specifiers.
-   * Wildcard string combinations ("*xyz" or "xyz*" etc.) are not supported so far.
-   * Arrays can not be specified by position
-   * @param aSubfieldPath Specifier for the subfields to be counted.
-   * @return The number of specified subfields.
-   */
-  public Integer getNumberOfSubFields(String aSubfieldPath) {
-    String[] pathElements = aSubfieldPath.split("\\.");
-    return getNumberOfSubFields(pathElements);
-  }
-
-  private Integer getNumberOfSubFields(String[] aPathElements) {
-    int count = 0;
-    if (aPathElements.length == 0){
-      return count;
-    }
-    String matchElement = null;
-    String pathElement = aPathElements[0];
-    String[] remainingElements;
-    if (pathElement.equals("**")){
-      remainingElements = aPathElements;
-      if (aPathElements.length < 3){
-        matchElement = remainingElements[remainingElements.length-1];
-      }
-    }
-    else{
-      remainingElements = Arrays.copyOfRange(aPathElements, 1, aPathElements.length);
-      if (remainingElements.length == 0){
-        matchElement = pathElement;
-      }
-    }
-    for (Entry<String, Object> entry : entrySet()) {
-      if (entry.getValue() instanceof Resource){
-        Resource innerResource = ((Resource) entry.getValue());
-        count += innerResource.getNumberOfSubFields(remainingElements);
-      } //
-      else if (entry.getValue() instanceof List<?>) {
-        for (Object innerObject : (List<?>) entry.getValue()) {
-          if (innerObject instanceof Resource){
-            count += ((Resource)innerObject).getNumberOfSubFields(remainingElements);
-          }
-        }
-      }
-      if (entry.getKey().equals(matchElement) || matchElement.equals("**")){
-        count++;
-      }
-    }
-    return count;
+  public static List<String> getIdentifiedTypes(){
+    return mIdentifiedTypes;
   }
 }

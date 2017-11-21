@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
+import models.ModelCommon;
 import models.Resource;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.jena.atlas.RuntimeIOException;
-import org.elasticsearch.client.Client;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -15,23 +15,17 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class FileRepository extends Repository implements Writable, Readable {
 
-  private Client mClient;
-
-  private TypeReference<HashMap<String, Object>> mMapType = new TypeReference<HashMap<String, Object>>() {
-  };
-
+  private TypeReference<HashMap<String, Object>> mMapType =
+    new TypeReference<HashMap<String, Object>>() {};
   private Path getPath() {
     return Paths.get(mConfiguration.getString("filerepo.dir"));
   }
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   public FileRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -44,7 +38,7 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @param aMetadata
    */
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addItem(@Nonnull final ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
     String id = aResource.getAsString(JsonLdConstants.ID);
     String encodedId = DigestUtils.sha256Hex(id);
     Path dir = Paths.get(getPath().toString(), aResource.getAsString(JsonLdConstants.TYPE));
@@ -56,7 +50,7 @@ public class FileRepository extends Repository implements Writable, Readable {
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
     throw new UnsupportedOperationException();
   }
 
@@ -68,17 +62,17 @@ public class FileRepository extends Repository implements Writable, Readable {
    * exists.
    */
   @Override
-  public Resource getResource(@Nonnull String aId) {
-    ObjectMapper objectMapper = new ObjectMapper();
+  public ModelCommon getItem(@Nonnull String aId) {
     Path resourceFile;
     try {
       resourceFile = getResourcePath(aId);
-      Map<String, Object> resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
-      return Resource.fromMap(resourceMap);
+      Map<String, Object> resourceMap = OBJECT_MAPPER.readValue(resourceFile.toFile(), mMapType);
+      return new Resource(resourceMap);
     } catch (IOException e) {
       return null;
     }
   }
+
 
   /**
    * Query all resources of a given type.
@@ -87,20 +81,19 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @return All resources of the given type as a List.
    */
   @Override
-  public List<Resource> getAll(@Nonnull String aType) {
-    ArrayList<Resource> results = new ArrayList<>();
+  public List<ModelCommon> getAll(@Nonnull String aType, String... aIndices) {
+    ArrayList<ModelCommon> results = new ArrayList<>();
     Path typeDir = Paths.get(getPath().toString(), aType);
     try (DirectoryStream<Path> resourceFiles = Files.newDirectoryStream(typeDir)) {
-      ObjectMapper objectMapper = new ObjectMapper();
       for (Path resourceFile : resourceFiles) {
         Map<String, Object> resourceMap;
         try {
-          resourceMap = objectMapper.readValue(resourceFile.toFile(), mMapType);
+          resourceMap = OBJECT_MAPPER.readValue(resourceFile.toFile(), mMapType);
         } catch (IOException ex) {
           ex.printStackTrace();
           continue;
         }
-        results.add(Resource.fromMap(resourceMap));
+        results.add(new Resource(resourceMap));
       }
     } catch (IOException e) {
       throw new RuntimeIOException(e);
@@ -117,8 +110,8 @@ public class FileRepository extends Repository implements Writable, Readable {
    * @return The resource that has been deleted.
    */
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
-    Resource resource = this.getResource(aId);
+  public ModelCommon deleteItem(@Nonnull String aId, @Nonnull Class aClazz, Map<String, Object> aMetadata) {
+    ModelCommon resource = this.getItem(aId);
     try {
       Files.delete(getResourcePath(aId));
     } catch (IOException e) {

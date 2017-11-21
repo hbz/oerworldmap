@@ -1,6 +1,7 @@
 package services.export;
 
 import helpers.JsonTest;
+import models.ModelCommon;
 import models.Resource;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class CsvWithNestedIdsExporterTest implements JsonTest {
   public void setup() throws IOException {
     in1 = getResourceFromJsonFile("CsvWithNestedIdsExporterTest/testPlainExport.IN.1.json");
     in2 = getResourceFromJsonFile("CsvWithNestedIdsExporterTest/testPlainExport.IN.2.json");
-    List<Resource> mockSearchResultItems = new ArrayList<>();
+    List<ModelCommon> mockSearchResultItems = new ArrayList<>();
     mockSearchResultItems.add(in1);
     mockSearchResultItems.add(in2);
     mCsvExporter.defineHeaderColumns(mockSearchResultItems);

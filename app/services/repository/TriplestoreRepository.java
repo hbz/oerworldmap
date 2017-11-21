@@ -1,19 +1,10 @@
 package services.repository;
 
 import com.typesafe.config.Config;
-import models.Commit;
-import models.GraphHistory;
-import models.Resource;
-import models.TripleCommit;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
@@ -36,10 +27,11 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static helpers.UniversalFunctions.getTripleCommitHeaderFromMetadata;
 
 /**
  * Created by fo on 10.12.15.
@@ -80,17 +72,14 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId, String aVersion) {
-
+  public ModelCommon getItem(@Nonnull String aId, String aVersion) {
     Model dbstate = getExtendedDescription(aId, mDb);
-
     if ((aVersion != null) && !("HEAD".equals(aVersion))) {
       for (Commit commit : mGraphHistory.until(aVersion)) {
         commit.getDiff().unapply(dbstate);
       }
     }
-
-    Resource resource = null;
+    ModelCommon resource = null;
     if (!dbstate.isEmpty()) {
       try {
         resource = ResourceFramer.resourceFromModel(dbstate, aId);
@@ -98,65 +87,51 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         Logger.error("Could not get resource", e);
       }
     }
-
     return resource;
-
   }
 
   @Override
-  public Resource getResource(@Nonnull String aId) {
-
-    return getResource(aId, null);
-
+  public ModelCommon getItem(@Nonnull String aId) {
+    return getItem(aId, null);
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) throws IOException {
-
-    List<Resource> resources = new ArrayList<>();
-
+  public List<ModelCommon> getAll(@Nonnull String aType, String... aIndices) throws IOException {
+    List<ModelCommon> resources = new ArrayList<>();
     mDb.enterCriticalSection(Lock.READ);
     try {
       try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(String.format(SELECT_RESOURCES, aType)), mDb)) {
         ResultSet resultSet = queryExecution.execSelect();
         while (resultSet.hasNext()) {
           QuerySolution querySolution = resultSet.next();
-          resources.add(getResource(querySolution.get("s").toString()));
+          resources.add(getItem(querySolution.get("s").toString()));
         }
       }
     } finally {
       mDb.leaveCriticalSection();
     }
-
     return resources;
-
   }
 
-  @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+  @Override
+  public void addItem(@Nonnull ModelCommon aResource, Map<String, Object> aMetadata) throws IOException {
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = getDiff(aResource);
-
     commit(new TripleCommit(header, diff));
-
   }
+
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+  public void addItems(@Nonnull List<ModelCommon> aResources, Map<String, Object> aMetadata) throws IOException {
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     Commit.Diff diff = getDiff(aResources);
-
     commit(new TripleCommit(header, diff));
-
   }
+
 
   @Override
   public void commit(Commit commit) throws IOException {
-
     mDb.enterCriticalSection(Lock.WRITE);
     try {
       commit.getDiff().apply(mDb);
@@ -164,9 +139,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } finally {
       mDb.leaveCriticalSection();
     }
-
     mGraphHistory.add(commit);
-
   }
 
   public void commit(List<Commit> commits) throws IOException {
@@ -181,11 +154,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } finally {
       mDb.leaveCriticalSection();
     }
-
   }
 
   @Override
-  public Resource stage(Resource aResource) throws IOException {
+  public ModelCommon stage(ModelCommon aResource) throws IOException {
 
     // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
@@ -213,9 +185,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         }
       }
     }
-
     return ResourceFramer.resourceFromModel(staged, aResource.getId());
-
   }
 
   private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
@@ -266,21 +236,19 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   }
 
+
   @Override
-  public Commit.Diff getDiff(@Nonnull List<Resource> aResources) {
-
+  public Commit.Diff getDiff(@Nonnull List<ModelCommon> aResources) {
     Commit.Diff diff = new TripleCommit.Diff();
-
-    for (Resource resource : aResources) {
+    for (ModelCommon resource : aResources) {
       diff.append(getDiff(resource));
     }
-
     return diff;
-
   }
 
+
   @Override
-  public Commit.Diff getDiff(@Nonnull Resource aResource) {
+  public Commit.Diff getDiff(@Nonnull ModelCommon aResource) {
 
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
@@ -324,39 +292,35 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   }
 
-  public Commit.Diff getDiffs(@Nonnull Resource aResource) {
 
-    List<Resource> resources = new ArrayList<>();
+  public Commit.Diff getDiffs(@Nonnull ModelCommon aResource) {
+    List<ModelCommon> resources = new ArrayList<>();
     try {
       resources = ResourceFramer.flatten(aResource);
     } catch (IOException e) {
       Logger.error("Failed to flatten resource", e);
     }
-
     TripleCommit.Diff diff = new TripleCommit.Diff();
-    for (Resource resource : resources) {
+    for (ModelCommon resource : resources) {
       diff.append(getDiff(resource));
     }
-
     return diff;
-
   }
 
+
   public Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
-
     Commit.Diff diff = new TripleCommit.Diff();
-
     for (Resource resource : aResources) {
       diff.append(getDiffs(resource));
     }
-
     return diff;
-
   }
 
-  @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
 
+  @Override
+  public ModelCommon deleteItem(@Nonnull final String aId,
+                                @Nonnull final Class aClazz,
+                                final Map<String, Object> aMetadata) throws IOException {
     // Current data, outbound links
     Model dbstate = getConciseBoundedDescription(aId, mDb);
 
@@ -392,8 +356,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Record removal in history
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+    TripleCommit.Header header = getTripleCommitHeaderFromMetadata(aMetadata);
     TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 

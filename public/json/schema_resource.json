@@ -461,6 +461,15 @@
             ]
           }
         },
+        "objectIn": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          }
+        },
         "participant": {
           "description": "Other co-agents that participated in the action",
           "type": "array",
@@ -944,6 +953,15 @@
               { "properties": { "@type": { "enum": [ "Product" ] } } }
             ]
           }
+        },
+        "objectIn": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -1048,7 +1066,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Action" ] } } }
+              { "properties": { "@type": { "enum": [ "Action", "LikeAction", "LighthouseAction" ] } } }
             ]
           }
         },
@@ -1294,6 +1312,15 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Action" ] } } }
+            ]
+          }
+        },
+        "objectIn": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
             ]
           }
         },

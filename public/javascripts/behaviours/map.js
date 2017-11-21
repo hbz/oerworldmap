@@ -435,7 +435,7 @@ var Hijax = (function ($, Hijax) {
         properties.country = aggregation;
         feature.setProperties(properties);
       } else {
-        throw 'No feature with id "' + aggregation.key.toUpperCase() + '" found';
+        console.error('No feature with id "' + aggregation.key.toUpperCase() + '" found');
       }
     }
 

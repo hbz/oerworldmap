@@ -9,6 +9,7 @@ import services.QueryContext;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,9 +21,9 @@ public class LandingPage extends OERWorldMap {
   }
 
   public Result get() throws IOException {
-
-    Resource typeAggregation = mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(0),
-        new QueryContext(null));
+    String[] indices = new String[]{mConf.getString("es.index.webpage.name")};
+    Resource typeAggregation = (Resource) mBaseRepository.aggregate(AggregationProvider.getTypeAggregation(0),
+        new QueryContext(null, Arrays.asList("about.name.@value")), indices);
     Map<String, Object> scope = new HashMap<>();
     scope.put("typeAggregation", typeAggregation);
 

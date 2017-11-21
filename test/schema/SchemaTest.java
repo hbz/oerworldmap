@@ -22,10 +22,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class SchemaTest implements JsonTest {
 
+  private static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
   @Test
   public void testSchema() throws IOException {
     SyntaxValidator syntaxValidator = JsonSchemaFactory.byDefault().getSyntaxValidator();
-    JsonNode schema = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
+    JsonNode schema = OBJECT_MAPPER.readTree(Paths.get(FilesConfig.getResourceSchema()).toFile());
     assertTrue(syntaxValidator.schemaIsValid(schema));
   }
 

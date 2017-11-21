@@ -1,7 +1,7 @@
 package helpers;
 
+import models.ModelCommon;
 import models.Record;
-import models.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,16 @@ import java.util.List;
  */
 public class ResourceHelpers {
 
-  public static List<Resource> unwrapRecords(List<Resource> aRecords) {
-    List<Resource> resources = new ArrayList<>();
-    for (Resource rec : aRecords) {
+  public static List<ModelCommon> unwrapRecords(List<ModelCommon> aRecords) {
+    List<ModelCommon> resources = new ArrayList<>();
+    for (ModelCommon rec : aRecords) {
       resources.add(unwrapRecord(rec));
     }
     return resources;
   }
 
-  public static Resource unwrapRecord(Resource aRecord) {
-    return aRecord.getAsResource(Record.RESOURCE_KEY);
+  public static ModelCommon unwrapRecord(ModelCommon aRecord) {
+    return aRecord.getAsItem(Record.CONTENT_KEY);
   }
 
 }

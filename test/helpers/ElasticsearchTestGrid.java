@@ -1,5 +1,6 @@
 package helpers;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.elasticsearch.client.Client;
@@ -7,7 +8,6 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import play.test.WithApplication;
 import services.ElasticsearchConfig;
@@ -24,6 +24,7 @@ public class ElasticsearchTestGrid extends WithApplication {
   protected static Settings mClientSettings;
   protected static Client mClient;
   protected static ElasticsearchConfig mEsConfig;
+  protected static Types mTypes;
 
   public static ElasticsearchRepository getEsRepo() {
     return mRepo;
@@ -32,9 +33,14 @@ public class ElasticsearchTestGrid extends WithApplication {
   @BeforeClass
   public static void setup() throws IOException {
     mConfig = ConfigFactory.parseFile(new File("conf/test.conf")).resolve();
-    mRepo = new ElasticsearchRepository(mConfig);
+    try {
+      mTypes = new Types(mConfig);
+    } catch (ProcessingException e) {
+      e.printStackTrace();
+    }
+    mRepo = new ElasticsearchRepository(mConfig, mTypes);
     mEsConfig = mRepo.getConfig();
-    
+
     mClientSettings = Settings.settingsBuilder().put(mEsConfig.getClientSettings())
       .build();
     mClient = TransportClient.builder().settings(mClientSettings).build()
@@ -45,14 +51,9 @@ public class ElasticsearchTestGrid extends WithApplication {
   @AfterClass
   public static void tearDown() throws Exception {
     if (mConfig.getBoolean("es.node.inmemory")) {
-      mEsConfig.deleteIndex(mConfig.getString("es.index.name"));
+      mEsConfig.deleteIndices(mEsConfig.getAllIndices());
     }
     mEsConfig.tearDown();
-  }
-
-  @Before
-  public void setupIndex() {
-    ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.name"));
   }
 
 }

@@ -1,7 +1,7 @@
 package services.export;
 
-import models.Resource;
-import models.ResourceList;
+import models.ModelCommon;
+import models.ModelCommonList;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface AbstractCsvExporter extends Exporter{
    *          a data set comprising all columns (field names / keys) that shall
    *          be exported.
    */
-  void defineHeaderColumns(List<Resource> aResourceList);
+  void defineHeaderColumns(List<ModelCommon> aResourceList);
 
   /**
    * Specify which information is to be dropped from the CSV export by a List of
@@ -37,7 +37,7 @@ public interface AbstractCsvExporter extends Exporter{
    * @return a String containing all field contents of the given Resource
    */
   @Override
-  String export(Resource aResource);
+  String export(ModelCommon aResource);
 
   /**
    * Export the argument ResourceList as CSV rows.
@@ -46,7 +46,7 @@ public interface AbstractCsvExporter extends Exporter{
    * @return a String containing all field contents of the given ResourceList including the CSV header
      */
   @Override
-  String export(ResourceList aResourceList);
+  String export(ModelCommonList aResourceList);
 
   /**
    * Export the header line as CSV string.

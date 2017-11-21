@@ -6,6 +6,21 @@
 
             <ul class="resource-controls">
 
+                {{#if ../permissions.like}}
+                    <li>
+                        <form action="/resource/{{[@id]}}/like" method="post">
+                            <button type="submit" class="icon-btn{{#if scope.userLikesResource}} text-orange{{/if}}" title="Like">
+                                <i class="fa fa-thumbs-up"></i> ({{scope.likes}})
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <a href="#resource-lighthouse" class="icon-btn{{#if scope.userLighthouseIsset}} text-orange{{/if}}" data-app="to-modal-and-attach-behaviours modal-protected">
+                            <i class="fa fa-lightbulb-o"></i> ({{scope.lighthouses}})
+                        </a>
+                    </li>
+                {{/if}}
+
                 {{#if ../permissions.edit}}
                     <li>
                         <a href="#resource-edit" class="icon-btn" data-app="to-modal-and-attach-behaviours modal-protected">
@@ -362,9 +377,9 @@
                             <td>{{i18n (stringFormat "%s.agentIn" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#agentIn}}
+                                    {{#array_filter agentIn "@type" "Action"}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/agentIn}}
+                                    {{/array_filter}}
                                 </ul>
                             </td>
                         </tr>
@@ -753,6 +768,21 @@
 
                     {{! --- }}
 
+                    {{#if object}}
+                        <tr>
+                            <td>{{i18n (stringFormat "%s.object" @type)}}</td>
+                            <td>
+                                <ul class="resource-list">
+                                    {{#object}}
+                                        <li>{{>ResourceIndex/link.mustache}}</li>
+                                    {{/object}}
+                                </ul>
+                            </td>
+                        </tr>
+                    {{/if}}
+
+                    {{! --- }}
+
                     {{#if isRelatedTo}}
                         <tr>
                             <td>{{i18n (stringFormat "%s.isRelatedTo" @type)}}</td>
@@ -834,6 +864,28 @@
 
                     </form>
 
+                {{/if}}
+
+                {{#if ../permissions.like}}
+                    <form id="resource-lighthouse" method="post" class="clearfix visible-modal" action="/resource/{{scope.userLighthouseResource.[@id]}}">
+
+                        <div class="modal-title">
+                            <h1>{{i18n "ResourceIndex.read.lightHouse"}} {{[@type]}}</h1>
+                            <div class="right">
+                                <a href="https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors" target="_blank">{{i18n "needHelp"}}</a>
+                            </div>
+                        </div>
+
+                        <div class="messages resource-form-widget"></div>
+
+                        {{> "ResourceIndex/LighthouseAction/edit.mustache" scope.userLighthouseResource }}
+
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{{i18n "cancel"}}</button>
+                            <button type="submit" class="btn btn-inverted">{{i18n "publish"}}</button>
+                        </div>
+
+                    </form>
                 {{/if}}
 
                 {{#localized this.name language=@root.language}}

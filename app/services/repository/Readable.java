@@ -1,6 +1,6 @@
 package services.repository;
 
-import models.Resource;
+import models.ModelCommon;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -16,8 +16,8 @@ public interface Readable {
    * @param  aId The identifier of the resource
    * @return The resource
    */
-  Resource getResource(@Nonnull String aId) throws IOException;
+  ModelCommon getItem(@Nonnull String aId) throws IOException;
 
-  List<Resource> getAll(@Nonnull String aType) throws IOException;
+  List<ModelCommon> getAll(@Nonnull String aType, final String... aIndices) throws IOException;
 
 }
