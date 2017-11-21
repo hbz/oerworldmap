@@ -114,8 +114,8 @@ Embaixadores ajudam a mapear o mundo REA por país – coletando dados, garantin
 
 ## O Mapa Global REA estará disponível em vários idiomas?
 
-A versão inicial do site está sendo desenvolvida em inglês. No entanto, acreditamos que, a longo prazo, o site deve estar disponível em muitas línguas e o sistema está preparado para apoiar o multilinguismo. At the time being the platform supports data input in all major languages of the world and the system will show you data within the language chosen in your browser, if available. If you are interested in translating the website into your own language, please [contact us](mailto:info@oerworldmap.org).
+A versão inicial do site está sendo desenvolvida em inglês. No entanto, acreditamos que, a longo prazo, o site deve estar disponível em muitas línguas e o sistema está preparado para apoiar o multilinguismo. No momento a plataforma permite entrada de dados em todos os principais idiomas do mundo e o sistema lhe mostrará dados no idioma escolhido no seu navegador, se disponível. Se você está interessado em traduzir o site para o seu próprio idioma, por favor [ entre em contato conosco](mailto:info@oerworldmap.org).
 
-## Why are countries displayed in different shades of green?
+## Porque países são exibidos em diferentes tons de verde?
 
-Countries with documented OER activity are displayed green. The more activity there is, the darker the colour. We call this mechanism “heat map”. The heat map is based right now on a very simple algorithm: the number of entries. We are thinking about refining the algorithm in the future (e.g. by representing the number of entries into relation to the number of inhabitants).
+Países com atividade REA documentada são exibidos verde. Quanto mais atividade, mais escuro o tom. Chamamos esse mecanismo de "mapa de calor". O mapa de calor baseia-se, neste momento, em um algoritmo muito simples: o número de entradas. Estamos pensando em refinação o algoritmo no futuro (por exemplo, representando o número de entradas em relação ao número de habitantes).
