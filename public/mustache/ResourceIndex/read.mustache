@@ -6,15 +6,13 @@
 
             <ul class="resource-controls">
 
-                {{#if ../permissions.like}}
-                    <li>
-                        <form action="/resource/{{[@id]}}/like" method="post">
-                            <button type="submit" class="icon-btn{{#if scope.userLikesResource}} text-orange{{/if}}" title="Like">
-                                <i class="fa fa-thumbs-up"></i> ({{scope.likes}})
-                            </button>
-                        </form>
-                    </li>
-                {{/if}}
+                <li>
+                    <form action="/resource/{{[@id]}}/like" method="post">
+                        <button {{#unless ../permissions.like}}disabled {{/unless}}type="submit" class="icon-btn{{#if scope.userLikesResource}} text-orange{{/if}}" title="Like">
+                            <i class="fa fa-thumbs-up"></i> ({{scope.likes}})
+                        </button>
+                    </form>
+                </li>
 
                 {{#if ../permissions.edit}}
                     <li>
@@ -74,13 +72,25 @@
                         {{> (stringFormat "ResourceIndex/%s/subtitle.mustache" @type)}}
                     </div>
 
-                    <a
-                        href="#resource-lighthouse"
-                        class="lighthouse {{#if scope.userLighthouseIsset}}active{{/if}}"
-                        data-app="to-modal-and-attach-behaviours modal-protected"
-                    >
-                        {{length scope.lighthouses}}
-                    </a>
+
+                    {{#if ../permissions.like}}
+                        <a
+                            href="#resource-lighthouse"
+                            class="lighthouse {{#if scope.userLighthouseIsset}}active{{/if}}"
+                            data-app="to-modal-and-attach-behaviours modal-protected"
+                        >
+                            {{length scope.lighthouses}}
+                        </a>
+                    {{else}}
+                        {{#if scope.lighthouses}}
+                            <span
+                                class="lighthouse"
+                                data-app="to-modal-and-attach-behaviours modal-protected"
+                            >
+                                {{length scope.lighthouses}}
+                            </span>
+                        {{/if}}
+                    {{/if}}
 
                 </div>
 
