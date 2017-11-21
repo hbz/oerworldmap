@@ -41,13 +41,13 @@ Para ser capaz de inserir dados, você deve se registrar no Mapa Global REA. Voc
 
 ## O que pode ser inserido no Mapa Global REA?
 
-The OER World Map collects data about actors and activities related to OER and Open Education. At the moment we concentrate on elements of the OER infrastructure. We are particularly interested in:
+O Mapa Global REAcoleta dados sobre os atores e as atividades relacionadas à REA e Educação Aberta. No momento nos concentramos nos elementos que compõe a infraestrutura de REA. Estamos particularmente interessados em:
 
 <table class="table">
   
-<tr> <th>Data type</th><th>Definition</th> <th>Examples</th></tr> 
-<tr> <td>organizations</td><td>An organization is a steady group of people sharing collective goals. The spectrum reaches from fully incorporated legal persons on the one hand to loosely connected communities on the other.</td> <td>universities, corporations, associations, communities</td></tr>
-<tr> <td>projects</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
+<tr> <th>Tipo de dado</th><th>Definição</th> <th>Exemplos</th></tr> 
+<tr> <td>organizações</td><td>Uma organização é um grupo estável de pessoas que compartilham metas coletivas. O espectro atinge desde pessoas jurídicas (corporações) às comunidades frouxamente conectadas.</td> <td>universidades, empresas, associações e comunidades</td></tr>
+<tr> <td>projetos</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
 <tr> <td>services</td><td>A service is an online offer, which exists on a steady basis, and provides functionality and value related to OER to its users.</td> <td>repositories, aggregators, authoring tools, communication platforms</td></tr>
 <tr> <td>events</td><td>An events is a gathering of people, which take place at a certain location (virtual or physical) at a certain time.</td><td>conferences, workshops, barcamps, moocs</td></tr>
 </table>
