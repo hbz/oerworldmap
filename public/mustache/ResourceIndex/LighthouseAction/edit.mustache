@@ -10,6 +10,7 @@
 
     {{> FormElements/id.mustache property=this.object property_path="object" title=(i18n "LighthouseAction.object") tooltip=(i18n "LighthouseAction.object" bundle="descriptions") hidden=true multiple=false lookup_url="/resource/?filter.about.@type=Organization,Action,Service"}}
 
+    <p><em>{{i18n "LighthouseAction.description" bundle="descriptions"}}</em></p>
     {{> FormElements/localizedTextarea.mustache property=this.description property_path="description" title=(i18n "LighthouseAction.description") tooltip=(i18n "LighthouseAction.description" bundle="descriptions")}}
 
 </fieldset>
