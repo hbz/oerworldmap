@@ -178,6 +178,10 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     scope.put("list", list);
+    scope.put("showLikeCount", filters.containsKey("about.objectIn.@type") && filters.get("about.objectIn.@type")
+      .contains("LikeAction"));
+    scope.put("showLighthouseCount", filters.containsKey("about.objectIn.@type") && filters.get("about.objectIn.@type")
+      .contains("LighthouseAction"));
     scope.put("resources", resourceList.toResource());
     scope.put("alternates", alternates);
 

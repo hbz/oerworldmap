@@ -3778,6 +3778,9 @@
         },
         "like_count": {
           "type": "integer"
+        },
+        "lighthouse_count": {
+          "type": "integer"
         }
       }
     }
