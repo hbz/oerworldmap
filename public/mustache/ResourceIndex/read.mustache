@@ -123,7 +123,7 @@
                     </p>
                 {{/url}}
 
-                {{#availableChannel.[0]}}
+                {{#availableChannel}}
                     {{#serviceUrl}}
                         <p>
                             <a href="{{.}}" target="_blank" class="btn btn-default">
@@ -132,7 +132,7 @@
                             </a>
                         </p>
                     {{/serviceUrl}}
-                {{/availableChannel.[0]}}
+                {{/availableChannel}}
 
                 {{#if license}}
                     <div class="licenses">
@@ -252,49 +252,16 @@
                         </tr>
                     {{/if}}
 
-                    {{#if availableChannel.[0]}}
+                    {{#if availableChannel}}
                         <tr>
                             <td>{{i18n "Service.availableChannel.availableLanguage"}}</td>
                             <td>
                                 <ul class="comma-seperated-list">
-                                    {{#availableChannel.[0]}}
+                                    {{#availableChannel}}
                                         {{#availableLanguage}}
                                             <li>{{i18n . bundle = "iso639-1"}}</li>
                                         {{/availableLanguage}}
-                                    {{/availableChannel.[0]}}
-                                </ul>
-                            </td>
-                        </tr>
-                    {{/if}}
-
-                    {{#if availableChannel.[1]}}
-                        <tr>
-                            <td>{{i18n "Service.availableChannel.apiUrl"}}</td>
-                            <td>
-                                <ul class="comma-seperated-list">
-                                    {{#availableChannel.[1]}}
-                                        {{#serviceUrl}}
-                                            <a href="{{.}}" target="_blank">
-                                                <i class="fa fa-external-link"></i>
-                                                {{stripProtocol .}}
-                                            </a>
-                                        {{/serviceUrl}}
-                                    {{/availableChannel.[1]}}
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{i18n "Service.availableChannel.documentation"}}</td>
-                            <td>
-                                <ul class="comma-seperated-list">
-                                    {{#availableChannel.[1]}}
-                                        {{#documentation}}
-                                            <a href="{{.}}" target="_blank">
-                                                <i class="fa fa-external-link"></i>
-                                                {{stripProtocol .}}
-                                            </a>
-                                        {{/documentation}}
-                                    {{/availableChannel.[1]}}
+                                    {{/availableChannel}}
                                 </ul>
                             </td>
                         </tr>
