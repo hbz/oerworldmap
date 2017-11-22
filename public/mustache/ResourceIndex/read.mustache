@@ -915,7 +915,8 @@
             <div class="resource-comments">
 
                 {{#if lighthouses}}
-                    <h2>{{i18n "ResourceIndex.read.lighthouses"}}</h2>
+                    <h2>{{i18n "ResourceIndex.read.lighthouses.title"}}</h2>
+                    <p><em>{{i18n "ResourceIndex.read.lighthouses.text"}}</em></p>
                     {{#sort lighthouses "dateCreated" "asc"}}
                         {{#if about.agent.[0].name}}
                             <hr>
