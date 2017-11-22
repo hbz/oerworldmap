@@ -152,7 +152,8 @@ public class ResourceIndex extends OERWorldMap {
 
     if (format.equals("text/html")) {
       queryContext.setFetchSource(new String[]{
-        "@id", "@type", "dateCreated", "author", "dateModified", "contributor", "about.@id", "about.@type", "about.name"
+        "@id", "@type", "dateCreated", "author", "dateModified", "contributor", "about.@id", "about.@type",
+        "about.name", "like_count", "lighthouse_count"
       });
     }
 

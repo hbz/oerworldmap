@@ -17,6 +17,12 @@
                         {{#localized this.alternateName language=@root.language}}
                             ({{[@value]}})
                         {{/localized}}
+                        {{#if scope.showLikeCount}}
+                            ({{#if ../like_count}}{{../like_count}}{{else}}0{{/if}})
+                        {{/if}}
+                        {{#if scope.showLighthouseCount}}
+                            ({{#if ../lighthouse_count}}{{../lighthouse_count}}{{else}}0{{/if}})
+                        {{/if}}
                     </a>
                 </span>
             </li>
