@@ -86,4 +86,6 @@
 
     {{> FormElements/id.mustache property=isRelatedTo property_path="isRelatedTo" title=(i18n "Service.isRelatedTo") tooltip=(i18n "Service.isRelatedTo" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
 
+    {{> FormElements/id.mustache property=objectIn property_path="objectIn" title=(i18n "Service.objectIn") tooltip=(i18n "Service.objectIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=LikeAction,LighthouseAction"}}
+
 </fieldset>
