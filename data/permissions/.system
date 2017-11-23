@@ -36,6 +36,10 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
   Require valid-user
 </Location>
 
+<Location /resource/*/like>
+  Require valid-user
+</Location>
+
 <Location /log/>
   Require group editor
   Require group admin

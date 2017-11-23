@@ -177,6 +177,9 @@
       "@id": "skos:notation",
       "@container": "@set"
     },
+    "objectIn": {
+      "@container": "@set"
+    },
     "organizer": {
       "@container": "@set"
     },

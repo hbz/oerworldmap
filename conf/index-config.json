@@ -1295,7 +1295,7 @@
                 }
               }
             },
-            "topConceptOf": {
+            "objectIn": {
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
@@ -1306,6 +1306,9 @@
                   "type": "string"
                 }
               }
+            },
+            "recordedIn": {
+              "type": "string"
             },
             "member": {
               "properties": {
@@ -2017,8 +2020,82 @@
                 }
               }
             },
-            "recordedIn": {
-              "type": "string"
+            "object": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                },
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "addressCountry": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "string",
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
             "description": {
               "properties": {
@@ -2290,6 +2367,14 @@
                       }
                     }
                   }
+                },
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
+                "endDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 }
               }
             },
@@ -2759,13 +2844,9 @@
             },
             "publisher": {
               "properties": {
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
                 "name": {
                   "properties": {
@@ -2792,6 +2873,10 @@
                       "type": "string"
                     }
                   }
+                },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "location": {
                   "properties": {
@@ -2831,6 +2916,14 @@
                       }
                     }
                   }
+                },
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 }
               }
             },
@@ -3249,6 +3342,18 @@
                 }
               }
             },
+            "topConceptOf": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                }
+              }
+            },
             "participantIn": {
               "properties": {
                 "image": {
@@ -3509,6 +3614,9 @@
                         "addressLocality": {
                           "type": "string"
                         },
+                        "postOfficeBoxNumber": {
+                          "type": "string"
+                        },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
@@ -3678,6 +3786,12 @@
           "type": "string"
         },
         "link_count": {
+          "type": "integer"
+        },
+        "like_count": {
+          "type": "integer"
+        },
+        "lighthouse_count": {
           "type": "integer"
         }
       }
