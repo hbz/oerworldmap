@@ -2367,6 +2367,14 @@
                       }
                     }
                   }
+                },
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
+                },
+                "endDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 }
               }
             },
