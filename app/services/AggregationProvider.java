@@ -150,4 +150,9 @@ public class AggregationProvider {
       .field("about.secondarySector.@id");
   }
 
+  public static AggregationBuilder<?> getAwardAggregation(int aSize) {
+    return AggregationBuilders.terms("about.award").size(aSize)
+      .field("about.award");
+  }
+
 }

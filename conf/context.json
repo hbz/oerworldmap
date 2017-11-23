@@ -50,6 +50,9 @@
     "availableLanguage": {
       "@container": "@set"
     },
+    "award": {
+      "@container": "@set"
+    },
     "awards": {
       "@container": "@set",
       "@id": "frapo:awards"
