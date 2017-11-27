@@ -3,27 +3,27 @@ title: About
 ---
 ## The Vision
 
-Por mais de uma década a criação e uso de Recursos Educacionais Abertos (REA) tem aumentado em todo o mundo. O Mapa Global REA coleta e apresenta dados sobre o crescente número de atores e atividades no campo da educação aberta em todo o mundo. O objetivo é acelerar a evolução do ecossistema global de REA, oferecendo um retrato abrangente e ágil do movimento REA. A informação fornecida pode ser usada para uma ampla gama de propósitos, incluindo:
+For more than a decade the creation and use of Open Educational Resources (OER) has been increasing around the globe. The OER World Map collects and visualizes data on the growing number of actors and activities in the field of open education worldwide. The goal is to accelerate the evolution of the global OER ecosystem by providing a comprehensive and responsive picture of the OER movement. The information provided can be used for a wide range of purposes, including:
 
-- conectar atores, facilitando a cooperação e a partilha de recursos e conhecimentos
-- fornecer listas qualificadas de repositórios e outro serviços REA para ajudar professores e alunos a encontrar recursos educacionais relevantes para eles
-- apoiar decisores em tomar decisões estratégicas e defendê-las fornecendo estatísticas relevantes e perspectivas gerais do movimento de educação aberta e impactos associados
+- connecting actors with each other facilitating co-operation and sharing of resources and knowledge
+- providing qualified lists of repositories and other OER services to help teachers and learners find educational resources relevant to them
+- supporting policy makers in taking and defending strategic decisions by providing meaningful statistics and overviews of the open education movement and its associated impacts
 
-O Mapa Global de REA destina-se a fornecer informações necessários para o apoio à auto-organização dos processos do movimento REA. Além de mapeamento de serviços, projetos, pessoas e organizações relevantes, a plataforma fornece uma rede social, permite a identificação de coleções de REA e oferece suporte a tomada de decisão. Tomado em conjunto, o Mapa Global REA pode ser visto como uma espécie de "sala de operações" para a comunidade de educação aberta.
+The OER World Map is intended to provide the information needed to support the self-organization processes of the OER movement. In addition to mapping relevant organisations, projects, people and services, the platform provides social networking, allows the identification of OER collections, and supports decision making. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
 
 ![The OER World Map seen as 'operations room' for the open education community](/assets/images/open-control-room.jpg)
 
-O Mapa Global REA está sendo construído pela [ hbz](http://www.hbz-nrw.de) e [ graphthinking GmbH](http://www.graphthinking.com), em associação com [ The Open University (Reino Unido)](http://www.open.ac.uk/), financiado pela [ William e Flora Hewlett Foundation](http://www.hewlett.org/). Mas o Mapa pertence à comunidade global de REA. Com a inserção de dados e a inteligência de fontes locais e uma rede global de parceiros e voluntários, o Mapa Global REA será construído e atualizado – um recurso para todos.
+The OER World Map is being built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) funded by [The William and Flora Hewlett Foundation](http://www.hewlett.org/). But it belongs to the global OER community. With input and intelligence from local sources and a global network of partners and volunteers, the OER World Map will be built and updated – a resource for all.
 
 ![hbz](/assets/images/image06.gif) ![graphthinkingGmbH](/assets/images/image10.png) ![The Open University](/assets/images/image07.png) ![The William and Flora Hewlett Foundation](/assets/images/image04.jpg)
 
 * * *
 
-## Equipe
+## Team
 
-### Philipp von Böselager (desenvolvedor de Back-End)
+### Philipp von Böselager (Back-End Developer)
 
-![Philipp von Böselager](/assets/images/image05.png) Philipp ([ @boesephil](https://twitter.com/boesephil) no Twitter) é um desenvolvedor de back-end Java no campo da Linguística computacional (CL). Depois de ter trabalhado com motores de busca, analisadores, redes neurais e sintetizadores de fala, no decorrer de seus estudos CL na Universidade de Colónia ele passou desenvolver sua experiência em Java em uma empresa alemã. Later on he worked as a backend developer in an eDiscovery company, finally heading for the open minded spirit of the University-related HBZ again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
+![Philipp von Böselager](/assets/images/image05.png) Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java backend developer in the field of Computational Linguistics (CL). After having worked with search engines, parsers, neural networks and speech synthesis in the course of his CL studies at the University of Cologne he went on to gain general IT experience at a German Java focused company. Later on he worked as a backend developer in an eDiscovery company, finally heading for the open minded spirit of the University-related HBZ again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
 
 ### Karin Driesen (Online Editor)
 
