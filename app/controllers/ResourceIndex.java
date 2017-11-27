@@ -463,7 +463,8 @@ public class ResourceIndex extends OERWorldMap {
     boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
     boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLike = (currentUser != null) && Arrays.asList("Organization", "Action", "Service").contains(resource.getType());
+    boolean mayLike = (currentUser != null) && !"Person".equals(resource.getType());
+    boolean likeable = !"Person".equals(resource.getType());
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -472,6 +473,7 @@ public class ResourceIndex extends OERWorldMap {
     permissions.put("comment", mayComment);
     permissions.put("delete", mayDelete);
     permissions.put("like", mayLike);
+    permissions.put("likeable", likeable);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
