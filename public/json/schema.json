@@ -108,6 +108,13 @@
               { "properties": { "@type": { "enum": [ "Comment" ] } } }
             ]
           }
+        },
+        "award": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       },
       "required": [ "name", "url" ],
@@ -657,6 +664,13 @@
               } } }
             ]
           }
+        },
+        "award": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       },
       "allOf": [
@@ -958,6 +972,13 @@
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Product" ] } } }
             ]
+          }
+        },
+        "award": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
           }
         },
         "objectIn": {
@@ -1482,6 +1503,13 @@
               { "properties": { "@type": { "enum": [ "Product" ] } } }
             ]
           }
+        },
+        "award": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       },
       "required": [ "name", "location" ],
@@ -1679,6 +1707,13 @@
                 }
               } } }
             ]
+          }
+        },
+        "award": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
           }
         }
       },

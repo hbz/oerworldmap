@@ -88,6 +88,7 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getEventCalendarAggregation());
     guestAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
     guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
+    guestAggregations.add(AggregationProvider.getAwardAggregation(0));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);
@@ -181,7 +182,7 @@ public class QueryContext {
     result.append("}");
     return result.toString();
   }
-  
+
   public void setIso3166Scope(String aISOCode) {
     QueryBuilder iso3166 = QueryBuilders.boolQuery()
       .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));

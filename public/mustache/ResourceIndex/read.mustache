@@ -147,6 +147,14 @@
                     </div>
                 {{/if}}
 
+                {{#if award}}
+                    <div class="awards">
+                        {{#award}}
+                            <img src="{{.}}" alt="{{i18n .}}" title="{{i18n .}}" />
+                        {{/award}}
+                    </div>
+                {{/if}}
+
                 <table class="table resource-details-table">
 
 
