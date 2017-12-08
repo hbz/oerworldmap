@@ -137,7 +137,6 @@ public class UserIndex extends OERWorldMap {
 
     ObjectNode result = JsonNodeFactory.instance.objectNode();
     result.put("username", username);
-    result.put("token", token);
     result.put("newsletter", registration.getAsBoolean("subscribeNewsletter"));
     if (registration.getAsBoolean("subscribeNewsletter") && !registerNewsletter(username)) {
       Logger.error("Error registering newsletter for " + username);
@@ -161,9 +160,9 @@ public class UserIndex extends OERWorldMap {
         scope.put("username", username);
         String userId = mAccountService.getProfileId(username);
         scope.put("id", userId);
-        //String profileUrl = mConf.getString("proxy.host").concat(
-          //routes.ResourceIndex.read(userId, "HEAD", null).url());
-        //scope.put("url", routes.ResourceIndex.read(userId, "HEAD", null).url());
+        String profileUrl = mConf.getString("proxy.host").concat(
+          routes.ResourceIndex.read(userId, "HEAD", null).url());
+        scope.put("url", profileUrl);
         result = ok(mObjectMapper.writeValueAsString(scope));
       } else {
         result = badRequest("Invalid token ".concat(token));
