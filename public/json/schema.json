@@ -82,6 +82,31 @@
       },
       "required": ["email"]
     },
+    "ChangePasswordAction": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Reset password",
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "_display": {
+            "type": "password"
+          }
+        },
+        "password_new": {
+          "type": "string",
+          "_display": {
+            "type": "password"
+          }
+        },
+        "password_new_confirm": {
+          "type": "string",
+          "_display": {
+            "type": "password"
+          }
+        }
+      }
+    },
     "Link": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "A link to another entity",

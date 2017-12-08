@@ -68,7 +68,6 @@ public class UserIndex extends OERWorldMap {
   public Result register() throws IOException {
 
     Resource registration = Resource.fromJson(ctx().request().body().asJson());
-    registration.put(JsonLdConstants.TYPE, "RegisterAction");
 
     ProcessingReport processingReport = validate(registration);
     if (!processingReport.isSuccess()) {
@@ -173,50 +172,69 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public Result requestPassword() throws IOException {
-    return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
-  }
+  public Result resetPassword() throws IOException {
 
-  public Result sendPassword() throws IOException {
+    Resource passwordReset = Resource.fromJson(ctx().request().body().asJson());
 
-    Result result;
-
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
-
-    String username;
-    if (request().username() != null) {
-      username = request().username();
-      String password = user.getAsString("password");
-      String updated = user.getAsString("password-new");
-      String confirm = user.getAsString("password-confirm");
-      if (StringUtils.isEmpty(password) || StringUtils.isEmpty(updated) || StringUtils.isEmpty(confirm)) {
-        result = badRequest("Please fill out the form.");
-      } else if (!updated.equals(confirm)) {
-        result = badRequest("Passwords must match.");
-      } else if (password.length() < 8) {
-        result = badRequest("Password must be at least 8 characters long.");
-      } else if (!mAccountService.updatePassword(username, password, updated)) {
-        result = badRequest("Failed to update password for ".concat(username));
-      } else {
-        result = ok(mObjectMapper.writeValueAsString(new HashMap<>()));
+    ProcessingReport processingReport = validate(passwordReset);
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
       }
-    } else {
-      username = user.getAsString("email");
-      if (StringUtils.isEmpty(username) || !mAccountService.userExists(username)) {
-        result = badRequest("No valid username provided.");
-      } else {
-        String password = new BigInteger(130, new SecureRandom()).toString(32);
-        if (mAccountService.setPassword(username, password)) {
-          sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
-              getEmails().getString("account.password.subject"), null);
-          result = ok(mObjectMapper.writeValueAsString(new HashMap<>()));
-        } else {
-          result = badRequest("Failed to reset password.");
-        }
-      }
+      return badRequest(listProcessingReport.asJson());
     }
 
-    return result;
+    String username = passwordReset.getAsString("email");
+
+    if (!mAccountService.userExists(username)) {
+      return badRequest("No valid username provided.");
+    }
+
+    String password = new BigInteger(130, new SecureRandom()).toString(32);
+    if (mAccountService.setPassword(username, password)) {
+      sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
+        getEmails().getString("account.password.subject"), null);
+      ObjectNode result = JsonNodeFactory.instance.objectNode();
+      result.put("username", username);
+      return ok(result);
+    } else {
+      return badRequest("Failed to reset password.");
+    }
+
+  }
+
+  public Result changePassword() throws IOException {
+
+    Resource passwordChange = Resource.fromJson(ctx().request().body().asJson());
+
+    ProcessingReport processingReport = validate(passwordChange);
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
+      }
+      return badRequest(listProcessingReport.asJson());
+    }
+
+    String username = request().username();
+    String password = passwordChange.getAsString("password");
+    String updated = passwordChange.getAsString("password_new");
+    String confirm = passwordChange.getAsString("password_new_confirm");
+
+    if (!updated.equals(confirm)) {
+      return badRequest("Passwords must match.");
+    } else if (!mAccountService.updatePassword(username, password, updated)) {
+      return badRequest("Failed to update password for ".concat(username));
+    } else {
+      ObjectNode result = JsonNodeFactory.instance.objectNode();
+      result.put("username", username);
+      return ok(result);
+    }
 
   }
 
