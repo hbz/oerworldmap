@@ -28,13 +28,65 @@
     },
     {
       "$ref": "#/definitions/WebPage"
+    },
+    {
+      "$ref": "#/definitions/RegisterAction"
     }
   ],
   "definitions": {
+    "RegisterAction": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "User registration",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/Country"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "_display": {
+            "type": "password"
+          }
+        },
+        "privacyAccepted": {
+          "type": "boolean"
+        },
+        "termsAccepted": {
+          "type": "boolean"
+        },
+        "publishEmail": {
+          "type": "boolean"
+        },
+        "subscribeNewsletter": {
+          "type": "boolean"
+        }
+      },
+      "required": ["name", "location", "email", "password", "privacyAccepted", "termsAccepted"]
+    },
+    "ResetPasswordAction": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Reset password",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": ["email"]
+    },
     "Link": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "A link to another entity",
       "type": "object",
+      "remote": true,
       "properties": {
         "@id": {
           "description": "The referenced entities unique identifier",
@@ -55,23 +107,32 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "WebPage"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "url": {
           "type": "string",
@@ -115,18 +176,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The concept schemes's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "ConceptScheme"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "hasTopConcept": {
           "type": "array",
@@ -148,18 +218,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The concepts's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Concept"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -212,18 +291,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The article's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Article"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "creator": {
           "description": "The author of the article",
@@ -239,7 +327,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "keywords": {
           "type": "array",
@@ -367,18 +455,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The comment's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Comment"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "author": {
           "description": "The author of the comment",
@@ -407,18 +504,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The action's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Action"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "additionalType": {
           "description": "An additonal type for the Action",
@@ -491,7 +597,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "image": {
           "type": "string",
@@ -669,18 +775,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The services's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Service"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -695,7 +810,7 @@
           }
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "image": {
           "type": "string",
@@ -726,7 +841,8 @@
               "availableLanguage": {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": ["en", "de"]
                 }
               },
               "documentation": {
@@ -971,24 +1087,33 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The person's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Person"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "affiliation": {
           "description": "An organization or service the person is affiliated with.",
@@ -1203,18 +1328,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The organization's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Organization"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "location": {
           "description": "The organization's address and geo data",
@@ -1240,7 +1374,7 @@
         },
         "description": {
           "description": "The description of the organization",
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -1462,18 +1596,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The event's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Event"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "email": {
           "type": "string",
@@ -1506,7 +1649,7 @@
           "$ref": "#/definitions/LocalizedString"
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "image": {
           "type": "string",
@@ -1533,7 +1676,8 @@
         "inLanguage": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "translate": true
           }
         },
         "startDate": {
@@ -1662,18 +1806,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The tools's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Product"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -1683,7 +1836,7 @@
         },
         "description": {
           "description": "The description of the tool",
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "url": {
           "type": "string",
@@ -1779,7 +1932,10 @@
           "type": "string",
           "enum": [
             "Grant"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "sameAs": {
           "type": "array",
@@ -1796,7 +1952,7 @@
         },
         "description": {
           "description": "The description of the grant",
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -1854,18 +2010,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The place's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "Place"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "name": {
           "$ref": "#/definitions/LocalizedString"
@@ -1888,12 +2053,18 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The geo coordinates's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "lat": {
           "type": "number"
@@ -1916,18 +2087,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The geo addresses' unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "PostalAddress"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "streetAddress": {
           "type": "string"
@@ -1956,7 +2136,8 @@
           "type": "string"
         },
         "addressRegion": {
-          "type": "string"
+          "type": "string",
+          "translate": true
         },
         "addressCountry": {
           "$ref": "#/definitions/Country"
@@ -1969,15 +2150,44 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Localized string",
       "description": "A language-tagged string",
+      "translate": true,
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "@language": {
-            "type": "string"
-          },
           "@value": {
             "type": "string"
+          },
+          "@language": {
+            "type": "string",
+            "enum": ["de", "en"]
+          }
+        },
+        "required": [
+          "@language",
+          "@value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "LocalizedText": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Localized text",
+      "description": "A language-tagged text",
+      "translate": true,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@value": {
+            "type": "string",
+            "_display": {
+              "rows": 5
+            }
+          },
+          "@language": {
+            "type": "string",
+            "enum": ["de", "en"]
           }
         },
         "required": [
@@ -1999,6 +2209,7 @@
       "title": "Country",
       "description": "A country, represented by its ISO country code",
       "type": "string",
+      "translate": true,
       "enum": [
         "AD",
         "AE",

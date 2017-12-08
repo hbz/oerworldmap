@@ -1,7 +1,6 @@
 GET     /robots.txt                 controllers.Robots.get()
 GET     /assets/json/context.json   controllers.Assets.at(path="/", file="context.json")
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
-GET     /user/register              controllers.UserIndex.signup()
 POST    /user/register              controllers.UserIndex.register()
 GET     /user/verify                controllers.UserIndex.verify(token: String ?= null)
 GET     /user/password              controllers.UserIndex.requestPassword()

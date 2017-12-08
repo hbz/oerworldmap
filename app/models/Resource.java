@@ -38,6 +38,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     "Comment", "Product", "ContactPoint", "CustomerRelation"));
 
   /**
+   *  Constructor for typeless resources
+   */
+  public Resource() {
+    this(null, null);
+  }
+
+  /**
    * Constructor which sets up a random UUID.
    *
    * @param type
@@ -183,6 +190,11 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public String getAsString(final Object aKey) {
     Object result = get(aKey);
     return (result == null) ? null : result.toString();
+  }
+
+  public Boolean getAsBoolean(final Object aKey) {
+    Object result = get(aKey);
+    return (result != null) && ((boolean) result);
   }
 
   public List<Resource> getAsList(final Object aKey) {
