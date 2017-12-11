@@ -35,7 +35,7 @@ O Mapa Global REA está sendo construído pela [ hbz](http://www.hbz-nrw.de) e [
 
 ### Felix Link (Design)
 
-![Felix Link](/assets/images/felix-link.png) Felix joined the project in October 2015, being the UI-/frontend-designer of the OER World Map. He studied graphic and communication design from 2006 to 2012. Since 2008 he has been working as a freelance designer for both agencies and own clients, developing and implementing projects in corporate, editorial and web design. He is interested in design as a conceptual and integrated process as well as a characteristic expression of its content.
+![Felix Link](/assets/images/felix-link.png) Felix Link é pelo design do Mapa Global REA. He studied graphic and communication design from 2006 to 2012. Since 2008 he has been working as a freelance designer for both agencies and own clients, developing and implementing projects in corporate, editorial and web design. He is interested in design as a conceptual and integrated process as well as a characteristic expression of its content.
 
 ### Jan Neumann (Project Management)
 
