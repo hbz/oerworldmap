@@ -56,3 +56,11 @@ ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/use
 <Location /sparql/>
   Require group admin
 </Location>
+
+<Location /user/password>
+  Require valid-user
+</Location>
+
+<Location /user/profile>
+  Require valid-user
+</Location>

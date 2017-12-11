@@ -281,6 +281,16 @@ public class UserIndex extends OERWorldMap {
 
   }
 
+  public Result profile() {
+    String username = request().username();
+    String id = mAccountService.getProfileId(username);
+    if (id != null) {
+      return seeOther(routes.ResourceIndex.read(id, "HEAD", null));
+    } else {
+      return notFound();
+    }
+  }
+
   public Result setGroups() throws IOException {
 
     Map<String, List<String>> groupUsers = new HashMap<>();
