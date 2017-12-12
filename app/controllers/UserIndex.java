@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -282,13 +283,28 @@ public class UserIndex extends OERWorldMap {
   }
 
   public Result profile() {
+
     String username = request().username();
     String id = mAccountService.getProfileId(username);
-    if (id != null) {
-      return seeOther(routes.ResourceIndex.read(id, "HEAD", null));
-    } else {
+
+    if (id == null) {
       return notFound();
     }
+
+    Resource profile = mBaseRepository.getResource(id);
+
+    if (profile == null) {
+      return notFound();
+    }
+
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    ObjectMapper mapper = new ObjectMapper();
+    result.put("username", username);
+    result.set("groups", mapper.valueToTree(mAccountService.getGroups(username)));
+    result.put("id", profile.getId());
+
+    return ok(result);
+
   }
 
   public Result setGroups() throws IOException {
