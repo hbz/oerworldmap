@@ -11,9 +11,6 @@ For inital background information about this project please refer to the
 ### Get Source
 
     $ git clone git@github.com:hbz/oerworldmap.git
-    $ npm install
-    $ git submodule init
-    $ git submodule update
 
 ### Create configuration
 
@@ -79,9 +76,9 @@ Modify the path in `conf/auth.conf`
 
 Enalbe the site
 
-    $ sudo ln -s /home/username/Graphthinking/oerworldmap/conf/auth.conf /etc/apache2/sites-available/
+    $ sudo ln -s /home/username/oerworldmap/conf/auth.conf /etc/apache2/sites-available/
     $ sudo a2ensite auth.conf
-    $ sudo apache2ctrl graceful
+    $ sudo apache2ctl graceful
 
 
 Modify the path in `data/permissions/.system`
@@ -99,7 +96,7 @@ Set up the hostname in `/etc/hosts`
     $ mkdir -p data/consents/objects
     $ touch data/consents/history
     $ mkdir -p data/commits/objects/
-    $ mkdir data/commits/history
+    $ touch data/commits/history
 
 
 ### Setup Play! Application
