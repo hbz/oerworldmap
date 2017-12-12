@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -267,65 +268,85 @@ public class UserIndex extends OERWorldMap {
 
   public Result editGroups() throws IOException {
 
-    Map<String, Map<String, Boolean>> groups = new HashMap<>();
-    for (String group : mAccountService.getGroups()) {
-      Map<String, Boolean> users = new HashMap<>();
-      for (String user: mAccountService.getUsers()) {
-        users.put(user, mAccountService.getUsers(group).contains(user));
+    List<String> usernames = mAccountService.getUsers();
+    ArrayNode users = JsonNodeFactory.instance.arrayNode();
+    for (String username : usernames) {
+      JsonNode user = profile(username);
+      if (user != null) {
+        users.add(user);
       }
-      groups.put(group, users);
     }
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("groups", groups);
-    return ok(mObjectMapper.writeValueAsString(scope));
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.set("groups", mObjectMapper.valueToTree(mAccountService.getGroups()));
+    result.set("users", users);
+
+    return ok(result);
 
   }
 
   public Result profile() {
 
     String username = request().username();
-    String id = mAccountService.getProfileId(username);
+
+    if (StringUtils.isEmpty(username)) {
+      return notFound();
+    }
+
+    JsonNode result = profile(username);
+    return result != null ? ok(result) : notFound();
+
+  }
+
+  private JsonNode profile(String aUsername) {
+
+    String id = mAccountService.getProfileId(aUsername);
 
     if (id == null) {
-      return notFound();
+      Logger.warn("Stale username " + aUsername);
+      return null;
     }
 
     Resource profile = mBaseRepository.getResource(id);
 
     if (profile == null) {
-      return notFound();
+      Logger.warn("No profile for " + id);
+      return null;
     }
 
     ObjectNode result = JsonNodeFactory.instance.objectNode();
-    ObjectMapper mapper = new ObjectMapper();
-    result.put("username", username);
-    result.set("groups", mapper.valueToTree(mAccountService.getGroups(username)));
+    result.put("username", aUsername);
+    result.set("groups", mObjectMapper.valueToTree(mAccountService.getGroups(aUsername)));
     result.put("id", profile.getId());
+    result.set("name", profile.toJson().get("name"));
 
-    return ok(result);
+    return result;
 
   }
 
   public Result setGroups() throws IOException {
+    ObjectNode userGroups = (ObjectNode) ctx().request().body().asJson();
+
+    if (userGroups == null) {
+      return badRequest();
+    }
 
     Map<String, List<String>> groupUsers = new HashMap<>();
+    for (String groupName : mAccountService.getGroups()) {
+      groupUsers.put(groupName, new ArrayList<>());
+    }
 
-    if (ctx().request().body().asFormUrlEncoded() != null) {
-      JsonNode jsonNode = JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded());
-      Iterator<String> groupNames = jsonNode.fieldNames();
-      while (groupNames.hasNext()) {
-        String group = groupNames.next();
-        List<String> users = StreamSupport.stream(
-          Spliterators.spliteratorUnknownSize(jsonNode.get(group).fieldNames(),
-            Spliterator.ORDERED), false).collect(
-          Collectors.toList());
-        groupUsers.put(group, users);
+    Iterator<String> it = userGroups.fieldNames();
+    while (it.hasNext()) {
+      String user = it.next();
+      ArrayNode groups = (ArrayNode) userGroups.get(user);
+      for (final JsonNode group: groups) {
+        groupUsers.get(group.textValue()).add(user);
       }
     }
 
     if (mAccountService.setGroups(groupUsers)) {
-      return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
+      return editGroups();
     } else {
       return internalServerError("Failed to update groups");
     }
