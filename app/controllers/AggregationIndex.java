@@ -27,8 +27,6 @@ public class AggregationIndex extends OERWorldMap {
 
   public Result list() throws IOException {
 
-    Map<String, Object> scope = new HashMap<>();
-
     List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
     statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
@@ -42,11 +40,7 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
     statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
 
-    scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)));
-    scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
-      "#009380", "#627e45", "#6676b0", "#5ab18d"));
-
-    return ok(mObjectMapper.writeValueAsString(scope));
+    return ok(mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)).toJson());
 
   }
 
