@@ -242,7 +242,7 @@ public class ResourceIndex extends OERWorldMap {
       return ok(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     } else {
       response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", null)
-        .absoluteURL(request()));
+        .url());
       return created(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     }
 
@@ -328,14 +328,13 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    String baseUrl = mConf.getString("proxy.host");
     Set<String> alternates = MimeTypes.all().keySet();
     if (!resource.getType().equals("Event")) {
       alternates.remove("ics");
     }
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
-      String linkUrl = baseUrl.concat(routes.ResourceIndex.read(id, version, alternate).url());
+      String linkUrl = routes.ResourceIndex.read(id, version, alternate).url();
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
 
