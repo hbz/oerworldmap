@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
@@ -411,16 +413,18 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public Result log(String aId) throws IOException {
+    ArrayNode log = JsonNodeFactory.instance.arrayNode();
+    List<Commit> commits = mBaseRepository.log(aId);
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("commits", mBaseRepository.log(aId));
-    scope.put("resource", aId);
-
-    if (StringUtils.isEmpty(aId)) {
-      return ok(mBaseRepository.log(aId).toString());
+    for (Commit commit : commits) {
+      ObjectNode entry = JsonNodeFactory.instance.objectNode();
+      entry.put("commit", commit.getId());
+      entry.put("author", commit.getHeader().getAuthor());
+      entry.put("date", commit.getHeader().getTimestamp().toString());
+      log.add(entry);
     }
-    return ok(mObjectMapper.writeValueAsString(scope));
 
+    return ok(log);
   }
 
   public Result index(String aId) {
