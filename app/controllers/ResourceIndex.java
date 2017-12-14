@@ -411,7 +411,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public Result log(String aId) throws IOException {
+  public Result log(String aId, String compare, String to) throws IOException {
     ArrayNode log = JsonNodeFactory.instance.arrayNode();
     List<Commit> commits = mBaseRepository.log(aId);
 
@@ -423,7 +423,24 @@ public class ResourceIndex extends OERWorldMap {
       log.add(entry);
     }
 
-    return ok(log);
+    if (StringUtils.isEmpty(aId)) {
+      return ok(log);
+    }
+
+    String v1 = StringUtils.isEmpty(compare) ? "HEAD" : compare;
+    String v2 = StringUtils.isEmpty(to) ? (log.size() > 1 ? log.get(1).get("commit").textValue() : "HEAD") : to;
+    Resource r1 = mBaseRepository.getResource(aId, v1);
+    Resource r2 = mBaseRepository.getResource(aId, v2);
+    if (r1 == null || r2 == null) {
+      return badRequest();
+    }
+
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.set("compare", r1.toJson());
+    result.set("to", r2.toJson());
+    result.set("log", log);
+
+    return ok(result);
   }
 
   public Result index(String aId) {
