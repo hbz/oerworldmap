@@ -232,7 +232,7 @@
 
                                 <div class="text">
 
-                                    <a href="/resource/{{@id}}">
+                                    <a href="#{{@id}}">
                                         {{#localized this.displayName language=@root.language}}
                                             {{[@value]}}
                                         {{else}}
@@ -288,7 +288,7 @@
                         {{#reports}}
                             {{#about}}
                                 <li about="{{@id}}">
-                                    {{>ResourceIndex/link.mustache}}
+                                    {{>ResourceIndex/link.mustache fragment=true}}
                                 </li>
                             {{/about}}
                         {{/reports}}
@@ -319,7 +319,7 @@
                             <tr>
                                 <td>{{doc_count}}</td>
                                 <td>{{getIcon key}}
-                                    <a href="?filter.about.@type={{key}}">{{i18n key}}</a>
+                                    <a href="?filter.about.@type={{key}}{{#if @root.embed}}&embed={{@root.embed}}{{/if}}">{{i18n key}}</a>
                                 </td>
                             </tr>
                         {{/by_type.buckets}}
@@ -334,7 +334,7 @@
 
 {{/scope.iso3166}}
 
-<div id="filter-container"{{#if embed}} class="hidden"{{/if}}>
+<div id="filter-container"{{#ifCond embed "==" "true"}} class="hidden"{{/ifCond}}>
 
     <form id="form-resource-filter" class="app-hidden" action="{{#if scope.iso3166.[alpha-2]}}/country/{{scope.iso3166.[alpha-2]}}{{else}}/resource/{{/if}}">
 
@@ -352,6 +352,10 @@
                 <button class="btn" type="submit"><i class="fa fa-search"></i></button>
             </div>
         </div>
+
+        {{#if @root.embed}}
+            <input type="hidden" name="embed" value="{{@root.embed}}" />
+        {{/if}}
 
         <div class="column-section bg-blue-paler">
 
@@ -392,7 +396,7 @@
 
 </div>
 
-<div class="{{#unless embed}}list-statistics-container{{/unless}} floating-hidden">
+<div class="{{#ifCond embed "!=" "true"}}list-statistics-container{{/ifCond}} floating-hidden">
 
     <div class="p filter-state visible-print">
         {{i18n "ResourceIndex.index.showingEntities"}}
@@ -417,15 +421,15 @@
         {{/if}}
     </div>
 
-    <div class="geo-filtered-list-control{{#if embed}} hidden{{/if}}"></div>
+    <div class="geo-filtered-list-control{{#ifCond embed "==" "true"}} hidden{{/ifCond}}"></div>
 
     <div class="p clearfix">
 
-        <div class="pull-left{{#if embed}} hidden{{/if}}">
+        <div class="pull-left{{#ifCond embed "==" "true"}} hidden{{/ifCond}}">
             <span class="badge total-items">{{scope.resources.totalItems}}</span> {{i18n "ResourceIndex.index.results"}}
         </div>
 
-        <div class="pull-right{{#if embed}} hidden{{/if}}">
+        <div class="pull-right{{#ifCond embed "==" "true"}} hidden{{/ifCond}}">
 
             <ul class="resource-controls">
 

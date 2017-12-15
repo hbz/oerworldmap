@@ -420,7 +420,8 @@ var Hijax = (function ($, Hijax, page) {
             resource_types : resource_types,
             geo_aggregation : geo_aggregation,
             tag_aggregation : tag_aggregation,
-            clear_filter_offset : clear_filter_offset
+            clear_filter_offset : clear_filter_offset,
+            embed : window.embed
           })
         );
 
