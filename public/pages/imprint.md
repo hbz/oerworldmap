@@ -25,8 +25,6 @@ OER World Map is operated under German Law by the Hochschulbibliothekszentrum de
 
 OER World Map itself does not curate or check the content provided by its users. It is solely providing the tools for the publication. The content itself is thus provided under the responsibility of the respective users. Should you encounter any content, that does or might infringe with your or the copyright of others, please send an email to [info@oerworldmap.org](mailto:info@oerworldmap.org). In accordance with § 10 TMG the providers of this site will immediately take down the respective content, should the claim be sufficiently substantiated.
 
-Die Betreiber übernehmen keine Verantwortung für die Inhalte und Links, die wir für unsere Nutzerinnen und Nutzer speichern. In Bezug auf diese Inhalte und Links verstehen wir uns als Diensteanbieter für fremde Informationen gem. §10 TMG. Sofern Sie durch die Speicherung auf OER World Map in Ihren Rechten verletzt werden, bitten wir um einen Hinweis an: info@oerworldmap.org. Wir werden, sofern die Speicherung rechtswidrig erfolgt ist, die entsprechenden Informationen aus unserem öffentlich zugänglichen Angebot umgehend löschen.
-
 <h2 id="privacy">3. Privacy policy</h2>
 
 OER World Map is a collection of free services by the Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz), Jülicher Str. 6, 50674 Köln, Germany. OER World Map is committed to privacy by design and complies with German data protection legislation.
