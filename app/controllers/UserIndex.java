@@ -30,6 +30,8 @@ import play.Logger;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -227,23 +229,22 @@ public class UserIndex extends OERWorldMap {
   }
 
   public Result newsletterRegister() {
+    String email;
 
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
-
-    if (!user.validate().isSuccess()) {
-      return badRequest("Please provide a valid email address and select a country.");
-    }
-
-    String email = user.getAsString("email");
-
-    if (StringUtils.isEmpty(email)) {
-      return badRequest("Not username given.");
+    try {
+      if (!ctx().request().body().asFormUrlEncoded().containsKey("email")) {
+        throw new AddressException();
+      }
+      email = ctx().request().body().asFormUrlEncoded().get("email")[0];
+      InternetAddress emailAddr = new InternetAddress(email);
+      emailAddr.validate();
+    } catch (AddressException ex) {
+      return badRequest("Please provide a valid email address");
     }
 
     return registerNewsletter(email)
       ? ok(email + " signed up for newsletter.")
       : internalServerError("Newsletter currently not available.");
-
   }
 
   public Result editGroups() {
