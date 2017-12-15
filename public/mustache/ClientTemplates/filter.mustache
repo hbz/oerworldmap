@@ -54,7 +54,7 @@
 
         <div class="col col-xs-4 col-xs-offset-{{clear_filter_offset}} floating-hidden">
             <div class="small clear-filter">
-                <a href="/">{{i18n "ClientTemplates.filter.clear"}}</a>
+                <a href="{{#if embed}}?embed={{embed}}{{else}}?{{/if}}">{{i18n "ClientTemplates.filter.clear"}}</a>
             </div>
         </div>
 

@@ -24,6 +24,9 @@ var Hijax = (function ($, Hijax, page) {
     log.debug('APP setScope:', scope);
     state.scope = scope;
     $('#app').attr('data-scope', scope);
+    if (window.embed) {
+      $('#app').attr('data-embed', window.embed);
+    }
     Hijax.behaviours.map.setScope(state.scope);
   }
 
@@ -747,13 +750,7 @@ var Hijax = (function ($, Hijax, page) {
     attached : [],
 
     linkToFragment : function(fragment) {
-      if (window.location.pathname.split('/')[1] == 'country') {
-        page(window.location.pathname + '#' + fragment);
-      } else if( window.location.search ) {
-        page('/resource/' + window.location.search + '#' + fragment);
-      } else {
-        page('/resource/' + fragment);
-      }
+      page(window.location.pathname + window.location.search + '#' + fragment);
     }
 
   };

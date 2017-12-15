@@ -134,9 +134,11 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  boolean getEmbed() {
+  String getEmbed() {
 
-    return ctx().request().queryString().containsKey("embed");
+    return ctx().request().queryString().containsKey("embed")
+      ? ctx().request().queryString().get("embed")[0]
+      : null;
 
   }
 
