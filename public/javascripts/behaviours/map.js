@@ -423,7 +423,7 @@ var Hijax = (function ($, Hijax) {
 
   function setCountryData(aggregations) {
 
-    if (!countryVectorSource) return;
+    if (!countryVectorSource || !aggregations) return;
 
     // attach aggregations to country features
 
