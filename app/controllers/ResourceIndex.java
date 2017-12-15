@@ -427,13 +427,12 @@ public class ResourceIndex extends OERWorldMap {
       return ok(log);
     }
 
-    String v1 = StringUtils.isEmpty(compare) ? "HEAD" : compare;
-    String v2 = StringUtils.isEmpty(to) ? (log.size() > 1 ? log.get(1).get("commit").textValue() : "HEAD") : to;
-    Resource r1 = mBaseRepository.getResource(aId, v1);
-    Resource r2 = mBaseRepository.getResource(aId, v2);
-    if (r1 == null || r2 == null) {
-      return badRequest();
-    }
+    String v1 = StringUtils.isEmpty(compare) ? log.get(0).get("commit").textValue() : compare;
+    String v2 = StringUtils.isEmpty(to) ? log.get(log.size() > 1 ? 1 : 0).get("commit").textValue() : to;
+    Resource r1 = getRecord(mBaseRepository.getResource(aId, v1));
+    Resource r2 = getRecord(mBaseRepository.getResource(aId, v2));
+    r1.put("version", v1);
+    r2.put("version", v2);
 
     ObjectNode result = JsonNodeFactory.instance.objectNode();
     result.set("compare", r1.toJson());
