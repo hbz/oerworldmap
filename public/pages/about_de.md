@@ -9,11 +9,11 @@ Seit mehr als 10 Jahren werden stetig mehr und mehr Open Educational Resources (
 - qualifizierte Listen von Repositorys und anderen OER-Services bereitstellen, um Lehrern und Lernenden zu helfen, passende Bildungsmaterialien zu finden
 - Entscheider durch aussagekräftige Statistiken und Überblicksdarstellungen zur OER-Bewegung und deren Auswirkungen dabei unterstützen, strategischen Entscheidungen zu treffen und zu vertreten
 
-Die OER World Map stellt Informationen für die selbstorganisierte Entwicklung der OER-Bewegung bereit. Sie erfasst und zeigt relevante Organisationen, Projekte, Personen und Services. Gleichzeitig unterstützt die Plattform das Netzwerken, das Finden von OER-Sammlungen und das Treffen von Entscheidungen. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
+Die OER World Map stellt Informationen für die selbstorganisierte Entwicklung der OER-Bewegung bereit. Sie erfasst und zeigt relevante Organisationen, Projekte, Personen und Services. Gleichzeitig unterstützt die Plattform das Netzwerken, das Finden von OER-Sammlungen und das Treffen von Entscheidungen. Als Ganzes kann die OER World Map als eine Art "Steuerzentrale" für die Open Education Community gesehen werden.
 
 ![The OER World Map seen as 'operations room' for the open education community](/assets/images/open-control-room.jpg)
 
-The OER World Map is being built by [hbz](http://www.hbz-nrw.de) and [graphthinking GmbH](http://www.graphthinking.com) in association with [The Open University (UK)](http://www.open.ac.uk/) funded by [The William and Flora Hewlett Foundation](http://www.hewlett.org/). But it belongs to the global OER community. With input and intelligence from local sources and a global network of partners and volunteers, the OER World Map will be built and updated – a resource for all.
+Die OER World Map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthinking GmbH](http://www.graphthinking.com) in Verbindung mit der [Open University (UK)](http://www.open.ac.uk/) gefördert von der [William and Flora Hewlett Foundation](http://www.hewlett.org/). Aber sie gehört der weltweiten OER-Community. Durch Einsatz und Ideen auf lokaler Ebene und ein globales Netz aus Partnern und freiwilligen Helfern wird die OER World Map aufgebaut und aktuell gehalten als nützliche Quelle für alle.
 
 ![hbz](/assets/images/image06.gif) ![graphthinkingGmbH](/assets/images/image10.png) ![The Open University](/assets/images/image07.png) ![The William and Flora Hewlett Foundation](/assets/images/image04.jpg)
 
