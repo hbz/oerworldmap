@@ -11,7 +11,7 @@ Seit mehr als 10 Jahren werden stetig mehr und mehr Open Educational Resources (
 
 Die OER World Map stellt Informationen für die selbstorganisierte Entwicklung der OER-Bewegung bereit. Sie erfasst und zeigt relevante Organisationen, Projekte, Personen und Services. Gleichzeitig unterstützt die Plattform das Netzwerken, das Finden von OER-Sammlungen und das Treffen von Entscheidungen. Als Ganzes kann die OER World Map als eine Art "Steuerzentrale" für die Open Education Community gesehen werden.
 
-![The OER World Map seen as 'operations room' for the open education community](/assets/images/open-control-room.jpg)
+![Die OER World Map als "Steuerzentrale" für die Open Education Community](/assets/images/open-control-room.jpg)
 
 Die OER World Map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthinking GmbH](http://www.graphthinking.com) in Verbindung mit der [Open University (UK)](http://www.open.ac.uk/) gefördert von der [William and Flora Hewlett Foundation](http://www.hewlett.org/). Aber sie gehört der weltweiten OER-Community. Durch Einsatz und Ideen auf lokaler Ebene und ein globales Netz aus Partnern und freiwilligen Helfern wird die OER World Map aufgebaut und aktuell gehalten als nützliche Quelle für alle.
 
@@ -53,8 +53,8 @@ Die OER World Map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthi
 
 ![Johannes Schnettker](/assets/images/image01.jpg) Johannes ist der Frontend-Entwickler für das Projekt. Gemeinsam mit Felix Link entwickelt er auch die zugrundeliegenden UI-Konzepte. Er arbeitet seit 2003 als selbständiger Web-Entwickler und hat eine Vielzahl von Projekten für eine breite Palette von Kunden und Agenturen durchgeführt. In letzter Zeit hat er sich auf responsive Layouts und UI-Funktionalitäten spezialisiert. Johannes hat Computer- und Kommunikationswissenschaften studiert und liebt die Kombination technischer und konzeptioneller Aspekte bei seiner Arbeit.
 
-## Former Member of our Team
+## Früheres Teammitglied
 
 ### Ben Buschfeld (Design)
 
-![Ben Buschfeld](/assets/images/image02.jpg) Ben has been the frontend-designer of the project until December 2015. He studied communication design from 1990-1994 and is working on the web and digital media since 1995, when he wrote the initial draft and subsequently acted as the art director and project manager of the B2B-platform Baunetz.de. After the launch 1997 he teached as a visiting professor for information design at UDLA in Mexico and founded his own studio <http://www.buschfeld.com> – graphic and interface design in Berlin. Since then he developed a number of publications, corporate identity programs, websites, information portals, and graphical user interfaces – working for clients from various industries, cultural and political institutions. His design work and public engagement was frequently awarded.
+![Ben Buschfeld](/assets/images/image02.jpg) Ben war bis Dezember 2015 Frontend-Designer für das Projekt. Er hat von 1990 bis 1994 Kommunikationsdesign studiert und arbeitet seit 1995 im Bereich Web und digitale Medien. Unter anderem hat er die B2B-Plattform baunetz.de entworfen und war dort als Art Director und Projektmanager tätig. Anschließend lehrte er als Gastprofessor Informationsdesign an der UDLA in Mexiko und gründete dann sein eigenes Studio für Grafik und Interface-Design <http://www.buschfeld.com> in Berlin. Seit dem hat er eine Reihe von Publikationen, Coroparate-Identity-Programmen, Websites, Informationsportalen und Benutzeroberflächen entwickelt. Er arbeitet für Kunden aus verschiedenen Industriezweigen und für kulturelle und politische Institutionen. Er wurde für seine Tätigkeit als Designer und für sein Engagement mehrfach ausgezeichnet.
