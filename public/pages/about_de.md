@@ -3,13 +3,13 @@ title: Über uns
 ---
 ## Die Vision
 
-Seit mehr als 10 Jahren werden stetig mehr und mehr Open Educational Resources (OER) geschaffen und verwendet. Die OER World Map sammelt und veranschaulicht Daten zur wachsenden Zahl der Akteure und Aktivitäten im Bereich der offenen Bildung weltweit. The goal is to accelerate the evolution of the global OER ecosystem by providing a comprehensive and responsive picture of the OER movement. The information provided can be used for a wide range of purposes, including:
+Seit mehr als 10 Jahren werden stetig mehr und mehr Open Educational Resources (OER) geschaffen und verwendet. Die OER World Map sammelt und veranschaulicht Daten zur wachsenden Zahl der Akteure und Aktivitäten im Bereich der offenen Bildung weltweit. Ihr Ziel ist es, die Entwicklung des OER-Ökosystems zu beschleunigen, indem sie ein möglichst umfassendes und aktuelles Bild der OER-Bewegung zeigt. Die dargestellten Informationen können für ganz verschiedene Zwecken verwendet werden, beispielsweise:
 
-- connecting actors with each other facilitating co-operation and sharing of resources and knowledge
-- providing qualified lists of repositories and other OER services to help teachers and learners find educational resources relevant to them
-- supporting policy makers in taking and defending strategic decisions by providing meaningful statistics and overviews of the open education movement and its associated impacts
+- verschiedene Akteure miteinander vernetzen, um die Zusammenarbeit zu erleichtern und um Wissen und Ressourcen zu teilen
+- qualifizierte Listen von Repositorys und anderen OER-Services bereitstellen, um Lehrern und Lernenden zu helfen, passende Bildungsmaterialien zu finden
+- Entscheider durch aussagekräftige Statistiken und Überblicksdarstellungen zur OER-Bewegung und deren Auswirkungen dabei unterstützen, strategischen Entscheidungen zu treffen und zu vertreten
 
-The OER World Map is intended to provide the information needed to support the self-organization processes of the OER movement. In addition to mapping relevant organisations, projects, people and services, the platform provides social networking, allows the identification of OER collections, and supports decision making. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
+Die OER World Map stellt Informationen für die selbstorganisierte Entwicklung der OER-Bewegung bereit. Sie erfasst und zeigt relevante Organisationen, Projekte, Personen und Services. Gleichzeitig unterstützt die Plattform das Netzwerken, das Finden von OER-Sammlungen und das Treffen von Entscheidungen. Taken together, the OER World Map can be seen as a kind of ‘operations room’ for the open education community.
 
 ![The OER World Map seen as 'operations room' for the open education community](/assets/images/open-control-room.jpg)
 
