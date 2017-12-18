@@ -23,7 +23,7 @@ Die OER World Map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthi
 
 ### Philipp von Böselager (Backend-Entwickler)
 
-![Philipp von Böselager](/assets/images/image05.png) Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java backend developer in the field of Computational Linguistics (CL). After having worked with search engines, parsers, neural networks and speech synthesis in the course of his CL studies at the University of Cologne he went on to gain general IT experience at a German Java focused company. Later on he worked as a backend developer in an eDiscovery company, finally heading for the open minded spirit of the University-related HBZ again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
+![Philipp von Böselager](/assets/images/image05.png) Philipp ([@boesephil](https://twitter.com/boesephil) auf Twitter) entwickelt als gelernter Computerlinguist Java im Bereich Backend für die OER World Map und das hbz. In seinem Studium hat er sich unter anderem mit Suchmaschinen, Parsern, Neuronalen Netzen und Sprachsynthese befasst. Zwischenzeitlich hat er allgemeine IT-Projekterfahrung und Java-Backend-Erfahrung in privatwirtschaftlichen Unternehmen gesammelt, bevor er schließlich in die wirtschaftlich freiere universitätsnahe Welt zurückgekehrt ist, um beim hbz zu arbeiten. Er ist fest davon überzeugt, dass es eine unbedingte Aufgabe des WWW ist, den allgemeinen Lebensstandard zu erhöhen und deswegen offen und frei zugänglich zu sein. Philipp schätzt es sehr, an einem Projekt arbeiten zu können, mit dem er sich wirklich identifiziert.
 
 ### Karin Driesen (Online Editor)
 
