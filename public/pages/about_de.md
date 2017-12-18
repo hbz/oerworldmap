@@ -3,7 +3,7 @@ title: Über uns
 ---
 ## Die Vision
 
-Seit mehr als 10 Jahren werden stetig mehr und mehr Open Educational Resources (OER) geschaffen und verwendet. The OER World Map collects and visualizes data on the growing number of actors and activities in the field of open education worldwide. The goal is to accelerate the evolution of the global OER ecosystem by providing a comprehensive and responsive picture of the OER movement. The information provided can be used for a wide range of purposes, including:
+Seit mehr als 10 Jahren werden stetig mehr und mehr Open Educational Resources (OER) geschaffen und verwendet. Die OER World Map sammelt und veranschaulicht Daten zur wachsenden Zahl der Akteure und Aktivitäten im Bereich der offenen Bildung weltweit. The goal is to accelerate the evolution of the global OER ecosystem by providing a comprehensive and responsive picture of the OER movement. The information provided can be used for a wide range of purposes, including:
 
 - connecting actors with each other facilitating co-operation and sharing of resources and knowledge
 - providing qualified lists of repositories and other OER services to help teachers and learners find educational resources relevant to them
