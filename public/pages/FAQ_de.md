@@ -23,7 +23,7 @@ Momentan konzentrieren wir uns auf drei Anwendungsfälle (oder "Epics"): - Lehre
 
 Über die Website hinaus macht die OER World Map ihre Daten über eine Programmierschnittstelle (API) zugänglich, die es anderen Services erleichtert die Daten wiederzuverwenden.
 
-Our use - which are used to design the services we provide - cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please [contact us](mailto:info@oerworldmap.org)!
+Wir sammeln unsere "Use Cases" für die Weiterentwicklung der World Map auf [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Wenn Sie Ihnen etwas fehlt, [teilen Sie es uns bitte mit](mailto:info@oerworldmap.org).
 
 ## How can I participate?
 
