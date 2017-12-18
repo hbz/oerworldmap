@@ -35,7 +35,7 @@ Die OER World Map wird entwickelt von [hbz](http://www.hbz-nrw.de) und [graphthi
 
 ### Felix Link (Design)
 
-![Felix Link](/assets/images/felix-link.png) Felix joined the project in October 2015, being the UI-/frontend-designer of the OER World Map. He studied graphic and communication design from 2006 to 2012. Since 2008 he has been working as a freelance designer for both agencies and own clients, developing and implementing projects in corporate, editorial and web design. He is interested in design as a conceptual and integrated process as well as a characteristic expression of its content.
+![Felix Link](/assets/images/felix-link.png) Felix ist seit 2015 als UI-/Frontend-Designer im OER World Map Team. Er hat von 2006 bis 2012 Grafik- und Kommunikationsdesign an der Fachhochschule Bielefeld studiert und arbeitet seit 2008 als selbstständiger Gestalter für Agenturen und eigene Kunden. Schwerpunkte seiner Arbeit sind die Entwicklung visueller Konzepte und das Gestalten öffentlicher Kommunikation in den Bereichen Editorial Design, UI/UX Design und Corporate Design. Fokus und besonderes Interesse dabei gelten Design als konzeptionellem, ganzheitlichem Prozess und als charakteristischem Ausdruck seines Inhalts.
 
 ### Jan Neumann (Project Management)
 
