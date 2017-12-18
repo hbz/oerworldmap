@@ -1,9 +1,9 @@
 ---
 title: FAQ
 ---
-## What is OER?
+## Was ist OER?
 
-'OER' stands for 'Open Educational Resources' and refers to freely accessible materials that can be used for a [range of activities around teaching and learning](https://www.opencontent.org/definition/). What makes them open is that they are typically published with an open license instead of a traditional copyright license. One key feature of OER is that they afford new opportunities for collaboration and innovation in teaching and learning.
+'OER' ist die Abkürzung für 'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch Veröffentlichung unter einer offenen Lizenz anstelle einer traditionellen Copyright-Lizenz. Ein wesentliches Merkmal ist, dass sie neue Möglichkeiten für kollaboratives Arbeiten bieten und innovatives Lehren und Lernen ermöglichen.
 
 According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
 
