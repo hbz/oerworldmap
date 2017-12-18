@@ -5,23 +5,23 @@ title: FAQ
 
 'OER' ist die Abkürzung für 'Open Educational Resources' und bezieht sich auf frei verfügbare Materialien, die zum [Lehren und Lernen](https://www.opencontent.org/definition/) verwendet werden können. "Offen" sind sie typischerweise durch Veröffentlichung unter einer offenen Lizenz anstelle einer traditionellen Copyright-Lizenz. Ein wesentliches Merkmal ist, dass sie neue Möglichkeiten für kollaboratives Arbeiten bieten und innovatives Lehren und Lernen ermöglichen.
 
-According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
+Nach der [UNESCO Definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), sind OER "Lehr-, Lern- und Forschungsmaterialien in jeder Art von Medium, sei es digital oder nicht, die gemeinfrei sind oder unter einer offenen Lizenz veröffentlicht wurden, die kostenfreien Zugang, Verwendung, Anpassung und Weiterbverbreitung erlaubt".
 
-Following the definition by [The William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) OER can be (or include) full courses, course materials, modules, textbooks, streaming videos, tests, software, and any other tools, materials, or techniques used to support access to knowledge.
+Nach der Definition der [William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) können OER vollständige Kurse, Kursmaterialien, Module, Lehrbücher, Videos, Tests, Software und alle anderen Tools, Materialien oder Techniken sein (oder enthalten), die verwendet werden, um Wissen zugänglich zu machen.
 
-Although comprehensive definitions like these are well-known, the detail of how to arrive at a final definition for OER remains debated. The OER World Map project takes a broad and inclusive approach, providing information about actors and activities from the field of OER in the strict sense of the term, but also about related subjects like Open Education, Open Access and MOOCs. For more information on our collection strategy, please see “What belongs on the OER World Map?”
+Obwohl umfassende Definitionen wie diese sehr bekannt sind, werden die Details einer endgültigen Definition von OER noch diskutiert. Die OER World Map verwendet einen weiten und umfassenden Ansatz und liefert Informationen über Akteure und Aktivitäten aus dem Bereich der OER im engeren Sinne, aber auch über verwandte Bereiche wie Open Education, Open Access und MOOCs. Genauere Informationen darüber, was wir auf der OER World Map sammeln, finden Sie unter “Was gehört auf die OER World Map?”
 
-## Who is this website for?
+## An wen wendet sich diese Website?
 
-The OER World Map provides helpful information for everyone who is interested in or connected to OER and Open Education. The system is designed to provide real-time answers to questions like: - "Where can I find OER?" - "Which projects are working on a similar topic to our project?" - "Which experts have the knowledge to answer a question related to a special area of OER?"
+Die OER World Map liefert nützliche Informationen für alle, die sich für OER und Open Education interessieren oder in diesem Bereich bereits tätig sind. Sie wurde entwickelt um Antworten zu geben auf Fragen wie: - "Wo finde ich OER?" - "Welche Projekte arbeiten an ähnlichen Fragestellungen wie unser Projekt?" - "Welche Experten verfügen über das Wissen, Fragen zu einem bestimmten Bereich von OER zu beantworten?" - "Welche Experten verfügen über das Wissen, Fragen zu einem bestimmten Bereich von OER zu beantworten?"
 
-We believe that this set of data is of special importance, since it provides a solid foundation for future attempts to collect knowledge about OER and Open Education in a systematic way.
+Wir glauben, dass diese Datensammlung von besonderer Bedeutung ist, da sie eine solide Grundlage ist für zukünftige Versuche, Wissen über OER und Open Education systematisch zu sammeln.
 
-Our platform provides relevant data and information to all stakeholder groups from the field of OER. This diversity provides a major challenge for system design since user oriented interfaces are typically informed by the clearly defined needs of user types.
+Unsere Website bietet allen Interessensgruppen im Bereich OER relevante Informationen. Die Vielfalt der Interessen ist eine große Herausforderung für das Systemdesign, da benutzerorientierte Oberflächen normalerweise nach den klar definierten Bedürfnissen von bestimmten Nutzertypen entwickelt werden.
 
-At the moment, we focus on three main use cases (or "epics"): - Teachers and learners should be provided with qualified lists of OER services (e.g. repositories of OER) in order to help them finding resources more efficiently; - OER actors should be supported in their communication and collaboration through connecting to relevant OER experts and projects working on similar tasks - OER Policy makers should be supported by reliable statistical data.
+Momentan konzentrieren wir uns auf drei Anwendungsfälle (oder "Epics"): - Lehrer und Lernende sollen qualifizierte Listen von OER-Services (z.B. OER-Repositorys) bekommen, die ihnen helfen, geeignete Materialien schneller zu finden; - OER-Akteure sollen bei ihrer Kommunikation und Zusammenarbeit unterstützt werden, indem sie mit OER-Experten und mit Projekten, die an ähnlichen Fragestellungen arbeiten, vernetzt werden; - Entscheider im Bereich Bildung und OER sollen durch zuverlässige statistische Daten unterstützt werden.
 
-In addition to browser access (on desktop and mobile) The OER World Map makes data available to other systems through an Application Programming Interface (API), which will allow other services to reuse our data easily.
+Über die Website hinaus macht die OER World Map ihre Daten über eine Programmierschnittstelle (API) zugänglich, die es anderen Services erleichtert die Daten wiederzuverwenden.
 
 Our use - which are used to design the services we provide - cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please [contact us](mailto:info@oerworldmap.org)!
 
