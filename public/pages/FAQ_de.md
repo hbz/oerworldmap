@@ -45,22 +45,22 @@ Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich d
 
 <table class="table">
   
-<tr> <th>Data type</th><th>Definition</th> <th>Examples</th></tr> 
-<tr> <td>organizations</td><td>An organization is a steady group of people sharing collective goals. The spectrum reaches from fully incorporated legal persons on the one hand to loosely connected communities on the other.</td> <td>universities, corporations, associations, communities</td></tr>
-<tr> <td>projects</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
-<tr> <td>services</td><td>A service is an online offer, which exists on a steady basis, and provides functionality and value related to OER to its users.</td> <td>repositories, aggregators, authoring tools, communication platforms</td></tr>
-<tr> <td>events</td><td>An events is a gathering of people, which take place at a certain location (virtual or physical) at a certain time.</td><td>conferences, workshops, barcamps, moocs</td></tr>
+<tr> <th>Datentyp</th><th>Definition</th> <th>Beispiele</th></tr> 
+<tr> <td>Organisationen</td><td>Eine Organisation ist eine stabile Gruppe von Personen, die gemeinsame Ziele verfolgen. Das Spektrum reicht von eingetragenen juristischen Personen auf der einen Seite bis hin zu informellen, lose verbundenen Gemeinschaften auf der anderen Seite.</td> <td>Universitäten, Gesellschaften, Vereine, Gemeinschaften</td></tr>
+<tr> <td>Projekte</td><td>Ein Projekt ist ein zeitlich begrenztes Unterfangen (innerhalb einer Organisation oder organisationsübergreifend) mit dem Ziel, eine bestimmte Aufgabe innerhalb einer bestimmten Zeitspanne zu erledigen.</td> <td>OER World Map Projekt</td></tr>
+<tr> <td>Services</td><td>Ein Service ist ein Online-Angebot, das kontinuierlich zur Verfügung steht und Funktionen oder Inhalte im Zusammenhang mit OER bzw. für deren Nutzer zur Verfügung stellt.</td> <td>Repositorys, Sammlungen, Authoring-Tools, Kommunikationsplattformen</td></tr>
+<tr> <td>Veranstaltungen</td><td>Eine Veranstaltung ist eine Zusammenkunft von Personen, die an einem bestimmten Ort (virtuell oder real) zu einer bestimmten Zeit stattfindet.</td><td>Konferenzen, Workshops, Barcamps, MOOCs</td></tr>
 </table>
 
-There are many opportunities for future expansion of the model.
+Es gibt noch viele Möglichkeiten dieses Modell in der Zukunft auszubauen.
 
-## Where are the OER?
+## Wo sind die Open Educational Resources?
 
-We believe that the discovery of individual OER has to be provided by search engine based services. The OER World Map facilitates the discovery of OER indirectly by providing qualified lists of OER services.
+Wir denken, dass das Auffinden einzelner Ressourcen von einem suchmaschinenbasierten Service geleistet werden sollte. Die OER World Map erleichtert das Auffinden von OER indirekt, indem sie Listen von passenden OER-Services liefert.
 
-## What is an open license?
+## Was ist eine offene Lizenz?
 
-The widely accepted OER definitions by UNESCO and The William and Flora Hewlett Foundation require the use of a special ‘open’ license, which transforms a conventional educational resource into an open educational resource. Traditional copyright prescribes what can and can’t be done with materials that one has authored (or owns the rights to). Rather, it acknowledges and expresses these rights by recognising the author and prescribing specific conditions for use and reuse.
+Die weithin akzeptierten OER-Definitionen von der UNESCO und der William and Flora Hewlett Foundation verlangen die Verwendung eine speziellen "offenen" Lizenz, die aus gewöhnlichen Bildungsmaterialien offene Bildungsmaterialien (OER) macht. Traditional copyright prescribes what can and can’t be done with materials that one has authored (or owns the rights to). Rather, it acknowledges and expresses these rights by recognising the author and prescribing specific conditions for use and reuse.
 
 An open licence doesn’t undermine someone’s right to be recognised as the author of their work. Rather, it recognises the author and sets out more specific conditions for use and reuse.
 
