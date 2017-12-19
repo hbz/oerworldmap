@@ -78,7 +78,7 @@ Though there are many different open licenses available, [Creative Commons](http
 
 ## Can I add services which provide non open resources to the map?
 
-The most common OER definitions by UNESCO and by The William and Flora Hewlett Foundation compulsory require the use of open licenses. "Free" or "gratis" resources (resources which are accessible without any cost on the internet but not openly licensed) are not OER according to these definitions. We take openness very serious since the idea of reusing and modifying resources is central to the concept of OER. By focusing on openly licensed material the OER World Map will provide real value to users, who are especially looking for reusable material.
+test test. "Free" or "gratis" resources (resources which are accessible without any cost on the internet but not openly licensed) are not OER according to these definitions. We take openness very serious since the idea of reusing and modifying resources is central to the concept of OER. By focusing on openly licensed material the OER World Map will provide real value to users, who are especially looking for reusable material.
 
 Nevertheless, since the gratis offerings of today might become the openly licensed services of tomorrow, we don`t think that it makes sense to exclude non-open services dogmatically. Therefore, the OER World Map records and shares services providing material under a variety of licenses, with a minimum requirement that the material must be freely available online (“gratis”).
 
