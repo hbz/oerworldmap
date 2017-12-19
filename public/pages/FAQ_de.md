@@ -25,23 +25,23 @@ Momentan konzentrieren wir uns auf drei Anwendungsfälle (oder "Epics"): - Lehre
 
 Wir sammeln unsere "Use Cases" für die Weiterentwicklung der World Map auf [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Wenn Sie Ihnen etwas fehlt, [teilen Sie es uns bitte mit](mailto:info@oerworldmap.org).
 
-## How can I participate?
+## Wie kann ich mich beteiligen?
 
-The success of the project is dependent on the participation of the OER community. There are many ways to contribute. The most important ways are:
+Der Erfolg dieses Projekts hängt von der Beteiligung der OER-Community ab. Es gibt viele Möglichkeiten, sich zu beteiligen. Die wichtigsten sind:
 
-- Collecting and entering data using our input templates
-- Contributing ‘stories’
-- Becoming a ‘country champion’
+- Daten sammeln und über unsere Formulare auf der Website eingeben
+- 'Storys' veröffentlichen
+- ‘Country Champion’ werden
 
-There are many other ways of contributing to the project. A complete overview can be found [here](https://oerworldmap.org/contribute).
+Es gibt noch viele andere Wege zur OER World Map beizutragen. Eine vollständige Übersicht finden Sie [hier](https://oerworldmap.org/contribute).
 
-## How can I input and edit data?
+## Wie kann ich Daten eingeben?
 
-To be able to enter data, you only have to register yourself to the OER World Map. You can find further information on how to use our input templates in our [wiki here](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
+Um Daten einzugeben, müssen Sie sich nur bei der OER World Map anmelden. Weitergehende Informationen zur Dateneingabe finden Sie in unserem [Wiki](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
 
-## What belongs on the OER World Map?
+## Was gehört auf die OER World Map?
 
-The OER World Map collects data about actors and activities related to OER and Open Education. At the moment we concentrate on elements of the OER infrastructure. We are particularly interested in:
+Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich der OER und der Open Education. Momentan konzentrieren wir uns auf die Elemente der OER-Infrastruktur. Wir sind besonders interessiert an:
 
 <table class="table">
   
