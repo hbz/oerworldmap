@@ -60,9 +60,9 @@ Wir denken, dass das Auffinden einzelner Ressourcen von einem suchmaschinenbasie
 
 ## Was ist eine offene Lizenz?
 
-Die weithin akzeptierten OER-Definitionen von der UNESCO und der William and Flora Hewlett Foundation verlangen die Verwendung eine speziellen "offenen" Lizenz, die aus gewöhnlichen Bildungsmaterialien offene Bildungsmaterialien (OER) macht. Traditional copyright prescribes what can and can’t be done with materials that one has authored (or owns the rights to). Rather, it acknowledges and expresses these rights by recognising the author and prescribing specific conditions for use and reuse.
+Die weithin akzeptierten OER-Definitionen von der UNESCO und der William and Flora Hewlett Foundation verlangen die Verwendung eine speziellen "offenen" Lizenz, die aus gewöhnlichen Bildungsmaterialien offene Bildungsmaterialien (OER) macht. Das traditionelle Copyright beschreibt, was mit Material, das jemand verfasst hat (oder an dem er die Rechte hat), gemacht werden darf und was nicht. Eine offene Lizenz beschränkt nicht das Recht des Autors als Autor seines Werkes anerkannt zu werden. Vielmehr würdigt sie den Autor und legt genauere Bedingungen fest für die (Wieder-)Verwendung.
 
-An open licence doesn’t undermine someone’s right to be recognised as the author of their work. Rather, it recognises the author and sets out more specific conditions for use and reuse.
+Eine offene Lizenz beschränkt nicht das Recht des Autors als Autor seines Werkes anerkannt zu werden. Vielmehr würdigt sie den Autor und legt genauere Bedingungen fest für die (Wieder-)Verwendung.
 
 Depending on the specific license this allows for a range of behaviours known as the '5 Rs' of openness:
 
