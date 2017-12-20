@@ -24,6 +24,9 @@ var Hijax = (function ($, Hijax, page) {
     log.debug('APP setScope:', scope);
     state.scope = scope;
     $('#app').attr('data-scope', scope);
+    if (window.embed) {
+      $('#app').attr('data-embed', window.embed);
+    }
     Hijax.behaviours.map.setScope(state.scope);
   }
 
@@ -79,7 +82,7 @@ var Hijax = (function ($, Hijax, page) {
 
   function get(url, callback, callback_error) {
     log.debug('APP get:', url);
-    if(url == initialization_source.pathname + initialization_source.search) {
+    if(initialization_content && (url == initialization_source.pathname + initialization_source.search)) {
       log.debug('APP ... which is the initialization_content');
       callback(initialization_content);
     } else {
@@ -339,12 +342,19 @@ var Hijax = (function ($, Hijax, page) {
         log.debug('APP getting main from:', pagejs_ctx.path)
         get_main(data, pagejs_ctx.path);
       });
+      setScope('world');
+      // needed, because on this route the vector source is not set otherwise
+      // ... and placemarksSourceLoaded in MAP doesn't resolve then.
+      Hijax.behaviours.map.setPlacemarksVectorSource('/resource/');
     }
     next();
   }
 
   function routing_done(pagejs_ctx) {
     log.debug('APP routing_done', pagejs_ctx);
+
+    // content should be refreshed upon subsequent requests
+    initialization_content = null;
 
     $.when(
       map_and_index_loaded,
@@ -740,13 +750,7 @@ var Hijax = (function ($, Hijax, page) {
     attached : [],
 
     linkToFragment : function(fragment) {
-      if (window.location.pathname.split('/')[1] == 'country') {
-        page(window.location.pathname + '#' + fragment);
-      } else if( window.location.search ) {
-        page('/resource/' + window.location.search + '#' + fragment);
-      } else {
-        page('/resource/' + fragment);
-      }
+      page(window.location.pathname + window.location.search + '#' + fragment);
     }
 
   };

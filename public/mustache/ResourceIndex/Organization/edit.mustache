@@ -66,4 +66,8 @@
 
     {{> FormElements/id.mustache property=manufactured property_path="manufactured" title=(i18n "Organization.manufactured") tooltip=(i18n "Organization.manufactured" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Product"}}
 
+    {{> FormElements/input.mustache property=award property_path="award" title=(i18n "Organization.award") tooltip=(i18n "Organization.award" bundle="descriptions") hidden=false multiple=true input_type="url"}}
+
+    {{> FormElements/id.mustache property=objectIn property_path="objectIn" title=(i18n "Organization.objectIn") tooltip=(i18n "Organization.objectIn" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=LikeAction,LighthouseAction"}}
+
 </fieldset>

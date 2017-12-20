@@ -5,12 +5,12 @@
     {{#property}}
         <fieldset>
             <legend>{{title}}</legend>
-            {{input (stringFormat "%s[serviceUrl]" property_path) serviceUrl input_type="url"}}
+            {{input (stringFormat "%s[%s][serviceUrl]" property_path @index) serviceUrl input_type="url"}}
             <ul title="{{i18n 'ResourceIndex.ServiceChannel.edit.avaliableLanguage'}}" class="multiple-list">
                 {{#availableLanguage}}
-                    <li class="multiple-one">{{input (stringFormat "%s[availableLanguage][%s]" property_path @index) .}}</li>
+                    <li class="multiple-one">{{input (stringFormat "%s[%s][availableLanguage][%s]" property_path ../@index @index) .}}</li>
                 {{/availableLanguage}}
-                <li class="multiple-one">{{input (stringFormat "%s[availableLanguage][%s]" property_path (size availableLanguage)) ""}}</li>
+                <li class="multiple-one">{{input (stringFormat "%s[%s][availableLanguage][%s]" property_path @index (size availableLanguage)) ""}}</li>
             </ul>
         </fieldset>
     {{/property}}

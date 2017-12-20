@@ -1,10 +1,10 @@
 <span class="resource">
     {{getIcon @type}}
-    <a href="/resource/{{@id}}">
+    <a href="{{#if fragment}}#{{@id}}{{else}}/resource/{{@id}}{{/if}}">
         {{#localized this.displayName language=@root.language}}
             {{[@value]}}
         {{else}}
-            {{#localized name language=@root.language}}
+            {{#localized this.name language=@root.language}}
                 {{[@value]}}
             {{else}}
                 {{[@id]}}

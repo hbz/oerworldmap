@@ -68,6 +68,18 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="/resource/?filter.about.objectIn.@type=LikeAction&sort=like_count:DESC" title="{{i18n 'ClientTemplates.app.likes'}}">
+                                    <i class="fa fa-fw fa-thumbs-up"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/resource/?filter.about.objectIn.@type=LighthouseAction&sort=lighthouse_count:DESC" title="{{i18n 'ClientTemplates.app.lighthouses'}}">
+                                    <img src="/assets/images/icon_lighthouse_static_transparent.svg" />
+                                </a>
+                            </li>
+
                         </ul>
                     </nav>
 
@@ -100,11 +112,11 @@
 
     	<div id="app-col-detail" data-app="col" data-col-mode="hidden">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-            {{#unless @root.embed}}
+            {{#ifCond @root.embed '!=' 'true'}}
             <div data-app="toggle-col">
                 <i class="fa fa-fw fa-chevron-right"></i>
         	</div>
-            {{/unless}}
+            {{/ifCond}}
     	</div>
 
     	<div id="app-notification-area">
