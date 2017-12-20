@@ -19,6 +19,7 @@ import play.libs.Json;
 import play.test.Helpers;
 import services.QueryContext;
 import services.ReconcileConfig;
+import services.SearchConfig;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -134,5 +135,22 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     }
   }
 
-
+  @Test
+  public void testSearchSpecialCaseCase()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCaseCase.DB.1.json");
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    try {
+      JsonNode hitsTrivial = mReconciler.getBaseRepository()
+        .reconcile("BC campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for trivial case.", 1, hitsTrivial.get("result").size());
+      JsonNode hitsSpecial = mReconciler.getBaseRepository()
+        .reconcile("Bc campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for special case.", 1, hitsSpecial.get("result").size());
+    }
+    finally {
+      mReconciler.getBaseRepository().deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
+    }
+  }
 }

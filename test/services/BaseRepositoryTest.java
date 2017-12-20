@@ -620,23 +620,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
-  @Test
-  public void testSearchSpecialCaseCase()  throws IOException {
-    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialCaseCase.DB.1.json");
-    mBaseRepo.addResource(db1, mMetadata);
-    QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    try {
-      List<Resource> hitsTrivial = mBaseRepo.query("BC campus", 0, 10, null, null, queryContext).getItems();
-      Assert.assertEquals("Did not get expected number of hits (1) for trivial case.", 1, hitsTrivial.size());
-      List<Resource> hitsSpecial = mBaseRepo.query("Bc campus", 0, 10, null, null, queryContext).getItems();
-      Assert.assertEquals("Did not get expected number of hits (1) for special case.", 1, hitsSpecial.size());
-    }
-    finally {
-      mBaseRepo.deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
-    }
-  }
-
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
