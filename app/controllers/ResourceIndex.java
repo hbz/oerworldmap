@@ -391,6 +391,7 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {
@@ -404,12 +405,15 @@ public class ResourceIndex extends OERWorldMap {
         if (!mAccountService.deleteUser(username)) {
           Logger.error("Could not delete user " + username);
         }
-        return ok("deleted user " + aId);
+        result.put("message", "deleted user " + aId);
+        return ok(result);
       } else {
-        return ok("deleted resource " + aId);
+        result.put("message", "deleted resource " + aId);
+        return ok(result);
       }
     } else {
-      return badRequest("Failed to delete resource " + aId);
+      result.put("message", "Failed to delete resource " + aId);
+      return badRequest(result);
     }
   }
 
