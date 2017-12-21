@@ -111,7 +111,8 @@
             "type": "password"
           }
         }
-      }
+      },
+      "required": ["password", "password_new", "password_new_confirm"]
     },
     "Link": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -2206,24 +2207,10 @@
           "type": "string"
         },
         "postalCode": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ]
+          "type": "string"
         },
         "postOfficeBoxNumber": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ]
+          "type": "string"
         },
         "addressLocality": {
           "type": "string"
@@ -2247,26 +2234,40 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The like action's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "LikeAction"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "agent": {
           "description": "The agent of the like action",
-          "type": "object",
-          "allOf": [
-            { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Person" ] } } }
-          ]
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
         },
         "object": {
           "description": "The object of the like action",
@@ -2274,13 +2275,19 @@
           "allOf": [
             { "$ref": "#/definitions/Link" },
             { "properties": { "@type": { "enum": [ "Organization", "Action", "Service" ] } } }
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "startTime": {
-          "$ref": "#/definitions/iso-8601-date"
+          "$ref": "#/definitions/iso-8601-date",
+          "_display": {
+            "className": "hidden"
+          }
         }
       },
-      "required": [ "agent", "object", "startTime" ],
+      "required": [ "agent", "object" ],
       "additionalProperties": false
     },
     "LighthouseAction": {
@@ -2291,18 +2298,27 @@
       "properties": {
         "@context": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@id": {
           "description": "The like action's unique identifier",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
         },
         "@type": {
           "type": "string",
           "enum": [
             "LighthouseAction"
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "agent": {
           "description": "The agent of the like action",
@@ -2312,6 +2328,9 @@
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Person" ] } } }
             ]
+          },
+          "_display": {
+            "className": "hidden"
           }
         },
         "object": {
@@ -2320,13 +2339,19 @@
           "allOf": [
             { "$ref": "#/definitions/Link" },
             { "properties": { "@type": { "enum": [ "Organization", "Action", "Service" ] } } }
-          ]
+          ],
+          "_display": {
+            "className": "hidden"
+          }
         },
         "description": {
-          "$ref": "#/definitions/LocalizedString"
+          "$ref": "#/definitions/LocalizedText"
         },
         "startTime": {
-          "$ref": "#/definitions/iso-8601-date"
+          "$ref": "#/definitions/iso-8601-date",
+          "_display": {
+            "className": "hidden"
+          }
         }
       },
       "required": [ "agent", "object", "description" ],
