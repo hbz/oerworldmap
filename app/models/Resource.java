@@ -33,9 +33,9 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
+  public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
-    "Comment", "Product", "ContactPoint", "CustomerRelation"));
+    "Comment", "Product", "LikeAction", "LighthouseAction"));
 
   /**
    *  Constructor for typeless resources
@@ -200,12 +200,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return list;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        list.add((Resource) value);
+    if (result instanceof Resource) {
+      list.add((Resource) result);
+    } else if (result instanceof List<?>) {
+      for (Object value : (List<?>) result) {
+        if (value instanceof Resource) {
+          list.add((Resource) value);
+        }
       }
     }
     return list;

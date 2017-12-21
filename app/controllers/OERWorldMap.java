@@ -101,16 +101,21 @@ public abstract class OERWorldMap extends Controller {
     createAccountService(mConf);
 
     // Location lookup
-    createLocationLookup(mEnv);
+    if (mEnv != null) {
+      // can be null in tests
+      createLocationLookup(mEnv);
+    }
 
     // JSON schema validator
     createSchemaValidator(mConf);
 
   }
 
-  boolean getEmbed() {
+  String getEmbed() {
 
-    return ctx().request().queryString().containsKey("embed");
+    return ctx().request().queryString().containsKey("embed")
+      ? ctx().request().queryString().get("embed")[0]
+      : null;
 
   }
 
@@ -211,6 +216,10 @@ public abstract class OERWorldMap extends Controller {
     metadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     return metadata;
 
+  }
+
+  public BaseRepository getBaseRepository(){
+    return mBaseRepository;
   }
 
 }

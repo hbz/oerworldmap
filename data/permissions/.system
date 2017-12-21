@@ -32,6 +32,10 @@ ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/use
   Require valid-user
 </Location>
 
+<Location /resource/*/like>
+  Require valid-user
+</Location>
+
 <Location /log/>
   Require group editor
   Require group admin

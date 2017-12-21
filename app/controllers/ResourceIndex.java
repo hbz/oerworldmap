@@ -40,6 +40,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -293,6 +294,7 @@ public class ResourceIndex extends OERWorldMap {
 
   @With(Cached.class)
   public Result read(String id, String version, String extension) throws IOException {
+
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
@@ -349,9 +351,9 @@ public class ResourceIndex extends OERWorldMap {
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("application/json")) {
-      return ok(resource.toString()).as("application/json");
+      return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
     } else if (request().accepts("application/geo+json")) {
       return ok(mGeoJsonExporter.export(resource));
     } else if (format.equals("application/schema+json")) {
@@ -359,7 +361,7 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("text/calendar")) {
       String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
       if (ical != null) {
-        return ok(ical).as("text/calendar");
+        return ok(ical).as("text/calendar; charset=UTF-8");
       }
     }
 

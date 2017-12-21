@@ -37,6 +37,7 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getLicenseAggregation(0));
     statisticsAggregations.add(AggregationProvider.getProjectByLocationAggregation(0));
     statisticsAggregations.add(AggregationProvider.getFunderAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getLikeAggregation(0));
     statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
     statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
 

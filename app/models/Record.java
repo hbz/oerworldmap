@@ -20,6 +20,8 @@ public class Record extends Resource {
   public static final String CONTRIBUTOR = "contributor";
   public static final String LINK_COUNT = "link_count";
   public static final String GEO = "geo";
+  public static final String LIKE_COUNT = "like_count";
+  public static final String LIGHTHOUSE_COUNT = "lighthouse_count";
 
   public Record(Resource aResource) {
     super(TYPE, aResource.get(JsonLdConstants.ID) + "." + RESOURCE_KEY);

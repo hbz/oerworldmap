@@ -2,6 +2,7 @@ package services.repository;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import models.Commit;
@@ -185,6 +186,11 @@ public class BaseRepository extends Repository
       return null;
     }
     return resourceList;
+  }
+
+  public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+    return mElasticsearchRepo.reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
   }
 
   @Override
