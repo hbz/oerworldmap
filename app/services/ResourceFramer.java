@@ -76,7 +76,6 @@ public class ResourceFramer {
           w.write(boas, g, RiotLib.prefixMap(g), null, ctx);
           ObjectMapper objectMapper = new ObjectMapper();
           JsonNode jsonNode = objectMapper.readTree(boas.toByteArray());
-
           if (jsonNode.has(JsonLdConstants.GRAPH)) {
             ArrayNode graphs = (ArrayNode) jsonNode.get(JsonLdConstants.GRAPH);
             for (JsonNode graph : graphs) {
@@ -136,7 +135,7 @@ public class ResourceFramer {
       graph = ref;
     }
     List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image", "location",
-      "startDate", "endDate");
+      "startDate", "endDate", "agent", "object", "description");
     if (graph != null && graph.isArray()) {
       ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
       Iterator<JsonNode> elements = graph.elements();
