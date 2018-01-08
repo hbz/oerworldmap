@@ -56,6 +56,14 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   }
 
   /**
+   * Default constructor only for use with jackson Json mapper
+   *
+   */
+  public Resource() {
+    this(null);
+  }
+
+  /**
    * Constructor which sets up a random UUID.
    *
    * @param type
