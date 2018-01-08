@@ -750,7 +750,13 @@ var Hijax = (function ($, Hijax, page) {
     attached : [],
 
     linkToFragment : function(fragment) {
-      page(window.location.pathname + window.location.search + '#' + fragment);
+      if (window.location.pathname.split('/')[1] == 'country') {
+        page(window.location.pathname + window.location.search + '#' + fragment);
+      } else if( window.location.search ) {
+        page('/resource/' + window.location.search + '#' + fragment);
+      } else {
+        page('/resource/' + fragment);
+     }
     }
 
   };
