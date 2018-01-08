@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="hidden">
-        <legend>Event</legend>
+        <legend>{{i18n "Event"}}</legend>
         {{input "@type" "Event" readonly="readonly"}}
         {{input "@id" [@id] readonly="readonly"}}
     </div>
@@ -30,7 +30,7 @@
 
     {{> FormElements/input.mustache property=recordedIn property_path="recordedIn" title=(i18n "Event.recordedIn") tooltip=(i18n "Event.recordedIn" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
-    {{> FormElements/select.mustache property=inLanguage property_path="inLanguage" title=(i18n "Event.inLanguage") tooltip=(i18n "Event.inLanguage" bundle="descriptions") multiple=true input_type="text" options="languages"}}
+    {{> FormElements/select.mustache property=inLanguage property_path="inLanguage" title=(i18n "Event.inLanguage") tooltip=(i18n "Event.inLanguage" bundle="descriptions") multiple=true input_type="text" options="iso639-1"}}
 
     {{> FormElements/id.mustache property=organizer property_path="organizer" title=(i18n "Event.organizer") tooltip=(i18n "Event.organizer" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person&filter.about.@type=Action"}}
 
@@ -44,6 +44,14 @@
 
     {{> FormElements/input.mustache property=keywords property_path="keywords" title=(i18n "Event.keywords") tooltip=(i18n "Event.keywords" bundle="descriptions") hidden=false multiple=true input_type="text" list="keywords"}}
 
+    {{> FormElements/id.mustache property=publication property_path="publication" title=(i18n "Event.publication") tooltip=(i18n "Event.publication" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=WebPage"}}
+
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "Event.comment") tooltip=(i18n "Event.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
+
+    {{> FormElements/id.mustache property=primarySector property_path="primarySector" title=(i18n "Event.primarySector") tooltip=(i18n "Event.primarySector" bundle="descriptions") hidden=false multiple=false lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Event.secondarySector") tooltip=(i18n "Event.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
+
+    {{> FormElements/input.mustache property=award property_path="award" title=(i18n "Event.award") tooltip=(i18n "Event.award" bundle="descriptions") hidden=false multiple=true input_type="url"}}
 
 </fieldset>

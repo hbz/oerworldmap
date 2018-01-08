@@ -28,10 +28,17 @@
 @header-padding: 15px;
 @header-fontsize: 20px;
 
+@header-height-mobile: 32px;
+@header-padding-mobile: 15px;
+@header-fontsize-mobile: @font-size-base;
+
 
 /* --- map --- */
 
 @map-padding: 20px;
+@map-padding-mobile: 15px;
+
+@scope-padding: 15px;
 
 
 /* --- backgrounds --- */
@@ -51,6 +58,11 @@
 .bg(blue-paler);
 .bg(blue-palest);
 
+/* --- text colors --- */
+
+.text-orange {
+  color: @orange !important;
+}
 
 /* --- color scheme text --- */
 
@@ -108,3 +120,8 @@
   background: @orange;
   color: white;
 }
+
+
+/* --- mobile --- */
+
+@mobile-breakpoint: 1024px;

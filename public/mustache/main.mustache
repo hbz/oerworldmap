@@ -3,8 +3,8 @@
 <head>
 
     <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1; user-scalable=0;" />
-    <meta name="description" content="OER World Map shares information on behalf of the worldwide OER community, using local knowledge to describe the OER ecosystem." />
+    <meta name="viewport" content="initial-scale=1, user-scalable=0" />
+    <meta name="description" content="{{i18n 'main.description'}}" />
 
     <title>{{pageTitle}}</title>
 
@@ -28,8 +28,6 @@
     <meta name="msapplication-square310x310logo" content="/assets/images/favicon/largetile.png" />
 
     <link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Economica:400,700,400italic,700italic" />
     <link rel="stylesheet" type="text/css" href="/assets/vendor/v3.15.1-dist/ol.css">
 
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
@@ -41,8 +39,9 @@
     <script>
         var user = {{json user}};
         var permissions = {{json permissions}};
-        var user_location = {{ json userLocation }};
-        var embed = {{ json embed }};
+        var user_location = {{json userLocation}};
+        var user_language = {{json language}};
+        var embed = {{json embed}};
     </script>
 
 </head>
@@ -54,16 +53,16 @@
         <h1>OER W<i class="fa fa-globe"></i>RLD MAP</h1>
     </div>
 
-    <div class="hidden-print">
+    <div class="hidden-print hidden-mobile">
 
         <nav class="main">
             <ul>
-                <li><h1><a href="/" title="Home"{{#if @root.embed}}target="_blank"{{/if}}>OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+                <li><h1><a href="/" title="Home" {{#if @root.embed}}target="_blank"{{/if}}>OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
                 {{#unless @root.embed}}
-                <li><a href="/contribute" title="Contribute">Contribute</a></li>
-                <li><a href="/FAQ" title="FAQ">FAQ</a></li>
-                <li><a href="/about" title="About">About</a></li>
-                <li><a href="https://oerworldmap.wordpress.com/" title="Blog" target="_blank">Blog</a></li>
+                    {{#each sections.primary}}
+                        <li><a href="/{{[@key]}}" title="{{ . }}">{{ . }}</a></li>
+                    {{/each}}
+                    <li><a href="https://oerworldmap.wordpress.com/" target="_blank">{{i18n "main.blog"}}</a></li>
                 {{/unless}}
             </ul>
         </nav>
@@ -85,16 +84,16 @@
                         <div class="a" type="button" data-toggle="dropdown" title="{{ username }}">
                             <i class="fa fa-user"></i>
                         </div>
-                        <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
-                            <li><a href="/resource/{{user.[@id]}}"><i class="fa fa-fw fa-user"></i> My Profile</a></li>
-                            <li><a href="/user/password"><i class="fa fa-fw fa-lock"></i> Change Password</a></li>
-                            <li><a href="#" data-behaviour="logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a></li>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="/resource/{{user.[@id]}}"><i class="fa fa-fw fa-user"></i> {{i18n "main.myProfile"}}</a></li>
+                            <li><a href="/user/password"><i class="fa fa-fw fa-lock"></i> {{i18n "main.changePassword"}}</a></li>
+                            <li><a href="#" data-behaviour="logout"><i class="fa fa-fw fa-sign-out"></i> {{i18n "main.logout"}}</a></li>
                         </ul>
                     </li>
 
                 {{else}}
 
-                    <li><a href="/user/register">Login</a></li>
+                    <li><a href="/user/register">{{i18n "login"}}</a></li>
 
                 {{/if}}
 
@@ -103,7 +102,7 @@
 
         {{#unless user}}
 
-            <h2 class="slogan"><a href="/contribute" {{#if @root.embed}}target="_blank"{{/if}}>Join us in mapping the world of OER!</a></h2>
+            <h2 class="slogan"><a href="/contribute" {{#if @root.embed}}target="_blank"{{/if}}>{{i18n "main.joinUsMessage"}}</a></h2>
 
         {{/unless}}
 
@@ -120,6 +119,44 @@
 
     </div>
 
+    <div class="visible-mobile">
+
+        <nav class="main-mobile">
+            <button data-toggle="dropdown"><i class="fa fa-bars"></i></button>
+            <ul class="dropdown-menu">
+                <li><a href="/">{{i18n "main.map"}}</a></li>
+                <li><a href="/contribute">{{i18n "contribute"}}</a></li>
+                <li><a href="/FAQ">{{i18n "main.faq"}}</a></li>
+                <li><a href="/about">{{i18n "main.about"}}</a></li>
+                <li><a href="https://oerworldmap.wordpress.com/" target="_blank">{{i18n "main.blog"}}</a></li>
+                <li><a href="/user/newsletter">{{i18n "main.newsletter"}}</a></li>
+                <li><a href="https://www.facebook.com/oerworldmap" target="_blank">Facebook</a></li>
+                <li><a href="https://twitter.com/oerworldmap" target="_blank">Twitter</a></li>
+                <li><a href="/imprint">{{i18n "main.imprintPrivacy"}}</a></li>
+            </ul>
+        </nav>
+
+        <nav class="user-mobile">
+
+            {{#if user}}
+
+                <button data-toggle="dropdown"><i class="fa fa-user"></i></button>
+                <ul class="dropdown-menu">
+                    <li><a href="/resource/{{user.[@id]}}">{{i18n "main.myProfile"}}</a></li>
+                    <li><a href="/user/password">{{i18n "main.changePassword"}}</a></li>
+                    <li><a href="#" data-behaviour="logout">{{i18n "main.logout"}}</a></li>
+                </ul>
+
+            {{else}}
+
+                <a class="button" href="/user/register"><i class="fa fa-user"></i></a>
+
+            {{/if}}
+
+        </nav>
+
+    </div>
+
 </header>
 
 <main>
@@ -129,8 +166,7 @@
 <footer id="page-footer" class="container container-static-page color-scheme-text">
     <nav class="inner">
         <ul>
-            <li><a href="/imprint" title="Imprint"{{#if @root.embed}}target="_blank"{{/if}}>Imprint & Privacy</a></li>
-            <li><a href="http://creativecommons.org/licenses/by/4.0/" title="License" target="_blank" rel="license"><img alt="Creative Commons License CC BY-SA 4.0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a></li>
+            <li class="hidden-mobile"><a href="/imprint" title="Imprint"{{#if @root.embed}}target="_blank"{{/if}}>{{i18n "main.imprintPrivacy"}}</a></li>
         </ul>
     </nav>
 </footer>
@@ -148,7 +184,7 @@
 <script type="text/javascript" src="/assets/vendor/loglevel/loglevel.min.js"></script>
 <script type="text/javascript" src="/assets/vendor/mapbox-gl-supported.js"></script>
 <script type="text/javascript" src="/assets/i18n.js"></script>
-<script type="text/javascript" src="/assets/iso3166.js"></script>
+<script type="text/javascript" src="/assets/javascripts/iso3166.js"></script>
 
 <script type="text/javascript" src="/assets/javascripts/helpers.js"></script>
 <script type="text/javascript" src="/assets/javascripts/helpers/shared.js"></script>

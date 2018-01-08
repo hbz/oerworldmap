@@ -16,11 +16,7 @@ import services.repository.BaseRepository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -368,8 +364,6 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> alternateQuery = ResourceHelpers.unwrapRecords(mBaseRepo.query("Le Test", 0, 10, null, null, mDefaultQueryContext).getItems());
     Assert.assertTrue("Could not find \"Le Test\".", alternateQuery.size() == 1);
 
-    System.out.println("alternateName: " + getNameList(alternateQuery));
-
     mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00001", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:c407eede-7f00-11e5-a636-c48e8ff00002", mMetadata);
   }
@@ -592,6 +586,38 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     List<Resource> hit = mBaseRepo.query("Accra", 0, 10, null, null, queryContext).getItems();
     Assert.assertEquals(1, hit.size());
+  }
+
+  @Test
+  public void testBoostByLinks()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinks.DB.2.json");
+    mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2}), mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals("Did not get expected number of hits (2).", 2,  hits.size());
+    List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
+    Assert.assertEquals("Did not get linked hit first.",
+      db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
+    mBaseRepo.deleteResource("", mMetadata);
+  }
+
+  @Test
+  public void testBoostByLinksNested()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.2.json");
+    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testBoostByLinksNested.DB.3.json");
+    mBaseRepo.importResources(Arrays.asList(new Resource[]{db1, db2, db3}), mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals("Did not get expected number of hits (3).", 3,  hits.size());
+    List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
+    // The nested link of db3 does not count, so db2 must be first
+    Assert.assertEquals("Did not get linked hit first.",
+      db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
+    mBaseRepo.deleteResource("", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

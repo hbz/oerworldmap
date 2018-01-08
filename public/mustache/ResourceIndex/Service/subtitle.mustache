@@ -8,7 +8,7 @@
 
 {{#if provider}}
     <span>
-        Provider:
+        {{i18n "ResourceIndex.Service.subtitle.provider"}}:
         {{#provider}}
             <a href="/resource/{{@id}}">
                 {{#localized this.name language=@root.language}}
@@ -23,7 +23,7 @@
 
 {{#if additionalType}}
     <span>
-        Additional Type:
+        {{i18n "additionalType"}}:
         {{#additionalType}}
             {{.}}{{#unless @last}},{{/unless}}
         {{/additionalType}}

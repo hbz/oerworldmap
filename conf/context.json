@@ -50,6 +50,9 @@
     "availableLanguage": {
       "@container": "@set"
     },
+    "award": {
+      "@container": "@set"
+    },
     "awards": {
       "@container": "@set",
       "@id": "frapo:awards"
@@ -130,6 +133,9 @@
       "@container": "@set"
     },
     "isPartOf": "dcterms:isPartOf",
+    "isRelatedTo": {
+      "@container": "@set"
+    },
     "keywords": {
       "@container": "@set"
     },
@@ -137,6 +143,12 @@
       "@container": "@set"
     },
     "license": {
+      "@container": "@set"
+    },
+    "manufacturer": {
+      "@container": "@set"
+    },
+    "manufactured": {
       "@container": "@set"
     },
     "mainEntityOf": {
@@ -165,6 +177,9 @@
       "@id": "skos:notation",
       "@container": "@set"
     },
+    "objectIn": {
+      "@container": "@set"
+    },
     "organizer": {
       "@container": "@set"
     },
@@ -183,10 +198,19 @@
     "performerIn": {
       "@container": "@set"
     },
+    "primarySector": {
+      "@container": "@set"
+    },
     "provider": {
       "@container": "@set"
     },
     "provides": {
+      "@container": "@set"
+    },
+    "publisher": {
+      "@container": "@set"
+    },
+    "publication": {
       "@container": "@set"
     },
     "recordedIn": {
@@ -215,6 +239,9 @@
     "url": {
       "@type": "@id"
     },
+    "secondarySector": {
+      "@container": "@set"
+    },
     "serviceUrl": {
       "@type": "@id"
     },
@@ -238,6 +265,9 @@
     },
     "comment": {
       "@container": "@set"
+    },
+    "exampleOfWork": {
+      "@type": "@id"
     }
   }
 }

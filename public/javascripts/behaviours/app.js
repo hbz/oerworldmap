@@ -10,18 +10,23 @@
 
 var Hijax = (function ($, Hijax, page) {
 
-  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login"];
+  var static_pages = ["/contribute", "/FAQ", "/about", "/imprint", "/log", "/.login", "/api"];
 
   var init_app = true;
 
   var state = {
     scope : 'world',
-    highlights : []
+    highlights : [],
+    mobileActiveCol : 'map'
   };
 
   function setScope(scope) {
     log.debug('APP setScope:', scope);
     state.scope = scope;
+    $('#app').attr('data-scope', scope);
+    if (window.embed) {
+      $('#app').attr('data-embed', window.embed);
+    }
     Hijax.behaviours.map.setScope(state.scope);
   }
 
@@ -29,6 +34,17 @@ var Hijax = (function ($, Hijax, page) {
     log.debug('APP setHighlights:', highlights);
     state.highlights = highlights;
     Hijax.behaviours.map.setHighlights(state.highlights);
+  }
+
+  function setMobileActiveCol(col) {
+    state.mobileActiveCol = col;
+    $('#app').attr('data-mobile-active-col', col);
+    setTimeout(function(){
+      var new_icon = $('#app-col-detail .topline .fa').clone()
+      if(new_icon.length) {
+        $('#app-col-switch [href="#app-col-detail"] .fa').replaceWith(new_icon);
+      }
+    }, 1000);
   }
 
   $.each(static_pages, function() {
@@ -66,7 +82,7 @@ var Hijax = (function ($, Hijax, page) {
 
   function get(url, callback, callback_error) {
     log.debug('APP get:', url);
-    if(url == initialization_source.pathname + initialization_source.search) {
+    if(initialization_content && (url == initialization_source.pathname + initialization_source.search)) {
       log.debug('APP ... which is the initialization_content');
       callback(initialization_content);
     } else {
@@ -102,6 +118,14 @@ var Hijax = (function ($, Hijax, page) {
   function set_col_mode(col, mode) {
     $('#app-col-' + col).attr('data-col-mode', mode);
     $('#app').attr('data-col-' + col + '-mode', mode);
+
+    if(col == 'index' && mode == 'floating') {
+      setMobileActiveCol('map');
+    } else if(col == 'index' && mode == 'list') {
+      setMobileActiveCol('index');
+    } else if(col == 'detail' && mode == 'expanded') {
+      setMobileActiveCol('detail');
+    }
   }
 
   function set_map_and_index_source(url, index_mode) {
@@ -146,6 +170,10 @@ var Hijax = (function ($, Hijax, page) {
       Hijax.behaviours.map.attach($('#app-col-detail [data-app="col-content"]'), attached);
     }
 
+    // reset scroll position
+
+    $('#app-col-detail [data-app="col-content"]').scrollTop(0);
+
     // set focus to fit highlighted
     // therefor waiting for map_and_index_loaded and map attachments
 
@@ -176,6 +204,13 @@ var Hijax = (function ($, Hijax, page) {
     ) {
       modal.data('hidden_on_exit', true);
       modal.modal('hide');
+    }
+
+    if(pagejs_ctx.path.indexOf('/country/') !== 0) {
+      var scope = $('#app-scope');
+      scope
+        .addClass('hide')
+        .empty();
     }
 
     next();
@@ -251,7 +286,7 @@ var Hijax = (function ($, Hijax, page) {
 
     $('#app').addClass('loading');
 
-    var country_code = pagejs_ctx.path.split("/").pop().toUpperCase();
+    var country_code = pagejs_ctx.pathname.split("/").pop().toUpperCase();
 
     setScope(country_code);
     setHighlights([]);
@@ -262,6 +297,7 @@ var Hijax = (function ($, Hijax, page) {
     if(pagejs_ctx.hash) {
       setHighlights([pagejs_ctx.hash]);
       set_detail_source('/resource/' + pagejs_ctx.hash);
+      setMobileActiveCol('detail');
       if(app_history.length == 1) {
         Hijax.behaviours.map.scheduleViewChange('country');
       }
@@ -286,9 +322,7 @@ var Hijax = (function ($, Hijax, page) {
     set_map_and_index_source('/resource/', 'floating');
     set_detail_source(pagejs_ctx.path);
 
-    if(app_history.length == 1) {
-      Hijax.behaviours.map.scheduleViewChange('highlights');
-    }
+    Hijax.behaviours.map.scheduleViewChange('highlights');
 
     next();
   }
@@ -308,12 +342,19 @@ var Hijax = (function ($, Hijax, page) {
         log.debug('APP getting main from:', pagejs_ctx.path)
         get_main(data, pagejs_ctx.path);
       });
+      setScope('world');
+      // needed, because on this route the vector source is not set otherwise
+      // ... and placemarksSourceLoaded in MAP doesn't resolve then.
+      Hijax.behaviours.map.setPlacemarksVectorSource('/resource/');
     }
     next();
   }
 
   function routing_done(pagejs_ctx) {
     log.debug('APP routing_done', pagejs_ctx);
+
+    // content should be refreshed upon subsequent requests
+    initialization_content = null;
 
     $.when(
       map_and_index_loaded,
@@ -418,6 +459,15 @@ var Hijax = (function ($, Hijax, page) {
         Hijax.layout('triggered by column toggle');
       });
 
+      // bind col switch
+
+      $('#app', context).on('click', '#app-col-switch a', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var col = this.href.split('-').pop();
+        setMobileActiveCol(col);
+      });
+
       // catch links to fragments
 
       $('#app', context).on('click', '[data-app="link-to-fragment"] a', function(e){
@@ -449,7 +499,7 @@ var Hijax = (function ($, Hijax, page) {
       $('#app-modal').on('hide.bs.modal', function(e){
         var modal = $('#app-modal');
         if( modal.data('is_protected') ) {
-          var confirm = window.confirm("Are you sure you want to close? All form content will be lost.");
+          var confirm = window.confirm(i18nStrings['ui']['app.closeQuestion']);
           if(!confirm) {
             return false;
           }
@@ -499,10 +549,11 @@ var Hijax = (function ($, Hijax, page) {
         }
       });
 
-      // catch form submition inside modals and handle it async
+      // catch form submission inside modals and handle it async
 
       $('#app-modal').on('submit', 'form', function(e){
         e.preventDefault();
+        $('#app').addClass('loading');
 
         var form = $(this);
 
@@ -526,28 +577,36 @@ var Hijax = (function ($, Hijax, page) {
 
             if(location) {
 
-              // null map and index source as it's outdated
+              // null detail and map and index source as it's outdated
               map_and_index_source = '';
+              detail_source = '';
 
               // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
 
               var just_a_parser = document.createElement('a');
               just_a_parser.href = location;
+              Hijax.behaviours.map.scheduleViewChange('highlights');
               page(just_a_parser.pathname);
 
             } else if(form.attr('action') == detail_source) {
 
-              // if updated resource is currently lodaded in the detail column, update column and close modal
-              $('#app-col-detail [data-app="col-content"]').html( contents );
+              // null detail map and index source so that GeoJSON layer is reloaded
+              map_and_index_source = '';
+              detail_source = '';
+
+              // close modal
               $('#app-modal').data('is_protected', false).modal('hide');
-              Hijax.layout('triggered by modal submit because it updated the detail_source');
+
+              Hijax.behaviours.map.scheduleViewChange('highlights');
+              page(app_history[app_history.length - 1].canonicalPath);
 
             } else {
 
               $('#app-modal').find('.modal-body')
                 .empty()
                 .append( contents );
+              $('#app').removeClass('loading');
 
             }
 
@@ -579,6 +638,7 @@ var Hijax = (function ($, Hijax, page) {
             }
 
             form[0].scrollIntoView(true);
+            $('#app').removeClass('loading');
 
           }
         });
@@ -673,19 +733,24 @@ var Hijax = (function ($, Hijax, page) {
         $('#app-notification-area').append(notification);
       });
 
+      /* --- scope --- */
+
+      $(context).find('[data-app~="scope"]').each(function(){
+        var content = $( this ).children().clone();
+        var scope = $('#app-scope');
+        scope
+          .empty()
+          .append(content)
+          .removeClass('hide');
+      });
+
     },
 
     initialized : new $.Deferred(),
     attached : [],
 
     linkToFragment : function(fragment) {
-      if (window.location.pathname.split('/')[1] == 'country') {
-        page(window.location.pathname + '#' + fragment);
-      } else if( window.location.search ) {
-        page('/resource/' + window.location.search + '#' + fragment);
-      } else {
-        page('/resource/' + fragment);
-      }
+      page(window.location.pathname + window.location.search + '#' + fragment);
     }
 
   };

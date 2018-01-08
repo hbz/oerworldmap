@@ -9,6 +9,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.SCHEMA;
+import helpers.UniversalFunctions;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -36,10 +37,12 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,88 +56,18 @@ public class ResourceIndex extends OERWorldMap {
     super(aConf, aEnv);
   }
 
-  public Result listDefault(String q, int from, int size, String sort, boolean list) throws IOException {
-    return list(q, from, size, sort, list, null);
+  public Result listDefault(String q, int from, int size, String sort, boolean list, String iso3166) throws IOException {
+    return list(q, from, size, sort, list, null, iso3166);
   }
 
-  public Result list(String q, int from, int size, String sort, boolean list, String extension)
+  public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
       throws IOException {
 
-    // Extract filters directly from query params
-    Map<String, List<String>> filters = new HashMap<>();
-    Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
-    for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
-      Matcher filterMatcher = filterPattern.matcher(entry.getKey());
-      if (filterMatcher.find()) {
-        filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
-      }
-    }
-
-    QueryContext queryContext = getQueryContext();
-
-    // Check for bounding box
-    String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");
-    if (boundingBoxParam != null && boundingBoxParam.length > 0) {
-      String boundingBox = boundingBoxParam[0];
-      if (boundingBox != null) {
-        try {
-          queryContext.setBoundingBox(boundingBox);
-        } catch (NumberFormatException e) {
-          Logger.trace("Invalid bounding box: ".concat(boundingBox), e);
-        }
-      }
-    }
-
-    // Sort by dateCreated if no query string given
-    if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
-      sort = "dateCreated:DESC";
-    }
-
-    queryContext.setFetchSource(new String[]{
-      "@id", "@type", "dateCreated", "author", "dateModified", "contributor",
-      "about.@id", "about.@type", "about.name", "about.alternateName", "about.location", "about.image",
-      "about.provider.@id", "about.provider.@type", "about.provider.name", "about.provider.location",
-      "about.participant.@id", "about.participant.@type", "about.participant.name", "about.participant.location",
-      "about.agent.@id", "about.agent.@type", "about.agent.name", "about.agent.location",
-      "about.mentions.@id", "about.mentions.@type", "about.mentions.name", "about.mentions.location",
-      "about.mainEntity.@id", "about.mainEntity.@type", "about.mainEntity.name", "about.mainEntity.location",
-      "about.startDate", "about.endDate", "about.organizer", "about.description", "about.displayName"
-    });
-
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
-    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
-
-    Map<String, String> alternates = new HashMap<>();
-    String baseUrl = mConf.getString("proxy.host");
-    String filterString = "";
-    for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
-      String filterKey = "filter.".concat(filter.getKey());
-      for (String filterValue : filter.getValue()) {
-        filterString = filterString.concat("&".concat(filterKey).concat("=").concat(filterValue));
-      }
-    }
-
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "json").url().concat(filterString)));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "csv").url().concat(filterString)));
-    alternates.put("GeoJSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "geojson").url().concat(filterString)));
-    if (resourceList.containsType("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "ics").url().concat(filterString)));
-    }
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("list", list);
-    scope.put("resources", resourceList.toResource());
-    scope.put("alternates", alternates);
-
-    String format = null;
+    String format = "application/json";
     if (! StringUtils.isEmpty(extension)) {
       switch (extension) {
         case "html":
           format = "text/html";
-          break;
-        case "json":
-          format = "application/json";
           break;
         case "csv":
           format = "text/csv";
@@ -154,9 +87,104 @@ public class ResourceIndex extends OERWorldMap {
       format = "text/calendar";
     } else if (request().accepts("application/geo+json")) {
       format = "application/geo+json";
-    } else {
-      format = "application/json";
     }
+
+    Map<String, Object> scope = new HashMap<>();
+    Map<String, List<String>> filters = new HashMap<>();
+    QueryContext queryContext = getQueryContext();
+
+    // Handle ISO 3166 param
+    if (!StringUtils.isEmpty(iso3166)) {
+
+      if (! UniversalFunctions.resourceBundleToMap(ResourceBundle
+        .getBundle("iso3166-1-alpha-2", getLocale()))
+        .containsKey(iso3166.toUpperCase())) {
+        return notFound("Not found");
+      }
+
+      Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
+      filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
+      ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
+      ResourceList reports = mBaseRepository.query(
+        "about.keywords:\"countryreport:".concat(iso3166.toUpperCase()).concat("\""), 0, 10, null, null);
+      filters.clear();
+
+      Map<String, Object> iso3166Scope = new HashMap<>();
+      String countryName = ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
+        .getString(iso3166.toUpperCase());
+      iso3166Scope.put("alpha-2", iso3166.toUpperCase());
+      iso3166Scope.put("name", countryName);
+      iso3166Scope.put("champions", champions.getItems());
+      iso3166Scope.put("reports", reports.getItems());
+      iso3166Scope.put("countryAggregation", countryAggregation);
+      scope.put("iso3166", iso3166Scope);
+
+      queryContext.setIso3166Scope(iso3166.toUpperCase());
+
+    }
+
+    // Extract filters directly from query params
+    Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
+    for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
+      Matcher filterMatcher = filterPattern.matcher(entry.getKey());
+      if (filterMatcher.find()) {
+        filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
+      }
+    }
+
+    // Check for bounding box
+    String[] boundingBoxParam = ctx().request().queryString().get("boundingBox");
+    if (boundingBoxParam != null && boundingBoxParam.length > 0) {
+      String boundingBox = boundingBoxParam[0];
+      if (boundingBox != null) {
+        try {
+          queryContext.setBoundingBox(boundingBox);
+        } catch (NumberFormatException e) {
+          Logger.trace("Invalid bounding box: ".concat(boundingBox), e);
+        }
+      }
+    }
+
+    // Sort by dateCreated if no query string given
+    if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
+      sort = "dateCreated:DESC";
+    }
+
+    if (format.equals("text/html")) {
+      queryContext.setFetchSource(new String[]{
+        "@id", "@type", "dateCreated", "author", "dateModified", "contributor", "about.@id", "about.@type",
+        "about.name", "like_count", "lighthouse_count"
+      });
+    }
+
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+
+    ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
+
+    Map<String, String> alternates = new HashMap<>();
+    String baseUrl = mConf.getString("proxy.host");
+    String filterString = "";
+    for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
+      String filterKey = "filter.".concat(filter.getKey());
+      for (String filterValue : filter.getValue()) {
+        filterString = filterString.concat("&".concat(filterKey).concat("=").concat(filterValue));
+      }
+    }
+
+    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "json", iso3166).url().concat(filterString)));
+    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "csv", iso3166).url().concat(filterString)));
+    alternates.put("GeoJSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "geojson", iso3166).url().concat(filterString)));
+    if (resourceList.containsType("Event")) {
+      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "ics", iso3166).url().concat(filterString)));
+    }
+
+    scope.put("list", list);
+    scope.put("showLikeCount", filters.containsKey("about.objectIn.@type") && filters.get("about.objectIn.@type")
+      .contains("LikeAction"));
+    scope.put("showLighthouseCount", filters.containsKey("about.objectIn.@type") && filters.get("about.objectIn.@type")
+      .contains("LighthouseAction"));
+    scope.put("resources", resourceList.toResource());
+    scope.put("alternates", alternates);
 
     if (format == null) {
       return notFound("Not found");
@@ -164,16 +192,16 @@ public class ResourceIndex extends OERWorldMap {
       return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
     } //
     else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv; charset=UTF-8");
     } //
     else if (format.equals("text/calendar")) {
-      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar; charset=UTF-8");
     } //
     else if (format.equals("application/json")) {
-      return ok(resourceList.toResource().toString()).as("application/json");
+      return ok(resourceList.toResource().toString()).as("application/json; charset=UTF-8");
     }
     else if (format.equals("application/geo+json")) {
-      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json");
+      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json; charset=UTF-8");
     }
 
     return notFound("Not found");
@@ -247,7 +275,9 @@ public class ResourceIndex extends OERWorldMap {
         Map<String, Object> scope = new HashMap<>();
         scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
         scope.put("type", resource.getType());
-        return badRequest(render("Upsert failed", "ProcessingReport/list.mustache", scope));
+        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+          .getString("ResourceIndex.upsertResource.failed");
+        return badRequest(render(pageTitle, "ProcessingReport/list.mustache", scope));
       } else {
         return badRequest(listProcessingReport.asJson());
       }
@@ -259,15 +289,26 @@ public class ResourceIndex extends OERWorldMap {
     // Respond
     if (isUpdate) {
       if (request().accepts("text/html")) {
+        if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+            "HEAD").absoluteURL(request()));
+        }
         return read(resource.getId(), "HEAD", "html");
       } else {
         return ok("Updated " + resource.getId());
       }
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
-        .absoluteURL(request()));
+      if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
+          "HEAD").absoluteURL(request()));
+      } else {
+        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
+          .absoluteURL(request()));
+      }
       if (request().accepts("text/html")) {
-        return created(render("Created", "created.mustache", resource));
+        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
+          .getString("ResourceIndex.upsertResource.created");
+        return created(render(pageTitle, "created.mustache", resource));
       } else {
         return created("Created " + resource.getId());
       }
@@ -323,8 +364,10 @@ public class ResourceIndex extends OERWorldMap {
 
 
   public Result read(String id, String version, String extension) throws IOException {
-    Resource resource;
-    resource = mBaseRepository.getResource(id, version);
+
+    Resource currentUser = getUser();
+
+    Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
@@ -364,6 +407,46 @@ public class ResourceIndex extends OERWorldMap {
       comments.add(mBaseRepository.getResource(commentId));
     }
 
+    String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
+    int likesCount = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems().size();
+
+    boolean userLikesResource = false;
+    if (currentUser != null) {
+      String userLikesQuery = String.format(
+        "about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
+        .getItems().size() > 0;
+    }
+
+    String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
+    List<Resource> lighthouses = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
+      .getItems();
+
+    Resource userLighthouseResource = null;
+    boolean userLighthouseIsset = false;
+    if (currentUser != null) {
+      String userLighthouseQuery = String.format(
+        "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+        currentUser.getId(), resource.getId()
+      );
+      List<Resource> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
+        .getItems();
+      if (userLighthouseResources.size() > 0) {
+        userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
+        userLighthouseIsset = true;
+      }
+    }
+
+    if (userLighthouseResource == null) {
+      userLighthouseResource = new Resource("LighthouseAction");
+      userLighthouseResource.remove("@id");
+      userLighthouseResource.put("object", resource);
+      userLighthouseResource.put("agent", Collections.singletonList(getUser()));
+    }
+
     String title;
     try {
       title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
@@ -371,15 +454,17 @@ public class ResourceIndex extends OERWorldMap {
       title = id;
     }
 
-    boolean mayEdit = (getUser() != null) && ((resource.getType().equals("Person") && getUser().getId().equals(id))
-        || (!resource.getType().equals("Person"))
+    boolean mayEdit = (currentUser != null) && (!resource.getType().equals("LikeAction")) &&
+      ((resource.getType().equals("Person") && currentUser.getId().equals(id)) || (!resource.getType().equals("Person"))
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLog = (getUser() != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
+    boolean mayLog = (currentUser != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
-    boolean mayAdminister = (getUser() != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
-    boolean mayComment = (getUser() != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (getUser() != null) && (resource.getType().equals("Person") && getUser().getId().equals(id)
+    boolean mayAdminister = (currentUser != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
+    boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
+    boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
         || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
+    boolean mayLike = (currentUser != null) && !"Person".equals(resource.getType());
+    boolean likeable = !"Person".equals(resource.getType());
 
     Map<String, Object> permissions = new HashMap<>();
     permissions.put("edit", mayEdit);
@@ -387,6 +472,8 @@ public class ResourceIndex extends OERWorldMap {
     permissions.put("administer", mayAdminister);
     permissions.put("comment", mayComment);
     permissions.put("delete", mayDelete);
+    permissions.put("like", mayLike);
+    permissions.put("likeable", likeable);
 
     Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
@@ -416,6 +503,11 @@ public class ResourceIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
     scope.put("resource", resource);
     scope.put("comments", comments);
+    scope.put("likes", likesCount);
+    scope.put("userLikesResource", userLikesResource);
+    scope.put("lighthouses", lighthouses);
+    scope.put("userLighthouseResource", userLighthouseResource);
+    scope.put("userLighthouseIsset", userLighthouseIsset);
     scope.put("permissions", permissions);
     scope.put("alternates", alternates);
 
@@ -450,13 +542,13 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("text/html")) {
       return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else if (format.equals("application/json")) {
-      return ok(resource.toString()).as("application/json");
+      return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv");
+      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
     } else if (format.equals("text/calendar")) {
       String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
       if (ical != null) {
-        return ok(ical).as("text/calendar");
+        return ok(ical).as("text/calendar; charset=UTF-8");
       }
     }
 
@@ -525,6 +617,38 @@ public class ResourceIndex extends OERWorldMap {
       ZonedDateTime.parse(metadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
+
+    return seeOther("/resource/" + aId);
+
+  }
+
+  public Result likeResource(String aId) throws IOException {
+
+    Resource object = mBaseRepository.getResource(aId);
+    Resource agent = getUser();
+
+    if (object == null || agent == null) {
+      return badRequest("Object or agent missing");
+    }
+
+    String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
+      agent.getId(), object.getId());
+
+    List<Resource> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
+      .getItems();
+
+    if (existingLikes.size() > 0) {
+      for (Resource like : existingLikes) {
+        mBaseRepository.deleteResource(like.getAsResource(Record.RESOURCE_KEY).getId(), getMetadata());
+      }
+    } else {
+      Resource likeAction = new Resource("LikeAction");
+      likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+      likeAction.put("agent", agent);
+      likeAction.put("object", object);
+      likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+      mBaseRepository.addResource(likeAction, getMetadata());
+    }
 
     return seeOther("/resource/" + aId);
 

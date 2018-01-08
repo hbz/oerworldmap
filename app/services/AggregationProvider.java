@@ -21,7 +21,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation(int aSize) {
     return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
-        .exclude("Concept|ConceptScheme|Comment");
+        .exclude("Concept|ConceptScheme|Comment|LikeAction|LighthouseAction");
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
@@ -127,10 +127,37 @@ public class AggregationProvider {
         .dateHistogram("about.startDate.GTE")
         .field("about.startDate")
         .interval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
-            .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
-              "about.location"}, null)
+          .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
+            "about.location"}, null)
           .addSort("about.startDate", SortOrder.ASC).setSize(Integer.MAX_VALUE)
-          ).order(Histogram.Order.KEY_DESC);
+      ).order(Histogram.Order.KEY_DESC).minDocCount(1);
+  }
+
+  public static AggregationBuilder<?> getRegionAggregation(int aSize) {
+    return AggregationBuilders.terms("about.location.address.addressRegion")
+      .field("about.location.address.addressRegion")
+      .include("..\\....?")
+      .size(aSize);
+  }
+
+  public static AggregationBuilder<?> getLikeAggregation(int aSize) {
+    return AggregationBuilders.terms("about.object.@id").size(aSize)
+      .field("about.object.@id");
+  }
+
+  public static AggregationBuilder<?> getPrimarySectorsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.primarySector.@id").size(aSize)
+      .field("about.primarySector.@id");
+  }
+
+  public static AggregationBuilder<?> getSecondarySectorsAggregation(int aSize) {
+    return AggregationBuilders.terms("about.secondarySector.@id").size(aSize)
+      .field("about.secondarySector.@id");
+  }
+
+  public static AggregationBuilder<?> getAwardAggregation(int aSize) {
+    return AggregationBuilders.terms("about.award").size(aSize)
+      .field("about.award");
   }
 
 }

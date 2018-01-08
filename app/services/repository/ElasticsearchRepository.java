@@ -1,5 +1,9 @@
 package services.repository;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
 import models.Record;
@@ -20,16 +24,15 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.common.lucene.search.function.CombineFunction;
+import org.elasticsearch.common.lucene.search.function.FiltersFunctionScoreQuery;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.IndexNotFoundException;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
-import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -41,17 +44,14 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchConfig mConfig;
   private Client mClient;
   private Fuzziness mFuzziness;
+  private static JsonNodeFactory mJsonNodeFactory = new JsonNodeFactory(false);
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -187,6 +187,36 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
       aFilters, aAggregations);
 
+  }
+
+  public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+
+    aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
+
+    SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
+
+    while (searchHits.hasNext()) {
+      final SearchHit hit = searchHits.next();
+      Resource match = Resource.fromMap(hit.sourceAsMap()).getAsResource(Record.RESOURCE_KEY);
+      String name = match.getNestedFieldValue("name.@value", Locale.ENGLISH); // TODO: trigger locale by reconcile request ?
+      ObjectNode item = new ObjectNode(mJsonNodeFactory);
+      item.put("id", match.getId());
+      item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
+        .equals(name.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")));
+      item.put("name", name);
+      item.put("score", hit.getScore());
+      ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
+      typeArray.add(match.getType());
+      item.set("type", typeArray);
+      resultItems.add(item);
+    }
+
+    ObjectNode result = new ObjectNode(mJsonNodeFactory);
+    result.set("result", resultItems);
+    return result;
   }
 
   /**
@@ -386,8 +416,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     } else {
       queryBuilder = QueryBuilders.matchAllQuery();
     }
+
+    FunctionScoreQueryBuilder fqBuilder = QueryBuilders.functionScoreQuery(queryBuilder);
+    fqBuilder.boostMode(CombineFunction.MULT);
+    fqBuilder.scoreMode(FiltersFunctionScoreQuery.ScoreMode.Sum.name().toLowerCase());
+    fqBuilder.add(ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT));
+
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-      .setQuery(QueryBuilders.boolQuery().must(queryBuilder).filter(globalAndFilter));
+      .setQuery(QueryBuilders.boolQuery().must(fqBuilder).filter(globalAndFilter));
 
     return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
   }

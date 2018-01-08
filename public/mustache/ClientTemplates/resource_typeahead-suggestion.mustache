@@ -1,5 +1,10 @@
 <div>
     <div class="depth-{{depth}}">
-        {{getIcon [@type]}} {{name.[0].[@value]}}
+        {{getIcon [@type]}}
+        {{#if this.name}}
+            {{#localized this.name}}{{[@value]}}{{/localized}}
+        {{ else }}
+            {{[@id]}}
+        {{/if}}
     </div>
 </div>

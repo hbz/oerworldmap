@@ -12,6 +12,8 @@ data/*/
 !data/pages/
 !data/travis/
 !data/profiles/
+!data/consents/
+data/consents/history
 repo-deb-build*.*
 .idea/
 import/iCal/*.json

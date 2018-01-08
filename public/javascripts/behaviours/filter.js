@@ -32,8 +32,9 @@ var Hijax = (function ($, Hijax, page) {
   };
 
   var i18n_bundles = {
-    "about.availableChannel.availableLanguage" : "languages",
-    "about.location.address.addressCountry" : "countries"
+    "about.availableChannel.availableLanguage" : "iso639-1",
+    "about.location.address.addressCountry" : "iso3166-1-alpha-2",
+    "about.location.address.addressRegion" : "iso3166-2"
   };
 
   function get_label(key, aggregation_name) {
@@ -55,10 +56,10 @@ var Hijax = (function ($, Hijax, page) {
     if(i18n_bundles[ aggregation ]) {
       var bundle = i18n_bundles[ aggregation ];
     } else {
-      var bundle = 'messages';
+      var bundle = 'ui';
     }
 
-    if(bundle == "countries") {
+    if(bundle == "iso3166-1-alpha-2") {
       key = key.toUpperCase();
     }
 
@@ -116,14 +117,14 @@ var Hijax = (function ($, Hijax, page) {
       aggregation.filter_options = parts;
       aggregation.button_title = get_filter_label(name) + ': ' + aggregation.filter_options.join(", ");
     } else {
-      aggregation.button_title = "Filter by " + get_filter_label(name);
+      aggregation.button_title = i18nStrings['ui']['filter.by'] + " " + get_filter_label(name);
     }
 
     // button text
     if(aggregation.active) {
       aggregation.button_text = aggregation.filter_options[0] + (aggregation.filter_options.length > 1 ? ', ...' : '');
     } else {
-      aggregation.button_text = localize('messages', get_field(name));
+      aggregation.button_text = localize('ui', get_field(name));
     }
 
     // pimp buckets
@@ -175,14 +176,37 @@ var Hijax = (function ($, Hijax, page) {
   function init_filter(aggregation) {
 
     var filter = $('.filter[data-filter-name="' + aggregation.name + '"]');
-    var dropdown = $(filter).find('.dropdown-menu')
-    var dropdown_button = $(filter).find('.dropdown-toggle');
+
+    filter.each(function(){
+      init_filter_one(aggregation, $(this));
+    });
+  }
+
+  function init_filter_one(aggregation, filter) {
+
+    var dropdown = filter.find('.dropdown-menu')
+    var dropdown_button = filter.find('.dropdown-toggle');
     var dropdown_parent = dropdown.parent();
+
+    var col = dropdown.closest('.col');
+    var row = dropdown.closest('.row');
 
     // prevent dropdown from being closed on click
 
     dropdown.on('click', function(){
       return false; // dirty
+    });
+
+    // align dropdown when opened
+
+    dropdown_parent.on('show.bs.dropdown', function(){
+      var col_rect = col[0].getBoundingClientRect();
+      var row_rect = row[0].getBoundingClientRect();
+
+      dropdown.css({
+        left : row_rect.left - col_rect.left,
+        right : col_rect.right - row_rect.right + 1
+      });
     });
 
     if(aggregation.typeahead) {
@@ -334,26 +358,42 @@ var Hijax = (function ($, Hijax, page) {
             a != 'about.startDate.GTE'
           ) {
             pimp_aggregation(aggregations[ a ], a);
+            aggregations[ a ]['class'] = 'floating-hidden';
           }
         }
 
+        // copy all to mobile
+
+        // var aggregations_mobile = JSON.parse(JSON.stringify(aggregations));
+
         // extract country and tag
 
-        var country_aggregation = aggregations['about.location.address.addressCountry'];
-        country_aggregation.column = 'small-5';
-        country_aggregation.small = true;
-        country_aggregation.button_icon = 'globe';
+        var geo_aggregation = JSON.parse(JSON.stringify(
+          aggregations['about.location.address.addressCountry'] ||
+          aggregations['about.location.address.addressRegion']
+        ));
+        geo_aggregation.column = 'small-5';
+        geo_aggregation.small = true;
+        geo_aggregation.button_icon = 'globe';
 
-        var tag_aggregation = aggregations['about.keywords'];
+        var tag_aggregation = JSON.parse(JSON.stringify(aggregations['about.keywords']));
         tag_aggregation.column = 'small-6';
         tag_aggregation.small = true;
         tag_aggregation.button_icon = 'tag';
 
         // remove special treated aggregations
 
+/*
         delete aggregations['about.@type'];
         delete aggregations['about.keywords'];
         delete aggregations['about.location.address.addressCountry'];
+*/
+
+        aggregations['about.@type']['class'] = 'visible-mobile';
+        aggregations['about.keywords']['class'] = 'visible-mobile';
+        ( aggregations['about.location.address.addressCountry'] ||
+          aggregations['about.location.address.addressRegion']
+        )['class'] = 'visible-mobile';
 
         // set columns
 
@@ -376,18 +416,20 @@ var Hijax = (function ($, Hijax, page) {
             filters : filters,
             q : $('[name="q"]').val(),
             aggregations : aggregations,
+            // aggregations_mobile : aggregations_mobile,
             resource_types : resource_types,
-            country_aggregation : country_aggregation,
+            geo_aggregation : geo_aggregation,
             tag_aggregation : tag_aggregation,
-            clear_filter_offset : clear_filter_offset
+            clear_filter_offset : clear_filter_offset,
+            embed : window.embed
           })
         );
 
         // init typeaheads
 
         setTimeout(function(){ // without timeout filters aren't in dom yet
-          init_filter(country_aggregation);
-          init_filter(tag_aggregation);
+          // init_filter(geo_aggregation);
+          // init_filter(tag_aggregation);
           for(name in aggregations) {
             init_filter(aggregations[ name ]);
           }
@@ -430,7 +472,14 @@ var Hijax = (function ($, Hijax, page) {
 
           // unset type specific filters
           for(aggregation in aggregations) {
-            $(container).find('input[name="filter.' + aggregation + '"]').prop("checked", false);
+            if(
+              aggregation != 'about.@type' &&
+              aggregation != 'keywords' &&
+              aggregation != 'location.address.addressCountry' &&
+              aggregation != 'location.address.addressRegion'
+            ) {
+              $(container).find('input[name="filter.' + aggregation + '"]').prop("checked", false);
+            }
           }
 
           $('#form-resource-filter').submit();

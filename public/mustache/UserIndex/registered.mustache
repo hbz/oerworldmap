@@ -1,7 +1,13 @@
 <div class="text-center">
 
-    <p>
-        Successfully registered user <strong>{{scope.username}}</strong>. We just sent you an email with verfication link. Check your inbox.
-    </p>
+    {{#if scope.newsletter}}
+        <p>
+            {{i18n "UserIndex.registered.successfullyRegistere"}} <strong>{{scope.username}}</strong>. {{i18n "UserIndex.registered.sentMessageNewsletter"}}
+        </p>
+    {{else}}
+        <p>
+            {{i18n "UserIndex.registered.successfullyRegistere"}} <strong>{{scope.username}}</strong>. {{i18n "UserIndex.registered.sentMessage"}}
+        </p>
+    {{/if}}
 
 </div>

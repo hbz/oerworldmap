@@ -1,6 +1,16 @@
-<div id="app" class="loading">
+<div id="app" class="loading" data-mobile-active-col="map">
 
     {{{header}}}
+
+    <div id="app-col-switch" class="visible-mobile">
+        <nav>
+            <ul>
+                <li><a href="#app-col-map"><i class="fa fa-globe"></i></a></li>
+                <li><a href="#app-col-index"><i class="fa fa-list"></i></a></li>
+                <li><a href="#app-col-detail"><i class="fa fa-circle-o"></i></a></li>
+            </ul>
+        </nav>
+    </div>
 
     <div id="app-col-container">
 
@@ -9,12 +19,12 @@
 
                 <div class="visible-area">
 
-                    <nav class="nav nav-map{{#if embed}} hidden{{/if}}">
+                    <nav class="nav nav-map hidden-mobile {{#if embed}}hidden{{/if}}">
                         <ul>
 
                             {{#if permissions.administer}}
                                 <li>
-                                    <a href="/user/groups" title="Groups">
+                                    <a href="/user/groups" title="{{i18n 'ClientTemplates.app.groups'}}">
                                         <i class="fa fa-gear"></i>
                                     </a>
                                 </li>
@@ -23,16 +33,17 @@
                             {{#if permissions.add}}
 
                                 <li class="dropdown">
-                                    <button type="button" data-toggle="dropdown" title="Add Entry">
+                                    <button type="button" data-toggle="dropdown" title="{{i18n 'ClientTemplates.app.add'}}">
                                         <i class="fa fa-fw fa-plus"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                                        <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Organization <i class="fa fa-users"></i></a></li>
-                                        <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Service <i class="fa fa-desktop"></i></a></li>
-                                        <li><a href="#form-resource-add-action" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Project <i class="fa fa-gears"></i></a></li>
-                                        <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Story <i class="fa fa-comment"></i></a></li>
-                                        <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Event <i class="fa fa-calendar"></i></a></li>
-                                        <li><a href="#form-resource-add-webpage" data-app="to-modal-and-attach-behaviours modal-protected">+ Add Publication <i class="fa fa-book"></i></a></li>
+                                        <li><a href="#form-resource-add-organization" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Organization"}} <i class="fa fa-users"></i></a></li>
+                                        <li><a href="#form-resource-add-service" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Service"}} <i class="fa fa-desktop"></i></a></li>
+                                        <li><a href="#form-resource-add-action" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Action"}} <i class="fa fa-gears"></i></a></li>
+                                        <li><a href="#form-resource-add-story" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Article"}} <i class="fa fa-comment"></i></a></li>
+                                        <li><a href="#form-resource-add-event" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Event"}} <i class="fa fa-calendar"></i></a></li>
+                                        <li><a href="#form-resource-add-webpage" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "WebPage"}} <i class="fa fa-book"></i></a></li>
+                                        <li><a href="#form-resource-add-product" data-app="to-modal-and-attach-behaviours modal-protected">+ {{i18n "Product"}} <i class="fa fa-folder"></i></a></li>
                                     </ul>
                                 </li>
 
@@ -40,25 +51,48 @@
 
 
                             <li>
-                                <a href="/user/newsletter" title="Subscribe to Newsletter">
+                                <a href="/user/newsletter" title="{{i18n 'ClientTemplates.app.newsletter'}}">
                                     <i class="fa fa-fw fa-envelope"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/aggregation/" title="Statistics">
+                                <a href="/aggregation/" title="{{i18n 'ClientTemplates.app.statistics'}}">
                                     <i class="fa fa-fw fa-pie-chart"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/feed/" title="Recent Additions">
+                                <a href="/feed/" title="{{i18n 'ClientTemplates.app.recentAdditions'}}">
                                     <i class="fa fa-fw fa-rss"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/resource/?filter.about.objectIn.@type=LikeAction&sort=like_count:DESC" title="{{i18n 'ClientTemplates.app.likes'}}">
+                                    <i class="fa fa-fw fa-thumbs-up"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/resource/?filter.about.objectIn.@type=LighthouseAction&sort=lighthouse_count:DESC" title="{{i18n 'ClientTemplates.app.lighthouses'}}">
+                                    <img src="/assets/images/icon_lighthouse_static_transparent.svg" />
                                 </a>
                             </li>
 
                         </ul>
                     </nav>
+
+                    <div class="visible-mobile logo">
+                        <h1><a href="/" {{#if @root.embed}}target="_blank"{{/if}}>OER <i class="fa fa-globe"></i> MAP</a></h1>
+                    </div>
+
+                    <div id="app-scope" class="hide">
+                    </div>
+
+                    <div class="close-scope">
+                        <a href="/"><i class="fa fa-times"></i></a>
+                    </div>
 
                     {{{footer}}}
 
@@ -78,11 +112,11 @@
 
     	<div id="app-col-detail" data-app="col" data-col-mode="hidden">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-            {{#unless @root.embed}}
+            {{#ifCond @root.embed '!=' 'true'}}
             <div data-app="toggle-col">
                 <i class="fa fa-fw fa-chevron-right"></i>
         	</div>
-            {{/unless}}
+            {{/ifCond}}
     	</div>
 
     	<div id="app-notification-area">
@@ -108,7 +142,7 @@
             <div class="checkbox dismiss">
                 <label>
                     <input type="checkbox" name="dismiss">
-                    Don't show again
+                    {{i18n "ClientTemplates.app.notification.show"}}
                 </label>
             </div>
         </div>

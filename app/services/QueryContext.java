@@ -6,10 +6,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author fo
@@ -35,19 +32,6 @@ public class QueryContext {
 
     QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name.@value");
     filters.put("emptyNames", emptyNames);
-
-    List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
-    guestAggregations.add(AggregationProvider.getTypeAggregation(0));
-    guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
-    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
-    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
-    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
-    guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
-    guestAggregations.add(AggregationProvider.getLicenseAggregation(0));
-    guestAggregations.add(AggregationProvider.getEventCalendarAggregation());
-
-    aggregations.put("guest", guestAggregations);
-    aggregations.put("authenticated", guestAggregations);
 
     if (roles != null) {
       this.roles = roles;
@@ -88,6 +72,27 @@ public class QueryContext {
   }
 
   public List<AggregationBuilder<?>> getAggregations() {
+
+    List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
+    guestAggregations.add(AggregationProvider.getTypeAggregation(0));
+    guestAggregations.add(
+      filters.containsKey("iso3166")
+        ? AggregationProvider.getRegionAggregation(0)
+        : AggregationProvider.getByCountryAggregation(0)
+    );
+    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
+    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
+    guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
+    guestAggregations.add(AggregationProvider.getLicenseAggregation(0));
+    guestAggregations.add(AggregationProvider.getEventCalendarAggregation());
+    guestAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
+    guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
+    guestAggregations.add(AggregationProvider.getAwardAggregation(0));
+
+    aggregations.put("guest", guestAggregations);
+    aggregations.put("authenticated", guestAggregations);
+
     List<AggregationBuilder<?>> appliedAggregations = new ArrayList<>();
     for (Map.Entry<String, List<AggregationBuilder<?>>> entry : aggregations.entrySet()) {
       if (roles.contains(entry.getKey())) {
@@ -144,6 +149,44 @@ public class QueryContext {
       mZoomBottomRight = new GeoPoint(Double.parseDouble(coordinates[2]), Double.parseDouble(coordinates[3]));
     }
     throw new NumberFormatException();
+  }
+
+  @Override
+  public String toString(){
+    StringBuilder result = new StringBuilder();
+    result.append(super.toString()).append(": {\n");
+    if (filters != null && !filters.isEmpty()) {
+      result.append("filters : ").append(filters);
+    }
+    if (aggregations != null && !aggregations.isEmpty()) {
+      result.append("aggregations : ").append(aggregations).append("\n");
+    }
+    if (roles != null && !roles.isEmpty()) {
+      result.append("roles : ").append(roles).append("\n");
+    }
+    if (fetchSource != null && fetchSource.length>0) {
+      result.append("fetchSource : ").append(fetchSource).append("\n");
+    }
+    if (mElasticsearchFieldBoosts != null && mElasticsearchFieldBoosts.length>0) {
+      result.append("elasticsearchFieldBoosts : ").append(mElasticsearchFieldBoosts).append("\n");
+    }
+    if (mZoomTopLeft != null && !StringUtils.isEmpty(mZoomTopLeft.toString())) {
+      result.append("zoomTopLeft : ").append(mZoomTopLeft).append("\n");
+    }
+    if (mZoomBottomRight != null && !StringUtils.isEmpty(mZoomBottomRight.toString())) {
+      result.append("zoomBottomRight : ").append(mZoomBottomRight).append("\n");
+    }
+    if (mPolygonFilter != null && !mPolygonFilter.isEmpty()) {
+      result.append("polygonFilter : ").append(mPolygonFilter).append("\n");
+    }
+    result.append("}");
+    return result.toString();
+  }
+
+  public void setIso3166Scope(String aISOCode) {
+    QueryBuilder iso3166 = QueryBuilders.boolQuery()
+      .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));
+    filters.put("iso3166", iso3166);
   }
 
 }

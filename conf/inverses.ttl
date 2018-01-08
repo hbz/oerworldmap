@@ -36,3 +36,10 @@ dcterms:hasPart owl:inverseOf dcterms:isPartOf .
 :affiliate owl:inverseOf :affiliation .
 :attendee owl:inverseOf :attends .
 :attends owl:inverseOf :attendee .
+:publisher owl:inverseOf :publication .
+:publication owl:inverseOf :publisher .
+:isRelatedTo owl:inverseOf :isRelatedTo .
+:manufacturer owl:inverseOf :manufactured .
+:manufactured owl:inverseOf :manufacturer .
+:object owl:inverseOf :objectIn .
+:objectIn owl:inverseOf :object .

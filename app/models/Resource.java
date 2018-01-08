@@ -41,9 +41,9 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   private static final long serialVersionUID = -6177433021348713601L;
 
   // identified ("primary") data types that get an ID
-  private static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
+  public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
-    "Comment"));
+    "Comment", "Product", "LikeAction", "LighthouseAction"));
 
   private static JsonNode mSchemaNode = null;
 
@@ -233,12 +233,13 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return list;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        list.add((Resource) value);
+    if (result instanceof Resource) {
+      list.add((Resource) result);
+    } else if (result instanceof List<?>) {
+      for (Object value : (List<?>) result) {
+        if (value instanceof Resource) {
+          list.add((Resource) value);
+        }
       }
     }
     return list;
@@ -439,4 +440,56 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
   }
 
+  /**
+   * Counts the number of subfields matching the argument string.
+   * A simple wildcard ("*") defines 1 level of arbitrary path specifiers.
+   * A double wildcard ("**") defines 0-n levels of arbitrary path specifiers.
+   * Wildcard string combinations ("*xyz" or "xyz*" etc.) are not supported so far.
+   * Arrays can not be specified by position
+   * @param aSubfieldPath Specifier for the subfields to be counted.
+   * @return The number of specified subfields.
+   */
+  public Integer getNumberOfSubFields(String aSubfieldPath) {
+    String[] pathElements = aSubfieldPath.split("\\.");
+    return getNumberOfSubFields(pathElements);
+  }
+
+  private Integer getNumberOfSubFields(String[] aPathElements) {
+    int count = 0;
+    if (aPathElements.length == 0){
+      return count;
+    }
+    String matchElement = null;
+    String pathElement = aPathElements[0];
+    String[] remainingElements;
+    if (pathElement.equals("**")){
+      remainingElements = aPathElements;
+      if (aPathElements.length < 3){
+        matchElement = remainingElements[remainingElements.length-1];
+      }
+    }
+    else{
+      remainingElements = Arrays.copyOfRange(aPathElements, 1, aPathElements.length);
+      if (remainingElements.length == 0){
+        matchElement = pathElement;
+      }
+    }
+    for (Entry<String, Object> entry : entrySet()) {
+      if (entry.getValue() instanceof Resource){
+        Resource innerResource = ((Resource) entry.getValue());
+        count += innerResource.getNumberOfSubFields(remainingElements);
+      } //
+      else if (entry.getValue() instanceof List<?>) {
+        for (Object innerObject : (List<?>) entry.getValue()) {
+          if (innerObject instanceof Resource){
+            count += ((Resource)innerObject).getNumberOfSubFields(remainingElements);
+          }
+        }
+      }
+      if (entry.getKey().equals(matchElement) || matchElement.equals("**")){
+        count++;
+      }
+    }
+    return count;
+  }
 }

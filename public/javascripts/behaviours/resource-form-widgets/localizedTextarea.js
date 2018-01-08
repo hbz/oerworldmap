@@ -16,10 +16,10 @@ var Hijax = (function ($, Hijax) {
 
       my.languages_array = [];
 
-      for(i in i18nStrings.languages) {
+      for(i in i18nStrings["iso639-1"]) {
         my.languages_array.push({
           id: i,
-          label: i18nStrings.languages[i]
+          label: i18nStrings["iso639-1"][i]
         });
       }
 
@@ -78,7 +78,7 @@ var Hijax = (function ($, Hijax) {
 
         // append "add language" control
 
-        $('<span class="small" data-action="add">+ Add Language</span>')
+        $('<span class="small" data-action="add">+ ' + i18nStrings['ui']['resourceFormWidgets.localizedTextarea.addLanguage'] + '</span>')
           .appendTo(widget)
           .click(function(){
             var multiple_one_new = $( multiple_one_template({ index : widget.find('.multiple-one').length }) );
@@ -102,7 +102,7 @@ var Hijax = (function ($, Hijax) {
         .detach()[0].outerHTML;
 
       var current_language_code = $(one).find('[name*="@language"]').val();
-      var button_text = current_language_code ? i18nStrings.languages[ current_language_code ] : 'Language';
+      var button_text = current_language_code ? i18nStrings["iso639-1"][ current_language_code ] : i18nStrings['ui']['resourceFormWidgets.localizedTextarea.language'];
 
       fieldset.append(
         my.templates['input-group']({
@@ -174,7 +174,7 @@ var Hijax = (function ($, Hijax) {
     setLanguage : function(multiple_one, language_code) {
       $( multiple_one ).find('[name*="@language"]').val( language_code );
       $( multiple_one ).find('.dropdown-toggle .text').text(
-        language_code ? i18nStrings.languages[ language_code ] : 'Language'
+        language_code ? i18nStrings["iso639-1"][ language_code ] : 'Language'
       );
     },
 

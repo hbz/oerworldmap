@@ -46,10 +46,6 @@ public class ElasticsearchConfig {
 
   public ElasticsearchConfig(Config aConfiguration) {
     mConfig = aConfiguration;
-    init();
-  }
-
-  private void init() {
 
     // HOST
     mServer = mConfig.getString("es.host.server");

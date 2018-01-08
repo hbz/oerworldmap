@@ -26,6 +26,7 @@ import play.mvc.Controller;
 import play.twirl.api.Html;
 import services.AccountService;
 import services.AggregationProvider;
+import services.PageProvider;
 import services.QueryContext;
 import services.repository.BaseRepository;
 import services.repository.ElasticsearchRepository;
@@ -68,6 +69,7 @@ public abstract class OERWorldMap extends Controller {
   protected static BaseRepository mBaseRepository = null;
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
+  static PageProvider mPageProvider;
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
@@ -101,6 +103,14 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
+  private static synchronized void createPageProvider(Configuration aConf) {
+    if (mPageProvider == null) {
+      Map<String, List<String>> sections = new HashMap<>();
+      mPageProvider = new PageProvider(aConf.getString("pages.dir"), aConf.getString("pages.extension"),
+        aConf.getConfig("pages.sections").asMap());
+    }
+  }
+
   @Inject
   public OERWorldMap(Configuration aConf, Environment aEnv) {
 
@@ -114,17 +124,25 @@ public abstract class OERWorldMap extends Controller {
     createAccountService(mConf);
 
     // Location lookup
-    createLocationLookup(mEnv);
+    if (mEnv != null) {
+      // can be null in tests
+      createLocationLookup(mEnv);
+    }
+
+    // Static pages
+    createPageProvider(mConf);
 
   }
 
-  boolean getEmbed() {
+  String getEmbed() {
 
-    return ctx().request().queryString().containsKey("embed");
+    return ctx().request().queryString().containsKey("embed")
+      ? ctx().request().queryString().get("embed")[0]
+      : null;
 
   }
 
-  Locale getLocale() {
+  public Locale getLocale() {
 
     Locale locale = new Locale("en", "US");
     if (mConf.getBoolean("i18n.enabled")) {
@@ -190,12 +208,6 @@ public abstract class OERWorldMap extends Controller {
 
   }
 
-  ResourceBundle getMessages() {
-
-    return ResourceBundle.getBundle("messages", getLocale());
-
-  }
-
   ResourceBundle getEmails() {
 
     return ResourceBundle.getBundle("emails", getLocale());
@@ -251,18 +263,6 @@ public abstract class OERWorldMap extends Controller {
     return aId;
   }
 
-  public Resource getUser(String aId) {
-
-    Resource user = null;
-    String profileId = mAccountService.getProfileId(aId);
-    if (!StringUtils.isEmpty(profileId)) {
-      user = getRepository().getResource(profileId);
-    }
-
-    return user;
-
-  }
-
   protected Html render(String pageTitle, String templatePath, Map<String, Object> scope,
       List<Map<String, Object>> messages) {
     Map<String, Object> mustacheData = new HashMap<>();
@@ -278,11 +278,14 @@ public abstract class OERWorldMap extends Controller {
     mustacheData.put("requestUri", mConf.getString("proxy.host").concat(request().uri()));
     mustacheData.put("userLocation", getLocation());
     mustacheData.put("embed", getEmbed());
+    mustacheData.put("sections", mPageProvider.getSections(getLocale()));
     Map<String, Object> skos = new HashMap<>();
     try {
       skos.put("esc", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/esc.json"),
         HashMap.class));
       skos.put("isced", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"),
+        HashMap.class));
+      skos.put("sectors", new ObjectMapper().readValue(mEnv.classLoader().getResourceAsStream("public/json/sectors.json"),
         HashMap.class));
     } catch (IOException e) {
       Logger.warn("Could not read SKOS file", e);
@@ -327,8 +330,7 @@ public abstract class OERWorldMap extends Controller {
       Logger.error("Could not register helpers", e);
     }
 
-    HandlebarsHelpers.setController(this);
-    handlebars.registerHelpers(new HandlebarsHelpers());
+    handlebars.registerHelpers(new HandlebarsHelpers(this));
 
     try {
       handlebars.registerHelpers(new File("public/javascripts/helpers/shared.js"));
@@ -498,6 +500,10 @@ public abstract class OERWorldMap extends Controller {
 
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 
+  }
+
+  public BaseRepository getBaseRepository(){
+    return mBaseRepository;
   }
 
 }
