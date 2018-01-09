@@ -11,7 +11,7 @@ As pessoas precisam saber sobre o Mapa Global REA para que ele possa fornecer um
 
 Desenvolver o Mapa Global REA depende de colaboração. O desenvolvimento será melhor construído por uma rede de Embaixadores que têm ou desejam criar uma visão geral do movimento de REA no seu próprio país. De sua base local eles poderão sensibilizar seus pares, coletar dados e garantir a sua qualidade.
 
-Muitos países ainda não tem um Embaixador. Mais informações sobre o Rede de Embaixadores do Mapa Global REA podem ser encontradas em nosso [ blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). If you or your institution could play this role please write to <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+Muitos países ainda não tem um Embaixador. Mais informações sobre o Rede de Embaixadores do Mapa Global REA podem ser encontradas em nosso [ blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). Se você ou sua instituição quer participar escreva para <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
 ### Contribua uma história
 
