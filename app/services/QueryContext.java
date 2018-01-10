@@ -77,7 +77,7 @@ public class QueryContext {
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation(0));
     if (filters.containsKey("iso3166")) {
-      guestAggregations.add(AggregationProvider.getRegionAggregation(0));
+      guestAggregations.add(AggregationProvider.getRegionAggregation(0, iso3166Scope));
       guestAggregations.add(AggregationProvider.getForCountryAggregation(iso3166Scope, 0));
     } else {
       guestAggregations.add(AggregationProvider.getByCountryAggregation(0));

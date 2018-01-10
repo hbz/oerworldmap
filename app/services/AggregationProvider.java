@@ -145,10 +145,10 @@ public class AggregationProvider {
       ).order(Histogram.Order.KEY_DESC).minDocCount(1);
   }
 
-  public static AggregationBuilder<?> getRegionAggregation(int aSize) {
+  public static AggregationBuilder<?> getRegionAggregation(int aSize, String iso3166Scope) {
     return AggregationBuilders.terms("about.location.address.addressRegion")
       .field("about.location.address.addressRegion")
-      .include("..\\....?")
+      .include(iso3166Scope + "\\....?")
       .size(aSize);
   }
 
