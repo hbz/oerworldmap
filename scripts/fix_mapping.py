@@ -105,6 +105,16 @@ def set_ngram(variations_search_analyzer):
                 "type": "string",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
+            },
+            "de": {
+                "analyzer": "german_analyzer",
+                "search_analyzer": "german_analyzer",
+                "type": "string"
+            },
+            "en": {
+                "analyzer": "english_analyzer",
+                "search_analyzer": "english_analyzer",
+                "type": "string"
             }
         }
     }
