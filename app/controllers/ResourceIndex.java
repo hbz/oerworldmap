@@ -455,9 +455,8 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result commentResource(String aId) throws IOException {
 
-    ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
-    jsonNode.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-    Resource comment = Resource.fromJson(jsonNode);
+    Resource comment = Resource.fromJson(getJsonFromRequest());
+    comment.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
