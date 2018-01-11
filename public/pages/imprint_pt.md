@@ -1,20 +1,20 @@
 ---
-title: Terms of Service
+title: Termos de Serviço
 ---
-Overview:
+Resumo:
 
-1. [Imprint](#imprint)
-2. [Liability / Haftung](#liability)
-3. [Privacy policy](#privacy) 
-    1. [Accessing the content of the OER World Map](#privacy-access)
-    2. [Privacy when publishing Information related to Open Educational Resources on the OER World Map](#privacy-publish)
-    3. [Newsletter](#privacy-newsletter)
+1. [Informação legal](#imprint)
+2. [Responsabilidade / Haftung](#liability)
+3. [Política de privacidade](#privacy) 
+    1. [Acessando o conteúdo do Mapa Global REA](#privacy-access)
+    2. [Privacidade ao publicar informações relacionadas a Recursos Educacionais Abertos no Mapa Global REA](#privacy-publish)
+    3. [Informativo](#privacy-newsletter)
 4. [Copyright](#copyright) 
-    1. [CC0 except where otherwise noted](#cc0)
-    2. [Other licenses, e.g. for stories, fonts and maps](#other-licenses)
-5. [Versions](#versions)
+    1. [CC0, exceto onde indicado](#cc0)
+    2. [Outras licenças, por exemplo, para as histórias, fontes e mapas](#other-licenses)
+5. [Versões](#versions)
 
-In case of any questions of requests please do not hesitate to get in touch with the administrators of this website directly via <info@oerworldmap.org>.
+Em caso de dúvidas não hesite em entrar em contato com os administradores deste site diretamente via <info@oerworldmap.org>.
 
 <h2 id="imprint">1. Imprint</h2>
 
@@ -23,8 +23,6 @@ OER World Map is operated under German Law by the Hochschulbibliothekszentrum de
 <h2 id="liability">2. Liability / Haftung</h2>
 
 OER World Map itself does not curate or check the content provided by its users. It is solely providing the tools for the publication. The content itself is thus provided under the responsibility of the respective users. Should you encounter any content, that does or might infringe with your or the copyright of others, please send an email to <info@oerworldmap.org>. In accordance with § 10 TMG the providers of this site will immediately take down the respective content, should the claim be sufficiently substantiated.
-
-Die Betreiber übernehmen keine Verantwortung für die Inhalte und Links, die wir für unsere Nutzerinnen und Nutzer speichern. In Bezug auf diese Inhalte und Links verstehen wir uns als Diensteanbieter für fremde Informationen gem. §10 TMG. Sofern Sie durch die Speicherung auf OER World Map in Ihren Rechten verletzt werden, bitten wir um einen Hinweis an: info@oerworldmap.org. Wir werden, sofern die Speicherung rechtswidrig erfolgt ist, die entsprechenden Informationen aus unserem öffentlich zugänglichen Angebot umgehend löschen.
 
 <h2 id="privacy">3. Privacy policy</h2>
 
