@@ -25,7 +25,7 @@ O Mapa Global REA está sendo construído pela [ hbz](http://www.hbz-nrw.de) e [
 
 ![Philipp von Böselager](/assets/images/image05.png) Philipp ([@boesephil](https://twitter.com/boesephil) on Twitter) is a Java backend developer in the field of Computational Linguistics (CL). After having worked with search engines, parsers, neural networks and speech synthesis in the course of his CL studies at the University of Cologne he went on to gain general IT experience at a German Java focused company. Later on he worked as a backend developer in an eDiscovery company, finally heading for the open minded spirit of the University-related HBZ again. He is deeply convinced of the WWW to serve for the common welfare and therefore being open and truly loves to work on a project he severely identifies with.
 
-### Karin Drezdenko (Editor on-line)
+### Karin Driesen (Editor on-line)
 
 ![Karin Driesen](/assets/images/Karin-Driesen-130.jpg) Karin Driesen trabalha como editora online do Mapa Global REA. Before this she worked for the German office of O’Reilly Media, a computer book publisher known for supporting the open source community. She has studied two extremely different subjects: German literature and geoecology. These subjects were related to different ways of studying: reading and writing on your own studying literature and working together as a team by sharing all resources with your fellow geoecology students. Getting material written by other people, refine it and pass it on to the following students was much like the OER way. She wants to move ahead on this way and help people to find useful and reusable information.
 
