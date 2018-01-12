@@ -15,11 +15,7 @@ import play.mvc.Result;
 import services.QueryContext;
 import services.SearchConfig;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author pvb
@@ -57,11 +53,12 @@ public class Reconciler extends OERWorldMap{
     DynamicForm requestData = formFactory.form().bindFromRequest();
     JsonNode request = Json.parse(requestData.get("queries"));
     Iterator<Map.Entry<String, JsonNode>> inputQueries = request.fields();
-    return ok(reconcile(inputQueries, null));
+    return ok(reconcile(inputQueries, null, Locale.ENGLISH)); // TODO: fetch Locale from UI
   }
 
 
-  public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries, final QueryContext aQueryContext) {
+  public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries,
+                            final QueryContext aQueryContext, final Locale aPreferredLocale) {
     QueryContext queryContext = aQueryContext != null ? aQueryContext : getQueryContext();
     queryContext.setElasticsearchFieldBoosts(new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
     ObjectNode response = Json.newObject();
@@ -76,7 +73,8 @@ public class Reconciler extends OERWorldMap{
       if (type != null) {
         typeFilter.put("about.@type", Arrays.asList(type.asText()));
       }
-      JsonNode reconciled = mBaseRepository.reconcile(queryString, 0, limit, null, typeFilter, queryContext);
+      JsonNode reconciled = mBaseRepository
+        .reconcile(queryString, 0, limit, null, typeFilter, queryContext, aPreferredLocale);
       response.set(inputQuery.getKey(), reconciled);
     }
     return response;

@@ -176,23 +176,24 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
-    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
 
   }
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
+                            final Locale aPreferredLocale) {
 
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
 
-    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
     Iterator<Resource> searchHits = response.getItems().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
 
     while (searchHits.hasNext()) {
       final Resource hit = searchHits.next();
       Resource match = hit.getAsResource(Record.RESOURCE_KEY);
-      String name = match.getNestedFieldValue("name.@value", Locale.ENGLISH); // TODO: trigger locale by reconcile request ?
+      String name = match.getNestedFieldValue("name.@value", aPreferredLocale);
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
       item.put("id", match.getId());
       item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
@@ -321,97 +322,28 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private ResourceList esQuery(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                                 Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+
+  private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
+                                 final String aSortOrder, final Map<String, List<String>> aFilters,
+                                 final QueryContext aQueryContext, final boolean allowsTypos) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
-
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
-    String[] fieldBoosts = null;
+    String[] fieldBoosts = processQueryContext(aQueryContext, searchRequestBuilder, globalAndFilter);
+    processSortOrder(aSortOrder, searchRequestBuilder);
+    processFilters(aFilters, globalAndFilter);
 
-    if (!(null == aQueryContext)) {
-      searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
-      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
-        globalAndFilter.must(contextFilter);
-      }
-      for (AggregationBuilder<?> contextAggregation : aQueryContext.getAggregations()) {
-        searchRequestBuilder.addAggregation(contextAggregation);
-      }
-      if (aQueryContext.hasFieldBoosts()) {
-        fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
-      }
-      if (null != aQueryContext.getZoomTopLeft() && null != aQueryContext.getZoomBottomRight()) {
-        GeoBoundingBoxQueryBuilder zoomFilter = QueryBuilders.geoBoundingBoxQuery("about.location.geo")
-          .topLeft(aQueryContext.getZoomTopLeft())
-          .bottomRight(aQueryContext.getZoomBottomRight());
-        globalAndFilter.must(zoomFilter);
-      }
-      if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()) {
-        GeoPolygonQueryBuilder polygonFilter = QueryBuilders.geoPolygonQuery("about.location.geo");
-        for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()){
-          polygonFilter.addPoint(geoPoint);
-        }
-        globalAndFilter.must(polygonFilter);
-      }
+    QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
+    FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
+    final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
+    if (allowsTypos){
+      bqBuilder.should(fqBuilder);
     }
-
-    if (!StringUtils.isEmpty(aSortOrder)) {
-      String[] sort = aSortOrder.split(":");
-      if (2 == sort.length) {
-        searchRequestBuilder.addSort(new FieldSortBuilder(
-          sort[0]).order(sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC
-        ).unmappedType("string"));
-      } else {
-        Logger.trace("Invalid sort string: " + aSortOrder);
-      }
+    else {
+      bqBuilder.must(fqBuilder);
     }
-
-    if (!(null == aFilters)) {
-      BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
-      for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
-        BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
-        String filterName = entry.getKey();
-        for (String filterValue : entry.getValue()) {
-          if (filterName.endsWith(".GTE")) {
-            filterName = filterName.substring(0, filterName.length()-".GTE".length());
-            orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
-          } else {
-            // This could also be 'must' queries, allowing to narrow down the result list
-            orFilterBuilder.should(QueryBuilders.termQuery(filterName, filterValue));
-          }
-        }
-        aggregationAndFilter.must(orFilterBuilder);
-      }
-      globalAndFilter.must(aggregationAndFilter);
-    }
-
-    QueryBuilder queryBuilder;
-
-    if (!StringUtils.isEmpty(aQueryString)) {
-      if (aQueryString.endsWith("!")) {
-        aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
-        Logger.trace("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
-      }
-      queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness)
-        .defaultOperator(QueryStringQueryBuilder.Operator.AND);
-      if (fieldBoosts != null) {
-        // TODO: extract fieldBoost parsing from loop in case
-        for (String fieldBoost : fieldBoosts) {
-          try {
-            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
-              Float.parseFloat(fieldBoost.split("\\^")[1]));
-          } catch (ArrayIndexOutOfBoundsException e) {
-            Logger.trace("Invalid field boost: " + fieldBoost);
-          }
-        }
-      }
-    } else {
-      queryBuilder = QueryBuilders.matchAllQuery();
-    }
-
-    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(QueryBuilders.boolQuery()
-      .filter(globalAndFilter).must(queryBuilder)).setFrom(aFrom);
+    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(bqBuilder);
 
     List<SearchHit> searchHits = new ArrayList<>();
     SearchResponse response;
@@ -442,6 +374,103 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
       aFilters, aAggregations);
 
+  }
+
+  private FunctionScoreQueryBuilder getFunctionScoreQueryBuilder(QueryBuilder queryBuilder) {
+    FunctionScoreQueryBuilder fqBuilder;
+    fqBuilder = QueryBuilders.functionScoreQuery(queryBuilder);
+    fqBuilder.boostMode(CombineFunction.MULT);
+    fqBuilder.scoreMode(FiltersFunctionScoreQuery.ScoreMode.Sum.name().toLowerCase());
+    fqBuilder.add(ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT));
+    return fqBuilder;
+  }
+
+  private QueryBuilder getQueryBuilder(@Nonnull String aQueryString, String[] fieldBoosts) {
+    QueryBuilder queryBuilder;
+    if (!StringUtils.isEmpty(aQueryString)) {
+      if (aQueryString.endsWith("!")) {
+        aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
+        Logger.trace("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
+      }
+      queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness)
+        .defaultOperator(QueryStringQueryBuilder.Operator.AND);
+      if (fieldBoosts != null) {
+        // TODO: extract fieldBoost parsing from loop in case
+        for (String fieldBoost : fieldBoosts) {
+          try {
+            ((QueryStringQueryBuilder) queryBuilder).field(fieldBoost.split("\\^")[0],
+              Float.parseFloat(fieldBoost.split("\\^")[1]));
+          } catch (ArrayIndexOutOfBoundsException e) {
+            Logger.trace("Invalid field boost: " + fieldBoost);
+          }
+        }
+      }
+    } else {
+      queryBuilder = QueryBuilders.matchAllQuery();
+    }
+    return queryBuilder;
+  }
+
+  private void processFilters(Map<String, List<String>> aFilters, BoolQueryBuilder globalAndFilter) {
+    if (!(null == aFilters)) {
+      BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
+      for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
+        BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
+        String filterName = entry.getKey();
+        for (String filterValue : entry.getValue()) {
+          if (filterName.endsWith(".GTE")) {
+            filterName = filterName.substring(0, filterName.length()-".GTE".length());
+            orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
+          } else {
+            // This could also be 'must' queries, allowing to narrow down the result list
+            orFilterBuilder.should(QueryBuilders.termQuery(filterName, filterValue));
+          }
+        }
+        aggregationAndFilter.must(orFilterBuilder);
+      }
+      globalAndFilter.must(aggregationAndFilter);
+    }
+  }
+
+  private void processSortOrder(String aSortOrder, SearchRequestBuilder searchRequestBuilder) {
+    if (!StringUtils.isEmpty(aSortOrder)) {
+      String[] sort = aSortOrder.split(":");
+      if (2 == sort.length) {
+        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+      } else {
+        Logger.trace("Invalid sort string: " + aSortOrder);
+      }
+    }
+  }
+
+  private String[] processQueryContext(QueryContext aQueryContext, SearchRequestBuilder searchRequestBuilder, BoolQueryBuilder globalAndFilter) {
+    String [] fieldBoosts = null;
+    if (!(null == aQueryContext)) {
+      searchRequestBuilder.setFetchSource(aQueryContext.getFetchSource(), null);
+      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
+        globalAndFilter.must(contextFilter);
+      }
+      for (AggregationBuilder<?> contextAggregation : aQueryContext.getAggregations()) {
+        searchRequestBuilder.addAggregation(contextAggregation);
+      }
+      if (aQueryContext.hasFieldBoosts()) {
+        fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
+      }
+      if (null != aQueryContext.getZoomTopLeft() && null != aQueryContext.getZoomBottomRight()) {
+        GeoBoundingBoxQueryBuilder zoomFilter = QueryBuilders.geoBoundingBoxQuery("about.location.geo")
+          .topLeft(aQueryContext.getZoomTopLeft())
+          .bottomRight(aQueryContext.getZoomBottomRight());
+        globalAndFilter.must(zoomFilter);
+      }
+      if (null != aQueryContext.getPolygonFilter() && !aQueryContext.getPolygonFilter().isEmpty()) {
+        GeoPolygonQueryBuilder polygonFilter = QueryBuilders.geoPolygonQuery("about.location.geo");
+        for (GeoPoint geoPoint : aQueryContext.getPolygonFilter()){
+          polygonFilter.addPoint(geoPoint);
+        }
+        globalAndFilter.must(polygonFilter);
+      }
+    }
+    return fieldBoosts;
   }
 
   public boolean hasIndex(String aIndex) {

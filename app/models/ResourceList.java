@@ -57,7 +57,7 @@ public class ResourceList {
       from--;
       size = Integer.valueOf(aPagedCollection.getAsString("until")) - from;
     }
-    size = Integer.valueOf(aPagedCollection.getAsString("size"));
+    size = Integer.valueOf(aPagedCollection.getAsString("totalItems"));
     aggregations = aPagedCollection.getAsResource("aggregations");
     filters = (Map<String, List<String>>) aPagedCollection.getAsMap("filters");
 

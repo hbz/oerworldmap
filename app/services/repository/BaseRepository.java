@@ -25,10 +25,7 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BaseRepository extends Repository
     implements Readable, Writable, Queryable, Aggregatable, Versionable {
@@ -189,8 +186,10 @@ public class BaseRepository extends Repository
   }
 
   public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
-    return mElasticsearchRepo.reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
+                            final Locale aPreferredLocale) {
+    return mElasticsearchRepo
+      .reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, aPreferredLocale);
   }
 
   @Override

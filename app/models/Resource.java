@@ -41,7 +41,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
    *  Constructor for typeless resources
    */
   public Resource() {
-    this(null, null);
+    this(null);
   }
 
   /**

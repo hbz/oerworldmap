@@ -19,9 +19,11 @@ import play.libs.Json;
 import play.test.Helpers;
 import services.QueryContext;
 import services.ReconcileConfig;
+import services.SearchConfig;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -66,8 +68,89 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     query0.put("limit", 1);
     queryMap.put("q0", query0);
 
-    final JsonNode myResourceTitle = mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext);
+    final JsonNode myResourceTitle =
+      mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
     Assert.assertEquals(correctTitle, myResourceTitle.get("q0").get("result").get(0).get("name").asText());
   }
 
+  @Test
+  public void testFuzzyTokenSearch()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testFuzzyTokenSearch.DB.1.json"); // TODO
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+
+    final String withoutTypo = "Politischebildung";
+    final String withTypo = "Poltischebildung";
+
+    // build query
+    final Map<String, JsonNode> queryMap = new HashMap<>();
+    final ObjectNode query0 = Json.newObject();
+    query0.put("limit", 1);
+
+    try {
+      query0.put("query", withoutTypo);
+      queryMap.put("q0", query0);
+      final JsonNode noTypoSearchNode =
+        mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
+      Assert.assertEquals(withoutTypo, noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
+
+      query0.put("query", withTypo);
+      queryMap.put("q0", query0);
+      final JsonNode typoSearchNode =
+        mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
+      Assert.assertEquals(withoutTypo, typoSearchNode.get("q0").get("result").get(0).get("name").asText());
+    }
+    finally {
+      mReconciler.getBaseRepository().deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
+    }
+  }
+
+  @Test
+  public void testFuzzyPhraseSearch()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testFuzzyPhraseSearch.DB.1.json"); // TODO
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+
+    final String withoutTypo = "Bundeszentrale für politische Bildung";
+    final String withTypo = "Bundeszentrale für poltische Bildung";
+
+    // build query
+    final Map<String, JsonNode> queryMap = new HashMap<>();
+    final ObjectNode query0 = Json.newObject();
+    query0.put("limit", 1);
+
+    try {
+      query0.put("query", withoutTypo);
+      queryMap.put("q0", query0);
+      final JsonNode noTypoSearchNode = mReconciler
+        .reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
+      Assert.assertEquals(withoutTypo, noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
+
+      query0.put("query", withTypo);
+      queryMap.put("q0", query0);
+      final JsonNode typoSearchNode =
+        mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
+      Assert.assertEquals(withoutTypo, typoSearchNode.get("q0").get("result").get(0).get("name").asText());
+    }
+    finally {
+      mReconciler.getBaseRepository().deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
+    }
+  }
+
+  @Test
+  public void testSearchSpecialCaseCase()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCaseCase.DB.1.json");
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    try {
+      JsonNode hitsTrivial = mReconciler.getBaseRepository()
+        .reconcile("BC campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for trivial case.", 1, hitsTrivial.get("result").size());
+      JsonNode hitsSpecial = mReconciler.getBaseRepository()
+        .reconcile("Bc campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for special case.", 1, hitsSpecial.get("result").size());
+    }
+    finally {
+      mReconciler.getBaseRepository().deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
+    }
+  }
 }
