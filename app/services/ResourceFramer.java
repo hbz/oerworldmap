@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class ResourceFramer {
 
-  private static String mContextUrl = "https://crg.hbz-nrw.de/context.json";
+  private static String mContextUrl;
 
   public static void setContext(String aContextUrl) {
     mContextUrl = aContextUrl;
