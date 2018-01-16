@@ -184,6 +184,32 @@ def settings():
                 "country_synonyms_filter": {
                     "type": "synonym",
                     "synonyms": country_list
+                },
+                "stem_english": {
+                    "name": "english",
+                    "type": "stemmer"
+                },
+                "stem_german": {
+                    "name": "german2",
+                    "type": "stemmer"
+                },
+                "stopwords_english": {
+                    "stopwords": [
+                        "a",
+                        "an",
+                        "the"
+                    ],
+                    "type": "stop"
+                },
+                "stopwords_german": {
+                    "stopwords": [
+                        "ein",
+                        "eine",
+                        "der",
+                        "die",
+                        "das"
+                    ],
+                    "type": "stop"
                 }
             },
             "analyzer": {
@@ -206,6 +232,22 @@ def settings():
                         "lowercase",
                         "country_synonyms_filter"
                     ]
+                },
+                "english_analyzer": {
+                    "filter": [
+                        "stopwords_english",
+                        "stem_english",
+                        "lowercase"
+                    ],
+                    "tokenizer": "standard"
+                },
+                "german_analyzer": {
+                    "filter": [
+                        "stopwords_german",
+                        "stem_german",
+                        "lowercase"
+                    ],
+                    "tokenizer": "standard"
                 }
             }
         }
