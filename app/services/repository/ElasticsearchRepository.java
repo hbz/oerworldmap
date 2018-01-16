@@ -436,10 +436,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(new FieldSortBuilder(
+          sort[0]).order(sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC
+        ).unmappedType("string"));
       } else {
         Logger.trace("Invalid sort string: " + aSortOrder);
       }
+
     }
   }
 
