@@ -620,6 +620,19 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
+  @Test
+  public void testSearchStemmed()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchStemmed.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> literalHit = mBaseRepo.query("vielfältiges Angebot", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals("Missing hit for literal search.", 1, literalHit.size());
+    List<Resource> stemmedHit = mBaseRepo.query("vielfaltig Angebote", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals("Missing hit for stemming based search.", 1, stemmedHit.size());
+    mBaseRepo.deleteResource("urn:uuid:751c2006-4601-4c43-935b-4f7380784dd3", mMetadata);
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
