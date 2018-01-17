@@ -359,7 +359,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         nextHits = Arrays.asList(response.getHits().getHits());
       }
     } else {
-      response = searchRequestBuilder.setSize(aSize).execute().actionGet();
+      response = searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
       aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
     }
