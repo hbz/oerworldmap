@@ -28,6 +28,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "standard",
                       "type": "string",
@@ -35,6 +40,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -68,6 +78,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -75,6 +90,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -153,6 +173,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -160,6 +185,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -231,6 +261,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "standard",
                       "type": "string",
@@ -238,6 +273,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -274,6 +314,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -281,6 +326,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -319,6 +369,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -326,6 +381,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -411,6 +471,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -418,6 +483,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -488,6 +558,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -495,6 +570,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -526,6 +606,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -533,6 +618,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -560,6 +650,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -567,6 +662,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -613,6 +713,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -620,6 +725,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -659,6 +769,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -666,6 +781,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -699,6 +819,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "standard",
                       "type": "string",
@@ -706,6 +831,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -739,6 +869,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -746,6 +881,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -828,6 +968,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -835,6 +980,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -905,6 +1055,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -912,6 +1067,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -998,6 +1158,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1005,6 +1170,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1083,6 +1253,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1090,6 +1265,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1140,6 +1320,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1147,6 +1332,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1213,6 +1403,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1220,6 +1415,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1333,6 +1533,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1340,6 +1545,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1418,6 +1628,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1425,6 +1640,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1510,6 +1730,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1517,6 +1742,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1665,6 +1895,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1672,6 +1907,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1758,6 +1998,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1765,6 +2010,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1847,6 +2097,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1854,6 +2109,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -1918,6 +2178,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "standard",
                       "type": "string",
@@ -1925,6 +2190,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -1962,6 +2232,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -1969,6 +2244,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2039,6 +2319,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2046,6 +2331,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2106,6 +2396,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "standard",
                       "type": "string",
@@ -2113,6 +2408,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -2149,6 +2449,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2156,6 +2461,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2230,6 +2540,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2237,6 +2552,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2288,23 +2608,23 @@
                 }
               }
             },
+            "award": {
+              "index": "not_analyzed",
+              "type": "string"
+            },
             "dateCreated": {
               "type": "date",
               "format": "dateOptionalTime"
             },
             "isRelatedTo": {
               "properties": {
-                "image": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "startDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
-                "@id": {
-                  "index": "not_analyzed",
-                  "type": "string"
-                },
-                "@type": {
-                  "index": "not_analyzed",
-                  "type": "string"
+                "endDate": {
+                  "type": "date",
+                  "format": "dateOptionalTime"
                 },
                 "name": {
                   "properties": {
@@ -2315,6 +2635,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2322,6 +2647,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2331,6 +2661,10 @@
                       "type": "string"
                     }
                   }
+                },
+                "image": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "location": {
                   "properties": {
@@ -2368,13 +2702,13 @@
                     }
                   }
                 },
-                "startDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
-                "endDate": {
-                  "type": "date",
-                  "format": "dateOptionalTime"
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
                 }
               }
             },
@@ -2409,6 +2743,11 @@
                               "type": "string",
                               "analyzer": "simple"
                             },
+                            "de": {
+                              "search_analyzer": "german_analyzer",
+                              "type": "string",
+                              "analyzer": "german_analyzer"
+                            },
                             "variations": {
                               "search_analyzer": "title_analyzer",
                               "type": "string",
@@ -2416,6 +2755,11 @@
                             },
                             "@value": {
                               "type": "string"
+                            },
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
                           },
                           "type": "multi_field"
@@ -2497,6 +2841,11 @@
                               "type": "string",
                               "analyzer": "simple"
                             },
+                            "de": {
+                              "search_analyzer": "german_analyzer",
+                              "type": "string",
+                              "analyzer": "german_analyzer"
+                            },
                             "variations": {
                               "search_analyzer": "title_analyzer",
                               "type": "string",
@@ -2504,6 +2853,11 @@
                             },
                             "@value": {
                               "type": "string"
+                            },
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
                           },
                           "type": "multi_field"
@@ -2596,6 +2950,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2603,6 +2962,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2686,6 +3050,11 @@
                               "type": "string",
                               "analyzer": "simple"
                             },
+                            "de": {
+                              "search_analyzer": "german_analyzer",
+                              "type": "string",
+                              "analyzer": "german_analyzer"
+                            },
                             "variations": {
                               "search_analyzer": "title_analyzer",
                               "type": "string",
@@ -2693,6 +3062,11 @@
                             },
                             "@value": {
                               "type": "string"
+                            },
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
                           },
                           "type": "multi_field"
@@ -2774,6 +3148,11 @@
                               "type": "string",
                               "analyzer": "simple"
                             },
+                            "de": {
+                              "search_analyzer": "german_analyzer",
+                              "type": "string",
+                              "analyzer": "german_analyzer"
+                            },
                             "variations": {
                               "search_analyzer": "title_analyzer",
                               "type": "string",
@@ -2781,6 +3160,11 @@
                             },
                             "@value": {
                               "type": "string"
+                            },
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
                           },
                           "type": "multi_field"
@@ -2857,6 +3241,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2864,6 +3253,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2946,6 +3340,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -2953,6 +3352,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -2974,6 +3378,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "standard",
                       "type": "string",
@@ -2981,6 +3390,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -3000,6 +3414,11 @@
                       "type": "string",
                       "analyzer": "simple"
                     },
+                    "de": {
+                      "search_analyzer": "german_analyzer",
+                      "type": "string",
+                      "analyzer": "german_analyzer"
+                    },
                     "variations": {
                       "search_analyzer": "title_analyzer",
                       "type": "string",
@@ -3007,6 +3426,11 @@
                     },
                     "@value": {
                       "type": "string"
+                    },
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
                   },
                   "type": "multi_field"
@@ -3040,6 +3464,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3047,6 +3476,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3078,6 +3512,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3085,6 +3524,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3160,10 +3604,6 @@
               "index": "not_analyzed",
               "type": "string"
             },
-            "award": {
-              "index": "not_analyzed",
-              "type": "string"
-            },
             "memberOf": {
               "properties": {
                 "startDate": {
@@ -3183,6 +3623,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3190,6 +3635,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3284,6 +3734,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3291,6 +3746,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3377,6 +3837,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3384,6 +3849,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3457,6 +3927,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3464,6 +3939,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3499,6 +3979,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3506,6 +3991,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3579,6 +4069,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3586,6 +4081,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -3683,6 +4183,11 @@
                           "type": "string",
                           "analyzer": "simple"
                         },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
                         "variations": {
                           "search_analyzer": "title_analyzer",
                           "type": "string",
@@ -3690,6 +4195,11 @@
                         },
                         "@value": {
                           "type": "string"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
                       },
                       "type": "multi_field"
@@ -4069,6 +4579,32 @@
         "asciifolding_preserve_original": {
           "type": "asciifolding",
           "preserve_original": true
+        },
+        "stem_english": {
+          "name": "english",
+          "type": "stemmer"
+        },
+        "stem_german": {
+          "name": "german2",
+          "type": "stemmer"
+        },
+        "stopwords_english": {
+          "stopwords": [
+            "a",
+            "an",
+            "the"
+          ],
+          "type": "stop"
+        },
+        "stopwords_german": {
+          "stopwords": [
+            "ein",
+            "eine",
+            "der",
+            "die",
+            "das"
+          ],
+          "type": "stop"
         }
       },
       "analyzer": {
@@ -4091,6 +4627,22 @@
             "country_synonyms_filter"
           ],
           "tokenizer": "icu_tokenizer"
+        },
+        "english_analyzer": {
+          "filter": [
+            "stopwords_english",
+            "stem_english",
+            "lowercase"
+          ],
+          "tokenizer": "standard"
+        },
+        "german_analyzer": {
+          "filter": [
+            "stopwords_german",
+            "stem_german",
+            "lowercase"
+          ],
+          "tokenizer": "standard"
         }
       }
     }

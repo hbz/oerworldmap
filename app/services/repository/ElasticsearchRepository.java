@@ -31,6 +31,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.IndexNotFoundException;
+import org.elasticsearch.index.mapper.MapperParsingException;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
@@ -218,8 +219,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
-      .actionGet();
+    try {
+      mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+        .actionGet();
+    } catch (MapperParsingException e) {
+      Logger.warn("Failed to index", e);
+    }
   }
 
   /**
@@ -237,9 +242,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       bulkRequest.add(mClient.prepareIndex(mConfig.getIndex(), aType, id).setSource(json));
     }
 
-    BulkResponse bulkResponse = bulkRequest.execute().actionGet();
-    if (bulkResponse.hasFailures()) {
-      Logger.error(bulkResponse.buildFailureMessage());
+    BulkResponse bulkResponse = null;
+    try {
+      bulkResponse = bulkRequest.execute().actionGet();
+      if (bulkResponse.hasFailures()) {
+        Logger.error(bulkResponse.buildFailureMessage());
+      }
+    } catch (MapperParsingException e) {
+      Logger.warn("Failed to index", e);
     }
 
   }
