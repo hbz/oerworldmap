@@ -96,6 +96,11 @@ def set_ngram(variations_search_analyzer):
             "@value": {
                 "type": "string"
             },
+            "sort": {
+                "type": "string",
+                "ignore_above": 20,
+                "analyzer": "german_phonebook"
+            },
             "variations": {
                 "type": "string",
                 "analyzer": "title_analyzer",
@@ -210,6 +215,12 @@ def settings():
                         "das"
                     ],
                     "type": "stop"
+                },
+                "german_phonebook": {
+                    "type":     "icu_collation",
+                    "language": "de",
+                    "country":  "DE",
+                    "variant":  "@collation=phonebook"
                 }
             },
             "analyzer": {
@@ -248,6 +259,10 @@ def settings():
                         "lowercase"
                     ],
                     "tokenizer": "standard"
+                },
+                "german_phonebook": {
+                    "tokenizer": "keyword",
+                    "filter":  [ "german_phonebook" ]
                 }
             }
         }
