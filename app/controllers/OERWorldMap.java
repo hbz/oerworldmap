@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.maxmind.geoip2.DatabaseReader;
-import helpers.JSONForm;
 import helpers.JsonSchemaValidator;
 import models.Resource;
 import models.TripleCommit;
@@ -189,14 +188,7 @@ public abstract class OERWorldMap extends Controller {
    */
   JsonNode getJsonFromRequest() {
 
-    JsonNode jsonNode = ctx().request().body().asJson();
-    if (jsonNode == null) {
-      Map<String, String[]> formUrlEncoded = ctx().request().body().asFormUrlEncoded();
-      if (formUrlEncoded != null) {
-        jsonNode = JSONForm.parseFormData(formUrlEncoded, true);
-      }
-    }
-    return jsonNode;
+    return ctx().request().body().asJson();
 
   }
 

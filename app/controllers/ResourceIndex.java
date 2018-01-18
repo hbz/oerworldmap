@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.JSONForm;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
 import helpers.SCHEMA;
