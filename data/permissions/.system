@@ -7,13 +7,13 @@ RewriteCond %{QUERY_STRING} ^continue=(.*)$
 RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
 
 RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
+RewriteRule ^/?.loggedIn$ /resource/ [R=302,L,QSD,NE]
 
 <Location />
   AuthType Basic
   AuthName "Restricted Files"
-  AuthUserFile /tmp/htpasswd
-  AuthGroupFile /tmp/htgroups
+  AuthUserFile /usr/local/oer/src/oerworldmap.9006/conf/htpasswd
+  AuthGroupFile /usr/local/oer/src/oerworldmap.9006/conf/htgroups
   Require all granted
 </Location>
 
