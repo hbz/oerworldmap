@@ -1,121 +1,121 @@
 ---
 title: FAQ
 ---
-## O que é REA?
+## What is OER?
 
-'REA' significa 'Recursos Educacionais Abertos' e refere-se aos materiais livremente acessíveis que podem ser usados para uma [ variedade de atividades em torno do ensino e da aprendizagem](https://www.opencontent.org/definition/). O que os faz abertos é que eles normalmente são publicados com uma licença aberta em vez de uma licença de copyright (todos os direitos reservados) tradicional. Uma característica chave dos REA é que eles geram novas oportunidades para colaboração e inovação no ensino e aprendizagem.
+'OER' stands for 'Open Educational Resources' and refers to freely accessible materials that can be used for a [range of activities around teaching and learning](https://www.opencontent.org/definition/). What makes them open is that they are typically published with an open license instead of a traditional copyright license. One key feature of OER is that they afford new opportunities for collaboration and innovation in teaching and learning.
 
-De acordo com a [ definição da UNESCO](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER são "os materiais de ensino, aprendizagem e investigação em quaisquer suportes, digitais ou outros, que se situem no domínio público ou que tenham sido divulgados sob licença aberta que permite acesso, uso, adaptação e redistribuição gratuitos por terceiros, mediante nenhuma restrição ou poucas restrições."
+According to the [UNESCO definition](http://www.unesco.org/new/fileadmin/MULTIMEDIA/HQ/CI/CI/pdf/Events/English_Paris_OER_Declaration.pdf), OER are “teaching, learning and research materials in any medium, digital or otherwise, that reside in the public domain or have been released under an open license that permits no-cost access, use, adaptation and redistribution by others with no or limited restrictions.”
 
-Seguindo a definição da [William e Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) REA podem ser (ou incluir) cursos completo, materiais do curso, módulos, livros, vídeos, testes, software e quaisquer outras ferramentas, materiais ou técnicas utilizadas para apoiar o acesso ao conhecimento.
+Following the definition by [The William and Flora Hewlett Foundation](http://www.hewlett.org/programs/education/open-educational-resources) OER can be (or include) full courses, course materials, modules, textbooks, streaming videos, tests, software, and any other tools, materials, or techniques used to support access to knowledge.
 
-Embora definições abrangentes como estes são conhecidas, uma definição consensual para REA continua a ser alvo de debate. O projeto Mapa Global de REA adota uma abordagem ampla e inclusiva, fornecendo informações sobre atores e atividades do campo dos REA no sentido estrito do termo, mas também sobre assuntos relacionados, como a Educação Aberta, Acesso Aberto e Cursos Massivos Abertos Online (MOOC). Para obter mais informações sobre a nossa estratégia de coleta, por favor consulte "O que pode ser incluído no Mapa Global REA?"
+Although comprehensive definitions like these are well-known, the detail of how to arrive at a final definition for OER remains debated. The OER World Map project takes a broad and inclusive approach, providing information about actors and activities from the field of OER in the strict sense of the term, but also about related subjects like Open Education, Open Access and MOOCs. For more information on our collection strategy, please see “What belongs on the OER World Map?”
 
-## Para quem é esse site?
+## Who is this website for?
 
-O Mapa Global REA fornece informações úteis para todos os que estão interessados em tem conexão com REA ou Educação Aberta. O sistema é projetado para fornecer respostas em tempo real à perguntas como:-"Onde posso encontrar REA?" - "que projetos estão trabalhando com um tema semelhante ao nosso projeto?" - "que especialistas têm conhecimento para responder a uma pergunta relacionada a uma área especial de REA?"
+The OER World Map provides helpful information for everyone who is interested in or connected to OER and Open Education. The system is designed to provide real-time answers to questions like: - "Where can I find OER?" - "Which projects are working on a similar topic to our project?" - "Which experts have the knowledge to answer a question related to a special area of OER?"
 
-Acreditamos que este conjunto de dados é de especial importância, uma vez que fornece uma base sólida para futuras tentativas de juntar o conhecimento sobre REA e a Educação Aberta de forma sistemática.
+We believe that this set of data is of special importance, since it provides a solid foundation for future attempts to collect knowledge about OER and Open Education in a systematic way.
 
-Nossa plataforma fornece informações e dados relevantes para todos os interessados no campo dos REA. Esta diversidade proporciona um grande desafio para projeto desse sistema já que interfaces de usuário usualmente são orientada a tipos específicos de usuários.
+Our platform provides relevant data and information to all stakeholder groups from the field of OER. This diversity provides a major challenge for system design since user oriented interfaces are typically informed by the clearly defined needs of user types.
 
-Nesse momento, focamos em três casos de uso principal (ou "épicos"): - Os professores e alunos devem encontrar listas qualificadas de serviços REA (por exemplo, repositórios de REA) a fim de ajudá-los a encontrar recursos mais eficientemente; -Atores envolvidos com REA devem ser apoiados em sua comunicação e colaboração por meio de conexão com especialistas REA e projetos trabalhando em atividades semelhantes - Decisores envolvidos com REA devem ter acesso a dados estatísticos confiáveis.
+At the moment, we focus on three main use cases (or "epics"): - Teachers and learners should be provided with qualified lists of OER services (e.g. repositories of OER) in order to help them finding resources more efficiently; - OER actors should be supported in their communication and collaboration through connecting to relevant OER experts and projects working on similar tasks - OER Policy makers should be supported by reliable statistical data.
 
-Além do navegador (no desktop e móvel) o Mapa Global REA proporciona acessopara outros sistemas através de um aplicativo Interface de programação (API), que permitirá que outros serviços possam utilizar dos dados com facilidade.
+In addition to browser access (on desktop and mobile) The OER World Map makes data available to other systems through an Application Programming Interface (API), which will allow other services to reuse our data easily.
 
-Nossos casos de uso, que são usados para projetar os serviços que prestamos -estão disponíveis no [ GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). Se você acha que alguma coisa está faltando por aqui, por favor [ entre em contato conosco](mailto:info@oerworldmap.org)!
+Our use - which are used to design the services we provide - cases are collected on [GitHub](https://github.com/hbz/oerworldmap/issues?q=is%3Aopen+is%3Aissue+label%3Astory). If you think anything is missing here, please [contact us](mailto:info@oerworldmap.org)!
 
-## Como posso participar?
+## How can I participate?
 
-O sucesso do projeto depende da participação da Comunidade REA. Há muitas maneiras de contribuir. Algumas das mais importantes são:
+The success of the project is dependent on the participation of the OER community. There are many ways to contribute. The most important ways are:
 
-- Coletar e inserir dados usando nossos modelos
-- Contribuindo 'histórias'
-- Tornando-se um Embaixador para um país
+- Collecting and entering data using our input templates
+- Contributing ‘stories’
+- Becoming a ‘country champion’
 
-Existem muitas outras maneiras de contribuir para o projeto. Uma visão geral completa pode ser encontrada [ aqui](https://oerworldmap.org/contribute).
+There are many other ways of contributing to the project. A complete overview can be found [here](https://oerworldmap.org/contribute).
 
-## Como eu posso inserir e editar dados?
+## How can I input and edit data?
 
-Para ser capaz de inserir dados, você deve se registrar no Mapa Global REA. Você pode encontrar mais informações sobre como usar nossos modelos para entrada de dados na nossa [ wiki aqui](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
+To be able to enter data, you only have to register yourself to the OER World Map. You can find further information on how to use our input templates in our [wiki here](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors).
 
-## O que pode ser inserido no Mapa Global REA?
+## What belongs on the OER World Map?
 
-O Mapa Global REAcoleta dados sobre os atores e as atividades relacionadas à REA e Educação Aberta. No momento nos concentramos nos elementos que compõe a infraestrutura de REA. Estamos particularmente interessados em:
+The OER World Map collects data about actors and activities related to OER and Open Education. At the moment we concentrate on elements of the OER infrastructure. We are particularly interested in:
 
 <table class="table">
   
-<tr> <th>Tipo de dado</th><th>Definição</th> <th>Exemplos</th></tr> 
-<tr> <td>organizações</td><td>Uma organização é um grupo estável de pessoas que compartilham metas coletivas. O espectro atinge desde pessoas jurídicas (corporações) às comunidades frouxamente conectadas.</td> <td>universidades, empresas, associações e comunidades</td></tr>
-<tr> <td>projetos</td><td>Um projeto é um empreendimento temporário (envolvendo uma ou mais organizações) e destina-se a realizar tarefas específicas com restrições temporais.</td> <td>O projeto Mapa Global REA</td></tr>
-<tr> <td>serviços</td><td>Um serviço é uma oferta on-line, que existe de maneira perene e que fornece funcionalidade e valor relacionados com REA para seus usuários.</td> <td>repositórios, agregadores, ferramentas para autoria, plataformas de comunicação</td></tr>
-<tr> <td>eventos</td><td>Um eventos é um ajuntamento de pessoas, que têm lugar em um determinado local (virtual ou físico) em um determinado momento.</td><td>conferências, oficinas, barcamps, MOOCs</td></tr>
+<tr> <th>Data type</th><th>Definition</th> <th>Examples</th></tr> 
+<tr> <td>organizations</td><td>An organization is a steady group of people sharing collective goals. The spectrum reaches from fully incorporated legal persons on the one hand to loosely connected communities on the other.</td> <td>universities, corporations, associations, communities</td></tr>
+<tr> <td>projects</td><td>A project is a temporary undertaking (within or across organizations) intended to accomplish particular tasks under time constraints.</td> <td>The OER World Map project</td></tr>
+<tr> <td>services</td><td>A service is an online offer, which exists on a steady basis, and provides functionality and value related to OER to its users.</td> <td>repositories, aggregators, authoring tools, communication platforms</td></tr>
+<tr> <td>events</td><td>An events is a gathering of people, which take place at a certain location (virtual or physical) at a certain time.</td><td>conferences, workshops, barcamps, moocs</td></tr>
 </table>
 
-Existem muitas oportunidades para a expansão futura do modelo.
+There are many opportunities for future expansion of the model.
 
-## Onde estão os REA?
+## Where are the OER?
 
-Acreditamos que a descoberta de REAs individuais tem de ser fornecida pelos serviços de motor de busca. O Mapa Global REA facilita a descoberta de REA indiretamente fornecendo listas qualificadas de serviços de REA.
+We believe that the discovery of individual OER has to be provided by search engine based services. The OER World Map facilitates the discovery of OER indirectly by providing qualified lists of OER services.
 
-## O que é uma licença aberta?
+## What is an open license?
 
-As definições de OER amplamente aceitas pela UNESCO e o William e Flora Hewlett Foundation requerem o uso de uma licença especial 'aberta', que transforma um recurso educacional convencional em um recurso educacional aberto. O copyright tradicional define o que pode e não pode ser feito com materiais de um autor (ou do detentor dos direitos). Com os recursos abertos, os diretos são reconhecidos através de atribuição e a declaração de condições específicas de utilização e reutilização.
+The widely accepted OER definitions by UNESCO and The William and Flora Hewlett Foundation require the use of a special ‘open’ license, which transforms a conventional educational resource into an open educational resource. Traditional copyright prescribes what can and can’t be done with materials that one has authored (or owns the rights to). Rather, it acknowledges and expresses these rights by recognising the author and prescribing specific conditions for use and reuse.
 
-Uma licença aberta não remove o direito de reconhecimento da autoria. Ao invés disso, ela reconhece o autor e estabelece condições mais específicas para a utilização e reutilização.
+An open licence doesn’t undermine someone’s right to be recognised as the author of their work. Rather, it recognises the author and sets out more specific conditions for use and reuse.
 
-Dependendo da licença específica isto permite uma gama de atividades, conhecidas como os '5 Rs' da abertura:
+Depending on the specific license this allows for a range of behaviours known as the '5 Rs' of openness:
 
-- **Reter** – o direito de fazer, possuir e controlar cópias do conteúdo
-- **Reutilizar** – o direito de usar o conteúdo em uma ampla gama de formas (por exemplo, em uma classe, um grupo de estudo, em um site, em um vídeo)
-- **Revisar** – o direito de adaptar, ajustar, modificar ou alterar o conteúdo propriamente dito (por exemplo, traduzir o conteúdo para outro idioma)
-- **Remix** – o direito de combinar o conteúdo revisado ou o conteúdo original com outro conteúdo aberto para criar algo novo (por exemplo, incorporar o conteúdo em um 'mashup')
-- **Redistribuir** – o direito de partilhar cópias do conteúdo original, suas revisões ou seus remixes com terceiros (por exemplo, dar uma cópia do conteúdo para um amigo)
+- **Retain** – the right to make, own, and control copies of the content
+- **Reuse** – the right to use the content in a wide range of ways (e.g., in a class, in a study group, on a website, in a video)
+- **Revise** – the right to adapt, adjust, modify, or alter the content itself (e.g., translate the content into another language)
+- **Remix** – the right to combine the original or revised content with other open content to create something new (e.g., incorporate the content into a mashup)
+- **Redistribute** – the right to share copies of the original content, your revisions, or your remixes with others (e.g., give a copy of the content to a friend)
 
-Um foco um pouco diferente é fornecido pela [ Definição Aberta](http://opendefinition.org/) que afirma que: "dados e conteúdo abertos podem ser livremente utilizados, modificados e compartilhados por qualquer pessoa para qualquer finalidade"
+A slightly different focus is provided by the [Open Definition](http://opendefinition.org/) which states that: "Open data and content can be freely used, modified, and shared by anyone for any purpose"
 
-Embora existam muitas licenças abertas diferentes disponíveis, [ Creative Commons](https://creativecommons.org/licenses/) fornece o modelo mais utilizado de licenças abertas. Geralmente recomendamos o uso de licenças CC-BY ou CC BY-SA para REA. As licenças cumprem a exigência estrita da 'definição aberta' e também foram aprovadas como obras culturais livres pelo Creative Commons. Mais informações sobre o uso de licenças abertas podem ser encontradas [aqui](http://educacaoaberta.org/cadernorea/).
+Though there are many different open licenses available, [Creative Commons](https://creativecommons.org/licenses/) provides the by far most used open license family. We generally recommend the use of CC-BY or CC BY-SA licenses for OER. Both license meet the strict requirement of the open definition and also have been approved for free cultural works by Creative Commons. More information about the use of open content licenses can be found [here](https://www.unesco.de/fileadmin/medien/Dokumente/Kommunikation/Open_Content_A_Practical_Guide_to_Using_Open_Content_Licences_web.pdf).
 
-## Posso adicionar serviços que fornecem recursos que não são 'abertos' ao mapa?
+## Can I add services which provide non open resources to the map?
 
-As definições mais comuns de REA, da UNESCO e da The William e Flora Hewlett Foundation obrigatoriamente requerem o uso de licenças abertas. Recursos gratuitos (que são acessíveis sem qualquer custo na internet mas não abertamente licenciado) não são REA de acordo com essas definições. Levamos a ideia de abertura muito a sério, já que a reutilização e alteração de recursos é central ao conceito de REA. Ao focar no material licenciado abertamente o Mapa Global REA irá fornecer valor real aos usuários, que estarão à procura de material reutilizável.
+The most common OER definitions by UNESCO and by The William and Flora Hewlett Foundation compulsory require the use of open licenses. "Free" or "gratis" resources (resources which are accessible without any cost on the internet but not openly licensed) are not OER according to these definitions. We take openness very serious since the idea of reusing and modifying resources is central to the concept of OER. By focusing on openly licensed material the OER World Map will provide real value to users, who are especially looking for reusable material.
 
-No entanto, uma vez que as ofertas grátis de hoje podem tornar-se os serviços abertamente licenciados de amanhã, não achamos que faz sentido excluir os serviços não-abertos de maneira dogmática. Portanto, o Mapa Global REA aceita e compartilha serviços fornecendo material sob uma variedade de licenças, com uma exigência mínima de que o material deve ser livremente disponível on-line ('grátis').
+Nevertheless, since the gratis offerings of today might become the openly licensed services of tomorrow, we don`t think that it makes sense to exclude non-open services dogmatically. Therefore, the OER World Map records and shares services providing material under a variety of licenses, with a minimum requirement that the material must be freely available online (“gratis”).
 
-Nós, no entanto, temos um papel protagonista em destacar os benefícios especiais de licenças abertas. Para tanto, fornecemos um mecanismo de busca para pesquisa material licenciado abertamente. Estamos também trabalhando no desenvolvimento de um [indicador de abertura](https://github.com/hbz/oerworldmap/issues/237), que será usado no futuro para visualmente transmitir informações sobre o grau de abertura de um serviço de maneira sucinta.
+We do, however, take an active lead in highlighting the special benefits of open licenses. In order to do so, we currently provide search for openly licensed material. We are also working on developing an [openness indicator](https://github.com/hbz/oerworldmap/issues/237), which will be used in the future to visually convey information about the degree of openness of a service at one sight.
 
-Projetos são tratados de forma mais flexível do que serviços. Muitos projetos visam objetivos relacionados à Educação Aberta no sentido mais amplo e fornecem resultados que são valiosos para o movimento REA, mesmo se eles não fornecem materiais licenciados abertamente. Para evitar a exclusão de experiências valiosas, acreditamos que o Mapa Global REA deve ser aberto à todos os projetos que acreditam que fazem uma contribuição ao campo da Educação Aberta.
+Projects are handled more flexibly than services. Many projects aim at goals related to Open Education in the wider sense and provide results which are valuable to the OER movement, even if they do not provide openly licensed materials. To avoid excluding valuable experiences, we believe that the OER World Map should be open to all projects which believe they make a contribution to the field of Open Education.
 
-## MOOC (Cursos Massivos Abertos Online) devem ser adicionados ao Mapa Global REA?
+## Should MOOCs (Massive Open Online Courses) be added to the OER World Map?
 
-Esta é uma pergunta interessante. A resposta simples é "Sim"! Mas as coisas são mais complicadas, se você investigar de maneira mais detalhada:
+This is an interesting question. The simple answer is "Yes!" But things are more complicated, if you look at it in more detail:
 
-Uma crítica que frequentemente tem sido feita é que muitos [MOOCs](https://pt.wikipedia.org/wiki/MOOC) não estão usando materiais licenciados abertamente (o que os tornam 'grátis', mas não realmente 'abertos'). Como dito acima, o Mapa Global também pode incluir materiais e serviços 'grátis'. Isto também é verdadeiro para MOOCs. Mas se um MOOC não fornece recursos abertos, ele será classificado desse modo, utilizando o 'indicador de abertura' no futuro.
+A criticism that has frequently been made is that many [MOOCs](https://en.wikipedia.org/wiki/Massive_open_online_course) are not using openly licensed material (which arguably makes them "free" or “gratis” but not really "open"). As stated above, the World Map can also include gratis services and materials. This is true for MOOCs as well. But if a MOOC does not provide open resources, it will be classified accordingly using the "openness indicator" in the future.
 
-Alternativamente pode-se argumentar que MOOCs são cursos que estão usando e fornecendo REA (se licenças aberta são utilizadas), mas que isso não faz com que esses cursos sejam automaticamente REA. Na verdade pode-se argumentar que MOOCs podem ser melhor classificados como Práticas Educacionais Abertas (PEA) do que REA. De todo modo, desde que existe uma conexão óbvia entre MOOCs e REA - e há muito interesse em MOOCS - acreditamos que faz sentido incluir MOOCs também.
+One could alternatively argue that MOOCs are courses, which are using and providing OER (if open licenses are used), but that this does not make them OER themselves. Indeed it could be argued that MOOCs might be better classified as Open Educational Practices (OEP), than OER. Nevertheless, since there is an obvious connection between MOOCs and OER - and there is much interest in MOOCs - we believe that it makes sense to include MOOCs as well.
 
-Concretamente, o Mapa Global REA oferece a possibilidade de incluir provedores de MOOCs como serviços e MOOCs individuais como eventos. Nossa estratégia de coleção atual não se concentra em MOOCs, mas isso pode, potencialmente, ser uma área de foco futura.
+Concretely, the OER World Map offers the possibility of including MOOC providers as services and individual MOOCs as events. Our current collection strategy does not concentrate on MOOCs, but this could potentially be a focus in the future.
 
-## Como você vai usar qualquer informação que eu partilhar?
+## How will you use any information I share?
 
-Acreditamos que a privacidade dos dados é importante. Você pode encontrar informações sobre nossa política legal e de privacidade [aqui](https://oerworldmap.org/imprint). Para garantir que seus dados estarão o mais seguros possível, nós cooperamos com um [advogado especializado em direito de proteção de dados](http://irights-law.de/team/jan-schallaboeck/). Seguimos uma privacidade pela abordagem de design, que se certifica de que a privacidade dos dados é considerada desde o início do processo de desenvolvimento. Isto é verdadeiro para todos os dados pessoais que nos são fornecidos. No entanto, deve ser entendido que todos os dados publicados na plataforma, incluindo seus perfis pessoais estarão disponíveis à todos como [dados abertos](https://en.wikipedia.org/wiki/Open_data).
+We believe data privacy is important. You can find information about our legal and privacy policy [here](https://oerworldmap.org/imprint). In order to assure that your data will be as safe as possible, we cooperate with a [lawyer specialized in data protection law](http://irights-law.de/team/jan-schallaboeck/). We follow a privacy by design approach, which makes sure that data privacy is taken into account from the beginning of the development process. This is true for all personal data provided to us. Nevertheless it has to be understood that all data published on the platform, including your personal profiles will be available to everyone as [open data](https://en.wikipedia.org/wiki/Open_data).
 
-## Como posso contribuir histórias?
+## How can I contribute stories?
 
-Nós convidamos você a compartilhar sua história envolvendo REA com a comunidade e conte para outros sobre suas atividades em torno de REA! Estes poderiam ser projetos ou iniciativas REA, Práticas Educacionais Abertas, como alguém gerando REA ou ensinando com REA, o desenvolvimento de orientações & políticas institucionais de OER, novos insights e pesquisas na área de REA, bem como o desenvolvimento ou uso ferramentas de infraestrutura úteis para REA. Por favor inclua um título e um texto (não mais do que 5000 caracteres) que descreve quem, o que, quando, onde, porquê e como da atividade. Recomendamos incluir uma foto que está ligada à história. Por favor, note que histórias serão publicadas sob uma licença [CC-BY](https://creativecommons.org/licenses/by/4.0/). Se você tem uma história REA que você considerar vale a pena compartilhar, por favor entre no sistema e adicione a história no Mapa Global REA. Aguardamos o seu contato! Nós também podemos republicar artigos, postagens de blog e outras fontes diretamente onde estas estão disponíveis de maneira aberta.
+We invite you to share your OER story with the community and tell others about your OER activities! These could be OER projects or initiatives, Open Educational Practices like someone generating OER or teaching with OER, the development of guidelines & institutional policies on OER, new insights and research on OER, as well as the development or use of helpful infrastructure tools for OER. Please include a title and a text (no longer than 5000 characters) that describes the who, what, when, where, why and how of the activity. A photo connected to the story would also be great. Please note that stories will be published under [CC-BY](https://creativecommons.org/licenses/by/4.0/). If you have an OER story which you consider worth sharing, please register yourself and add it to the OER World Map. We are looking forward to hearing from you soon! We can also republish articles, blog post and other sources directly where these are available openly.
 
-## Você quer ouvir de alunos e educadores?
+## Do you want to hear from students as well as educators?
 
-Sim! Acreditamos que a voz dos alunos muitas vezes não é ouvida nas discussões sobre REA. Estamos interessados em ouvir de alguém com uma boa história para contar sobre REA e como os REA tem feito alguma diferença. Isto é especialmente verdadeiro para as histórias da perspectiva de um aluno.
+Yes! We believe that the student voice is often not loud enough in discussions about OER. We are interested in hearing from anyone with a good story to tell about OER and how it has made a difference to them. This is especially true for stories from a learner perspective.
 
-## O que significa tornar-se um embaixador para um país?
+## What does it mean to become a country champion?
 
-Embaixadores ajudam a mapear o mundo REA por país – coletando dados, garantindo sua qualidade e a sensibilizando sobre o projeto. Confira nosso [ blog post](https://oerworldmap.wordpress.com/2015/04/17/what-does-it-mean-to-become-a-country-champion/) para obter mais informações sobre a rede de embaixadores. O mapa na página inicial mostra onde os embaixadores ainda são necessários. Se você está interessado em agir como embaixador para o seu país, não hesite em [ contactar-nos](mailto:info@oerworldmap.org).
+Country champions help to map the OER world by country – gathering data, assuring its quality and raising awareness of the project. Check out our [blog post](https://oerworldmap.wordpress.com/2015/04/17/what-does-it-mean-to-become-a-country-champion/) for more information about the country champion network. The map on the homepage shows where country champions are still needed. If you are interested in acting as champion for your country, please do not hesitate to [contact us](mailto:info@oerworldmap.org).
 
-## O Mapa Global REA estará disponível em vários idiomas?
+## Will the OER World Map be available in several languages?
 
-A versão inicial do site está sendo desenvolvida em inglês. No entanto, acreditamos que, a longo prazo, o site deve estar disponível em muitas línguas e o sistema está preparado para apoiar o multilinguismo. No momento a plataforma permite entrada de dados em todos os principais idiomas do mundo e o sistema lhe mostrará dados no idioma escolhido no seu navegador, se disponível. Se você está interessado em traduzir o site para o seu próprio idioma, por favor [ entre em contato conosco](mailto:info@oerworldmap.org).
+The initial version of the website is beeing developed in English. Nevertheless, we believe that in the long run the site should be available in many languages and the system is prepared to support multilingualism. At the time being the platform supports data input in all major languages of the world and the system will show you data within the language chosen in your browser, if available. If you are interested in translating the website into your own language, please [contact us](mailto:info@oerworldmap.org).
 
-## Porque países são exibidos em diferentes tons de verde?
+## Why are countries displayed in different shades of green?
 
-Países com atividade REA documentada são exibidos verde. Quanto mais atividade, mais escuro o tom. Chamamos esse mecanismo de "mapa de calor". O mapa de calor baseia-se, neste momento, em um algoritmo muito simples: o número de entradas. Estamos pensando em refinação o algoritmo no futuro (por exemplo, representando o número de entradas em relação ao número de habitantes).
+Countries with documented OER activity are displayed green. The more activity there is, the darker the colour. We call this mechanism “heat map”. The heat map is based right now on a very simple algorithm: the number of entries. We are thinking about refining the algorithm in the future (e.g. by representing the number of entries into relation to the number of inhabitants).
