@@ -24,7 +24,7 @@ var Hijax = (function ($, Hijax) {
           username: 'logout'
         });
       }
-      window.location = "/";
+      window.location = "/resource/";
   }
 
   var my = {
