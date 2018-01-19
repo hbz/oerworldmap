@@ -224,23 +224,6 @@ var Hijax = (function ($, Hijax, page) {
     setScope('world');
     setHighlights([]);
 
-    // clear empty searches
-
-    if(pagejs_ctx.querystring == "q=") {
-      page.redirect('/');
-    }
-
-    // trigger behaviour attachment for landing page
-
-    if(
-      pagejs_ctx.path == "/"
-    ) {
-      get('/', function(data){
-        log.debug('APP getting main from:', '/')
-        get_main(data, '/');
-      });
-    }
-
     // schedule map view change
 
     if(pagejs_ctx.path == "/") {
@@ -252,15 +235,11 @@ var Hijax = (function ($, Hijax, page) {
     // determine index_mode
 
     var index_mode;
-    if( pagejs_ctx.pathname == "/" ) {
-      index_mode = 'floating';
-    }
 
-    if( pagejs_ctx.pathname == "/resource/" ) {
+    index_mode = 'floating';
+    if( pagejs_ctx.pathname == "/resource/" && pagejs_ctx.querystring && pagejs_ctx.querystring != "q=" ) {
       index_mode = 'list';
-    }
-
-    if( pagejs_ctx.pathname == "/aggregation/" ) {
+    } else if( pagejs_ctx.pathname == "/aggregation/" ) {
       index_mode = 'statistic';
     }
 
@@ -414,7 +393,6 @@ var Hijax = (function ($, Hijax, page) {
 
       // setup app routes
 
-      page('/', route_start, route_index, routing_done);
       page('/resource/', route_start, route_index, routing_done);
       page('/resource/:id', route_start, route_detail, routing_done);
       page('/country/:id', route_start, route_index_country, routing_done);
@@ -448,11 +426,11 @@ var Hijax = (function ($, Hijax, page) {
       $('#app', context).on('click', '[data-app="toggle-col"]', function(e) {
         var col = $(this).closest('[data-app="col"]');
         if(col.is('#app-col-index') && $('#app-col-detail').attr('data-col-mode') == 'hidden') {
-          page('/');
+          page('/resource/');
         } else if(col.is('#app-col-index') && $('#app-col-detail').attr('data-col-mode') == 'expanded') {
           page(detail_source);
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'floating') {
-          page('/');
+          page('/resource/');
         } else if(col.is('#app-col-detail') && $('#app-col-index').attr('data-col-mode') == 'list') {
           page(window.location.pathname + window.location.search);
         }
@@ -513,7 +491,7 @@ var Hijax = (function ($, Hijax, page) {
             page(modal.data('url_before'));
           } else {
             log.debug('APP no url_before, paging to home');
-            page('/');
+            page('/resource/');
           }
         } else if( modal.data('hidden_on_exit') ) {
           modal.data('hidden_on_exit', false);
@@ -700,7 +678,7 @@ var Hijax = (function ($, Hijax, page) {
           modal.data('url_before', app_history[app_history.length - 2].canonicalPath);
         } else {
           log.debug('APP saving / as url_before');
-          modal.data('url_before', '/');
+          modal.data('url_before', '/resource/');
         }
         Hijax.attachBehaviours($('#app-modal'), 'triggered by to-modal-on-load');
         modal.modal('show');
