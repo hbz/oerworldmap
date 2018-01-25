@@ -226,7 +226,7 @@ var Hijax = (function ($, Hijax, page) {
 
     // schedule map view change
 
-    if(pagejs_ctx.path == "/") {
+    if(pagejs_ctx.path == "/resource/" && (!pagejs_ctx.querystring || pagejs_ctx.querystring == "q=") ) {
       Hijax.behaviours.map.scheduleViewChange('world');
     } else if(app_history.length == 1) {
       Hijax.behaviours.map.scheduleViewChange('placemarks');

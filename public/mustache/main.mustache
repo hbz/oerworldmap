@@ -57,7 +57,7 @@
 
         <nav class="main">
             <ul>
-                <li><h1><a href="/" title="Home" {{#if @root.embed}}target="_blank"{{/if}}>OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
+                <li><h1><a href="/resource/" title="Home" {{#if @root.embed}}target="_blank"{{/if}}>OER W<i class="fa fa-globe"></i>RLD MAP</a></h1></li>
                 {{#unless @root.embed}}
                     {{#each sections.primary}}
                         <li><a href="/{{[@key]}}" title="{{ . }}">{{ . }}</a></li>
@@ -124,7 +124,7 @@
         <nav class="main-mobile">
             <button data-toggle="dropdown"><i class="fa fa-bars"></i></button>
             <ul class="dropdown-menu">
-                <li><a href="/">{{i18n "main.map"}}</a></li>
+                <li><a href="/resource/">{{i18n "main.map"}}</a></li>
                 <li><a href="/contribute">{{i18n "contribute"}}</a></li>
                 <li><a href="/FAQ">{{i18n "main.faq"}}</a></li>
                 <li><a href="/about">{{i18n "main.about"}}</a></li>
