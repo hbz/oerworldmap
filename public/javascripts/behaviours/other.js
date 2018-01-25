@@ -137,10 +137,9 @@ var Hijax = (function ($, Hijax) {
           error : function(jqXHR) {
             alert(i18nStrings['ui']['other.wrongUsernameOrPassword']);
             jqXHR.abort();
-            // window.location = "/";
           },
           success : function() {
-            window.location = "/";
+            window.location = "/resource/";
           }
         });
 
@@ -221,7 +220,9 @@ var Hijax = (function ($, Hijax) {
               if (reload) {
                 window.location.reload();
               } else {
-                window.location = window.location.hash ? window.location.pathname + window.location.search : '/';
+                window.location = window.location.hash
+                  ? window.location.pathname + window.location.search
+                  : '/resource/';
               }
             },
             error : function(jqXHR) {
