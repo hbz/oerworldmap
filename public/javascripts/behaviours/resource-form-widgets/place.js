@@ -187,12 +187,26 @@ var Hijax = (function ($, Hijax) {
             display: 'label',
             source: debounce(function(q, sync, async) {
               if (q !== '') {
-                $.get('https://search.mapzen.com/v1/autocomplete?api_key=search-2bvcBc8&text=' + q, function(data) {
+                $.get('https://nominatim.openstreetmap.org/search/'+q+'?format=json&addressdetails=1&limit=10', function(data) {
                   var results = [];
-                  for (var i = 0; i < data.features.length; i++) {
+                  for (var i = 0; i < data.length; i++) {
                     results.push({
-                      label: data.features[i].properties.label,
-                      feature: data.features[i]
+                      label: data[i].display_name,
+                      feature: {
+                        type: "Feature",
+                        geometry: {
+                          type: "Point",
+                          coordinates: [ parseFloat(data[i].lon), parseFloat(data[i].lat) ]
+                        },
+                        properties: {
+                          name: data[i].address.road ? (data[i].address.road + (
+                            data[i].address.house_number ? ` ${data[i].address.house_number}` : ''
+                          )) : '',
+                          postalcode: data[i].address.postcode,
+                          locality: data[i].address.city || data[i].address.state,
+                          country_a2: (data[i].address.country_code || '').toUpperCase()
+                        }
+                      }
                     })
                   }
                   async(results);
@@ -235,11 +249,6 @@ var Hijax = (function ($, Hijax) {
             });
 
             var properties = suggestion.feature.properties;
-
-            // set iso3166 alpha2 code
-            properties.country_a2 = iso3166.filter(function(country) {
-              return country['a3'] == properties.country_a;
-            })[0]['a2'];
 
             // populate remaining form inputs
             widget.find('[name="location[address][streetAddress]"]').val(properties.name || '');
