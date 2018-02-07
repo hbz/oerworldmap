@@ -620,6 +620,29 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     mBaseRepo.deleteResource("", mMetadata);
   }
 
+  @Test
+  public void testCaseSplitting() throws IOException {
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.1.json");
+    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.1.json");
+    List<Resource> resources = Arrays.asList(new Resource[]{db1, db2, db3});
+    resources.forEach(res -> {
+      try {
+        mBaseRepo.addResource(res, mMetadata);
+        String name = res.getNestedFieldValue("name.@value", Locale.ENGLISH).substring(0, 7);
+        List<Resource> hitsExact = mBaseRepo.query(name, 0, 10, null, null, queryContext).getItems();
+        Assert.assertEquals(String.format("Did not find resource by exact search (%s).", name), 1,  hitsExact.size());
+        List<Resource> hitsAbbreviation = mBaseRepo.query("PDX", 0, 10, null, null, queryContext).getItems();
+        Assert.assertEquals(String.format("Did not find resource by abbreviated search (PDX).", name), 1,  hitsAbbreviation.size());
+        mBaseRepo.deleteResource(res.getId(), mMetadata);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
