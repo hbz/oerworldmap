@@ -17,15 +17,11 @@ import models.ResourceList;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
 import play.mvc.Result;
 import play.mvc.With;
-import services.AggregationProvider;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
@@ -39,7 +35,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -297,36 +292,6 @@ public class ResourceIndex extends OERWorldMap {
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
-    }
-    String type = resource.get(JsonLdConstants.TYPE).toString();
-
-    if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
-          .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
-      resource.put("related", relatedList.getItems());
-    }
-
-    if (type.equals("ConceptScheme")) {
-      Resource conceptScheme = null;
-      String field = null;
-      if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
-        field = "about.about.@id";
-      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
-        field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
-      }
-      if (!(null == conceptScheme)) {
-        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-            .filter(QueryBuilders.termQuery("about.@type", "Service"));
-        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
-          conceptAggregation.subAggregation(
-              AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
-        }
-        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
-        resource.put("aggregation", nestedConceptAggregation);
-        return ok(resource.toJson());
-      }
     }
 
     Set<String> alternates = MimeTypes.all().keySet();
