@@ -52,9 +52,9 @@ def process_properties(properties, is_name_branch):
             properties[property] = set_geo_point()
         elif property in ngrams:
             if is_name_branch:
-                properties[property] = set_ngram("title_analyzer")
+                properties[property] = set_title("title_analyzer")
             else:
-                properties[property] = set_ngram("standard")
+                properties[property] = set_title("standard")
         elif property in keywords:
             properties[property] = set_keywords_analyzer()
         elif property in country_name:
@@ -89,7 +89,7 @@ def set_geo_point():
         "type": "geo_point"
     }
 
-def set_ngram(variations_search_analyzer):
+def set_title(variations_search_analyzer):
     return {
         "type": "multi_field",
         "fields": {
@@ -100,6 +100,11 @@ def set_ngram(variations_search_analyzer):
                 "type": "string",
                 "analyzer": "title_analyzer",
                 "search_analyzer": variations_search_analyzer
+            },
+            "splits": {
+                "search_analyzer": "standard",
+                "type": "string",
+                "analyzer": "case_split_analyzer"
             },
             "simple_tokenized": {
                 "type": "string",
@@ -155,6 +160,12 @@ def settings():
         country_list = f.read().splitlines()
     return {
         "analysis": {
+            "tokenizer": {
+                "case_split_tokenizer": {
+                    "type": "pattern",
+                    "pattern": "[ .,_'`´#$§!&/\\|+-]|(?<=([A-Z]{2,}))(?=[a-z]{2,})"
+                }
+            },
             "filter": {
                 "title_filter": {
                     "type": "word_delimiter",
@@ -196,6 +207,10 @@ def settings():
                         "lowercase",
                         "country_synonyms_filter"
                     ]
+                },
+                "case_split_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "case_split_tokenizer"
                 }
             }
         }
