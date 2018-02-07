@@ -143,11 +143,21 @@ public class ResourceIndex extends OERWorldMap {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
       Resource result = resourceList.toResource();
+      // Enrich with GeoJSON features
       ResourceList geoFeatures = mBaseRepository.query(q, 0, -1, sort, filters, queryContext);
       result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
       if (!StringUtils.isEmpty(iso3166)) {
         if (!StringUtils.isEmpty(iso3166)) {
           result.put("iso3166", iso3166.toUpperCase());
+        }
+      }
+      // Enrich with aggregation labels
+      Resource aggregations = result.getAsResource("aggregations");
+      for (String agg : aggregations.keySet()) {
+        if (agg.endsWith("@id")) {
+          for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
+            bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
+          }
         }
       }
       return ok(result.toString()).as("application/json");
