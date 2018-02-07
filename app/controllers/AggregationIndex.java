@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Resource;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Configuration;
 import play.Environment;
@@ -41,8 +42,17 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
     statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
 
-    return ok(mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)).toJson());
+    // Enrich with aggregation labels
+    Resource aggregations = mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null));
+    for (String agg : aggregations.keySet()) {
+      if (agg.endsWith("@id")) {
+        for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
+          bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
+        }
+      }
+    }
 
+    return ok(aggregations.toJson());
   }
 
 }
