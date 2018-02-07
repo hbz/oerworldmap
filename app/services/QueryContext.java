@@ -31,8 +31,8 @@ public class QueryContext {
 
     filters.put("concepts", concepts);
 
-    //QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name");
-    //filters.put("emptyNames", emptyNames);
+    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name");
+    filters.put("emptyNames", emptyNames);
 
     if (roles != null) {
       this.roles = roles;
