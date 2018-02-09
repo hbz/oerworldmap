@@ -93,18 +93,22 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
-    return AggregationBuilders
-        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(aId)
+    return AggregationBuilders.global("country").subAggregation(
+      AggregationBuilders
+        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(
+        aId)
         .size(aSize)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
           .filter("champions")
           .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
-            .subAggregation(AggregationBuilders.topHits("country_champions")))
+          .subAggregation(AggregationBuilders.topHits("country_champions")))
         .subAggregation(AggregationBuilders
           .filter("reports")
-          .filter(QueryBuilders.matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
-            .subAggregation(AggregationBuilders.topHits("country_reports")));
+          .filter(QueryBuilders
+            .matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
+          .subAggregation(AggregationBuilders.topHits("country_reports")))
+    );
   }
 
   public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
