@@ -10,11 +10,11 @@
             "comment": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -40,7 +40,7 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -48,15 +48,15 @@
             "performer": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -80,7 +80,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -95,7 +95,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -113,11 +113,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -133,15 +133,15 @@
             "creator": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -165,7 +165,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -176,7 +176,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -187,7 +187,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -199,18 +199,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -243,13 +243,13 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
             },
             "image": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "citation": {
@@ -258,11 +258,11 @@
             "narrower": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -286,7 +286,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -299,15 +299,15 @@
             "agent": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -331,7 +331,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -342,7 +342,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -356,7 +356,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -368,18 +368,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -391,15 +391,15 @@
             "agentIn": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -423,7 +423,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -438,7 +438,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -456,11 +456,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -472,11 +472,11 @@
             "secondarySector": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -500,7 +500,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -510,11 +510,11 @@
             "primarySector": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -538,7 +538,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -572,24 +572,24 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
                   "type": "object"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -597,11 +597,11 @@
             "broader": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -625,7 +625,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -639,15 +639,15 @@
             "hasTopConcept": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -671,7 +671,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -681,11 +681,11 @@
             "inScheme": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -711,7 +711,7 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -719,15 +719,15 @@
             "organizer": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -751,7 +751,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -762,7 +762,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -773,7 +773,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -785,18 +785,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -808,15 +808,15 @@
             "funderOf": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -840,7 +840,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -855,7 +855,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -873,11 +873,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -917,13 +917,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -936,7 +936,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -954,11 +954,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -966,11 +966,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -978,15 +978,15 @@
             "participant": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1010,7 +1010,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1021,7 +1021,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -1032,7 +1032,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1044,18 +1044,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1067,11 +1067,11 @@
             "publication": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1095,7 +1095,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1108,11 +1108,11 @@
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "availableLanguage": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1120,15 +1120,15 @@
             "author": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1152,7 +1152,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1167,7 +1167,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1185,11 +1185,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1225,13 +1225,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -1244,7 +1244,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1262,11 +1262,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1274,11 +1274,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1286,11 +1286,11 @@
             "authorOf": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1298,11 +1298,11 @@
             "objectIn": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1313,15 +1313,15 @@
             "member": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1345,7 +1345,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1356,7 +1356,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -1367,7 +1367,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1379,18 +1379,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1430,13 +1430,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -1449,7 +1449,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1467,11 +1467,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1479,11 +1479,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1522,13 +1522,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -1537,11 +1537,11 @@
                       "type": "geo_point"
                     },
                     "@id": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -1552,7 +1552,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1564,18 +1564,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1583,11 +1583,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1598,11 +1598,11 @@
                   "type": "geo_point"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "address": {
@@ -1616,7 +1616,7 @@
                     "addressCountry": {
                       "fields": {
                         "addressCountry": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "name": {
@@ -1628,18 +1628,18 @@
                       "type": "multi_field"
                     },
                     "addressRegion": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "streetAddress": {
                       "type": "text"
                     },
                     "postalCode": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1677,13 +1677,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -1696,7 +1696,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1714,11 +1714,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1726,11 +1726,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -1738,15 +1738,15 @@
             "provider": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1770,7 +1770,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1781,7 +1781,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -1792,7 +1792,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1804,18 +1804,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1827,15 +1827,15 @@
             "isPartOf": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1859,7 +1859,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1874,7 +1874,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -1892,11 +1892,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -1906,7 +1906,7 @@
               }
             },
             "@context": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "text": {
@@ -1930,27 +1930,27 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
             },
             "email": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "attendee": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -1974,7 +1974,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -1989,7 +1989,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2007,11 +2007,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2023,11 +2023,11 @@
             "object": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -2051,7 +2051,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -2066,7 +2066,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2084,11 +2084,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2118,7 +2118,7 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -2129,15 +2129,15 @@
             "hasPart": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -2161,7 +2161,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -2176,7 +2176,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2194,11 +2194,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2210,15 +2210,15 @@
             "mentionedIn": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -2242,7 +2242,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -2257,7 +2257,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2275,11 +2275,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2295,15 +2295,15 @@
             "isRelatedTo": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -2327,7 +2327,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -2342,7 +2342,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2357,11 +2357,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2389,15 +2389,15 @@
                 "funds": {
                   "properties": {
                     "image": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@id": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "name": {
@@ -2421,7 +2421,7 @@
                           "type": "multi_field"
                         },
                         "@language": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2436,7 +2436,7 @@
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
-                                  "index": "not_analyzed",
+                                  "index": "false",
                                   "type": "text"
                                 },
                                 "name": {
@@ -2454,11 +2454,11 @@
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "addressRegion": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             }
                           }
@@ -2471,21 +2471,21 @@
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "isAwardedBy": {
                   "properties": {
                     "image": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@id": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "name": {
@@ -2509,7 +2509,7 @@
                           "type": "multi_field"
                         },
                         "@language": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2520,7 +2520,7 @@
                           "type": "geo_point"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "address": {
@@ -2531,7 +2531,7 @@
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
-                                  "index": "not_analyzed",
+                                  "index": "false",
                                   "type": "text"
                                 },
                                 "name": {
@@ -2543,18 +2543,18 @@
                               "type": "multi_field"
                             },
                             "addressRegion": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "streetAddress": {
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "@type": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             }
                           }
@@ -2570,21 +2570,21 @@
               "format": "dateOptionalTime"
             },
             "hashtag": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "contactPoint": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -2608,7 +2608,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -2623,7 +2623,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2641,11 +2641,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2655,7 +2655,7 @@
               }
             },
             "@id": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "isFundedBy": {
@@ -2666,15 +2666,15 @@
                 "funds": {
                   "properties": {
                     "image": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@id": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "name": {
@@ -2698,7 +2698,7 @@
                           "type": "multi_field"
                         },
                         "@language": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2713,7 +2713,7 @@
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
-                                  "index": "not_analyzed",
+                                  "index": "false",
                                   "type": "text"
                                 },
                                 "name": {
@@ -2731,11 +2731,11 @@
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "addressRegion": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             }
                           }
@@ -2748,21 +2748,21 @@
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "isAwardedBy": {
                   "properties": {
                     "image": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@id": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "name": {
@@ -2786,7 +2786,7 @@
                           "type": "multi_field"
                         },
                         "@language": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2797,7 +2797,7 @@
                           "type": "geo_point"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "address": {
@@ -2808,7 +2808,7 @@
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
-                                  "index": "not_analyzed",
+                                  "index": "false",
                                   "type": "text"
                                 },
                                 "name": {
@@ -2820,18 +2820,18 @@
                               "type": "multi_field"
                             },
                             "addressRegion": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "streetAddress": {
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "@type": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             }
                           }
@@ -2869,13 +2869,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -2888,7 +2888,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -2906,11 +2906,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -2918,11 +2918,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -2930,11 +2930,11 @@
             "about": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -2958,7 +2958,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -2986,7 +2986,7 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -3012,7 +3012,7 @@
                   "type": "multi_field"
                 },
                 "@language": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -3020,15 +3020,15 @@
             "license": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -3052,7 +3052,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -3090,13 +3090,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -3105,7 +3105,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -3116,7 +3116,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3128,18 +3128,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3147,21 +3147,21 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
             },
             "url": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "award": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             },
             "memberOf": {
@@ -3195,13 +3195,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -3210,7 +3210,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -3221,7 +3221,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3233,18 +3233,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3252,11 +3252,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -3264,15 +3264,15 @@
             "created": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -3296,7 +3296,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -3311,7 +3311,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3329,11 +3329,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3345,11 +3345,11 @@
             "topConceptOf": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -3357,15 +3357,15 @@
             "participantIn": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -3389,7 +3389,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -3404,7 +3404,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3422,11 +3422,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3441,11 +3441,11 @@
             "audience": {
               "properties": {
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -3469,7 +3469,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -3479,15 +3479,15 @@
             "affiliate": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -3511,7 +3511,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -3526,7 +3526,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3544,11 +3544,11 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3591,13 +3591,13 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
                 },
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "location": {
@@ -3606,7 +3606,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -3620,7 +3620,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3632,18 +3632,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3651,11 +3651,11 @@
                   }
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 }
               }
@@ -3663,15 +3663,15 @@
             "funder": {
               "properties": {
                 "image": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@id": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "@type": {
-                  "index": "not_analyzed",
+                  "index": "false",
                   "type": "text"
                 },
                 "name": {
@@ -3695,7 +3695,7 @@
                       "type": "multi_field"
                     },
                     "@language": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     }
                   }
@@ -3706,7 +3706,7 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "not_analyzed",
+                      "index": "false",
                       "type": "text"
                     },
                     "address": {
@@ -3717,7 +3717,7 @@
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
-                              "index": "not_analyzed",
+                              "index": "false",
                               "type": "text"
                             },
                             "name": {
@@ -3729,18 +3729,18 @@
                           "type": "multi_field"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         },
                         "@type": {
-                          "index": "not_analyzed",
+                          "index": "false",
                           "type": "text"
                         }
                       }
@@ -3758,7 +3758,7 @@
               "format": "dateOptionalTime"
             },
             "@type": {
-              "index": "not_analyzed",
+              "index": "false",
               "type": "text"
             }
           }
@@ -3778,11 +3778,11 @@
           "format": "strict_date_optional_time||epoch_millis"
         },
         "@id": {
-          "index": "not_analyzed",
+          "index": "false",
           "type": "text"
         },
         "@type": {
-          "index": "not_analyzed",
+          "index": "false",
           "type": "text"
         },
         "link_count": {

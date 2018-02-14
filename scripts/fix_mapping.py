@@ -68,13 +68,13 @@ def process_properties(properties, is_name_branch):
 
 def set_not_analyzed():
     return {
-        'type': 'string',
-        'index': 'not_analyzed'
+        'type': 'text',
+        'index': 'false'
     }
 
 def set_keywords_analyzer():
     return {
-        'type': 'string',
+        'type': 'text',
         'analyzer': 'keywords_analyzer'
     }
 
@@ -115,7 +115,7 @@ def set_country_name():
         "fields": {
             "addressCountry": {
                 "type": "text",
-                'index': 'not_analyzed'
+                'index': 'false'
             },
             "name": {
                 "type": "text",
