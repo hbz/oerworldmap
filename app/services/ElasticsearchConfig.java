@@ -1,6 +1,5 @@
 package services;
 
-import com.google.common.base.Strings;
 import com.typesafe.config.Config;
 import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +10,9 @@ import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import play.Logger;
 
 import java.io.IOException;
@@ -39,7 +37,8 @@ public class ElasticsearchConfig {
   private String mIndex;
   private String mType;
   private String mCluster;
-  private Map<String, String> mClientSettings;
+  private Map<String, String> mIndexSettings;
+  private Map<String, String> mClusterSettings;
   private Client mClient;
   private TransportClient mTransportClient;
 
@@ -54,13 +53,14 @@ public class ElasticsearchConfig {
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    Settings clientSettings = Settings.settingsBuilder() //
+    Settings clientSettings = Settings.builder() //
         .put("cluster.name", mCluster) //
         .put("client.transport.sniff", true) //
         .build();
-    mTransportClient = TransportClient.builder().settings(clientSettings).build();
+    mTransportClient = new PreBuiltTransportClient(clientSettings);
+
     try {
-      mClient = mTransportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mServer),
+      mClient = mTransportClient.addTransportAddress(new TransportAddress(InetAddress.getByName(mServer),
         mJavaPort));
     } catch (UnknownHostException ex) {
       throw new RuntimeException(ex);
@@ -77,15 +77,18 @@ public class ElasticsearchConfig {
       }
     }
 
-    // CLIENT SETTINGS
-    mClientSettings = new HashMap<>();
-    mClientSettings.put("index.name", mIndex);
-    mClientSettings.put("index.type", mType);
-    mClientSettings.put("cluster.name", mCluster);
+    // INDEX SETTINGS
+    mIndexSettings = new HashMap<>();
+    mIndexSettings.put("index.name", mIndex);
+    mIndexSettings.put("index.type", mType);
+
+    // CLUSTER SETTINGS
+    mClusterSettings = new HashMap<>();
+    mClusterSettings.put("cluster.name", mCluster);
   }
 
   public String getIndex() {
-    return mClientSettings.get("index.name");
+    return mIndexSettings.get("index.name");
   }
 
   public String getType() {
@@ -112,8 +115,8 @@ public class ElasticsearchConfig {
     return UniversalFunctions.readFile(INDEX_CONFIG_FILE, StandardCharsets.UTF_8);
   }
 
-  public Map<String, String> getClientSettings() {
-    return mClientSettings;
+  public Map<String, String> getClusterSettings() {
+    return mClusterSettings;
   }
 
   public Client getClient() {

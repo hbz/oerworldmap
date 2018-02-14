@@ -29,7 +29,7 @@ public class AggregationIndex extends OERWorldMap {
 
     Map<String, Object> scope = new HashMap<>();
 
-    List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
+    List<AggregationBuilder> statisticsAggregations = new ArrayList<>();
     statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));

@@ -14,7 +14,7 @@ import java.util.*;
 public class QueryContext {
 
   private Map<String, QueryBuilder> filters = new HashMap<>();
-  private Map<String, List<AggregationBuilder<?>>> aggregations = new HashMap<>();
+  private Map<String, List<AggregationBuilder>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
   private String[] fetchSource = new String[] {};
   private String[] mElasticsearchFieldBoosts = new String[] {};
@@ -71,9 +71,9 @@ public class QueryContext {
     return appliedFilters;
   }
 
-  public List<AggregationBuilder<?>> getAggregations() {
+  public List<AggregationBuilder> getAggregations() {
 
-    List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
+    List<AggregationBuilder> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation(0));
     guestAggregations.add(
       filters.containsKey("iso3166")
@@ -93,10 +93,10 @@ public class QueryContext {
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);
 
-    List<AggregationBuilder<?>> appliedAggregations = new ArrayList<>();
-    for (Map.Entry<String, List<AggregationBuilder<?>>> entry : aggregations.entrySet()) {
+    List<AggregationBuilder> appliedAggregations = new ArrayList<>();
+    for (Map.Entry<String, List<AggregationBuilder>> entry : aggregations.entrySet()) {
       if (roles.contains(entry.getKey())) {
-        for (AggregationBuilder<?> aggregation : entry.getValue()) {
+        for (AggregationBuilder aggregation : entry.getValue()) {
           if (!appliedAggregations.contains(aggregation)) {
             appliedAggregations.add(aggregation);
           }

@@ -2,10 +2,10 @@ package helpers;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,7 +22,7 @@ public class ElasticsearchTestGrid extends WithApplication {
   protected static Config mConfig;
   protected static ElasticsearchRepository mRepo;
   protected static Settings mClientSettings;
-  protected static Client mClient;
+  protected static TransportClient mClient;
   protected static ElasticsearchConfig mEsConfig;
 
   public static ElasticsearchRepository getEsRepo() {
@@ -35,10 +35,12 @@ public class ElasticsearchTestGrid extends WithApplication {
     mRepo = new ElasticsearchRepository(mConfig);
     mEsConfig = mRepo.getConfig();
 
-    mClientSettings = Settings.settingsBuilder().put(mEsConfig.getClientSettings())
-      .build();
-    mClient = TransportClient.builder().settings(mClientSettings).build()
-      .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mEsConfig.getServer()),
+    final Settings.Builder builder = Settings.builder();
+    mEsConfig.getClusterSettings().forEach((k, v) -> builder.put(k, v));
+    mClientSettings = builder.build();
+
+    mClient = new PreBuiltTransportClient(mClientSettings);
+    mClient.addTransportAddress(new TransportAddress(InetAddress.getByName(mEsConfig.getServer()),
         Integer.valueOf(mEsConfig.getJavaPort())));
   }
 
