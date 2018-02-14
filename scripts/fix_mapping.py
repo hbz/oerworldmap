@@ -94,7 +94,7 @@ def set_ngram(variations_search_analyzer):
         "type": "multi_field",
         "fields": {
             "@value": {
-                "type": "string"
+                "type": "text"
             },
             "sort": {
                 "type": "string",
@@ -102,12 +102,12 @@ def set_ngram(variations_search_analyzer):
                 "analyzer": "german_phonebook"
             },
             "variations": {
-                "type": "string",
+                "type": "text",
                 "analyzer": "title_analyzer",
                 "search_analyzer": variations_search_analyzer
             },
             "simple_tokenized": {
-                "type": "string",
+                "type": "text",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
             },
@@ -129,11 +129,11 @@ def set_country_name():
         "type": "multi_field",
         "fields": {
             "addressCountry": {
-                "type": "string",
+                "type": "text",
                 'index': 'not_analyzed'
             },
             "name": {
-                "type": "string",
+                "type": "text",
                 "analyzer": "country_synonyms_analyzer",
                 "search_analyzer": "country_synonyms_analyzer"
             }
