@@ -4083,7 +4083,7 @@
             "lowercase"
           ],
           "type": "custom",
-          "tokenizer": "hyphen"
+          "tokenizer": "classic"
         },
         "country_synonyms_analyzer": {
           "filter": [
