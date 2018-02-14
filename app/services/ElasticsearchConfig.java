@@ -34,7 +34,6 @@ public class ElasticsearchConfig {
   // HOST
   private String mServer;
   private Integer mJavaPort;
-  private Node mInternalNode;
 
   // CLIENT
   private String mIndex;
@@ -55,22 +54,16 @@ public class ElasticsearchConfig {
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    if (mConfig.getBoolean("es.node.inmemory") || (mJavaPort == null) || Strings.isNullOrEmpty(mServer)) {
-      mInternalNode = NodeBuilder.nodeBuilder().local(true).data(true).node();
-      mClient = mInternalNode.client();
-    } //
-    else {
-      Settings clientSettings = Settings.settingsBuilder() //
-          .put("cluster.name", mCluster) //
-          .put("client.transport.sniff", true) //
-          .build();
-      mTransportClient = TransportClient.builder().settings(clientSettings).build();
-      try {
-        mClient = mTransportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mServer),
-          mJavaPort));
-      } catch (UnknownHostException ex) {
-        throw new RuntimeException(ex);
-      }
+    Settings clientSettings = Settings.settingsBuilder() //
+        .put("cluster.name", mCluster) //
+        .put("client.transport.sniff", true) //
+        .build();
+    mTransportClient = TransportClient.builder().settings(clientSettings).build();
+    try {
+      mClient = mTransportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(mServer),
+        mJavaPort));
+    } catch (UnknownHostException ex) {
+      throw new RuntimeException(ex);
     }
 
     if (!indexExists(mIndex)) {
@@ -149,9 +142,6 @@ public class ElasticsearchConfig {
     }
     if (mTransportClient != null) {
       mTransportClient.close();
-    }
-    if (mInternalNode != null){
-      mInternalNode.close();
     }
   }
 
