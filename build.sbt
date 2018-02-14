@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "com.github.fge" % "json-schema-validator" % "2.2.6",
   "org.apache.commons" % "commons-email" % "1.3.3",
   "commons-io" % "commons-io" % "2.5",
-  "org.elasticsearch" % "elasticsearch" % "2.4.0",
+  "org.elasticsearch" % "elasticsearch" % "6.2.1",
   "com.vladsch.flexmark" % "flexmark-all" % "0.26.4",
   "com.github.jknack" % "handlebars" % "4.0.6",
   "com.github.jknack" % "handlebars-markdown" % "4.0.6",
