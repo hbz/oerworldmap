@@ -207,16 +207,16 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) throws IOException {
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder, QueryContext aQueryContext)
       throws IOException {
     return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
+  public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders, QueryContext aQueryContext)
       throws IOException {
     return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
   }

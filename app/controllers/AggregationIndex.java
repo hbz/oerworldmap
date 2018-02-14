@@ -28,7 +28,7 @@ public class AggregationIndex extends OERWorldMap {
 
   public Result list() throws IOException {
 
-    List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
+    List<AggregationBuilder> statisticsAggregations = new ArrayList<>();
     statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));
