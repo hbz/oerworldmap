@@ -390,8 +390,8 @@ public class ResourceIndex extends OERWorldMap {
         conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
       }
       if (!(null == conceptScheme)) {
-        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-            .filter(QueryBuilders.termQuery("about.@type", "Service"));
+        AggregationBuilder conceptAggregation = AggregationBuilders
+          .filter("services", QueryBuilders.termQuery("about.@type", "Service"));
         for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
           conceptAggregation.subAggregation(
               AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));

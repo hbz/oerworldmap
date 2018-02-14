@@ -11,11 +11,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -25,23 +25,23 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -49,15 +49,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -65,23 +65,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -96,29 +96,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -134,15 +134,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -150,23 +150,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -177,22 +177,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -200,18 +200,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -220,7 +220,7 @@
               }
             },
             "sameAs": {
-              "type": "string"
+              "type": "text"
             },
             "scopeNote": {
               "properties": {
@@ -228,42 +228,42 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
             "image": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "citation": {
-              "type": "string"
+              "type": "text"
             },
             "narrower": {
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -271,44 +271,44 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
               }
             },
             "serviceType": {
-              "type": "string"
+              "type": "text"
             },
             "agent": {
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -316,23 +316,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -343,25 +343,25 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postOfficeBoxNumber": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -369,18 +369,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -392,15 +392,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -408,23 +408,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -439,29 +439,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -473,11 +473,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -485,23 +485,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -511,11 +511,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -523,23 +523,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -557,40 +557,40 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "type": "object"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -598,11 +598,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -610,45 +610,45 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
               }
             },
             "keywords": {
-              "type": "string",
+              "type": "text",
               "analyzer": "keywords_analyzer"
             },
             "hasTopConcept": {
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -656,23 +656,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -682,11 +682,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -696,23 +696,23 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -720,15 +720,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -736,23 +736,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -763,22 +763,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -786,18 +786,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -809,15 +809,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -825,23 +825,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -856,29 +856,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -902,29 +902,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -937,29 +937,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -967,11 +967,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -979,15 +979,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -995,23 +995,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -1022,22 +1022,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -1045,18 +1045,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1068,11 +1068,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -1080,23 +1080,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -1105,15 +1105,15 @@
             "availableChannel": {
               "properties": {
                 "serviceUrl": {
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "availableLanguage": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -1121,15 +1121,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -1137,23 +1137,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -1168,29 +1168,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1210,29 +1210,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -1245,29 +1245,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1275,11 +1275,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -1287,11 +1287,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -1299,30 +1299,30 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
             "recordedIn": {
-              "type": "string"
+              "type": "text"
             },
             "member": {
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -1330,23 +1330,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -1357,22 +1357,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -1380,18 +1380,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1415,29 +1415,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -1450,29 +1450,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1480,16 +1480,16 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
             "exampleOfWork": {
-              "type": "string"
+              "type": "text"
             },
             "attends": {
               "properties": {
@@ -1507,29 +1507,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -1538,26 +1538,26 @@
                     },
                     "@id": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -1565,18 +1565,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1584,11 +1584,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -1599,29 +1599,29 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "address": {
                   "properties": {
                     "addressLocality": {
-                      "type": "string"
+                      "type": "text"
                     },
                     "postOfficeBoxNumber": {
-                      "type": "string"
+                      "type": "text"
                     },
                     "addressCountry": {
                       "fields": {
                         "addressCountry": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "name": {
                           "search_analyzer": "country_synonyms_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "country_synonyms_analyzer"
                         }
                       },
@@ -1629,18 +1629,18 @@
                     },
                     "addressRegion": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "streetAddress": {
-                      "type": "string"
+                      "type": "text"
                     },
                     "postalCode": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -1662,29 +1662,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -1697,29 +1697,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1727,11 +1727,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -1739,15 +1739,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -1755,23 +1755,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -1782,22 +1782,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -1805,18 +1805,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1828,15 +1828,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -1844,23 +1844,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -1875,29 +1875,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -1907,7 +1907,7 @@
             },
             "@context": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "text": {
               "properties": {
@@ -1915,43 +1915,43 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
             "email": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "attendee": {
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -1959,23 +1959,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -1990,29 +1990,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2024,11 +2024,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -2036,23 +2036,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -2067,29 +2067,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2103,42 +2103,42 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
             "notation": {
-              "type": "string"
+              "type": "text"
             },
             "hasPart": {
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -2146,23 +2146,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -2177,29 +2177,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2211,15 +2211,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -2227,23 +2227,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -2258,29 +2258,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2296,15 +2296,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -2312,23 +2312,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -2343,26 +2343,26 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2379,26 +2379,26 @@
               }
             },
             "countryChampionFor": {
-              "type": "string"
+              "type": "text"
             },
             "awards": {
               "properties": {
                 "sameAs": {
-                  "type": "string"
+                  "type": "text"
                 },
                 "funds": {
                   "properties": {
                     "image": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@id": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "name": {
                       "properties": {
@@ -2406,23 +2406,23 @@
                           "fields": {
                             "simple_tokenized": {
                               "search_analyzer": "standard",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "simple"
                             },
                             "variations": {
                               "search_analyzer": "title_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "title_analyzer"
                             },
                             "@value": {
-                              "type": "string"
+                              "type": "text"
                             }
                           },
                           "type": "multi_field"
                         },
                         "@language": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     },
@@ -2437,29 +2437,29 @@
                               "fields": {
                                 "addressCountry": {
                                   "index": "not_analyzed",
-                                  "type": "string"
+                                  "type": "text"
                                 },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
-                                  "type": "string",
+                                  "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
                               "type": "multi_field"
                             },
                             "addressLocality": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "streetAddress": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "addressRegion": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             }
                           }
                         }
@@ -2468,25 +2468,25 @@
                   }
                 },
                 "hasMonetaryValue": {
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "isAwardedBy": {
                   "properties": {
                     "image": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@id": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "name": {
                       "properties": {
@@ -2494,23 +2494,23 @@
                           "fields": {
                             "simple_tokenized": {
                               "search_analyzer": "standard",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "simple"
                             },
                             "variations": {
                               "search_analyzer": "title_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "title_analyzer"
                             },
                             "@value": {
-                              "type": "string"
+                              "type": "text"
                             }
                           },
                           "type": "multi_field"
                         },
                         "@language": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     },
@@ -2521,22 +2521,22 @@
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "address": {
                           "properties": {
                             "addressLocality": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
                                   "index": "not_analyzed",
-                                  "type": "string"
+                                  "type": "text"
                                 },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
-                                  "type": "string",
+                                  "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
@@ -2544,18 +2544,18 @@
                             },
                             "addressRegion": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "streetAddress": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             }
                           }
                         }
@@ -2571,21 +2571,21 @@
             },
             "hashtag": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "contactPoint": {
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -2593,23 +2593,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -2624,29 +2624,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2656,26 +2656,26 @@
             },
             "@id": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "isFundedBy": {
               "properties": {
                 "sameAs": {
-                  "type": "string"
+                  "type": "text"
                 },
                 "funds": {
                   "properties": {
                     "image": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@id": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "name": {
                       "properties": {
@@ -2683,23 +2683,23 @@
                           "fields": {
                             "simple_tokenized": {
                               "search_analyzer": "standard",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "simple"
                             },
                             "variations": {
                               "search_analyzer": "title_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "title_analyzer"
                             },
                             "@value": {
-                              "type": "string"
+                              "type": "text"
                             }
                           },
                           "type": "multi_field"
                         },
                         "@language": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     },
@@ -2714,29 +2714,29 @@
                               "fields": {
                                 "addressCountry": {
                                   "index": "not_analyzed",
-                                  "type": "string"
+                                  "type": "text"
                                 },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
-                                  "type": "string",
+                                  "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
                               "type": "multi_field"
                             },
                             "addressLocality": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "streetAddress": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "addressRegion": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             }
                           }
                         }
@@ -2745,25 +2745,25 @@
                   }
                 },
                 "hasMonetaryValue": {
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "isAwardedBy": {
                   "properties": {
                     "image": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@id": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "name": {
                       "properties": {
@@ -2771,23 +2771,23 @@
                           "fields": {
                             "simple_tokenized": {
                               "search_analyzer": "standard",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "simple"
                             },
                             "variations": {
                               "search_analyzer": "title_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "title_analyzer"
                             },
                             "@value": {
-                              "type": "string"
+                              "type": "text"
                             }
                           },
                           "type": "multi_field"
                         },
                         "@language": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     },
@@ -2798,22 +2798,22 @@
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "address": {
                           "properties": {
                             "addressLocality": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "addressCountry": {
                               "fields": {
                                 "addressCountry": {
                                   "index": "not_analyzed",
-                                  "type": "string"
+                                  "type": "text"
                                 },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
-                                  "type": "string",
+                                  "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
@@ -2821,18 +2821,18 @@
                             },
                             "addressRegion": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "streetAddress": {
-                              "type": "string"
+                              "type": "text"
                             },
                             "postalCode": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "@type": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             }
                           }
                         }
@@ -2854,29 +2854,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -2889,29 +2889,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -2919,11 +2919,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -2931,11 +2931,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -2943,23 +2943,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -2971,23 +2971,23 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -2997,23 +2997,23 @@
                   "fields": {
                     "simple_tokenized": {
                       "search_analyzer": "standard",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "simple"
                     },
                     "variations": {
                       "search_analyzer": "title_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "title_analyzer"
                     },
                     "@value": {
-                      "type": "string"
+                      "type": "text"
                     }
                   },
                   "type": "multi_field"
                 },
                 "@language": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -3021,15 +3021,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -3037,23 +3037,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -3075,29 +3075,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -3106,22 +3106,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -3129,18 +3129,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3148,21 +3148,21 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
             "url": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "award": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             },
             "memberOf": {
               "properties": {
@@ -3180,29 +3180,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -3211,22 +3211,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -3234,18 +3234,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3253,11 +3253,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -3265,15 +3265,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -3281,23 +3281,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -3312,29 +3312,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3346,11 +3346,11 @@
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -3358,15 +3358,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -3374,23 +3374,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -3405,29 +3405,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3436,17 +3436,17 @@
               }
             },
             "inLanguage": {
-              "type": "string"
+              "type": "text"
             },
             "audience": {
               "properties": {
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -3454,23 +3454,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 }
@@ -3480,15 +3480,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -3496,23 +3496,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -3527,29 +3527,29 @@
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
                           "type": "multi_field"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3558,7 +3558,7 @@
               }
             },
             "telephone": {
-              "type": "string"
+              "type": "text"
             },
             "mentions": {
               "properties": {
@@ -3576,29 +3576,29 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "location": {
                   "properties": {
@@ -3607,25 +3607,25 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postOfficeBoxNumber": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -3633,18 +3633,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3652,11 +3652,11 @@
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 }
               }
             },
@@ -3664,15 +3664,15 @@
               "properties": {
                 "image": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@id": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "@type": {
                   "index": "not_analyzed",
-                  "type": "string"
+                  "type": "text"
                 },
                 "name": {
                   "properties": {
@@ -3680,23 +3680,23 @@
                       "fields": {
                         "simple_tokenized": {
                           "search_analyzer": "standard",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "simple"
                         },
                         "variations": {
                           "search_analyzer": "title_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "title_analyzer"
                         },
                         "@value": {
-                          "type": "string"
+                          "type": "text"
                         }
                       },
                       "type": "multi_field"
                     },
                     "@language": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     }
                   }
                 },
@@ -3707,22 +3707,22 @@
                     },
                     "@type": {
                       "index": "not_analyzed",
-                      "type": "string"
+                      "type": "text"
                     },
                     "address": {
                       "properties": {
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "addressCountry": {
                           "fields": {
                             "addressCountry": {
                               "index": "not_analyzed",
-                              "type": "string"
+                              "type": "text"
                             },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
@@ -3730,18 +3730,18 @@
                         },
                         "addressRegion": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         },
                         "@type": {
                           "index": "not_analyzed",
-                          "type": "string"
+                          "type": "text"
                         }
                       }
                     }
@@ -3759,19 +3759,19 @@
             },
             "@type": {
               "index": "not_analyzed",
-              "type": "string"
+              "type": "text"
             }
           }
         },
         "author": {
-          "type": "string"
+          "type": "text"
         },
         "dateCreated": {
           "type": "date",
           "format": "dateOptionalTime"
         },
         "contributor": {
-          "type": "string"
+          "type": "text"
         },
         "dateModified": {
           "type": "date",
@@ -3779,11 +3779,11 @@
         },
         "@id": {
           "index": "not_analyzed",
-          "type": "string"
+          "type": "text"
         },
         "@type": {
           "index": "not_analyzed",
-          "type": "string"
+          "type": "text"
         },
         "link_count": {
           "type": "integer"
