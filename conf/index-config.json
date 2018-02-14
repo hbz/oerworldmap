@@ -4881,7 +4881,7 @@
             "lowercase"
           ],
           "type": "custom",
-          "tokenizer": "hyphen"
+          "tokenizer": "classic"
         },
         "german_analyzer": {
           "filter": [
