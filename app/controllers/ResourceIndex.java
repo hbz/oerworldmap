@@ -124,7 +124,7 @@ public class ResourceIndex extends OERWorldMap {
     }
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
-      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, alternate, iso3166)
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, list, alternate, iso3166)
         .url().concat(filterString));
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }

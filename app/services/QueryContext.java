@@ -83,7 +83,7 @@ public class QueryContext {
       guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
     }
     guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
-    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByFieldOfEducationAggregation(0));
     guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
     guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
     guestAggregations.add(AggregationProvider.getLicenseAggregation(0));
