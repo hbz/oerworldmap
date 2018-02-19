@@ -184,7 +184,7 @@ def settings():
                         "lowercase"
                     ],
                     "type": "custom",
-                    "tokenizer": "hyphen"
+                    "tokenizer": "classic"
                 },
                 "keywords_analyzer": {
                     "filter": "lowercase",
