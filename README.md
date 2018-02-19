@@ -20,13 +20,15 @@ For inital background information about this project please refer to the
 #### [Download and install elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/)
 
     $ cd third-party
-    $ wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/zip/elasticsearch/2.4.1/elasticsearch-2.4.1.zip
-    $ unzip elasticsearch-2.4.1.zip
-    $ cd elasticsearch-2.4.1
-    $ bin/plugin install 'http://xbib.org/repository/org/xbib/elasticsearch/plugin/elasticsearch-plugin-bundle/2.4.1.0/elasticsearch-plugin-bundle-2.4.1.0-plugin.zip'
+    $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.1.zip
+    $ unzip elasticsearch-6.2.1.zip
+    $ cd elasticsearch-6.2.1
+    $ bin/elasticsearch-plugin install analysis-icu
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
+
+Optionally, you may want to [use the head plugin](https://www.elastic.co/blog/running-site-plugins-with-elasticsearch-5-0)
 
 #### Configure elasticsearch
 
@@ -50,11 +52,6 @@ in `conf/application.conf` before restarting.
 
     $ curl -X DELETE http://localhost:9200/oerworldmap/
     $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
-
-#### Optionally, you may want to [install the head plugin](https://github.com/mobz/elasticsearch-head)
-
-    $ cd third-party/elasticsearch-2.4.1
-    $ bin/plugin install mobz/elasticsearch-head
 
 #### Set up Apache
 
