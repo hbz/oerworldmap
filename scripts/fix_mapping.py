@@ -90,11 +90,9 @@ def set_geo_point():
 
 def set_ngram(variations_search_analyzer):
     return {
-        "type": "multi_field",
+        "type": "text",
+        "index": "true",
         "fields": {
-            "@value": {
-                "type": "text"
-            },
             "variations": {
                 "type": "text",
                 "analyzer": "title_analyzer",
@@ -110,12 +108,8 @@ def set_ngram(variations_search_analyzer):
 
 def set_country_name():
     return {
-        "type": "multi_field",
+        "type": "text",
         "fields": {
-            "addressCountry": {
-                "type": "text",
-                'index': 'false'
-            },
             "name": {
                 "type": "text",
                 "analyzer": "country_synonyms_analyzer",
