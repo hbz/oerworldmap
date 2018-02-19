@@ -19,16 +19,17 @@
             "articleBody": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -40,16 +41,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -74,16 +71,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -95,16 +93,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -121,17 +115,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -174,16 +164,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -195,16 +186,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -228,17 +215,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -267,16 +250,17 @@
             "scopeNote": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -288,16 +272,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -325,16 +305,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -346,16 +327,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -385,16 +362,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -406,16 +384,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -442,17 +416,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -492,16 +462,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -513,16 +484,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -539,17 +506,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -584,16 +547,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -605,16 +569,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -637,16 +597,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -658,16 +619,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -686,16 +643,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -707,16 +665,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -754,16 +708,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -775,16 +730,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -815,16 +766,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -836,16 +788,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -870,16 +818,17 @@
             "alternateName": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -891,16 +840,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -925,16 +870,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -946,16 +892,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -979,17 +921,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -1029,16 +967,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1050,16 +989,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1076,17 +1011,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1121,16 +1052,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1142,16 +1074,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1172,17 +1100,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1229,16 +1153,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1250,16 +1175,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1283,17 +1204,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -1329,16 +1246,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1350,16 +1268,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1401,16 +1315,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1422,16 +1337,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1448,17 +1359,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1489,16 +1396,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1510,16 +1418,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1540,17 +1444,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1624,16 +1524,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1645,16 +1546,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1678,17 +1575,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -1724,16 +1617,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1745,16 +1639,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1775,17 +1665,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1831,16 +1717,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1852,16 +1739,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -1893,17 +1776,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -1957,17 +1836,13 @@
                     },
                     "addressCountry": {
                       "fields": {
-                        "addressCountry": {
-                          "index": "false",
-                          "type": "text"
-                        },
                         "name": {
                           "search_analyzer": "country_synonyms_analyzer",
                           "type": "text",
                           "analyzer": "country_synonyms_analyzer"
                         }
                       },
-                      "type": "multi_field"
+                      "type": "text"
                     },
                     "addressRegion": {
                       "index": "false",
@@ -2001,16 +1876,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2022,16 +1898,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2052,17 +1924,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2109,16 +1977,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2130,16 +1999,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2163,17 +2028,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -2213,16 +2074,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2234,16 +2096,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2260,17 +2118,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2299,16 +2153,17 @@
             "text": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -2320,16 +2175,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -2358,16 +2209,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2379,16 +2231,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2405,17 +2253,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2450,16 +2294,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2471,16 +2316,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2497,17 +2338,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2532,16 +2369,17 @@
             "description": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -2553,16 +2391,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -2590,16 +2424,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2611,16 +2446,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2637,17 +2468,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2686,16 +2513,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2707,16 +2535,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2733,17 +2557,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2786,16 +2606,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2807,16 +2628,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -2837,17 +2654,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2899,16 +2712,17 @@
                     "name": {
                       "properties": {
                         "@value": {
+                          "index": "true",
+                          "type": "text",
                           "fields": {
                             "sort": {
-                              "ignore_above": 20,
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -2920,16 +2734,12 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "@value": {
-                              "type": "text"
-                            },
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "text",
-                              "analyzer": "simple"
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
-                          },
-                          "type": "multi_field"
+                          }
                         },
                         "@language": {
                           "index": "false",
@@ -2946,17 +2756,13 @@
                           "properties": {
                             "addressCountry": {
                               "fields": {
-                                "addressCountry": {
-                                  "index": "false",
-                                  "type": "text"
-                                },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
                                   "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "multi_field"
+                              "type": "text"
                             },
                             "addressLocality": {
                               "type": "text"
@@ -3002,16 +2808,17 @@
                     "name": {
                       "properties": {
                         "@value": {
+                          "index": "true",
+                          "type": "text",
                           "fields": {
                             "sort": {
-                              "ignore_above": 20,
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -3023,16 +2830,12 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "@value": {
-                              "type": "text"
-                            },
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "text",
-                              "analyzer": "simple"
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
-                          },
-                          "type": "multi_field"
+                          }
                         },
                         "@language": {
                           "index": "false",
@@ -3056,17 +2859,13 @@
                             },
                             "addressCountry": {
                               "fields": {
-                                "addressCountry": {
-                                  "index": "false",
-                                  "type": "text"
-                                },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
                                   "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "multi_field"
+                              "type": "text"
                             },
                             "addressRegion": {
                               "index": "false",
@@ -3116,16 +2915,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3137,16 +2937,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3163,17 +2959,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -3221,16 +3013,17 @@
                     "name": {
                       "properties": {
                         "@value": {
+                          "index": "true",
+                          "type": "text",
                           "fields": {
                             "sort": {
-                              "ignore_above": 20,
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -3242,16 +3035,12 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "@value": {
-                              "type": "text"
-                            },
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "text",
-                              "analyzer": "simple"
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
-                          },
-                          "type": "multi_field"
+                          }
                         },
                         "@language": {
                           "index": "false",
@@ -3268,17 +3057,13 @@
                           "properties": {
                             "addressCountry": {
                               "fields": {
-                                "addressCountry": {
-                                  "index": "false",
-                                  "type": "text"
-                                },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
                                   "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "multi_field"
+                              "type": "text"
                             },
                             "addressLocality": {
                               "type": "text"
@@ -3324,16 +3109,17 @@
                     "name": {
                       "properties": {
                         "@value": {
+                          "index": "true",
+                          "type": "text",
                           "fields": {
                             "sort": {
-                              "ignore_above": 20,
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -3345,16 +3131,12 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "@value": {
-                              "type": "text"
-                            },
-                            "simple_tokenized": {
-                              "search_analyzer": "standard",
-                              "type": "text",
-                              "analyzer": "simple"
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
                             }
-                          },
-                          "type": "multi_field"
+                          }
                         },
                         "@language": {
                           "index": "false",
@@ -3378,17 +3160,13 @@
                             },
                             "addressCountry": {
                               "fields": {
-                                "addressCountry": {
-                                  "index": "false",
-                                  "type": "text"
-                                },
                                 "name": {
                                   "search_analyzer": "country_synonyms_analyzer",
                                   "type": "text",
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "multi_field"
+                              "type": "text"
                             },
                             "addressRegion": {
                               "index": "false",
@@ -3422,16 +3200,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3443,16 +3222,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3473,17 +3248,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -3526,16 +3297,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3547,16 +3319,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3569,16 +3337,17 @@
             "displayName": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -3590,16 +3359,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -3610,16 +3375,17 @@
             "name": {
               "properties": {
                 "@value": {
+                  "index": "true",
+                  "type": "text",
                   "fields": {
                     "sort": {
-                      "ignore_above": 20,
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -3631,16 +3397,12 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "@value": {
-                      "type": "text"
-                    },
-                    "simple_tokenized": {
-                      "search_analyzer": "standard",
-                      "type": "text",
-                      "analyzer": "simple"
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
                     }
-                  },
-                  "type": "multi_field"
+                  }
                 },
                 "@language": {
                   "index": "false",
@@ -3665,16 +3427,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3686,16 +3449,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3718,16 +3477,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3739,16 +3499,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3776,17 +3532,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -3834,16 +3586,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3855,16 +3608,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3892,17 +3641,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -3950,16 +3695,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3971,16 +3717,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -3997,17 +3739,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -4058,16 +3796,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4079,16 +3818,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -4105,17 +3840,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -4153,16 +3884,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4174,16 +3906,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -4210,16 +3938,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4231,16 +3960,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -4257,17 +3982,13 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -4305,16 +4026,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4326,16 +4048,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -4366,17 +4084,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -4424,16 +4138,17 @@
                 "name": {
                   "properties": {
                     "@value": {
+                      "index": "true",
+                      "type": "text",
                       "fields": {
                         "sort": {
-                          "ignore_above": 20,
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4445,16 +4160,12 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "@value": {
-                          "type": "text"
-                        },
-                        "simple_tokenized": {
-                          "search_analyzer": "standard",
-                          "type": "text",
-                          "analyzer": "simple"
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
                         }
-                      },
-                      "type": "multi_field"
+                      }
                     },
                     "@language": {
                       "index": "false",
@@ -4478,17 +4189,13 @@
                         },
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "false",
-                              "type": "text"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
                               "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "text"
                         },
                         "addressRegion": {
                           "index": "false",
@@ -4555,9 +4262,6 @@
         "link_count": {
           "type": "integer"
         }
-      },
-      "transform": {
-        "script": "\n            if (!ctx._source['about']['location']) {\n\n                ctx._source['about']['location'] = [];\n\n                if (ctx._source['about']['provider'] && ctx._source['about']['provider']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['provider']['location'];\n\n                if (ctx._source['about']['agent'] && ctx._source['about']['agent']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['agent']['location'];\n\n                if (ctx._source['about']['participant'] && ctx._source['about']['participant']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['participant']['location'];\n\n                if (ctx._source['about']['member'] && ctx._source['about']['member']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['member']['location'];\n\n                if (ctx._source['about']['mentions'] && ctx._source['about']['mentions']['location'])\n                    ctx._source['about']['location'] << ctx._source['about']['mentions']['location'];\n            };\n        "
       }
     }
   },
@@ -4881,7 +4585,7 @@
             "lowercase"
           ],
           "type": "custom",
-          "tokenizer": "hyphen"
+          "tokenizer": "classic"
         },
         "german_analyzer": {
           "filter": [
