@@ -232,7 +232,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+    mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString, XContentType.JSON).execute()
       .actionGet();
   }
 
