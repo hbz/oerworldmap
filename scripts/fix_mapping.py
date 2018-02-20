@@ -67,8 +67,8 @@ def process_properties(properties, is_name_branch):
 
 def set_not_analyzed():
     return {
-        'type': 'text',
-        'index': 'false'
+        'type': 'keyword',
+        'index': 'true'
     }
 
 def set_keywords_analyzer():
