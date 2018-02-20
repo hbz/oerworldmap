@@ -1,20 +1,20 @@
 ---
-title: Terms of Service
+title: Termos de Serviço
 ---
-Overview:
+Resumo:
 
-1. [Imprint](#imprint)
-2. [Liability / Haftung](#liability)
-3. [Privacy policy](#privacy) 
-    1. [Accessing the content of the OER World Map](#privacy-access)
-    2. [Privacy when publishing Information related to Open Educational Resources on the OER World Map](#privacy-publish)
-    3. [Newsletter](#privacy-newsletter)
+1. [Informação legal](#imprint)
+2. [Responsabilidade / Haftung](#liability)
+3. [Política de privacidade](#privacy) 
+    1. [Acessando o conteúdo do Mapa Global REA](#privacy-access)
+    2. [Privacidade ao publicar informações relacionadas a Recursos Educacionais Abertos no Mapa Global REA](#privacy-publish)
+    3. [Informativo](#privacy-newsletter)
 4. [Copyright](#copyright) 
-    1. [CC0 except where otherwise noted](#cc0)
-    2. [Other licenses, e.g. for stories, fonts and maps](#other-licenses)
-5. [Versions](#versions)
+    1. [CC0, exceto onde indicado](#cc0)
+    2. [Outras licenças, por exemplo, para as histórias, fontes e mapas](#other-licenses)
+5. [Versões](#versions)
 
-In case of any questions of requests please do not hesitate to get in touch with the administrators of this website directly via <info@oerworldmap.org>.
+Em caso de dúvidas não hesite em entrar em contato com os administradores deste site diretamente via <info@oerworldmap.org>.
 
 <h2 id="imprint">1. Imprint</h2>
 
