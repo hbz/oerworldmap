@@ -54,6 +54,14 @@ The OER World Map collects data about actors and activities related to OER and O
 
 There are many opportunities for future expansion of the model.
 
+## What do I have to keep in mind when I set a lighthouse?
+
+The Ljubjlana Action Plan highlights the need to identify models of good practice, which have proven to be sustainable ways to organize production, sharing and use of OER. We believe that learning from experiences made in other countries will be key for fast global mainstreaming of OER, so please consider setting some lighthouses.
+
+Setting a lighthouse is pretty easy: When you are logged in, you simply click on the lighthouse symbol on the profile page of the entry you want to mark. Then you have to explain in the comment field what the community can learn from this particular example.
+
+Please set lighthouses only in case you are not affiliated with the entry in any way!
+
 ## Where are the OER?
 
 We believe that the discovery of individual OER has to be provided by search engine based services. The OER World Map facilitates the discovery of OER indirectly by providing qualified lists of OER services.
