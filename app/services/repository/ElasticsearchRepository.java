@@ -222,7 +222,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
     try {
-      mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString).execute()
+      mClient.prepareIndex(mConfig.getIndex(), aType, aUuid).setSource(aJsonString, XContentType.JSON).execute()
         .actionGet();
     } catch (MapperParsingException e) {
       Logger.warn("Failed to index", e);

@@ -75,22 +75,22 @@ public class QueryContext {
   public List<AggregationBuilder> getAggregations() {
 
     List<AggregationBuilder> guestAggregations = new ArrayList<>();
-    guestAggregations.add(AggregationProvider.getTypeAggregation(0));
+    guestAggregations.add(AggregationProvider.getTypeAggregation(1));
     if (filters.containsKey("iso3166")) {
-      guestAggregations.add(AggregationProvider.getRegionAggregation(0, iso3166Scope));
-      guestAggregations.add(AggregationProvider.getForCountryAggregation(iso3166Scope, 0));
+      guestAggregations.add(AggregationProvider.getRegionAggregation(1, iso3166Scope));
+      guestAggregations.add(AggregationProvider.getForCountryAggregation(iso3166Scope, 1));
     } else {
-      guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
+      guestAggregations.add(AggregationProvider.getByCountryAggregation(1));
     }
-    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
-    guestAggregations.add(AggregationProvider.getServiceByFieldOfEducationAggregation(0));
-    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
-    guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
-    guestAggregations.add(AggregationProvider.getLicenseAggregation(0));
+    guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(1));
+    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(1));
+    guestAggregations.add(AggregationProvider.getKeywordsAggregation(1));
+    guestAggregations.add(AggregationProvider.getLicenseAggregation(1));
     guestAggregations.add(AggregationProvider.getEventCalendarAggregation());
-    guestAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
-    guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
-    guestAggregations.add(AggregationProvider.getAwardAggregation(0));
+    guestAggregations.add(AggregationProvider.getPrimarySectorsAggregation(1));
+    guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(1));
+    guestAggregations.add(AggregationProvider.getAwardAggregation(1));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);

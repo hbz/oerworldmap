@@ -62,7 +62,7 @@ public class AggregationProvider {
       "https://w3id.org/class/esc/n09",
       "https://w3id.org/class/esc/n10"
     };
-    return getServiceByFieldOfEducationAggregation(Arrays.asList(topLevelIds), 0);
+    return getServiceByFieldOfEducationAggregation(Arrays.asList(topLevelIds), 1);
   }
 
   public static AggregationBuilder getServiceByGradeLevelAggregation(int aSize) {
