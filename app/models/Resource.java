@@ -140,12 +140,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
-  public static Resource fromJson(InputStream aInputStream) throws IOException {
-    String json = IOUtils.toString(aInputStream, "UTF-8");
-    aInputStream.close();
-    return fromJson(json);
-  }
-
   /**
    * Get a JsonNode representation of the resource.
    *
@@ -212,20 +206,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return list;
   }
 
-  public List<String> getIdList(final Object aKey) {
-    List<String> ids = new ArrayList<>();
-    Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return ids;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
-      }
-    }
-    return ids;
-  }
-
   public Resource getAsResource(final Object aKey) {
     Object result = get(aKey);
     return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
@@ -283,6 +263,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       put(entry.getKey(), entry.getValue());
     }
   }
+
+
 
   @Override
   public int compareTo(Resource aOther) {
