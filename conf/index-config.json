@@ -7,12 +7,12 @@
             "comment": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -35,24 +35,24 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "performer": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -73,8 +73,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -102,12 +102,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -122,16 +122,16 @@
             "creator": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -152,8 +152,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -163,8 +163,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -182,19 +182,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -224,14 +224,14 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "image": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "citation": {
               "type": "text"
@@ -239,12 +239,12 @@
             "narrower": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -265,8 +265,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -278,16 +278,16 @@
             "agent": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -308,8 +308,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -319,8 +319,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -341,19 +341,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -364,16 +364,16 @@
             "agentIn": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -394,8 +394,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -423,12 +423,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -439,12 +439,12 @@
             "secondarySector": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -465,8 +465,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -475,12 +475,12 @@
             "primarySector": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -501,8 +501,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -533,37 +533,37 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "type": "object"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "broader": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -584,8 +584,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -598,16 +598,16 @@
             "hasTopConcept": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -628,8 +628,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -638,12 +638,12 @@
             "inScheme": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -666,24 +666,24 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "organizer": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -704,8 +704,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -715,8 +715,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -734,19 +734,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -757,16 +757,16 @@
             "funderOf": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -787,8 +787,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -816,12 +816,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -858,14 +858,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -891,40 +891,40 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "participant": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -945,8 +945,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -956,8 +956,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -975,19 +975,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -998,12 +998,12 @@
             "publication": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1024,8 +1024,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -1037,28 +1037,28 @@
                   "type": "text"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "availableLanguage": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "author": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1079,8 +1079,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -1108,12 +1108,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -1146,14 +1146,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -1179,48 +1179,48 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "authorOf": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "objectIn": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -1230,16 +1230,16 @@
             "member": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1260,8 +1260,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -1271,8 +1271,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -1290,19 +1290,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -1339,14 +1339,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -1372,24 +1372,24 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -1425,14 +1425,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -1440,12 +1440,12 @@
                       "type": "geo_point"
                     },
                     "@id": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -1463,31 +1463,31 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -1497,12 +1497,12 @@
                   "type": "geo_point"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "address": {
                   "properties": {
@@ -1523,19 +1523,19 @@
                       "type": "text"
                     },
                     "addressRegion": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "streetAddress": {
                       "type": "text"
                     },
                     "postalCode": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -1570,14 +1570,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -1603,40 +1603,40 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "provider": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1657,8 +1657,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -1668,8 +1668,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -1687,19 +1687,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -1710,16 +1710,16 @@
             "isPartOf": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1740,8 +1740,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -1769,12 +1769,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -1783,8 +1783,8 @@
               }
             },
             "@context": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "text": {
               "properties": {
@@ -1805,28 +1805,28 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "email": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "attendee": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1847,8 +1847,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -1876,12 +1876,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -1892,12 +1892,12 @@
             "object": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -1918,8 +1918,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -1947,12 +1947,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -1979,8 +1979,8 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -1990,16 +1990,16 @@
             "hasPart": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -2020,8 +2020,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -2049,12 +2049,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -2065,16 +2065,16 @@
             "mentionedIn": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -2095,8 +2095,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -2124,12 +2124,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -2138,8 +2138,8 @@
               }
             },
             "award": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "dateCreated": {
               "type": "date",
@@ -2174,14 +2174,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -2204,24 +2204,24 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -2236,16 +2236,16 @@
                 "funds": {
                   "properties": {
                     "image": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@id": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "name": {
                       "properties": {
@@ -2266,8 +2266,8 @@
                           }
                         },
                         "@language": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     },
@@ -2295,12 +2295,12 @@
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             },
                             "addressRegion": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             }
                           }
                         }
@@ -2312,22 +2312,22 @@
                   "type": "text"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "isAwardedBy": {
                   "properties": {
                     "image": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@id": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "name": {
                       "properties": {
@@ -2348,8 +2348,8 @@
                           }
                         },
                         "@language": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     },
@@ -2359,8 +2359,8 @@
                           "type": "geo_point"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "address": {
                           "properties": {
@@ -2378,19 +2378,19 @@
                               "type": "text"
                             },
                             "addressRegion": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             },
                             "streetAddress": {
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             },
                             "@type": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             }
                           }
                         }
@@ -2405,22 +2405,22 @@
               "format": "dateOptionalTime"
             },
             "hashtag": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "contactPoint": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -2441,8 +2441,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -2470,12 +2470,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -2484,8 +2484,8 @@
               }
             },
             "@id": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "isFundedBy": {
               "properties": {
@@ -2495,16 +2495,16 @@
                 "funds": {
                   "properties": {
                     "image": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@id": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "name": {
                       "properties": {
@@ -2525,8 +2525,8 @@
                           }
                         },
                         "@language": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     },
@@ -2554,12 +2554,12 @@
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             },
                             "addressRegion": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             }
                           }
                         }
@@ -2571,22 +2571,22 @@
                   "type": "text"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "isAwardedBy": {
                   "properties": {
                     "image": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@id": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "name": {
                       "properties": {
@@ -2607,8 +2607,8 @@
                           }
                         },
                         "@language": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     },
@@ -2618,8 +2618,8 @@
                           "type": "geo_point"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "address": {
                           "properties": {
@@ -2637,19 +2637,19 @@
                               "type": "text"
                             },
                             "addressRegion": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             },
                             "streetAddress": {
                               "type": "text"
                             },
                             "postalCode": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             },
                             "@type": {
-                              "index": "false",
-                              "type": "text"
+                              "index": "true",
+                              "type": "keyword"
                             }
                           }
                         }
@@ -2684,14 +2684,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -2717,36 +2717,36 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "about": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -2767,8 +2767,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -2793,8 +2793,8 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
@@ -2817,24 +2817,24 @@
                   }
                 },
                 "@language": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "license": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -2855,8 +2855,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -2891,14 +2891,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -2906,8 +2906,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -2925,37 +2925,37 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "url": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             },
             "memberOf": {
               "properties": {
@@ -2986,14 +2986,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -3001,8 +3001,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -3020,47 +3020,47 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "created": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -3081,8 +3081,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -3110,12 +3110,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -3126,28 +3126,28 @@
             "topConceptOf": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "participantIn": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -3168,8 +3168,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -3197,12 +3197,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -3216,12 +3216,12 @@
             "audience": {
               "properties": {
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -3242,8 +3242,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 }
@@ -3252,16 +3252,16 @@
             "affiliate": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -3282,8 +3282,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -3311,12 +3311,12 @@
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -3356,14 +3356,14 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "location": {
                   "properties": {
@@ -3371,8 +3371,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -3393,47 +3393,47 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
                   }
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 }
               }
             },
             "funder": {
               "properties": {
                 "image": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@id": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "@type": {
-                  "index": "false",
-                  "type": "text"
+                  "index": "true",
+                  "type": "keyword"
                 },
                 "name": {
                   "properties": {
@@ -3454,8 +3454,8 @@
                       }
                     },
                     "@language": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     }
                   }
                 },
@@ -3465,8 +3465,8 @@
                       "type": "geo_point"
                     },
                     "@type": {
-                      "index": "false",
-                      "type": "text"
+                      "index": "true",
+                      "type": "keyword"
                     },
                     "address": {
                       "properties": {
@@ -3484,19 +3484,19 @@
                           "type": "text"
                         },
                         "addressRegion": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "streetAddress": {
                           "type": "text"
                         },
                         "postalCode": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "@type": {
-                          "index": "false",
-                          "type": "text"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -3513,8 +3513,8 @@
               "format": "dateOptionalTime"
             },
             "@type": {
-              "index": "false",
-              "type": "text"
+              "index": "true",
+              "type": "keyword"
             }
           }
         },
@@ -3535,16 +3535,15 @@
           "type": "text"
         },
         "dateModified": {
-          "type": "date",
-          "format": "strict_date_optional_time||epoch_millis"
+          "type": "date"
         },
         "@id": {
-          "index": "false",
-          "type": "text"
+          "index": "true",
+          "type": "keyword"
         },
         "@type": {
-          "index": "false",
-          "type": "text"
+          "index": "true",
+          "type": "keyword"
         },
         "link_count": {
           "type": "integer"
