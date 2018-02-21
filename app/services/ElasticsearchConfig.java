@@ -39,7 +39,6 @@ public class ElasticsearchConfig {
   private String mCluster;
   private Map<String, String> mIndexSettings;
   private Map<String, String> mClusterSettings;
-  private Client mClient;
   private TransportClient mTransportClient;
 
   public ElasticsearchConfig(Config aConfiguration) {
@@ -60,7 +59,7 @@ public class ElasticsearchConfig {
     mTransportClient = new PreBuiltTransportClient(clientSettings);
 
     try {
-      mClient = mTransportClient.addTransportAddress(new TransportAddress(InetAddress.getByName(mServer),
+      mTransportClient.addTransportAddress(new TransportAddress(InetAddress.getByName(mServer),
         mJavaPort));
     } catch (UnknownHostException ex) {
       throw new RuntimeException(ex);
@@ -120,29 +119,26 @@ public class ElasticsearchConfig {
   }
 
   public Client getClient() {
-    return mClient;
+    return mTransportClient;
   }
 
   private boolean indexExists(String aIndex) {
-    return mClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
+    return mTransportClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
   }
 
   private CreateIndexResponse createIndex(String aIndex) {
-    return mClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
+    return mTransportClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
   }
 
   public DeleteIndexResponse deleteIndex(String aIndex) {
-    return mClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
+    return mTransportClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
   }
 
   private void refreshElasticsearch(String aIndex) {
-    mClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+    mTransportClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
   }
 
   public void tearDown() throws Exception {
-    if (mClient != null) {
-      mClient.close();
-    }
     if (mTransportClient != null) {
       mTransportClient.close();
     }
