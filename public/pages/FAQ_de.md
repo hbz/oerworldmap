@@ -54,9 +54,9 @@ Die OER World Map sammelt Daten über Akteure und Aktivitäten aus dem Bereich d
 
 Es gibt noch viele Möglichkeiten dieses Modell in der Zukunft auszubauen.
 
-## What do I have to keep in mind when I set a lighthouse?
+## Was muss ich beachten, wenn ich einen Leuchtturm setze?
 
-The Ljubjlana Action Plan highlights the need to identify models of good practice, which have proven to be sustainable ways to organize production, sharing and use of OER. We believe that learning from experiences made in other countries will be key for fast global mainstreaming of OER, so please consider setting some lighthouses.
+Der Ljubjlana Action Plan betont die Wichtigkeit, Good-Practise-Beispiele zu identifizieren, die gezeigt haben, wie die Produktion, das Teilen und die Nutzung von OER nachhaltig organisiert werden können. We believe that learning from experiences made in other countries will be key for fast global mainstreaming of OER, so please consider setting some lighthouses.
 
 Setting a lighthouse is pretty easy: When you are logged in, you simply click on the lighthouse symbol on the profile page of the entry you want to mark. Then you have to explain in the comment field what the community can learn from this particular example.
 
