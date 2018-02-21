@@ -151,15 +151,17 @@ public class ResourceIndex extends OERWorldMap {
           result.put("iso3166", iso3166.toUpperCase());
         }
       }
+      // FIXME: this is a huge bottleneck, if we really need to enrich the labels here,
+      // we should not do so by mBaseRepository.getResource
       // Enrich with aggregation labels
-      Resource aggregations = result.getAsResource("aggregations");
-      for (String agg : aggregations.keySet()) {
-        if (agg.endsWith("@id")) {
-          for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
-            bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
-          }
-        }
-      }
+      //Resource aggregations = result.getAsResource("aggregations");
+      //for (String agg : aggregations.keySet()) {
+      //  if (agg.endsWith("@id")) {
+      //    for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
+      //      bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
+      //    }
+      //  }
+      //}
       return ok(result.toString()).as("application/json");
     } else if (format.equals("application/geo+json")) {
       return ok(mGeoJsonExporter.export(resourceList)).as("application/geo+json");
