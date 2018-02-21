@@ -56,7 +56,7 @@ Es gibt noch viele Möglichkeiten dieses Modell in der Zukunft auszubauen.
 
 ## Was muss ich beachten, wenn ich einen Leuchtturm setze?
 
-Der Ljubjlana Action Plan betont die Wichtigkeit, Good-Practise-Beispiele zu identifizieren, die gezeigt haben, wie die Produktion, das Teilen und die Nutzung von OER nachhaltig organisiert werden können. We believe that learning from experiences made in other countries will be key for fast global mainstreaming of OER, so please consider setting some lighthouses.
+Der Ljubjlana Action Plan betont die Wichtigkeit, Good-Practise-Beispiele zu identifizieren, die gezeigt haben, wie die Produktion, das Teilen und die Nutzung von OER nachhaltig organisiert werden können. Von den Erfahrungen anderer Länder zu lernen ist nach unserer Überzeugung der Schlüssel zur einer schnellen weltweiten Verbreitung von OER.
 
 Setting a lighthouse is pretty easy: When you are logged in, you simply click on the lighthouse symbol on the profile page of the entry you want to mark. Then you have to explain in the comment field what the community can learn from this particular example.
 
