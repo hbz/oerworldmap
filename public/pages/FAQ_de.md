@@ -60,7 +60,7 @@ Der Ljubjlana Action Plan betont die Wichtigkeit, Good-Practise-Beispiele zu ide
 
 Einen Leuchtturm zu setzen ist einfach: Wenn Sie eingeloggt sind, klicken Sie auf das Leuchtturm-Symbol auf der Profilseite des Eintrags, den Sie markieren möchten. Anschließend beschreiben Sie im Kommentar-Feld, was man von diesem Beispiel lernen kann.
 
-Please set lighthouses only in case you are not affiliated with the entry in any way!
+Bitte setzen Sie keine Leuchttürme für Initiative, für die Sie arbeiten!
 
 ## Wo sind die Open Educational Resources?
 
