@@ -199,7 +199,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
         String linked = querySolution.get("o").toString();
-        Model referenced = getExtendedDescription(linked, mDb);
+        Model referenced = getConciseBoundedDescription(linked, mDb);
         StmtIterator it = referenced.listStatements();
         while (it.hasNext()) {
           Statement statement = it.next();
