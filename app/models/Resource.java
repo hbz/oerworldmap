@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
@@ -264,7 +267,47 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
+  public Resource reduce() {
+    return Resource.fromJson(reduce((ObjectNode) this.toJson()));
+  }
 
+  private JsonNode reduce(ObjectNode resource) {
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    Iterator<Map.Entry<String, JsonNode>> fields = resource.fields();
+    while (fields.hasNext()) {
+      Map.Entry<String, JsonNode> field = fields.next();
+      String key = field.getKey();
+      JsonNode value = field.getValue();
+      if (value.isObject() && value.has(JsonLdConstants.ID)) {
+        ObjectNode link = JsonNodeFactory.instance.objectNode();
+        link.set(JsonLdConstants.ID, value.get(JsonLdConstants.ID));
+        result.set(key, link);
+      } else if (value.isArray()) {
+        result.set(key, reduce((ArrayNode) value));
+      } else {
+        result.set(key, value);
+      }
+    }
+    return result;
+  }
+
+  private JsonNode reduce(ArrayNode arrayNode) {
+    ArrayNode result = JsonNodeFactory.instance.arrayNode();
+    for (JsonNode entry : arrayNode) {
+      if (entry.isObject() && entry.has(JsonLdConstants.ID)) {
+        ObjectNode link = JsonNodeFactory.instance.objectNode();
+        link.set(JsonLdConstants.ID, entry.get(JsonLdConstants.ID));
+        result.add(link);
+      } else if (entry.isObject()) {
+        result.add(reduce((ObjectNode) entry));
+      } else if (entry.isArray()) {
+        result.add(reduce((ArrayNode) entry));
+      } else {
+        result.add(entry);
+      }
+    }
+    return result;
+  }
 
   @Override
   public int compareTo(Resource aOther) {

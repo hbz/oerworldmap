@@ -285,7 +285,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
 
-    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.toString().getBytes())) {
+    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.reduce().toString().getBytes())) {
       RDFDataMgr.read(incoming, byteArrayInputStream, Lang.JSONLD);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
