@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-email" % "1.3.3",
   "commons-io" % "commons-io" % "2.5",
   "org.elasticsearch" % "elasticsearch" % "6.2.1",
-  "org.elasticsearch.client" % "transport" % "6.2.1",
+  "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "6.2.1",
   "com.vladsch.flexmark" % "flexmark-all" % "0.26.4",
   "com.github.jknack" % "handlebars" % "4.0.6",
   "com.github.jknack" % "handlebars-markdown" % "4.0.6",
