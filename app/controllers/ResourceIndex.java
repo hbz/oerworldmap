@@ -448,7 +448,7 @@ public class ResourceIndex extends OERWorldMap {
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
 
-    return seeOther("/resource/" + aId);
+    return created(comment.toJson());
 
   }
 
