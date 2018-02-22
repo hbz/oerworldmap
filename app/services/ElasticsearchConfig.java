@@ -3,20 +3,24 @@ package services;
 import com.typesafe.config.Config;
 import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.mapper.ObjectMapper;
 import play.Logger;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,40 +42,32 @@ public class ElasticsearchConfig {
   private String mCluster;
   private Map<String, String> mIndexSettings;
   private Map<String, String> mClusterSettings;
-  private TransportClient mTransportClient;
+  private RestHighLevelClient mEsClient;
 
   public ElasticsearchConfig(Config aConfiguration) {
     mConfig = aConfiguration;
 
     // HOST
     mServer = mConfig.getString("es.host.server");
-    mJavaPort = mConfig.getInt("es.host.port.java");
+    mJavaPort = mConfig.getInt("es.host.port.http");
 
     mIndex = mConfig.getString("es.index.name");
     mType = mConfig.getString("es.index.type");
     mCluster = mConfig.getString("es.cluster.name");
 
-    Settings clientSettings = Settings.builder() //
-        .put("cluster.name", mCluster) //
-        .put("client.transport.sniff", true) //
-        .build();
-    mTransportClient = new PreBuiltTransportClient(clientSettings);
-
-    try {
-      mTransportClient.addTransportAddress(new TransportAddress(InetAddress.getByName(mServer),
-        mJavaPort));
-    } catch (UnknownHostException ex) {
-      throw new RuntimeException(ex);
-    }
+    final RestClientBuilder builder = RestClient.builder(
+      new HttpHost(mServer, mJavaPort, "http"));
+    mEsClient = new RestHighLevelClient(builder);
 
     if (!indexExists(mIndex)) {
-      CreateIndexResponse response = createIndex(mIndex);
-      refreshElasticsearch(mIndex);
+      CreateIndexResponse response = null;
+      try {
+        response = createIndex(mIndex);
+      } catch (IOException e) {
+        Logger.error("Failing to create index '".concat(mIndex).concat("', caused by: "), e);
+      }
       if (response.isAcknowledged()) {
         Logger.info("Created index \"" + mIndex + "\".");
-      } //
-      else {
-        Logger.warn("Not able to create index \"" + mIndex + "\".");
       }
     }
 
@@ -101,10 +97,6 @@ public class ElasticsearchConfig {
     return mServer;
   }
 
-  public Integer getJavaPort() {
-    return mJavaPort;
-  }
-
   public String toString() {
     return mConfig.toString();
   }
@@ -117,29 +109,35 @@ public class ElasticsearchConfig {
     return mClusterSettings;
   }
 
-  public TransportClient getClient() {
-    return mTransportClient;
+  public RestHighLevelClient getClient() {
+    return mEsClient;
   }
 
-  private boolean indexExists(String aIndex) {
-    return mTransportClient.admin().indices().prepareExists(aIndex).execute().actionGet().isExists();
+  public boolean indexExists(String aIndex) {
+    GetIndexRequest request = new GetIndexRequest();
+    request.indices(aIndex);
+    return mEsClient.indices().exists(request);
   }
 
-  private CreateIndexResponse createIndex(String aIndex) {
-    return mTransportClient.admin().indices().prepareCreate(aIndex).execute().actionGet();
+  public CreateIndexResponse createIndex(String aIndex) throws IOException {
+    CreateIndexRequest request = new CreateIndexRequest(aIndex);
+    // TODO : to be configured (optional)
+    /*request.settings(Settings.builder()
+      .put("index.number_of_shards", 3)
+      .put("index.number_of_replicas", 2)
+    );*/
+    request.source(getIndexConfigString(), XContentType.JSON);
+    return mEsClient.indices().create(request);
   }
 
-  public DeleteIndexResponse deleteIndex(String aIndex) {
-    return mTransportClient.admin().indices().delete(new DeleteIndexRequest(aIndex)).actionGet();
-  }
-
-  private void refreshElasticsearch(String aIndex) {
-    mTransportClient.admin().indices().refresh(new RefreshRequest(aIndex)).actionGet();
+  public DeleteIndexResponse deleteIndex(String aIndex) throws IOException {
+    DeleteIndexRequest request = new DeleteIndexRequest(aIndex);
+    return mEsClient.indices().delete(request);
   }
 
   public void tearDown() throws Exception {
-    if (mTransportClient != null) {
-      mTransportClient.close();
+    if (mEsClient != null) {
+      mEsClient.close();
     }
   }
 
