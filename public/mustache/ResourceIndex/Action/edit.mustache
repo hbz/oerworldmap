@@ -56,7 +56,7 @@
 
     {{> FormElements/id.mustache property=instrument property_path="instrument" title=(i18n "Action.instrument") tooltip=(i18n "Action.instrument" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
-    {{> FormElements/id.mustache property=result property_path="result" title=(i18n "Action.result") tooltip=(i18n "Action.result" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
+    {{> FormElements/id.mustache property=result property_path="result" title=(i18n "Action.result") tooltip=(i18n "Action.result" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Service"}}
 
     {{> FormElements/id.mustache property=agent property_path="agent" title=(i18n "Action.agent") tooltip=(i18n "Action.agent" bundle="descriptions") hidden=false multiple=true lookup_url="/resource/?filter.about.@type=Organization&filter.about.@type=Person"}}
 
