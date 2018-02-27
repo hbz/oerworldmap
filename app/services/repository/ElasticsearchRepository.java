@@ -248,6 +248,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
     IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, aUuid);
     request.source(aJsonString, XContentType.JSON);
+    if (play.api.Play.isTest(play.api.Play.current())){
+      request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
+      // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
+      // where "true" means RefreshPolicy.IMMEDIATE
+    }
     try {
       mConfig.getClient().index(request);
     } catch (IOException e) {
