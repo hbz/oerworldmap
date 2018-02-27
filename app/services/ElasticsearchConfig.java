@@ -4,23 +4,23 @@ import com.typesafe.config.Config;
 import helpers.UniversalFunctions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.mapper.ObjectMapper;
 import play.Logger;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,9 +114,18 @@ public class ElasticsearchConfig {
   }
 
   public boolean indexExists(String aIndex) {
-    GetIndexRequest request = new GetIndexRequest();
-    request.indices(aIndex);
-    return mEsClient.indices().exists(request);
+    GetIndexRequest request = new GetIndexRequest().indices(aIndex);
+    // TODO with ES v 6.3: return mEsClient.indices().exists(request);
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpHead head = new HttpHead(
+      "http://".concat(mServer).concat(":").concat(mJavaPort.toString()).concat("/").concat(aIndex));
+    try {
+      final CloseableHttpResponse response = httpClient.execute(head);
+      return (response.getStatusLine().getStatusCode() == 200);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 
   public CreateIndexResponse createIndex(String aIndex) throws IOException {

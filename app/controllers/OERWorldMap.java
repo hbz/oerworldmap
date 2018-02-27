@@ -76,7 +76,7 @@ public abstract class OERWorldMap extends Controller {
       try {
         mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
       } catch (final Exception ex) {
-        throw new RuntimeException("Failed to create Respository", ex);
+        throw new RuntimeException("Failed to create Repository", ex);
       }
     }
   }
