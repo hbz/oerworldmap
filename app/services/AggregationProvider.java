@@ -9,10 +9,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
-import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.IncludeExclude;
+import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 
 import java.util.Arrays;
@@ -29,18 +27,9 @@ public class AggregationProvider {
       .order(BucketOrder.key(false));
   }
 
-  public static AggregationBuilder getLocationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.location.address.addressCountry").size(aSize)
-        .field("about.location.address.addressCountry");
-  }
-
   public static AggregationBuilder getServiceLanguageAggregation(int aSize) {
     return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(aSize)
         .field("about.availableChannel.availableLanguage");
-  }
-
-  public static AggregationBuilder getServiceByFieldOfEducationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.about.@id").size(aSize).field("about.about.@id");
   }
 
   public static AggregationBuilder getServiceByFieldOfEducationAggregation(List<String> anIdList, int aSize) {
@@ -73,13 +62,6 @@ public class AggregationProvider {
   public static AggregationBuilder getKeywordsAggregation(int aSize) {
     return AggregationBuilders.terms("about.keywords").size(aSize)
       .field("about.keywords");
-  }
-
-
-  public static AggregationBuilder getServiceByGradeLevelAggregation(List<String> anIdList, int aSize) {
-    return AggregationBuilders.terms("about.audience.@id").size(aSize)
-      .field("about.audience.@id")
-      .includeExclude(new IncludeExclude(StringUtils.join(anIdList, '|'), null));
   }
 
 
@@ -145,10 +127,10 @@ public class AggregationProvider {
         .dateHistogram("about.startDate.GTE")
         .field("about.startDate")
         .dateHistogramInterval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
-            .fetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
+          .fetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
               "about.location"}, null)
           .sort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
-          .size(Integer.MAX_VALUE)
+          .size(100)
       ).order(BucketOrder.key(false)).minDocCount(1);
   }
 

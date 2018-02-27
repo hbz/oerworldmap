@@ -187,7 +187,7 @@ public class BaseRepository extends Repository
 
   public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
-                            final Locale aPreferredLocale) {
+                            final Locale aPreferredLocale) throws IOException {
     return mElasticsearchRepo
       .reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, aPreferredLocale);
   }

@@ -68,9 +68,7 @@ public class ResourceIndex extends OERWorldMap {
       if (! Arrays.asList(Locale.getISOCountries()).contains(iso3166.toUpperCase())) {
         return notFound("Not found");
       }
-
       queryContext.setIso3166Scope(iso3166.toUpperCase());
-
     }
 
     // Extract filters directly from query params
