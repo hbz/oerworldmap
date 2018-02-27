@@ -55,7 +55,7 @@ def process_properties(properties, is_name_branch):
             else:
                 properties[property] = set_ngram("standard")
         elif property in keywords:
-            properties[property] = set_keywords_analyzer()
+            properties[property] = set_keywords_normalizer()
         elif property in country_name:
             properties[property] = set_country_name()
         elif 'properties' in properties[property]:
@@ -71,10 +71,9 @@ def set_not_analyzed():
         'index': 'true'
     }
 
-def set_keywords_analyzer():
+def set_keywords_normalizer():
     return {
-        'type': 'text',
-        'analyzer': 'keywords_analyzer'
+        'filter': 'lowercase'
     }
 
 def set_date_time():
@@ -122,7 +121,7 @@ def set_ngram(variations_search_analyzer):
 
 def set_country_name():
     return {
-        "type": "text",
+        "type": "keyword",
         "fields": {
             "name": {
                 "type": "text",
@@ -200,10 +199,6 @@ def settings():
                     "type": "custom",
                     "tokenizer": "classic"
                 },
-                "keywords_analyzer": {
-                    "filter": "lowercase",
-                    "tokenizer": "keyword"
-                },
                 "country_synonyms_analyzer": {
                     "tokenizer": "icu_tokenizer",
                     "filter": [
@@ -230,6 +225,11 @@ def settings():
                 "german_phonebook": {
                     "tokenizer": "keyword",
                     "filter":  [ "german_phonebook" ]
+                }
+            },
+            "normalizer": {
+                "keywords_normalizer": {
+                    "filter": "lowercase"
                 }
             }
         }

@@ -121,7 +121,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -221,7 +221,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -422,7 +422,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -512,7 +512,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -746,8 +746,7 @@
               }
             },
             "keywords": {
-              "type": "text",
-              "analyzer": "keywords_analyzer"
+              "filter": "lowercase"
             },
             "hasTopConcept": {
               "properties": {
@@ -927,7 +926,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -1017,7 +1016,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1106,7 +1105,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1210,7 +1209,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -1365,7 +1364,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1450,7 +1449,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1581,7 +1580,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -1671,7 +1670,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -1782,7 +1781,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -1842,7 +1841,7 @@
                           "analyzer": "country_synonyms_analyzer"
                         }
                       },
-                      "type": "text"
+                      "type": "keyword"
                     },
                     "addressRegion": {
                       "index": "true",
@@ -1930,7 +1929,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2034,7 +2033,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -2124,7 +2123,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2259,7 +2258,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2344,7 +2343,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2474,7 +2473,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2563,7 +2562,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2660,7 +2659,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -2762,7 +2761,7 @@
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "text"
+                              "type": "keyword"
                             },
                             "addressLocality": {
                               "type": "text"
@@ -2865,7 +2864,7 @@
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "text"
+                              "type": "keyword"
                             },
                             "addressRegion": {
                               "index": "true",
@@ -2965,7 +2964,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -3063,7 +3062,7 @@
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "text"
+                              "type": "keyword"
                             },
                             "addressLocality": {
                               "type": "text"
@@ -3166,7 +3165,7 @@
                                   "analyzer": "country_synonyms_analyzer"
                                 }
                               },
-                              "type": "text"
+                              "type": "keyword"
                             },
                             "addressRegion": {
                               "index": "true",
@@ -3254,7 +3253,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -3538,7 +3537,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -3647,7 +3646,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -3745,7 +3744,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -3846,7 +3845,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -3988,7 +3987,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressLocality": {
                           "type": "text"
@@ -4090,7 +4089,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -4195,7 +4194,7 @@
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "text"
+                          "type": "keyword"
                         },
                         "addressRegion": {
                           "index": "true",
@@ -4571,6 +4570,11 @@
           "type": "stop"
         }
       },
+      "normalizer": {
+        "keywords_normalizer": {
+          "filter": "lowercase"
+        }
+      },
       "analyzer": {
         "german_phonebook": {
           "filter": [
@@ -4587,6 +4591,14 @@
           "type": "custom",
           "tokenizer": "classic"
         },
+        "english_analyzer": {
+          "filter": [
+            "stopwords_english",
+            "stem_english",
+            "lowercase"
+          ],
+          "tokenizer": "standard"
+        },
         "german_analyzer": {
           "filter": [
             "stopwords_german",
@@ -4601,18 +4613,6 @@
             "country_synonyms_filter"
           ],
           "tokenizer": "icu_tokenizer"
-        },
-        "keywords_analyzer": {
-          "filter": "lowercase",
-          "tokenizer": "keyword"
-        },
-        "english_analyzer": {
-          "filter": [
-            "stopwords_english",
-            "stem_english",
-            "lowercase"
-          ],
-          "tokenizer": "standard"
         }
       }
     }
