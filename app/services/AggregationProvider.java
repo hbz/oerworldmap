@@ -125,7 +125,7 @@ public class AggregationProvider {
         .dateHistogramInterval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
           .fetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
             "about.location"}, null)
-          .sort("about.startDate", SortOrder.ASC).size(Integer.MAX_VALUE)
+          .sort("about.startDate", SortOrder.ASC).size(100)
       ).order(BucketOrder.key(false)).minDocCount(1);
   }
 

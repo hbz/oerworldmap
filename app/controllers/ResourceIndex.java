@@ -102,7 +102,7 @@ public class ResourceIndex extends OERWorldMap {
         return notFound("Not found");
       }
 
-      Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
+      Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 1));
       filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
       ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
       ResourceList reports = mBaseRepository.query(

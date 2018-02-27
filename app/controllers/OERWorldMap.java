@@ -294,8 +294,8 @@ public abstract class OERWorldMap extends Controller {
 
     try {
       if (scope != null) {
-        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(0));
-        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(0));
+        Resource globalAggregation = mBaseRepository.aggregate(AggregationProvider.getByCountryAggregation(1));
+        Resource keywordAggregation = mBaseRepository.aggregate(AggregationProvider.getKeywordsAggregation(1));
         scope.put("globalAggregation", globalAggregation);
         scope.put("keywordAggregation", keywordAggregation);
       }

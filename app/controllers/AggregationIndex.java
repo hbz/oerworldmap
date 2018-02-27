@@ -4,16 +4,11 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
-import services.AggregationProvider;
 import services.QueryContext;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author fo
@@ -30,18 +25,18 @@ public class AggregationIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     List<AggregationBuilder> statisticsAggregations = new ArrayList<>();
-    statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
+    /*statisticsAggregations.add(AggregationProvider.getTypeAggregation(1));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
-    statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(1));
     statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(5));
-    statisticsAggregations.add(AggregationProvider.getLicenseAggregation(0));
-    statisticsAggregations.add(AggregationProvider.getProjectByLocationAggregation(0));
-    statisticsAggregations.add(AggregationProvider.getFunderAggregation(0));
-    statisticsAggregations.add(AggregationProvider.getLikeAggregation(0));
-    statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
-    statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
+    statisticsAggregations.add(AggregationProvider.getLicenseAggregation(1));
+    statisticsAggregations.add(AggregationProvider.getProjectByLocationAggregation(1));
+    statisticsAggregations.add(AggregationProvider.getFunderAggregation(1));
+    statisticsAggregations.add(AggregationProvider.getLikeAggregation(1));
+    statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(1));
+    statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(1));*/
 
     scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)));
     scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
