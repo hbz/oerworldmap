@@ -11,7 +11,6 @@ import models.Resource;
 import models.ResourceList;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -30,6 +29,7 @@ import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -328,7 +328,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) throws IOException {
     DeleteRequest request = new DeleteRequest(mConfig.getIndex(), aType, aIdentifier);
     final DeleteResponse response = mConfig.getClient().delete(request);
-    return response.status().equals(DocWriteResponse.Result.DELETED);
+    return response.status().equals(RestStatus.OK);
   }
 
 
