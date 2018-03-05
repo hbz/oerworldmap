@@ -22,13 +22,13 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.support.WriteRequest;
-import org.elasticsearch.common.lucene.search.function.CombineFunction;
-import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -42,11 +42,14 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.*;
 
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+
 public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
 
   private static ElasticsearchConfig mConfig;
   private Fuzziness mFuzziness;
   private static JsonNodeFactory mJsonNodeFactory = new JsonNodeFactory(false);
+  private FunctionScoreQueryBuilder fsqb;
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -395,12 +398,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
 
   private FunctionScoreQueryBuilder getFunctionScoreQueryBuilder(QueryBuilder queryBuilder) {
-    FunctionScoreQueryBuilder fqBuilder = QueryBuilders.functionScoreQuery(queryBuilder);
-    fqBuilder.boostMode(CombineFunction.MULTIPLY);
-    fqBuilder.scoreMode(FunctionScoreQuery.ScoreMode.SUM);
-    // fqBuilder.add(ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT));
-    // TODO
-    return fqBuilder;
+
+    ScoreFunctionBuilder fb = ScoreFunctionBuilders
+      .scriptFunction("doc['".concat(Record.LINK_COUNT).concat("'].value < 1 ? _score : (_score * doc['")
+        .concat(Record.LINK_COUNT).concat("'].value)"));
+    FunctionScoreQueryBuilder fsb = new FunctionScoreQueryBuilder(queryBuilder, fb);
+    return fsb;
   }
 
   private QueryBuilder getQueryBuilder(@Nonnull String aQueryString, String[] fieldBoosts) {
@@ -441,7 +444,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
             orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
           } else {
             // This could also be 'must' queries, allowing to narrow down the result list
-            orFilterBuilder.should(QueryBuilders.termQuery(filterName, filterValue));
+            orFilterBuilder.should(termQuery(filterName, filterValue));
           }
         }
         aggregationAndFilter.must(orFilterBuilder);
