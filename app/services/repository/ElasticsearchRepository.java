@@ -313,6 +313,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) throws IOException {
     DeleteRequest request = new DeleteRequest(mConfig.getIndex(), aType, aIdentifier);
+    if (play.api.Play.isTest(play.api.Play.current())){
+      request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
+      // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
+      // where "true" means RefreshPolicy.IMMEDIATE
+    }
     final DeleteResponse response = mConfig.getClient().delete(request);
     return response.status().equals(RestStatus.OK);
   }
