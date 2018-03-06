@@ -479,10 +479,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> queryByName = mBaseRepo.query("Service", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not find all by name.", queryByName.size() == 2);
 
-    // query with special chars
-    List<Resource> queryMissingChannel = mBaseRepo.query("_missing_:about.availableChannel", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Accidentally found non-missing resource.", queryMissingChannel.size() < 2);
-    Assert.assertTrue("Did not find _missing_ resource.", queryMissingChannel.size() > 0);
+    // query for channel subfield
+    List<Resource> queryMissingChannel = mBaseRepo.query("NOT(_exists_:about.availableChannel)", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Accidentally found a resource not missing the channel.", queryMissingChannel.size() < 2);
+    Assert.assertTrue("Did not find the resource missing the channel.", queryMissingChannel.size() > 0);
 
     mBaseRepo.deleteResource("", mMetadata);
   }
