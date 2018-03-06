@@ -311,13 +311,16 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     SearchResponse response = null;
     final List<Map<String, Object>> docs = new ArrayList<>();
 
+    SearchRequest searchRequest = new SearchRequest();
+    SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    searchSourceBuilder
+      .query(QueryBuilders.queryStringQuery(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
+      .size(docsPerPage);
+    searchRequest.source(searchSourceBuilder);
     while (response == null || response.getHits().getHits().length != 0) {
-      SearchRequest searchRequest = new SearchRequest();
-      SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-      searchSourceBuilder.query(QueryBuilders.queryStringQuery(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
-        .size(docsPerPage).from(count * docsPerPage);
+      searchSourceBuilder.from(count * docsPerPage);
       response = mConfig.getClient().search(searchRequest);
-      for (SearchHit hit : response.getHits()) {
+      for (SearchHit hit : response.getHits().getHits()) {
         docs.add(hit.getSourceAsMap());
       }
       count++;
