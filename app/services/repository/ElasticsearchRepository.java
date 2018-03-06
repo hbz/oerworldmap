@@ -42,6 +42,11 @@ import services.QueryContext;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
@@ -232,7 +237,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, aUuid);
+    String uuid = getUrlUuidEncoded(aUuid);
+    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, (uuid == null ? aUuid : uuid));
     request.source(aJsonString, XContentType.JSON);
     if (play.api.Play.isTest(play.api.Play.current())){
       request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
@@ -244,6 +250,28 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     } catch (IOException e) {
       Logger.error("Failed indexing data to Elasticsearch.", e);
     }
+  }
+
+  private String getUrlUuidEncoded (String aUuid) {
+    if (isValidUri(aUuid)){
+      try {
+        return URLEncoder.encode(aUuid, Charset.defaultCharset().name());
+      } catch (UnsupportedEncodingException e) {
+        return null;
+      }
+    }
+    else{
+      return aUuid;
+    }
+  }
+
+  private static boolean isValidUri (String aUri) {
+    try {
+      new URL(aUri);
+    } catch (MalformedURLException mue) {
+      return false;
+    }
+    return true;
   }
 
   /**
