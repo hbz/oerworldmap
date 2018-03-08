@@ -194,7 +194,8 @@
 
 #app-col-map .logo {
   position: absolute;
-  left: 14px;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 13px;
 
   h1 {
@@ -693,6 +694,7 @@
   }
 }
 
-#app[data-scope="world"] #app-scope {
+#app[data-embed] .close-scope,
+#app[data-scope="world"] .close-scope {
   display: none;
 }

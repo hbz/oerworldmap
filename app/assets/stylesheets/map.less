@@ -168,6 +168,18 @@
   display: block;
 }
 
+@media screen and (max-width: @mobile-breakpoint) {
+  .nav.nav-map {
+    position: absolute;
+    bottom: 0;
+    top: auto;
+  }
+  .nav-map > ul > li {
+    float: none;
+    margin-bottom: 10px;
+  }
+}
+
 
 .mapbox-wordmark {
   display: block;

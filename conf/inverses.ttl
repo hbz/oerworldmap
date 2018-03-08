@@ -41,3 +41,5 @@ dcterms:hasPart owl:inverseOf dcterms:isPartOf .
 :isRelatedTo owl:inverseOf :isRelatedTo .
 :manufacturer owl:inverseOf :manufactured .
 :manufactured owl:inverseOf :manufacturer .
+:object owl:inverseOf :objectIn .
+:objectIn owl:inverseOf :object .

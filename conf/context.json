@@ -50,6 +50,9 @@
     "availableLanguage": {
       "@container": "@set"
     },
+    "award": {
+      "@container": "@set"
+    },
     "awards": {
       "@container": "@set",
       "@id": "frapo:awards"
@@ -172,6 +175,9 @@
     },
     "notation": {
       "@id": "skos:notation",
+      "@container": "@set"
+    },
+    "objectIn": {
       "@container": "@set"
     },
     "organizer": {

@@ -21,7 +21,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getTypeAggregation(int aSize) {
     return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
-        .exclude("Concept|ConceptScheme|Comment");
+        .exclude("Concept|ConceptScheme|Comment|LikeAction|LighthouseAction");
   }
 
   public static AggregationBuilder<?> getLocationAggregation(int aSize) {
@@ -140,6 +140,11 @@ public class AggregationProvider {
       .size(aSize);
   }
 
+  public static AggregationBuilder<?> getLikeAggregation(int aSize) {
+    return AggregationBuilders.terms("about.object.@id").size(aSize)
+      .field("about.object.@id");
+  }
+
   public static AggregationBuilder<?> getPrimarySectorsAggregation(int aSize) {
     return AggregationBuilders.terms("about.primarySector.@id").size(aSize)
       .field("about.primarySector.@id");
@@ -148,6 +153,11 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getSecondarySectorsAggregation(int aSize) {
     return AggregationBuilders.terms("about.secondarySector.@id").size(aSize)
       .field("about.secondarySector.@id");
+  }
+
+  public static AggregationBuilder<?> getAwardAggregation(int aSize) {
+    return AggregationBuilders.terms("about.award").size(aSize)
+      .field("about.award");
   }
 
 }

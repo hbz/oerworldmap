@@ -19,7 +19,7 @@
 
                 <div class="visible-area">
 
-                    <nav class="nav nav-map hidden-mobile {{#if embed}}hidden{{/if}}">
+                    <nav class="nav nav-map {{#if embed}}hidden{{/if}}">
                         <ul>
 
                             {{#if permissions.administer}}
@@ -68,18 +68,30 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="/resource/?filter.about.objectIn.@type=LikeAction&sort=like_count:DESC" title="{{i18n 'ClientTemplates.app.likes'}}">
+                                    <i class="fa fa-fw fa-thumbs-up"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/resource/?filter.about.objectIn.@type=LighthouseAction&sort=lighthouse_count:DESC" title="{{i18n 'ClientTemplates.app.lighthouses'}}">
+                                    <img src="/assets/images/icon_lighthouse_static_transparent.svg" />
+                                </a>
+                            </li>
+
                         </ul>
                     </nav>
 
                     <div class="visible-mobile logo">
-                        <h1><a href="/" {{#if @root.embed}}target="_blank"{{/if}}>OER <i class="fa fa-globe"></i> MAP</a></h1>
+                        <h1><a href="/resource/" {{#if @root.embed}}target="_blank"{{/if}}>OER <i class="fa fa-globe"></i> MAP</a></h1>
                     </div>
 
                     <div id="app-scope" class="hide">
                     </div>
 
                     <div class="close-scope">
-                        <a href="/"><i class="fa fa-times"></i></a>
+                        <a href="/resource/"><i class="fa fa-times"></i></a>
                     </div>
 
                     {{{footer}}}
@@ -100,11 +112,11 @@
 
     	<div id="app-col-detail" data-app="col" data-col-mode="hidden">
     	    <div data-app="col-content" class="color-scheme-text"></div>
-            {{#unless @root.embed}}
+            {{#ifCond @root.embed '!=' 'true'}}
             <div data-app="toggle-col">
                 <i class="fa fa-fw fa-chevron-right"></i>
         	</div>
-            {{/unless}}
+            {{/ifCond}}
     	</div>
 
     	<div id="app-notification-area">

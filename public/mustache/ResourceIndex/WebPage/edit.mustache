@@ -18,4 +18,10 @@
 
     {{> FormElements/id.mustache property=comment property_path="comment" title=(i18n "WebPage.comment") tooltip=(i18n "WebPage.comment" bundle="descriptions") hidden=true multiple=true lookup_url="/resource/?filter.about.@type=Comment"}}
 
+    {{#if ../../permissions.administer}}
+        {{> FormElements/input.mustache property=award property_path="award" title=(i18n "WebPage.award") tooltip=(i18n "WebPage.award" bundle="descriptions") hidden=false multiple=true input_type="url"}}
+    {{else}}
+        {{> FormElements/input.mustache property=award property_path="award" title=(i18n "WebPage.award") tooltip=(i18n "WebPage.award" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+    {{/if}}
+
 </fieldset>
