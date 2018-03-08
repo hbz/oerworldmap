@@ -661,8 +661,8 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     QueryContext queryContext = new QueryContext(null);
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.1.json");
-    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.1.json");
-    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.2.json");
+    Resource db3 = getResourceFromJsonFile("BaseRepositoryTest/testCaseSplitting.DB.3.json");
     List<Resource> resources = Arrays.asList(new Resource[]{db1, db2, db3});
     resources.forEach(res -> {
       try {

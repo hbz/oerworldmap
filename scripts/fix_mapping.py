@@ -101,6 +101,11 @@ def set_ngram(variations_search_analyzer):
                 "type": "text",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
+            },
+            "splits": {
+                "type": "text",
+                "analyzer": "split_analyzer_1",
+                "search_analyzer": "standard"
             }
         }
     }
@@ -159,6 +164,16 @@ def settings():
                         "lowercase",
                         "country_synonyms_filter"
                     ]
+                },
+                "split_analyzer_1": {
+                    "tokenizer": "split_tokenizer_1"
+                }
+            },
+            "tokenizer": {
+                "split_tokenizer_1": {
+                    "type": "pattern",
+                    "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
+                    "group": "1"
                 }
             },
             "normalizer": {

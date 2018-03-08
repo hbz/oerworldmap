@@ -69,6 +69,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -148,6 +153,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -261,6 +271,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -304,6 +319,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -390,6 +410,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -461,6 +486,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -497,6 +527,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -529,6 +564,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -580,6 +620,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -624,6 +669,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -700,6 +750,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -783,6 +838,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -854,6 +914,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -941,6 +1006,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1020,6 +1090,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1075,6 +1150,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1142,6 +1222,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1256,6 +1341,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1335,6 +1425,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1421,6 +1516,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1566,6 +1666,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1653,6 +1758,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1736,6 +1846,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1843,6 +1958,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -1914,6 +2034,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2016,6 +2141,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2091,6 +2221,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2170,6 +2305,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2262,6 +2402,11 @@
                               "search_analyzer": "title_analyzer",
                               "type": "text",
                               "analyzer": "title_analyzer"
+                            },
+                            "splits": {
+                              "type": "text",
+                              "analyzer": "split_analyzer_1",
+                              "search_analyzer": "standard"
                             }
                           }
                         },
@@ -2344,6 +2489,11 @@
                               "search_analyzer": "title_analyzer",
                               "type": "text",
                               "analyzer": "title_analyzer"
+                            },
+                            "splits": {
+                              "type": "text",
+                              "analyzer": "split_analyzer_1",
+                              "search_analyzer": "standard"
                             }
                           }
                         },
@@ -2437,6 +2587,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2521,6 +2676,11 @@
                               "search_analyzer": "title_analyzer",
                               "type": "text",
                               "analyzer": "title_analyzer"
+                            },
+                            "splits": {
+                              "type": "text",
+                              "analyzer": "split_analyzer_1",
+                              "search_analyzer": "standard"
                             }
                           }
                         },
@@ -2603,6 +2763,11 @@
                               "search_analyzer": "title_analyzer",
                               "type": "text",
                               "analyzer": "title_analyzer"
+                            },
+                            "splits": {
+                              "type": "text",
+                              "analyzer": "split_analyzer_1",
+                              "search_analyzer": "standard"
                             }
                           }
                         },
@@ -2680,6 +2845,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2763,6 +2933,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2813,6 +2988,11 @@
                       "search_analyzer": "title_analyzer",
                       "type": "text",
                       "analyzer": "title_analyzer"
+                    },
+                    "splits": {
+                      "type": "text",
+                      "analyzer": "split_analyzer_1",
+                      "search_analyzer": "standard"
                     }
                   }
                 },
@@ -2851,6 +3031,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2887,6 +3072,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -2982,6 +3172,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3077,6 +3272,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3164,6 +3364,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3238,6 +3443,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3278,6 +3488,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3352,6 +3567,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3450,6 +3670,11 @@
                           "search_analyzer": "title_analyzer",
                           "type": "text",
                           "analyzer": "title_analyzer"
+                        },
+                        "splits": {
+                          "type": "text",
+                          "analyzer": "split_analyzer_1",
+                          "search_analyzer": "standard"
                         }
                       }
                     },
@@ -3841,6 +4066,16 @@
             "country_synonyms_filter"
           ],
           "tokenizer": "icu_tokenizer"
+        },
+        "split_analyzer_1": {
+          "tokenizer": "split_tokenizer_1"
+        }
+      },
+      "tokenizer": {
+        "split_tokenizer_1": {
+          "type": "pattern",
+          "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
+          "group": "1"
         }
       },
       "normalizer": {
