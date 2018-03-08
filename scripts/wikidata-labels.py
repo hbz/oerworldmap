@@ -7,8 +7,9 @@ PREFIX p: <http://www.wikidata.org/prop/>
 PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
 
 SELECT DISTINCT ?code ?label WHERE {
-  ?item wdt:%s ?code .
-  FILTER NOT EXISTS { ?item p:%s [ pq:P582 ?end ] . }
+  ?item p:%s ?codeStatement .
+  ?codeStatement ps:%s ?code .
+  FILTER NOT EXISTS { ?codeStatement pq:P582 ?end . }
   ?item rdfs:label ?label .
   FILTER (LANG(?label) = "%s")
 } ORDER BY ASC(?code)
