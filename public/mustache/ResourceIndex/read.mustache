@@ -343,12 +343,12 @@
 
                     {{#if resultOf}}
                         <tr>
-                            <td>{{i18n (stringFormat "%s.result" @type)}}</td>
+                            <td>{{i18n (stringFormat "%s.resultOf" @type)}}</td>
                             <td>
                                 <ul class="resource-list">
-                                    {{#result}}
+                                    {{#resultOf}}
                                         <li>{{>ResourceIndex/link.mustache}}</li>
-                                    {{/result}}
+                                    {{/resultOf}}
                                 </ul>
                             </td>
                         </tr>
