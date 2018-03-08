@@ -115,6 +115,11 @@ def set_ngram(variations_search_analyzer):
                 "analyzer": "english_analyzer",
                 "search_analyzer": "english_analyzer",
                 "type": "string"
+            },
+            "splits": {
+                "type": "text",
+                "analyzer": "split_analyzer_1",
+                "search_analyzer": "standard"
             }
         }
     }
@@ -225,6 +230,16 @@ def settings():
                 "german_phonebook": {
                     "tokenizer": "keyword",
                     "filter":  [ "german_phonebook" ]
+                },
+                "split_analyzer_1": {
+                    "tokenizer": "split_tokenizer_1"
+                }
+            },
+            "tokenizer": {
+                "split_tokenizer_1": {
+                    "type": "pattern",
+                    "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
+                    "group": "1"
                 }
             },
             "normalizer": {

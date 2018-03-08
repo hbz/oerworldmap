@@ -26,10 +26,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -41,10 +46,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -78,10 +83,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -93,10 +103,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -171,10 +181,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -186,10 +201,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -257,10 +272,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -272,10 +292,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -312,10 +332,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -327,10 +352,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -369,10 +394,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -384,10 +414,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -469,10 +499,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -484,10 +519,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -554,10 +589,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -569,10 +609,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -604,10 +644,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -619,10 +664,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -650,10 +695,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -665,10 +715,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -715,10 +765,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -730,10 +785,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -772,10 +827,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -787,10 +847,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -824,10 +884,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -839,10 +904,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -876,10 +941,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -891,10 +961,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -973,10 +1043,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -988,10 +1063,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1058,10 +1133,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1073,10 +1153,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1159,10 +1239,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1174,10 +1259,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1252,10 +1337,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1267,10 +1357,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1321,10 +1411,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1336,10 +1431,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1402,10 +1497,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1417,10 +1517,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1530,10 +1630,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1545,10 +1650,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1623,10 +1728,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1638,10 +1748,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1723,10 +1833,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1738,10 +1853,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1882,10 +1997,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1897,10 +2017,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -1983,10 +2103,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -1998,10 +2123,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2080,10 +2205,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2095,10 +2225,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2159,10 +2289,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -2174,10 +2309,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -2215,10 +2350,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2230,10 +2370,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2300,10 +2440,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2315,10 +2460,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2375,10 +2520,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -2390,10 +2540,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -2430,10 +2580,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2445,10 +2600,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2519,10 +2674,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2534,10 +2694,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2612,10 +2772,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2627,10 +2792,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -2718,10 +2883,15 @@
                               "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "simple_tokenized": {
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
+                            },
+                            "splits": {
                               "search_analyzer": "standard",
                               "type": "text",
-                              "analyzer": "simple"
+                              "analyzer": "split_analyzer_1"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -2733,10 +2903,10 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             }
                           }
                         },
@@ -2814,10 +2984,15 @@
                               "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "simple_tokenized": {
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
+                            },
+                            "splits": {
                               "search_analyzer": "standard",
                               "type": "text",
-                              "analyzer": "simple"
+                              "analyzer": "split_analyzer_1"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -2829,10 +3004,10 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             }
                           }
                         },
@@ -2921,10 +3096,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -2936,10 +3116,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3019,10 +3199,15 @@
                               "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "simple_tokenized": {
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
+                            },
+                            "splits": {
                               "search_analyzer": "standard",
                               "type": "text",
-                              "analyzer": "simple"
+                              "analyzer": "split_analyzer_1"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -3034,10 +3219,10 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             }
                           }
                         },
@@ -3115,10 +3300,15 @@
                               "type": "text",
                               "analyzer": "german_phonebook"
                             },
-                            "simple_tokenized": {
+                            "en": {
+                              "search_analyzer": "english_analyzer",
+                              "type": "string",
+                              "analyzer": "english_analyzer"
+                            },
+                            "splits": {
                               "search_analyzer": "standard",
                               "type": "text",
-                              "analyzer": "simple"
+                              "analyzer": "split_analyzer_1"
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
@@ -3130,10 +3320,10 @@
                               "type": "text",
                               "analyzer": "title_analyzer"
                             },
-                            "en": {
-                              "search_analyzer": "english_analyzer",
-                              "type": "string",
-                              "analyzer": "english_analyzer"
+                            "simple_tokenized": {
+                              "search_analyzer": "standard",
+                              "type": "text",
+                              "analyzer": "simple"
                             }
                           }
                         },
@@ -3206,10 +3396,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3221,10 +3416,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3303,10 +3498,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3318,10 +3518,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3343,10 +3543,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -3358,10 +3563,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -3381,10 +3586,15 @@
                       "type": "text",
                       "analyzer": "german_phonebook"
                     },
-                    "simple_tokenized": {
+                    "en": {
+                      "search_analyzer": "english_analyzer",
+                      "type": "string",
+                      "analyzer": "english_analyzer"
+                    },
+                    "splits": {
                       "search_analyzer": "standard",
                       "type": "text",
-                      "analyzer": "simple"
+                      "analyzer": "split_analyzer_1"
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
@@ -3396,10 +3606,10 @@
                       "type": "text",
                       "analyzer": "title_analyzer"
                     },
-                    "en": {
-                      "search_analyzer": "english_analyzer",
-                      "type": "string",
-                      "analyzer": "english_analyzer"
+                    "simple_tokenized": {
+                      "search_analyzer": "standard",
+                      "type": "text",
+                      "analyzer": "simple"
                     }
                   }
                 },
@@ -3433,10 +3643,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3448,10 +3663,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3483,10 +3698,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3498,10 +3718,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3592,10 +3812,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3607,10 +3832,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3701,10 +3926,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3716,10 +3946,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3802,10 +4032,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3817,10 +4052,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3890,10 +4125,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3905,10 +4145,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -3944,10 +4184,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -3959,10 +4204,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -4032,10 +4277,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4047,10 +4297,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -4144,10 +4394,15 @@
                           "type": "text",
                           "analyzer": "german_phonebook"
                         },
-                        "simple_tokenized": {
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
                           "search_analyzer": "standard",
                           "type": "text",
-                          "analyzer": "simple"
+                          "analyzer": "split_analyzer_1"
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
@@ -4159,10 +4414,10 @@
                           "type": "text",
                           "analyzer": "title_analyzer"
                         },
-                        "en": {
-                          "search_analyzer": "english_analyzer",
-                          "type": "string",
-                          "analyzer": "english_analyzer"
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
                         }
                       }
                     },
@@ -4575,6 +4830,13 @@
           "filter": "lowercase"
         }
       },
+      "tokenizer": {
+        "split_tokenizer_1": {
+          "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
+          "type": "pattern",
+          "group": "1"
+        }
+      },
       "analyzer": {
         "german_phonebook": {
           "filter": [
@@ -4591,13 +4853,8 @@
           "type": "custom",
           "tokenizer": "classic"
         },
-        "english_analyzer": {
-          "filter": [
-            "stopwords_english",
-            "stem_english",
-            "lowercase"
-          ],
-          "tokenizer": "standard"
+        "split_analyzer_1": {
+          "tokenizer": "split_tokenizer_1"
         },
         "german_analyzer": {
           "filter": [
@@ -4613,6 +4870,14 @@
             "country_synonyms_filter"
           ],
           "tokenizer": "icu_tokenizer"
+        },
+        "english_analyzer": {
+          "filter": [
+            "stopwords_english",
+            "stem_english",
+            "lowercase"
+          ],
+          "tokenizer": "standard"
         }
       }
     }
