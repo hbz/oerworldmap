@@ -12,6 +12,7 @@ data/*/
 !data/travis/
 !data/profiles/
 !data/consents/
+!data/repositories/dummy/
 data/consents/history
 repo-deb-build*.*
 .idea/
