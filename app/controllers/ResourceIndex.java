@@ -56,7 +56,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
+  public Result list(String q, int from, int size, String sort, boolean features, String extension, String iso3166)
       throws IOException {
 
     Map<String, List<String>> filters = new HashMap<>();
@@ -124,7 +124,7 @@ public class ResourceIndex extends OERWorldMap {
     }
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
-      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, list, alternate, iso3166)
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, features, alternate, iso3166)
         .url().concat(filterString));
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
@@ -143,9 +143,10 @@ public class ResourceIndex extends OERWorldMap {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
       Resource result = resourceList.toResource();
-      // Enrich with GeoJSON features
-      ResourceList geoFeatures = mBaseRepository.query(q, 0, -1, sort, filters, queryContext);
-      result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
+      if (features) {
+        ResourceList geoFeatures = mBaseRepository.query(q, 0, -1, sort, filters, queryContext);
+        result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
+      }
       if (!StringUtils.isEmpty(iso3166)) {
         if (!StringUtils.isEmpty(iso3166)) {
           result.put("iso3166", iso3166.toUpperCase());
