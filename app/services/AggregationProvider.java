@@ -92,7 +92,8 @@ public class AggregationProvider {
         .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(
         aId)
         .size(aSize)
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
+        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
+          .exclude("Concept|ConceptScheme|Comment|LikeAction|LighthouseAction"))
         .subAggregation(AggregationBuilders
           .filter("champions")
           .filter(QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
