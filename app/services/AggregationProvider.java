@@ -77,12 +77,6 @@ public class AggregationProvider {
       .field("about.keywords");
   }
 
-  public static AggregationBuilder<?> getServiceByGradeLevelAggregation(List<String> anIdList, int aSize) {
-    return AggregationBuilders.terms("about.audience.@id").size(aSize)
-        .field("about.audience.@id")
-        .include(StringUtils.join(anIdList, '|'));
-  }
-
   public static AggregationBuilder<?> getByCountryAggregation(int aSize) {
     return AggregationBuilders
         .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(aSize)
@@ -109,17 +103,6 @@ public class AggregationProvider {
             .matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
           .subAggregation(AggregationBuilders.topHits("country_reports")))
     );
-  }
-
-  public static AggregationBuilder<?> getNestedConceptAggregation(Resource aConcept, String aField) {
-    String id = aConcept.getAsString(JsonLdConstants.ID);
-    AggregationBuilder conceptAggregation = AggregationBuilders.filter(id).filter(
-      QueryBuilders.termQuery(aField, id)
-    );
-    for (Resource aNarrowerConcept : aConcept.getAsList("narrower")) {
-      conceptAggregation.subAggregation(getNestedConceptAggregation(aNarrowerConcept, aField));
-    }
-    return conceptAggregation;
   }
 
   public static AggregationBuilder<?> getLicenseAggregation(int aSize) {
