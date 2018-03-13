@@ -189,7 +189,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
-    Model staged = getExtendedDescription(aResource.getId(), mDb);
+    Model staged = getConciseBoundedDescription(aResource.getId(), mDb);
     diff.apply(staged);
 
     // Select resources staged model is referencing and add them to staged
