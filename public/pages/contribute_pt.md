@@ -1,56 +1,56 @@
 ---
 title: Contribute
 ---
-## Divulgue
+## Raise awareness
 
-### Espalhe a notícia
+### Spread the news
 
-As pessoas precisam saber sobre o Mapa Global REA para que ele possa fornecer uma visão abrangente de REA, incluindo pessoas e atividades. Precisamos construir a rede juntos, então por favor fale aos seus amigos e colegas ou use mídias sociais para atingir um público mais amplo (use [ #oerworldmap](https://twitter.com/hashtag/oerworldmap)).
+People need to know about the OER World Map if it is to provide a comprehensive overview of OER people and activities. We need to build the network together, so please speak to your friends and colleagues or use social media to reach out more widely (use [#oerworldmap](https://twitter.com/hashtag/oerworldmap)).
 
-### Torne-se um Embaixador para um país
+### Become a Country Champion
 
-Desenvolver o Mapa Global REA depende de colaboração. O desenvolvimento será melhor construído por uma rede de Embaixadores que têm ou desejam criar uma visão geral do movimento de REA no seu próprio país. De sua base local eles poderão sensibilizar seus pares, coletar dados e garantir a sua qualidade.
+Developing the OER World Map depends upon collaboration. It will be built best by a network of Country Champions who will have or want to create an overview of the OER movement in their own country. From their local base they will raise awareness with their connections, gather data and assure its quality.
 
-Muitos países ainda não tem um Embaixador. Mais informações sobre o Rede de Embaixadores do Mapa Global REA podem ser encontradas em nosso [ blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). Se você ou sua instituição quer participar escreva para <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+Many countries do not have a Country Champion yet. More information on the OER World Map Country Champion Network can be found on our [blog](https://oerworldmap.wordpress.com/2015/09/19/how-to-become-part-of-the-oer-world-map-country-champion-network/). If you or your institution could play this role please write to <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
-### Contribua uma história
+### Contribute stories
 
-Temos muito a aprender uns com os outros. Por favor, considere compartilhar uma história descrevendo: - seu projeto ou inciativa - sua Prática Educacional Aberta - sua pesquisa e novos insights em REA - o desenvolvimento ou uso de ferramentas de infraestrutura.
+We have much to learn from each other. Please consider sharing a story describing your - project or initiative - Open Educational Practice - research and new insights on OER - development or use of infrastructure tools.
 
-Um pequeno texto com as lições aprendidas – o que funcionou e o que não funcionou – contribuiria para a compreensão das diferentes formas que os REA são criados e usados. Por favor, note que histórias serão publicadas sob uma licença [CC-BY](https://creativecommons.org/licenses/by/4.0/). Se você tem uma história REA que você considerar vale a pena compartilhar, por favor entre no sistema e adicione a história no Mapa Global REA!
+A short text with lessons learned – what worked and what did not – would contribute to understanding of the different ways that OER are created and used. Please note that stories will be published under [CC-BY](https://creativecommons.org/licenses/by/4.0/). If you have an OER story which you consider worth sharing, please register yourself and add it to the OER World Map!
 
-### Traduza as páginas
+### Translate the web pages
 
-Para se tornar um recurso verdadeiramente global, páginas do site do Mapa Global REA precisam estar disponível em vários idiomas. Se você pode traduzir páginas da web em sua língua nativa, por favor nos avisem em: <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
-
-* * *
-
-## Construa e utilize os dados
-
-### Torne-se um editor e contriba com dados
-
-Se você está interessado em coletar dados para o Mapa Global REA, você pode usar modelos para editar dados diretamente na plataforma. Para fazer isso, basta se registrar para usar a plataforma e começar a inserir dados. Por favor, dê uma olhada no [ FAQ para editores de mapa-múndi OER](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors) em nossa wiki.
-
-### Upload de dados existentes
-
-Dados existentes sobre REA podem ser enviados para a plataforma usando uma API poderosa. Se você acha que tem informações relevantes para adicionar, por favor contacte-nos em: <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
-
-### Exporte dados
-
-A API do Mapa Global REA pode ser usada para gerar e exportar dados com rapidez. Dados completos ou selecionados podem ser usados em outros sites. Uma funcionalidade especial atualmente em desenvolvimento permite a reutilização de dados com apps flexíveis e facilmente integrados ao Mapa. Se você gostaria de reutilizar dados do Mapa Global de REA, por favor contacte-nos em: <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+To become a truly global resource, OER World Map web site pages need to be available in multiple languages. If you would be able to translate web pages into your native language please let us know at <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
 * * *
 
-## Sugestões técnicas
+## Build and use the data
 
-### Relate erros
+### Become an editor and contribute data
 
-Por favor reporte quaisquer erros que você identifica, abrindo um novo 'ticket', se você está registrado no [ GitHub](https://github.com/hbz/oerworldmap). Alternativamente você pode enviar mensagem para <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+If you are interested in collecting data for the OER World Map, you can use templates to edit data directly on the platform. In order to do this, just register on the platform and start entering data. Please have a look at the [FAQs for OER World Map editors](https://github.com/hbz/oerworldmap/wiki/FAQs-for-OER-World-Map-editors) in our wiki.
 
-### Proponha novas funcionalidades
+### Upload existing data
 
-O Mapa Global REA foi desenvolvido usando uma abordagem ágil. Isto significa que você pode contribuir para seu desenvolvimento, propondo novas funcionalidades. Nós armazenamos novos recursos como [ "histórias de usuário"](https://github.com/hbz/oerworldmap/labels/story) em nosso GitHub. Se você acha que está faltando alguma coisa, você pode abrir um novo ticket no GitHub ou enviar uma mensagem para <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+Existing OER data can be uploaded to the OER World Map platform using a powerful API. If you think you have relevant information to add, please contact us at <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
 
-### Contribua com código e novas aplicações
+### Export data
 
-O Mapa Global REA é 100% aberto – seu código-fonte completo está disponível no GitHub. Desenvolvedores podem contribuir para o código ou mesmo desenvolver aplicativos que interagem com o Mapa.
+The API of the OER World Map can be used to generate and export data with no delay. Complete or filtered data can be used in other web sites. A special functionality currently is developed to support the reuse of data with flexible and easily integrated gadgets. If you would like to reuse OER World Map data, please contact us at <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+
+* * *
+
+## Technical input
+
+### Report bugs
+
+Please report any bugs you identify by opening a new ticket if you are registered on [GitHub](https://github.com/hbz/oerworldmap). Otherwise you can send a message to <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+
+### Propose new features
+
+The OER World Map has been developed using an agile approach. This means that you can contribute to its development by proposing new features. We store new features as [“user stories”](https://github.com/hbz/oerworldmap/labels/story) in our GitHub. If you think something is missing, you can either directly open a new ticket on GitHub or send us a message to <in&#102;o&#64;oerw&#111;&#114;ldma&#112;&#46;org>.
+
+### Contribute code and new applications
+
+The OER World Map is 100% open – its complete source code is available on GitHub. Developers can contribute to the code or even develop applications that interact with the OER World Map.
