@@ -131,12 +131,15 @@ public class ResourceFramer {
     JsonNode graph;
     if (ref.has(JsonLdConstants.ID)) {
       graph = getGraph(ref.get(JsonLdConstants.ID).asText(), graphs);
+      if (graph == null) {
+        graph = ref;
+      }
     } else {
       graph = ref;
     }
     List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image", "location",
       "startDate", "endDate", "agent", "object", "description", "text", "comment", "author", "dateCreated", "startTime");
-    if (graph != null && graph.isArray()) {
+    if (graph.isArray()) {
       ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
       Iterator<JsonNode> elements = graph.elements();
       while (elements.hasNext()) {
@@ -144,7 +147,7 @@ public class ResourceFramer {
         result.add(link(element, graphs));
       }
       return result;
-    } else if (graph != null && graph.isObject()) {
+    } else if (graph.isObject()) {
       if (graph.get(JsonLdConstants.ID) != null && graph.get(JsonLdConstants.ID).asText().startsWith("_:")) {
         return buildTree(graph, graphs);
       }
@@ -173,7 +176,7 @@ public class ResourceFramer {
         return graph;
       }
     }
-    return new ObjectNode(JsonNodeFactory.instance);
+    return null;
   }
 
   public static List<Resource> flatten(Resource resource) throws IOException {
