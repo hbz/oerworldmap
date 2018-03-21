@@ -28,5 +28,10 @@
 
     {{> FormElements/id.mustache property=secondarySector property_path="secondarySector" title=(i18n "Product.secondarySector") tooltip=(i18n "Product.secondarySector" bundle="descriptions") hidden=false multiple=true lookup_url="/assets/json/sectors.json"}}
 
+    {{#if ../../permissions.administer}}
+        {{> FormElements/input.mustache property=award property_path="award" title=(i18n "Service.award") tooltip=(i18n "Service.award" bundle="descriptions") hidden=false multiple=true input_type="url"}}
+    {{else}}
+        {{> FormElements/input.mustache property=award property_path="award" title=(i18n "Service.award") tooltip=(i18n "Service.award" bundle="descriptions") hidden=true multiple=true input_type="url"}}
+    {{/if}}
 
 </fieldset>
