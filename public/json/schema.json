@@ -818,7 +818,7 @@
                 "properties": {
                   "@id": {
                     "enum": [
-                      "https://github.com/hbz/oerworldmap/public/json/licenses.json"
+                      "https://oerworldmap.org/assets/json/licenses.json"
                     ]
                   }
                 }
