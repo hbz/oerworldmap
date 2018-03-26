@@ -21,13 +21,13 @@ public class MimeTypes {
   static {
     mimeTypeMapping.put("json", MIME_APPLICATION_JSON);
     mimeTypeMapping.put("geojson", MIME_APPLICATION_GEOJSON);
-    mimeTypeMapping.put("schema", MIME_APPLICATION_SCHEMAJSON);
+    //mimeTypeMapping.put("schema", MIME_APPLICATION_SCHEMAJSON);
     mimeTypeMapping.put("csv", MIME_TEXT_CSV);
     mimeTypeMapping.put("ics", MIME_TEXT_CALENDAR);
   }
 
   public static Map<String, String> all() {
-    return mimeTypeMapping;
+    return new HashMap<>(mimeTypeMapping);
   }
 
   public static String fromExtension(String ext) {
