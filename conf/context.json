@@ -219,6 +219,9 @@
     "result": {
       "@container": "@set"
     },
+    "resultOf": {
+      "@container": "@set"
+    },
     "sameAs": {
       "@container": "@set",
       "@type": "@id"
