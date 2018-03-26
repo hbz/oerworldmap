@@ -369,6 +369,7 @@ public class ResourceIndex extends OERWorldMap {
   public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
     ObjectNode result = JsonNodeFactory.instance.objectNode();
+    Cached.updateEtag();
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {
@@ -448,6 +449,8 @@ public class ResourceIndex extends OERWorldMap {
       ZonedDateTime.parse(metadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
+
+    Cached.updateEtag();
 
     return created(comment.toJson());
 
