@@ -118,7 +118,7 @@ public class ResourceFramer {
       while(fieldNames.hasNext()) {
         String fieldName = fieldNames.next();
         if (! (fieldName.equals(JsonLdConstants.ID) && graph.get(fieldName).asText().startsWith("_:"))) {
-          result.set(fieldName, link(graph.get(fieldName), graphs));
+          result.set(fieldName, link(graph.get(fieldName), graphs, new ArrayList<>()));
         }
       }
       return result;
@@ -127,16 +127,15 @@ public class ResourceFramer {
     }
   }
 
-  private static JsonNode link(JsonNode ref, ArrayNode graphs) {
-    JsonNode graph;
-    if (ref.has(JsonLdConstants.ID)) {
+  private static JsonNode link(JsonNode ref, ArrayNode graphs, List<String> processed) {
+    JsonNode graph = null;
+    if (ref.has(JsonLdConstants.ID) && !processed.contains(ref.get(JsonLdConstants.ID).asText())) {
       graph = getGraph(ref.get(JsonLdConstants.ID).asText(), graphs);
-      if (graph == null) {
-        graph = ref;
-      }
-    } else {
+    }
+    if (graph == null) {
       graph = ref;
     }
+    System.out.println(graph);
     List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image", "location",
       "startDate", "endDate", "agent", "object", "description", "text", "comment", "author", "dateCreated", "startTime");
     if (graph.isArray()) {
@@ -144,12 +143,14 @@ public class ResourceFramer {
       Iterator<JsonNode> elements = graph.elements();
       while (elements.hasNext()) {
         JsonNode element = elements.next();
-        result.add(link(element, graphs));
+        result.add(link(element, graphs, processed));
       }
       return result;
     } else if (graph.isObject()) {
       if (graph.get(JsonLdConstants.ID) != null && graph.get(JsonLdConstants.ID).asText().startsWith("_:")) {
         return buildTree(graph, graphs);
+      } else if (graph.get(JsonLdConstants.ID) != null) {
+        processed.add(graph.get(JsonLdConstants.ID).asText());
       }
       ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
       Iterator<String> fieldNames = graph.fieldNames();
@@ -158,7 +159,7 @@ public class ResourceFramer {
         if (linkProperties.contains(fieldName)) {
           JsonNode value = graph.get(fieldName);
           if (value.isObject() || value.isArray()) {
-            result.set(fieldName, link(value, graphs));
+            result.set(fieldName, link(value, graphs, processed));
           } else {
             result.set(fieldName, value);
           }
