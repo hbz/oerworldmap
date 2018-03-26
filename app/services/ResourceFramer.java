@@ -135,7 +135,6 @@ public class ResourceFramer {
     if (graph == null) {
       graph = ref;
     }
-    System.out.println(graph);
     List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image", "location",
       "startDate", "endDate", "agent", "object", "description", "text", "comment", "author", "dateCreated", "startTime");
     if (graph.isArray()) {
