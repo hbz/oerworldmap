@@ -10,7 +10,7 @@ ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/use
 
 <Location /.login>
   Require valid-user
-  Redirect "/.login" "/"
+  Redirect "/.login" "/resource/"
 </Location>
 
 <Location /.logout>
@@ -63,6 +63,10 @@ ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/use
 
 <Location /user/password>
   Require valid-user
+</Location>
+
+<Location /user/password/reset>
+  Require all granted
 </Location>
 
 <Location /user/profile>
