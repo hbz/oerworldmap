@@ -223,6 +223,9 @@ public class ResourceList {
       pagedCollection.put("query", query);
       pagedCollection.put("aggregations", aggregations);
       pagedCollection.put("pages", getPages());
+      if (sort != null) {
+        pagedCollection.put("sort", sort);
+      }
     } catch (URISyntaxException e) {
       Logger.error("Failed to build URI", e);
     }
