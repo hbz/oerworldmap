@@ -245,6 +245,12 @@ public class ResourceIndex extends OERWorldMap {
     mBaseRepository.addResource(resource, getMetadata());
     Cached.updateEtag();
 
+    // Allow to delete own likes
+    // TODO: move to action index once implemented
+    if (resource.getType().equals("LikeAction")) {
+      mAccountService.setPermissions(resource.getId(), request().username());
+    }
+
     // Respond
     if (isUpdate) {
       return ok(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
