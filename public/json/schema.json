@@ -2318,6 +2318,20 @@
           "_display": {
             "className": "admin only"
           }
+        },
+        "objectIn": {
+          "title": "Event.objectIn",
+          "description": "descriptions.Event.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
         }
       },
       "required": [
@@ -2783,7 +2797,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event" ] } } }
           ],
           "_display": {
             "className": "hidden"
@@ -2849,7 +2863,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Event" ] } } }
           ],
           "_display": {
             "className": "hidden"
