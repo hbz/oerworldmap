@@ -2986,6 +2986,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "_widget": "LocalizedString",
         "properties": {
           "@value": {
             "type": "string"
@@ -3009,6 +3010,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "_widget": "LocalizedString",
         "properties": {
           "@value": {
             "type": "string",
