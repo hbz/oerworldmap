@@ -47,7 +47,10 @@
       "properties": {
         "name": {
           "type": "string",
-          "title": "UserIndex.register.placeholderName"
+          "title": "UserIndex.register.placeholderName",
+          "_display": {
+            "placeholder": "UserIndex.register.placeholderName"
+          }
         },
         "location": {
           "title": "UserIndex.register.placeholderCountry",
@@ -56,13 +59,17 @@
         "email": {
           "type": "string",
           "format": "email",
-          "title": "UserIndex.register.placeholderEmail"
+          "title": "UserIndex.register.placeholderEmail",
+          "_display": {
+            "placeholder": "UserIndex.register.placeholderEmail"
+          }
         },
         "password": {
           "type": "string",
           "title": "UserIndex.register.choosePassword",
           "_display": {
-            "type": "password"
+            "type": "password",
+            "placeholder": "UserIndex.register.choosePassword"
           }
         },
         "privacyAccepted": {
@@ -93,7 +100,10 @@
         "email": {
           "type": "string",
           "format": "email",
-          "title": "UserIndex.register.placeholderEmail"
+          "title": "UserIndex.register.placeholderEmail",
+          "_display": {
+            "placeholder": "UserIndex.register.placeholderEmail"
+          }
         }
       },
       "required": ["email"]
@@ -108,21 +118,24 @@
           "type": "string",
           "title": "UserIndex.password.currentPassword",
           "_display": {
-            "type": "password"
+            "type": "password",
+            "placeholder": "UserIndex.password.currentPassword"
           }
         },
         "password_new": {
           "type": "string",
           "title": "UserIndex.password.newPassword",
           "_display": {
-            "type": "password"
+            "type": "password",
+            "placeholder": "UserIndex.password.newPassword"
           }
         },
         "password_new_confirm": {
           "type": "string",
           "title": "UserIndex.password.confirmPassword",
           "_display": {
-            "type": "password"
+            "type": "password",
+            "placeholder": "UserIndex.password.confirmPassword"
           }
         }
       },
@@ -182,7 +195,10 @@
           "title": "WebPage.url",
           "description": "descriptions.WebPage.url",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "description": {
           "title": "WebPage.description",
@@ -349,7 +365,10 @@
         },
         "image": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         }
       },
       "additionalProperties": false
@@ -407,7 +426,10 @@
           "title": "Article.image",
           "description": "descriptions.Article.image",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "creator": {
           "title": "Article.creator",
@@ -663,7 +685,10 @@
           "title": "Action.email",
           "description": "descriptions.Action.email",
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "_display": {
+            "placeholder": "user@example.org"
+          }
         },
         "alternateName": {
           "title": "Action.alternateName",
@@ -679,13 +704,19 @@
           "title": "Action.image",
           "description": "descriptions.Action.image",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "url": {
           "title": "Action.url",
           "description": "descriptions.Action.url",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "startTime": {
           "title": "Action.startTime",
@@ -800,7 +831,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org/"
+            }
           }
         },
         "keywords": {
@@ -1031,7 +1065,10 @@
           "title": "Service.email",
           "description": "descriptions.Service.email",
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "_display": {
+            "placeholder": "user@example.org"
+          }
         },
         "license": {
           "title": "Service.license",
@@ -1057,7 +1094,10 @@
           "title": "Service.image",
           "description": "descriptions.Service.image",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "location": {
           "title": "Service.location",
@@ -1265,7 +1305,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org/"
+            }
           }
         },
         "keywords": {
@@ -1436,13 +1479,19 @@
           "title": "Person.url",
           "description": "descriptions.Person.url",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "email": {
           "title": "Person.email",
           "description": "descriptions.Person.email",
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "_display": {
+            "placeholder": "user@example.org"
+          }
         },
         "description": {
           "title": "Person.description",
@@ -1464,7 +1513,10 @@
           "title": "Person.image",
           "description": "descriptions.Person.image",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "location": {
           "$ref": "#/definitions/Place"
@@ -1553,7 +1605,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org/"
+            }
           }
         },
         "funderOf": {
@@ -1740,13 +1795,19 @@
           "type": "string",
           "description": "descriptions.Organization.url",
           "format": "uri",
-          "title": "Organization.url"
+          "title": "Organization.url",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "email": {
           "description": "descriptions.Organization.email",
           "type": "string",
           "format": "email",
-          "title": "Organization.email"
+          "title": "Organization.email",
+          "_display": {
+            "placeholder": "user@example.org"
+          }
         },
         "description": {
           "title": "Organization.description",
@@ -1784,7 +1845,10 @@
           "description": "descriptions.Organization.image",
           "type": "string",
           "format": "uri",
-          "title": "Organization.image"
+          "title": "Organization.image",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "location": {
           "$ref": "#/definitions/Place"
@@ -1915,7 +1979,10 @@
           "description": "descriptions.Organization.description",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org/"
+            }
           }
         },
         "organizerFor": {
@@ -2101,13 +2168,19 @@
           "title": "Event.url",
           "description": "descriptions.Event.url",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "email": {
           "title": "Event.email",
           "description": "descriptions.Event.email",
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "_display": {
+            "placeholder": "user@example.org"
+          }
         },
         "description": {
           "title": "Event.description",
@@ -2118,7 +2191,10 @@
           "title": "Event.image",
           "description": "descriptions.Event.image",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "startDate": {
           "title": "Event.startDate",
@@ -2152,7 +2228,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org/"
+            }
           }
         },
         "recordedIn": {
@@ -2161,7 +2240,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org/"
+            }
           }
         },
         "inLanguage": {
@@ -2231,7 +2313,10 @@
         "hashtag": {
           "title": "Event.hashtag",
           "description": "descriptions.Event.hashtag",
-          "type": "string"
+          "type": "string",
+          "_display": {
+            "placeholder": "#hashtag"
+          }
         },
         "keywords": {
           "title": "Event.keywords",
@@ -2387,13 +2472,19 @@
           "title": "Product.url",
           "description": "descriptions.Product.url",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "image": {
           "title": "Product.image",
           "description": "descriptions.Product.image",
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
         },
         "isRelatedTo": {
           "title": "Product.isRelatedTo",
@@ -2514,7 +2605,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "format": "uri",
+            "_display": {
+              "placeholder": "http://example.org"
+            }
           },
           "_display": {
             "className": "hidden"
@@ -2939,7 +3033,10 @@
       "title": "ISO 8601 Date",
       "description": "A date in ISO 8601 format.",
       "type": "string",
-      "pattern": "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$"
+      "pattern": "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$",
+      "_display": {
+        "placeholder": "YYYY-MM-DD"
+      }
     },
     "Language": {
       "$schema": "http://json-schema.org/draft-04/schema#",
