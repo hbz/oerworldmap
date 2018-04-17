@@ -341,7 +341,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
     String[] fieldBoosts = processQueryContext(aQueryContext, searchRequestBuilder, globalAndFilter);
-    processSortOrder(aSortOrder, searchRequestBuilder);
+    processSortOrder(aSortOrder, aQueryString, searchRequestBuilder);
     processFilters(aFilters, globalAndFilter);
 
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
@@ -442,7 +442,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
-  private void processSortOrder(String aSortOrder, SearchRequestBuilder searchRequestBuilder) {
+  private void processSortOrder(String aSortOrder, String aQueryString, SearchRequestBuilder searchRequestBuilder) {
+    // Sort by dateCreated if no query string given
+    if (StringUtils.isEmpty(aQueryString) && StringUtils.isEmpty(aSortOrder)) {
+      aSortOrder = "dateCreated:DESC";
+    }
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {

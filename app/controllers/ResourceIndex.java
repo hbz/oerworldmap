@@ -100,11 +100,6 @@ public class ResourceIndex extends OERWorldMap {
       queryContext.setFetchSource(ctx().request().queryString().get("fields"));
     }
 
-    // Sort by dateCreated if no query string given
-    if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
-      sort = "dateCreated:DESC";
-    }
-
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
