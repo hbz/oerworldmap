@@ -332,8 +332,9 @@ public class ResourceIndex extends OERWorldMap {
       return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
       return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
-    } else if (request().accepts("application/geo+json")) {
-      return ok(mGeoJsonExporter.export(resource));
+    } else if (format.equals("application/geo+json")) {
+      String geoJson = mGeoJsonExporter.export(resource);
+      return geoJson != null ? ok(geoJson) : status(406);
     } else if (format.equals("application/schema+json")) {
       return ok(new JsonSchemaExporter().export(resource)).as("application/schema+json");
     } else if (format.equals("text/calendar")) {
