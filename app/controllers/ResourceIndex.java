@@ -125,6 +125,9 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     response().setHeader("Link", String.join(", ", links));
+    if (!StringUtils.isEmpty(extension)) {
+      response().setHeader("Content-Disposition", "attachment");
+    }
 
     String format = StringUtils.isEmpty(extension)
       ? MimeTypes.fromRequest(request())
