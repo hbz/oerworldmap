@@ -90,7 +90,6 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getEventCalendarAggregation());
     guestAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
     guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
-    guestAggregations.add(AggregationProvider.getLocationAggregation(0));
     guestAggregations.add(AggregationProvider.getAwardAggregation(0));
 
     aggregations.put("guest", guestAggregations);
