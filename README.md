@@ -25,6 +25,7 @@ For inital background information about this project please refer to the
     $ unzip elasticsearch-2.4.1.zip
     $ cd elasticsearch-2.4.1
     $ bin/plugin install 'http://xbib.org/repository/org/xbib/elasticsearch/plugin/elasticsearch-plugin-bundle/2.4.1.0/elasticsearch-plugin-bundle-2.4.1.0-plugin.zip'
+    $ bin/plugin install analysis-icu
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
@@ -169,7 +170,7 @@ In order to translate a static page, copy it and add the target language as a su
     ## Was ist OER
     'OER' steht für 'Open Educational Resources' ...
 
- The title that is specified in the front matter will be automatically added at the top of the page and will also be used in the navigation in the site header. 
+ The title that is specified in the front matter will be automatically added at the top of the page and will also be used in the navigation in the site header.
 
 ### Coding conventions
 
