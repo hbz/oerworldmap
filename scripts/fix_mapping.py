@@ -73,7 +73,8 @@ def set_not_analyzed():
 
 def set_keywords_normalizer():
     return {
-        'filter': 'lowercase'
+        'type': 'keyword',
+        'normalizer': 'keywords_normalizer'
     }
 
 def set_date_time():
@@ -104,7 +105,7 @@ def set_ngram(variations_search_analyzer):
             },
             "splits": {
                 "type": "text",
-                "analyzer": "split_analyzer_1",
+                "analyzer": "split_analyzer",
                 "search_analyzer": "standard"
             }
         }
@@ -146,6 +147,14 @@ def settings():
                 "country_synonyms_filter": {
                     "type": "synonym",
                     "synonyms": country_list
+                },
+                "split_filter" : {
+                    "type" : "pattern_capture",
+                    "preserve_original" : "false",
+                    "patterns" : [
+                        "([A-Z]{2,})([A-Z][a-z]{2,})",
+                        "([A-Z]{2,})([a-z]{2,})"
+                    ]
                 }
             },
             "analyzer": {
@@ -165,15 +174,9 @@ def settings():
                         "country_synonyms_filter"
                     ]
                 },
-                "split_analyzer_1": {
-                    "tokenizer": "split_tokenizer_1"
-                }
-            },
-            "tokenizer": {
-                "split_tokenizer_1": {
-                    "type": "pattern",
-                    "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
-                    "group": "1"
+                "split_analyzer": {
+                    "tokenizer": "pattern",
+                    "filter": ["split_filter", "lowercase"]
                 }
             },
             "normalizer": {
