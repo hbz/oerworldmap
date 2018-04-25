@@ -1,25 +1,21 @@
 ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/user/register>here</a>.</p>"
 
-RewriteEngine On
-RewriteMap unescape int:unescape
-RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteCond %{QUERY_STRING} ^continue=(.*)$
-RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
-
-RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
-
 <Location />
   AuthType Basic
   AuthName "Restricted Files"
-  AuthUserFile /tmp/htpasswd
-  AuthGroupFile /tmp/htgroups
+  AuthUserFile /usr/local/oer/src/oerworldmap.9006/conf/htpasswd
+  AuthGroupFile /usr/local/oer/src/oerworldmap.9006/conf/htgroups
   Require all granted
 </Location>
 
 <Location /.login>
   Require valid-user
-  Redirect "/.login" "/.loggedIn"
+  Redirect "/.login" "/resource/"
+</Location>
+
+<Location /.logout>
+  AuthUserFile /dev/null
+  Require valid-user
 </Location>
 
 <Location /resource/>
@@ -63,4 +59,16 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 
 <Location /sparql/>
   Require group admin
+</Location>
+
+<Location /user/password>
+  Require valid-user
+</Location>
+
+<Location /user/password/reset>
+  Require all granted
+</Location>
+
+<Location /user/profile>
+  Require valid-user
 </Location>

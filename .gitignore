@@ -1,6 +1,5 @@
 .settings/
 project/project
-project/target
 target
 logs
 .classpath
@@ -21,5 +20,5 @@ import/iCal/*.json
 import/**/*.pyc
 /node_modules/
 /public/css/main.css
-data/permissions/*
 !data/permissions/.system
+conf/application.conf

@@ -103,10 +103,24 @@ def set_ngram(variations_search_analyzer):
                 "analyzer": "simple",
                 "search_analyzer": "standard"
             },
+            "sort": {
+                "type": "text",
+                "analyzer": "german_phonebook_analyzer"
+            },
             "splits": {
                 "type": "text",
                 "analyzer": "split_analyzer",
                 "search_analyzer": "standard"
+            },
+            "de": {
+                "analyzer": "german_analyzer",
+                "search_analyzer": "german_analyzer",
+                "type": "text"
+            },
+            "en": {
+                "analyzer": "english_analyzer",
+                "search_analyzer": "english_analyzer",
+                "type": "text"
             }
         }
     }
@@ -127,6 +141,7 @@ def settings():
     with open(sys.path[0] + '/country_synonyms.txt', 'r') as f:
         country_list = f.read().splitlines()
     return {
+        "index.mapping.total_fields.limit": 2000,
         "analysis": {
             "filter": {
                 "title_filter": {
@@ -155,6 +170,38 @@ def settings():
                         "([A-Z]{2,})([A-Z][a-z]{2,})",
                         "([A-Z]{2,})([a-z]{2,})"
                     ]
+                },
+                "stem_english": {
+                    "name": "english",
+                    "type": "stemmer"
+                },
+                "stem_german": {
+                    "name": "german2",
+                    "type": "stemmer"
+                },
+                "stopwords_english": {
+                    "stopwords": [
+                        "a",
+                        "an",
+                        "the"
+                    ],
+                    "type": "stop"
+                },
+                "stopwords_german": {
+                    "stopwords": [
+                        "ein",
+                        "eine",
+                        "der",
+                        "die",
+                        "das"
+                    ],
+                    "type": "stop"
+                },
+                "german_phonebook_filter": {
+                    "type":     "icu_collation",
+                    "language": "de",
+                    "country":  "DE",
+                    "variant":  "@collation=phonebook"
                 }
             },
             "analyzer": {
@@ -177,6 +224,26 @@ def settings():
                 "split_analyzer": {
                     "tokenizer": "pattern",
                     "filter": ["split_filter", "lowercase"]
+                },
+                "english_analyzer": {
+                    "filter": [
+                        "stopwords_english",
+                        "stem_english",
+                        "lowercase"
+                    ],
+                    "tokenizer": "standard"
+                },
+                "german_analyzer": {
+                    "filter": [
+                        "stopwords_german",
+                        "stem_german",
+                        "lowercase"
+                    ],
+                    "tokenizer": "standard"
+                },
+                "german_phonebook_analyzer": {
+                    "tokenizer": "keyword",
+                    "filter":  [ "german_phonebook_filter" ]
                 }
             },
             "normalizer": {

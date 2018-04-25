@@ -1,14 +1,19 @@
 package controllers;
 
+import models.Resource;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Configuration;
 import play.Environment;
 import play.mvc.Result;
+import services.AggregationProvider;
 import services.QueryContext;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo
@@ -25,7 +30,7 @@ public class AggregationIndex extends OERWorldMap {
     Map<String, Object> scope = new HashMap<>();
 
     List<AggregationBuilder> statisticsAggregations = new ArrayList<>();
-    /*statisticsAggregations.add(AggregationProvider.getTypeAggregation(1));
+    statisticsAggregations.add(AggregationProvider.getTypeAggregation(1));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
@@ -36,14 +41,19 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getFunderAggregation(1));
     statisticsAggregations.add(AggregationProvider.getLikeAggregation(1));
     statisticsAggregations.add(AggregationProvider.getPrimarySectorsAggregation(1));
-    statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(1));*/
+    statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(1));
 
-    scope.put("statistics", mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null)));
-    scope.put("colors", Arrays.asList("#36648b", "#990000", "#ffc04c", "#3b7615", "#9c8dc7", "#bad1ad", "#663399",
-      "#009380", "#627e45", "#6676b0", "#5ab18d"));
+    // Enrich with aggregation labels
+    Resource aggregations = mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null));
+    for (String agg : aggregations.keySet()) {
+      if (agg.endsWith("@id")) {
+        for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
+          bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
+        }
+      }
+    }
 
-    return ok(render("Country Aggregations", "AggregationIndex/index.mustache", scope));
-
+    return ok(aggregations.toJson());
   }
 
 }

@@ -18,6 +18,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Logger;
 import services.IndexQueue;
 import services.QueryContext;
+import services.ResourceFramer;
 import services.ResourceIndexer;
 
 import javax.annotation.Nonnull;
@@ -73,6 +74,7 @@ public class BaseRepository extends Repository
 
     Model mDb = dataset.getDefaultModel();
     mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+    ResourceFramer.setContext(mConfiguration.getString("jsonld.context"));
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
@@ -185,7 +187,7 @@ public class BaseRepository extends Repository
 
   public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
-                            final Locale aPreferredLocale) {
+                            final Locale aPreferredLocale) throws IOException {
     return mElasticsearchRepo
       .reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, aPreferredLocale);
   }

@@ -20,11 +20,13 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
@@ -40,11 +42,6 @@ import services.QueryContext;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
@@ -195,47 +192,27 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
-
-    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
-
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
-    List<Resource> matches = new ArrayList<>();
-    while (searchHits.hasNext()) {
-      Resource match = Resource.fromMap(searchHits.next().getSourceAsMap());
-      matches.add(match);
-    }
-    // FIXME: response.toString returns string serializations of scripted keys
-    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
-      aFilters, aAggregations);
-
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
   }
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
-                            final Locale aPreferredLocale) {
-
+                            final Locale aPreferredLocale) throws IOException {
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
-
-    SearchResponse response = null;
-    try {
-      response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
-    } catch (IOException e) {
-      Logger.error("Failed reconciling data from Elasticsearch.", e);
-    }
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
+    Iterator<Resource> searchHits = response.getItems().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
 
     while (searchHits.hasNext()) {
-      final SearchHit hit = searchHits.next();
-      Resource match = Resource.fromMap(hit.getSourceAsMap()).getAsResource(Record.RESOURCE_KEY);
+      final Resource hit = searchHits.next();
+      Resource match = hit.getAsResource(Record.RESOURCE_KEY);
       String name = match.getNestedFieldValue("name.@value", aPreferredLocale);
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
       item.put("id", match.getId());
       item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
         .equals(name.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")));
       item.put("name", name);
-      item.put("score", hit.getScore());
+      item.put("score", hit.getAsString("_score"));
       ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
       typeArray.add(match.getType());
       item.set("type", typeArray);
@@ -254,8 +231,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    * @param aJsonString
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
-    String uuid = getUrlUuidEncoded(aUuid);
-    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, (uuid == null ? aUuid : uuid));
+    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, aUuid);
     request.source(aJsonString, XContentType.JSON);
     if (play.api.Play.isTest(play.api.Play.current())){
       request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
@@ -267,28 +243,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     } catch (IOException e) {
       Logger.error("Failed indexing data to Elasticsearch.", e);
     }
-  }
-
-  private String getUrlUuidEncoded (String aUuid) {
-    if (isValidUri(aUuid)){
-      try {
-        return URLEncoder.encode(aUuid, Charset.defaultCharset().name());
-      } catch (UnsupportedEncodingException e) {
-        return null;
-      }
-    }
-    else{
-      return aUuid;
-    }
-  }
-
-  private static boolean isValidUri (String aUri) {
-    try {
-      new URL(aUri);
-    } catch (MalformedURLException mue) {
-      return false;
-    }
-    return true;
   }
 
   /**
@@ -310,7 +264,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     } catch (IOException e) {
       Logger.error("Failed indexing bulk data to Elasticsearch.", e);
     }
-    if (bulkResponse.hasFailures()) {
+    if (bulkResponse.hasFailures()){
       Logger.error(bulkResponse.buildFailureMessage());
     }
   }
@@ -401,19 +355,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     for (AggregationBuilder aggregationBuilder : aAggregationBuilders) {
       sourceBuilder.aggregation(aggregationBuilder).query(globalAndFilter).size(0);
     }
-
     return mConfig.getClient().search(
       new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
   }
 
 
-  private SearchResponse esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
+  private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
                                  final String aSortOrder, final Map<String, List<String>> aFilters,
                                  final QueryContext aQueryContext, final boolean allowsTypos) throws IOException {
 
-    final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom).size(aSize);
-    processSortOrder(aSortOrder, sourceBuilder);
-
+    int size = aSize == -1 ? 100 : aSize;
+    final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom).size(size);
+    processSortOrder(aSortOrder, aQueryString, sourceBuilder);
     final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
     processFilters(aFilters, globalAndFilter);
     final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter);
@@ -428,8 +381,38 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
     sourceBuilder.query(bqBuilder);
 
-    return mConfig.getClient().search(
-      new SearchRequest(mConfig.getIndex()).source(sourceBuilder).searchType(SearchType.DFS_QUERY_THEN_FETCH));
+    List<SearchHit> searchHits = new ArrayList<>();
+    SearchResponse response;
+    Resource aAggregations;
+    if (aSize == -1) {
+      response = mConfig.getClient().search(
+        new SearchRequest(mConfig.getIndex()).source(sourceBuilder).searchType(SearchType.DFS_QUERY_THEN_FETCH)
+          .scroll(new TimeValue(60000)));
+      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
+      while (nextHits.size() > 0) {
+        searchHits.addAll(nextHits);
+        SearchScrollRequest searchScrollRequest = new SearchScrollRequest()
+          .scrollId(response.getScrollId()).scroll(new TimeValue(60000));
+        response = mConfig.getClient().searchScroll(searchScrollRequest);
+        nextHits = Arrays.asList(response.getHits().getHits());
+      }
+    }
+    else {
+      response = mConfig.getClient().search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
+      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      searchHits.addAll(Arrays.asList(response.getHits().getHits()));
+    }
+
+    List<Resource> resources = new ArrayList<>();
+    for (SearchHit hit: searchHits) {
+      Resource resource = Resource.fromMap(hit.getSourceAsMap());
+      resource.put("_score", hit.getScore());
+      resources.add(resource);
+    }
+
+    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+      aFilters, aAggregations);
   }
 
 
@@ -489,7 +472,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
-  private void processSortOrder(String aSortOrder, SearchSourceBuilder searchBuilder) {
+  private void processSortOrder(String aSortOrder, String aQueryString, SearchSourceBuilder searchBuilder) {
+    // Sort by dateCreated if no query string given
+    if (StringUtils.isEmpty(aQueryString) && StringUtils.isEmpty(aSortOrder)) {
+      aSortOrder = "dateCreated:DESC";
+    }
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {

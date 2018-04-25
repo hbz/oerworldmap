@@ -669,14 +669,27 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
         mBaseRepo.addResource(res, mMetadata);
         String name = res.getNestedFieldValue("name.@value", Locale.ENGLISH).substring(0, 7);
         List<Resource> hitsExact = mBaseRepo.query(name, 0, 10, null, null, queryContext).getItems();
-        Assert.assertEquals(String.format("Did not find resource by exact search (%s).", name), 1,  hitsExact.size());
+        Assert.assertEquals(String.format("Did not find resource by exact search (%s).", name), 1, hitsExact.size());
         List<Resource> hitsAbbreviation = mBaseRepo.query("PDX", 0, 10, null, null, queryContext).getItems();
-        Assert.assertEquals(String.format("Did not find resource named '%s' by abbreviated search (PDX).", name), 1,  hitsAbbreviation.size());
+        Assert.assertEquals(String.format("Did not find resource named '%s' by abbreviated search (PDX).", name), 1, hitsAbbreviation.size());
         mBaseRepo.deleteResource(res.getId(), mMetadata);
       } catch (IOException e) {
         e.printStackTrace();
       }
     });
+  }
+
+  @Test
+  public void testSearchStemmed()  throws IOException {
+    Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchStemmed.DB.1.json");
+    mBaseRepo.addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    List<Resource> literalHit = mBaseRepo.query("vielfältiges Angebot", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals("Missing hit for literal search.", 1, literalHit.size());
+    List<Resource> stemmedHit = mBaseRepo.query("vielfaltig Angebote", 0, 10, null, null, queryContext).getItems();
+    Assert.assertEquals("Missing hit for stemming based search.", 1, stemmedHit.size());
+    mBaseRepo.deleteResource("urn:uuid:751c2006-4601-4c43-935b-4f7380784dd3", mMetadata);
   }
 
   private List<String> getNameList(List<Resource> aResourceList) {

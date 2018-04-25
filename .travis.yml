@@ -14,7 +14,6 @@ before_install:
   - $HOME/elasticsearch-6.2.1/bin/elasticsearch-plugin install analysis-icu
   - $HOME/elasticsearch-6.2.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
 install:
-  - npm install
   - npm install node-python
 before_script:
   - cp conf/travis.conf conf/test.conf

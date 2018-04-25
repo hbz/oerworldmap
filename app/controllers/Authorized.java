@@ -22,7 +22,9 @@ class Authorized extends Action.Simple {
     String username = getHttpBasicAuthUser(ctx);
 
     if (!StringUtils.isEmpty(username)) {
-      ctx.request().withUsername(username);
+      // FIXME: using this is the new way, but drops any headers subsequently set in controllers
+      //return delegate.call(new Http.Context(ctx.request().withUsername(username)));
+      ctx.request().setUsername(username);
     }
 
     return delegate.call(ctx);

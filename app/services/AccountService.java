@@ -219,7 +219,7 @@ public class AccountService {
       for (String line : lines) {
         String[] entry = line.split(":");
         String group = entry[0].trim();
-        List<String> users = Arrays.asList(entry[1].split(" +"));
+        List<String> users = entry.length > 1 ? Arrays.asList(entry[1].split(" +")) : new ArrayList<>();
         if (users.contains(username)) {
           groups.add(group);
         }
