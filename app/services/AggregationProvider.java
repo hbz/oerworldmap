@@ -1,8 +1,6 @@
 package services;
 
-import helpers.JsonLdConstants;
 import models.Record;
-import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -10,8 +8,6 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.terms.IncludeExclude;
-import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 
@@ -29,23 +25,12 @@ public class AggregationProvider {
       .order(BucketOrder.key(false));
   }
 
-  public static AggregationBuilder getLocationAggregation(int aSize) {
-    return AggregationBuilders.geohashGrid("about.location.geo").field("about.location.geo").precision(3).size(aSize)
-      .subAggregation(AggregationBuilders.geoCentroid("pin").field("about.location.geo"))
-      .subAggregation(AggregationBuilders.geoBounds("bounds"))
-      .subAggregation(AggregationBuilders.topHits("resources")
-      .fetchSource(new String[]{"about.name", "about.@id", "about.@type"}, null))
-      .subAggregation(AggregationBuilders.terms("types").field("about.@type"));
-  }
 
   public static AggregationBuilder getServiceLanguageAggregation(int aSize) {
     return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(aSize)
         .field("about.availableChannel.availableLanguage");
   }
 
-  public static AggregationBuilder getServiceByFieldOfEducationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.about.@id").size(aSize).field("about.about.@id");
-  }
 
   public static AggregationBuilder getServiceByFieldOfEducationAggregation(List<String> anIdList, int aSize) {
     return AggregationBuilders.terms("about.about.@id").size(aSize)
@@ -79,10 +64,6 @@ public class AggregationProvider {
       .field("about.keywords");
   }
 
-  public static AggregationBuilder getServiceByGradeLevelAggregation(List<String> anIdList, int aSize) {
-    return AggregationBuilders.terms("about.audience.@id").size(aSize)
-        .field("about.audience.@id").includeExclude(new IncludeExclude(StringUtils.join(anIdList, '|'), null));
-  }
 
   public static AggregationBuilder getByCountryAggregation(int aSize) {
     return AggregationBuilders
@@ -134,7 +115,7 @@ public class AggregationProvider {
         .fetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
           "about.location"}, null)
         .sort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
-        .size(Integer.MAX_VALUE)
+        .size(100)
       ).order(BucketOrder.key(false)).minDocCount(1);
   }
 
