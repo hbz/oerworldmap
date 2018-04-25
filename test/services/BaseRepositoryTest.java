@@ -684,7 +684,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
         List<Resource> hitsExact = mBaseRepo.query(name, 0, 10, null, null, queryContext).getItems();
         Assert.assertEquals(String.format("Did not find resource by exact search (%s).", name), 1,  hitsExact.size());
         List<Resource> hitsAbbreviation = mBaseRepo.query("PDX", 0, 10, null, null, queryContext).getItems();
-        Assert.assertEquals(String.format("Did not find resource by abbreviated search (PDX).", name), 1,  hitsAbbreviation.size());
+        Assert.assertEquals(String.format("Did not find resource named '%s' by abbreviated search (PDX).", name), 1,  hitsAbbreviation.size());
         mBaseRepo.deleteResource(res.getId(), mMetadata);
       } catch (IOException e) {
         e.printStackTrace();
