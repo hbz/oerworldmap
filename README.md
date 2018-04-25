@@ -28,7 +28,15 @@ For inital background information about this project please refer to the
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
 
-Optionally, you may want to [use the head plugin](https://www.elastic.co/blog/running-site-plugins-with-elasticsearch-5-0)
+Optionally, you may want to [use the head plugin](https://www.elastic.co/blog/running-site-plugins-with-elasticsearch-5-0).
+This basically comes down to
+
+    $ cd .. # back to oerworldmap/third-party or choose any directory outside this project
+    $ git clone git://github.com/mobz/elasticsearch-head.git
+    $ cd elasticsearch-head
+    $ npm install
+    $ npm run start
+    $ open http://localhost:9100/
 
 #### Configure elasticsearch
 
