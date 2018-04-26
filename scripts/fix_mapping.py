@@ -110,12 +110,12 @@ def set_ngram(variations_search_analyzer):
             "de": {
                 "analyzer": "german_analyzer",
                 "search_analyzer": "german_analyzer",
-                "type": "string"
+                "type": "text"
             },
             "en": {
                 "analyzer": "english_analyzer",
                 "search_analyzer": "english_analyzer",
-                "type": "string"
+                "type": "text"
             },
             "splits": {
                 "type": "text",
@@ -141,6 +141,7 @@ def settings():
     with open(sys.path[0] + '/country_synonyms.txt', 'r') as f:
         country_list = f.read().splitlines()
     return {
+        "index.mapping.total_fields.limit": 2000,
         "analysis": {
             "filter": {
                 "title_filter": {

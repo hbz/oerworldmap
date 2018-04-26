@@ -28,7 +28,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -38,7 +38,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -85,7 +85,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -95,7 +95,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -183,7 +183,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -193,7 +193,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -274,7 +274,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -284,7 +284,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -334,7 +334,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -344,7 +344,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -396,7 +396,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -406,7 +406,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -501,7 +501,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -511,7 +511,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -591,7 +591,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -601,7 +601,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -646,7 +646,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -656,7 +656,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -697,7 +697,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -707,7 +707,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -767,7 +767,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -777,7 +777,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -830,7 +830,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -840,7 +840,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -887,7 +887,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -897,7 +897,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -944,7 +944,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -954,7 +954,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1046,7 +1046,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1056,7 +1056,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1136,7 +1136,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1146,7 +1146,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1242,7 +1242,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1252,7 +1252,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1340,7 +1340,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1350,7 +1350,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1414,7 +1414,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1424,7 +1424,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1500,7 +1500,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1510,7 +1510,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1633,7 +1633,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1643,7 +1643,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1731,7 +1731,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1741,7 +1741,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -1836,7 +1836,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -1846,7 +1846,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2000,7 +2000,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2010,7 +2010,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2106,7 +2106,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2116,7 +2116,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2208,7 +2208,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2218,7 +2218,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2292,7 +2292,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -2302,7 +2302,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -2353,7 +2353,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2363,7 +2363,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2443,7 +2443,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2453,7 +2453,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2523,7 +2523,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -2533,7 +2533,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -2583,7 +2583,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2593,7 +2593,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2677,7 +2677,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2687,7 +2687,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2775,7 +2775,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -2785,7 +2785,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -2886,7 +2886,7 @@
                             },
                             "en": {
                               "search_analyzer": "english_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "english_analyzer"
                             },
                             "splits": {
@@ -2896,7 +2896,7 @@
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_analyzer"
                             },
                             "variations": {
@@ -2987,7 +2987,7 @@
                             },
                             "en": {
                               "search_analyzer": "english_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "english_analyzer"
                             },
                             "splits": {
@@ -2997,7 +2997,7 @@
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_analyzer"
                             },
                             "variations": {
@@ -3099,7 +3099,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3109,7 +3109,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -3202,7 +3202,7 @@
                             },
                             "en": {
                               "search_analyzer": "english_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "english_analyzer"
                             },
                             "splits": {
@@ -3212,7 +3212,7 @@
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_analyzer"
                             },
                             "variations": {
@@ -3303,7 +3303,7 @@
                             },
                             "en": {
                               "search_analyzer": "english_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "english_analyzer"
                             },
                             "splits": {
@@ -3313,7 +3313,7 @@
                             },
                             "de": {
                               "search_analyzer": "german_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "german_analyzer"
                             },
                             "variations": {
@@ -3399,7 +3399,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3409,7 +3409,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -3501,7 +3501,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3511,7 +3511,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -3546,7 +3546,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -3556,7 +3556,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -3589,7 +3589,7 @@
                     },
                     "en": {
                       "search_analyzer": "english_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "english_analyzer"
                     },
                     "splits": {
@@ -3599,7 +3599,7 @@
                     },
                     "de": {
                       "search_analyzer": "german_analyzer",
-                      "type": "string",
+                      "type": "text",
                       "analyzer": "german_analyzer"
                     },
                     "variations": {
@@ -3646,7 +3646,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3656,7 +3656,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -3701,7 +3701,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3711,7 +3711,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -3815,7 +3815,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3825,7 +3825,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -3929,7 +3929,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -3939,7 +3939,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -4035,7 +4035,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -4045,7 +4045,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -4128,7 +4128,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -4138,7 +4138,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -4187,7 +4187,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -4197,7 +4197,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -4280,7 +4280,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -4290,7 +4290,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -4397,7 +4397,7 @@
                         },
                         "en": {
                           "search_analyzer": "english_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "english_analyzer"
                         },
                         "splits": {
@@ -4407,7 +4407,7 @@
                         },
                         "de": {
                           "search_analyzer": "german_analyzer",
-                          "type": "string",
+                          "type": "text",
                           "analyzer": "german_analyzer"
                         },
                         "variations": {
@@ -4521,6 +4521,7 @@
     }
   },
   "settings": {
+    "index.mapping.total_fields.limit": 2000,
     "analysis": {
       "filter": {
         "stem_german": {
