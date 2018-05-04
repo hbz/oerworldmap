@@ -25,6 +25,7 @@ For inital background information about this project please refer to the
     $ unzip elasticsearch-2.4.1.zip
     $ cd elasticsearch-2.4.1
     $ bin/plugin install 'http://xbib.org/repository/org/xbib/elasticsearch/plugin/elasticsearch-plugin-bundle/2.4.1.0/elasticsearch-plugin-bundle-2.4.1.0-plugin.zip'
+    $ bin/plugin install analysis-icu
     $ bin/elasticsearch
 
 Check with `curl -X GET http://localhost:9200/` if all is well.
@@ -70,14 +71,25 @@ Edit `sudo visudo` and add permission to the user
 
     username  ALL = NOPASSWD: /usr/sbin/apache2ctl
 
-Modify the path in `conf/auth.conf`
+Configure variables for `conf/vhost.conf`
 
-    Include /home/username/oerworldmap/data/permissions/
+    Define PUBLIC_HOST oerworldmap.localhost
+    Define PUBLIC_PORT 80
+    Define PUBLIC_EMAIL webmaster@oerworldmap.localhost
+    Define AUTH_DIR /home/fo/local/src/oerworldmap/data
+    Define API_HOST http://localhost:9000
+    Define UI_HOST http://localhost:3000
+    Define KIBANA_HOST http://localhost:5601
+    Define PAGES_HOST http://localhost:4000
+    #Define SSL_CIPHER_SUITE
+    #Define SSL_CERT_FILE
+    #Define SSL_CERT_KEY_FILE
+    #Define SSL_CERT_CHAIN_FILE
 
-Enalbe the site
+Enable the site
 
-    $ sudo ln -s /home/username/oerworldmap/conf/auth.conf /etc/apache2/sites-available/
-    $ sudo a2ensite auth.conf
+    $ sudo ln -s /home/username/oerworldmap/conf/vhost.conf /etc/apache2/sites-available/oerworldmap.conf
+    $ sudo a2ensite oerworldmap.conf
     $ sudo apache2ctl graceful
 
 
@@ -169,7 +181,7 @@ In order to translate a static page, copy it and add the target language as a su
     ## Was ist OER
     'OER' steht für 'Open Educational Resources' ...
 
- The title that is specified in the front matter will be automatically added at the top of the page and will also be used in the navigation in the site header. 
+ The title that is specified in the front matter will be automatically added at the top of the page and will also be used in the navigation in the site header.
 
 ### Coding conventions
 
