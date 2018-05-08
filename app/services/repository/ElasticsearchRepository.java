@@ -177,7 +177,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
-    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
 
   }
 
@@ -187,7 +187,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
 
-    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
+    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<Resource> searchHits = response.getItems().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
 
@@ -334,8 +334,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
 
   private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
-                                 final String aSortOrder, final Map<String, List<String>> aFilters,
-                                 final QueryContext aQueryContext, final boolean allowsTypos) {
+                               final String aSortOrder, final Map<String, List<String>> aFilters,
+                               final QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
@@ -347,12 +347,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
     FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
     final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
-    if (allowsTypos){
-      bqBuilder.should(fqBuilder);
-    }
-    else {
-      bqBuilder.must(fqBuilder);
-    }
+    bqBuilder.must(fqBuilder);
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(bqBuilder);
 
     List<SearchHit> searchHits = new ArrayList<>();
