@@ -27,6 +27,9 @@
       "$ref": "#/definitions/Event"
     },
     {
+      "$ref": "#/definitions/Product"
+    },
+    {
       "$ref": "#/definitions/WebPage"
     },
     {
@@ -1780,6 +1783,11 @@
               { "properties": { "@type": { "enum": [ "Organization", "Person" ] } } }
             ]
           }
+        },
+        "rights": {
+          "description": "The licensed usage rights pertaining to the tool",
+          "type": "string",
+          "enum": [ "floss", "proprietary" ]
         },
         "keywords": {
           "type": "array",
