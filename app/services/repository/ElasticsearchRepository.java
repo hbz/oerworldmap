@@ -184,7 +184,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
                             final Locale aPreferredLocale) {
-
+    aQuery = QueryParser.escape(aQuery);
+    aQuery = aQuery.replaceAll("([^ ]+)", "$1~");
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
 
     ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);

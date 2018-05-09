@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import models.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import play.Configuration;
 import play.Environment;
 import play.data.DynamicForm;
@@ -69,9 +68,6 @@ public class Reconciler extends OERWorldMap{
       JsonNode limitNode = inputQuery.getValue().get("limit");
       int limit = limitNode == null ? -1 : limitNode.asInt();
       String queryString = inputQuery.getValue().get("query").asText();
-      queryString = queryString.replaceAll("\\W+", " ");
-      queryString = QueryParser.escape(queryString);
-      queryString = queryString.replaceAll("(\\w)(\\W)", "$1~$2");
       JsonNode type = inputQuery.getValue().get("type");
       Map<String, List<String>> typeFilter = new HashMap<>();
       if (type != null) {
