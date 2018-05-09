@@ -56,7 +56,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private static ElasticsearchConfig mConfig;
   private Fuzziness mFuzziness;
   private static JsonNodeFactory mJsonNodeFactory = new JsonNodeFactory(false);
-  private FunctionScoreQueryBuilder fsqb;
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -64,7 +63,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     final Settings.Builder builder = Settings.builder();
     mConfig.getClusterSettings().forEach((k, v) -> builder.put(k, v));
-    Settings settings = builder.build();
 
     mFuzziness = mConfig.getFuzziness();
   }
@@ -240,11 +238,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     String uuid = getUrlUuidEncoded(aUuid);
     IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, (uuid == null ? aUuid : uuid));
     request.source(aJsonString, XContentType.JSON);
-    if (play.api.Play.isTest(play.api.Play.current())){
-      request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
-      // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
-      // where "true" means RefreshPolicy.IMMEDIATE
-    }
+    request.setRefreshPolicy(mConfig.getRefreshPolicy());
+    // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
     try {
       mConfig.getClient().index(request);
     } catch (IOException e) {
@@ -344,11 +339,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) throws IOException {
     DeleteRequest request = new DeleteRequest(mConfig.getIndex(), aType, aIdentifier);
-    if (play.api.Play.isTest(play.api.Play.current())){
-      request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
-      // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
-      // where "true" means RefreshPolicy.IMMEDIATE
-    }
+    request.setRefreshPolicy(mConfig.getRefreshPolicy());
+    // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
     final DeleteResponse response = mConfig.getClient().delete(request);
     return response.status().equals(RestStatus.OK);
   }

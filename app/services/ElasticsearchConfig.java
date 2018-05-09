@@ -13,6 +13,7 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -43,6 +44,12 @@ public class ElasticsearchConfig {
   private Map<String, String> mIndexSettings;
   private Map<String, String> mClusterSettings;
   private RestHighLevelClient mEsClient;
+  private WriteRequest.RefreshPolicy mRefreshPolicy;
+
+
+  public WriteRequest.RefreshPolicy getRefreshPolicy() {
+    return mRefreshPolicy;
+  }
 
   public ElasticsearchConfig(Config aConfiguration) {
     mConfig = aConfiguration;
@@ -79,6 +86,18 @@ public class ElasticsearchConfig {
     // CLUSTER SETTINGS
     mClusterSettings = new HashMap<>();
     mClusterSettings.put("cluster.name", mCluster);
+
+    switch (mConfig.getString("es.request.refreshpolicy")){
+      case ("IMMEDIATE") :
+        mRefreshPolicy = WriteRequest.RefreshPolicy.IMMEDIATE;
+        break;
+      case ("WAIT_UNTIL") :
+        mRefreshPolicy = WriteRequest.RefreshPolicy.WAIT_UNTIL;
+        break;
+      default :
+        mRefreshPolicy = WriteRequest.RefreshPolicy.NONE;
+    }
+
   }
 
   public String getIndex() {
