@@ -29,6 +29,7 @@ import org.elasticsearch.common.lucene.search.function.FiltersFunctionScoreQuery
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.IndexNotFoundException;
 import org.elasticsearch.index.mapper.MapperParsingException;
 import org.elasticsearch.index.query.*;
@@ -36,6 +37,7 @@ import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import play.Logger;
 import services.ElasticsearchConfig;
@@ -175,41 +177,31 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
-    SearchResponse response = esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
-
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
-    List<Resource> matches = new ArrayList<>();
-    while (searchHits.hasNext()) {
-      Resource match = Resource.fromMap(searchHits.next().sourceAsMap());
-      matches.add(match);
-    }
-    // FIXME: response.toString returns string serializations of scripted keys
-    Resource aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
-    return new ResourceList(matches, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
-      aFilters, aAggregations);
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
 
   }
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
                             final Locale aPreferredLocale) {
-
+    aQuery = QueryParser.escape(aQuery);
+    aQuery = aQuery.replaceAll("([^ ]+)", "$1~");
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
 
-    SearchResponse response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
-    Iterator<SearchHit> searchHits = response.getHits().iterator();
+    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    Iterator<Resource> searchHits = response.getItems().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
 
     while (searchHits.hasNext()) {
-      final SearchHit hit = searchHits.next();
-      Resource match = Resource.fromMap(hit.sourceAsMap()).getAsResource(Record.RESOURCE_KEY);
+      final Resource hit = searchHits.next();
+      Resource match = hit.getAsResource(Record.RESOURCE_KEY);
       String name = match.getNestedFieldValue("name.@value", aPreferredLocale);
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
       item.put("id", match.getId());
-      item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
-        .equals(name.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")));
+      item.put("match", !StringUtils.isEmpty(hit.getAsString("_score"))
+        && Double.parseDouble(hit.getAsString("_score")) == 1.0);
       item.put("name", name);
-      item.put("score", hit.getScore());
+      item.put("score", hit.getAsString("_score"));
       ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
       typeArray.add(match.getType());
       item.set("type", typeArray);
@@ -341,28 +333,60 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   }
 
-  private SearchResponse esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
-                                 final String aSortOrder, final Map<String, List<String>> aFilters,
-                                 final QueryContext aQueryContext, final boolean allowsTypos) {
+
+  private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
+                               final String aSortOrder, final Map<String, List<String>> aFilters,
+                               final QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
 
     String[] fieldBoosts = processQueryContext(aQueryContext, searchRequestBuilder, globalAndFilter);
-    processSortOrder(aSortOrder, searchRequestBuilder);
+    processSortOrder(aSortOrder, aQueryString, searchRequestBuilder);
     processFilters(aFilters, globalAndFilter);
 
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
     FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
     final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
-    if (allowsTypos){
-      bqBuilder.should(fqBuilder);
-    }
-    else{
-      bqBuilder.must(fqBuilder);
-    }
+    bqBuilder.must(fqBuilder);
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(bqBuilder);
-    return searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+
+    List<SearchHit> searchHits = new ArrayList<>();
+    SearchResponse response;
+    Resource aAggregations;
+    Float maxScore = 0.0f;
+    if (aSize == -1) {
+      response = searchRequestBuilder.setScroll(new TimeValue(60000)).setSize(100).execute().actionGet();
+      maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
+      while (nextHits.size() > 0) {
+        searchHits.addAll(nextHits);
+        response = mClient.prepareSearchScroll(response.getScrollId()).setScroll(new TimeValue(60000)).execute()
+          .actionGet();
+        maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+        nextHits = Arrays.asList(response.getHits().getHits());
+      }
+    } else {
+      response = searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+      maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      searchHits.addAll(Arrays.asList(response.getHits().getHits()));
+    }
+
+    List<Resource> resources = new ArrayList<>();
+    for (SearchHit hit: searchHits) {
+      Resource resource = Resource.fromMap(hit.sourceAsMap());
+      if (!Float.isNaN(hit.getScore())) {
+        // Convert ES scoring to score between 0 an 1
+        resource.put("_score", hit.getScore() / maxScore);
+      }
+      resources.add(resource);
+    }
+
+    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+      aFilters, aAggregations);
+
   }
 
   private FunctionScoreQueryBuilder getFunctionScoreQueryBuilder(QueryBuilder queryBuilder) {
@@ -421,14 +445,21 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
-  private void processSortOrder(String aSortOrder, SearchRequestBuilder searchRequestBuilder) {
+  private void processSortOrder(String aSortOrder, String aQueryString, SearchRequestBuilder searchRequestBuilder) {
+    // Sort by dateCreated if no query string given
+    if (StringUtils.isEmpty(aQueryString) && StringUtils.isEmpty(aSortOrder)) {
+      aSortOrder = "dateCreated:DESC";
+    }
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchRequestBuilder.addSort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+        searchRequestBuilder.addSort(new FieldSortBuilder(
+          sort[0]).order(sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC
+        ).unmappedType("string"));
       } else {
         Logger.trace("Invalid sort string: " + aSortOrder);
       }
+
     }
   }
 

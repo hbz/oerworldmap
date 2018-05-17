@@ -54,7 +54,6 @@
   ],
   "image": "https://pixabay.com/static/uploads/photo/2015/06/14/21/17/person-809598_960_720.jpg",
   "email": "foo@bar.de",
-  "telephone": "+00-1234-56789012",
   "location": {
     "geo": {
       "lon": 1.1,

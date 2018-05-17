@@ -1,15 +1,15 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.JSONForm;
 import helpers.JsonLdConstants;
+import helpers.MimeTypes;
 import helpers.SCHEMA;
-import helpers.UniversalFunctions;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -17,19 +17,17 @@ import models.ResourceList;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.ResourceFactory;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
 import play.mvc.Result;
-import services.AggregationProvider;
+import play.mvc.With;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
 import services.export.CsvWithNestedIdsExporter;
 import services.export.GeoJsonExporter;
+import services.export.JsonSchemaExporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -37,12 +35,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,73 +48,26 @@ import java.util.regex.Pattern;
  */
 public class ResourceIndex extends OERWorldMap {
 
+  private GeoJsonExporter mGeoJsonExporter = new GeoJsonExporter();
+
   @Inject
   public ResourceIndex(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
   }
 
-  public Result listDefault(String q, int from, int size, String sort, boolean list, String iso3166) throws IOException {
-    return list(q, from, size, sort, list, null, iso3166);
-  }
-
-  public Result list(String q, int from, int size, String sort, boolean list, String extension, String iso3166)
+  @With(Cached.class)
+  public Result list(String q, int from, int size, String sort, boolean features, String extension, String iso3166)
       throws IOException {
 
-    String format = "application/json";
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-        case "geojson":
-          format = "application/geo+json";
-          break;
-      }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else if (request().accepts("application/geo+json")) {
-      format = "application/geo+json";
-    }
-
-    Map<String, Object> scope = new HashMap<>();
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
 
     // Handle ISO 3166 param
     if (!StringUtils.isEmpty(iso3166)) {
 
-      if (! UniversalFunctions.resourceBundleToMap(ResourceBundle
-        .getBundle("iso3166-1-alpha-2", getLocale()))
-        .containsKey(iso3166.toUpperCase())) {
+      if (! Arrays.asList(Locale.getISOCountries()).contains(iso3166.toUpperCase())) {
         return notFound("Not found");
       }
-
-      Resource countryAggregation = mBaseRepository.aggregate(AggregationProvider.getForCountryAggregation(iso3166.toUpperCase(), 0));
-      filters.put(Record.RESOURCE_KEY + ".countryChampionFor", Arrays.asList(iso3166.toLowerCase()));
-      ResourceList champions = mBaseRepository.query("*", 0, 9999, null, filters);
-      ResourceList reports = mBaseRepository.query(
-        "about.keywords:\"countryreport:".concat(iso3166.toUpperCase()).concat("\""), 0, 10, null, null);
-      filters.clear();
-
-      Map<String, Object> iso3166Scope = new HashMap<>();
-      String countryName = ResourceBundle.getBundle("iso3166-1-alpha-2", getLocale())
-        .getString(iso3166.toUpperCase());
-      iso3166Scope.put("alpha-2", iso3166.toUpperCase());
-      iso3166Scope.put("name", countryName);
-      iso3166Scope.put("champions", champions.getItems());
-      iso3166Scope.put("reports", reports.getItems());
-      iso3166Scope.put("countryAggregation", countryAggregation);
-      scope.put("iso3166", iso3166Scope);
 
       queryContext.setIso3166Scope(iso3166.toUpperCase());
 
@@ -145,23 +95,15 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    // Sort by dateCreated if no query string given
-    if (StringUtils.isEmpty(q) && StringUtils.isEmpty(sort)) {
-      sort = "dateCreated:DESC";
-    }
-
-    if (format.equals("text/html")) {
-      queryContext.setFetchSource(new String[]{
-        "@id", "@type", "dateCreated", "author", "dateModified", "contributor", "about.@id", "about.@type",
-        "about.name", "like_count", "lighthouse_count"
-      });
+    // Check for fields to fetch
+    if (ctx().request().queryString().containsKey("fields")) {
+      queryContext.setFetchSource(ctx().request().queryString().get("fields"));
     }
 
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
 
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
 
-    Map<String, String> alternates = new HashMap<>();
     String baseUrl = mConf.getString("proxy.host");
     String filterString = "";
     for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
@@ -171,37 +113,59 @@ public class ResourceIndex extends OERWorldMap {
       }
     }
 
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "json", iso3166).url().concat(filterString)));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "csv", iso3166).url().concat(filterString)));
-    alternates.put("GeoJSON", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "geojson", iso3166).url().concat(filterString)));
-    if (resourceList.containsType("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.list(q, 0, 9999, sort, list, "ics", iso3166).url().concat(filterString)));
+    Set<String> alternates = MimeTypes.all().keySet();
+    if (!resourceList.containsType("Event")) {
+      alternates.remove("ics");
+    }
+    List<String> links = new ArrayList<>();
+    for (String alternate : alternates) {
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate, iso3166)
+        .url().concat(filterString));
+      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
 
-    scope.put("list", list);
-    scope.put("showLikeCount", filters.containsKey("about.objectIn.@type") && filters.get("about.objectIn.@type")
-      .contains("LikeAction"));
-    scope.put("showLighthouseCount", filters.containsKey("about.objectIn.@type") && filters.get("about.objectIn.@type")
-      .contains("LighthouseAction"));
-    scope.put("resources", resourceList.toResource());
-    scope.put("alternates", alternates);
+    response().setHeader("Link", String.join(", ", links));
+    if (!StringUtils.isEmpty(extension)) {
+      response().setHeader("Content-Disposition", "attachment");
+    }
+
+    String format = StringUtils.isEmpty(extension)
+      ? MimeTypes.fromRequest(request())
+      : MimeTypes.fromExtension(extension);
 
     if (format == null) {
       return notFound("Not found");
-    } else if (format.equals("text/html")) {
-      return ok(render("OER World Map", "ResourceIndex/index.mustache", scope));
-    } //
-    else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv; charset=UTF-8");
-    } //
-    else if (format.equals("text/calendar")) {
-      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar; charset=UTF-8");
-    } //
-    else if (format.equals("application/json")) {
-      return ok(resourceList.toResource().toString()).as("application/json; charset=UTF-8");
-    }
-    else if (format.equals("application/geo+json")) {
-      return ok(new GeoJsonExporter().export(resourceList)).as("application/geo+json; charset=UTF-8");
+    } else if (format.equals("text/csv")) {
+      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+    } else if (format.equals("text/calendar")) {
+      return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
+    } else if (format.equals("application/json")) {
+      Resource result = resourceList.toResource();
+      if (features) {
+        ResourceList geoFeatures = mBaseRepository.query(q, 0, -1, sort, filters, queryContext);
+        result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
+      }
+      if (!StringUtils.isEmpty(iso3166)) {
+        if (!StringUtils.isEmpty(iso3166)) {
+          result.put("iso3166", iso3166.toUpperCase());
+        }
+      }
+      // FIXME: this is a huge bottleneck, if we really need to enrich the labels here,
+      // we should not do so by mBaseRepository.getResource
+      // Enrich with aggregation labels
+      //Resource aggregations = result.getAsResource("aggregations");
+      //for (String agg : aggregations.keySet()) {
+      //  if (agg.endsWith("@id")) {
+      //    for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
+      //      bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
+      //    }
+      //  }
+      //}
+      return ok(result.toString()).as("application/json");
+    } else if (format.equals("application/geo+json")) {
+      return ok(mGeoJsonExporter.export(resourceList)).as("application/geo+json");
+    } else if (format.equals("application/schema+json")) {
+      return ok(new JsonSchemaExporter().export(resourceList)).as("application/schema+json");
     }
 
     return notFound("Not found");
@@ -221,6 +185,7 @@ public class ResourceIndex extends OERWorldMap {
       return badRequest();
     }
     mBaseRepository.importResources(resources, getMetadata());
+    Cached.updateEtag();
     return ok(Integer.toString(resources.size()).concat(" resources imported."));
   }
 
@@ -263,7 +228,7 @@ public class ResourceIndex extends OERWorldMap {
 
     // Validate
     Resource staged = mBaseRepository.stage(resource);
-    ProcessingReport processingReport = staged.validate();
+    ProcessingReport processingReport = validate(staged);
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
       try {
@@ -271,47 +236,26 @@ public class ResourceIndex extends OERWorldMap {
       } catch (ProcessingException e) {
         Logger.warn("Failed to create list processing report", e);
       }
-      if (request().accepts("text/html")) {
-        Map<String, Object> scope = new HashMap<>();
-        scope.put("report", new ObjectMapper().convertValue(listProcessingReport.asJson(), ArrayList.class));
-        scope.put("type", resource.getType());
-        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
-          .getString("ResourceIndex.upsertResource.failed");
-        return badRequest(render(pageTitle, "ProcessingReport/list.mustache", scope));
-      } else {
-        return badRequest(listProcessingReport.asJson());
-      }
+      return badRequest(listProcessingReport.asJson());
     }
 
     // Save
     mBaseRepository.addResource(resource, getMetadata());
+    Cached.updateEtag();
+
+    // Allow to delete own likes
+    // TODO: move to action index once implemented
+    if (resource.getType().equals("LikeAction")) {
+      mAccountService.setPermissions(resource.getId(), request().username());
+    }
 
     // Respond
     if (isUpdate) {
-      if (request().accepts("text/html")) {
-        if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
-          response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
-            "HEAD").absoluteURL(request()));
-        }
-        return read(resource.getId(), "HEAD", "html");
-      } else {
-        return ok("Updated " + resource.getId());
-      }
+      return ok(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     } else {
-      if (Arrays.asList("LikeAction", "LighthouseAction").contains(resource.getType())) {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getAsResource("object").getId(),
-          "HEAD").absoluteURL(request()));
-      } else {
-        response().setHeader(LOCATION, routes.ResourceIndex.readDefault(resource.getId(), "HEAD")
-          .absoluteURL(request()));
-      }
-      if (request().accepts("text/html")) {
-        String pageTitle = ResourceBundle.getBundle("ui", getLocale())
-          .getString("ResourceIndex.upsertResource.created");
-        return created(render(pageTitle, "created.mustache", resource));
-      } else {
-        return created("Created " + resource.getId());
-      }
+      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", null)
+        .url());
+      return created(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     }
 
   }
@@ -336,7 +280,7 @@ public class ResourceIndex extends OERWorldMap {
       // Stage and validate each resource
       try {
         Resource staged = mBaseRepository.stage(resource);
-        ProcessingReport processingMessages = staged.validate();
+        ProcessingReport processingMessages = validate(staged);
         if (!processingMessages.isSuccess()) {
           Logger.debug(processingMessages.toString());
           Logger.debug(staged.toString());
@@ -353,198 +297,52 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     mBaseRepository.addResources(resources, getMetadata());
+    Cached.updateEtag();
 
     return ok("Added resources");
 
   }
 
-  public Result readDefault(String id, String version) throws IOException {
-    return read(id, version, null);
-  }
-
-
+  @With(Cached.class)
   public Result read(String id, String version, String extension) throws IOException {
-
-    Resource currentUser = getUser();
 
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
-    String type = resource.get(JsonLdConstants.TYPE).toString();
 
-    if (type.equals("Concept")) {
-      ResourceList relatedList = mBaseRepository.query("about.about.@id:\"".concat(id)
-          .concat("\" OR about.audience.@id:\"").concat(id).concat("\""), 0, 999, null, null);
-      resource.put("related", relatedList.getItems());
+    Set<String> alternates = MimeTypes.all().keySet();
+    if (!resource.getType().equals("Event")) {
+      alternates.remove("ics");
+    }
+    List<String> links = new ArrayList<>();
+    for (String alternate : alternates) {
+      String linkUrl = routes.ResourceIndex.read(id, version, alternate).url();
+      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
 
-    if (type.equals("ConceptScheme")) {
-      Resource conceptScheme = null;
-      String field = null;
-      if ("https://w3id.org/class/esc/scheme".equals(id)) {
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/esc.json"));
-        field = "about.about.@id";
-      } else if ("https://w3id.org/isced/1997/scheme".equals(id)) {
-        field = "about.audience.@id";
-        conceptScheme = Resource.fromJson(mEnv.classLoader().getResourceAsStream("public/json/isced-1997.json"));
-      }
-      if (!(null == conceptScheme)) {
-        AggregationBuilder conceptAggregation = AggregationBuilders.filter("services")
-            .filter(QueryBuilders.termQuery("about.@type", "Service"));
-        for (Resource topLevelConcept : conceptScheme.getAsList("hasTopConcept")) {
-          conceptAggregation.subAggregation(
-              AggregationProvider.getNestedConceptAggregation(topLevelConcept, field));
-        }
-        Resource nestedConceptAggregation = mBaseRepository.aggregate(conceptAggregation);
-        resource.put("aggregation", nestedConceptAggregation);
-        return ok(render("", "ResourceIndex/ConceptScheme/read.mustache", resource));
-      }
+    response().setHeader("Link", String.join(", ", links));
+    if (!StringUtils.isEmpty(extension)) {
+      response().setHeader("Content-Disposition", "attachment");
     }
 
-    List<Resource> comments = new ArrayList<>();
-    for (String commentId : resource.getIdList("comment")) {
-      comments.add(mBaseRepository.getResource(commentId));
-    }
+    String format = StringUtils.isEmpty(extension)
+      ? MimeTypes.fromRequest(request())
+      : MimeTypes.fromExtension(extension);
 
-    String likesQuery = String.format("about.@type: LikeAction AND about.object.@id:\"%s\"", resource.getId());
-    int likesCount = mBaseRepository.query(likesQuery, 0, 9999, null, null)
-      .getItems().size();
-
-    boolean userLikesResource = false;
-    if (currentUser != null) {
-      String userLikesQuery = String.format(
-        "about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
-        currentUser.getId(), resource.getId()
-      );
-      userLikesResource = mBaseRepository.query(userLikesQuery, 0, 1, null, null)
-        .getItems().size() > 0;
-    }
-
-    String lightHousesQuery = String.format("about.@type: LighthouseAction AND about.object.@id:\"%s\"", resource.getId());
-    List<Resource> lighthouses = mBaseRepository.query(lightHousesQuery, 0, 9999, null, null)
-      .getItems();
-
-    Resource userLighthouseResource = null;
-    boolean userLighthouseIsset = false;
-    if (currentUser != null) {
-      String userLighthouseQuery = String.format(
-        "about.@type: LighthouseAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
-        currentUser.getId(), resource.getId()
-      );
-      List<Resource> userLighthouseResources = mBaseRepository.query(userLighthouseQuery, 0, 1, null, null)
-        .getItems();
-      if (userLighthouseResources.size() > 0) {
-        userLighthouseResource = userLighthouseResources.get(0).getAsResource(Record.RESOURCE_KEY);
-        userLighthouseIsset = true;
-      }
-    }
-
-    if (userLighthouseResource == null) {
-      userLighthouseResource = new Resource("LighthouseAction");
-      userLighthouseResource.remove("@id");
-      userLighthouseResource.put("object", resource);
-      userLighthouseResource.put("agent", Collections.singletonList(getUser()));
-    }
-
-    String title;
-    try {
-      title = ((Resource) ((ArrayList<?>) resource.get("name")).get(0)).get("@value").toString();
-    } catch (NullPointerException e) {
-      title = id;
-    }
-
-    boolean mayEdit = (currentUser != null) && (!resource.getType().equals("LikeAction")) &&
-      ((resource.getType().equals("Person") && currentUser.getId().equals(id)) || (!resource.getType().equals("Person"))
-        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLog = (currentUser != null) && (mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin")
-        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("editor"));
-    boolean mayAdminister = (currentUser != null) && mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin");
-    boolean mayComment = (currentUser != null) && (!resource.getType().equals("Person"));
-    boolean mayDelete = (currentUser != null) && (resource.getType().equals("Person") && currentUser.getId().equals(id)
-        || mAccountService.getGroups(getHttpBasicAuthUser()).contains("admin"));
-    boolean mayLike = (currentUser != null) && !"Person".equals(resource.getType());
-    boolean likeable = !"Person".equals(resource.getType());
-
-    Map<String, Object> permissions = new HashMap<>();
-    permissions.put("edit", mayEdit);
-    permissions.put("log", mayLog);
-    permissions.put("administer", mayAdminister);
-    permissions.put("comment", mayComment);
-    permissions.put("delete", mayDelete);
-    permissions.put("like", mayLike);
-    permissions.put("likeable", likeable);
-
-    Map<String, String> alternates = new HashMap<>();
-    String baseUrl = mConf.getString("proxy.host");
-    alternates.put("JSON", baseUrl.concat(routes.ResourceIndex.read(id, version, "json").url()));
-    alternates.put("CSV", baseUrl.concat(routes.ResourceIndex.read(id, version, "csv").url()));
-    if (resource.getType().equals("Event")) {
-      alternates.put("iCal", baseUrl.concat(routes.ResourceIndex.read(id, version, "ics").url()));
-    }
-
-    List<Commit> history = mBaseRepository.log(id);
-    resource = new Record(resource);
-    resource.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
-    try {
-      resource.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
-    } catch (NullPointerException e) {
-      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
-    }
-    resource.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
-      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    try {
-      resource.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
-        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    } catch (NullPointerException e) {
-      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
-    }
-
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("resource", resource);
-    scope.put("comments", comments);
-    scope.put("likes", likesCount);
-    scope.put("userLikesResource", userLikesResource);
-    scope.put("lighthouses", lighthouses);
-    scope.put("userLighthouseResource", userLighthouseResource);
-    scope.put("userLighthouseIsset", userLighthouseIsset);
-    scope.put("permissions", permissions);
-    scope.put("alternates", alternates);
-
-    String format = null;
-    if (! StringUtils.isEmpty(extension)) {
-      switch (extension) {
-        case "html":
-          format = "text/html";
-          break;
-        case "json":
-          format = "application/json";
-          break;
-        case "csv":
-          format = "text/csv";
-          break;
-        case "ics":
-          format = "text/calendar";
-          break;
-      }
-    } else if (request().accepts("text/html")) {
-      format = "text/html";
-    } else if (request().accepts("text/csv")) {
-      format = "text/csv";
-    } else if (request().accepts("text/calendar")) {
-      format = "text/calendar";
-    } else {
-      format = "application/json";
-    }
+    resource = getRecord(resource);
 
     if (format == null) {
       return notFound("Not found");
-    } else if (format.equals("text/html")) {
-      return ok(render(title, "ResourceIndex/read.mustache", scope));
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
       return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
+    } else if (format.equals("application/geo+json")) {
+      String geoJson = mGeoJsonExporter.export(resource);
+      return geoJson != null ? ok(geoJson) : status(406);
+    } else if (format.equals("application/schema+json")) {
+      return ok(new JsonSchemaExporter().export(resource)).as("application/schema+json");
     } else if (format.equals("text/calendar")) {
       String ical = new CalendarExporter(Locale.ENGLISH).export(resource);
       if (ical != null) {
@@ -556,8 +354,30 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
+  private Record getRecord(Resource aResource) {
+    Record record = new Record(aResource);
+    List<Commit> history = mBaseRepository.log(aResource.getId());
+    record.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    try {
+      record.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+    } catch (NullPointerException e) {
+      Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
+    }
+    record.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    try {
+      record.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    } catch (NullPointerException e) {
+      Logger.trace("Could not read timestamp from commit " + history.get(history.size() - 1), e);
+    }
+    return record;
+  }
+
   public Result delete(String aId) throws IOException {
     Resource resource = mBaseRepository.deleteResource(aId, getMetadata());
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    Cached.updateEtag();
     if (null != resource) {
       // If deleting personal profile, also delete corresponding user
       if ("Person".equals(resource.getType())) {
@@ -571,26 +391,47 @@ public class ResourceIndex extends OERWorldMap {
         if (!mAccountService.deleteUser(username)) {
           Logger.error("Could not delete user " + username);
         }
-        return ok("deleted user " + aId);
+        result.put("message", "deleted user " + aId);
+        return ok(result);
       } else {
-        return ok("deleted resource " + aId);
+        result.put("message", "deleted resource " + aId);
+        return ok(result);
       }
     } else {
-      return badRequest("Failed to delete resource " + aId);
+      result.put("message", "Failed to delete resource " + aId);
+      return badRequest(result);
     }
   }
 
-  public Result log(String aId) {
+  public Result log(String aId, String compare, String to) throws IOException {
+    ArrayNode log = JsonNodeFactory.instance.arrayNode();
+    List<Commit> commits = mBaseRepository.log(aId);
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("commits", mBaseRepository.log(aId));
-    scope.put("resource", aId);
+    for (Commit commit : commits) {
+      ObjectNode entry = JsonNodeFactory.instance.objectNode();
+      entry.put("commit", commit.getId());
+      entry.put("author", commit.getHeader().getAuthor());
+      entry.put("date", commit.getHeader().getTimestamp().toString());
+      log.add(entry);
+    }
 
     if (StringUtils.isEmpty(aId)) {
-      return ok(mBaseRepository.log(aId).toString());
+      return ok(log);
     }
-    return ok(render("Log ".concat(aId), "ResourceIndex/log.mustache", scope));
 
+    String v1 = StringUtils.isEmpty(compare) ? log.get(0).get("commit").textValue() : compare;
+    String v2 = StringUtils.isEmpty(to) ? log.get(log.size() > 1 ? 1 : 0).get("commit").textValue() : to;
+    Resource r1 = getRecord(mBaseRepository.getResource(aId, v1));
+    Resource r2 = getRecord(mBaseRepository.getResource(aId, v2));
+    r1.put("version", v1);
+    r2.put("version", v2);
+
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.set("compare", r1.toJson());
+    result.set("to", r2.toJson());
+    result.set("log", log);
+
+    return ok(result);
   }
 
   public Result index(String aId) {
@@ -600,9 +441,8 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result commentResource(String aId) throws IOException {
 
-    ObjectNode jsonNode = (ObjectNode) JSONForm.parseFormData(request().body().asFormUrlEncoded());
-    jsonNode.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-    Resource comment = Resource.fromJson(jsonNode);
+    Resource comment = Resource.fromJson(getJsonFromRequest());
+    comment.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
 
     comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -618,49 +458,19 @@ public class ResourceIndex extends OERWorldMap {
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
 
-    return seeOther("/resource/" + aId);
+    Cached.updateEtag();
+
+    return created(comment.toJson());
 
   }
 
-  public Result likeResource(String aId) throws IOException {
-
-    Resource object = mBaseRepository.getResource(aId);
-    Resource agent = getUser();
-
-    if (object == null || agent == null) {
-      return badRequest("Object or agent missing");
-    }
-
-    String likesQuery = String.format("about.@type: LikeAction AND about.agent.@id:\"%s\" AND about.object.@id:\"%s\"",
-      agent.getId(), object.getId());
-
-    List<Resource> existingLikes = mBaseRepository.query(likesQuery, 0, 9999, null, null)
-      .getItems();
-
-    if (existingLikes.size() > 0) {
-      for (Resource like : existingLikes) {
-        mBaseRepository.deleteResource(like.getAsResource(Record.RESOURCE_KEY).getId(), getMetadata());
-      }
-    } else {
-      Resource likeAction = new Resource("LikeAction");
-      likeAction.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-      likeAction.put("agent", agent);
-      likeAction.put("object", object);
-      likeAction.put("startTime", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-      mBaseRepository.addResource(likeAction, getMetadata());
-    }
-
-    return seeOther("/resource/" + aId);
-
-  }
-
-  public Result feed() {
+  public Result feed() throws IOException {
 
     ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
 
-    return ok(render("OER World Map", "ResourceIndex/feed.mustache", scope));
+    return ok(mObjectMapper.writeValueAsString(scope));
 
   }
 

@@ -27,25 +27,6 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   //FIXME: Authorization is now done by external means, should we test this here and if so, how?
 
   @Test
-  public void createResourceFromFormUrlEncoded() {
-
-    Map<String, String> data = new HashMap<>();
-    data.put(JsonLdConstants.TYPE, "Organization");
-    data.put(JsonLdConstants.ID, "info:urn:uuid:" + UUID.randomUUID().toString());
-    data.put("email", "foo1@bar.com");
-    data.put("name[0][@value]", "Foo");
-    data.put("name[0][@language]", "en");
-    data.put("description[0][@value]", "Foo");
-    data.put("description[0][@language]", "en");
-    data.put("location[address][addressCountry]", "DE");
-    Result result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
-      .bodyForm(data));
-    assertEquals(201, result.status());
-
-  }
-
-
-  @Test
   public void createResourceFromJson() {
 
     Resource event = getResourceFromJsonFileUnsafe("ResourceIndexTest/testEvent.json");
@@ -86,11 +67,7 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
   }
 
   private String getAuthString() {
-    Configuration conf = new Configuration(ConfigFactory.parseFile(new File("conf/test.conf")).resolve());
-    String email = conf.getString("admin.user");
-    String pass = conf.getString("admin.pass");
-    String authString = email.concat(":").concat(pass);
-    return Base64.getEncoder().encodeToString(authString.getBytes());
+    return Base64.getEncoder().encodeToString("user:pass".getBytes());
   }
 
 }

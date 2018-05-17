@@ -14,6 +14,7 @@ import java.util.*;
 public class QueryContext {
 
   private Map<String, QueryBuilder> filters = new HashMap<>();
+  private String iso3166Scope;
   private Map<String, List<AggregationBuilder<?>>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
   private String[] fetchSource = new String[] {};
@@ -30,7 +31,7 @@ public class QueryContext {
 
     filters.put("concepts", concepts);
 
-    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name.@value");
+    QueryBuilder emptyNames = QueryBuilders.existsQuery("about.name");
     filters.put("emptyNames", emptyNames);
 
     if (roles != null) {
@@ -75,13 +76,14 @@ public class QueryContext {
 
     List<AggregationBuilder<?>> guestAggregations = new ArrayList<>();
     guestAggregations.add(AggregationProvider.getTypeAggregation(0));
-    guestAggregations.add(
-      filters.containsKey("iso3166")
-        ? AggregationProvider.getRegionAggregation(0)
-        : AggregationProvider.getByCountryAggregation(0)
-    );
+    if (filters.containsKey("iso3166")) {
+      guestAggregations.add(AggregationProvider.getRegionAggregation(0, iso3166Scope));
+      guestAggregations.add(AggregationProvider.getForCountryAggregation(iso3166Scope, 0));
+    } else {
+      guestAggregations.add(AggregationProvider.getByCountryAggregation(0));
+    }
     guestAggregations.add(AggregationProvider.getServiceLanguageAggregation(0));
-    guestAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    guestAggregations.add(AggregationProvider.getServiceByFieldOfEducationAggregation(0));
     guestAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
     guestAggregations.add(AggregationProvider.getKeywordsAggregation(0));
     guestAggregations.add(AggregationProvider.getLicenseAggregation(0));
@@ -184,6 +186,7 @@ public class QueryContext {
   }
 
   public void setIso3166Scope(String aISOCode) {
+    iso3166Scope = aISOCode;
     QueryBuilder iso3166 = QueryBuilders.boolQuery()
       .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));
     filters.put("iso3166", iso3166);
