@@ -2512,7 +2512,8 @@
           }
         },
         "rights": {
-          "description": "The licensed usage rights pertaining to the tool",
+          "title": "Product.rights",
+          "description": "descriptions.Product.rights",
           "type": "string",
           "enum": [ "floss", "proprietary" ]
         },
@@ -2581,6 +2582,8 @@
         },
         "award": {
           "type": "array",
+          "title": "Product.award",
+          "description": "descriptions.Product.award",
           "items": {
             "type": "string",
             "format": "uri"
