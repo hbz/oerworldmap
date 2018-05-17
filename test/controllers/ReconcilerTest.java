@@ -135,7 +135,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     }
   }
 
-  @Test
+  //@Test
   public void testSearchSpecialCaseCase()  throws IOException {
     Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCaseCase.DB.1.json");
     mReconciler.getBaseRepository().addResource(db1, mMetadata);
