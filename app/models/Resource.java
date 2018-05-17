@@ -4,13 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import helpers.FilesConfig;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
@@ -23,7 +19,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,19 +40,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
     "Comment", "Product", "LikeAction", "LighthouseAction"));
 
-  private static JsonNode mSchemaNode = null;
-
-  static {
-    try {
-      mSchemaNode = new ObjectMapper().readTree(Paths.get(FilesConfig.getSchema()).toFile());
-    } catch (IOException e) {
-      Logger.error("Could not read schema", e);
-    }
-  }
-
   /**
-   * Default constructor only for use with jackson Json mapper
-   *
+   *  Constructor for typeless resources
    */
   public Resource() {
     this(null);
@@ -159,31 +143,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
   }
 
-  public static Resource fromJson(InputStream aInputStream) throws IOException {
-    String json = IOUtils.toString(aInputStream, "UTF-8");
-    aInputStream.close();
-    return fromJson(json);
-  }
-
-  public ProcessingReport validate() {
-    ProcessingReport report = new ListProcessingReport();
-    try {
-      String type = this.getAsString(JsonLdConstants.TYPE);
-      if (null == type) {
-        report.error(new ProcessingMessage()
-            .setMessage("No type found for ".concat(this.toString()).concat(", cannot validate")));
-      } else if (null != mSchemaNode) {
-        JsonSchema schema = JsonSchemaFactory.byDefault().getJsonSchema(mSchemaNode, "/definitions/".concat(type));
-        report = schema.validate(toJson());
-      } else {
-        Logger.warn("No JSON schema present, validation disabled.");
-      }
-    } catch (ProcessingException e) {
-      e.printStackTrace();
-    }
-    return report;
-  }
-
   /**
    * Get a JsonNode representation of the resource.
    *
@@ -230,6 +189,11 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return (result == null) ? null : result.toString();
   }
 
+  public Boolean getAsBoolean(final Object aKey) {
+    Object result = get(aKey);
+    return (result != null) && ((boolean) result);
+  }
+
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
@@ -243,20 +207,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
       }
     }
     return list;
-  }
-
-  public List<String> getIdList(final Object aKey) {
-    List<String> ids = new ArrayList<>();
-    Object result = get(aKey);
-    if (null == result || !(result instanceof List<?>)) {
-      return ids;
-    }
-    for (Object value : (List<?>) result) {
-      if (value instanceof Resource) {
-        ids.add(((Resource) value).getAsString(JsonLdConstants.ID));
-      }
-    }
-    return ids;
   }
 
   public Resource getAsResource(final Object aKey) {
@@ -315,6 +265,48 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     for (Entry<String, Object> entry : aOther.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
+  }
+
+  public Resource reduce() {
+    return Resource.fromJson(reduce((ObjectNode) this.toJson()));
+  }
+
+  private JsonNode reduce(ObjectNode resource) {
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    Iterator<Map.Entry<String, JsonNode>> fields = resource.fields();
+    while (fields.hasNext()) {
+      Map.Entry<String, JsonNode> field = fields.next();
+      String key = field.getKey();
+      JsonNode value = field.getValue();
+      if (value.isObject() && value.has(JsonLdConstants.ID)) {
+        ObjectNode link = JsonNodeFactory.instance.objectNode();
+        link.set(JsonLdConstants.ID, value.get(JsonLdConstants.ID));
+        result.set(key, link);
+      } else if (value.isArray()) {
+        result.set(key, reduce((ArrayNode) value));
+      } else {
+        result.set(key, value);
+      }
+    }
+    return result;
+  }
+
+  private JsonNode reduce(ArrayNode arrayNode) {
+    ArrayNode result = JsonNodeFactory.instance.arrayNode();
+    for (JsonNode entry : arrayNode) {
+      if (entry.isObject() && entry.has(JsonLdConstants.ID)) {
+        ObjectNode link = JsonNodeFactory.instance.objectNode();
+        link.set(JsonLdConstants.ID, entry.get(JsonLdConstants.ID));
+        result.add(link);
+      } else if (entry.isObject()) {
+        result.add(reduce((ObjectNode) entry));
+      } else if (entry.isArray()) {
+        result.add(reduce((ArrayNode) entry));
+      } else {
+        result.add(entry);
+      }
+    }
+    return result;
   }
 
   @Override

@@ -53,11 +53,6 @@
         "en",
         "de"
       ]
-    },
-    {
-      "@type": "WebAPI",
-      "serviceUrl": "http://example.com/api",
-      "documentation": "http://example.com/apidoc"
     }
   ],
   "sameAs": [

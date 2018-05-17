@@ -1,10 +1,13 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import helpers.JSONForm;
 import helpers.JsonLdConstants;
-import helpers.UniversalFunctions;
 import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
@@ -41,11 +44,11 @@ import java.security.SecureRandom;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
@@ -64,87 +67,83 @@ public class UserIndex extends OERWorldMap {
       new File(mConf.getString("consents.history.file")));
   }
 
-  public Result signup() {
+  public Result register() throws IOException {
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("countries", UniversalFunctions.resourceBundleToMap(ResourceBundle
-      .getBundle("iso3166-1-alpha-2", getLocale())));
-    return ok(render("Registration", "UserIndex/register.mustache", scope));
+    Resource registration = Resource.fromJson(ctx().request().body().asJson());
 
-  }
-
-  public Result register() {
-
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
-    user.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-
-    String username = user.getAsString("email");
-    String password = user.getAsString("password");
-    String confirm = user.getAsString("password-confirm");
-
-    boolean privacyPolicyAccepted = user.getAsString("privacy-policy-accepted") != null;
-    boolean termsOfServiceAccepted = user.getAsString("terms-of-service-accepted") != null;
-    boolean emailToProfile = user.getAsString("add-email") != null;
-    boolean registerNewsletter = user.getAsString("register-newsletter") != null;
-
-    user.remove("password");
-    user.remove("password-confirm");
-    user.remove("privacy-policy-accepted");
-    user.remove("terms-of-service-accepted");
-    user.remove("add-email");
-    user.remove("register-newsletter");
-
-    ProcessingReport processingReport = user.validate();
-
-    Result result;
-
-    if (StringUtils.isEmpty(username)) {
-      result = badRequest("No email address provided.");
-    } else if (StringUtils.isEmpty(password)) {
-      result = badRequest("No password provided.");
-    } else if (!password.equals(confirm)) {
-      result = badRequest("Passwords must match.");
-    } else if (password.length() < 8) {
-      result = badRequest("Password must be at least 8 characters long.");
-    } else if (!privacyPolicyAccepted || !termsOfServiceAccepted) {
-      result = badRequest("Please accept our privacy policy and the terms of service.");
-    } else if (!processingReport.isSuccess()) {
-      result = badRequest(processingReport.toString());
-    } else {
-      String token = mAccountService.addUser(username, password);
-      if (token == null) {
-        result = badRequest("Failed to add " . concat(username));
-      } else {
-        user.put("add-email", emailToProfile);
-        try {
-          logConsents(username, request().remoteAddress());
-          saveProfile(token, user);
-        } catch (IOException e) {
-          Logger.error("Failed to create profile", e);
-          return badRequest("An error occurred");
-        }
-        File termsOfService = new File("public/pdf/Terms_of_Service.pdf");
-        String message;
-        try {
-          message = new String(getEmails().getString("account.verify.message")
-            .getBytes("ISO-8859-1"), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-          message = getEmails().getString("account.verify.message");
-        }
-        message = MessageFormat.format(message, mConf.getString("proxy.host")
-          .concat(routes.UserIndex.verify(token).url()));
-        sendMail(username, message, getEmails().getString("account.verify.subject"), new File[]{termsOfService});
-        Map<String, Object> scope = new HashMap<>();
-        scope.put("username", username);
-        scope.put("newsletter", registerNewsletter);
-        if (registerNewsletter && !registerNewsletter(username)) {
-          Logger.error("Error registering newsletter for " + username);
-        }
-        result = ok(render("Successfully registered", "UserIndex/registered.mustache", scope));
+    ProcessingReport processingReport = validate(registration);
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
       }
+      return badRequest(listProcessingReport.asJson());
     }
 
-    return result;
+    Resource user = new Resource("Person");
+    user.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
+    Resource name = new Resource();
+    user.put("email", registration.getAsString("email"));
+    name.put("@value", registration.getAsString("name"));
+    name.put("@language", "en");
+    user.put("name", Collections.singletonList(name));
+    Resource location = new Resource();
+    Resource address = new Resource();
+    address.put("addressCountry", registration.getAsString("location"));
+    location.put("address", address);
+    user.put("location", location);
+
+    processingReport = validate(user);
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
+      }
+      return badRequest(listProcessingReport.asJson());
+    }
+
+    user.put("add-email", registration.getAsBoolean("publishEmail"));
+
+    String username = registration.getAsString("email");
+    String password = registration.getAsString("password");
+    String token = mAccountService.addUser(username, password);
+
+    if (token == null) {
+      return badRequest("Failed to add " . concat(username));
+    }
+
+    try {
+      logConsents(username, request().remoteAddress());
+      saveProfile(token, user);
+    } catch (IOException e) {
+      Logger.error("Failed to create profile", e);
+      return badRequest("An error occurred");
+    }
+
+    File termsOfService = new File("public/pdf/Terms_of_Service.pdf");
+    String message;
+    try {
+      message = new String(getEmails().getString("account.verify.message")
+        .getBytes("ISO-8859-1"), "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      message = getEmails().getString("account.verify.message");
+    }
+    message = MessageFormat.format(message, mConf.getString("proxy.host")
+      .concat(routes.UserIndex.verify(token).url()));
+    sendMail(username, message, getEmails().getString("account.verify.subject"), new File[]{termsOfService});
+
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.put("username", username);
+    result.put("newsletter", registration.getAsBoolean("subscribeNewsletter"));
+    if (registration.getAsBoolean("subscribeNewsletter") && !registerNewsletter(username)) {
+      Logger.error("Error registering newsletter for " + username);
+    }
+
+    return ok(result);
 
   }
 
@@ -163,9 +162,9 @@ public class UserIndex extends OERWorldMap {
         String userId = mAccountService.getProfileId(username);
         scope.put("id", userId);
         String profileUrl = mConf.getString("proxy.host").concat(
-          routes.ResourceIndex.readDefault(userId, "HEAD").url());
+          routes.ResourceIndex.read(userId, "HEAD", null).url());
         scope.put("url", profileUrl);
-        result = ok(render("User verified", "UserIndex/verified.mustache", scope));
+        result = ok(mObjectMapper.writeValueAsString(scope));
       } else {
         result = badRequest("Invalid token ".concat(token));
       }
@@ -175,56 +174,75 @@ public class UserIndex extends OERWorldMap {
 
   }
 
-  public Result requestPassword() {
-    return ok(render("Reset Password", "UserIndex/password.mustache"));
-  }
+  public Result resetPassword() throws IOException {
 
-  public Result sendPassword() {
+    Resource passwordReset = Resource.fromJson(ctx().request().body().asJson());
 
-    Result result;
-
-    Resource user = Resource.fromJson(JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded()));
-
-    String username;
-    if (getHttpBasicAuthUser() != null) {
-      username = getHttpBasicAuthUser();
-      String password = user.getAsString("password");
-      String updated = user.getAsString("password-new");
-      String confirm = user.getAsString("password-confirm");
-      if (StringUtils.isEmpty(password) || StringUtils.isEmpty(updated) || StringUtils.isEmpty(confirm)) {
-        result = badRequest("Please fill out the form.");
-      } else if (!updated.equals(confirm)) {
-        result = badRequest("Passwords must match.");
-      } else if (password.length() < 8) {
-        result = badRequest("Password must be at least 8 characters long.");
-      } else if (!mAccountService.updatePassword(username, password, updated)) {
-        result = badRequest("Failed to update password for ".concat(username));
-      } else {
-        result = ok(render("Password changed", "UserIndex/passwordChanged.mustache"));
+    ProcessingReport processingReport = validate(passwordReset);
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
       }
-    } else {
-      username = user.getAsString("email");
-      if (StringUtils.isEmpty(username) || !mAccountService.userExists(username)) {
-        result = badRequest("No valid username provided.");
-      } else {
-        String password = new BigInteger(130, new SecureRandom()).toString(32);
-        if (mAccountService.setPassword(username, password)) {
-          sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
-              getEmails().getString("account.password.subject"), null);
-          result = ok(render("Password reset", "UserIndex/passwordReset.mustache"));
-        } else {
-          result = badRequest("Failed to reset password.");
-        }
-      }
+      return badRequest(listProcessingReport.asJson());
     }
 
-    return result;
+    String username = passwordReset.getAsString("email");
+
+    if (!mAccountService.userExists(username)) {
+      return badRequest("No valid username provided.");
+    }
+
+    String password = new BigInteger(130, new SecureRandom()).toString(32);
+    if (mAccountService.setPassword(username, password)) {
+      sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
+        getEmails().getString("account.password.subject"), null);
+      ObjectNode result = JsonNodeFactory.instance.objectNode();
+      result.put("username", username);
+      return ok(result);
+    } else {
+      return badRequest("Failed to reset password.");
+    }
 
   }
 
-  public Result newsletterSignup() {
+  public Result changePassword() throws IOException {
 
-    return ok(render("Registration", "UserIndex/newsletter.mustache"));
+    Resource passwordChange = Resource.fromJson(ctx().request().body().asJson());
+
+    ProcessingReport processingReport = validate(passwordChange);
+    if (!processingReport.isSuccess()) {
+      ListProcessingReport listProcessingReport = new ListProcessingReport();
+      try {
+        listProcessingReport.mergeWith(processingReport);
+      } catch (ProcessingException e) {
+        Logger.warn("Failed to create list processing report", e);
+      }
+      return badRequest(listProcessingReport.asJson());
+    }
+
+    String username = request().username();
+    String password = passwordChange.getAsString("password");
+    String updated = passwordChange.getAsString("password_new");
+    String confirm = passwordChange.getAsString("password_new_confirm");
+
+    if (!updated.equals(confirm)) {
+      return badRequest("Passwords must match.");
+    } else if (!mAccountService.updatePassword(username, password, updated)) {
+      return badRequest("Failed to update password for ".concat(username));
+    } else {
+      ObjectNode result = JsonNodeFactory.instance.objectNode();
+      result.put("username", username);
+      return ok(result);
+    }
+
+  }
+
+  public Result newsletterSignup() throws IOException {
+
+    return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
 
   }
 
@@ -247,42 +265,87 @@ public class UserIndex extends OERWorldMap {
       : internalServerError("Newsletter currently not available.");
   }
 
-  public Result editGroups() {
+  public Result editGroups() throws IOException {
 
-    Map<String, Map<String, Boolean>> groups = new HashMap<>();
-    for (String group : mAccountService.getGroups()) {
-      Map<String, Boolean> users = new HashMap<>();
-      for (String user: mAccountService.getUsers()) {
-        users.put(user, mAccountService.getUsers(group).contains(user));
+    List<String> usernames = mAccountService.getUsers();
+    ArrayNode users = JsonNodeFactory.instance.arrayNode();
+    for (String username : usernames) {
+      JsonNode user = profile(username);
+      if (user != null) {
+        users.add(user);
       }
-      groups.put(group, users);
     }
 
-    Map<String, Object> scope = new HashMap<>();
-    scope.put("groups", groups);
-    return ok(render("Edit Groups", "UserIndex/groups.mustache", scope));
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.set("groups", mObjectMapper.valueToTree(mAccountService.getGroups()));
+    result.set("users", users);
+
+    return ok(result);
 
   }
 
-  public Result setGroups() {
+  public Result profile() {
+
+    String username = request().username();
+
+    if (StringUtils.isEmpty(username)) {
+      return notFound();
+    }
+
+    JsonNode result = profile(username);
+    return result != null ? ok(result) : notFound();
+
+  }
+
+  private JsonNode profile(String aUsername) {
+
+    String id = mAccountService.getProfileId(aUsername);
+
+    if (id == null) {
+      Logger.warn("Stale username " + aUsername);
+      return null;
+    }
+
+    Resource profile = mBaseRepository.getResource(id);
+
+    if (profile == null) {
+      Logger.warn("No profile for " + id);
+      return null;
+    }
+
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.put("username", aUsername);
+    result.set("groups", mObjectMapper.valueToTree(mAccountService.getGroups(aUsername)));
+    result.put("id", profile.getId());
+    result.set("name", profile.toJson().get("name"));
+
+    return result;
+
+  }
+
+  public Result setGroups() throws IOException {
+    ObjectNode userGroups = (ObjectNode) ctx().request().body().asJson();
+
+    if (userGroups == null) {
+      return badRequest();
+    }
 
     Map<String, List<String>> groupUsers = new HashMap<>();
+    for (String groupName : mAccountService.getGroups()) {
+      groupUsers.put(groupName, new ArrayList<>());
+    }
 
-    if (ctx().request().body().asFormUrlEncoded() != null) {
-      JsonNode jsonNode = JSONForm.parseFormData(ctx().request().body().asFormUrlEncoded());
-      Iterator<String> groupNames = jsonNode.fieldNames();
-      while (groupNames.hasNext()) {
-        String group = groupNames.next();
-        List<String> users = StreamSupport.stream(
-          Spliterators.spliteratorUnknownSize(jsonNode.get(group).fieldNames(),
-            Spliterator.ORDERED), false).collect(
-          Collectors.<String>toList());
-        groupUsers.put(group, users);
+    Iterator<String> it = userGroups.fieldNames();
+    while (it.hasNext()) {
+      String user = it.next();
+      ArrayNode groups = (ArrayNode) userGroups.get(user);
+      for (final JsonNode group: groups) {
+        groupUsers.get(group.textValue()).add(user);
       }
     }
 
     if (mAccountService.setGroups(groupUsers)) {
-      return ok(render("Groups Updated", "UserIndex/groupsChanged.mustache"));
+      return editGroups();
     } else {
       return internalServerError("Failed to update groups");
     }

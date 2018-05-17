@@ -47,7 +47,7 @@ import java.util.Map;
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
   public static final String EXTENDED_DESCRIPTION =
-    "DESCRIBE <%1$s> ?o ?oo WHERE { <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo FILTER isBlank(?o)} }";
+    "DESCRIBE <%1$s> ?o ?oo WHERE { <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo } }";
 
   public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
@@ -189,7 +189,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
-    Model staged = getExtendedDescription(aResource.getId(), mDb);
+    Model staged = getConciseBoundedDescription(aResource.getId(), mDb);
     diff.apply(staged);
 
     // Select resources staged model is referencing and add them to staged
@@ -199,7 +199,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
         String linked = querySolution.get("o").toString();
-        Model referenced = getExtendedDescription(linked, mDb);
+        Model referenced = getConciseBoundedDescription(linked, mDb);
         StmtIterator it = referenced.listStatements();
         while (it.hasNext()) {
           Statement statement = it.next();
@@ -285,7 +285,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
 
-    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.toString().getBytes())) {
+    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.reduce().toString().getBytes())) {
       RDFDataMgr.read(incoming, byteArrayInputStream, Lang.JSONLD);
     } catch (IOException e) {
       throw new RuntimeIOException(e);

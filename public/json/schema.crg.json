@@ -1,0 +1,750 @@
+{
+  "@id": "#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/ContactPoint"
+    },
+    {
+      "$ref": "#/definitions/Organization"
+    },
+    {
+      "$ref": "#/definitions/Product"
+    },
+    {
+      "$ref": "#/definitions/CustomerRelationship"
+    },
+    {
+      "$ref": "#/definitions/Concept"
+    },
+    {
+      "$ref": "#/definitions/ConceptScheme"
+    }
+  ],
+  "definitions": {
+    "Link": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "A link to another entity",
+      "type": "object",
+      "remote": true,
+      "properties": {
+        "@id": {
+          "description": "The referenced entities unique identifier",
+          "type": "string",
+          "format": "uri"
+        },
+        "@type": {
+          "type": "string"
+        }
+      },
+      "required": ["@id", "@type"]
+    },
+    "ConceptScheme": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Concept Scheme",
+      "description": "A SKOS Concept Scheme",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The concept schemes's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "ConceptScheme"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "hasTopConcept": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] } } }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Concept": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Concept",
+      "description": "A SKOS Concept",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The concepts's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Concept"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "name": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "alternateName": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "scopeNote": {
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "inScheme": {
+          "$ref": "#/definitions/ConceptScheme"
+        },
+        "topConceptOf": {
+          "$ref": "#/definitions/ConceptScheme"
+        },
+        "narrower": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] } } }
+            ]
+          }
+        },
+        "broader": {
+          "allOf": [
+            { "$ref": "#/definitions/Link" },
+            { "properties": { "@type": { "enum": [ "Concept" ] } } }
+          ]
+        },
+        "notation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Product",
+      "description": "A hbz product, see https://www.hbz-nrw.de/produkte.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The product's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Product"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
+        },
+        "logo": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+        "required": [ "name" ],
+        "additionalProperties": false
+      },
+    "ContactPoint": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Contact Point",
+      "description": "A person or group that acts as contact point.",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The contact point's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "ContactPoint"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "givenName": {
+          "type": "string"
+        },
+        "honoricPrefix": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
+        },
+        "worksFor": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization" ] } } }
+            ]
+          }
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "telephone": {
+          "type": "string"
+        },
+        "faxNumber": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "jobTitle": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "required": [
+        "gender"
+      ],
+      "additionalProperties": false
+    },
+    "Organization": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Organization",
+      "description": "An institution that is customer or business partner of the hbz",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The organization's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Organization"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "fte": {
+          "type": "integer"
+        },
+        "location": {
+          "description": "The organization's address and geo data",
+          "$ref": "#/definitions/Place"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "provides": {
+          "type": "string",
+          "format": "uri"
+        },
+        "isil": {
+          "type": "string"
+        },
+        "dbsID": {
+          "type": "string"
+        },
+        "parentOrganization": {
+          "description": "The organization's superordinated organization",
+          "allOf": [
+            { "$ref": "#/definitions/Link" },
+            { "properties": { "@type": { "enum": [ "Organization" ] } } }
+          ]
+        },
+        "rs": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/PostalAddress"
+        },
+        "classification": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "http://purl.org/lobid/libtype"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "sameAs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "telephone": {
+          "type": "string"
+        },
+        "description": {
+          "description": "The description of the organization",
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "alternateName": {
+          "type": "string"
+        },
+        "sortName": {
+          "type": "string"
+        },
+        "logo": {
+          "type": "string",
+          "format": "uri"
+        },
+        "additionalType": {
+          "description": "An additional type for the Organization",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "description": "A comment about the Organization",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        }
+      },
+      "required": [ "name" ],
+      "additionalProperties": false
+    },
+    "CustomerRelationship": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Customer Relationship",
+      "description": "A relationship between the hbz and a customer",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The customer relationship's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "CustomerRelationship"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "contactPoint": {
+          "description": "A contact point",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "ContactPoint" ] } } }
+            ]
+          }
+        },
+        "businessPartner": {
+          "description": "The business partner of this customer relationship",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization"] } } }
+            ]
+          }
+        },
+        "customer": {
+          "description": "The customer of this customer relationship",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization" ] } } }
+            ]
+          }
+        },
+        "product": {
+          "description": "The product of this customer relationship",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Product" ] } } }
+            ]
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
+        },
+        "startDate": {
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "endDate": {
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "comment": {
+          "description": "A comment about the Event",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          }
+        }
+      },
+     "required": [ "customer", "product", "businessPartner" ],
+     "additionalProperties": false
+    },
+    "Place": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Place",
+      "description": "A location description consisting of an address and/or geo data",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The place's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Place"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "geo": {
+          "$ref": "#/definitions/GeoCoordinates"
+        },
+        "address": {
+          "$ref": "#/definitions/PostalAddress"
+        },
+        "openingHoursSpecification": {
+          "$ref": "#/definitions/OpeningHoursSpecification"
+        }
+      },
+      "required": [ "address" ],
+      "additionalProperties": false
+    },
+    "Country": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Country",
+      "description": "A country, represented by its ISO country code",
+      "type": "string",
+      "enum": [
+        "DE",
+        "AT",
+        "CH"
+      ]
+    },
+    "GeoCoordinates": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "GeoCoordinates",
+      "description": "A geographical coordinate",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The geo coordinates's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "lat": {
+          "type": "number"
+        },
+        "lon": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "lat",
+        "lon"
+      ],
+      "additionalProperties": false
+    },
+    "PostalAddress": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "PostalAddress",
+      "description": "An universal address description",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The geo addresses' unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "PostalAddress"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "streetAddress": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "postOfficeBoxNumber": {
+          "type": "string"
+        },
+        "addressLocality": {
+          "type": "string"
+        },
+        "addressRegion": {
+          "type": "string"
+        },
+        "addressCountry": {
+          "$ref": "#/definitions/Country"
+        }
+      },
+      "required": [ "addressCountry" ],
+      "additionalProperties": false
+    },
+    "OpeningHoursSpecification": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "OpeningHoursSpecification",
+      "description": "An opening hours specification",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The opening hours specification's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "OpeningHoursSpecification"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "comment": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "_display": {
+            "rows": 5
+          }
+        }
+      },
+      "required": [ "description" ],
+      "additionalProperties": false
+    },
+    "LocalizedString": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Localized string",
+      "description": "A language-tagged string",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@language": {
+            "type": "string"
+          },
+          "@value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@language",
+          "@value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "iso-8601-date": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "ISO 8601 Date",
+      "description": "A date in ISO 8601 format.",
+      "type": "string",
+      "pattern": "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$"
+    }
+  }
+}

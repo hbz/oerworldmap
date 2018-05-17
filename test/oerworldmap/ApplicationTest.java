@@ -15,8 +15,8 @@ public class ApplicationTest {
   @Test
   public void runningLandingPage() {
     running(testServer(3333, fakeApplication(inMemoryDatabase())), new HtmlUnitDriver(), browser -> {
-      browser.goTo("http://localhost:3333");
-      assertTrue(browser.pageSource().contains("Welcome to the OER World Map!"));
+      browser.goTo("http://localhost:3333/resource/");
+      assertTrue(browser.pageSource().length() > 1);
     });
   }
 

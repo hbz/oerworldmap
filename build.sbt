@@ -37,8 +37,6 @@ libraryDependencies ++= Seq(
   "org.python" % "jython-standalone" % "2.7.1b2"
 )
 
-PlayKeys.playRunHooks += Grunt(baseDirectory.value)
-
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Xmx3G"
 javaOptions in Test += "-Dlogback.configurationFile=conf/logback-test.xml"
