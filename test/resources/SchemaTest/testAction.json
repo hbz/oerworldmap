@@ -2,7 +2,12 @@
   "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
   "@type": "Action",
-  "additionalType": ["Repository development"],
+  "additionalType": [
+    {
+      "@id": "https://oerworldmap.org/assets/json/projects.json#program",
+      "@type": "Concept"
+    }
+  ],
   "email": "action@example.com",
   "agent": [
     {
