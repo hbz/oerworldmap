@@ -11,6 +11,7 @@ import models.Resource;
 import models.ResourceList;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -246,7 +247,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
     try {
       mConfig.getClient().index(request);
-    } catch (IOException e) {
+    } catch (IOException | ElasticsearchStatusException e) {
       Logger.error("Failed indexing data to Elasticsearch.", e);
     }
   }
@@ -391,7 +392,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
                                final String aSortOrder, final Map<String, List<String>> aFilters,
                                final QueryContext aQueryContext) throws IOException {
 
-    final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom).size(aSize);
+    final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom);
     processSortOrder(aSortOrder, aQueryString, sourceBuilder);
     final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
     processFilters(aFilters, globalAndFilter);
@@ -422,8 +423,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         nextHits = Arrays.asList(response.getHits().getHits());
         maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
       }
-    }
-    else {
+    } else {
+      sourceBuilder.size(aSize);
       response = mConfig.getClient().search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
       aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
