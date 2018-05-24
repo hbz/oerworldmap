@@ -177,17 +177,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
-    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, false);
+    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
 
   }
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
                             final Locale aPreferredLocale) {
-
+    aQuery = QueryParser.escape(aQuery);
+    aQuery = aQuery.replaceAll("([^ ]+)", "$1~");
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
 
-    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext, true);
+    ResourceList response = esQuery(aQuery, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
     Iterator<Resource> searchHits = response.getItems().iterator();
     ArrayNode resultItems = new ArrayNode(mJsonNodeFactory);
 
@@ -197,8 +198,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       String name = match.getNestedFieldValue("name.@value", aPreferredLocale);
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
       item.put("id", match.getId());
-      item.put("match", aQuery.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")
-        .equals(name.toLowerCase().replaceAll("[ ,\\.\\-_+]", "")));
+      item.put("match", !StringUtils.isEmpty(hit.getAsString("_score"))
+        && Double.parseDouble(hit.getAsString("_score")) == 1.0);
       item.put("name", name);
       item.put("score", hit.getAsString("_score"));
       ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
@@ -334,8 +335,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
 
   private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
-                                 final String aSortOrder, final Map<String, List<String>> aFilters,
-                                 final QueryContext aQueryContext, final boolean allowsTypos) {
+                               final String aSortOrder, final Map<String, List<String>> aFilters,
+                               final QueryContext aQueryContext) {
 
     SearchRequestBuilder searchRequestBuilder = mClient.prepareSearch(mConfig.getIndex());
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
@@ -347,29 +348,28 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
     FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
     final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
-    if (allowsTypos){
-      bqBuilder.should(fqBuilder);
-    }
-    else {
-      bqBuilder.must(fqBuilder);
-    }
+    bqBuilder.must(fqBuilder);
     searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(bqBuilder);
 
     List<SearchHit> searchHits = new ArrayList<>();
     SearchResponse response;
     Resource aAggregations;
+    Float maxScore = 0.0f;
     if (aSize == -1) {
       response = searchRequestBuilder.setScroll(new TimeValue(60000)).setSize(100).execute().actionGet();
+      maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
       aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
         searchHits.addAll(nextHits);
         response = mClient.prepareSearchScroll(response.getScrollId()).setScroll(new TimeValue(60000)).execute()
           .actionGet();
+        maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
         nextHits = Arrays.asList(response.getHits().getHits());
       }
     } else {
       response = searchRequestBuilder.setFrom(aFrom).setSize(aSize).execute().actionGet();
+      maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
       aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
     }
@@ -377,7 +377,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     List<Resource> resources = new ArrayList<>();
     for (SearchHit hit: searchHits) {
       Resource resource = Resource.fromMap(hit.sourceAsMap());
-      resource.put("_score", hit.getScore());
+      if (!Float.isNaN(hit.getScore())) {
+        // Convert ES scoring to score between 0 an 1
+        resource.put("_score", hit.getScore() / maxScore);
+      }
       resources.add(resource);
     }
 

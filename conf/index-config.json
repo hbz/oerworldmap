@@ -2219,6 +2219,59 @@
               "type": "string",
               "analyzer": "keywords_analyzer"
             },
+            "additionalType": {
+              "properties": {
+                "@id": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "@type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "sort": {
+                          "ignore_above": 20,
+                          "type": "string",
+                          "analyzer": "german_phonebook"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "string",
+                          "analyzer": "english_analyzer"
+                        },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "string",
+                          "analyzer": "german_analyzer"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "string",
+                          "analyzer": "title_analyzer"
+                        },
+                        "@value": {
+                          "type": "string"
+                        },
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "string",
+                          "analyzer": "simple"
+                        }
+                      },
+                      "type": "multi_field"
+                    },
+                    "@language": {
+                      "index": "not_analyzed",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
             "hasTopConcept": {
               "properties": {
                 "image": {
