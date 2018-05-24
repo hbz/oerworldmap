@@ -30,7 +30,6 @@ def process_index(index):
 def process_mapping(mapping):
     for properties in mapping:
         mapping[properties]['properties'] = process_properties(mapping[properties]['properties'], False)
-        mapping[properties]['transform'] = transform()
     return mapping
 
 
@@ -138,31 +137,6 @@ def set_country_name():
                 "search_analyzer": "country_synonyms_analyzer"
             }
         }
-    }
-
-def transform():
-    return {
-        "script": """
-            if (!ctx._source['about']['location']) {
-
-                ctx._source['about']['location'] = [];
-
-                if (ctx._source['about']['provider'] && ctx._source['about']['provider']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['provider']['location'];
-
-                if (ctx._source['about']['agent'] && ctx._source['about']['agent']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['agent']['location'];
-
-                if (ctx._source['about']['participant'] && ctx._source['about']['participant']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['participant']['location'];
-
-                if (ctx._source['about']['member'] && ctx._source['about']['member']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['member']['location'];
-
-                if (ctx._source['about']['mentions'] && ctx._source['about']['mentions']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['mentions']['location'];
-            };
-        """
     }
 
 def settings():
