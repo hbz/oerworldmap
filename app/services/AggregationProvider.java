@@ -21,19 +21,27 @@ import java.util.List;
  */
 public class AggregationProvider {
 
+  private static int getSize(int aSize) {
+    return aSize == 0 ? Integer.MAX_VALUE : aSize;
+  }
+
   public static AggregationBuilder getTypeAggregation(int aSize) {
-    return AggregationBuilders.terms("about.@type").size(aSize).field("about.@type").minDocCount(0)
+    return AggregationBuilders.terms("about.@type").size(getSize(aSize)).field("about.@type").minDocCount(0)
       .includeExclude(new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction"))
       .order(BucketOrder.key(false));
   }
 
   public static AggregationBuilder getServiceLanguageAggregation(int aSize) {
-    return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(aSize)
+    return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(getSize(aSize))
         .field("about.availableChannel.availableLanguage");
   }
 
+  public static AggregationBuilder getServiceByFieldOfEducationAggregation(int aSize) {
+    return AggregationBuilders.terms("about.about.@id").size(getSize(aSize)).field("about.about.@id");
+  }
+
   public static AggregationBuilder getServiceByFieldOfEducationAggregation(List<String> anIdList, int aSize) {
-    return AggregationBuilders.terms("about.about.@id").size(aSize)
+    return AggregationBuilders.terms("about.about.@id").size(getSize(aSize))
         .field("about.about.@id").includeExclude(new IncludeExclude(StringUtils.join(anIdList, '|'), null));
   }
 
@@ -55,19 +63,20 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder getServiceByGradeLevelAggregation(int aSize) {
-    return AggregationBuilders.terms("about.audience.@id").size(aSize)
+    return AggregationBuilders.terms("about.audience.@id").size(getSize(aSize))
         .field("about.audience.@id");
   }
 
   public static AggregationBuilder getKeywordsAggregation(int aSize) {
-    return AggregationBuilders.terms("about.keywords").size(aSize)
+    return AggregationBuilders.terms("about.keywords").size(getSize(aSize))
       .field("about.keywords");
   }
 
 
   public static AggregationBuilder getByCountryAggregation(int aSize) {
     return AggregationBuilders
-        .terms("feature.properties.location.address.addressCountry").field("feature.properties.location.address.addressCountry").size(aSize)
+        .terms("feature.properties.location.address.addressCountry")
+        .field("feature.properties.location.address.addressCountry").size(getSize(aSize))
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
           .filter("champions", QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
@@ -77,10 +86,10 @@ public class AggregationProvider {
   public static AggregationBuilder getForCountryAggregation(String aId, int aSize) {
     return AggregationBuilders.global("country").subAggregation(
       AggregationBuilders
-        .terms("about.location.address.addressCountry")
-        .field("about.location.address.addressCountry")
+        .terms("feature.properties.location.address.addressCountry")
+        .field("feature.properties.location.address.addressCountry")
         .includeExclude(new IncludeExclude(aId, null))
-        .size(aSize)
+        .size(getSize(aSize))
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
           .includeExclude(new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
         .subAggregation(AggregationBuilders
@@ -94,19 +103,19 @@ public class AggregationProvider {
 
 
   public static AggregationBuilder getLicenseAggregation(int aSize) {
-    return AggregationBuilders.terms("about.license.@id").size(aSize)
+    return AggregationBuilders.terms("about.license.@id").size(getSize(aSize))
       .field("about.license.@id");
   }
 
 
   public static AggregationBuilder getProjectByLocationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.agent.location.address.addressCountry").size(aSize)
+    return AggregationBuilders.terms("about.agent.location.address.addressCountry").size(getSize(aSize))
       .field("about.agent.location.address.addressCountry");
   }
 
 
   public static AggregationBuilder getFunderAggregation(int aSize) {
-    return AggregationBuilders.terms("about.isFundedBy.isAwardedBy.@id").size(aSize)
+    return AggregationBuilders.terms("about.isFundedBy.isAwardedBy.@id").size(getSize(aSize))
       .field("about.isFundedBy.isAwardedBy.@id");
   }
 
@@ -128,26 +137,26 @@ public class AggregationProvider {
     return AggregationBuilders.terms("feature.properties.location.address.addressRegion")
       .field("feature.properties.location.address.addressRegion")
       .includeExclude(new IncludeExclude(aIso3166Scope + "\\....?", null))
-      .size(aSize);
+      .size(getSize(aSize));
   }
 
   public static AggregationBuilder getLikeAggregation(int aSize) {
-    return AggregationBuilders.terms("about.object.@id").size(aSize)
+    return AggregationBuilders.terms("about.object.@id").size(getSize(aSize))
       .field("about.object.@id");
   }
 
   public static AggregationBuilder getPrimarySectorsAggregation(int aSize) {
-    return AggregationBuilders.terms("about.primarySector.@id").size(aSize)
+    return AggregationBuilders.terms("about.primarySector.@id").size(getSize(aSize))
       .field("about.primarySector.@id");
   }
 
   public static AggregationBuilder getSecondarySectorsAggregation(int aSize) {
-    return AggregationBuilders.terms("about.secondarySector.@id").size(aSize)
+    return AggregationBuilders.terms("about.secondarySector.@id").size(getSize(aSize))
       .field("about.secondarySector.@id");
   }
 
   public static AggregationBuilder getAwardAggregation(int aSize) {
-    return AggregationBuilders.terms("about.award").size(aSize)
+    return AggregationBuilders.terms("about.award").size(getSize(aSize))
       .field("about.award");
   }
 
