@@ -4530,31 +4530,27 @@
                       "properties": {
                         "addressCountry": {
                           "fields": {
-                            "addressCountry": {
-                              "index": "not_analyzed",
-                              "type": "string"
-                            },
                             "name": {
                               "search_analyzer": "country_synonyms_analyzer",
-                              "type": "string",
+                              "type": "text",
                               "analyzer": "country_synonyms_analyzer"
                             }
                           },
-                          "type": "multi_field"
+                          "type": "keyword"
                         },
                         "addressLocality": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "streetAddress": {
-                          "type": "string"
+                          "type": "text"
                         },
                         "postalCode": {
-                          "index": "not_analyzed",
-                          "type": "string"
+                          "index": "true",
+                          "type": "keyword"
                         },
                         "addressRegion": {
-                          "index": "not_analyzed",
-                          "type": "string"
+                          "index": "true",
+                          "type": "keyword"
                         }
                       }
                     }
@@ -4571,7 +4567,7 @@
     }
   },
   "settings": {
-    "index.mapping.total_fields.limit": 2000,
+    "index.mapping.total_fields.limit": 10000,
     "analysis": {
       "filter": {
         "stem_german": {
