@@ -26,15 +26,6 @@ public class AggregationProvider {
         .exclude("Concept|ConceptScheme|Comment|LikeAction|LighthouseAction").order(Terms.Order.term(false));
   }
 
-  public static AggregationBuilder<?> getLocationAggregation(int aSize) {
-    return AggregationBuilders.geohashGrid("about.location.geo").field("about.location.geo").precision(3).size(aSize)
-      .subAggregation(AggregationBuilders.geoCentroid("pin").field("about.location.geo"))
-      .subAggregation(AggregationBuilders.geoBounds("bounds"))
-      .subAggregation(AggregationBuilders.topHits("resources")
-        .setFetchSource(new String[]{"about.name", "about.@id", "about.@type"}, null))
-      .subAggregation(AggregationBuilders.terms("types").field("about.@type"));
-  }
-
   public static AggregationBuilder<?> getServiceLanguageAggregation(int aSize) {
     return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(aSize)
         .field("about.availableChannel.availableLanguage");
@@ -79,7 +70,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder<?> getByCountryAggregation(int aSize) {
     return AggregationBuilders
-        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").size(aSize)
+        .terms("feature.properties.location.address.addressCountry").field("feature.properties.location.address.addressCountry").size(aSize)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
         .subAggregation(AggregationBuilders
           .filter("champions")
@@ -89,7 +80,7 @@ public class AggregationProvider {
   public static AggregationBuilder<?> getForCountryAggregation(String aId, int aSize) {
     return AggregationBuilders.global("country").subAggregation(
       AggregationBuilders
-        .terms("about.location.address.addressCountry").field("about.location.address.addressCountry").include(
+        .terms("feature.properties.location.address.addressCountry").field("feature.properties.location.address.addressCountry").include(
         aId)
         .size(aSize)
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
@@ -127,15 +118,15 @@ public class AggregationProvider {
         .field("about.startDate")
         .interval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
             .setFetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
-              "about.location"}, null)
+              "feature.properties.location"}, null)
           .addSort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
           .setSize(Integer.MAX_VALUE)
       ).order(Histogram.Order.KEY_DESC).minDocCount(1);
   }
 
   public static AggregationBuilder<?> getRegionAggregation(int aSize, String iso3166Scope) {
-    return AggregationBuilders.terms("about.location.address.addressRegion")
-      .field("about.location.address.addressRegion")
+    return AggregationBuilders.terms("feature.properties.location.address.addressRegion")
+      .field("feature.properties.location.address.addressRegion")
       .include(iso3166Scope + "\\....?")
       .size(aSize);
   }
