@@ -4516,6 +4516,56 @@
         },
         "link_count": {
           "type": "integer"
+        },
+        "feature": {
+          "properties": {
+            "properties": {
+              "properties": {
+                "location": {
+                  "properties": {
+                    "geo": {
+                      "type": "geo_point"
+                    },
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "addressCountry": {
+                              "index": "not_analyzed",
+                              "type": "string"
+                            },
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "string",
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "multi_field"
+                        },
+                        "addressLocality": {
+                          "type": "string"
+                        },
+                        "streetAddress": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        },
+                        "addressRegion": {
+                          "index": "not_analyzed",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "geometry": {
+              "type": "geo_shape"
+            }
+          }
         }
       }
     }

@@ -67,11 +67,10 @@ public class AggregationProvider {
 
   public static AggregationBuilder getByCountryAggregation(int aSize) {
     return AggregationBuilders
-      .terms("about.location.address.addressCountry")
-      .field("about.location.address.addressCountry").size(aSize)
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
-      .subAggregation(AggregationBuilders
-        .filter("champions", QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+        .terms("feature.properties.location.address.addressCountry").field("feature.properties.location.address.addressCountry").size(aSize)
+        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
+        .subAggregation(AggregationBuilders
+          .filter("champions", QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
 
@@ -91,16 +90,6 @@ public class AggregationProvider {
           .filter("reports", QueryBuilders.matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
           .subAggregation(AggregationBuilders.topHits("country_reports")))
     );
-  }
-
-
-  public static AggregationBuilder getNestedConceptAggregation(Resource aConcept, String aField) {
-    String id = aConcept.getAsString(JsonLdConstants.ID);
-    AggregationBuilder conceptAggregation = AggregationBuilders.filter(id, QueryBuilders.termQuery(aField, id));
-    for (Resource aNarrowerConcept : aConcept.getAsList("narrower")) {
-      conceptAggregation.subAggregation(getNestedConceptAggregation(aNarrowerConcept, aField));
-    }
-    return conceptAggregation;
   }
 
 
@@ -136,12 +125,11 @@ public class AggregationProvider {
 
 
   public static AggregationBuilder getRegionAggregation(int aSize, String aIso3166Scope) {
-    return AggregationBuilders.terms("about.location.address.addressRegion")
-      .field("about.location.address.addressRegion")
-      .includeExclude(new IncludeExclude("..\\....?", null))
+    return AggregationBuilders.terms("feature.properties.location.address.addressRegion")
+      .field("feature.properties.location.address.addressRegion")
+      .includeExclude(new IncludeExclude(aIso3166Scope + "\\....?", null))
       .size(aSize);
   }
-
 
   public static AggregationBuilder getLikeAggregation(int aSize) {
     return AggregationBuilders.terms("about.object.@id").size(aSize)
