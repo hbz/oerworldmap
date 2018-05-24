@@ -3,8 +3,8 @@ ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/use
 <Location />
   AuthType Basic
   AuthName "Restricted Files"
-  AuthUserFile /usr/local/oer/src/oerworldmap.9006/conf/htpasswd
-  AuthGroupFile /usr/local/oer/src/oerworldmap.9006/conf/htgroups
+  AuthUserFile ${AUTH_DIR}/auth/htpasswd
+  AuthGroupFile ${AUTH_DIR}/auth/htgroups
   Require all granted
 </Location>
 

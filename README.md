@@ -75,14 +75,25 @@ Edit `sudo visudo` and add permission to the user
 
     username  ALL = NOPASSWD: /usr/sbin/apache2ctl
 
-Modify the path in `conf/auth.conf`
+Configure variables for `conf/vhost.conf`
 
-    Include /home/username/oerworldmap/data/permissions/
+    Define PUBLIC_HOST oerworldmap.localhost
+    Define PUBLIC_PORT 80
+    Define PUBLIC_EMAIL webmaster@oerworldmap.localhost
+    Define AUTH_DIR /home/fo/local/src/oerworldmap/data
+    Define API_HOST http://localhost:9000
+    Define UI_HOST http://localhost:3000
+    Define KIBANA_HOST http://localhost:5601
+    Define PAGES_HOST http://localhost:4000
+    #Define SSL_CIPHER_SUITE
+    #Define SSL_CERT_FILE
+    #Define SSL_CERT_KEY_FILE
+    #Define SSL_CERT_CHAIN_FILE
 
-Enalbe the site
+Enable the site
 
-    $ sudo ln -s /home/username/oerworldmap/conf/auth.conf /etc/apache2/sites-available/
-    $ sudo a2ensite auth.conf
+    $ sudo ln -s /home/username/oerworldmap/conf/vhost.conf /etc/apache2/sites-available/oerworldmap.conf
+    $ sudo a2ensite oerworldmap.conf
     $ sudo apache2ctl graceful
 
 
