@@ -27,6 +27,9 @@
       "$ref": "#/definitions/Event"
     },
     {
+      "$ref": "#/definitions/Product"
+    },
+    {
       "$ref": "#/definitions/WebPage"
     },
     {
@@ -2586,6 +2589,12 @@
             ]
           }
         },
+        "rights": {
+          "title": "Product.rights",
+          "description": "descriptions.Product.rights",
+          "type": "string",
+          "enum": [ "floss", "proprietary" ]
+        },
         "keywords": {
           "title": "Product.keywords",
           "description": "descriptions.Product.keywords",
@@ -2651,6 +2660,8 @@
         },
         "award": {
           "type": "array",
+          "title": "Product.award",
+          "description": "descriptions.Product.award",
           "items": {
             "type": "string",
             "format": "uri"
