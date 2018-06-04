@@ -2666,6 +2666,20 @@
             "type": "string",
             "format": "uri"
           }
+        },
+        "objectIn": {
+          "title": "Product.objectIn",
+          "description": "descriptions.Product.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
         }
       },
       "required": [ "name" ],
