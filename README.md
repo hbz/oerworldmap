@@ -61,7 +61,7 @@ in `conf/application.conf` before restarting.
 #### Set up Apache
 
     $ sudo apt-get install apache2
-    $ sudo a2enmod proxy proxy_html proxy_http rewrite  auth_basic authz_groupfile
+    $ sudo a2enmod proxy proxy_html proxy_http rewrite  auth_basic authz_groupfile ssl
 
     $ mkdir data/auth
     $ cd data/auth
