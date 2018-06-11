@@ -88,6 +88,7 @@ public class Sparql extends OERWorldMap  {
     Commit commit = new TripleCommit(header, diff);
 
     mBaseRepository.commit(commit);
+    mBaseRepository.index(commit.getDiff());
 
     return ok(commit.toString());
 
