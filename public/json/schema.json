@@ -506,6 +506,7 @@
           "title": "Article.primarySector",
           "description": "descriptions.Article.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -948,6 +949,7 @@
           "title": "Action.primarySector",
           "description": "descriptions.Action.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1401,6 +1403,7 @@
           "title": "Service.primarySector",
           "description": "descriptions.Service.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1757,6 +1760,7 @@
           "title": "Person.primarySector",
           "description": "descriptions.Person.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2138,6 +2142,7 @@
           "title": "Organization.primarySector",
           "description": "descriptions.Organization.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2449,6 +2454,7 @@
           "title": "Event.primarySector",
           "description": "descriptions.Event.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2634,6 +2640,7 @@
           "title": "Product.primarySector",
           "description": "descriptions.Product.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
