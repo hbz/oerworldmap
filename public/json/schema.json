@@ -1817,6 +1817,18 @@
           "_display": {
             "className": "hidden"
           }
+        },
+        "award": {
+          "title": "Person.award",
+          "description": "descriptions.Person.award",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "_display": {
+            "className": "admin only"
+          }
         }
       },
       "required": [
