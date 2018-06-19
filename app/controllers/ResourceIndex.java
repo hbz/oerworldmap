@@ -31,6 +31,8 @@ import services.export.JsonSchemaExporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -474,9 +476,9 @@ public class ResourceIndex extends OERWorldMap {
 
   }
 
-  public Result label(String aId) {
+  public Result label(String aId) throws UnsupportedEncodingException {
 
-    return ok(mBaseRepository.label(aId));
+    return ok(mBaseRepository.label(URLDecoder.decode(aId, "UTF-8")));
 
   }
 
