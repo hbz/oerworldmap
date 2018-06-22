@@ -72,7 +72,6 @@ def process_properties(properties, is_name_branch):
 def set_not_analyzed():
     return {
         'type': 'keyword',
-        'index': 'true'
     }
 
 def set_keywords_normalizer():
@@ -100,7 +99,6 @@ def set_geo_shape():
 def set_ngram(variations_search_analyzer):
     return {
         "type": "text",
-        "index": "true",
         "fields": {
             "variations": {
                 "type": "text",
@@ -113,8 +111,7 @@ def set_ngram(variations_search_analyzer):
                 "search_analyzer": "standard"
             },
             "sort": {
-                "type": "text",
-                "analyzer": "german_phonebook"
+                "type": "keyword"
             },
             "de": {
                 "analyzer": "german_analyzer",
@@ -141,7 +138,8 @@ def set_country_name():
             "name": {
                 "type": "text",
                 "analyzer": "country_synonyms_analyzer",
-                "search_analyzer": "country_synonyms_analyzer"
+                "search_analyzer": "country_synonyms_analyzer",
+                "fielddata": True
             }
         }
     }
@@ -150,7 +148,7 @@ def settings():
     with open(sys.path[0] + '/country_synonyms.txt', 'r') as f:
         country_list = f.read().splitlines()
     return {
-        "index.mapping.total_fields.limit": 2000,
+        "index.mapping.total_fields.limit": 5000,
         "analysis": {
             "filter": {
                 "title_filter": {
