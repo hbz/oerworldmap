@@ -41,14 +41,18 @@ def process_properties(properties, is_name_branch):
     name = ['name']
     keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
-    geo = ['geo']
+    geo_point = ['geo']
+    geo_shape = ['geometry']
+
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed()
         elif property in date_time:
             properties[property] = set_date_time()
-        elif property in geo:
+        elif property in geo_point:
             properties[property] = set_geo_point()
+        elif property in geo_shape:
+            properties[property] = set_geo_shape()
         elif property in ngrams:
             if is_name_branch:
                 properties[property] = set_ngram("title_analyzer")
@@ -86,6 +90,11 @@ def set_date_time():
 def set_geo_point():
     return {
         "type": "geo_point"
+    }
+
+def set_geo_shape():
+    return {
+        "type": "geo_shape"
     }
 
 def set_ngram(variations_search_analyzer):
