@@ -56,8 +56,8 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result list(String q, int from, int size, String sort, boolean features, String extension, String iso3166)
-      throws IOException {
+  public Result list(String q, int from, int size, String sort, boolean features, String extension, String iso3166,
+                     String disposition) throws IOException {
 
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
@@ -68,9 +68,7 @@ public class ResourceIndex extends OERWorldMap {
       if (! Arrays.asList(Locale.getISOCountries()).contains(iso3166.toUpperCase())) {
         return notFound("Not found");
       }
-
       queryContext.setIso3166Scope(iso3166.toUpperCase());
-
     }
 
     // Extract filters directly from query params
@@ -119,14 +117,14 @@ public class ResourceIndex extends OERWorldMap {
     }
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
-      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate, iso3166)
-        .url().concat(filterString));
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate,
+        iso3166, disposition).url().concat(filterString));
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
 
     response().setHeader("Link", String.join(", ", links));
     if (!StringUtils.isEmpty(extension)) {
-      response().setHeader("Content-Disposition", "attachment");
+      response().setHeader("Content-Disposition", "inline".equals(disposition) ? "inline": "attachment");
     }
 
     String format = StringUtils.isEmpty(extension)
@@ -253,7 +251,7 @@ public class ResourceIndex extends OERWorldMap {
     if (isUpdate) {
       return ok(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     } else {
-      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", null)
+      response().setHeader(LOCATION, routes.ResourceIndex.read(resource.getId(), "HEAD", null, null)
         .url());
       return created(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     }
@@ -304,7 +302,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result read(String id, String version, String extension) throws IOException {
+  public Result read(String id, String version, String extension, String disposition) throws IOException {
 
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
@@ -317,13 +315,13 @@ public class ResourceIndex extends OERWorldMap {
     }
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
-      String linkUrl = routes.ResourceIndex.read(id, version, alternate).url();
+      String linkUrl = routes.ResourceIndex.read(id, version, alternate, disposition).url();
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
     }
 
     response().setHeader("Link", String.join(", ", links));
     if (!StringUtils.isEmpty(extension)) {
-      response().setHeader("Content-Disposition", "attachment");
+      response().setHeader("Content-Disposition", "inline".equals(disposition) ? "inline" : "attachment");
     }
 
     String format = StringUtils.isEmpty(extension)

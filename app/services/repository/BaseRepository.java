@@ -188,7 +188,7 @@ public class BaseRepository extends Repository
 
   public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
                             Map<String, List<String>> aFilters, QueryContext aQueryContext,
-                            final Locale aPreferredLocale) {
+                            final Locale aPreferredLocale) throws IOException {
     return mElasticsearchRepo
       .reconcile(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext, aPreferredLocale);
   }
@@ -208,16 +208,16 @@ public class BaseRepository extends Repository
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder) throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) throws IOException {
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder<?> aAggregationBuilder, QueryContext aQueryContext)
+  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder, QueryContext aQueryContext)
       throws IOException {
     return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder<?>> aAggregationBuilders, QueryContext aQueryContext)
+  public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders, QueryContext aQueryContext)
       throws IOException {
     return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
   }
@@ -287,7 +287,7 @@ public class BaseRepository extends Repository
 
   }
 
-  private void index(Commit.Diff aDiff) {
+  public void index(Commit.Diff aDiff) {
 
     if (mAsyncIndexing) {
       mIndexQueue.tell(aDiff, mIndexQueue);

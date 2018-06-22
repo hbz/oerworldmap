@@ -27,6 +27,9 @@
       "$ref": "#/definitions/Event"
     },
     {
+      "$ref": "#/definitions/Product"
+    },
+    {
       "$ref": "#/definitions/WebPage"
     },
     {
@@ -503,6 +506,7 @@
           "title": "Article.primarySector",
           "description": "descriptions.Article.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -945,6 +949,7 @@
           "title": "Action.primarySector",
           "description": "descriptions.Action.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1398,6 +1403,7 @@
           "title": "Service.primarySector",
           "description": "descriptions.Service.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1754,6 +1760,7 @@
           "title": "Person.primarySector",
           "description": "descriptions.Person.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1813,6 +1820,18 @@
           },
           "_display": {
             "className": "hidden"
+          }
+        },
+        "award": {
+          "title": "Person.award",
+          "description": "descriptions.Person.award",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "_display": {
+            "className": "admin only"
           }
         }
       },
@@ -2123,6 +2142,7 @@
           "title": "Organization.primarySector",
           "description": "descriptions.Organization.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2434,6 +2454,7 @@
           "title": "Event.primarySector",
           "description": "descriptions.Event.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2586,6 +2607,12 @@
             ]
           }
         },
+        "rights": {
+          "title": "Product.rights",
+          "description": "descriptions.Product.rights",
+          "type": "string",
+          "enum": [ "floss", "proprietary" ]
+        },
         "keywords": {
           "title": "Product.keywords",
           "description": "descriptions.Product.keywords",
@@ -2613,6 +2640,7 @@
           "title": "Product.primarySector",
           "description": "descriptions.Product.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2651,9 +2679,25 @@
         },
         "award": {
           "type": "array",
+          "title": "Product.award",
+          "description": "descriptions.Product.award",
           "items": {
             "type": "string",
             "format": "uri"
+          }
+        },
+        "objectIn": {
+          "title": "Product.objectIn",
+          "description": "descriptions.Product.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
           }
         }
       },
