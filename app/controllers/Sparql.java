@@ -16,6 +16,46 @@ import java.time.ZonedDateTime;
  */
 public class Sparql extends OERWorldMap  {
 
+  private final static String mQueryTemplate =
+    "<!DOCTYPE html>" +
+      "<html class='no-js'>" +
+      "    <head>" +
+      "        <meta charset='utf-8' />" +
+      "        <title>OER World Map - SPARQL</title>" +
+      "    </head>" +
+      "    <body>" +
+      "        <h1>SPARQL</h1>" +
+      "        <form method='get' action='/sparql/query'>" +
+      "            <textarea style='width: 100%%' name='q'>%s</textarea>" +
+      "            <button type='submit'>Query</button>" +
+      "            <pre>%s</pre>" +
+      "        </form>" +
+      "    </body>" +
+      "</html>";
+
+  private final static String mUpdateTemplate =
+    "<!DOCTYPE html>" +
+      "<html class='no-js'>" +
+      "    <head>" +
+      "        <meta charset='utf-8' />" +
+      "        <title>OER World Map - SPARQL UPDATE</title>" +
+      "    </head>" +
+      "    <body>" +
+      "        <h1><a href='https://www.w3.org/TR/sparql11-update/#deleteInsert'>SPARQL DELETE/INSERT</a></h1>" +
+      "        <form method='get' action='/sparql/update'>" +
+      "            <label>DELETE {<input style='width:100%%' name='delete' value='%s'>}</label><br>" +
+      "            <label>INSERT {<input style='width:100%%' name='insert' value='%s'>}</label><br>" +
+      "            <label>WHERE {<input style='width:100%%' name='where' value='%s'>}</label><br>" +
+      "            <p><button type='submit'>Generate Diff</button></p>" +
+      "        </form>" +
+      "        <h1>PATCH</h1>" +
+      "        <form method='post' action='/sparql/patch'>" +
+      "            <textarea style='width:100%%;' rows='25' name='diff'>%s</textarea><br>" +
+      "            <p><button type='submit'>Apply Patch</button></p>" +
+      "        </form>" +
+      "    </body>" +
+      "</html>";
+
   @Inject
   public Sparql(Configuration aConf, Environment aEnv) {
     super(aConf, aEnv);
@@ -23,15 +63,17 @@ public class Sparql extends OERWorldMap  {
 
   public Result query(String q) throws IOException {
 
-    q = "DESCRIBE * WHERE {?s ?p ?o}";
-
-    return StringUtils.isEmpty(q) ? ok("") : ok(mBaseRepository.sparql(q));
+    return ok(StringUtils.isEmpty(q)
+      ? String.format(mQueryTemplate, "", "")
+      : String.format(mQueryTemplate, q, mBaseRepository.sparql(q))
+    ).as("text/html");
 
   }
 
   public Result update(String delete, String insert, String where) throws IOException {
 
-    return ok (mBaseRepository.update(delete, insert, where));
+    return ok(String.format(mUpdateTemplate, delete, insert, where, mBaseRepository.update(delete, insert, where)))
+      .as("text/html");
 
   }
 
@@ -46,6 +88,7 @@ public class Sparql extends OERWorldMap  {
     Commit commit = new TripleCommit(header, diff);
 
     mBaseRepository.commit(commit);
+    mBaseRepository.index(commit.getDiff());
 
     return ok(commit.toString());
 

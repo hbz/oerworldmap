@@ -27,6 +27,9 @@
       "$ref": "#/definitions/Event"
     },
     {
+      "$ref": "#/definitions/Product"
+    },
+    {
       "$ref": "#/definitions/WebPage"
     },
     {
@@ -190,6 +193,26 @@
           "title": "WebPage.name",
           "description": "descriptions.WebPage.name",
           "$ref": "#/definitions/LocalizedString"
+        },
+        "additionalType": {
+          "title": "WebPage.additionalType",
+          "description": "descriptions.WebPage.additionalType",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/publications.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         },
         "url": {
           "title": "WebPage.url",
@@ -483,6 +506,7 @@
           "title": "Article.primarySector",
           "description": "descriptions.Article.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -675,10 +699,19 @@
           "description": "descriptions.Action.additionalType",
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "_display": {
-            "className": "hidden"
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/projects.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
           }
         },
         "email": {
@@ -916,6 +949,7 @@
           "title": "Action.primarySector",
           "description": "descriptions.Action.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1034,6 +1068,26 @@
           "title": "Service.alternateName",
           "description": "descriptions.Service.alternateName",
           "$ref": "#/definitions/LocalizedString"
+        },
+        "additionalType": {
+          "title": "Service.additionalType",
+          "description": "descriptions.Service.additionalType",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/services.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         },
         "serviceType": {
           "title": "Service.serviceType",
@@ -1349,6 +1403,7 @@
           "title": "Service.primarySector",
           "description": "descriptions.Service.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1474,6 +1529,26 @@
           "title": "Person.name",
           "description": "descriptions.Person.name",
           "$ref": "#/definitions/LocalizedString"
+        },
+        "additionalType": {
+          "title": "Person.additionalType",
+          "description": "descriptions.Person.additionalType",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/persons.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         },
         "url": {
           "title": "Person.url",
@@ -1685,6 +1760,7 @@
           "title": "Person.primarySector",
           "description": "descriptions.Person.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -1745,6 +1821,18 @@
           "_display": {
             "className": "hidden"
           }
+        },
+        "award": {
+          "title": "Person.award",
+          "description": "descriptions.Person.award",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "_display": {
+            "className": "admin only"
+          }
         }
       },
       "required": [
@@ -1791,6 +1879,26 @@
           "description": "descriptions.Organization.displayName",
           "$ref": "#/definitions/LocalizedString"
         },
+        "additionalType": {
+          "title": "Organization.additionalType",
+          "description": "descriptions.Organization.additionalType",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/organizations.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
         "url": {
           "type": "string",
           "description": "descriptions.Organization.url",
@@ -1813,17 +1921,6 @@
           "title": "Organization.description",
           "description": "descriptions.Organization.description",
           "$ref": "#/definitions/LocalizedText"
-        },
-        "additionalType": {
-          "title": "Organization.additionalType",
-          "description": "descriptions.Organization.additionalType",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "_display": {
-            "className": "hidden"
-          }
         },
         "countryChampionFor": {
           "type": "array",
@@ -2045,6 +2142,7 @@
           "title": "Organization.primarySector",
           "description": "descriptions.Organization.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2356,6 +2454,7 @@
           "title": "Event.primarySector",
           "description": "descriptions.Event.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2508,6 +2607,12 @@
             ]
           }
         },
+        "rights": {
+          "title": "Product.rights",
+          "description": "descriptions.Product.rights",
+          "type": "string",
+          "enum": [ "floss", "proprietary" ]
+        },
         "keywords": {
           "title": "Product.keywords",
           "description": "descriptions.Product.keywords",
@@ -2535,6 +2640,7 @@
           "title": "Product.primarySector",
           "description": "descriptions.Product.primarySector",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -2573,9 +2679,25 @@
         },
         "award": {
           "type": "array",
+          "title": "Product.award",
+          "description": "descriptions.Product.award",
           "items": {
             "type": "string",
             "format": "uri"
+          }
+        },
+        "objectIn": {
+          "title": "Product.objectIn",
+          "description": "descriptions.Product.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
           }
         }
       },

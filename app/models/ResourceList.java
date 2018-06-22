@@ -20,8 +20,6 @@ import play.Logger;
  */
 public class ResourceList {
 
-  private Joiner.MapJoiner joiner = Joiner.on("&").withKeyValueSeparator("=");
-
   private List<Resource> items;
 
   private long totalItems;
@@ -39,7 +37,7 @@ public class ResourceList {
   private Resource aggregations;
 
   private static URIBuilder getURIBuilder() throws URISyntaxException {
-    return new URIBuilder("/resource/");
+    return new URIBuilder("");
   }
 
   public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aQuery, int aFrom,

@@ -55,7 +55,10 @@
 		}
 	],
 	"additionalType": [
-		"enterprise"
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#school",
+      "@type": "Concept"
+    }
 	],
 	"provides": [
 		{

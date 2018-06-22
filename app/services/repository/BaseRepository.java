@@ -287,7 +287,7 @@ public class BaseRepository extends Repository
 
   }
 
-  private void index(Commit.Diff aDiff) {
+  public void index(Commit.Diff aDiff) {
 
     if (mAsyncIndexing) {
       mIndexQueue.tell(aDiff, mIndexQueue);
