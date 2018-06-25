@@ -10,7 +10,6 @@ cache:
   - $HOME/.sonar/cache
 before_install:
   - curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.1.tar.gz | tar xz --directory=$HOME
-  - "echo \"script.inline: on\\ntransport.host: localhost" >> $HOME/elasticsearch-6.2.1/config/elasticsearch.yml"
   - $HOME/elasticsearch-6.2.1/bin/elasticsearch-plugin install analysis-icu
   - $HOME/elasticsearch-6.2.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
 install:
