@@ -941,6 +941,7 @@
           "title": "Action.isFundedBy",
           "description": "descriptions.Action.isFundedBy",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/Grant"
           }
@@ -2740,6 +2741,7 @@
           "title": "Grant.isAwardedBy",
           "description": "descriptions.Grant.isAwardedBy",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
