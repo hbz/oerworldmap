@@ -43,7 +43,7 @@ def process_properties(properties, is_name_branch):
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo_point = ['geo']
     geo_shape = ['geometry']
-    integer = ['link_count']
+    integer = ['link_count', 'lighthouse_count', 'like_count']
 
     for property in properties:
         if property in not_analyzed:

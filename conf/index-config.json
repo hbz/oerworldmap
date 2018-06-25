@@ -15159,13 +15159,7 @@
           "type": "text"
         },
         "lighthouse_count": {
-          "fields": {
-            "keyword": {
-              "ignore_above": 256,
-              "type": "keyword"
-            }
-          },
-          "type": "text"
+          "type": "integer"
         },
         "feature": {
           "properties": {
@@ -15311,13 +15305,7 @@
           "format": "dateOptionalTime"
         },
         "like_count": {
-          "fields": {
-            "keyword": {
-              "ignore_above": 256,
-              "type": "keyword"
-            }
-          },
-          "type": "text"
+          "type": "integer"
         },
         "contributor": {
           "fields": {
