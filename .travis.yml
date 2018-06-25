@@ -9,11 +9,9 @@ cache:
   - $HOME/.ivy2/cache
   - $HOME/.sonar/cache
 before_install:
-  - curl https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.4.1/elasticsearch-2.4.1.tar.gz | tar xz --directory=$HOME
-  - "echo \"script.inline: on\" >> $HOME/elasticsearch-2.4.1/config/elasticsearch.yml"
-  - $HOME/elasticsearch-2.4.1/bin/plugin install 'http://repo1.maven.org/maven2/org/xbib/elasticsearch/plugin/elasticsearch-plugin-bundle/2.4.1.0/elasticsearch-plugin-bundle-2.4.1.0-plugin.zip'
-  - $HOME/elasticsearch-2.4.1/bin/plugin install analysis-icu
-  - $HOME/elasticsearch-2.4.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
+  - curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.1.tar.gz | tar xz --directory=$HOME
+  - $HOME/elasticsearch-6.2.1/bin/elasticsearch-plugin install analysis-icu
+  - $HOME/elasticsearch-6.2.1/bin/elasticsearch --daemonize -Epath.data=/tmp && sleep 20s
 install:
   - npm install node-python
 before_script:

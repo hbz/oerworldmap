@@ -30,7 +30,6 @@ def process_index(index):
 def process_mapping(mapping):
     for properties in mapping:
         mapping[properties]['properties'] = process_properties(mapping[properties]['properties'], False)
-        mapping[properties]['transform'] = transform()
     return mapping
 
 
@@ -42,23 +41,30 @@ def process_properties(properties, is_name_branch):
     name = ['name']
     keywords = ['keywords']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
-    geo = ['geo']
+    geo_point = ['geo']
+    geo_shape = ['geometry']
+    integer = ['link_count']
+
     for property in properties:
         if property in not_analyzed:
             properties[property] = set_not_analyzed()
         elif property in date_time:
             properties[property] = set_date_time()
-        elif property in geo:
+        elif property in geo_point:
             properties[property] = set_geo_point()
+        elif property in geo_shape:
+            properties[property] = set_geo_shape()
         elif property in ngrams:
             if is_name_branch:
                 properties[property] = set_ngram("title_analyzer")
             else:
                 properties[property] = set_ngram("standard")
         elif property in keywords:
-            properties[property] = set_keywords_analyzer()
+            properties[property] = set_keywords_normalizer()
         elif property in country_name:
             properties[property] = set_country_name()
+        elif property in integer:
+            properties[property] = set_integer()
         elif 'properties' in properties[property]:
             if property in name:
                 is_name_branch = True
@@ -68,14 +74,13 @@ def process_properties(properties, is_name_branch):
 
 def set_not_analyzed():
     return {
-        'type': 'string',
-        'index': 'not_analyzed'
+        'type': 'keyword',
     }
 
-def set_keywords_analyzer():
+def set_keywords_normalizer():
     return {
-        'type': 'string',
-        'analyzer': 'keywords_analyzer'
+        'type': 'keyword',
+        'normalizer': 'keywords_normalizer'
     }
 
 def set_date_time():
@@ -89,86 +94,69 @@ def set_geo_point():
         "type": "geo_point"
     }
 
+def set_geo_shape():
+    return {
+        "type": "geo_shape"
+    }
+
 def set_ngram(variations_search_analyzer):
     return {
-        "type": "multi_field",
+        "type": "text",
         "fields": {
-            "@value": {
-                "type": "string"
-            },
-            "sort": {
-                "type": "string",
-                "ignore_above": 20,
-                "analyzer": "german_phonebook"
-            },
             "variations": {
-                "type": "string",
+                "type": "text",
                 "analyzer": "title_analyzer",
                 "search_analyzer": variations_search_analyzer
             },
             "simple_tokenized": {
-                "type": "string",
+                "type": "text",
                 "analyzer": "simple",
                 "search_analyzer": "standard"
+            },
+            "sort": {
+                "type": "keyword"
             },
             "de": {
                 "analyzer": "german_analyzer",
                 "search_analyzer": "german_analyzer",
-                "type": "string"
+                "type": "text"
             },
             "en": {
                 "analyzer": "english_analyzer",
                 "search_analyzer": "english_analyzer",
-                "type": "string"
+                "type": "text"
+            },
+            "splits": {
+                "type": "text",
+                "analyzer": "split_analyzer",
+                "search_analyzer": "standard"
             }
         }
     }
 
 def set_country_name():
     return {
-        "type": "multi_field",
+        "type": "keyword",
         "fields": {
-            "addressCountry": {
-                "type": "string",
-                'index': 'not_analyzed'
-            },
             "name": {
-                "type": "string",
+                "type": "text",
                 "analyzer": "country_synonyms_analyzer",
-                "search_analyzer": "country_synonyms_analyzer"
+                "search_analyzer": "country_synonyms_analyzer",
+                "fielddata": True
             }
         }
     }
 
-def transform():
+def set_integer():
     return {
-        "script": """
-            if (!ctx._source['about']['location']) {
-
-                ctx._source['about']['location'] = [];
-
-                if (ctx._source['about']['provider'] && ctx._source['about']['provider']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['provider']['location'];
-
-                if (ctx._source['about']['agent'] && ctx._source['about']['agent']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['agent']['location'];
-
-                if (ctx._source['about']['participant'] && ctx._source['about']['participant']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['participant']['location'];
-
-                if (ctx._source['about']['member'] && ctx._source['about']['member']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['member']['location'];
-
-                if (ctx._source['about']['mentions'] && ctx._source['about']['mentions']['location'])
-                    ctx._source['about']['location'] << ctx._source['about']['mentions']['location'];
-            };
-        """
+        "type": "integer"
     }
 
 def settings():
     with open(sys.path[0] + '/country_synonyms.txt', 'r') as f:
         country_list = f.read().splitlines()
     return {
+        "index.mapping.total_fields.limit": 5000,
         "analysis": {
             "filter": {
                 "title_filter": {
@@ -221,6 +209,14 @@ def settings():
                     "language": "de",
                     "country":  "DE",
                     "variant":  "@collation=phonebook"
+                },
+                "split_filter" : {
+                    "type" : "pattern_capture",
+                    "preserve_original" : "false",
+                    "patterns" : [
+                        "([A-Z]{2,})([A-Z][a-z]{2,})",
+                        "([A-Z]{2,})([a-z]{2,})"
+                    ]
                 }
             },
             "analyzer": {
@@ -231,11 +227,7 @@ def settings():
                         "lowercase"
                     ],
                     "type": "custom",
-                    "tokenizer": "hyphen"
-                },
-                "keywords_analyzer": {
-                    "filter": "lowercase",
-                    "tokenizer": "keyword"
+                    "tokenizer": "classic"
                 },
                 "country_synonyms_analyzer": {
                     "tokenizer": "icu_tokenizer",
@@ -263,6 +255,22 @@ def settings():
                 "german_phonebook": {
                     "tokenizer": "keyword",
                     "filter":  [ "german_phonebook" ]
+                },
+                "split_analyzer": {
+                    "tokenizer": "pattern",
+                    "filter": ["split_filter", "lowercase"]
+                }
+            },
+            "tokenizer": {
+                "split_tokenizer_1": {
+                    "type": "pattern",
+                    "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
+                    "group": "1"
+                }
+            },
+            "normalizer": {
+                "keywords_normalizer": {
+                    "filter": "lowercase"
                 }
             }
         }

@@ -25,7 +25,8 @@ libraryDependencies ++= Seq(
   "com.github.fge" % "json-schema-validator" % "2.2.6",
   "org.apache.commons" % "commons-email" % "1.3.3",
   "commons-io" % "commons-io" % "2.5",
-  "org.elasticsearch" % "elasticsearch" % "2.4.0",
+  "org.elasticsearch" % "elasticsearch" % "6.2.1",
+  "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "6.2.1",
   "com.vladsch.flexmark" % "flexmark-all" % "0.26.4",
   "com.github.jknack" % "handlebars" % "4.0.6",
   "com.github.jknack" % "handlebars-markdown" % "4.0.6",
@@ -34,7 +35,8 @@ libraryDependencies ++= Seq(
   "io.apigee.trireme" % "trireme-core" % "0.8.9",
   "io.apigee.trireme" % "trireme-node10src" % "0.8.9",
   "com.maxmind.geoip2" % "geoip2" % "2.8.0",
-  "org.python" % "jython-standalone" % "2.7.1b2"
+  "org.python" % "jython-standalone" % "2.7.1b2",
+  "org.apache.httpcomponents" % "httpclient" % "4.5.5"
 )
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
