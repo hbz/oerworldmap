@@ -8,6 +8,7 @@ import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Environment;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -15,6 +16,7 @@ import play.mvc.Result;
 import services.QueryContext;
 import services.SearchConfig;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -63,19 +65,24 @@ public class Reconciler extends OERWorldMap{
     queryContext.setElasticsearchFieldBoosts(new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
     ObjectNode response = Json.newObject();
 
-    while (aInputQueries.hasNext()) {
-      Map.Entry<String, JsonNode> inputQuery = aInputQueries.next();
-      JsonNode limitNode = inputQuery.getValue().get("limit");
-      int limit = limitNode == null ? -1 : limitNode.asInt();
-      String queryString = inputQuery.getValue().get("query").asText();
-      JsonNode type = inputQuery.getValue().get("type");
-      Map<String, List<String>> typeFilter = new HashMap<>();
-      if (type != null) {
-        typeFilter.put("about.@type", Arrays.asList(type.asText()));
+    try {
+      while (aInputQueries.hasNext()) {
+        Map.Entry<String, JsonNode> inputQuery = aInputQueries.next();
+        JsonNode limitNode = inputQuery.getValue().get("limit");
+        int limit = limitNode == null ? -1 : limitNode.asInt();
+        String queryString = inputQuery.getValue().get("query").asText();
+        JsonNode type = inputQuery.getValue().get("type");
+        Map<String, List<String>> typeFilter = new HashMap<>();
+        if (type != null) {
+          typeFilter.put("about.@type", Arrays.asList(type.asText()));
+        }
+        JsonNode reconciled = mBaseRepository
+          .reconcile(queryString, 0, limit, null, typeFilter, queryContext, aPreferredLocale);
+        response.set(inputQuery.getKey(), reconciled);
       }
-      JsonNode reconciled = mBaseRepository
-        .reconcile(queryString, 0, limit, null, typeFilter, queryContext, aPreferredLocale);
-      response.set(inputQuery.getKey(), reconciled);
+    }
+    catch (IOException ioe){
+      Logger.error("Could not query base repository.", ioe);
     }
     return response;
   }

@@ -19,7 +19,7 @@ public class Record extends Resource {
   public static final String AUTHOR = "author";
   public static final String CONTRIBUTOR = "contributor";
   public static final String LINK_COUNT = "link_count";
-  public static final String GEO = "geo";
+  public static final String FEATURE = "feature";
   public static final String LIKE_COUNT = "like_count";
   public static final String LIGHTHOUSE_COUNT = "lighthouse_count";
 
@@ -29,7 +29,7 @@ public class Record extends Resource {
     put(DATE_MODIFIED, UniversalFunctions.getCurrentTime());
     JsonNode geoJson = mGeoJsonExporter.exportJson(this);
     if (geoJson != null) {
-      put(GEO, geoJson);
+      put(FEATURE, geoJson);
     }
   }
 

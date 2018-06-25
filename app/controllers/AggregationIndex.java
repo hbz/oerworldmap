@@ -10,11 +10,7 @@ import services.QueryContext;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author fo
@@ -28,7 +24,7 @@ public class AggregationIndex extends OERWorldMap {
 
   public Result list() throws IOException {
 
-    List<AggregationBuilder<?>> statisticsAggregations = new ArrayList<>();
+    List<AggregationBuilder> statisticsAggregations = new ArrayList<>();
     statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));

@@ -40,7 +40,8 @@ public class GeoJsonExporter implements Exporter {
     node.put("type", "FeatureCollection");
     for (Resource resource : aResources) {
       JsonNode feature = toGeoJson(resource, false);
-      if (feature != null) {
+      // Skip features without geometry
+      if (feature != null && feature.has("geometry")) {
         features.add(feature);
       }
     }
@@ -51,66 +52,86 @@ public class GeoJsonExporter implements Exporter {
   private JsonNode toGeoJson(Resource aResource, boolean expand) {
 
     JsonNode resource = aResource.getAsResource(Record.RESOURCE_KEY).toJson();
-    ArrayNode coordinates = getCoordinates(resource);
+    ArrayNode locations = getLocations(resource);
 
-    if (coordinates.size() == 0) {
+    if (locations.size() == 0) {
       return null;
     }
 
     ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+    ObjectNode properties;
 
     if (expand) {
-      node.set("properties", aResource.toJson());
+      properties = (ObjectNode) aResource.toJson();
     } else {
-      ObjectNode properties = new ObjectNode(JsonNodeFactory.instance);
+      properties = new ObjectNode(JsonNodeFactory.instance);
       properties.set("@id", resource.get("@id"));
       properties.set("@type", resource.get("@type"));
       if (resource.has("name")) {
         properties.set("name", resource.get("name"));
       }
-      node.set("properties", properties);
     }
 
+    properties.set("location", locations.size() > 1 ? locations : locations.get(0));
+    node.set("properties", properties);
     node.put("type", "Feature");
     node.set("id", resource.get("@id"));
-    ObjectNode geometry = new ObjectNode(JsonNodeFactory.instance);
-    geometry.put("type", coordinates.size() > 1 ? "MultiPoint" : "Point");
-    geometry.set("coordinates", coordinates.size() > 1 ? coordinates: coordinates.get(0));
-    node.set("geometry", geometry);
+
+    ArrayNode coordinates = getCoordinates(locations);
+    if (coordinates.size() > 0) {
+      ObjectNode geometry = new ObjectNode(JsonNodeFactory.instance);
+      geometry.put("type", coordinates.size() > 1 ? "MultiPoint" : "Point");
+      geometry.set("coordinates", coordinates.size() > 1 ? coordinates : coordinates.get(0));
+      node.set("geometry", geometry);
+    }
 
     return node;
 
   }
 
-  private ArrayNode getCoordinates(JsonNode node) {
+  private ArrayNode getCoordinates(ArrayNode locations) {
 
     ArrayNode coordinates = new ArrayNode(JsonNodeFactory.instance);
+
+    for (JsonNode location : locations) {
+      if (location.has("geo")) {
+        ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
+        ObjectNode geo = (ObjectNode) location.get("geo");
+        result.add(geo.get("lon").asDouble());
+        result.add(geo.get("lat").asDouble());
+        coordinates.add(result);
+      }
+    }
+
+    return coordinates;
+
+  }
+
+  private ArrayNode getLocations(JsonNode node) {
+
+    ArrayNode locations = new ArrayNode(JsonNodeFactory.instance);
     String[] traverse = new String[] {"mentions", "member", "agent", "participant", "provider"};
 
     if (node.isArray()) {
       for (JsonNode entry : node) {
-        coordinates.addAll(getCoordinates(entry));
+        locations.addAll(getLocations(entry));
       }
     } else if (node.isObject()) {
-      if (node.has("location") && node.get("location").has("geo")) {
-        ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
-        ObjectNode geo = (ObjectNode) node.get("location").get("geo");
-        result.add(geo.get("lon").asDouble());
-        result.add(geo.get("lat").asDouble());
-        coordinates.add(result);
+      if (node.has("location")) {
+        locations.add(node.get("location"));
       } else {
         for (String property : traverse) {
           if (node.has(property)) {
-            ArrayNode ref = getCoordinates(node.get(property));
+            ArrayNode ref = getLocations(node.get(property));
             if (ref != null) {
-              coordinates.addAll(ref);
+              locations.addAll(ref);
             }
           }
         }
       }
     }
 
-    return coordinates;
+    return locations;
 
   }
 
