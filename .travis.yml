@@ -11,7 +11,7 @@ cache:
 before_install:
   - curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.1.tar.gz | tar xz --directory=$HOME
   - $HOME/elasticsearch-6.2.1/bin/elasticsearch-plugin install analysis-icu
-  - $HOME/elasticsearch-6.2.1/bin/elasticsearch --daemonize --path.data /tmp && sleep 20s
+  - $HOME/elasticsearch-6.2.1/bin/elasticsearch --daemonize -Epath.data=/tmp && sleep 20s
 install:
   - npm install node-python
 before_script:
