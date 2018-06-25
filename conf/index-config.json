@@ -15338,13 +15338,7 @@
           "type": "keyword"
         },
         "link_count": {
-          "fields": {
-            "keyword": {
-              "ignore_above": 256,
-              "type": "keyword"
-            }
-          },
-          "type": "text"
+          "type": "integer"
         }
       }
     }

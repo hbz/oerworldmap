@@ -43,6 +43,7 @@ def process_properties(properties, is_name_branch):
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
     geo_point = ['geo']
     geo_shape = ['geometry']
+    integer = ['link_count']
 
     for property in properties:
         if property in not_analyzed:
@@ -62,6 +63,8 @@ def process_properties(properties, is_name_branch):
             properties[property] = set_keywords_normalizer()
         elif property in country_name:
             properties[property] = set_country_name()
+        elif property in integer:
+            properties[property] = set_integer()
         elif 'properties' in properties[property]:
             if property in name:
                 is_name_branch = True
@@ -142,6 +145,11 @@ def set_country_name():
                 "fielddata": True
             }
         }
+    }
+
+def set_integer():
+    return {
+        "type": "integer"
     }
 
 def settings():

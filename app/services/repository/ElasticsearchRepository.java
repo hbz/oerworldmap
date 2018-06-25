@@ -431,6 +431,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
     }
 
+    Logger.debug(sourceBuilder.toString());
+
     List<Resource> resources = new ArrayList<>();
     for (SearchHit hit: searchHits) {
       Resource resource = Resource.fromMap(hit.getSourceAsMap());
@@ -447,12 +449,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
 
   private FunctionScoreQueryBuilder getFunctionScoreQueryBuilder(QueryBuilder queryBuilder) {
-
-    ScoreFunctionBuilder fb = ScoreFunctionBuilders
-      .scriptFunction("doc['".concat(Record.LINK_COUNT).concat("'].value < 1 ? _score : (_score * doc['")
-        .concat(Record.LINK_COUNT).concat("'].value)"));
-    FunctionScoreQueryBuilder fsb = new FunctionScoreQueryBuilder(queryBuilder, fb);
-    return fsb;
+    ScoreFunctionBuilder fb = ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT);
+    return new FunctionScoreQueryBuilder(queryBuilder, fb);
   }
 
   private QueryBuilder getQueryBuilder(@Nonnull String aQueryString, String[] fieldBoosts) {
