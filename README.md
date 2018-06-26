@@ -41,13 +41,6 @@ This basically comes down to
 
 #### Configure elasticsearch
 
-Enable dynamic scripting by adding
-
-    script.inline: true
-    script.indexed: true
-
-to your `third-party/elasticsearch-2.4.1/config/elasticsearch.yml`.
-
 If you are in an environment where your instance of elasticsearch won't be the only one on the network, you might want
 to configure your cluster name to be different from the default `elasticsearch`. To do so, shut down elasticsearch and
 edit `cluster.name` in `third-party/elasticsearch-2.4.1/config/elasticsearch.yml` and `es.cluster.name`
@@ -55,7 +48,7 @@ in `conf/application.conf` before restarting.
 
 #### Create and configure oerworldmap index (as specified in `es.index.app.name` in `conf/application.conf`)
 
-    $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
+    $ curl -H "Content-type: application/json" -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 
 #### If you're caught with some kind of buggy index during development, simply delete the index and re-create:
 
