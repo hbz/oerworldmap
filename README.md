@@ -1,7 +1,7 @@
 # Open Educational Resources (OER) World Map
 
 ![Travis CI](https://travis-ci.org/hbz/oerworldmap.svg)
-[![Quality Gate](https://sonarqube.com/api/badges/gate?key=oerworldmap.org)](https://sonarqube.com/dashboard?id=oerworldmap.org)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=oerworldmap.org&metric=alert_status)
 
 For inital background information about this project please refer to the
 [Request for Proposals](http://www.hewlett.org/sites/default/files/OER%20mapping%20RFP_Phase%202%20Final%20June%2023%202014.pdf).
@@ -41,13 +41,6 @@ This basically comes down to
 
 #### Configure elasticsearch
 
-Enable dynamic scripting by adding
-
-    script.inline: true
-    script.indexed: true
-
-to your `third-party/elasticsearch-2.4.1/config/elasticsearch.yml`.
-
 If you are in an environment where your instance of elasticsearch won't be the only one on the network, you might want
 to configure your cluster name to be different from the default `elasticsearch`. To do so, shut down elasticsearch and
 edit `cluster.name` in `third-party/elasticsearch-2.4.1/config/elasticsearch.yml` and `es.cluster.name`
@@ -55,7 +48,7 @@ in `conf/application.conf` before restarting.
 
 #### Create and configure oerworldmap index (as specified in `es.index.app.name` in `conf/application.conf`)
 
-    $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
+    $ curl -H "Content-type: application/json" -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 
 #### If you're caught with some kind of buggy index during development, simply delete the index and re-create:
 
