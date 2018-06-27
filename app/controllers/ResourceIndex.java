@@ -476,7 +476,11 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result label(String aId) throws UnsupportedEncodingException {
 
-    return ok(mBaseRepository.label(URLDecoder.decode(aId, "UTF-8")));
+    return ok(StringUtils.isEmpty(aId)
+      ? mBaseRepository.sparql(
+        "SELECT DISTINCT * WHERE {?uri <http://schema.org/name> ?label}")
+      : mBaseRepository.label(URLDecoder.decode(aId, "UTF-8"))
+    );
 
   }
 
