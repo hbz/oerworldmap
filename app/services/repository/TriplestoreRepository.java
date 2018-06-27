@@ -423,7 +423,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         switch (queryExecution.getQuery().getQueryType()) {
           case Query.QueryTypeSelect:
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ResultSetFormatter.outputAsCSV(byteArrayOutputStream, queryExecution.execSelect());
+            ResultSetFormatter.outputAsJSON(byteArrayOutputStream, queryExecution.execSelect());
             result = byteArrayOutputStream.toString();
             break;
           case Query.QueryTypeConstruct:
