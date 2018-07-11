@@ -44,9 +44,8 @@ import java.security.MessageDigest;
 ------------------------------------------------------------------------------*/
 
 /**
- * This class defines a method,
- * {@link MD5Crypt#crypt(java.lang.String, java.lang.String) crypt()}, which
- * takes a password and a salt string and generates an OpenBSD/FreeBSD/Linux-compatible
+ * This class defines a method, {@link MD5Crypt#crypt(java.lang.String, java.lang.String) crypt()},
+ * which takes a password and a salt string and generates an OpenBSD/FreeBSD/Linux-compatible
  * md5-encoded password entry.
  */
 
@@ -56,26 +55,19 @@ public final class MD5Crypt {
    * Command line test rig.
    */
 
-  static public void main(String argv[])
-  {
-    if ((argv.length < 1) || (argv.length > 3))
-      {
-	System.err.println("Usage: MD5Crypt [-apache] password salt");
-	System.exit(1);
-      }
+  static public void main(String argv[]) {
+    if ((argv.length < 1) || (argv.length > 3)) {
+      System.err.println("Usage: MD5Crypt [-apache] password salt");
+      System.exit(1);
+    }
 
-    if (argv.length == 3)
-      {
-	System.err.println(MD5Crypt.apacheCrypt(argv[1], argv[2]));
-      }
-    else if (argv.length == 2)
-      {
-	System.err.println(MD5Crypt.crypt(argv[0], argv[1]));
-      }
-    else
-      {
-	System.err.println(MD5Crypt.crypt(argv[0]));
-      }
+    if (argv.length == 3) {
+      System.err.println(MD5Crypt.apacheCrypt(argv[1], argv[2]));
+    } else if (argv.length == 2) {
+      System.err.println(MD5Crypt.crypt(argv[0], argv[1]));
+    } else {
+      System.err.println(MD5Crypt.crypt(argv[0]));
+    }
 
     System.exit(0);
   }
@@ -83,144 +75,118 @@ public final class MD5Crypt {
   static private final String SALTCHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
   static private final String itoa64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-  static private final String to64(long v, int size)
-  {
+  static private final String to64(long v, int size) {
     StringBuffer result = new StringBuffer();
 
-    while (--size >= 0)
-      {
-	result.append(itoa64.charAt((int) (v & 0x3f)));
-	v >>>= 6;
-      }
+    while (--size >= 0) {
+      result.append(itoa64.charAt((int) (v & 0x3f)));
+      v >>>= 6;
+    }
 
     return result.toString();
   }
 
-  static private final void clearbits(byte bits[])
-  {
-    for (int i = 0; i < bits.length; i++)
-      {
-	bits[i] = 0;
-      }
+  static private final void clearbits(byte bits[]) {
+    for (int i = 0; i < bits.length; i++) {
+      bits[i] = 0;
+    }
   }
 
   /**
-   * convert an encoded unsigned byte value into a int
-   * with the unsigned value.
+   * convert an encoded unsigned byte value into a int with the unsigned value.
    */
 
-  static private final int bytes2u(byte inp)
-  {
+  static private final int bytes2u(byte inp) {
     return (int) inp & 0xff;
   }
 
-  static private MessageDigest getMD5()
-  {
-    try
-      {
-	return MessageDigest.getInstance("MD5");
-      }
-    catch (java.security.NoSuchAlgorithmException ex)
-      {
-	throw new RuntimeException(ex);
-      }
+  static private MessageDigest getMD5() {
+    try {
+      return MessageDigest.getInstance("MD5");
+    } catch (java.security.NoSuchAlgorithmException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   /**
    * <p>This method actually generates a OpenBSD/FreeBSD/Linux PAM compatible
-   * md5-encoded password hash from a plaintext password and a
-   * salt.</p>
+   * md5-encoded password hash from a plaintext password and a salt.</p>
    *
    * <p>The resulting string will be in the form '$1$&lt;salt&gt;$&lt;hashed mess&gt;</p>
    *
    * @param password Plaintext password
-   *
    * @return An OpenBSD/FreeBSD/Linux-compatible md5-hashed password field.
    */
 
-  static public final String crypt(String password)
-  {
+  static public final String crypt(String password) {
     StringBuffer salt = new StringBuffer();
     java.util.Random randgen = new java.util.Random();
 
     /* -- */
 
-     while (salt.length() < 8)
-       {
-	 int index = (int) (randgen.nextFloat() * SALTCHARS.length());
-         salt.append(SALTCHARS.substring(index, index+1));
-       }
+    while (salt.length() < 8) {
+      int index = (int) (randgen.nextFloat() * SALTCHARS.length());
+      salt.append(SALTCHARS.substring(index, index + 1));
+    }
 
-     return MD5Crypt.crypt(password, salt.toString());
+    return MD5Crypt.crypt(password, salt.toString());
   }
 
   /**
    * <p>This method actually generates a OpenBSD/FreeBSD/Linux PAM compatible
-   * md5-encoded password hash from a plaintext password and a
-   * salt.</p>
+   * md5-encoded password hash from a plaintext password and a salt.</p>
    *
    * <p>The resulting string will be in the form '$1$&lt;salt&gt;$&lt;hashed mess&gt;</p>
    *
    * @param password Plaintext password
-   * @param salt A short string to use to randomize md5.  May start with $1$, which
-   *             will be ignored.  It is explicitly permitted to pass a pre-existing
-   *             MD5Crypt'ed password entry as the salt.  crypt() will strip the salt
-   *             chars out properly.
-   *
+   * @param salt A short string to use to randomize md5.  May start with $1$, which will be ignored.
+   *  It is explicitly permitted to pass a pre-existing MD5Crypt'ed password entry as the salt.
+   * crypt() will strip the salt chars out properly.
    * @return An OpenBSD/FreeBSD/Linux-compatible md5-hashed password field.
    */
 
-  static public final String crypt(String password, String salt)
-  {
+  static public final String crypt(String password, String salt) {
     return MD5Crypt.crypt(password, salt, "$1$");
   }
 
   /**
    * <p>This method generates an Apache MD5 compatible
-   * md5-encoded password hash from a plaintext password and a
-   * salt.</p>
+   * md5-encoded password hash from a plaintext password and a salt.</p>
    *
    * <p>The resulting string will be in the form '$apr1$&lt;salt&gt;$&lt;hashed mess&gt;</p>
    *
    * @param password Plaintext password
-   *
    * @return An Apache-compatible md5-hashed password string.
    */
 
-  static public final String apacheCrypt(String password)
-  {
+  static public final String apacheCrypt(String password) {
     StringBuffer salt = new StringBuffer();
     java.util.Random randgen = new java.util.Random();
 
     /* -- */
 
-     while (salt.length() < 8)
-       {
-	 int index = (int) (randgen.nextFloat() * SALTCHARS.length());
-         salt.append(SALTCHARS.substring(index, index+1));
-       }
+    while (salt.length() < 8) {
+      int index = (int) (randgen.nextFloat() * SALTCHARS.length());
+      salt.append(SALTCHARS.substring(index, index + 1));
+    }
 
     return MD5Crypt.apacheCrypt(password, salt.toString());
   }
 
   /**
    * <p>This method actually generates an Apache MD5 compatible
-   * md5-encoded password hash from a plaintext password and a
-   * salt.</p>
+   * md5-encoded password hash from a plaintext password and a salt.</p>
    *
    * <p>The resulting string will be in the form '$apr1$&lt;salt&gt;$&lt;hashed mess&gt;</p>
    *
    * @param password Plaintext password
-   * @param salt A short string to use to randomize md5.  May start with $apr1$, which
-   *             will be ignored.  It is explicitly permitted to pass a pre-existing
-   *             MD5Crypt'ed password entry as the salt.  crypt() will strip the salt
-   *             chars out properly.
-   *
+   * @param salt A short string to use to randomize md5.  May start with $apr1$, which will be
+   * ignored.  It is explicitly permitted to pass a pre-existing MD5Crypt'ed password entry as the
+   * salt.  crypt() will strip the salt chars out properly.
    * @return An Apache-compatible md5-hashed password string.
    */
 
-  static public final String apacheCrypt(String password, String salt)
-  {
+  static public final String apacheCrypt(String password, String salt) {
     return MD5Crypt.crypt(password, salt, "$apr1$");
   }
 
@@ -229,24 +195,21 @@ public final class MD5Crypt {
    * a plaintext password, a salt, and a magic string.</p>
    *
    * <p>There are two magic strings that make sense to use here.. '$1$' is the
-   * magic string used by the FreeBSD/Linux/OpenBSD MD5Crypt algorithm, and
-   * '$apr1$' is the magic string used by the Apache MD5Crypt algorithm.</p>
+   * magic string used by the FreeBSD/Linux/OpenBSD MD5Crypt algorithm, and '$apr1$' is the magic
+   * string used by the Apache MD5Crypt algorithm.</p>
    *
    * <p>The resulting string will be in the form '&lt;magic&gt;&lt;salt&gt;$&lt;hashed mess&gt;</p>
    *
    * @param password Plaintext password
-   * @param salt A short string to use to randomize md5.  May start
-   * with the magic string, which will be ignored.  It is explicitly
-   * permitted to pass a pre-existing MD5Crypt'ed password entry as
-   * the salt.  crypt() will strip the salt chars out properly.
-   * @param magic Either "$apr1$" or "$1$", which controls whether we
-   * are doing Apache-style or FreeBSD-style md5Crypt.
-   *
+   * @param salt A short string to use to randomize md5.  May start with the magic string, which
+   * will be ignored.  It is explicitly permitted to pass a pre-existing MD5Crypt'ed password entry
+   * as the salt.  crypt() will strip the salt chars out properly.
+   * @param magic Either "$apr1$" or "$1$", which controls whether we are doing Apache-style or
+   * FreeBSD-style md5Crypt.
    * @return An md5-hashed password string.
    */
 
-  static public final String crypt(String password, String salt, String magic)
-  {
+  static public final String crypt(String password, String salt, String magic) {
     /* This string is magic for this algorithm.  Having it this way,
      * we can get get better later on */
 
@@ -260,22 +223,19 @@ public final class MD5Crypt {
 
     /* If it starts with the magic string, then skip that */
 
-    if (salt.startsWith(magic))
-      {
-	salt = salt.substring(magic.length());
-      }
+    if (salt.startsWith(magic)) {
+      salt = salt.substring(magic.length());
+    }
 
     /* It stops at the first '$', max 8 chars */
 
-    if (salt.indexOf('$') != -1)
-      {
-	salt = salt.substring(0, salt.indexOf('$'));
-      }
+    if (salt.indexOf('$') != -1) {
+      salt = salt.substring(0, salt.indexOf('$'));
+    }
 
-    if (salt.length() > 8)
-      {
-	salt = salt.substring(0, 8);
-      }
+    if (salt.length() > 8) {
+      salt = salt.substring(0, 8);
+    }
 
     ctx = getMD5();
 
@@ -291,10 +251,9 @@ public final class MD5Crypt {
     ctx1.update(password.getBytes());
     finalState = ctx1.digest();
 
-    for (int pl = password.length(); pl > 0; pl -= 16)
-      {
-	ctx.update(finalState, 0, pl > 16 ? 16 : pl);
-      }
+    for (int pl = password.length(); pl > 0; pl -= 16) {
+      ctx.update(finalState, 0, pl > 16 ? 16 : pl);
+    }
 
     /* the original code claimed that finalState was being cleared
        to keep dangerous bits out of memory, but doing this is also
@@ -304,17 +263,13 @@ public final class MD5Crypt {
 
     /* Then something really weird... */
 
-    for (int i = password.length(); i != 0; i >>>=1)
-      {
-	if ((i & 1) != 0)
-	  {
-	    ctx.update(finalState, 0, 1);
-	  }
-	else
-	  {
-	    ctx.update(password.getBytes(), 0, 1);
-	  }
+    for (int i = password.length(); i != 0; i >>>= 1) {
+      if ((i & 1) != 0) {
+        ctx.update(finalState, 0, 1);
+      } else {
+        ctx.update(password.getBytes(), 0, 1);
       }
+    }
 
     finalState = ctx.digest();
 
@@ -326,40 +281,31 @@ public final class MD5Crypt {
      * (The above timings from the C version)
      */
 
-    for (int i = 0; i < 1000; i++)
-      {
-	ctx1.reset();
+    for (int i = 0; i < 1000; i++) {
+      ctx1.reset();
 
-	if ((i & 1) != 0)
-	  {
-	    ctx1.update(password.getBytes());
-	  }
-	else
-	  {
-	    ctx1.update(finalState, 0, 16);
-	  }
-
-	if ((i % 3) != 0)
-	  {
-	    ctx1.update(salt.getBytes());
-	  }
-
-	if ((i % 7) != 0)
-	  {
-	    ctx1.update(password.getBytes());
-	  }
-
-	if ((i & 1) != 0)
-	  {
-	    ctx1.update(finalState, 0, 16);
-	  }
-	else
-	  {
-	    ctx1.update(password.getBytes());
-	  }
-
-	finalState = ctx1.digest();
+      if ((i & 1) != 0) {
+        ctx1.update(password.getBytes());
+      } else {
+        ctx1.update(finalState, 0, 16);
       }
+
+      if ((i % 3) != 0) {
+        ctx1.update(salt.getBytes());
+      }
+
+      if ((i % 7) != 0) {
+        ctx1.update(password.getBytes());
+      }
+
+      if ((i & 1) != 0) {
+        ctx1.update(finalState, 0, 16);
+      } else {
+        ctx1.update(password.getBytes());
+      }
+
+      finalState = ctx1.digest();
+    }
 
     /* Now make the output string */
 
@@ -394,30 +340,24 @@ public final class MD5Crypt {
   }
 
   /**
-   * This method tests a plaintext password against a md5Crypt'ed hash and returns
-   * true if the password matches the hash.
+   * This method tests a plaintext password against a md5Crypt'ed hash and returns true if the
+   * password matches the hash.
    *
-   * This method will work properly whether the hashtext was crypted
-   * using the default FreeBSD md5Crypt algorithm or the Apache
-   * md5Crypt variant.
+   * This method will work properly whether the hashtext was crypted using the default FreeBSD
+   * md5Crypt algorithm or the Apache md5Crypt variant.
    *
    * @param plaintextPass The plaintext password text to test.
-   * @param md5CryptText The Apache or FreeBSD-md5Crypted hash used to authenticate the plaintextPass.
+   * @param md5CryptText The Apache or FreeBSD-md5Crypted hash used to authenticate the
+   * plaintextPass.
    */
 
-  static public final boolean verifyPassword(String plaintextPass, String md5CryptText)
-  {
-    if (md5CryptText.startsWith("$1$"))
-      {
-        return md5CryptText.equals(MD5Crypt.crypt(plaintextPass, md5CryptText));
-      }
-    else if (md5CryptText.startsWith("$apr1$"))
-      {
-        return md5CryptText.equals(MD5Crypt.apacheCrypt(plaintextPass, md5CryptText));
-      }
-    else
-      {
-        throw new RuntimeException("Bad md5CryptText");
-      }
+  static public final boolean verifyPassword(String plaintextPass, String md5CryptText) {
+    if (md5CryptText.startsWith("$1$")) {
+      return md5CryptText.equals(MD5Crypt.crypt(plaintextPass, md5CryptText));
+    } else if (md5CryptText.startsWith("$apr1$")) {
+      return md5CryptText.equals(MD5Crypt.apacheCrypt(plaintextPass, md5CryptText));
+    } else {
+      throw new RuntimeException("Bad md5CryptText");
+    }
   }
 }

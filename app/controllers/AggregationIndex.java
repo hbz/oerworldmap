@@ -28,7 +28,8 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getTypeAggregation(0));
     statisticsAggregations.add(AggregationProvider.getByCountryAggregation(5));
     statisticsAggregations.add(AggregationProvider.getServiceLanguageAggregation(5));
-    statisticsAggregations.add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
+    statisticsAggregations
+      .add(AggregationProvider.getServiceByTopLevelFieldOfEducationAggregation());
     statisticsAggregations.add(AggregationProvider.getServiceByGradeLevelAggregation(0));
     statisticsAggregations.add(AggregationProvider.getKeywordsAggregation(5));
     statisticsAggregations.add(AggregationProvider.getLicenseAggregation(0));
@@ -39,11 +40,13 @@ public class AggregationIndex extends OERWorldMap {
     statisticsAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
 
     // Enrich with aggregation labels
-    Resource aggregations = mBaseRepository.aggregate(statisticsAggregations, new QueryContext(null));
+    Resource aggregations = mBaseRepository
+      .aggregate(statisticsAggregations, new QueryContext(null));
     for (String agg : aggregations.keySet()) {
       if (agg.endsWith("@id")) {
         for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
-          bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
+          bucket
+            .put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
         }
       }
     }

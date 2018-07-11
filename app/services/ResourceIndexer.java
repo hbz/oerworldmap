@@ -36,28 +36,29 @@ public class ResourceIndexer {
 
   private final static String GLOBAL_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s WHERE {" +
-    "    ?s a []" +
-    "}";
+      "    ?s a []" +
+      "}";
 
   // TODO: evaluate if there are other properties to exclude from triggering indexing
   private final static String SCOPE_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s1 WHERE {" +
-    "    ?s1 ?p1 <%1$s> ." +
-    "    FILTER ( ?p1 != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> )" +
-    "    OPTIONAL { ?y a <http://www.w3.org/2004/02/skos/core#Concept> . FILTER (<%1$s> = ?y) . }" +
-    "    FILTER ( !BOUND(?y) ) " +
-    "}";
+      "    ?s1 ?p1 <%1$s> ." +
+      "    FILTER ( ?p1 != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> )" +
+      "    OPTIONAL { ?y a <http://www.w3.org/2004/02/skos/core#Concept> . FILTER (<%1$s> = ?y) . }"
+      +
+      "    FILTER ( !BOUND(?y) ) " +
+      "}";
 
   public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
 
     this.mDb = aDb;
     this.mTargetRepo = aTargetRepo;
     this.mGraphHistory = aGraphHistory;
-
   }
 
   /**
    * Extracts resources that need to be indexed from a triple diff
+   *
    * @param aDiff The diff from which to extract resources
    * @return The list of resources touched by the diff
    */
@@ -71,8 +72,8 @@ public class ResourceIndexer {
     }
 
     for (Commit.Diff.Line line : aDiff.getLines()) {
-      RDFNode subject = ((TripleCommit.Diff.Line)line).stmt.getSubject();
-      RDFNode object = ((TripleCommit.Diff.Line)line).stmt.getObject();
+      RDFNode subject = ((TripleCommit.Diff.Line) line).stmt.getSubject();
+      RDFNode object = ((TripleCommit.Diff.Line) line).stmt.getObject();
       if (subject.isURIResource()) {
         commitScope.add(subject.toString());
       }
@@ -87,11 +88,11 @@ public class ResourceIndexer {
     Logger.debug("Indexing scope is " + indexScope);
 
     return indexScope;
-
   }
 
   /**
    * Queries the triple store for related resources that must also be indexed
+   *
    * @param aIds The list of resources for which to find related resources
    * @return The list of related resources
    */
@@ -108,11 +109,11 @@ public class ResourceIndexer {
     }
 
     return indexScope;
-
   }
 
   /**
    * Queries the triple store for related resources that must also be indexed
+   *
    * @param aId A resource for which to find related resources
    * @return The list of related resources
    */
@@ -120,7 +121,8 @@ public class ResourceIndexer {
 
     Set<String> indexScope = new HashSet<>();
     String query = String.format(SCOPE_QUERY_TEMPLATE, aId);
-    try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(query), mDb)) {
       ResultSet rs = queryExecution.execSelect();
       while (rs.hasNext()) {
         QuerySolution qs = rs.next();
@@ -136,18 +138,19 @@ public class ResourceIndexer {
     }
 
     return indexScope;
-
   }
 
   /**
    * Queries the triple store for all resources to be indexed
+   *
    * @return The list of typed resources
    */
   public Set<String> getScope() {
 
     Set<String> indexScope = new HashSet<>();
     String query = GLOBAL_QUERY_TEMPLATE;
-    try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), mDb)) {
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(query), mDb)) {
       ResultSet rs = queryExecution.execSelect();
       while (rs.hasNext()) {
         QuerySolution qs = rs.next();
@@ -162,7 +165,6 @@ public class ResourceIndexer {
     Logger.debug("Indexing scope" + indexScope.toString());
 
     return indexScope;
-
   }
 
   public Resource getResource(String aId) {
@@ -177,7 +179,6 @@ public class ResourceIndexer {
     }
 
     return null;
-
   }
 
   public Set<Resource> getResources(String aId) {
@@ -189,7 +190,6 @@ public class ResourceIndexer {
     }
 
     return resourcesToIndex;
-
   }
 
   public Set<Resource> getResources(Commit.Diff aDiff) {
@@ -201,7 +201,6 @@ public class ResourceIndexer {
     }
 
     return resourcesToIndex;
-
   }
 
   public Set<Resource> getResources() {
@@ -213,7 +212,6 @@ public class ResourceIndexer {
     }
 
     return resourcesToIndex;
-
   }
 
   public void index(Resource aResource) {
@@ -227,20 +225,22 @@ public class ResourceIndexer {
           metadata.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
           metadata.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-          metadata.put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
-            .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+          metadata
+            .put(Record.DATE_CREATED, history.get(history.size() - 1).getHeader().getTimestamp()
+              .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         }
         metadata.put(Record.LINK_COUNT, String.valueOf(aResource.getNumberOfSubFields("**.@id")));
-        metadata.put(Record.LIKE_COUNT, String.valueOf(aResource.getAsList("objectIn").stream().filter(
-          resource -> resource.getType().equals("LikeAction")).count()));
-        metadata.put(Record.LIGHTHOUSE_COUNT, String.valueOf(aResource.getAsList("objectIn").stream().filter(
-          resource -> resource.getType().equals("LighthouseAction")).count()));
+        metadata
+          .put(Record.LIKE_COUNT, String.valueOf(aResource.getAsList("objectIn").stream().filter(
+            resource -> resource.getType().equals("LikeAction")).count()));
+        metadata.put(Record.LIGHTHOUSE_COUNT,
+          String.valueOf(aResource.getAsList("objectIn").stream().filter(
+            resource -> resource.getType().equals("LighthouseAction")).count()));
         mTargetRepo.addResource(aResource, metadata);
       } catch (IndexOutOfBoundsException | IOException e) {
         Logger.error("Could not index resource", e);
       }
     }
-
   }
 
   public void index(Set<Resource> aResources) {
@@ -254,14 +254,12 @@ public class ResourceIndexer {
     long endTime = System.nanoTime();
     long duration = (endTime - startTime) / 1000000000;
     Logger.debug("Done indexing, took ".concat(Long.toString(duration)).concat(" sec."));
-
   }
 
   public void index(Commit.Diff aDiff) {
 
     Set<Resource> denormalizedResources = getResources(aDiff);
     index(denormalizedResources);
-
   }
 
   public void index(String aId) {
@@ -275,7 +273,5 @@ public class ResourceIndexer {
     }
 
     index(denormalizedResources);
-
   }
-
 }

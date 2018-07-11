@@ -1,17 +1,16 @@
 package models;
 
-import helpers.JsonLdConstants;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import helpers.JsonLdConstants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 public class ResourceTest {
 
@@ -99,7 +98,6 @@ public class ResourceTest {
     map.put(property, value);
     Resource resource = Resource.fromMap(map);
     assertEquals(resource.get(property), Resource.fromMap(value));
-
   }
 
   @Test
@@ -120,7 +118,6 @@ public class ResourceTest {
     map.put(property, value);
     Resource resource = Resource.fromMap(map);
     assertEquals((ArrayList<?>) resource.get(property), value);
-
   }
 
   @Test
@@ -148,6 +145,5 @@ public class ResourceTest {
     map.put(property, value);
     Resource resource = Resource.fromMap(map);
     assertEquals(resource.get(property), value);
-
   }
 }

@@ -22,5 +22,4 @@ public interface Versionable {
   Resource getResource(String aId, String aVersion);
 
   List<Commit> log(String aId);
-
 }

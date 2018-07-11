@@ -16,11 +16,10 @@ public class Filters implements HttpFilters {
 
   @Inject
   public Filters(GzipFilter gzipFilter, CORSFilter corsFilter) {
-    filters = new EssentialFilter[] { gzipFilter.asJava(), corsFilter.asJava() };
+    filters = new EssentialFilter[]{gzipFilter.asJava(), corsFilter.asJava()};
   }
 
   public EssentialFilter[] filters() {
     return filters;
   }
-
 }

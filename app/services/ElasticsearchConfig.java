@@ -87,17 +87,16 @@ public class ElasticsearchConfig {
     mClusterSettings = new HashMap<>();
     mClusterSettings.put("cluster.name", mCluster);
 
-    switch (mConfig.getString("es.request.refreshpolicy")){
-      case ("IMMEDIATE") :
+    switch (mConfig.getString("es.request.refreshpolicy")) {
+      case ("IMMEDIATE"):
         mRefreshPolicy = WriteRequest.RefreshPolicy.IMMEDIATE;
         break;
-      case ("WAIT_UNTIL") :
+      case ("WAIT_UNTIL"):
         mRefreshPolicy = WriteRequest.RefreshPolicy.WAIT_UNTIL;
         break;
-      default :
+      default:
         mRefreshPolicy = WriteRequest.RefreshPolicy.NONE;
     }
-
   }
 
   public String getIndex() {
@@ -137,7 +136,8 @@ public class ElasticsearchConfig {
     // TODO with ES v 6.3: return mEsClient.indices().exists(request);
     CloseableHttpClient httpClient = HttpClients.createDefault();
     HttpHead head = new HttpHead(
-      "http://".concat(mServer).concat(":").concat(mJavaPort.toString()).concat("/").concat(aIndex));
+      "http://".concat(mServer).concat(":").concat(mJavaPort.toString()).concat("/")
+        .concat(aIndex));
     try {
       final CloseableHttpResponse response = httpClient.execute(head);
       return (response.getStatusLine().getStatusCode() == 200);
@@ -185,5 +185,4 @@ public class ElasticsearchConfig {
     }
     return Fuzziness.AUTO;
   }
-
 }

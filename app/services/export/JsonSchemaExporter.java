@@ -3,13 +3,10 @@ package services.export;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Arrays;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by fo on 27.07.17.
@@ -30,7 +27,7 @@ public class JsonSchemaExporter implements Exporter {
     ArrayNode items = new ArrayNode(JsonNodeFactory.instance);
     ArrayNode suggest = new ArrayNode(JsonNodeFactory.instance);
 
-    for (Resource item: aResourceList.getItems()) {
+    for (Resource item : aResourceList.getItems()) {
       items.add(item.getAsResource(Record.RESOURCE_KEY).getId());
       suggest.add(item.getAsResource(Record.RESOURCE_KEY).toJson());
     }
@@ -49,6 +46,5 @@ public class JsonSchemaExporter implements Exporter {
     schema.set("_suggest", suggest);
 
     return schema.toString();
-
   }
 }

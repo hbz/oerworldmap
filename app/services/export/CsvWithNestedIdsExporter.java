@@ -19,7 +19,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
   private List<String> mDropFields = new ArrayList<>();
 
   @Override
-  public String export(ResourceList aResourceList){
+  public String export(ResourceList aResourceList) {
     StringBuffer result = new StringBuffer();
     List<Resource> resources = new ArrayList<>();
     for (Resource record : aResourceList.getItems()) {
@@ -48,7 +48,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
   private String buildRow(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
-          "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
+        "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
     } //
     else {
       mValues = new String[mKeys.size()];
@@ -65,7 +65,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
     int index = getIndexInHeader(aResourceEntry.getKey());
     if (index == -1) {
       throw new IllegalStateException(
-          "Trying to export Resource entry but key not found in header: \n" + aResourceEntry);
+        "Trying to export Resource entry but key not found in header: \n" + aResourceEntry);
     } //
     else {
       if (value instanceof List<?>) {
@@ -144,5 +144,4 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
     mDropFields.clear();
     mDropFields.addAll(aDropFields);
   }
-
 }

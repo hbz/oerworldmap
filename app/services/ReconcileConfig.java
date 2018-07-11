@@ -14,5 +14,4 @@ public class ReconcileConfig extends AbstractConfig {
   public ReconcileConfig(String aConfigFile) {
     super(aConfigFile, "Reconcile configuration");
   }
-
 }

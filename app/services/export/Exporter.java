@@ -11,5 +11,4 @@ public interface Exporter {
   String export(Resource aResource);
 
   String export(ResourceList aResourceList);
-
 }

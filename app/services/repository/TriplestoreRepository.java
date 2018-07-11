@@ -81,15 +81,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
   @Override
   public Resource getResource(@Nonnull String aId, String aVersion) {
-
     Model dbstate = getExtendedDescription(aId, mDb);
-
     if ((aVersion != null) && !("HEAD".equals(aVersion))) {
       for (Commit commit : mGraphHistory.until(aVersion)) {
         commit.getDiff().unapply(dbstate);
       }
     }
-
     Resource resource = null;
     if (!dbstate.isEmpty()) {
       try {
@@ -98,26 +95,21 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         Logger.error("Could not get resource", e);
       }
     }
-
     return resource;
-
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
-
     return getResource(aId, null);
-
   }
 
   @Override
   public List<Resource> getAll(@Nonnull String aType) throws IOException {
-
     List<Resource> resources = new ArrayList<>();
-
     mDb.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(String.format(SELECT_RESOURCES, aType)), mDb)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(String.format(SELECT_RESOURCES, aType)), mDb)) {
         ResultSet resultSet = queryExecution.execSelect();
         while (resultSet.hasNext()) {
           QuerySolution querySolution = resultSet.next();
@@ -127,36 +119,32 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } finally {
       mDb.leaveCriticalSection();
     }
-
     return resources;
-
   }
 
   @Override
-  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata) throws IOException {
-
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+  public void addResource(@Nonnull Resource aResource, Map<String, String> aMetadata)
+    throws IOException {
+    TripleCommit.Header header = new TripleCommit.Header(
+      aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     Commit.Diff diff = getDiff(aResource);
-
     commit(new TripleCommit(header, diff));
-
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata)
+    throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+    TripleCommit.Header header = new TripleCommit.Header(
+      aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     Commit.Diff diff = getDiff(aResources);
-
     commit(new TripleCommit(header, diff));
-
   }
 
   @Override
   public void commit(Commit commit) throws IOException {
-
     mDb.enterCriticalSection(Lock.WRITE);
     try {
       commit.getDiff().apply(mDb);
@@ -164,13 +152,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } finally {
       mDb.leaveCriticalSection();
     }
-
     mGraphHistory.add(commit);
-
   }
 
   public void commit(List<Commit> commits) throws IOException {
-
     mDb.enterCriticalSection(Lock.WRITE);
     try {
       for (Commit commit : commits) {
@@ -181,7 +166,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } finally {
       mDb.leaveCriticalSection();
     }
-
   }
 
   @Override
@@ -194,7 +178,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Select resources staged model is referencing and add them to staged
     try (QueryExecution queryExecution = QueryExecutionFactory.create(
-        QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), staged)) {
+      QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), staged)) {
       ResultSet resultSet = queryExecution.execSelect();
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
@@ -213,13 +197,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         }
       }
     }
-
     return ResourceFramer.resourceFromModel(staged, aResource.getId());
-
   }
 
   private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
-
     Model extendedDescription = ModelFactory.createDefaultModel();
 
     // Validate URI
@@ -231,69 +212,56 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     // Current data
     String describeStatement = String.format(EXTENDED_DESCRIPTION, aId);
-
     extendedDescription.enterCriticalSection(Lock.WRITE);
     aModel.enterCriticalSection(Lock.READ);
-
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(describeStatement), aModel)) {
         queryExecution.execDescribe(extendedDescription);
       }
     } finally {
       aModel.leaveCriticalSection();
       extendedDescription.leaveCriticalSection();
     }
-
     return extendedDescription;
-
   }
 
   private Model getConciseBoundedDescription(String aId, Model aModel) {
-
     String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTION, aId);
     Model conciseBoundedDescription = ModelFactory.createDefaultModel();
-
     aModel.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement), aModel)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(describeStatement), aModel)) {
         queryExecution.execDescribe(conciseBoundedDescription);
       }
     } finally {
       aModel.leaveCriticalSection();
     }
-
     return conciseBoundedDescription;
-
   }
 
   @Override
   public Commit.Diff getDiff(@Nonnull List<Resource> aResources) {
-
     Commit.Diff diff = new TripleCommit.Diff();
-
     for (Resource resource : aResources) {
       diff.append(getDiff(resource));
     }
-
     return diff;
-
   }
 
   @Override
   public Commit.Diff getDiff(@Nonnull Resource aResource) {
-
     // The incoming model
     Model incoming = ModelFactory.createDefaultModel();
-
-    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(aResource.reduce().toString().getBytes())) {
+    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+      aResource.reduce().toString().getBytes())) {
       RDFDataMgr.read(incoming, byteArrayInputStream, Lang.JSONLD);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }
-
     // Reduce incoming model to CBD
     Model model = getConciseBoundedDescription(aResource.getId(), incoming);
-
     mBroaderConceptEnricher.enrich(model);
 
     // Add inferred (e.g. inverse) statements to incoming model
@@ -319,43 +287,34 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     while (itRemove.hasNext()) {
       diff.removeStatement(itRemove.next());
     }
-
     return diff;
-
   }
 
   public Commit.Diff getDiffs(@Nonnull Resource aResource) {
-
     List<Resource> resources = new ArrayList<>();
     try {
       resources = ResourceFramer.flatten(aResource);
     } catch (IOException e) {
       Logger.error("Failed to flatten resource", e);
     }
-
     TripleCommit.Diff diff = new TripleCommit.Diff();
     for (Resource resource : resources) {
       diff.append(getDiff(resource));
     }
-
     return diff;
-
   }
 
   public Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
-
     Commit.Diff diff = new TripleCommit.Diff();
-
     for (Resource resource : aResources) {
       diff.append(getDiffs(resource));
     }
-
     return diff;
-
   }
 
   @Override
-  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) throws IOException {
+  public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata)
+    throws IOException {
 
     // Current data, outbound links
     Model dbstate = getConciseBoundedDescription(aId, mDb);
@@ -364,7 +323,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     String constructStatement = String.format(CONSTRUCT_BACKLINKS, aId);
     mDb.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(constructStatement), mDb)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(constructStatement), mDb)) {
         queryExecution.execConstruct(dbstate);
       }
     } finally {
@@ -392,24 +352,22 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     // Record removal in history
-    TripleCommit.Header header = new TripleCommit.Header(aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+    TripleCommit.Header header = new TripleCommit.Header(
+      aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 
     return ResourceFramer.resourceFromModel(dbstate, aId);
-
   }
 
   @Override
   public List<Commit> log(String aId) {
-
     if (StringUtils.isEmpty(aId)) {
       return mGraphHistory.log();
     } else {
       return mGraphHistory.log(aId);
     }
-
   }
 
   public String sparql(String q) {
@@ -419,7 +377,8 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     mDb.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(q), mDb)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(q), mDb)) {
         switch (queryExecution.getQuery().getQueryType()) {
           case Query.QueryTypeSelect:
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -443,9 +402,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     } finally {
       mDb.leaveCriticalSection();
     }
-
     return result;
-
   }
 
   /**
@@ -467,13 +424,13 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       Model deleteModel;
       mDb.enterCriticalSection(Lock.READ);
       try {
-        try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(deleteQuery), mDb)) {
+        try (QueryExecution queryExecution = QueryExecutionFactory
+          .create(QueryFactory.create(deleteQuery), mDb)) {
           deleteModel = queryExecution.execConstruct();
         }
       } finally {
         mDb.leaveCriticalSection();
       }
-
       StmtIterator itDelete = deleteModel.listStatements();
       while (itDelete.hasNext()) {
         Statement statement = itDelete.next();
@@ -488,13 +445,13 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       Model insertModel;
       mDb.enterCriticalSection(Lock.READ);
       try {
-        try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(insertQuery), mDb)) {
+        try (QueryExecution queryExecution = QueryExecutionFactory
+          .create(QueryFactory.create(insertQuery), mDb)) {
           insertModel = queryExecution.execConstruct();
         }
       } finally {
         mDb.leaveCriticalSection();
       }
-
       StmtIterator itInsert = insertModel.listStatements();
       while (itInsert.hasNext()) {
         Statement statement = itInsert.next();
@@ -503,20 +460,17 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         }
       }
     }
-
     return diff;
-
   }
 
   public String label(String aId) {
-
     String labelQuery = String.format(LABEL_RESOURCE, aId);
-
     String result = aId;
 
     mDb.enterCriticalSection(Lock.READ);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(labelQuery), mDb)) {
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(labelQuery), mDb)) {
         ResultSet resultSet = queryExecution.execSelect();
         while (resultSet.hasNext()) {
           QuerySolution querySolution = resultSet.next();
@@ -528,7 +482,5 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
 
     return result;
-
   }
-
 }

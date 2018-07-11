@@ -1,8 +1,8 @@
 package services;
 
-import helpers.JsonLdConstants;
+import java.util.Arrays;
+import java.util.List;
 import models.Record;
-import models.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -12,9 +12,6 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInter
 import org.elasticsearch.search.aggregations.bucket.terms.IncludeExclude;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author fo
@@ -26,27 +23,33 @@ public class AggregationProvider {
   }
 
   public static AggregationBuilder getTypeAggregation(int aSize) {
-    return AggregationBuilders.terms("about.@type").size(getSize(aSize)).field("about.@type").minDocCount(0)
-      .includeExclude(new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction"))
+    return AggregationBuilders.terms("about.@type").size(getSize(aSize)).field("about.@type")
+      .minDocCount(0)
+      .includeExclude(
+        new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction"))
       .order(BucketOrder.key(false));
   }
 
   public static AggregationBuilder getServiceLanguageAggregation(int aSize) {
-    return AggregationBuilders.terms("about.availableChannel.availableLanguage").size(getSize(aSize))
-        .field("about.availableChannel.availableLanguage");
+    return AggregationBuilders.terms("about.availableChannel.availableLanguage")
+      .size(getSize(aSize))
+      .field("about.availableChannel.availableLanguage");
   }
 
   public static AggregationBuilder getServiceByFieldOfEducationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.about.@id").size(getSize(aSize)).field("about.about.@id");
+    return AggregationBuilders.terms("about.about.@id").size(getSize(aSize))
+      .field("about.about.@id");
   }
 
-  public static AggregationBuilder getServiceByFieldOfEducationAggregation(List<String> anIdList, int aSize) {
+  public static AggregationBuilder getServiceByFieldOfEducationAggregation(List<String> anIdList,
+    int aSize) {
     return AggregationBuilders.terms("about.about.@id").size(getSize(aSize))
-        .field("about.about.@id").includeExclude(new IncludeExclude(StringUtils.join(anIdList, '|'), null));
+      .field("about.about.@id")
+      .includeExclude(new IncludeExclude(StringUtils.join(anIdList, '|'), null));
   }
 
   public static AggregationBuilder getServiceByTopLevelFieldOfEducationAggregation() {
-    String[] topLevelIds = new String[] {
+    String[] topLevelIds = new String[]{
       "https://w3id.org/class/esc/n00",
       "https://w3id.org/class/esc/n01",
       "https://w3id.org/class/esc/n02",
@@ -64,7 +67,7 @@ public class AggregationProvider {
 
   public static AggregationBuilder getServiceByGradeLevelAggregation(int aSize) {
     return AggregationBuilders.terms("about.audience.@id").size(getSize(aSize))
-        .field("about.audience.@id");
+      .field("about.audience.@id");
   }
 
   public static AggregationBuilder getKeywordsAggregation(int aSize) {
@@ -75,11 +78,12 @@ public class AggregationProvider {
 
   public static AggregationBuilder getByCountryAggregation(int aSize) {
     return AggregationBuilders
-        .terms("feature.properties.location.address.addressCountry")
-        .field("feature.properties.location.address.addressCountry").size(getSize(aSize))
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
-        .subAggregation(AggregationBuilders
-          .filter("champions", QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+      .terms("feature.properties.location.address.addressCountry")
+      .field("feature.properties.location.address.addressCountry").size(getSize(aSize))
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
+      .subAggregation(AggregationBuilders
+        .filter("champions",
+          QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
   }
 
 
@@ -91,12 +95,15 @@ public class AggregationProvider {
         .includeExclude(new IncludeExclude(aId, null))
         .size(getSize(aSize))
         .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
-          .includeExclude(new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
+          .includeExclude(
+            new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
         .subAggregation(AggregationBuilders
-          .filter("champions", QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
+          .filter("champions",
+            QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
           .subAggregation(AggregationBuilders.topHits("country_champions")))
         .subAggregation(AggregationBuilders
-          .filter("reports", QueryBuilders.matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
+          .filter("reports", QueryBuilders
+            .matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
           .subAggregation(AggregationBuilders.topHits("country_reports")))
     );
   }
@@ -109,7 +116,8 @@ public class AggregationProvider {
 
 
   public static AggregationBuilder getProjectByLocationAggregation(int aSize) {
-    return AggregationBuilders.terms("about.agent.location.address.addressCountry").size(getSize(aSize))
+    return AggregationBuilders.terms("about.agent.location.address.addressCountry")
+      .size(getSize(aSize))
       .field("about.agent.location.address.addressCountry");
   }
 
@@ -122,13 +130,15 @@ public class AggregationProvider {
 
   public static AggregationBuilder getEventCalendarAggregation() {
     return AggregationBuilders
-        .dateHistogram("about.startDate.GTE")
-        .field("about.startDate")
-        .dateHistogramInterval(DateHistogramInterval.MONTH).subAggregation(AggregationBuilders.topHits("about.@id")
-          .fetchSource(new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
-              "about.location"}, null)
-          .sort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
-          .size(100)
+      .dateHistogram("about.startDate.GTE")
+      .field("about.startDate")
+      .dateHistogramInterval(DateHistogramInterval.MONTH)
+      .subAggregation(AggregationBuilders.topHits("about.@id")
+        .fetchSource(
+          new String[]{"about.@id", "about.@type", "about.name", "about.startDate", "about.endDate",
+            "about.location"}, null)
+        .sort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
+        .size(100)
       ).order(BucketOrder.key(false)).minDocCount(1);
   }
 
@@ -159,5 +169,4 @@ public class AggregationProvider {
     return AggregationBuilders.terms("about.award").size(getSize(aSize))
       .field("about.award");
   }
-
 }

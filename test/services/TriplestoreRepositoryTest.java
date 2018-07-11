@@ -1,9 +1,18 @@
 package services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import helpers.JsonLdConstants;
 import helpers.JsonTest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import models.Commit;
 import models.Resource;
 import models.TripleCommit;
@@ -15,16 +24,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.repository.TriplestoreRepository;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -58,7 +57,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResource.IN.1.nt", Lang.NTRIPLES);
 
     assertTrue(actual.isIsomorphicWith(expected));
-
   }
 
   @Test
@@ -78,10 +76,10 @@ public class TriplestoreRepositoryTest implements JsonTest {
     triplestoreRepository.addResource(resource3, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
-    RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.nt", Lang.NTRIPLES);
+    RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testAddResourceWithReferences.IN.1.nt",
+      Lang.NTRIPLES);
 
     assertTrue(actual.isIsomorphicWith(expected));
-
   }
 
   @Test
@@ -101,10 +99,10 @@ public class TriplestoreRepositoryTest implements JsonTest {
     triplestoreRepository.addResource(update1, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
-    RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResource.IN.1.nt", Lang.NTRIPLES);
+    RDFDataMgr
+      .read(expected, "TriplestoreRepositoryTest/testUpdateResource.IN.1.nt", Lang.NTRIPLES);
 
     assertTrue(actual.isIsomorphicWith(expected));
-
   }
 
   @Test
@@ -127,10 +125,10 @@ public class TriplestoreRepositoryTest implements JsonTest {
     triplestoreRepository.addResource(update1, mMetadata);
 
     Model expected = ModelFactory.createDefaultModel();
-    RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResourceWithReferences.IN.1.nt", Lang.NTRIPLES);
+    RDFDataMgr.read(expected, "TriplestoreRepositoryTest/testUpdateResourceWithReferences.IN.1.nt",
+      Lang.NTRIPLES);
 
     assertTrue(actual.isIsomorphicWith(expected));
-
   }
 
   @Test
@@ -144,7 +142,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     Resource back = triplestoreRepository.getResource(resource1.getId());
     assertEquals(resource1, back);
-
   }
 
   @Test
@@ -171,7 +168,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Resource back = triplestoreRepository.getResource(resource1.getId());
 
     assertEquals(expected, back);
-
   }
 
   @Test
@@ -201,15 +197,17 @@ public class TriplestoreRepositoryTest implements JsonTest {
     assertNotNull(triplestoreRepository.getResource("info:bob"));
     assertNotNull(triplestoreRepository.getResource("info:carol"));
     assertEquals(6, actual.size());
-
   }
 
   @Test
   public void testDeleteResourceWithMentionedResources() throws IOException {
     // setup: 1 Person ("in1") who has 2 affiliations
-    Resource in1 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
-    Resource in2 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.2.json");
-    Resource in3 = getResourceFromJsonFile("BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.3.json");
+    Resource in1 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.1.json");
+    Resource in2 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.2.json");
+    Resource in3 = getResourceFromJsonFile(
+      "BaseRepositoryTest/testDeleteResourceWithMentionedResources.IN.3.json");
     Resource expected1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteResourceWithMentionedResources.OUT.1.json");
     Resource expected2 = getResourceFromJsonFile(
@@ -222,17 +220,20 @@ public class TriplestoreRepositoryTest implements JsonTest {
     triplestoreRepository.addResource(in2, mMetadata);
     triplestoreRepository.addResource(in3, mMetadata);
 
-
     // delete affiliation "Oh No Company" and check whether it has been removed
     // from referencing resources
-    Resource toBeDeleted = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
+    Resource toBeDeleted = triplestoreRepository
+      .getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987");
     triplestoreRepository.deleteResource(toBeDeleted.getAsString(JsonLdConstants.ID), mMetadata);
 
-    Resource result1 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
-    Resource result2 = triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
+    Resource result1 = triplestoreRepository
+      .getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456");
+    Resource result2 = triplestoreRepository
+      .getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123");
     Assert.assertEquals(expected1, result1);
     Assert.assertEquals(expected2, result2);
-    Assert.assertNull(triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
+    Assert.assertNull(
+      triplestoreRepository.getResource("info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70987"));
   }
 
   @Test
@@ -254,7 +255,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     List<Resource> resources = triplestoreRepository.getAll("http://schema.org/Person");
 
     assertEquals(3, resources.size());
-
   }
 
   @Test
@@ -280,7 +280,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
 
     assertEquals(triplestoreRepository.getResource("info:alice"), resource1);
     assertEquals(update1, staged2);
-
   }
 
   @Test
@@ -296,7 +295,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     Resource staged = triplestoreRepository.stage(resource);
 
     assertEquals(resource, staged);
-
   }
 
   @Test
@@ -314,7 +312,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     );
 
     assertEquals(expected.toString(), actual.toString());
-
   }
 
   @Test
@@ -332,7 +329,6 @@ public class TriplestoreRepositoryTest implements JsonTest {
     );
 
     assertEquals(expected.toString(), actual.toString());
-
   }
 
   @Test
@@ -347,11 +343,9 @@ public class TriplestoreRepositoryTest implements JsonTest {
     );
     Commit.Diff expected = TripleCommit.Diff.fromString(
       "- <info:subject> <info:objectProperty> <info:object> .\n" +
-      "+ <info:subject> <info:anotherProperty> <info:object> .\n"
+        "+ <info:subject> <info:anotherProperty> <info:object> .\n"
     );
 
     assertEquals(expected.toString(), actual.toString());
-
   }
-
 }

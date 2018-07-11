@@ -19,7 +19,7 @@ import java.util.List;
  * Created by pvb
  */
 
-public class CalendarImporter implements Importer{
+public class CalendarImporter implements Importer {
 
   final private Config mConfig;
 
@@ -28,7 +28,7 @@ public class CalendarImporter implements Importer{
   final private static String NAME_OF_PYTHON_IMPORTER;
   final private static String PATH_AND_NAME_OF_PYTHON_IMPORTER;
 
-  static{
+  static {
     FileSystem fileSystem = new File(".").toPath().getFileSystem();
     final String SEP = fileSystem.getSeparator();
     PATH_TO_PYTHON_LIBRARY = System.getProperty("user.home")
@@ -44,7 +44,7 @@ public class CalendarImporter implements Importer{
       .concat(SEP).concat(NAME_OF_PYTHON_IMPORTER);
   }
 
-  public CalendarImporter(final Config aConfig){
+  public CalendarImporter(final Config aConfig) {
     mConfig = aConfig;
   }
 
@@ -54,8 +54,10 @@ public class CalendarImporter implements Importer{
     return importFromUrl(aUrl, aLanguage, mapzenApiKey);
   }
 
-  private static List<Resource> importFromUrl(String aUrl, String aLanguage, String aApiKey) throws IOException {
-    String[] arguments = {PATH_AND_NAME_OF_PYTHON_IMPORTER, "DUMMY", aUrl, aLanguage, "./import/iCal/cache/temp.json", aApiKey};
+  private static List<Resource> importFromUrl(String aUrl, String aLanguage, String aApiKey)
+    throws IOException {
+    String[] arguments = {PATH_AND_NAME_OF_PYTHON_IMPORTER, "DUMMY", aUrl, aLanguage,
+      "./import/iCal/cache/temp.json", aApiKey};
     PythonInterpreter.initialize(System.getProperties(), System.getProperties(), arguments);
     PythonInterpreter interpreter = new org.python.util.PythonInterpreter();
     interpreter.exec("import sys");
@@ -65,12 +67,13 @@ public class CalendarImporter implements Importer{
     interpreter.setOut(new StringWriter());
     interpreter.execfile(PATH_AND_NAME_OF_PYTHON_IMPORTER);
     ObjectMapper mapper = new ObjectMapper();
-    String json = new String(Files.readAllBytes(Paths.get("./import/iCal/cache/temp.json")), StandardCharsets.UTF_8);
-    while (json.startsWith("[[") && json.endsWith("]]")){
-      json = json.substring(1, json.length()-1);
+    String json = new String(Files.readAllBytes(Paths.get("./import/iCal/cache/temp.json")),
+      StandardCharsets.UTF_8);
+    while (json.startsWith("[[") && json.endsWith("]]")) {
+      json = json.substring(1, json.length() - 1);
     }
-    List<Resource> result = mapper.readValue(json, new TypeReference<List<Resource>>() {});
+    List<Resource> result = mapper.readValue(json, new TypeReference<List<Resource>>() {
+    });
     return result;
   }
-
 }

@@ -32,5 +32,4 @@ public class Robots extends Controller {
     }
     return ok(stringWriter.toString());
   }
-
 }

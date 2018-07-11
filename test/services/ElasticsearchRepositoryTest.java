@@ -35,7 +35,8 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mElasticsearchRepo.addResource(in1, new HashMap<>());
     mElasticsearchRepo.addResource(in2, new HashMap<>());
 
-    List<Resource> resourcesGotBack = ResourceHelpers.unwrapRecords(mElasticsearchRepo.getAll("Person"));
+    List<Resource> resourcesGotBack = ResourceHelpers
+      .unwrapRecords(mElasticsearchRepo.getAll("Person"));
     Assert.assertTrue(resourcesGotBack.contains(in1));
     Assert.assertFalse(resourcesGotBack.contains(in2));
   }
@@ -48,7 +49,8 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.2.json");
     mElasticsearchRepo.addResource(in1, new HashMap<>());
     mElasticsearchRepo.addResource(in2, new HashMap<>());
-    List<Resource> resourcesGotBack = ResourceHelpers.unwrapRecords(mElasticsearchRepo.getAll("Person"));
+    List<Resource> resourcesGotBack = ResourceHelpers
+      .unwrapRecords(mElasticsearchRepo.getAll("Person"));
     Set<String> ids = new HashSet<>();
     Set<String> names = new HashSet<>();
 
@@ -63,7 +65,6 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     // appearing exactly one time per Resource
     Assert.assertEquals(resourcesGotBack.size(), ids.size());
     Assert.assertEquals(ids.size(), names.size());
-
   }
 
   @Test
@@ -76,5 +77,4 @@ public class ElasticsearchRepositoryTest extends ElasticsearchTestGrid implement
     mElasticsearchRepo.addResource(in2, new HashMap<>());
     Assert.assertEquals(2, mElasticsearchRepo.getResources("\\*.@id", "info:123").size());
   }
-
 }

@@ -67,7 +67,7 @@ public class CalendarExporter implements Exporter {
 
   private static final Map<String, String> mFieldMap = new HashMap<>();
 
-  static{
+  static {
     mFieldMap.put(UID, JsonLdConstants.ID);
     mFieldMap.put(SUMMARY, "name.@value");
     mFieldMap.put(URL, "url");
@@ -82,7 +82,7 @@ public class CalendarExporter implements Exporter {
 
   private final Locale mPreferredLocale;
 
-  public CalendarExporter(Locale aPreferredLocale){
+  public CalendarExporter(Locale aPreferredLocale) {
     mPreferredLocale = aPreferredLocale;
   }
 
@@ -91,30 +91,32 @@ public class CalendarExporter implements Exporter {
     if (!aResource.getAsResource(Record.RESOURCE_KEY).getType().equals("Event")) {
       return null;
     }
-    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsResource(Record.RESOURCE_KEY))).concat(FOOTER);
+    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsResource(Record.RESOURCE_KEY)))
+      .concat(FOOTER);
   }
 
   @Override
   public String export(ResourceList aResourceList) {
     StringBuilder result = new StringBuilder(HEADER);
-    aResourceList.getItems().stream().filter(resource -> resource.getAsResource(Record.RESOURCE_KEY).getType()
-      .equals("Event")).forEach(resource ->
-        result.append(exportResourceWithoutHeader(resource.getAsResource(Record.RESOURCE_KEY)))
+    aResourceList.getItems().stream()
+      .filter(resource -> resource.getAsResource(Record.RESOURCE_KEY).getType()
+        .equals("Event")).forEach(resource ->
+      result.append(exportResourceWithoutHeader(resource.getAsResource(Record.RESOURCE_KEY)))
     );
     result.append(FOOTER);
     return result.toString();
   }
 
-  private String exportResourceWithoutHeader(final Resource aResource){
+  private String exportResourceWithoutHeader(final Resource aResource) {
     final String startDate = parseStartDate(aResource);
     final String dateStamp = getTimeStamp();
     // Check required fields according to https://tools.ietf.org/html/rfc5545#section-3.6.1
-    if (StringUtils.isEmpty(startDate) || StringUtils.isEmpty(dateStamp)){
+    if (StringUtils.isEmpty(startDate) || StringUtils.isEmpty(dateStamp)) {
       // Missing UID is not checked here because it can never be null for an existing resource.
       return "";
     }
     final StringBuilder result = new StringBuilder(EVENT_BEGIN);
-    for (Map.Entry<String, String> mapping : mFieldMap.entrySet()){
+    for (Map.Entry<String, String> mapping : mFieldMap.entrySet()) {
       boolean hasAppendedSomething = false;
       String[] mappingValues = mapping.getValue().split(VALUE_SEPARATOR);
       StringBuilder subResult = new StringBuilder();
@@ -134,7 +136,7 @@ public class CalendarExporter implements Exporter {
         }
       }
       result.append(subResult);
-      if (hasAppendedSomething){
+      if (hasAppendedSomething) {
         result.append("\n");
       }
     }
@@ -149,28 +151,27 @@ public class CalendarExporter implements Exporter {
     return result.toString();
   }
 
-  private void completeFields(final StringBuilder aStringBuilder, final Resource aResource){
-    if (aResource.getNestedFieldValue("name.@value", mPreferredLocale) == null){
+  private void completeFields(final StringBuilder aStringBuilder, final Resource aResource) {
+    if (aResource.getNestedFieldValue("name.@value", mPreferredLocale) == null) {
       // no summary could be added --> append empty summary to comply to ical specification
       aStringBuilder.append("SUMMARY:\n");
     }
   }
 
-  private String getExportedOrganizer(Resource aResource){
+  private String getExportedOrganizer(Resource aResource) {
     StringBuilder result = new StringBuilder();
     List<Resource> organizers = aResource.getAsList("organizer");
     result.append(ORGANIZER);
     boolean hasOrganizer = false;
-    if (organizers != null && !organizers.isEmpty()){
+    if (organizers != null && !organizers.isEmpty()) {
       for (Resource organizer : organizers) {
         String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
         String email = organizer.getAsString("email");
         boolean hasName = false;
         if (name != null) {
-          if (email == null){
+          if (email == null) {
             result.append(":").append(name);
-          }
-          else {
+          } else {
             result.append(COMMON_NAME).append("\"").append(name).append("\"");
           }
           hasOrganizer = true;
@@ -185,13 +186,13 @@ public class CalendarExporter implements Exporter {
           }
           result.append(MAILTO).append(email);
         }
-        if (hasName){
+        if (hasName) {
           break;
         }
       }
       result.append("\n");
     }
-    if (!hasOrganizer){
+    if (!hasOrganizer) {
       result.append(":\n");
     }
     return result.toString();
@@ -200,15 +201,14 @@ public class CalendarExporter implements Exporter {
   private String parseStartDate(final Resource aResource) {
     final String originalStartDate = aResource.getAsString("startDate");
     StringBuilder result = new StringBuilder();
-    if (originalStartDate == null || Strings.isEmpty(originalStartDate)){
+    if (originalStartDate == null || Strings.isEmpty(originalStartDate)) {
       return "";
     }
     Matcher matcher = mSimpleDatePattern.matcher(originalStartDate);
     if (matcher.find()) {
       result.append(DATE_START)
         .append(formatSimpleDate(matcher, DEFAULT_TIME_START));
-    }
-    else {
+    } else {
       final DateTime dateTime = parseISO8601toUTC(originalStartDate);
       if (dateTime == null) {
         return "";
@@ -221,15 +221,14 @@ public class CalendarExporter implements Exporter {
   private static String parseEndDate(final Resource aResource) {
     final String originalEndDate = aResource.getAsString("endDate");
     StringBuilder result = new StringBuilder();
-    if (originalEndDate == null || Strings.isEmpty(originalEndDate)){
+    if (originalEndDate == null || Strings.isEmpty(originalEndDate)) {
       return "";
     }
     Matcher matcher = mSimpleDatePattern.matcher(originalEndDate);
     if (matcher.find()) {
       result.append(DATE_END)
         .append(formatSimpleDate(matcher, DEFAULT_TIME_END));
-    }
-    else {
+    } else {
       final DateTime dateTime = parseISO8601toUTC(originalEndDate);
       if (dateTime == null) {
         return "";
@@ -239,7 +238,7 @@ public class CalendarExporter implements Exporter {
     return result.append("\n").toString();
   }
 
-  private static String formatSimpleDate(final Matcher aMatcher, final String aTime){
+  private static String formatSimpleDate(final Matcher aMatcher, final String aTime) {
     return aMatcher.group(1).concat(aMatcher.group(2)).concat(aMatcher.group(3)).concat(aTime);
   }
 
@@ -261,50 +260,48 @@ public class CalendarExporter implements Exporter {
    * From project Carolina-Digital-Repository, under directory /metadata/src/main/java/edu/unc/lib/dl/util/
    *
    * Parse a date in any ISO 8601 format. Default TZ is based on Locale.
+   *
    * @param isoDate ISO8601 date/time string with or without TZ offset
    * @return a Joda DateTime object in UTC (call toString() to print)
    */
-  private static DateTime parseISO8601toUTC(String isoDate){
+  private static DateTime parseISO8601toUTC(String isoDate) {
     DateTime result;
-    DateTimeFormatter fmt= ISODateTimeFormat.dateTimeParser().withOffsetParsed();
-    DateTime isoDT=fmt.parseDateTime(isoDate);
+    DateTimeFormatter fmt = ISODateTimeFormat.dateTimeParser().withOffsetParsed();
+    DateTime isoDT = fmt.parseDateTime(isoDate);
     if (isoDT.year().get() > 9999) {
       try {
-        fmt= DateTimeFormat.forPattern("yyyyMMdd");
-        fmt=fmt.withZone(DateTimeZone.getDefault());
-        isoDT=fmt.parseDateTime(isoDate);
-      }
-      catch (IllegalArgumentException e) {
+        fmt = DateTimeFormat.forPattern("yyyyMMdd");
+        fmt = fmt.withZone(DateTimeZone.getDefault());
+        isoDT = fmt.parseDateTime(isoDate);
+      } catch (IllegalArgumentException e) {
         try {
-          fmt=DateTimeFormat.forPattern("yyyyMM");
-          fmt=fmt.withZone(DateTimeZone.getDefault());
-          isoDT=fmt.parseDateTime(isoDate);
-        }
-        catch (IllegalArgumentException e1) {
+          fmt = DateTimeFormat.forPattern("yyyyMM");
+          fmt = fmt.withZone(DateTimeZone.getDefault());
+          isoDT = fmt.parseDateTime(isoDate);
+        } catch (IllegalArgumentException e1) {
           try {
-            fmt=DateTimeFormat.forPattern("yyyy");
-            fmt=fmt.withZone(DateTimeZone.getDefault());
-            isoDT=fmt.parseDateTime(isoDate);
-          }
-          catch (IllegalArgumentException ignored) {
+            fmt = DateTimeFormat.forPattern("yyyy");
+            fmt = fmt.withZone(DateTimeZone.getDefault());
+            isoDT = fmt.parseDateTime(isoDate);
+          } catch (IllegalArgumentException ignored) {
           }
         }
       }
     }
-    result=isoDT.withZoneRetainFields(DateTimeZone.getDefault());
+    result = isoDT.withZoneRetainFields(DateTimeZone.getDefault());
     return result;
   }
 
   private String getTimeStamp() {
-    return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15)).concat("Z\n");
+    return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15))
+      .concat("Z\n");
   }
 
-  private String getDescription(Resource aResource){
+  private String getDescription(Resource aResource) {
     String description = aResource.getNestedFieldValue("description.@value", mPreferredLocale);
-    if (description == null || Strings.isEmpty(description)){
+    if (description == null || Strings.isEmpty(description)) {
       return "";
     }
     return DESCRIPTION.concat(description.replaceAll("\r\n|\n|\r", "\\\\r\\\\n")).concat("\n");
   }
-
 }

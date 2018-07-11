@@ -1,15 +1,14 @@
 package services.export;
 
-import helpers.JsonTest;
-import models.Resource;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import helpers.JsonTest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import models.Resource;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CsvWithNestedIdsExporterTest implements JsonTest {
 
@@ -38,9 +37,8 @@ public class CsvWithNestedIdsExporterTest implements JsonTest {
     String csv1 = mCsvExporter.export(in1);
     String csv2 = mCsvExporter.export(in2);
     assertEquals("@id;@type;address;authorOf;name\n" +
-        "456;Person;Countrycountry, Streetstreet 1, 123456;123, 987;Hans Dampf\n", csv1);
+      "456;Person;Countrycountry, Streetstreet 1, 123456;123, 987;Hans Dampf\n", csv1);
     assertEquals("@id;@type;authorOf;email;name\n" +
       "345;Person;123;foo@bar.com;Hans Wurst\n", csv2);
   }
-
 }

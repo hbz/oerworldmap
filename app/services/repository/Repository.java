@@ -12,5 +12,4 @@ public abstract class Repository {
   public Repository(Config aConfiguration) {
     this.mConfiguration = aConfiguration;
   }
-
 }

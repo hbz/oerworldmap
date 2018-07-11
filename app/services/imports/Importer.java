@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface Importer {
 
-    List<Resource> importFromUrl(String aUrl, String aLanguage) throws IOException;
+  List<Resource> importFromUrl(String aUrl, String aLanguage) throws IOException;
 
 }

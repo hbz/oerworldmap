@@ -22,19 +22,19 @@ public class InverseEnricher implements ResourceEnricher {
 
   public static final String CONSTRUCT_INVERSE =
     "CONSTRUCT {?o <%1$s> ?s} WHERE {" +
-    "  ?s <%2$s> ?o ." +
-    "}";
+      "  ?s <%2$s> ?o ." +
+      "}";
 
 
   public InverseEnricher() {
 
     this.mInverseRelations = ModelFactory.createDefaultModel();
-    try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("inverses.ttl")) {
+    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
+      .getResourceAsStream("inverses.ttl")) {
       RDFDataMgr.read(mInverseRelations, inputStream, Lang.TURTLE);
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }
-
   }
 
   public void enrich(Model aToBeEnriched) {
@@ -45,8 +45,10 @@ public class InverseEnricher implements ResourceEnricher {
     aToBeEnriched.enterCriticalSection(Lock.READ);
     try {
       for (Statement stmt : mInverseRelations.listStatements().toList()) {
-        String inferConstruct = String.format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
-        QueryExecutionFactory.create(QueryFactory.create(inferConstruct), aToBeEnriched).execConstruct(inverses);
+        String inferConstruct = String
+          .format(CONSTRUCT_INVERSE, stmt.getSubject(), stmt.getObject());
+        QueryExecutionFactory.create(QueryFactory.create(inferConstruct), aToBeEnriched)
+          .execConstruct(inverses);
       }
     } finally {
       aToBeEnriched.leaveCriticalSection();
@@ -59,6 +61,5 @@ public class InverseEnricher implements ResourceEnricher {
     } finally {
       aToBeEnriched.leaveCriticalSection();
     }
-
   }
 }

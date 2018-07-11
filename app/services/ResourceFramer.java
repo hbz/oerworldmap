@@ -56,7 +56,8 @@ public class ResourceFramer {
     aModel.enterCriticalSection(Lock.READ);
     dbstate.enterCriticalSection(Lock.WRITE);
     try {
-      try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(describeStatement),
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(describeStatement),
           aModel)) {
         queryExecution.execDescribe(dbstate);
 
@@ -100,7 +101,6 @@ public class ResourceFramer {
     }
 
     return null;
-
   }
 
   private static JsonNode buildTree(JsonNode graph, ArrayNode graphs) {
@@ -115,9 +115,10 @@ public class ResourceFramer {
     } else if (graph.isObject()) {
       ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
       Iterator<String> fieldNames = graph.fieldNames();
-      while(fieldNames.hasNext()) {
+      while (fieldNames.hasNext()) {
         String fieldName = fieldNames.next();
-        if (! (fieldName.equals(JsonLdConstants.ID) && graph.get(fieldName).asText().startsWith("_:"))) {
+        if (!(fieldName.equals(JsonLdConstants.ID) && graph.get(fieldName).asText()
+          .startsWith("_:"))) {
           result.set(fieldName, link(graph.get(fieldName), graphs));
         }
       }
@@ -137,8 +138,10 @@ public class ResourceFramer {
     } else {
       graph = ref;
     }
-    List<String> linkProperties = Arrays.asList("@id", "@type", "@value", "@language", "name", "image", "location",
-      "startDate", "endDate", "agent", "object", "description", "text", "comment", "author", "dateCreated", "startTime");
+    List<String> linkProperties = Arrays
+      .asList("@id", "@type", "@value", "@language", "name", "image", "location",
+        "startDate", "endDate", "agent", "object", "description", "text", "comment", "author",
+        "dateCreated", "startTime");
     if (graph.isArray()) {
       ArrayNode result = new ArrayNode(JsonNodeFactory.instance);
       Iterator<JsonNode> elements = graph.elements();
@@ -148,12 +151,13 @@ public class ResourceFramer {
       }
       return result;
     } else if (graph.isObject()) {
-      if (graph.get(JsonLdConstants.ID) != null && graph.get(JsonLdConstants.ID).asText().startsWith("_:")) {
+      if (graph.get(JsonLdConstants.ID) != null && graph.get(JsonLdConstants.ID).asText()
+        .startsWith("_:")) {
         return buildTree(graph, graphs);
       }
       ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
       Iterator<String> fieldNames = graph.fieldNames();
-      while(fieldNames.hasNext()) {
+      while (fieldNames.hasNext()) {
         String fieldName = fieldNames.next();
         if (linkProperties.contains(fieldName)) {
           JsonNode value = graph.get(fieldName);
@@ -171,7 +175,7 @@ public class ResourceFramer {
   }
 
   private static JsonNode getGraph(String aId, ArrayNode graphs) {
-    for (JsonNode graph: graphs) {
+    for (JsonNode graph : graphs) {
       if (graph.get(JsonLdConstants.ID).asText().equals(aId)) {
         return graph;
       }
@@ -182,11 +186,13 @@ public class ResourceFramer {
   public static List<Resource> flatten(Resource resource) throws IOException {
 
     Model model = ModelFactory.createDefaultModel();
-    RDFDataMgr.read(model, IOUtils.toInputStream(resource.toString(), StandardCharsets.UTF_8), Lang.JSONLD);
+    RDFDataMgr
+      .read(model, IOUtils.toInputStream(resource.toString(), StandardCharsets.UTF_8), Lang.JSONLD);
     List<Resource> resources = new ArrayList<>();
 
     String subjectsQuery = "SELECT DISTINCT ?s WHERE { ?s ?p ?o . FILTER isIRI(?s) }";
-    try (QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(subjectsQuery), model)) {
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(subjectsQuery), model)) {
       ResultSet resultSet = queryExecution.execSelect();
       while (resultSet.hasNext()) {
         QuerySolution querySolution = resultSet.next();
@@ -196,7 +202,5 @@ public class ResourceFramer {
     }
 
     return resources;
-
   }
-
 }
