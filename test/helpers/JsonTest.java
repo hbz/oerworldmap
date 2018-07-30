@@ -36,7 +36,8 @@ public interface JsonTest {
     }
   }
 
-  default ResourceList getResourcesFromPagedCollectionFile(String aPagedCollectionFile) throws IOException {
+  default ResourceList getResourcesFromPagedCollectionFile(String aPagedCollectionFile)
+    throws IOException {
     InputStream in = ClassLoader.getSystemResourceAsStream(aPagedCollectionFile);
     String json = IOUtils.toString(in, "UTF-8");
     return new ResourceList(Resource.fromJson(json));
@@ -62,14 +63,13 @@ public interface JsonTest {
   }
 
   default String getStringFromFile(String aPath, Charset aEncoding)
-    throws IOException
-  {
-    byte[] encoded = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(aPath).toExternalForm().substring(5)));
+    throws IOException {
+    byte[] encoded = Files
+      .readAllBytes(Paths.get(ClassLoader.getSystemResource(aPath).toExternalForm().substring(5)));
     return new String(encoded, aEncoding);
   }
 
-  default List<String> splitLines(String aString){
+  default List<String> splitLines(String aString) {
     return Arrays.asList(aString.split("\n"));
   }
-
 }

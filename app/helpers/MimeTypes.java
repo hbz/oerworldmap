@@ -51,7 +51,5 @@ public class MimeTypes {
     }
 
     return mimeType;
-
   }
-
 }

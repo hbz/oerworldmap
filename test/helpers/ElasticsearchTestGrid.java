@@ -44,5 +44,4 @@ public class ElasticsearchTestGrid extends WithApplication {
   public void setupIndex() throws IOException {
     ElasticsearchHelpers.cleanIndex(mRepo, mConfig.getString("es.index.name"));
   }
-
 }

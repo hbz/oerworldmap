@@ -20,7 +20,7 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
   private List<String> mDropFields = new ArrayList<>();
 
   @Override
-  public String export(ResourceList aResourceList){
+  public String export(ResourceList aResourceList) {
     StringBuffer result = new StringBuffer();
     defineHeaderColumns(aResourceList.getItems());
     setDropFields(Arrays.asList(JsonLdConstants.TYPE));
@@ -35,7 +35,7 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
   public String export(Resource aResource) {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
-          "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
+        "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
     } //
     else {
       mValues = new String[mKeys.size()];
@@ -52,14 +52,14 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
       int index = getIndexInHeader(aKeyPath + aResourceEntry.getKey());
       if (index == -1) {
         throw new IllegalStateException(
-            "Trying to export Resource entry but key not found in header: \n" + aResourceEntry);
+          "Trying to export Resource entry but key not found in header: \n" + aResourceEntry);
       } else {
         mValues[index] = (String) aResourceEntry.getValue();
       }
     } //
     else if (aResourceEntry.getValue() instanceof Resource) {
       Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
-          .iterator();
+        .iterator();
       while (it.hasNext()) {
         flattenResourceElement(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -72,14 +72,14 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
           Iterator<Entry<String, Object>> it = ((Resource) value).entrySet().iterator();
           while (it.hasNext()) {
             flattenResourceElement(it.next(),
-                aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);
+              aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);
           }
         } //
         else if (value instanceof String) {
           int index = getIndexInHeader(aKeyPath + aResourceEntry.getKey() + mPathSeparator + i);
           if (index == -1) {
             throw new IllegalStateException(
-                "Trying to export List in Resource entry but key not found in header: \n" + values);
+              "Trying to export List in Resource entry but key not found in header: \n" + values);
           } else {
             mValues[index] = (String) value;
           }
@@ -104,7 +104,7 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
     } //
     else if (aResourceEntry.getValue() instanceof Resource) {
       Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
-          .iterator();
+        .iterator();
       while (it.hasNext()) {
         flattenKeys(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -117,7 +117,7 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
           Iterator<Entry<String, Object>> it = ((Resource) value).entrySet().iterator();
           while (it.hasNext()) {
             flattenKeys(it.next(),
-                aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);
+              aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);
           }
         } else if (value instanceof String) {
           mKeys.add(aKeyPath + aResourceEntry.getKey() + mPathSeparator + i);
@@ -146,5 +146,4 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
     mDropFields.clear();
     mDropFields.addAll(aDropFields);
   }
-
 }

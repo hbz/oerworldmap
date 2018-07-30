@@ -1,19 +1,18 @@
 package services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by fo on 17.03.16.
@@ -40,8 +39,8 @@ public class AccountTest {
     mGroupFile = Files.createTempFile(null, null).toFile();
     mProfileFile = Files.createTempFile(null, null).toFile();
     mPermissionsDir = Files.createTempDirectory(null).toFile();
-    mAccountService = new AccountService(mTokenDir, mUserFile, mGroupFile, mProfileFile, mPermissionsDir);
-
+    mAccountService = new AccountService(mTokenDir, mUserFile, mGroupFile, mProfileFile,
+      mPermissionsDir);
   }
 
   @After
@@ -52,7 +51,6 @@ public class AccountTest {
     mGroupFile.delete();
     mProfileFile.delete();
     mPermissionsDir.delete();
-
   }
 
 
@@ -63,7 +61,6 @@ public class AccountTest {
     assertNotNull(token);
     File tokenFile = new File(mTokenDir, token);
     assertTrue(tokenFile.exists());
-
   }
 
   @Test
@@ -75,7 +72,6 @@ public class AccountTest {
     String user = mAccountService.verifyToken(mTestToken);
     assertEquals(mTestUsername, user);
     assertFalse(tokenFile.exists());
-
   }
 
   @Test
@@ -84,7 +80,6 @@ public class AccountTest {
     String entry = mTestUsername.concat(":").concat(mTestPassword);
     FileUtils.writeStringToFile(mUserFile, entry);
     assertTrue(mAccountService.userExists(mTestUsername));
-
   }
 
   @Test
@@ -93,7 +88,6 @@ public class AccountTest {
     File tokenFile = new File(mTokenDir, mTestToken);
     assertTrue(tokenFile.createNewFile());
     assertTrue(mAccountService.pendingVerification(mTestUsername));
-
   }
 
   @Test
@@ -103,7 +97,6 @@ public class AccountTest {
     FileUtils.writeStringToFile(mUserFile, entry);
     mAccountService.deleteUser(mTestUsername);
     assertFalse(FileUtils.readFileToString(mUserFile).contains(entry));
-
   }
 
   @Test
@@ -111,7 +104,6 @@ public class AccountTest {
 
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     assertTrue(mAccountService.validatePassword(mTestUsername, mTestPassword));
-
   }
 
   @Test
@@ -122,7 +114,6 @@ public class AccountTest {
     assertTrue(mAccountService.validatePassword(mTestUsername, mTestPassword));
     assertTrue(mAccountService.updatePassword(mTestUsername, mTestPassword, updated));
     assertTrue(mAccountService.validatePassword(mTestUsername, updated));
-
   }
 
   @Test
@@ -130,8 +121,8 @@ public class AccountTest {
 
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     mAccountService.setProfileId(mTestUsername, mTestUserId);
-    assertEquals(mTestUsername.concat(" ").concat(mTestUserId).concat("\n"), FileUtils.readFileToString(mProfileFile));
-
+    assertEquals(mTestUsername.concat(" ").concat(mTestUserId).concat("\n"),
+      FileUtils.readFileToString(mProfileFile));
   }
 
   @Test
@@ -140,7 +131,5 @@ public class AccountTest {
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     mAccountService.setProfileId(mTestUsername, mTestUserId);
     assertEquals(mTestUserId, mAccountService.getProfileId(mTestUsername));
-
   }
-
 }

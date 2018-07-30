@@ -42,7 +42,8 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     mMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
     mDefaultQueryContext = new QueryContext(null);
-    mDefaultQueryContext.setElasticsearchFieldBoosts(new ReconcileConfig().getBoostsForElasticsearch());
+    mDefaultQueryContext
+      .setElasticsearchFieldBoosts(new ReconcileConfig().getBoostsForElasticsearch());
   }
 
   @Before
@@ -70,11 +71,12 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
 
     final JsonNode myResourceTitle =
       mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
-    Assert.assertEquals(correctTitle, myResourceTitle.get("q0").get("result").get(0).get("name").asText());
+    Assert.assertEquals(correctTitle,
+      myResourceTitle.get("q0").get("result").get(0).get("name").asText());
   }
 
   @Test
-  public void testFuzzyTokenSearch()  throws IOException {
+  public void testFuzzyTokenSearch() throws IOException {
     Resource db1 = getResourceFromJsonFile("ReconcilerTest/testFuzzyTokenSearch.DB.1.json"); // TODO
     mReconciler.getBaseRepository().addResource(db1, mMetadata);
 
@@ -91,22 +93,25 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
       queryMap.put("q0", query0);
       final JsonNode noTypoSearchNode =
         mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
-      Assert.assertEquals(withoutTypo, noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
+      Assert.assertEquals(withoutTypo,
+        noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
 
       query0.put("query", withTypo);
       queryMap.put("q0", query0);
       final JsonNode typoSearchNode =
         mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
-      Assert.assertEquals(withoutTypo, typoSearchNode.get("q0").get("result").get(0).get("name").asText());
-    }
-    finally {
-      mReconciler.getBaseRepository().deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
+      Assert.assertEquals(withoutTypo,
+        typoSearchNode.get("q0").get("result").get(0).get("name").asText());
+    } finally {
+      mReconciler.getBaseRepository()
+        .deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
     }
   }
 
   @Test
-  public void testFuzzyPhraseSearch()  throws IOException {
-    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testFuzzyPhraseSearch.DB.1.json"); // TODO
+  public void testFuzzyPhraseSearch() throws IOException {
+    Resource db1 = getResourceFromJsonFile(
+      "ReconcilerTest/testFuzzyPhraseSearch.DB.1.json"); // TODO
     mReconciler.getBaseRepository().addResource(db1, mMetadata);
 
     final String withoutTypo = "Bundeszentrale für politische Bildung";
@@ -122,21 +127,23 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
       queryMap.put("q0", query0);
       final JsonNode noTypoSearchNode = mReconciler
         .reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
-      Assert.assertEquals(withoutTypo, noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
+      Assert.assertEquals(withoutTypo,
+        noTypoSearchNode.get("q0").get("result").get(0).get("name").asText());
 
       query0.put("query", withTypo);
       queryMap.put("q0", query0);
       final JsonNode typoSearchNode =
         mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
-      Assert.assertEquals(withoutTypo, typoSearchNode.get("q0").get("result").get(0).get("name").asText());
-    }
-    finally {
-      mReconciler.getBaseRepository().deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
+      Assert.assertEquals(withoutTypo,
+        typoSearchNode.get("q0").get("result").get(0).get("name").asText());
+    } finally {
+      mReconciler.getBaseRepository()
+        .deleteResource("urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab16", mMetadata);
     }
   }
 
   //@Test
-  public void testSearchSpecialCaseCase()  throws IOException {
+  public void testSearchSpecialCaseCase() throws IOException {
     Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCaseCase.DB.1.json");
     mReconciler.getBaseRepository().addResource(db1, mMetadata);
     QueryContext queryContext = new QueryContext(null);
@@ -144,13 +151,15 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     try {
       JsonNode hitsTrivial = mReconciler.getBaseRepository()
         .reconcile("BC campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
-      Assert.assertEquals("Did not get expected number of hits (1) for trivial case.", 1, hitsTrivial.get("result").size());
+      Assert.assertEquals("Did not get expected number of hits (1) for trivial case.", 1,
+        hitsTrivial.get("result").size());
       JsonNode hitsSpecial = mReconciler.getBaseRepository()
         .reconcile("Bc campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
-      Assert.assertEquals("Did not get expected number of hits (1) for special case.", 1, hitsSpecial.get("result").size());
-    }
-    finally {
-      mReconciler.getBaseRepository().deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
+      Assert.assertEquals("Did not get expected number of hits (1) for special case.", 1,
+        hitsSpecial.get("result").size());
+    } finally {
+      mReconciler.getBaseRepository()
+        .deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
     }
   }
 }

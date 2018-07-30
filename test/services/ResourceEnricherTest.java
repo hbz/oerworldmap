@@ -1,12 +1,11 @@
 package services;
 
+import static org.junit.Assert.assertTrue;
+
 import helpers.JsonTest;
+import java.io.IOException;
 import org.apache.jena.rdf.model.Model;
 import org.junit.Test;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author fo
@@ -25,7 +24,5 @@ public class ResourceEnricherTest implements JsonTest {
 
     mBroaderConceptEnricher.enrich(in);
     assertTrue(in.isIsomorphicWith(out));
-
   }
-
 }

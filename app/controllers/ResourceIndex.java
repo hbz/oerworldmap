@@ -58,16 +58,15 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result list(String q, int from, int size, String sort, boolean features, String extension, String iso3166,
-                     String disposition) throws IOException {
+  public Result list(String q, int from, int size, String sort, boolean features, String extension,
+    String iso3166, String disposition) throws IOException {
 
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
 
     // Handle ISO 3166 param
     if (!StringUtils.isEmpty(iso3166)) {
-
-      if (! Arrays.asList(Locale.getISOCountries()).contains(iso3166.toUpperCase())) {
+      if (!Arrays.asList(Locale.getISOCountries()).contains(iso3166.toUpperCase())) {
         return notFound("Not found");
       }
       queryContext.setIso3166Scope(iso3166.toUpperCase());
@@ -99,9 +98,7 @@ public class ResourceIndex extends OERWorldMap {
     if (ctx().request().queryString().containsKey("fields")) {
       queryContext.setFetchSource(ctx().request().queryString().get("fields"));
     }
-
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
 
     String baseUrl = mConf.getString("proxy.host");
@@ -121,12 +118,14 @@ public class ResourceIndex extends OERWorldMap {
     for (String alternate : alternates) {
       String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate,
         iso3166, disposition).url().concat(filterString));
-      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
+      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl,
+        MimeTypes.fromExtension(alternate)));
     }
 
     response().setHeader("Link", String.join(", ", links));
     if (!StringUtils.isEmpty(extension)) {
-      response().setHeader("Content-Disposition", "inline".equals(disposition) ? "inline": "attachment");
+      response()
+        .setHeader("Content-Disposition", "inline".equals(disposition) ? "inline" : "attachment");
     }
 
     String format = StringUtils.isEmpty(extension)
@@ -169,7 +168,6 @@ public class ResourceIndex extends OERWorldMap {
     }
 
     return notFound("Not found");
-
   }
 
   public Result importResources() throws IOException {
@@ -190,9 +188,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public Result addResource() throws IOException {
-
     JsonNode jsonNode = getJsonFromRequest();
-
     if (jsonNode == null || (!jsonNode.isArray() && !jsonNode.isObject())) {
       return badRequest("Bad or empty JSON");
     } else if (jsonNode.isArray()) {
@@ -200,23 +196,18 @@ public class ResourceIndex extends OERWorldMap {
     } else {
       return upsertResource(false);
     }
-
   }
 
   public Result updateResource(String aId) throws IOException {
-
     // If updating a resource, check if it actually exists
     Resource originalResource = mBaseRepository.getResource(aId);
     if (originalResource == null) {
       return notFound("Not found: ".concat(aId));
     }
-
     return upsertResource(true);
-
   }
 
   private Result upsertResource(boolean isUpdate) throws IOException {
-
     // Extract resource
     Resource resource = Resource.fromJson(getJsonFromRequest());
     resource.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
@@ -257,7 +248,6 @@ public class ResourceIndex extends OERWorldMap {
         .url());
       return created(getRecord(mBaseRepository.getResource(resource.getId())).toJson());
     }
-
   }
 
   private Result upsertResources() throws IOException {
@@ -295,22 +285,20 @@ public class ResourceIndex extends OERWorldMap {
     if (!listProcessingReport.isSuccess()) {
       return badRequest(listProcessingReport.asJson());
     }
-
     mBaseRepository.addResources(resources, getMetadata());
     Cached.updateEtag();
 
     return ok("Added resources");
-
   }
 
   @With(Cached.class)
-  public Result read(String id, String version, String extension, String disposition) throws IOException {
+  public Result read(String id, String version, String extension, String disposition)
+    throws IOException {
 
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
       return notFound("Not found");
     }
-
     Set<String> alternates = MimeTypes.all().keySet();
     if (!resource.getType().equals("Event")) {
       alternates.remove("ics");
@@ -318,12 +306,14 @@ public class ResourceIndex extends OERWorldMap {
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
       String linkUrl = routes.ResourceIndex.read(id, version, alternate, disposition).url();
-      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl, MimeTypes.fromExtension(alternate)));
+      links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl,
+        MimeTypes.fromExtension(alternate)));
     }
 
     response().setHeader("Link", String.join(", ", links));
     if (!StringUtils.isEmpty(extension)) {
-      response().setHeader("Content-Disposition", "inline".equals(disposition) ? "inline" : "attachment");
+      response()
+        .setHeader("Content-Disposition", "inline".equals(disposition) ? "inline" : "attachment");
     }
 
     String format = StringUtils.isEmpty(extension)
@@ -331,7 +321,6 @@ public class ResourceIndex extends OERWorldMap {
       : MimeTypes.fromExtension(extension);
 
     resource = getRecord(resource);
-
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("application/json")) {
@@ -349,9 +338,7 @@ public class ResourceIndex extends OERWorldMap {
         return ok(ical).as("text/calendar; charset=UTF-8");
       }
     }
-
     return notFound("Not found");
-
   }
 
   private Record getRecord(Resource aResource) {
@@ -406,7 +393,6 @@ public class ResourceIndex extends OERWorldMap {
   public Result log(String aId, String compare, String to) throws IOException {
     ArrayNode log = JsonNodeFactory.instance.arrayNode();
     List<Commit> commits = mBaseRepository.log(aId);
-
     for (Commit commit : commits) {
       ObjectNode entry = JsonNodeFactory.instance.objectNode();
       entry.put("commit", commit.getId());
@@ -418,9 +404,9 @@ public class ResourceIndex extends OERWorldMap {
     if (StringUtils.isEmpty(aId)) {
       return ok(log);
     }
-
     String v1 = StringUtils.isEmpty(compare) ? log.get(0).get("commit").textValue() : compare;
-    String v2 = StringUtils.isEmpty(to) ? log.get(log.size() > 1 ? 1 : 0).get("commit").textValue() : to;
+    String v2 =
+      StringUtils.isEmpty(to) ? log.get(log.size() > 1 ? 1 : 0).get("commit").textValue() : to;
     Resource r1 = getRecord(mBaseRepository.getResource(aId, v1));
     Resource r2 = getRecord(mBaseRepository.getResource(aId, v2));
     r1.put("version", v1);
@@ -430,7 +416,6 @@ public class ResourceIndex extends OERWorldMap {
     result.set("compare", r1.toJson());
     result.set("to", r2.toJson());
     result.set("log", log);
-
     return ok(result);
   }
 
@@ -443,45 +428,39 @@ public class ResourceIndex extends OERWorldMap {
 
     Resource comment = Resource.fromJson(getJsonFromRequest());
     comment.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
-
     comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
     TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
     diff.addStatement(ResourceFactory.createStatement(
-      ResourceFactory.createResource(aId), SCHEMA.comment, ResourceFactory.createResource(comment.getId())
+      ResourceFactory.createResource(aId), SCHEMA.comment,
+      ResourceFactory.createResource(comment.getId())
     ));
 
     Map<String, String> metadata = getMetadata();
-    TripleCommit.Header header = new TripleCommit.Header(metadata.get(TripleCommit.Header.AUTHOR_HEADER),
+    TripleCommit.Header header = new TripleCommit.Header(
+      metadata.get(TripleCommit.Header.AUTHOR_HEADER),
       ZonedDateTime.parse(metadata.get(TripleCommit.Header.DATE_HEADER)));
     TripleCommit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
 
     Cached.updateEtag();
-
     return created(comment.toJson());
-
   }
 
   public Result feed() throws IOException {
-
-    ResourceList resourceList = mBaseRepository.query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
+    ResourceList resourceList = mBaseRepository
+      .query("", 0, 20, "dateCreated:DESC", null, getQueryContext());
     Map<String, Object> scope = new HashMap<>();
     scope.put("resources", resourceList.toResource());
-
     return ok(mObjectMapper.writeValueAsString(scope));
-
   }
 
   public Result label(String aId) throws UnsupportedEncodingException {
-
     return ok(StringUtils.isEmpty(aId)
       ? mBaseRepository.sparql(
-        "SELECT DISTINCT * WHERE {?uri <http://schema.org/name> ?label}")
+      "SELECT DISTINCT * WHERE {?uri <http://schema.org/name> ?label}")
       : mBaseRepository.label(URLDecoder.decode(aId, "UTF-8"))
     );
-
   }
-
 }

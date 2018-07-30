@@ -1,15 +1,13 @@
 package models;
 
-import com.google.common.base.Joiner;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -40,8 +38,9 @@ public class ResourceList {
     return new URIBuilder("");
   }
 
-  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aQuery, int aFrom,
-                      int aSize, String aSort, Map<String, List<String>> aFilters, Resource aAggregations) {
+  public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aQuery,
+    int aFrom,
+    int aSize, String aSort, Map<String, List<String>> aFilters, Resource aAggregations) {
     items = aResourceList;
     totalItems = aTotalItems;
     query = aQuery;
@@ -179,7 +178,7 @@ public class ResourceList {
     params.addAll(getFilterParams());
 
     for (int i = 0; i <= totalItems; i += size) {
-      List<NameValuePair>pageParams = new ArrayList<>();
+      List<NameValuePair> pageParams = new ArrayList<>();
       pageParams.addAll(params);
       pageParams.add(new BasicNameValuePair("from", Integer.toString(i)));
       pages.add(getURIBuilder().addParameters(pageParams).build());
@@ -233,11 +232,11 @@ public class ResourceList {
 
   public boolean containsType(String aType) {
     for (Resource item : items) {
-      if (item.getAsResource("about") != null && aType.equals(item.getAsResource("about").getType())) {
+      if (item.getAsResource("about") != null && aType
+        .equals(item.getAsResource("about").getType())) {
         return true;
       }
     }
     return false;
   }
-
 }

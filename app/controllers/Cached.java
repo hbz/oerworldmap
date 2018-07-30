@@ -26,7 +26,6 @@ public class Cached extends Action.Simple {
 
   @Override
   public CompletionStage<Result> call(Http.Context ctx) {
-
     String ifNoneMatch = ctx.request().getHeader(IF_NONE_MATCH);
     if (!StringUtils.isEmpty(ifNoneMatch) && mEtag.equals(ifNoneMatch)) {
       return CompletableFuture.completedFuture(status(304));
@@ -35,11 +34,9 @@ public class Cached extends Action.Simple {
     ctx.response().setHeader(CACHE_CONTROL, "private");
     ctx.response().setHeader(ETAG, mEtag);
     return delegate.call(ctx);
-
   }
 
   static void updateEtag() {
     mEtag = UUID.randomUUID().toString();
   }
-
 }

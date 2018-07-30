@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-public class Resource extends HashMap<String, Object>implements Comparable<Resource> {
+public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
   /**
    *
@@ -37,11 +37,12 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   // identified ("primary") data types that get an ID
   public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
-      "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme", "Concept",
+    "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme",
+    "Concept",
     "Comment", "Product", "LikeAction", "LighthouseAction"));
 
   /**
-   *  Constructor for typeless resources
+   * Constructor for typeless resources
    */
   public Resource() {
     this(null);
@@ -50,8 +51,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   /**
    * Constructor which sets up a random UUID.
    *
-   * @param type
-   *          The type of the resource.
+   * @param type The type of the resource.
    */
   public Resource(final String type) {
     this(type, null);
@@ -60,10 +60,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   /**
    * Constructor.
    *
-   * @param aType
-   *          The type of the resource.
-   * @param aId
-   *          The id of the resource.
+   * @param aType The type of the resource.
+   * @param aId The id of the resource.
    */
   public Resource(final String aType, final String aId) {
     if (null != aType) {
@@ -81,12 +79,10 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   }
 
   /**
-   * Convert a Map of String/Object to a Resource, assuming that all Object
-   * values of the map are properly represented by the toString() method of
-   * their class.
+   * Convert a Map of String/Object to a Resource, assuming that all Object values of the map are
+   * properly represented by the toString() method of their class.
    *
-   * @param aProperties
-   *          The map to create the resource from
+   * @param aProperties The map to create the resource from
    * @return a Resource containing all given properties
    */
   @SuppressWarnings("unchecked")
@@ -124,13 +120,12 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
 
     return resource;
-
   }
 
   public static Resource fromJson(JsonNode aJson) {
     Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
-        new TypeReference<HashMap<String, Object>>() {
-        });
+      new TypeReference<HashMap<String, Object>>() {
+      });
     return fromMap(resourceMap);
   }
 
@@ -163,7 +158,6 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     InputStream stream = new ByteArrayInputStream(this.toString().getBytes(StandardCharsets.UTF_8));
     RDFDataMgr.read(model, stream, Lang.JSONLD);
     return model;
-
   }
 
   /**
@@ -239,7 +233,8 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
         }
         List<Object> list = (List<Object>) pair.getValue();
         List<Object> otherList = (List<Object>) other.get(pair.getKey());
-        if (list.size() != otherList.size() || !list.containsAll(otherList) || !otherList.containsAll(list)) {
+        if (list.size() != otherList.size() || !list.containsAll(otherList) || !otherList
+          .containsAll(list)) {
           return false;
         }
       } else if (!pair.getValue().equals(other.get(pair.getKey()))) {
@@ -318,20 +313,17 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   }
 
   /**
-   * Get a flat String representation of this Resource, whereby any keys are
-   * dismissed. Furthermore, value information can be dropped by specifying its
-   * fields respectively keys names. This is useful for "static" values like e.
-   * g. of the field "type".
+   * Get a flat String representation of this Resource, whereby any keys are dismissed. Furthermore,
+   * value information can be dropped by specifying its fields respectively keys names. This is
+   * useful for "static" values like e. g. of the field "type".
    *
-   * @param aFieldSeparator
-   *          a String indicating the beginning of new information, resulting
-   *          from a new Resource's field. Note, that this separator might also
-   *          appear within the Resource's fields themselves.
-   * @param aDropFields
-   *          a List<String> specifying, which field's values should be excluded
-   *          from the resulting String representation
-   * @return a flat String representation of this Resource. In case there is no
-   *         information to be returned, the result is an empty String.
+   * @param aFieldSeparator a String indicating the beginning of new information, resulting from a
+   * new Resource's field. Note, that this separator might also appear within the Resource's fields
+   * themselves.
+   * @param aDropFields a List<String> specifying, which field's values should be excluded from the
+   * resulting String representation
+   * @return a flat String representation of this Resource. In case there is no information to be
+   * returned, the result is an empty String.
    */
   public String getValuesAsFlatString(String aFieldSeparator, List<String> aDropFields) {
     String fieldSeparator = null == aFieldSeparator ? "" : aFieldSeparator;
@@ -359,7 +351,7 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
             } //
             else if (innerValue instanceof Resource) {
               result.append(
-                  ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
+                ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
             }
           }
           if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
@@ -376,12 +368,12 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return result.toString();
   }
 
-  public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale){
+  public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale) {
     final String[] split = aNestedKey.split("\\.", 2);
-    if (split.length == 0){
+    if (split.length == 0) {
       return null;
     }
-    if (split.length == 1){
+    if (split.length == 1) {
       Object o = get(split[0]);
       if (o != null) {
         return o.toString();
@@ -390,13 +382,15 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     }
     // split.length == 2
     final Object o = get(split[0]);
-    if (o instanceof ArrayList<?>){
+    if (o instanceof ArrayList<?>) {
       String next = getNestedValueOfList(split[1], (ArrayList<?>) o, aPreferredLocale);
-      if (next != null) return next;
+      if (next != null) {
+        return next;
+      }
     } //
-    else if (o instanceof Resource){
+    else if (o instanceof Resource) {
       Resource resource = (Resource) o;
-      if (resource.size() == 0){
+      if (resource.size() == 0) {
         return null;
       }
       return resource.getNestedFieldValue(split[1], aPreferredLocale);
@@ -404,28 +398,28 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
     return null;
   }
 
-  private String getNestedValueOfList(final String aKey, final ArrayList<?> aList, final Locale aPreferredLocale) {
+  private String getNestedValueOfList(final String aKey, final ArrayList<?> aList,
+    final Locale aPreferredLocale) {
     Object next;
     final Locale fallbackLocale = Locale.ENGLISH;
     String fallback1 = null;
     String fallback2 = null;
     String fallback3 = null;
-    for (Iterator it = aList.iterator(); it.hasNext(); ){
+    for (Iterator it = aList.iterator(); it.hasNext(); ) {
       next = it.next();
-      if (next instanceof Resource){
+      if (next instanceof Resource) {
         Resource resource = (Resource) next;
         Object language = resource.get("@language");
-        if (language.equals(aPreferredLocale.getLanguage())){
+        if (language.equals(aPreferredLocale.getLanguage())) {
           return resource.getNestedFieldValue(aKey, aPreferredLocale);
         }
-        if (language == null){
+        if (language == null) {
           fallback1 = resource.getNestedFieldValue(aKey, aPreferredLocale);
-        }
-        else if (language.equals(fallbackLocale.getLanguage())){
+        } else if (language.equals(fallbackLocale.getLanguage())) {
           fallback2 = resource.getNestedFieldValue(aKey, fallbackLocale);
-        }
-        else {
-          fallback3 = resource.getNestedFieldValue(aKey, Locale.forLanguageTag(language.toString()));
+        } else {
+          fallback3 = resource
+            .getNestedFieldValue(aKey, Locale.forLanguageTag(language.toString()));
         }
       }
     }
@@ -433,11 +427,11 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
   }
 
   /**
-   * Counts the number of subfields matching the argument string.
-   * A simple wildcard ("*") defines 1 level of arbitrary path specifiers.
-   * A double wildcard ("**") defines 0-n levels of arbitrary path specifiers.
-   * Wildcard string combinations ("*xyz" or "xyz*" etc.) are not supported so far.
+   * Counts the number of subfields matching the argument string. A simple wildcard ("*") defines 1
+   * level of arbitrary path specifiers. A double wildcard ("**") defines 0-n levels of arbitrary
+   * path specifiers. Wildcard string combinations ("*xyz" or "xyz*" etc.) are not supported so far.
    * Arrays can not be specified by position
+   *
    * @param aSubfieldPath Specifier for the subfields to be counted.
    * @return The number of specified subfields.
    */
@@ -448,37 +442,36 @@ public class Resource extends HashMap<String, Object>implements Comparable<Resou
 
   private Integer getNumberOfSubFields(String[] aPathElements) {
     int count = 0;
-    if (aPathElements.length == 0){
+    if (aPathElements.length == 0) {
       return count;
     }
     String matchElement = null;
     String pathElement = aPathElements[0];
     String[] remainingElements;
-    if (pathElement.equals("**")){
+    if (pathElement.equals("**")) {
       remainingElements = aPathElements;
-      if (aPathElements.length < 3){
-        matchElement = remainingElements[remainingElements.length-1];
+      if (aPathElements.length < 3) {
+        matchElement = remainingElements[remainingElements.length - 1];
       }
-    }
-    else{
+    } else {
       remainingElements = Arrays.copyOfRange(aPathElements, 1, aPathElements.length);
-      if (remainingElements.length == 0){
+      if (remainingElements.length == 0) {
         matchElement = pathElement;
       }
     }
     for (Entry<String, Object> entry : entrySet()) {
-      if (entry.getValue() instanceof Resource){
+      if (entry.getValue() instanceof Resource) {
         Resource innerResource = ((Resource) entry.getValue());
         count += innerResource.getNumberOfSubFields(remainingElements);
       } //
       else if (entry.getValue() instanceof List<?>) {
         for (Object innerObject : (List<?>) entry.getValue()) {
-          if (innerObject instanceof Resource){
-            count += ((Resource)innerObject).getNumberOfSubFields(remainingElements);
+          if (innerObject instanceof Resource) {
+            count += ((Resource) innerObject).getNumberOfSubFields(remainingElements);
           }
         }
       }
-      if (entry.getKey().equals(matchElement) || matchElement.equals("**")){
+      if (entry.getKey().equals(matchElement) || matchElement.equals("**")) {
         count++;
       }
     }

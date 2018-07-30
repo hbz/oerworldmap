@@ -21,9 +21,9 @@ public class UniversalFunctions {
     return new String(Files.readAllBytes(Paths.get(aPath)), aEncoding);
   }
 
-  public static String collectionToString(Collection<? extends Object> aCollection){
+  public static String collectionToString(Collection<? extends Object> aCollection) {
     String string = aCollection.getClass().getName() + ": {";
-    for (Object entry : aCollection){
+    for (Object entry : aCollection) {
       string = string.concat("\n\t").concat(entry.toString());
     }
     return string.concat("\n}");
@@ -51,15 +51,14 @@ public class UniversalFunctions {
 
   public static boolean deleteDirectory(File path) {
     if (path != null && path.exists()) {
-      for (File file : path.listFiles()){
-        if (file.isDirectory()){
+      for (File file : path.listFiles()) {
+        if (file.isDirectory()) {
           deleteDirectory(file);
-        }
-        else{
+        } else {
           file.delete();
         }
       }
-      return(path.delete());
+      return (path.delete());
     }
     return false;
   }
@@ -73,5 +72,4 @@ public class UniversalFunctions {
     }
     return map;
   }
-
 }

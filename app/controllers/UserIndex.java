@@ -68,9 +68,7 @@ public class UserIndex extends OERWorldMap {
   }
 
   public Result register() throws IOException {
-
     Resource registration = Resource.fromJson(ctx().request().body().asJson());
-
     ProcessingReport processingReport = validate(registration);
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
@@ -107,15 +105,13 @@ public class UserIndex extends OERWorldMap {
     }
 
     user.put("add-email", registration.getAsBoolean("publishEmail"));
-
     String username = registration.getAsString("email");
     String password = registration.getAsString("password");
     String token = mAccountService.addUser(username, password);
 
     if (token == null) {
-      return badRequest("Failed to add " . concat(username));
+      return badRequest("Failed to add ".concat(username));
     }
-
     try {
       logConsents(username, request().remoteAddress());
       saveProfile(token, user);
@@ -123,7 +119,6 @@ public class UserIndex extends OERWorldMap {
       Logger.error("Failed to create profile", e);
       return badRequest("An error occurred");
     }
-
     File termsOfService = new File("public/pdf/Terms_of_Service.pdf");
     String message;
     try {
@@ -134,7 +129,8 @@ public class UserIndex extends OERWorldMap {
     }
     message = MessageFormat.format(message, mConf.getString("proxy.host")
       .concat(routes.UserIndex.verify(token).url()));
-    sendMail(username, message, getEmails().getString("account.verify.subject"), new File[]{termsOfService});
+    sendMail(username, message, getEmails().getString("account.verify.subject"),
+      new File[]{termsOfService});
 
     ObjectNode result = JsonNodeFactory.instance.objectNode();
     result.put("username", username);
@@ -142,15 +138,11 @@ public class UserIndex extends OERWorldMap {
     if (registration.getAsBoolean("subscribeNewsletter") && !registerNewsletter(username)) {
       Logger.error("Error registering newsletter for " + username);
     }
-
     return ok(result);
-
   }
 
   public Result verify(String token) throws IOException {
-
     Result result;
-
     if (token == null) {
       result = badRequest("No token given.");
     } else {
@@ -169,15 +161,11 @@ public class UserIndex extends OERWorldMap {
         result = badRequest("Invalid token ".concat(token));
       }
     }
-
     return result;
-
   }
 
   public Result resetPassword() throws IOException {
-
     Resource passwordReset = Resource.fromJson(ctx().request().body().asJson());
-
     ProcessingReport processingReport = validate(passwordReset);
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
@@ -188,16 +176,14 @@ public class UserIndex extends OERWorldMap {
       }
       return badRequest(listProcessingReport.asJson());
     }
-
     String username = passwordReset.getAsString("email");
-
     if (!mAccountService.userExists(username)) {
       return badRequest("No valid username provided.");
     }
-
     String password = new BigInteger(130, new SecureRandom()).toString(32);
     if (mAccountService.setPassword(username, password)) {
-      sendMail(username, MessageFormat.format(getEmails().getString("account.password.message"), password),
+      sendMail(username,
+        MessageFormat.format(getEmails().getString("account.password.message"), password),
         getEmails().getString("account.password.subject"), null);
       ObjectNode result = JsonNodeFactory.instance.objectNode();
       result.put("username", username);
@@ -205,13 +191,10 @@ public class UserIndex extends OERWorldMap {
     } else {
       return badRequest("Failed to reset password.");
     }
-
   }
 
   public Result changePassword() throws IOException {
-
     Resource passwordChange = Resource.fromJson(ctx().request().body().asJson());
-
     ProcessingReport processingReport = validate(passwordChange);
     if (!processingReport.isSuccess()) {
       ListProcessingReport listProcessingReport = new ListProcessingReport();
@@ -237,18 +220,14 @@ public class UserIndex extends OERWorldMap {
       result.put("username", username);
       return ok(result);
     }
-
   }
 
   public Result newsletterSignup() throws IOException {
-
     return ok(mObjectMapper.writeValueAsString(new HashMap<>()));
-
   }
 
   public Result newsletterRegister() {
     String email;
-
     try {
       if (!ctx().request().body().asFormUrlEncoded().containsKey("email")) {
         throw new AddressException();
@@ -266,7 +245,6 @@ public class UserIndex extends OERWorldMap {
   }
 
   public Result editGroups() throws IOException {
-
     List<String> usernames = mAccountService.getUsers();
     ArrayNode users = JsonNodeFactory.instance.arrayNode();
     for (String username : usernames) {
@@ -275,91 +253,72 @@ public class UserIndex extends OERWorldMap {
         users.add(user);
       }
     }
-
     ObjectNode result = JsonNodeFactory.instance.objectNode();
     result.set("groups", mObjectMapper.valueToTree(mAccountService.getGroups()));
     result.set("users", users);
-
     return ok(result);
-
   }
 
   public Result profile() {
-
     String username = request().username();
-
     if (StringUtils.isEmpty(username)) {
       return notFound();
     }
-
     JsonNode result = profile(username);
     return result != null ? ok(result) : notFound();
-
   }
 
   private JsonNode profile(String aUsername) {
-
     String id = mAccountService.getProfileId(aUsername);
-
     if (id == null) {
       Logger.warn("Stale username " + aUsername);
       return null;
     }
-
     Resource profile = mBaseRepository.getResource(id);
-
     if (profile == null) {
       Logger.warn("No profile for " + id);
       return null;
     }
-
     ObjectNode result = JsonNodeFactory.instance.objectNode();
     result.put("username", aUsername);
     result.set("groups", mObjectMapper.valueToTree(mAccountService.getGroups(aUsername)));
     result.put("id", profile.getId());
     result.set("name", profile.toJson().get("name"));
-
     return result;
-
   }
 
   public Result setGroups() throws IOException {
     ObjectNode userGroups = (ObjectNode) ctx().request().body().asJson();
-
     if (userGroups == null) {
       return badRequest();
     }
-
     Map<String, List<String>> groupUsers = new HashMap<>();
     for (String groupName : mAccountService.getGroups()) {
       groupUsers.put(groupName, new ArrayList<>());
     }
-
     Iterator<String> it = userGroups.fieldNames();
     while (it.hasNext()) {
       String user = it.next();
       ArrayNode groups = (ArrayNode) userGroups.get(user);
-      for (final JsonNode group: groups) {
+      for (final JsonNode group : groups) {
         groupUsers.get(group.textValue()).add(user);
       }
     }
-
     if (mAccountService.setGroups(groupUsers)) {
       return editGroups();
     } else {
       return internalServerError("Failed to update groups");
     }
-
   }
 
-  private void sendMail(String aEmailAddress, String aMessage, String aSubject, File[] attachments) {
-
+  private void sendMail(String aEmailAddress, String aMessage, String aSubject,
+    File[] attachments) {
     try {
       Email mail;
       if (attachments != null && attachments.length > 0) {
         mail = new MultiPartEmail();
         for (File attachment : attachments) {
-          ((MultiPartEmail)mail).attach(attachment);
+          ((MultiPartEmail) mail).attach(attachment);
         }
       } else {
         mail = new SimpleEmail();
@@ -383,19 +342,17 @@ public class UserIndex extends OERWorldMap {
     } catch (EmailException e) {
       Logger.error("Failed to send\n" + aMessage + "\nto " + aEmailAddress, e);
     }
-
   }
 
   private void saveProfile(String aToken, Resource aPerson) throws IOException {
-
-    FileUtils.writeStringToFile(new File(mProfiles, aToken), aPerson.toString(), StandardCharsets.UTF_8);
-
+    FileUtils
+      .writeStringToFile(new File(mProfiles, aToken), aPerson.toString(), StandardCharsets.UTF_8);
   }
 
   private void saveProfileToDb(String aToken) throws IOException {
-
     File profile = new File(mProfiles, aToken);
-    Resource person = Resource.fromJson(FileUtils.readFileToString(profile, StandardCharsets.UTF_8));
+    Resource person = Resource
+      .fromJson(FileUtils.readFileToString(profile, StandardCharsets.UTF_8));
     if (person == null || !profile.delete()) {
       throw new IOException("Could not process profile for " + aToken);
     }
@@ -408,11 +365,9 @@ public class UserIndex extends OERWorldMap {
     mBaseRepository.addResource(person, getMetadata());
     mAccountService.setPermissions(person.getId(), username);
     mAccountService.setProfileId(username, person.getId());
-
   }
 
   private boolean registerNewsletter(String aEmailAddress) {
-
     String mailmanHost = mConf.getString("mailman.host");
     String mailmanList = mConf.getString("mailman.list");
     if (mailmanHost.isEmpty() || mailmanList.isEmpty()) {
@@ -433,28 +388,23 @@ public class UserIndex extends OERWorldMap {
       if (!responseCode.equals(200)) {
         throw new IOException(response.getStatusLine().toString());
       }
-
     } catch (IOException e) {
       Logger.error("Could not connect to mailman", e);
       return false;
     }
-
     return true;
-
   }
 
   private void logConsents(String aEmailAddress, String aIp) throws IOException {
-
     TripleCommit.Header header = new TripleCommit.Header(aIp, ZonedDateTime.now());
     TripleCommit.Diff diff = new TripleCommit.Diff();
-    org.apache.jena.rdf.model.Resource subject = ResourceFactory.createResource("mailto:" + aEmailAddress.trim());
+    org.apache.jena.rdf.model.Resource subject = ResourceFactory
+      .createResource("mailto:" + aEmailAddress.trim());
     Property predicate = ResourceFactory.createProperty("info:accepted");
     diff.addStatement(ResourceFactory.createStatement(subject, predicate,
       ResourceFactory.createPlainLiteral("Terms Of Service")));
     diff.addStatement(ResourceFactory.createStatement(subject, predicate,
       ResourceFactory.createPlainLiteral("Privacy policy")));
     mConsents.add(new TripleCommit(header, diff));
-
   }
-
 }

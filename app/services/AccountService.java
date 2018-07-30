@@ -33,7 +33,7 @@ public class AccountService {
       "    Require group admin\n" +
       "    Require user %s\n" +
       "  </LimitExcept>\n" +
-    "</Location>";
+      "</Location>";
 
   private String mApache2ctl = "sudo apache2ctl graceful";
 
@@ -43,14 +43,14 @@ public class AccountService {
   private final File mProfileFile;
   private final File mPermissionsDir;
 
-  public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aProfileFile, File aPermissionsDir) {
+  public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aProfileFile,
+    File aPermissionsDir) {
 
     mTokenDir = aTokenDir;
     mUserFile = aUserFile;
     mGroupFile = aGroupFile;
     mProfileFile = aProfileFile;
     mPermissionsDir = aPermissionsDir;
-
   }
 
   public void setPermissions(String aId, String aUser) {
@@ -58,13 +58,13 @@ public class AccountService {
     String entry = String.format(mLimitWriteDirective, aId, aUser);
     String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
     try {
-      FileUtils.writeStringToFile(new File(mPermissionsDir, fileName), entry, StandardCharsets.UTF_8);
+      FileUtils
+        .writeStringToFile(new File(mPermissionsDir, fileName), entry, StandardCharsets.UTF_8);
     } catch (IOException e) {
       Logger.error("Could not create permission file", e);
     }
 
     refresh();
-
   }
 
   public boolean removePermissions(String aId) {
@@ -73,7 +73,6 @@ public class AccountService {
     boolean status = FileUtils.deleteQuietly(new File(mPermissionsDir, fileName));
     refresh();
     return status;
-
   }
 
   public void setApache2Ctl(String aApache2ctl) {
@@ -84,14 +83,15 @@ public class AccountService {
 
     try {
       Process apache2ctl = Runtime.getRuntime().exec(mApache2ctl);
-      BufferedReader stdInput = new BufferedReader(new InputStreamReader(apache2ctl.getInputStream()));
-      BufferedReader stdError = new BufferedReader(new InputStreamReader(apache2ctl.getErrorStream()));
+      BufferedReader stdInput = new BufferedReader(
+        new InputStreamReader(apache2ctl.getInputStream()));
+      BufferedReader stdError = new BufferedReader(
+        new InputStreamReader(apache2ctl.getErrorStream()));
       Logger.debug(IOUtils.toString(stdInput));
       Logger.debug(IOUtils.toString(stdError));
     } catch (IOException e) {
       Logger.error("Could not restart Apache", e);
     }
-
   }
 
   public String addUser(String username, String password) {
@@ -100,7 +100,8 @@ public class AccountService {
       try {
         String token = getEncryptedUsername(username);
         File tokenFile = new File(mTokenDir, token);
-        FileUtils.writeStringToFile(tokenFile, buildEntry(username, password), StandardCharsets.UTF_8);
+        FileUtils
+          .writeStringToFile(tokenFile, buildEntry(username, password), StandardCharsets.UTF_8);
         return token;
       } catch (IOException e) {
         Logger.error("Could not write token file", e);
@@ -108,7 +109,6 @@ public class AccountService {
     }
 
     return null;
-
   }
 
   public boolean deleteUser(String username) {
@@ -119,19 +119,18 @@ public class AccountService {
 
     try {
       List<String> userDb = Files.readAllLines(mUserFile.toPath());
-      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext();) {
+      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext(); ) {
         if (i.next().startsWith(username)) {
           i.remove();
           break;
         }
       }
-      FileUtils.writeLines(mUserFile,userDb);
+      FileUtils.writeLines(mUserFile, userDb);
       return true;
     } catch (IOException e) {
       Logger.error("Could not write user file", e);
       return false;
     }
-
   }
 
   public String verifyToken(String token) {
@@ -150,7 +149,6 @@ public class AccountService {
     }
 
     return null;
-
   }
 
   public boolean userExists(String username) {
@@ -162,7 +160,6 @@ public class AccountService {
     }
 
     return false;
-
   }
 
   public boolean pendingVerification(String username) {
@@ -172,7 +169,6 @@ public class AccountService {
   public boolean updatePassword(String username, String current, String updated) {
 
     return validatePassword(username, current) && setPassword(username, updated);
-
   }
 
   public boolean setPassword(String username, String password) {
@@ -183,7 +179,7 @@ public class AccountService {
 
     try {
       List<String> userDb = Files.readAllLines(mUserFile.toPath());
-      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext();) {
+      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext(); ) {
         if (i.next().startsWith(username)) {
           i.set(buildEntry(username, password));
           break;
@@ -195,7 +191,6 @@ public class AccountService {
       Logger.error("Could not read user file", e);
       return false;
     }
-
   }
 
   public boolean validatePassword(String username, String password) {
@@ -206,7 +201,6 @@ public class AccountService {
 
     String entry = getEntry(username);
     return entry != null && MD5Crypt.verifyPassword(password, entry.split(":")[1]);
-
   }
 
   // FIXME: unit tests
@@ -219,7 +213,8 @@ public class AccountService {
       for (String line : lines) {
         String[] entry = line.split(":");
         String group = entry[0].trim();
-        List<String> users = entry.length > 1 ? Arrays.asList(entry[1].split(" +")) : new ArrayList<>();
+        List<String> users =
+          entry.length > 1 ? Arrays.asList(entry[1].split(" +")) : new ArrayList<>();
         if (users.contains(username)) {
           groups.add(group);
         }
@@ -229,7 +224,6 @@ public class AccountService {
     }
 
     return groups;
-
   }
 
   public List<String> getGroups() {
@@ -248,7 +242,6 @@ public class AccountService {
     }
 
     return groups;
-
   }
 
   /**
@@ -272,7 +265,6 @@ public class AccountService {
       Logger.error("Could not write group file", e);
       return false;
     }
-
   }
 
   public List<String> getUsers() {
@@ -291,7 +283,6 @@ public class AccountService {
     }
 
     return users;
-
   }
 
   public List<String> getUsers(String aGroup) {
@@ -310,7 +301,6 @@ public class AccountService {
     }
 
     return new ArrayList<>();
-
   }
 
 
@@ -322,7 +312,7 @@ public class AccountService {
 
     try {
       List<String> profileDb = Files.readAllLines(mProfileFile.toPath());
-      for (final ListIterator<String> i = profileDb.listIterator(); i.hasNext();) {
+      for (final ListIterator<String> i = profileDb.listIterator(); i.hasNext(); ) {
         if (i.next().startsWith(username)) {
           if (StringUtils.isEmpty(profileId)) {
             i.remove();
@@ -334,14 +324,14 @@ public class AccountService {
         }
       }
       if (!StringUtils.isEmpty(profileId)) {
-        FileUtils.writeLines(mProfileFile, Collections.singletonList(username.concat(" ").concat(profileId)), true);
+        FileUtils.writeLines(mProfileFile,
+          Collections.singletonList(username.concat(" ").concat(profileId)), true);
       }
       return true;
     } catch (IOException e) {
       Logger.error("Could not write profile file", e);
       return false;
     }
-
   }
 
   public String getProfileId(String username) {
@@ -360,7 +350,6 @@ public class AccountService {
     }
 
     return null;
-
   }
 
   public String getUsername(String profileId) {
@@ -379,13 +368,12 @@ public class AccountService {
     }
 
     return null;
-
   }
 
   private String getEntry(String username) {
     try {
       List<String> userDb = Files.readAllLines(mUserFile.toPath());
-      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext();) {
+      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext(); ) {
         String entry = i.next();
         if (entry.startsWith(username)) {
           return entry;
@@ -405,5 +393,4 @@ public class AccountService {
   private static String getEncryptedUsername(String email) {
     return DigestUtils.sha256Hex(email);
   }
-
 }

@@ -13,10 +13,9 @@ public interface Aggregatable {
 
   /**
    * Get an aggregation
-   * @param  aAggregationBuilder The builder describing the aggregation
+   *
+   * @param aAggregationBuilder The builder describing the aggregation
    * @return A resource resembling the reqeusted aggregation
-   * @throws IOException
    */
   Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) throws IOException;
-
 }

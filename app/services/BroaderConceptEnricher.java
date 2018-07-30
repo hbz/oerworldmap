@@ -25,21 +25,23 @@ public class BroaderConceptEnricher implements ResourceEnricher {
 
   private final Model mConceptSchemes;
 
-  private static final Property mBroader = ResourceFactory.createProperty("http://www.w3.org/2004/02/skos/core#broader");
+  private static final Property mBroader = ResourceFactory
+    .createProperty("http://www.w3.org/2004/02/skos/core#broader");
 
   private static final String SELECT_BROADER =
     "SELECT ?broader WHERE {" +
-    "  <%1$s> <" + mBroader + ">+ ?broader " +
-    "}";
+      "  <%1$s> <" + mBroader + ">+ ?broader " +
+      "}";
 
   public BroaderConceptEnricher() {
 
     this.mConceptSchemes = ModelFactory.createDefaultModel();
 
     // Load ESC
-    try{
-      InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("public/json/esc.json");
-      if (inputStream == null){
+    try {
+      InputStream inputStream = Thread.currentThread().getContextClassLoader()
+        .getResourceAsStream("public/json/esc.json");
+      if (inputStream == null) {
         inputStream = new FileInputStream("public/json/esc.json");
       }
       RDFDataMgr.read(mConceptSchemes, inputStream, Lang.JSONLD);
@@ -58,7 +60,6 @@ public class BroaderConceptEnricher implements ResourceEnricher {
     } catch (IOException e) {
       throw new RuntimeIOException(e);
     }
-
   }
 
   public void enrich(Model aToBeEnriched) {
@@ -70,13 +71,14 @@ public class BroaderConceptEnricher implements ResourceEnricher {
       for (Statement stmt : aToBeEnriched.listStatements().toSet()) {
         if (stmt.getObject().isResource()) {
           try (QueryExecution queryExecution = QueryExecutionFactory.create(
-              String.format(SELECT_BROADER, stmt.getObject()), mConceptSchemes)) {
+            String.format(SELECT_BROADER, stmt.getObject()), mConceptSchemes)) {
             ResultSet resultSet = queryExecution.execSelect();
             while (resultSet.hasNext()) {
               QuerySolution querySolution = resultSet.next();
               if (!stmt.getPredicate().equals(mBroader)) {
-                Statement broaderConcept = ResourceFactory.createStatement(stmt.getSubject(), stmt.getPredicate(),
-                  querySolution.get("broader").asResource());
+                Statement broaderConcept = ResourceFactory
+                  .createStatement(stmt.getSubject(), stmt.getPredicate(),
+                    querySolution.get("broader").asResource());
                 broaderConcepts.add(broaderConcept);
               }
             }
@@ -87,7 +89,5 @@ public class BroaderConceptEnricher implements ResourceEnricher {
     } finally {
       aToBeEnriched.leaveCriticalSection();
     }
-
   }
-
 }

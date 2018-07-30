@@ -31,9 +31,11 @@ public class JsonSchemaValidator {
       String type = aResource.getType();
       if (null == type) {
         report.error(new ProcessingMessage()
-          .setMessage("No type found for ".concat(aResource.toString()).concat(", cannot validate")));
+          .setMessage(
+            "No type found for ".concat(aResource.toString()).concat(", cannot validate")));
       } else {
-        JsonSchema schema = JsonSchemaFactory.byDefault().getJsonSchema(mSchemaNode, "/definitions/".concat(type));
+        JsonSchema schema = JsonSchemaFactory.byDefault()
+          .getJsonSchema(mSchemaNode, "/definitions/".concat(type));
         report = schema.validate(aResource.toJson());
       }
     } catch (ProcessingException e) {
@@ -41,5 +43,4 @@ public class JsonSchemaValidator {
     }
     return report;
   }
-
 }

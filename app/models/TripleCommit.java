@@ -51,7 +51,8 @@ public class TripleCommit implements Commit {
 
     public String toString() {
       return AUTHOR_HEADER.concat(HEADER_SEPARATOR).concat(author).concat("\n").concat(DATE_HEADER)
-        .concat(HEADER_SEPARATOR).concat(timestamp.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)).concat("\n");
+        .concat(HEADER_SEPARATOR).concat(timestamp.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+        .concat("\n");
     }
 
     public Map<String, String> toMap() {
@@ -72,7 +73,6 @@ public class TripleCommit implements Commit {
     public static Header fromString(String aHeaderString) {
 
       Scanner scanner = new Scanner(aHeaderString);
-
       String authorHeader;
       try {
         authorHeader = scanner.nextLine();
@@ -100,21 +100,16 @@ public class TripleCommit implements Commit {
       } catch (DateTimeParseException e) {
         throw new IllegalArgumentException("Header contains invalid date");
       }
-
       return new Header(author, timestamp);
-
     }
-
   }
 
   public static class Diff implements Commit.Diff {
 
     final private static String mLang = Lang.NTRIPLES.getName();
-
     final private List<Commit.Diff.Line> mLines;
 
     public static class Line extends Commit.Diff.Line {
-
       //public final boolean add;
       public final Statement stmt;
 
@@ -122,7 +117,6 @@ public class TripleCommit implements Commit {
         this.add = add;
         this.stmt = stmt;
       }
-
     }
 
     public Diff() {
@@ -151,7 +145,6 @@ public class TripleCommit implements Commit {
     }
 
     public void apply(Model model) {
-
       for (Commit.Diff.Line line : this.mLines) {
         if (line.add) {
           model.add(((Line) line).stmt);
@@ -159,7 +152,6 @@ public class TripleCommit implements Commit {
           model.remove(((Line) line).stmt);
         }
       }
-
     }
 
     @Override
@@ -173,7 +165,6 @@ public class TripleCommit implements Commit {
     }
 
     public void unapply(Model model) {
-
       for (Commit.Diff.Line line : this.mLines) {
         if (line.add) {
           model.remove(((Line) line).stmt);
@@ -181,11 +172,9 @@ public class TripleCommit implements Commit {
           model.add(((Line) line).stmt);
         }
       }
-
     }
 
     public Diff reverse() {
-
       TripleCommit.Diff reverse = new TripleCommit.Diff();
       for (Commit.Diff.Line line : mLines) {
         if (line.add) {
@@ -194,13 +183,10 @@ public class TripleCommit implements Commit {
           reverse.addStatement(((Line) line).stmt);
         }
       }
-
       return reverse;
-
     }
 
     public String toString() {
-
       final Model buffer = ModelFactory.createDefaultModel();
       StringBuilder diffString = new StringBuilder();
       StringWriter triple = new StringWriter();
@@ -221,17 +207,12 @@ public class TripleCommit implements Commit {
         diffString.append((((Line) line).add ? "+ " : "- ").concat(triple.toString()));
         triple.getBuffer().setLength(0);
       }
-
       return diffString.toString();
-
     }
 
     public static Diff fromString(String aDiffString) {
-
       final Model buffer = ModelFactory.createDefaultModel();
-
       ArrayList<Commit.Diff.Line> lines = new ArrayList<>();
-
       Scanner scanner = new Scanner(aDiffString).useDelimiter("\\n");
       String diffLine;
       while (scanner.hasNext()) {
@@ -240,7 +221,8 @@ public class TripleCommit implements Commit {
         if (!op.equals("+") && !op.equals("-")) {
           throw new IllegalArgumentException("Diff Line malformed: " + diffLine);
         }
-        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(diffLine.substring(1)
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+          diffLine.substring(1)
             .getBytes(StandardCharsets.UTF_8))) {
           buffer.read(byteArrayInputStream, null, mLang);
           lines.add(new Line(buffer.listStatements().nextStatement(), op.equals("+")));
@@ -250,11 +232,8 @@ public class TripleCommit implements Commit {
         }
       }
       scanner.close();
-
       return new Diff(lines);
-
     }
-
   }
 
   public TripleCommit(Header aHeader, Commit.Diff aDiff) {
@@ -281,17 +260,13 @@ public class TripleCommit implements Commit {
   public boolean equals(Object aOther) {
 
     return aOther instanceof TripleCommit && this.getId().equals(((TripleCommit) aOther).getId());
-
   }
 
   public static TripleCommit fromString(String aCommitString) {
-
     String[] parts = aCommitString.split("\\n\\n");
     if (!(parts.length == 2)) {
       throw new IllegalArgumentException("Malformed commit");
     }
     return new TripleCommit(Header.fromString(parts[0]), Diff.fromString(parts[1]));
-
   }
-
 }

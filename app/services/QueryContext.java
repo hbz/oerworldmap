@@ -17,8 +17,8 @@ public class QueryContext {
   private String iso3166Scope;
   private Map<String, List<AggregationBuilder>> aggregations = new HashMap<>();
   private List<String> roles = new ArrayList<>();
-  private String[] fetchSource = new String[] {};
-  private String[] mElasticsearchFieldBoosts = new String[] {};
+  private String[] fetchSource = new String[]{};
+  private String[] mElasticsearchFieldBoosts = new String[]{};
   private GeoPoint mZoomTopLeft = null;
   private GeoPoint mZoomBottomRight = null;
   private List<GeoPoint> mPolygonFilter = new ArrayList<>();
@@ -39,7 +39,6 @@ public class QueryContext {
     } else {
       this.roles.add("guest");
     }
-
   }
 
   public String[] getElasticsearchFieldBoosts() {
@@ -51,7 +50,8 @@ public class QueryContext {
   }
 
   public boolean hasFieldBoosts() {
-    return mElasticsearchFieldBoosts.length > 0 && !StringUtils.isEmpty(mElasticsearchFieldBoosts[0]);
+    return mElasticsearchFieldBoosts.length > 0 && !StringUtils
+      .isEmpty(mElasticsearchFieldBoosts[0]);
   }
 
   public String[] getFetchSource() {
@@ -125,21 +125,23 @@ public class QueryContext {
   }
 
   public List<GeoPoint> getPolygonFilter() {
-	return mPolygonFilter;
+    return mPolygonFilter;
   }
 
   /**
-   * Set a Geo Polygon Filter for search.
-   * The argument List<GeoPoint> may be empty in case of a filter reset but not null.
+   * Set a Geo Polygon Filter for search. The argument List<GeoPoint> may be empty in case of a
+   * filter reset but not null.
+   *
    * @param aPolygonFilter The Polygon Filter to be set.
    * @throws IllegalArgumentException if argument is null it consists of 1 or 2 GeoPoints.
    */
   public void setPolygonFilter(List<GeoPoint> aPolygonFilter) throws IllegalArgumentException {
-    if (aPolygonFilter == null){
+    if (aPolygonFilter == null) {
       throw new IllegalArgumentException("Argument null given as Polygon Filter.");
     }
-    if (!aPolygonFilter.isEmpty() && aPolygonFilter.size() < 3){
-      throw new IllegalArgumentException("Polygon Filter consisting of " + aPolygonFilter.size() + " GeoPoints only.");
+    if (!aPolygonFilter.isEmpty() && aPolygonFilter.size() < 3) {
+      throw new IllegalArgumentException(
+        "Polygon Filter consisting of " + aPolygonFilter.size() + " GeoPoints only.");
     }
     mPolygonFilter = aPolygonFilter;
   }
@@ -147,14 +149,16 @@ public class QueryContext {
   public void setBoundingBox(String aBoundingBox) throws NumberFormatException {
     String[] coordinates = aBoundingBox.split(",");
     if (coordinates.length == 4) {
-      mZoomTopLeft = new GeoPoint(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]));
-      mZoomBottomRight = new GeoPoint(Double.parseDouble(coordinates[2]), Double.parseDouble(coordinates[3]));
+      mZoomTopLeft = new GeoPoint(Double.parseDouble(coordinates[0]),
+        Double.parseDouble(coordinates[1]));
+      mZoomBottomRight = new GeoPoint(Double.parseDouble(coordinates[2]),
+        Double.parseDouble(coordinates[3]));
     }
     throw new NumberFormatException();
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     StringBuilder result = new StringBuilder();
     result.append(super.toString()).append(": {\n");
     if (filters != null && !filters.isEmpty()) {
@@ -166,10 +170,10 @@ public class QueryContext {
     if (roles != null && !roles.isEmpty()) {
       result.append("roles : ").append(roles).append("\n");
     }
-    if (fetchSource != null && fetchSource.length>0) {
+    if (fetchSource != null && fetchSource.length > 0) {
       result.append("fetchSource : ").append(fetchSource).append("\n");
     }
-    if (mElasticsearchFieldBoosts != null && mElasticsearchFieldBoosts.length>0) {
+    if (mElasticsearchFieldBoosts != null && mElasticsearchFieldBoosts.length > 0) {
       result.append("elasticsearchFieldBoosts : ").append(mElasticsearchFieldBoosts).append("\n");
     }
     if (mZoomTopLeft != null && !StringUtils.isEmpty(mZoomTopLeft.toString())) {
@@ -191,5 +195,4 @@ public class QueryContext {
       .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));
     filters.put("iso3166", iso3166);
   }
-
 }

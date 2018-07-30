@@ -24,20 +24,20 @@ public interface Commit {
     Diff reverse();
 
     List<Line> getLines();
-
   }
 
   interface Header {
 
     String getAuthor();
+
     ZonedDateTime getTimestamp();
 
     Map<String, String> toMap();
-
   }
 
   Diff getDiff();
-  Header getHeader();
-  String getId();
 
+  Header getHeader();
+
+  String getId();
 }

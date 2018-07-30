@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * @author pvb
  */
-public class Reconciler extends OERWorldMap{
+public class Reconciler extends OERWorldMap {
 
   @Inject
   FormFactory formFactory;
@@ -60,9 +60,10 @@ public class Reconciler extends OERWorldMap{
 
 
   public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries,
-                            final QueryContext aQueryContext, final Locale aPreferredLocale) {
+    final QueryContext aQueryContext, final Locale aPreferredLocale) {
     QueryContext queryContext = aQueryContext != null ? aQueryContext : getQueryContext();
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
+    queryContext.setElasticsearchFieldBoosts(
+      new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
     ObjectNode response = Json.newObject();
 
     try {
@@ -80,11 +81,9 @@ public class Reconciler extends OERWorldMap{
           .reconcile(queryString, 0, limit, null, typeFilter, queryContext, aPreferredLocale);
         response.set(inputQuery.getKey(), reconciled);
       }
-    }
-    catch (IOException ioe){
+    } catch (IOException ioe) {
       Logger.error("Could not query base repository.", ioe);
     }
     return response;
   }
-
 }

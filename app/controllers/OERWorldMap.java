@@ -50,7 +50,8 @@ public abstract class OERWorldMap extends Controller {
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
       try {
-        mBaseRepository = new BaseRepository(aConf.underlying(), new ElasticsearchRepository(aConf.underlying()));
+        mBaseRepository = new BaseRepository(aConf.underlying(),
+          new ElasticsearchRepository(aConf.underlying()));
       } catch (final Exception ex) {
         throw new RuntimeException("Failed to create Repository", ex);
       }
@@ -72,7 +73,8 @@ public abstract class OERWorldMap extends Controller {
   private static synchronized void createLocationLookup(Environment aEnv) {
     if (mLocationLookup == null) {
       try {
-        mLocationLookup = new DatabaseReader.Builder(aEnv.resourceAsStream("GeoLite2-Country.mmdb")).build();
+        mLocationLookup = new DatabaseReader.Builder(aEnv.resourceAsStream("GeoLite2-Country.mmdb"))
+          .build();
       } catch (final IOException ex) {
         throw new RuntimeException("Failed to create location lookup", ex);
       }
@@ -81,7 +83,8 @@ public abstract class OERWorldMap extends Controller {
 
   private static synchronized void createSchemaValidator(Configuration aConf) {
     try {
-      mSchemaValidator = new JsonSchemaValidator(Paths.get(aConf.getString("json.schema")).toFile());
+      mSchemaValidator = new JsonSchemaValidator(
+        Paths.get(aConf.getString("json.schema")).toFile());
     } catch (IOException e) {
       Logger.error("Could not read schema", e);
     }
@@ -89,37 +92,28 @@ public abstract class OERWorldMap extends Controller {
 
   @Inject
   public OERWorldMap(Configuration aConf, Environment aEnv) {
-
     mConf = aConf;
     mEnv = aEnv;
-
     // Repository
     createBaseRepository(mConf);
-
     // Account service
     createAccountService(mConf);
-
     // Location lookup
     if (mEnv != null) {
       // can be null in tests
       createLocationLookup(mEnv);
     }
-
     // JSON schema validator
     createSchemaValidator(mConf);
-
   }
 
   String getEmbed() {
-
     return ctx().request().queryString().containsKey("embed")
       ? ctx().request().queryString().get("embed")[0]
       : null;
-
   }
 
   public Locale getLocale() {
-
     Locale locale = new Locale("en", "US");
     if (mConf.getBoolean("i18n.enabled")) {
       List<Lang> acceptLanguages = request().acceptLanguages();
@@ -127,51 +121,40 @@ public abstract class OERWorldMap extends Controller {
         locale = acceptLanguages.get(0).toLocale();
       }
     }
-
     return locale;
-
   }
 
   Resource getUser() {
-
     Resource user = null;
     Logger.trace("Username " + request().username());
     String profileId = mAccountService.getProfileId(request().username());
     if (!StringUtils.isEmpty(profileId)) {
       user = getRepository().getResource(profileId);
     }
-
     return user;
-
   }
 
   QueryContext getQueryContext() {
-
     List<String> roles = new ArrayList<>();
     roles.add("guest");
     if (getUser() != null) {
       roles.add("authenticated");
     }
-
     return new QueryContext(roles);
-
   }
 
   ResourceBundle getEmails() {
-
     return ResourceBundle.getBundle("emails", getLocale());
-
   }
 
   String getLocation() {
-
     try {
-      return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry().getIsoCode();
+      return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry()
+        .getIsoCode();
     } catch (Exception ex) {
       Logger.trace("Could not read host", ex);
       return "GB";
     }
-
   }
 
   ProcessingReport validate(Resource aResource) {
@@ -184,12 +167,11 @@ public abstract class OERWorldMap extends Controller {
 
   /**
    * Get resource from JSON body or form data
+   *
    * @return The JSON node
    */
   JsonNode getJsonFromRequest() {
-
     return ctx().request().body().asJson();
-
   }
 
   /**
@@ -198,20 +180,18 @@ public abstract class OERWorldMap extends Controller {
    * @return Map containing current getUser() in author and current time in date field.
    */
   protected Map<String, String> getMetadata() {
-
     Map<String, String> metadata = new HashMap<>();
     if (!StringUtils.isEmpty(request().username())) {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, request().username());
     } else {
       metadata.put(TripleCommit.Header.AUTHOR_HEADER, "System");
     }
-    metadata.put(TripleCommit.Header.DATE_HEADER, ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    metadata.put(TripleCommit.Header.DATE_HEADER,
+      ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     return metadata;
-
   }
 
-  public BaseRepository getBaseRepository(){
+  public BaseRepository getBaseRepository() {
     return mBaseRepository;
   }
-
 }

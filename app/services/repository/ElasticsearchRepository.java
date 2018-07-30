@@ -52,7 +52,8 @@ import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
-public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable, Aggregatable {
+public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable,
+  Aggregatable {
 
   private static ElasticsearchConfig mConfig;
   private Fuzziness mFuzziness;
@@ -69,7 +70,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) throws IOException {
+  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata)
+    throws IOException {
     Record record = new Record(aResource);
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
@@ -78,7 +80,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata)
+    throws IOException {
     Map<String, String> records = new HashMap<>();
     for (Resource resource : aResources) {
       Record record = new Record(resource);
@@ -147,7 +150,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return aggregate(aAggregationBuilder, null);
   }
 
-  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder, QueryContext aQueryContext) {
+  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder,
+    QueryContext aQueryContext) {
     Resource aggregations = null;
     try {
       aggregations = Resource
@@ -161,7 +165,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return (Resource) aggregations.get("aggregations");
   }
 
-  public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders, QueryContext aQueryContext) {
+  public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders,
+    QueryContext aQueryContext) {
     Resource aggregations = null;
     try {
       aggregations = Resource
@@ -176,34 +181,29 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   /**
-   * This search method is designed to be able to make use of the complete
-   * Elasticsearch query syntax, as described in
-   * http://www.elasticsearch.org/guide
-   * /en/elasticsearch/reference/current/search-uri-request.html .
+   * This search method is designed to be able to make use of the complete Elasticsearch query
+   * syntax, as described in http://www.elasticsearch.org/guide /en/elasticsearch/reference/current/search-uri-request.html
+   * .
    *
-   * @param aQueryString
-   *          A string describing the query
-   * @param aFilters
-   * @return A resource resembling the result set of resources matching the
-   *         criteria given in the query string
-   * @throws IOException
+   * @param aQueryString A string describing the query
+   * @return A resource resembling the result set of resources matching the criteria given in the
+   * query string
    */
   @Override
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters) throws IOException {
+    Map<String, List<String>> aFilters) throws IOException {
     return query(aQueryString, aFrom, aSize, aSortOrder, aFilters, null);
   }
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
+    Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
 
     return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
-
   }
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext,
-                            final Locale aPreferredLocale) throws IOException {
+    Map<String, List<String>> aFilters, QueryContext aQueryContext,
+    final Locale aPreferredLocale) throws IOException {
     aQuery = QueryParser.escape(aQuery);
     aQuery = aQuery.replaceAll("([^ ]+)", "$1~");
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
@@ -234,14 +234,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   /**
-   * Add a document consisting of a JSON String specified by a given UUID and a
-   * given type.
-   *
-   * @param aJsonString
+   * Add a document consisting of a JSON String specified by a given UUID and a given type.
    */
   public void addJson(final String aJsonString, final String aUuid, final String aType) {
     String uuid = getUrlUuidEncoded(aUuid);
-    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType, (uuid == null ? aUuid : uuid));
+    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType,
+      (uuid == null ? aUuid : uuid));
     request.source(aJsonString, XContentType.JSON);
     request.setRefreshPolicy(mConfig.getRefreshPolicy());
     // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
@@ -252,20 +250,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
-  private String getUrlUuidEncoded (String aUuid) {
-    if (isValidUri(aUuid)){
+  private String getUrlUuidEncoded(String aUuid) {
+    if (isValidUri(aUuid)) {
       try {
         return URLEncoder.encode(aUuid, Charset.defaultCharset().name());
       } catch (UnsupportedEncodingException e) {
         return null;
       }
-    }
-    else{
+    } else {
       return aUuid;
     }
   }
 
-  private static boolean isValidUri (String aUri) {
+  private static boolean isValidUri(String aUri) {
     try {
       new URL(aUri);
     } catch (MalformedURLException mue) {
@@ -275,10 +272,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   /**
-   * Add documents consisting of JSON Strings specified by a given UUID and a
-   * given type.
-   *
-   * @param aJsonStringIdMap
+   * Add documents consisting of JSON Strings specified by a given UUID and a given type.
    */
   public void addJsonBulk(final Map<String, String> aJsonStringIdMap, final String aType) {
     BulkRequest request = new BulkRequest();
@@ -300,12 +294,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   /**
    * get *all* matching documents as one list
-   * @param aField
-   * @param aValue
-   * @return
-   * @throws IOException
    */
-  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue) throws IOException {
+  private List<Map<String, Object>> getDocuments(final String aField, final Object aValue)
+    throws IOException {
     final int docsPerPage = 1024;
     int count = 0;
     SearchResponse response = null;
@@ -314,7 +305,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     SearchRequest searchRequest = new SearchRequest();
     SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
     searchSourceBuilder
-      .query(QueryBuilders.queryStringQuery(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
+      .query(QueryBuilders
+        .queryStringQuery(aField.concat(":").concat(QueryParser.escape(aValue.toString()))))
       .size(docsPerPage);
     searchRequest.source(searchSourceBuilder);
     while (response == null || response.getHits().getHits().length != 0) {
@@ -330,19 +322,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   /**
    * Get a document of a specified type specified by an identifier.
-   * @param aType
-   * @param aIdentifier
+   *
    * @return the document as Map of String/Object
    */
   private Map<String, Object> getDocument(@Nonnull final String aType,
-                                         @Nonnull final String aIdentifier) throws IOException {
+    @Nonnull final String aIdentifier) throws IOException {
     GetRequest request = new GetRequest(mConfig.getIndex(), aType, aIdentifier);
     // optionally: request.refresh(true);
     final GetResponse response = mConfig.getClient().get(request);
     return response.getSource();
   }
 
-  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier) throws IOException {
+  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier)
+    throws IOException {
     DeleteRequest request = new DeleteRequest(mConfig.getIndex(), aType, aIdentifier);
     request.setRefreshPolicy(mConfig.getRefreshPolicy());
     // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
@@ -352,7 +344,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
 
   private SearchResponse getAggregation(
-    final AggregationBuilder aAggregationBuilder, final QueryContext aQueryContext) throws IOException {
+    final AggregationBuilder aAggregationBuilder, final QueryContext aQueryContext)
+    throws IOException {
 
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
     if (!(null == aQueryContext)) {
@@ -368,8 +361,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
 
-  private SearchResponse getAggregations(final List<AggregationBuilder> aAggregationBuilders, QueryContext
-    aQueryContext) throws IOException {
+  private SearchResponse getAggregations(final List<AggregationBuilder> aAggregationBuilders,
+    QueryContext
+      aQueryContext) throws IOException {
 
     BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
     if (!(null == aQueryContext)) {
@@ -389,8 +383,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
 
-                               final String aSortOrder, final Map<String, List<String>> aFilters,
-                               final QueryContext aQueryContext) throws IOException {
+    final String aSortOrder, final Map<String, List<String>> aFilters,
+    final QueryContext aQueryContext) throws IOException {
 
     final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom);
     processSortOrder(aSortOrder, aQueryString, sourceBuilder);
@@ -410,9 +404,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Float maxScore = 0.0f;
     if (aSize == -1) {
       response = mConfig.getClient().search(
-        new SearchRequest(mConfig.getIndex()).source(sourceBuilder).searchType(SearchType.DFS_QUERY_THEN_FETCH)
+        new SearchRequest(mConfig.getIndex()).source(sourceBuilder)
+          .searchType(SearchType.DFS_QUERY_THEN_FETCH)
           .scroll(new TimeValue(60000)));
-      maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      maxScore =
+        response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
       aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
@@ -421,20 +417,23 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
           .scrollId(response.getScrollId()).scroll(new TimeValue(60000));
         response = mConfig.getClient().searchScroll(searchScrollRequest);
         nextHits = Arrays.asList(response.getHits().getHits());
-        maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+        maxScore =
+          response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
       }
     } else {
       sourceBuilder.size(aSize);
-      response = mConfig.getClient().search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
+      response = mConfig.getClient()
+        .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
       aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
-      maxScore = response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      maxScore =
+        response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
     }
 
     Logger.debug(sourceBuilder.toString());
 
     List<Resource> resources = new ArrayList<>();
-    for (SearchHit hit: searchHits) {
+    for (SearchHit hit : searchHits) {
       Resource resource = Resource.fromMap(hit.getSourceAsMap());
       if (!Float.isNaN(hit.getScore())) {
         // Convert ES scoring to score between 0 an 1
@@ -443,7 +442,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       resources.add(resource);
     }
 
-    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom, aSize, aSortOrder,
+    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
+      aSize, aSortOrder,
       aFilters, aAggregations);
   }
 
@@ -479,7 +479,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     return queryBuilder;
   }
 
-  private void processFilters(Map<String, List<String>> aFilters, BoolQueryBuilder globalAndFilter) {
+  private void processFilters(Map<String, List<String>> aFilters,
+    BoolQueryBuilder globalAndFilter) {
     if (!(null == aFilters)) {
       BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
       for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
@@ -487,7 +488,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         String filterName = entry.getKey();
         for (String filterValue : entry.getValue()) {
           if (filterName.endsWith(".GTE")) {
-            filterName = filterName.substring(0, filterName.length()-".GTE".length());
+            filterName = filterName.substring(0, filterName.length() - ".GTE".length());
             orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
           } else {
             // This could also be 'must' queries, allowing to narrow down the result list
@@ -501,7 +502,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
 
-  private void processSortOrder(String aSortOrder, String aQueryString, SearchSourceBuilder searchBuilder) {
+  private void processSortOrder(String aSortOrder, String aQueryString,
+    SearchSourceBuilder searchBuilder) {
     // Sort by dateCreated if no query string given
     if (StringUtils.isEmpty(aQueryString) && StringUtils.isEmpty(aSortOrder)) {
       aSortOrder = "dateCreated:DESC";
@@ -509,18 +511,18 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (!StringUtils.isEmpty(aSortOrder)) {
       String[] sort = aSortOrder.split(":");
       if (2 == sort.length) {
-        searchBuilder.sort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
-      }
-      else {
+        searchBuilder
+          .sort(sort[0], sort[1].toUpperCase().equals("ASC") ? SortOrder.ASC : SortOrder.DESC);
+      } else {
         Logger.trace("Invalid sort string: " + aSortOrder);
       }
-
     }
   }
 
   private String[] processQueryContext(
-    QueryContext aQueryContext, SearchSourceBuilder sourceBuilder, BoolQueryBuilder globalAndFilter) {
-    String [] fieldBoosts = null;
+    QueryContext aQueryContext, SearchSourceBuilder sourceBuilder,
+    BoolQueryBuilder globalAndFilter) {
+    String[] fieldBoosts = null;
     if (!(null == aQueryContext)) {
       sourceBuilder.fetchSource(aQueryContext.getFetchSource(), null);
       for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
@@ -533,7 +535,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }
       if (null != aQueryContext.getZoomTopLeft() && null != aQueryContext.getZoomBottomRight()) {
-        GeoBoundingBoxQueryBuilder zoomFilter = QueryBuilders.geoBoundingBoxQuery("about.location.geo")
+        GeoBoundingBoxQueryBuilder zoomFilter = QueryBuilders
+          .geoBoundingBoxQuery("about.location.geo")
           .setCorners(aQueryContext.getZoomTopLeft(), aQueryContext.getZoomBottomRight());
         globalAndFilter.must(zoomFilter);
       }

@@ -86,7 +86,6 @@ public class GeoJsonExporter implements Exporter {
     }
 
     return node;
-
   }
 
   private ArrayNode getCoordinates(ArrayNode locations) {
@@ -104,13 +103,12 @@ public class GeoJsonExporter implements Exporter {
     }
 
     return coordinates;
-
   }
 
   private ArrayNode getLocations(JsonNode node) {
 
     ArrayNode locations = new ArrayNode(JsonNodeFactory.instance);
-    String[] traverse = new String[] {"mentions", "member", "agent", "participant", "provider"};
+    String[] traverse = new String[]{"mentions", "member", "agent", "participant", "provider"};
 
     if (node.isArray()) {
       for (JsonNode entry : node) {
@@ -132,7 +130,5 @@ public class GeoJsonExporter implements Exporter {
     }
 
     return locations;
-
   }
-
 }
