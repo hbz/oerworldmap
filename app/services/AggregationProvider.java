@@ -146,7 +146,7 @@ public class AggregationProvider {
   public static AggregationBuilder getRegionAggregation(int aSize, String aIso3166Scope) {
     return AggregationBuilders.terms("feature.properties.location.address.addressRegion")
       .field("feature.properties.location.address.addressRegion")
-      .includeExclude(new IncludeExclude(aIso3166Scope + "\\....?", null))
+      .includeExclude(new IncludeExclude(aIso3166Scope + "\\...+", null))
       .size(getSize(aSize));
   }
 
