@@ -192,7 +192,7 @@ public class QueryContext {
   public void setIso3166Scope(String aISOCode) {
     iso3166Scope = aISOCode;
     QueryBuilder iso3166 = QueryBuilders.boolQuery()
-      .must(QueryBuilders.termQuery("about.location.address.addressCountry", aISOCode));
+      .must(QueryBuilders.termQuery("feature.properties.location.address.addressCountry", aISOCode));
     filters.put("iso3166", iso3166);
   }
 }
