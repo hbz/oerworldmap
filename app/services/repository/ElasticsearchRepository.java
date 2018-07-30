@@ -537,7 +537,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         sourceBuilder.aggregation(contextAggregation);
         // See https://madewithlove.be/faceted-search-using-elasticsearch/
         final String aggregationField = contextAggregation.getName();
-        if (!(null == aFilters)) {
+        if (contextAggregation.getType().equals("filter")) {
+          facetAggregation.subAggregation(contextAggregation);
+        } else if (null != aFilters) {
           BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
           for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
             String filterName = entry.getKey();

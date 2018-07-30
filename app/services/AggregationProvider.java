@@ -88,24 +88,19 @@ public class AggregationProvider {
 
 
   public static AggregationBuilder getForCountryAggregation(String aId, int aSize) {
-    return AggregationBuilders.global("country").subAggregation(
-      AggregationBuilders
-        .terms("feature.properties.location.address.addressCountry")
-        .field("feature.properties.location.address.addressCountry")
-        .includeExclude(new IncludeExclude(aId, null))
-        .size(getSize(aSize))
-        .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
-          .includeExclude(
-            new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
-        .subAggregation(AggregationBuilders
-          .filter("champions",
-            QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
-          .subAggregation(AggregationBuilders.topHits("country_champions")))
-        .subAggregation(AggregationBuilders
-          .filter("reports", QueryBuilders
-            .matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
-          .subAggregation(AggregationBuilders.topHits("country_reports")))
-    );
+    return AggregationBuilders.filter("country",
+      QueryBuilders.termQuery("feature.properties.location.address.addressCountry", aId))
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
+        .includeExclude(
+          new IncludeExclude(null,"Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
+      .subAggregation(AggregationBuilders
+        .filter("champions",
+          QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
+        .subAggregation(AggregationBuilders.topHits("country_champions")))
+      .subAggregation(AggregationBuilders
+        .filter("reports", QueryBuilders
+          .matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
+        .subAggregation(AggregationBuilders.topHits("country_reports")));
   }
 
 
