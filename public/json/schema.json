@@ -237,6 +237,17 @@
             "type": "string"
           }
         },
+        "creator": {
+          "title": "WebPage.creator",
+          "description": "descriptions.WebPage.creator",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
+            ]
+          }
+        },
         "publisher": {
           "title": "WebPage.publisher",
           "description": "descriptions.WebPage.publisher",
@@ -247,6 +258,43 @@
               { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
             ]
           }
+        },
+        "datePublished": {
+          "title": "WebPage.datePublished",
+          "description": "descriptions.WebPage.datePublished",
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "inLanguage": {
+          "title": "WebPage.inLanguage",
+          "description": "descriptions.WebPage.inLanguage",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        },
+        "license": {
+          "title": "WebPage.license",
+          "description": "descriptions.WebPage.license",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "location": {
+          "title": "WebPage.location",
+          "$ref": "#/definitions/Place"
         },
         "comment": {
           "title": "WebPage.comment",
@@ -1604,7 +1652,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1969,7 +2017,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
