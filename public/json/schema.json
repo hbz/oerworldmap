@@ -194,6 +194,15 @@
           "description": "descriptions.WebPage.name",
           "$ref": "#/definitions/LocalizedString"
         },
+        "url": {
+          "title": "WebPage.url",
+          "description": "descriptions.WebPage.url",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
+        },
         "additionalType": {
           "title": "WebPage.additionalType",
           "description": "descriptions.WebPage.additionalType",
@@ -214,15 +223,6 @@
             ]
           }
         },
-        "url": {
-          "title": "WebPage.url",
-          "description": "descriptions.WebPage.url",
-          "type": "string",
-          "format": "uri",
-          "_display": {
-            "placeholder": "http://example.org/"
-          }
-        },
         "description": {
           "title": "WebPage.description",
           "description": "descriptions.WebPage.description",
@@ -237,6 +237,17 @@
             "type": "string"
           }
         },
+        "creator": {
+          "title": "WebPage.creator",
+          "description": "descriptions.WebPage.creator",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
+            ]
+          }
+        },
         "publisher": {
           "title": "WebPage.publisher",
           "description": "descriptions.WebPage.publisher",
@@ -246,6 +257,73 @@
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
             ]
+          }
+        },
+        "datePublished": {
+          "title": "WebPage.datePublished",
+          "description": "descriptions.WebPage.datePublished",
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "inLanguage": {
+          "title": "WebPage.inLanguage",
+          "description": "descriptions.WebPage.inLanguage",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        },
+        "license": {
+          "title": "WebPage.license",
+          "description": "descriptions.WebPage.license",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "spatialCoverage": {
+          "title": "WebPage.spatialCoverage",
+          "type": "string",
+          "enum": [
+            "Global",
+            "National",
+            "State",
+            "Institution - Primary",
+            "Institution- Secondary",
+            "Institution - Tertiary",
+            "System"
+          ]
+        },
+        "status": {
+          "title": "WebPage.status",
+          "type": "string",
+          "enum": [ "Proposed", "Current" ]
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "object",
+              "properties": {
+                "addressCountry": {
+                  "title": "PostalAddress.addressCountry",
+                  "$ref": "#/definitions/Country"
+                }
+              }
+            }
           }
         },
         "comment": {
@@ -1604,7 +1682,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1969,7 +2047,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
