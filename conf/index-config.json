@@ -986,6 +986,10 @@
                 }
               }
             },
+            "datePublished": {
+              "type": "date",
+              "format": "dateOptionalTime"
+            },
             "agentIn": {
               "properties": {
                 "comment": {
@@ -3479,6 +3483,9 @@
                 }
               }
             },
+            "spatialCoverage": {
+              "type": "keyword"
+            },
             "rights": {
               "fields": {
                 "keyword": {
@@ -4021,12 +4028,6 @@
                     }
                   }
                 },
-                "@id": {
-                  "type": "keyword"
-                },
-                "@type": {
-                  "type": "keyword"
-                },
                 "name": {
                   "properties": {
                     "@value": {
@@ -4066,6 +4067,31 @@
                       "type": "keyword"
                     }
                   }
+                },
+                "location": {
+                  "properties": {
+                    "address": {
+                      "properties": {
+                        "addressCountry": {
+                          "fields": {
+                            "name": {
+                              "search_analyzer": "country_synonyms_analyzer",
+                              "type": "text",
+                              "fielddata": true,
+                              "analyzer": "country_synonyms_analyzer"
+                            }
+                          },
+                          "type": "keyword"
+                        }
+                      }
+                    }
+                  }
+                },
+                "@id": {
+                  "type": "keyword"
+                },
+                "@type": {
+                  "type": "keyword"
                 },
                 "description": {
                   "properties": {
@@ -7727,6 +7753,9 @@
               }
             },
             "email": {
+              "type": "keyword"
+            },
+            "status": {
               "type": "keyword"
             },
             "attendee": {

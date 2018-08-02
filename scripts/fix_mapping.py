@@ -35,7 +35,8 @@ def process_mapping(mapping):
 
 def process_properties(properties, is_name_branch):
     not_analyzed = ['@id', '@type', '@context', '@language', 'email', 'url', 'image', 'award',
-                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
+                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion',
+                    'status', 'spatialCoverage']
     country_name = ['addressCountry']
     ngrams = ['@value']
     name = ['name']

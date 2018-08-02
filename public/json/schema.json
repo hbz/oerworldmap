@@ -194,6 +194,15 @@
           "description": "descriptions.WebPage.name",
           "$ref": "#/definitions/LocalizedString"
         },
+        "url": {
+          "title": "WebPage.url",
+          "description": "descriptions.WebPage.url",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
+        },
         "additionalType": {
           "title": "WebPage.additionalType",
           "description": "descriptions.WebPage.additionalType",
@@ -212,15 +221,6 @@
                 }
               } } }
             ]
-          }
-        },
-        "url": {
-          "title": "WebPage.url",
-          "description": "descriptions.WebPage.url",
-          "type": "string",
-          "format": "uri",
-          "_display": {
-            "placeholder": "http://example.org/"
           }
         },
         "description": {
@@ -268,6 +268,7 @@
           "title": "WebPage.inLanguage",
           "description": "descriptions.WebPage.inLanguage",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/Language"
           }
@@ -276,6 +277,7 @@
           "title": "WebPage.license",
           "description": "descriptions.WebPage.license",
           "type": "array",
+          "maxItems": 1,
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
@@ -292,9 +294,37 @@
             ]
           }
         },
+        "spatialCoverage": {
+          "title": "WebPage.spatialCoverage",
+          "type": "string",
+          "enum": [
+            "Global",
+            "National",
+            "State",
+            "Institution - Primary",
+            "Institution- Secondary",
+            "Institution - Tertiary",
+            "System"
+          ]
+        },
+        "status": {
+          "title": "WebPage.status",
+          "type": "string",
+          "enum": [ "Proposed", "Current" ]
+        },
         "location": {
-          "title": "WebPage.location",
-          "$ref": "#/definitions/Place"
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "object",
+              "properties": {
+                "addressCountry": {
+                  "title": "PostalAddress.addressCountry",
+                  "$ref": "#/definitions/Country"
+                }
+              }
+            }
+          }
         },
         "comment": {
           "title": "WebPage.comment",
