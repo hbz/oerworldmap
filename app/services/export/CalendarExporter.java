@@ -125,8 +125,7 @@ public class CalendarExporter implements Exporter {
         if (value != null && !Strings.isEmpty(value)) {
           if (subResult.length() == 0) {
             subResult.append(mapping.getKey());
-          } //
-          else {
+          } else {
             if (subResult.length() > mapping.getKey().length()) {
               subResult.append(VALUE_SEPARATOR);
             }

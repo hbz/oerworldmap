@@ -96,8 +96,7 @@ public class CalendarExporterTest implements JsonTest {
       if (line.startsWith("DTSTAMP:")) {
         assertTrue("Exported event does not contain proper time stamp: ".concat(line),
           line.matches("DTSTAMP:[0-9]{8}T[0-9]{6}Z"));
-      } //
-      else {
+      } else {
         assertTrue("Expected event does not contain following line: ".concat(line),
           aExpected.contains(line));
       }

@@ -49,8 +49,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
         "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
-    } //
-    else {
+    } else {
       mValues = new String[mKeys.size()];
       Iterator<Entry<String, Object>> it = aResource.entrySet().iterator();
       while (it.hasNext()) {
@@ -66,8 +65,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
     if (index == -1) {
       throw new IllegalStateException(
         "Trying to export Resource entry but key not found in header: \n" + aResourceEntry);
-    } //
-    else {
+    } else {
       if (value instanceof List<?>) {
         ArrayList<?> values = (ArrayList<?>) value;
         if (!values.isEmpty()) {
@@ -77,8 +75,7 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
           }
           mValues[index] = valueList.toString();
         }
-      } //
-      else {
+      } else {
         mValues[index] = toExportString(value);
       }
     }
@@ -92,15 +89,13 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
         String id = resource.get(JsonLdConstants.ID).toString();
         // only export IDs of nested Resources
         result.append(id.toString());
-      } //
-      else {
+      } else {
         // Resource without ID (e. g. "location"): export all sub fields flatly
         // The order of exported subfields is not predicted as sub Resources do
         // not necessarily contain the same fields.
         result.append(((Resource) value).getValuesAsFlatString(",", mDropFields));
       }
-    } //
-    else {
+    } else {
       result.append(value.toString());
     }
     return result.toString();
