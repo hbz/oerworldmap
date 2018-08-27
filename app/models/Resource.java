@@ -1,13 +1,24 @@
 package models;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import play.Logger;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,11 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import play.Logger;
+
 
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
@@ -38,6 +45,23 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme",
     "Concept",
     "Comment", "Product", "LikeAction", "LighthouseAction"));
+
+  private static class MyObjectMapper extends ObjectMapper {
+    MyObjectMapper() {
+      registerModule(new MyModule());
+    }
+  }
+
+  private static class MyModule extends SimpleModule {
+    MyModule() {
+      addDeserializer(String.class, new StdScalarDeserializer<String>(String.class) {
+        @Override
+        public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+          return StringUtils.trim(jp.getValueAsString());
+        }
+      });
+    }
+  }
 
   /**
    * Constructor for typeless resources
@@ -121,7 +145,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource fromJson(JsonNode aJson) {
-    Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
+    Map<String, Object> resourceMap = new MyObjectMapper().convertValue(aJson,
       new TypeReference<HashMap<String, Object>>() {
       });
     return fromMap(resourceMap);
@@ -129,7 +153,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   public static Resource fromJson(String aJsonString) {
     try {
-      return fromJson(new ObjectMapper().readTree(aJsonString));
+      return fromJson(new MyObjectMapper().readTree(aJsonString));
     } catch (IOException e) {
       Logger.error("Could not read resource from JSON", e);
       return null;
@@ -142,7 +166,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
    * @return JSON JsonNode
    */
   public JsonNode toJson() {
-    return new ObjectMapper().convertValue(this, JsonNode.class);
+    return new MyObjectMapper().convertValue(this, JsonNode.class);
   }
 
   /**
@@ -165,7 +189,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
    */
   @Override
   public String toString() {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new MyObjectMapper();
     String output;
     try {
       output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());

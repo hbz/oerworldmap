@@ -35,6 +35,7 @@ import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import play.Logger;
@@ -390,7 +391,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     processSortOrder(aSortOrder, aQueryString, sourceBuilder);
     final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
     processFilters(aFilters, globalAndFilter);
-    final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter);
+    final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter, aFilters);
 
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
     FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
@@ -487,13 +488,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
         String filterName = entry.getKey();
         for (String filterValue : entry.getValue()) {
-          if (filterName.endsWith(".GTE")) {
-            filterName = filterName.substring(0, filterName.length() - ".GTE".length());
-            orFilterBuilder.should(QueryBuilders.rangeQuery(filterName).gte(filterValue));
-          } else {
-            // This could also be 'must' queries, allowing to narrow down the result list
-            orFilterBuilder.should(termQuery(filterName, filterValue));
-          }
+          orFilterBuilder.should(buildFilterQuery(filterName, filterValue));
         }
         aggregationAndFilter.must(orFilterBuilder);
       }
@@ -501,6 +496,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
   }
 
+  private QueryBuilder buildFilterQuery(final String aField, final String aValue) {
+    final String filterName = aField.endsWith(".GTE")
+      ? aField.substring(0, aField.length() - ".GTE".length())
+      : aField;
+
+    return aField.endsWith(".GTE")
+      ? QueryBuilders.rangeQuery(filterName).gte(aValue)
+      : termQuery(filterName, aValue);
+  }
 
   private void processSortOrder(String aSortOrder, String aQueryString,
     SearchSourceBuilder searchBuilder) {
@@ -520,17 +524,41 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   private String[] processQueryContext(
-    QueryContext aQueryContext, SearchSourceBuilder sourceBuilder,
-    BoolQueryBuilder globalAndFilter) {
+    final QueryContext aQueryContext, final SearchSourceBuilder sourceBuilder,
+    final BoolQueryBuilder globalAndFilter, final Map<String, List<String>> aFilters) {
     String[] fieldBoosts = null;
-    if (!(null == aQueryContext)) {
+    if (null != aQueryContext) {
       sourceBuilder.fetchSource(aQueryContext.getFetchSource(), null);
       for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
         globalAndFilter.must(contextFilter);
       }
+      AggregationBuilder facetAggregation = AggregationBuilders.global("facets");
       for (AggregationBuilder contextAggregation : aQueryContext.getAggregations()) {
         sourceBuilder.aggregation(contextAggregation);
+        // See https://madewithlove.be/faceted-search-using-elasticsearch/
+        final String aggregationField = contextAggregation.getName();
+        if (contextAggregation.getType().equals("filter")) {
+          facetAggregation.subAggregation(contextAggregation);
+        } else if (null != aFilters) {
+          BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
+          for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
+            String filterName = entry.getKey();
+            if (!filterName.equals(aggregationField)) {
+              BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
+              for (String filterValue : entry.getValue()) {
+                orFilterBuilder.should(buildFilterQuery(filterName, filterValue));
+              }
+              aggregationAndFilter.must(orFilterBuilder);
+            }
+          }
+          facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, aggregationAndFilter)
+            .subAggregation(contextAggregation));
+        } else {
+          facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, QueryBuilders.matchAllQuery())
+            .subAggregation(contextAggregation));
+        }
       }
+      sourceBuilder.aggregation(facetAggregation);
       if (aQueryContext.hasFieldBoosts()) {
         fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }

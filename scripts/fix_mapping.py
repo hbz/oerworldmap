@@ -35,12 +35,13 @@ def process_mapping(mapping):
 
 def process_properties(properties, is_name_branch):
     not_analyzed = ['@id', '@type', '@context', '@language', 'email', 'url', 'image', 'award',
-                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion']
+                    'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion',
+                    'status', 'spatialCoverage']
     country_name = ['addressCountry']
     ngrams = ['@value']
     name = ['name']
     keywords = ['keywords']
-    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate']
+    date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate', 'datePublished']
     geo_point = ['geo']
     geo_shape = ['geometry']
     integer = ['link_count', 'lighthouse_count', 'like_count']
