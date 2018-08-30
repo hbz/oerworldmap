@@ -13,5 +13,10 @@
     "Content-Location": "https://oerworldmap.org/assets/json/context.json",
     "X-Classpath": "context.json",
     "Content-Type": "application/ld+json"
+  },
+  {
+    "Content-Location": "https://beta.oerworldmap.org/assets/json/context.json",
+    "X-Classpath": "context.json",
+    "Content-Type": "application/ld+json"
   }
 ]
