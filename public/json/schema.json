@@ -310,7 +310,7 @@
         "status": {
           "title": "WebPage.status",
           "type": "string",
-          "enum": [ "Proposed", "Current" ]
+          "enum": [ "Proposed", "Current", "Deactivated" ]
         },
         "location": {
           "type": "object",
