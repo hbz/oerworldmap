@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -32,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+
 
 public class Resource extends HashMap<String, Object> implements Comparable<Resource> {
 
@@ -359,19 +359,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
           if (!"".equals(value)) {
             result.append(value).append(fieldSeparator).append(" ");
           }
-        } //
-        else if (value instanceof Resource) {
+        } else if (value instanceof Resource) {
           result.append(((Resource) value).getValuesAsFlatString(fieldSeparator, aDropFields));
-        } //
-        else if (value instanceof List<?>) {
+        } else if (value instanceof List<?>) {
           result.append("[");
           for (Object innerValue : (List<?>) value) {
             if (innerValue instanceof String) {
               if (!"".equals(innerValue)) {
                 result.append(innerValue).append(fieldSeparator).append(" ");
               }
-            } //
-            else if (innerValue instanceof Resource) {
+            } else if (innerValue instanceof Resource) {
               result.append(
                 ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
             }
@@ -409,8 +406,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (next != null) {
         return next;
       }
-    } //
-    else if (o instanceof Resource) {
+    } else if (o instanceof Resource) {
       Resource resource = (Resource) o;
       if (resource.size() == 0) {
         return null;
@@ -485,8 +481,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (entry.getValue() instanceof Resource) {
         Resource innerResource = ((Resource) entry.getValue());
         count += innerResource.getNumberOfSubFields(remainingElements);
-      } //
-      else if (entry.getValue() instanceof List<?>) {
+      } else if (entry.getValue() instanceof List<?>) {
         for (Object innerObject : (List<?>) entry.getValue()) {
           if (innerObject instanceof Resource) {
             count += ((Resource) innerObject).getNumberOfSubFields(remainingElements);

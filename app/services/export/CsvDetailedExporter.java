@@ -36,8 +36,7 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
     if (mKeys.isEmpty()) {
       throw new IllegalStateException(
         "Trying to export Resource as CSV before having headers been set up: \n" + aResource);
-    } //
-    else {
+    } else {
       mValues = new String[mKeys.size()];
       Iterator<Entry<String, Object>> it = aResource.entrySet().iterator();
       while (it.hasNext()) {
@@ -56,15 +55,13 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
       } else {
         mValues[index] = (String) aResourceEntry.getValue();
       }
-    } //
-    else if (aResourceEntry.getValue() instanceof Resource) {
+    } else if (aResourceEntry.getValue() instanceof Resource) {
       Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
         .iterator();
       while (it.hasNext()) {
         flattenResourceElement(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
-    } //
-    else if (aResourceEntry.getValue() instanceof List<?>) {
+    } else if (aResourceEntry.getValue() instanceof List<?>) {
       ArrayList<?> values = (ArrayList<?>) aResourceEntry.getValue();
       for (int i = 0; i < values.size(); i++) {
         Object value = values.get(i);
@@ -74,8 +71,7 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
             flattenResourceElement(it.next(),
               aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);
           }
-        } //
-        else if (value instanceof String) {
+        } else if (value instanceof String) {
           int index = getIndexInHeader(aKeyPath + aResourceEntry.getKey() + mPathSeparator + i);
           if (index == -1) {
             throw new IllegalStateException(
@@ -101,15 +97,13 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
   private void flattenKeys(Entry<String, Object> aResourceEntry, String aKeyPath) {
     if (aResourceEntry.getValue() instanceof String) {
       mKeys.add(aKeyPath + aResourceEntry.getKey());
-    } //
-    else if (aResourceEntry.getValue() instanceof Resource) {
+    } else if (aResourceEntry.getValue() instanceof Resource) {
       Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
         .iterator();
       while (it.hasNext()) {
         flattenKeys(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
-    } //
-    else if (aResourceEntry.getValue() instanceof List<?>) {
+    } else if (aResourceEntry.getValue() instanceof List<?>) {
       ArrayList<?> values = (ArrayList<?>) aResourceEntry.getValue();
       for (int i = 0; i < values.size(); i++) {
         Object value = values.get(i);
