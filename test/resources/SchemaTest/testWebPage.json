@@ -2,18 +2,54 @@
   "@context" : "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:fa0b36f4-ff55-11e6-8ed8-374f53ecaca7",
   "@type": "WebPage",
+  "additionalType" : [ {
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Policy",
+      "@language" : "en"
+    }, {
+      "@value" : "Policy",
+      "@language" : "de"
+    }, {
+      "@value" : "Policy",
+      "@language" : "pt"
+    } ],
+    "@id" : "https://oerworldmap.org/assets/json/publications.json#policy"
+  } ],
   "name": [
     {
       "@language": "en",
-      "@value": "My OER Bookmark"
+      "@value": "My OER Policy"
     }
   ],
+  "status": "Deactivated",
+  "inLanugage": "en",
   "description": [
       {
         "@language": "en",
-        "@value": "This is a bookmark of a web page about a wonderful afternoon in OER-Erkenschwick"
+        "@value": "This is the OER-Erkenschwick OER policy."
       }
     ],
-  "keywords": [ "OER", "Erkenschwick", "afternoon" ],
-  "url": "http://example.org"
+    "datePublished": "2018-08-08",
+  "keywords": [ "OER", "Erkenschwick", "policy" ],
+  "url": "http://example.org",
+  "license": [
+    {
+      "@id": "https://oerworldmap.org/assets/json/licenses.json#cc0",
+      "@type": "Concept"
+    }
+  ],
+  "creator": [
+    {
+      "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
+      "@type": "Person"
+    }
+  ],
+  "publisher": [
+    {
+      "@id": "urn:uuid:164a5d61-8d20-401f-a157-7132b60f22ff",
+      "@type": "Organization"
+    }
+  ],
+  "spatialCoverage": "System"
 }
