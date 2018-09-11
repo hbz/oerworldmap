@@ -2763,6 +2763,9 @@
           "items": {
             "type": "string",
             "format": "uri"
+          },
+          "_display": {
+            "className": "admin only"
           }
         },
         "objectIn": {
