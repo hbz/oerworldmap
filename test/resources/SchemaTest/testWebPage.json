@@ -23,7 +23,7 @@
     }
   ],
   "status": "Deactivated",
-  "inLanguage": "en",
+  "inLanguage": ["en"],
   "description": [
       {
         "@language": "en",
