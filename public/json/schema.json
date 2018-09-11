@@ -351,6 +351,47 @@
           "_display": {
             "className": "admin only"
           }
+        },
+        "primarySector": {
+          "title": "WebPage.primarySector",
+          "description": "descriptions.WebPage.primarySector",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "title": "WebPage.secondarySector",
+          "description": "descriptions.WebPage.secondarySector",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
         }
       },
       "required": [ "name", "url" ],

@@ -73,5 +73,27 @@
     "@type": "Place"
   },
   "exampleOfWork": "http://example.org",
-  "citation": "John Doe 2017, CC-BY"
+  "citation": "John Doe 2017, CC-BY",
+  "primarySector" : [ {
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Hochschule",
+      "@language" : "de"
+    }, {
+      "@value" : "Higher Education",
+      "@language" : "en"
+    } ],
+    "@id" : "https://oerworldmap.org/assets/json/sectors.json#higherEd"
+  } ],
+  "secondarySector" : [ {
+    "@type" : "Concept",
+    "name" : [ {
+      "@value" : "Weiterbildung",
+      "@language" : "de"
+    }, {
+      "@value" : "Further Education",
+      "@language" : "en"
+    } ],
+    "@id" : "https://oerworldmap.org/assets/json/sectors.json#further"
+  } ]
 }
