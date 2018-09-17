@@ -392,6 +392,14 @@
               } } }
             ]
           }
+        },
+        "citation": {
+          "title": "WebPage.citation",
+          "description": "descriptions.WebPage.citation",
+          "type": "string",
+          "_display": {
+            "rows": 3
+          }
         }
       },
       "required": [ "name", "url" ],
