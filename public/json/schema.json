@@ -1374,58 +1374,35 @@
           "type": "array",
           "maxItems": 1,
           "items": {
-            "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "type": "string",
-                    "enum": [ "ServiceChannel" ],
-                    "_display": {
-                      "className": "hidden"
-                    }
-                  },
-                  "availableLanguage": {
-                    "title": "Service.availableChannel.availableLanguage",
-                    "type": "array",
-                    "items": {
-                      "title": "LocalizedString.@language",
-                      "$ref": "#/definitions/Language"
-                    }
-                  },
-                  "serviceUrl": {
-                    "title": "Service.availableChannel.serviceUrl",
-                    "type": "string",
-                    "format": "uri"
-                  }
-                },
-                "required": [ "serviceUrl" ]
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "enum": [ "ServiceChannel" ],
+                "_display": {
+                  "className": "hidden"
+                }
               },
-              {
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "type": "string",
-                    "enum": [ "WebAPI" ],
-                    "_display": {
-                      "className": "hidden"
-                    }
-                  },
-                  "availableLanguage": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "enum": ["en", "de"]
-                    }
-                  },
-                  "documentation": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                },
-                "required": [ "documentation" ]
+              "availableLanguage": {
+                "title": "Service.availableChannel.availableLanguage",
+                "type": "array",
+                "items": {
+                  "title": "LocalizedString.@language",
+                  "$ref": "#/definitions/Language"
+                }
+              },
+              "serviceUrl": {
+                "title": "Service.availableChannel.serviceUrl",
+                "type": "string",
+                "format": "uri"
+              },
+              "documentation": {
+                "title": "Service.availableChannel.documentation",
+                "type": "string",
+                "format": "uri"
               }
-            ]
+            },
+            "required": [ "serviceUrl" ]
           }
         },
         "mentionedIn": {
