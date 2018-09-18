@@ -400,6 +400,20 @@
           "_display": {
             "rows": 3
           }
+        },
+        "objectIn": {
+          "title": "WebPage.objectIn",
+          "description": "descriptions.WebPage.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
         }
       },
       "required": [ "name", "url" ],
@@ -702,6 +716,20 @@
           "type": "string",
           "_display": {
             "rows": 3
+          }
+        },
+        "objectIn": {
+          "title": "Article.objectIn",
+          "description": "descriptions.Article.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
           }
         }
       },
@@ -3145,7 +3173,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event", "Article", "WebPage" ] } } }
           ],
           "_display": {
             "className": "hidden"
@@ -3211,7 +3239,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Event" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event", "Article", "WebPage" ] } } }
           ],
           "_display": {
             "className": "hidden"
