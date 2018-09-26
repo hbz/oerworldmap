@@ -162,4 +162,25 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
         .deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
     }
   }
+
+  @Test
+  public void testSearchSpecialCharAnd() throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCharAnd.DB.1.json");
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    try {
+      JsonNode hitsTrivial = mReconciler.getBaseRepository()
+        .reconcile("Kwame Nkrumah University of Science Technology", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for search without special char.", 1,
+        hitsTrivial.get("result").size());
+      JsonNode hitsSpecial = mReconciler.getBaseRepository()
+        .reconcile("Kwame Nkrumah University of Science & Technology", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for special char search.", 1,
+        hitsSpecial.get("result").size());
+    } finally {
+      mReconciler.getBaseRepository()
+        .deleteResource("urn:uuid:6eadceb1-ee44-4cbd-a524-7d492961ec8e", mMetadata);
+    }
+  }
 }

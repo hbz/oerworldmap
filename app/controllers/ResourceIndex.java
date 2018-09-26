@@ -59,7 +59,7 @@ public class ResourceIndex extends OERWorldMap {
 
   @With(Cached.class)
   public Result list(String q, int from, int size, String sort, boolean features, String extension,
-    String iso3166, String disposition) throws IOException {
+    String iso3166, String disposition){
 
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
