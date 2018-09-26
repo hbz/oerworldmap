@@ -134,7 +134,7 @@ public class AggregationProvider {
             "about.location"}, null)
         .sort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
         .size(100)
-      ).order(BucketOrder.key(false)).minDocCount(1);
+      ).order(BucketOrder.key(true)).minDocCount(1);
   }
 
 
