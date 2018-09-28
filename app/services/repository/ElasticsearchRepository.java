@@ -205,6 +205,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
     Map<String, List<String>> aFilters, QueryContext aQueryContext,
     final Locale aPreferredLocale) throws IOException {
+    // remove "words" consisting only of characters that have to be escaped
+    aQuery = aQuery.replaceAll("(?<=[ \t\n\r])[\\\\+\\-&|!(){}\\[\\]^/\"~*?:]+(?=[ \t\n\r])", "");
     aQuery = QueryParser.escape(aQuery);
     aQuery = aQuery.replaceAll("([^ ]+)", "$1~");
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
