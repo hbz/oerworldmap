@@ -463,4 +463,30 @@ public class ResourceIndex extends OERWorldMap {
       : mBaseRepository.label(URLDecoder.decode(aId, "UTF-8"))
     );
   }
+
+  public Result activity() {
+    List<Commit> activities = mBaseRepository.log("").subList(0, 20);
+    ArrayNode result = JsonNodeFactory.instance.arrayNode();
+    for (Commit commit : activities) {
+      String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
+      // Skip empty commits
+      if (id == null) {
+        continue;
+      }
+      Resource resource = mBaseRepository.getResource(id);
+      // Skip deletions
+      if (resource == null) {
+        continue;
+      }
+      ObjectNode action = JsonNodeFactory.instance.objectNode();
+      action.put("time", commit.getHeader().getTimestamp().toString());
+      action.put("type", (mBaseRepository.log(id).size() > 1 ? "edit" : "add"));
+      ObjectNode entry = JsonNodeFactory.instance.objectNode();
+      entry.put("about", resource.toJson());
+      entry.put("action", action);
+      result.add(entry);
+      //entry.put("user", mBaseRepository.getResource(mAccountService.getProfileId(commit.getHeader().getAuthor())).toJson());
+    }
+    return ok(result);
+  }
 }

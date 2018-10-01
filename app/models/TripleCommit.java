@@ -1,8 +1,11 @@
 package models;
 
+import models.TripleCommit.Diff.Line;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -164,7 +167,7 @@ public class TripleCommit implements Commit {
       unapply((Model) model);
     }
 
-    public void unapply(Model model) {
+    void unapply(Model model) {
       for (Commit.Diff.Line line : this.mLines) {
         if (line.add) {
           model.remove(((Line) line).stmt);
@@ -236,6 +239,16 @@ public class TripleCommit implements Commit {
     }
   }
 
+  private static class Properties {
+    static String eccrev = "https://vocab.eccenca.com/revision/";
+    static Property previousCommit = ResourceFactory.createProperty(eccrev, "previousCommit");
+    static Property commitAuthor = ResourceFactory.createProperty(eccrev, "commitAuthor");
+    static Property atTime = ResourceFactory.createProperty(eccrev, "atTime");
+    static Property hasRevision = ResourceFactory.createProperty(eccrev, "hasRevision");
+    static Property deltaInsert = ResourceFactory.createProperty(eccrev, "deltaInsert");
+    static Property deltaDelete = ResourceFactory.createProperty(eccrev, "deltaDelete");
+  }
+
   public TripleCommit(Header aHeader, Commit.Diff aDiff) {
     mHeader = aHeader;
     mDiff = aDiff;
@@ -258,7 +271,6 @@ public class TripleCommit implements Commit {
   }
 
   public boolean equals(Object aOther) {
-
     return aOther instanceof TripleCommit && this.getId().equals(((TripleCommit) aOther).getId());
   }
 
@@ -269,4 +281,51 @@ public class TripleCommit implements Commit {
     }
     return new TripleCommit(Header.fromString(parts[0]), Diff.fromString(parts[1]));
   }
+
+  public Model getInsertions() {
+    Model deltaInsert = ModelFactory.createDefaultModel();
+    for (Commit.Diff.Line line : this.getDiff().getLines()) {
+      Line diffLine = ((Line) line);
+      if (diffLine.add) {
+        deltaInsert.add(diffLine.stmt);
+      }
+    }
+    return deltaInsert;
+  }
+
+  public Model getDeletions() {
+    Model deltaDelete = ModelFactory.createDefaultModel();
+    for (Commit.Diff.Line line : this.getDiff().getLines()) {
+      Line diffLine = ((Line) line);
+      if (!diffLine.add) {
+        deltaDelete.add(diffLine.stmt);
+      }
+    }
+    return deltaDelete;
+  }
+
+  public Resource getPrimaryTopic() {
+    return ((Line) this.getDiff().getLines().get(0)).stmt.getSubject();
+  }
+
+  public Dataset toRDF() {
+    Model commit = ModelFactory.createDefaultModel();
+    Resource deltaInsertGraph = commit.createResource(this.getId() + "#insert");
+    Resource deltaDeleteGraph = commit.createResource(this.getId() + "#delete");
+    Dataset changes = DatasetFactory.create(commit);
+    final Model deltaInsert = changes.getNamedModel(deltaInsertGraph.getURI());
+    final Model deltaDelete = changes.getNamedModel(deltaDeleteGraph.getURI());
+    deltaInsert.add(this.getInsertions());
+    deltaDelete.add(this.getDeletions());
+    final Resource revision = commit.createResource()
+      .addProperty(Properties.deltaInsert, deltaInsertGraph)
+      .addProperty(Properties.deltaDelete, deltaDeleteGraph);
+    final Commit.Header header = this.getHeader();
+    commit.createResource(this.getId())
+      .addProperty(Properties.commitAuthor, commit.createResource(header.getAuthor()))
+      .addProperty(Properties.atTime, header.getTimestamp().toString())
+      .addProperty(Properties.hasRevision, revision);
+    return changes;
+  }
+
 }
