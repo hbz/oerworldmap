@@ -1930,6 +1930,26 @@
             ]
           }
         },
+        "activityField": {
+          "title": "Person.activityField",
+          "description": "descriptions.Person.activityField",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/activities.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
         "publication": {
           "title": "Person.publication",
           "description": "descriptions.Person.publication",
