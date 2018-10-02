@@ -309,6 +309,12 @@ public class TripleCommit implements Commit {
     try {
       return getInsertions().listResourcesWithProperty(RDF.type).nextResource();
     } catch (NoSuchElementException e) {
+      for (Commit.Diff.Line line : this.getDiff().getLines()) {
+        Resource subject = ((Line) line).stmt.getSubject();
+        if (subject.isURIResource()) {
+          return subject;
+        }
+      }
       return ((Line) this.getDiff().getLines().get(0)).stmt.getSubject();
     }
   }

@@ -1,7 +1,10 @@
 package models;
 
+import models.TripleCommit.Diff.Line;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import play.Logger;
 
 import java.io.File;
@@ -101,9 +104,8 @@ public class GraphHistory {
   private Set<String> getModified(Commit aCommit) {
     Set<String> modified = new HashSet<>();
     for (Commit.Diff.Line line : aCommit.getDiff().getLines()) {
-      org.apache.jena.rdf.model.Resource subject = ((TripleCommit.Diff.Line) line).stmt
-        .getSubject();
-      org.apache.jena.rdf.model.RDFNode object = ((TripleCommit.Diff.Line) line).stmt.getObject();
+      Resource subject = ((Line) line).stmt.getSubject();
+      RDFNode object = ((TripleCommit.Diff.Line) line).stmt.getObject();
       if (subject.isURIResource()) {
         modified.add(subject.toString());
       }
