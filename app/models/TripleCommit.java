@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * Created by fo on 10.12.15, modified by pvb
@@ -305,7 +306,11 @@ public class TripleCommit implements Commit {
   }
 
   public Resource getPrimaryTopic() {
-    return ((Line) this.getDiff().getLines().get(0)).stmt.getSubject();
+    try {
+      return getInsertions().listResourcesWithProperty(RDF.type).nextResource();
+    } catch (NoSuchElementException e) {
+      return ((Line) this.getDiff().getLines().get(0)).stmt.getSubject();
+    }
   }
 
   public Dataset toRDF() {
