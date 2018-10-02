@@ -464,17 +464,20 @@ public class ResourceIndex extends OERWorldMap {
     );
   }
 
-  public Result activity() {
-    List<Commit> activities = mBaseRepository.log("").subList(0, 20);
+  public Result activity(String until) {
+    List<Commit> activities = mBaseRepository.log(null);
     ArrayNode result = JsonNodeFactory.instance.arrayNode();
     for (Commit commit : activities) {
+      if (result.size() == 20 || (until != null && commit.getId().equals(until))) {
+        break;
+      }
       String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
       // Skip empty commits
       if (id == null) {
         continue;
       }
       Resource resource = mBaseRepository.getResource(id);
-      // Skip deletions
+      // Skip deleted resources
       if (resource == null) {
         continue;
       }
@@ -484,6 +487,7 @@ public class ResourceIndex extends OERWorldMap {
       ObjectNode entry = JsonNodeFactory.instance.objectNode();
       entry.put("about", resource.toJson());
       entry.put("action", action);
+      entry.put("id", commit.getId());
       String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
       if (profileId != null) {
         Resource user = mBaseRepository.getResource(profileId);
