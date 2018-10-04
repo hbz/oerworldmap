@@ -13421,8 +13421,55 @@
                 }
               }
             },
-            "url": {
-              "type": "keyword"
+            "activityField": {
+              "properties": {
+                "@id": {
+                  "type": "keyword"
+                },
+                "@type": {
+                  "type": "keyword"
+                },
+                "name": {
+                  "properties": {
+                    "@value": {
+                      "fields": {
+                        "sort": {
+                          "type": "keyword"
+                        },
+                        "en": {
+                          "search_analyzer": "english_analyzer",
+                          "type": "text",
+                          "analyzer": "english_analyzer"
+                        },
+                        "splits": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "split_analyzer"
+                        },
+                        "de": {
+                          "search_analyzer": "german_analyzer",
+                          "type": "text",
+                          "analyzer": "german_analyzer"
+                        },
+                        "variations": {
+                          "search_analyzer": "title_analyzer",
+                          "type": "text",
+                          "analyzer": "title_analyzer"
+                        },
+                        "simple_tokenized": {
+                          "search_analyzer": "standard",
+                          "type": "text",
+                          "analyzer": "simple"
+                        }
+                      },
+                      "type": "text"
+                    },
+                    "@language": {
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
             },
             "memberOf": {
               "properties": {
@@ -14478,6 +14525,9 @@
                 }
               },
               "type": "text"
+            },
+            "url": {
+              "type": "keyword"
             },
             "audience": {
               "properties": {
