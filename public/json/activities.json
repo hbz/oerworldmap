@@ -1,0 +1,447 @@
+{
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@id": "https://oerworldmap.org/assets/json/activities.json",
+  "@type": "ConceptScheme",
+  "hasTopConcept": [
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#assessment",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Assessment",
+          "@language": "en"
+        },
+        {
+          "@value": "Assessment",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#authoring",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Authoring",
+          "@language": "en"
+        },
+        {
+          "@value": "Contentproduktion",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#businessModels",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Business Model Development",
+          "@language": "en"
+        },
+        {
+          "@value": "Business-Model-Entwicklung",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#communityDevelopment",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Community Development",
+          "@language": "en"
+        },
+        {
+          "@value": "Community Development",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#development",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Development",
+          "@language": "en"
+        },
+        {
+          "@value": "Entwicklungszusammenarbeit",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#fundraising",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Fundraising",
+          "@language": "en"
+        },
+        {
+          "@value": "Fundraising",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#instructionalDesign",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Instructional Design",
+          "@language": "en"
+        },
+        {
+          "@value": "Didaktisches Design",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#knowledgeManagement",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Knowledge Management",
+          "@language": "en"
+        },
+        {
+          "@value": "Wissensmanagement",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#legal",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Legal & Compliance",
+          "@language": "en"
+        },
+        {
+          "@value": "Recht & Compliance",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#copyright",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Licensing & Copyright",
+          "@language": "en"
+        },
+        {
+          "@value": "Lizenzen & Copyright",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#lifelongLearning",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Lifelong Learning",
+          "@language": "en"
+        },
+        {
+          "@value": "Lebenslanges Lernen",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#management",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Management",
+          "@language": "en"
+        },
+        {
+          "@value": "Management",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#oep",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Open Educational Practices",
+          "@language": "en"
+        },
+        {
+          "@value": "Open Educational Practices",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#advocacy",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Outreach, Awareness & Advocacy",
+          "@language": "en"
+        },
+        {
+          "@value": "Öffentlichkeitsarbeit, Sensibilisierung & Advocacy",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#policy",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Policies",
+          "@language": "en"
+        },
+        {
+          "@value": "Policies",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#professionalDevelopment",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Professional development & training",
+          "@language": "en"
+        },
+        {
+          "@value": "Weiterbildung & Training",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#publishing",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Publishing",
+          "@language": "en"
+        },
+        {
+          "@value": "Publikation",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#research",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Research",
+          "@language": "en"
+        },
+        {
+          "@value": "Forschung",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#qa",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Quality Assurance",
+          "@language": "en"
+        },
+        {
+          "@value": "Qualitätssicherung",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#teachingLearning",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Teaching & Learning",
+          "@language": "en"
+        },
+        {
+          "@value": "Lehre & Lernen",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#technology",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Technology & Infrastructure",
+          "@language": "en"
+        },
+        {
+          "@value": "Technologie & Infrastruktur",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/activities.json#accessibility",
+      "@type": "Concept",
+      "name": [
+        {
+          "@value": "Widening Participation & Accessibility",
+          "@language": "en"
+        },
+        {
+          "@value": "Partizipation & Barrierefreiheit",
+          "@language": "de"
+        }
+      ],
+      "topConceptOf": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      },
+      "inScheme": {
+        "@id": "https://oerworldmap.org/assets/json/activities.json"
+      }
+    }
+  ]
+}
