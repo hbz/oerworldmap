@@ -271,6 +271,9 @@
     },
     "exampleOfWork": {
       "@type": "@id"
+    },
+    "activityField": {
+      "@container": "@set"
     }
   }
 }
