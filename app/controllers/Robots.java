@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Configuration;
 import play.Environment;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,17 +14,17 @@ import java.io.StringWriter;
  */
 public class Robots extends Controller {
 
-  private Environment mEnv;
+  Configuration mConf;
 
   @Inject
-  public Robots(Environment aEnv) {
-    mEnv = aEnv;
+  public Robots(Configuration aConf) {
+    mConf = aConf;
   }
 
   public Result get() {
     StringWriter stringWriter = new StringWriter();
     PrintWriter writer = new PrintWriter(stringWriter, true);
-    if (mEnv.isProd()) {
+    if (mConf.getBoolean("web.crawling.allowed")) {
       writer.println("User-agent: *");
       writer.println("Disallow:");
     } else {
