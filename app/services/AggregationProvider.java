@@ -164,4 +164,10 @@ public class AggregationProvider {
     return AggregationBuilders.terms("about.award").size(getSize(aSize))
       .field("about.award");
   }
+
+  public static AggregationBuilder getFieldOfActivityAggregation(int aSize) {
+    return AggregationBuilders.terms("about.activityField.@id").size(getSize(aSize))
+      .field("about.activityField.@id");
+  }
+
 }
