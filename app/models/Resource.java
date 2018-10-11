@@ -173,8 +173,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     try {
       output = mObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
     } catch (JsonProcessingException e) {
+      Logger.warn("Could not serialize JSON", e);
       output = toJson().toString();
-      e.printStackTrace();
     }
     return output;
   }

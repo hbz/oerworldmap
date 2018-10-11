@@ -9,6 +9,7 @@ import helpers.FileHelpers;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import play.Logger;
 
 /**
  * @author pvb
@@ -23,7 +24,7 @@ public abstract class AbstractConfig {
     try {
       FileHelpers.checkFileExists(configFile, aFileType);
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      Logger.error("Could not load file", e);
     }
     mConfig = ConfigFactory.parseFile(configFile).resolve();
     mEntries = mConfig.entrySet();

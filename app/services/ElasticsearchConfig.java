@@ -142,7 +142,7 @@ public class ElasticsearchConfig {
       final CloseableHttpResponse response = httpClient.execute(head);
       return (response.getStatusLine().getStatusCode() == 200);
     } catch (IOException e) {
-      e.printStackTrace();
+      Logger.error("Could not query for index", e);
     }
     return false;
   }
