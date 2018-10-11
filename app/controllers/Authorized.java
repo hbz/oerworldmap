@@ -1,6 +1,8 @@
 package controllers;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -37,12 +39,7 @@ class Authorized extends Action.Simple {
     byte[] decoded = Base64.getDecoder().decode(auth);
     String[] credentials;
 
-    try {
-      credentials = new String(decoded, "UTF-8").split(":");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-      return null;
-    }
+    credentials = new String(decoded, StandardCharsets.UTF_8).split(":");
     if (credentials.length != 2) {
       return null;
     }
