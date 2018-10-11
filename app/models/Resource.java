@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
+import javax.validation.constraints.NotNull;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -94,34 +95,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       return null;
     }
 
-    String type = (String) aProperties.get(JsonLdConstants.TYPE);
-    String id = (String) aProperties.get(JsonLdConstants.ID);
-    Resource resource = new Resource(type, id);
-
-    for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
-      String key = entry.getKey();
-      Object value = entry.getValue();
-      if (key.equals(JsonLdConstants.ID) && !mIdentifiedTypes.contains(type)) {
-        continue;
-      }
-      if (value instanceof Map<?, ?>) {
-        resource.put(key, Resource.fromMap((Map<String, Object>) value));
-      } else if (value instanceof List<?>) {
-        List<Object> vals = new ArrayList<>();
-        for (Object v : (List<?>) value) {
-          if (v instanceof Map<?, ?>) {
-            vals.add(Resource.fromMap((Map<String, Object>) v));
-          } else {
-            vals.add(v);
-          }
-        }
-        resource.put(key, vals);
-      } else {
-        resource.put(key, value);
-      }
-    }
-
+    Resource resource = new Resource();
+    resource.putAll(aProperties);
     return resource;
+
   }
 
   public static Resource fromJson(JsonNode aJson) {
@@ -206,14 +183,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   public Resource getAsResource(final Object aKey) {
     Object result = get(aKey);
-    return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
+    return result instanceof Map<?, ?> ? Resource.fromMap((Map<String, Object>) result) : null;
   }
 
   public Map<?, ?> getAsMap(final String aKey) {
     Object result = get(aKey);
-    return (null == result || !(result instanceof Map<?, ?>)) ? null : (Resource) result;
+    if (result instanceof Map<?, ?>) {
+      return (Map<String, Object>) result;
+    }
+    return null;
   }
-
 
   @SuppressWarnings("unchecked")
   @Override
@@ -306,7 +285,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   @Override
-  public int compareTo(Resource aOther) {
+  public int compareTo(@NotNull  Resource aOther) {
     if (hasId() && aOther.hasId()) {
       return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
     }
