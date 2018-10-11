@@ -44,7 +44,7 @@ public abstract class OERWorldMap extends Controller {
   static BaseRepository mBaseRepository;
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
-  static ObjectMapper mObjectMapper = new ObjectMapper();
+  static final ObjectMapper mObjectMapper = new ObjectMapper();
   private static JsonSchemaValidator mSchemaValidator;
 
   private static synchronized void createBaseRepository(Configuration aConf) {

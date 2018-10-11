@@ -42,6 +42,8 @@ import java.util.List;
  */
 public class ResourceFramer {
 
+  private static final ObjectMapper mObjectMapper = new ObjectMapper();
+
   private static String mContextUrl;
 
   public static void setContext(String aContextUrl) {
@@ -75,8 +77,7 @@ public class ResourceFramer {
           ByteArrayOutputStream boas = new ByteArrayOutputStream();
           WriterDatasetRIOT w = RDFDataMgr.createDatasetWriter(RDFFormat.JSONLD_COMPACT_PRETTY);
           w.write(boas, g, RiotLib.prefixMap(g), null, ctx);
-          ObjectMapper objectMapper = new ObjectMapper();
-          JsonNode jsonNode = objectMapper.readTree(boas.toByteArray());
+          JsonNode jsonNode = mObjectMapper.readTree(boas.toByteArray());
           if (jsonNode.has(JsonLdConstants.GRAPH)) {
             ArrayNode graphs = (ArrayNode) jsonNode.get(JsonLdConstants.GRAPH);
             for (JsonNode graph : graphs) {
