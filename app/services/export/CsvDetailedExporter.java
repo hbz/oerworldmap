@@ -1,6 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
+import java.util.HashMap;
 import models.Resource;
 import models.ResourceList;
 
@@ -55,9 +56,9 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
       } else {
         mValues[index] = (String) aResourceEntry.getValue();
       }
-    } else if (aResourceEntry.getValue() instanceof Resource) {
-      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
-        .iterator();
+    } else if (aResourceEntry.getValue() instanceof HashMap<?, ?>) {
+      Iterator<Entry<String, Object>> it =
+        ((HashMap<String, Object>) aResourceEntry.getValue()).entrySet().iterator();
       while (it.hasNext()) {
         flattenResourceElement(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -65,8 +66,9 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
       ArrayList<?> values = (ArrayList<?>) aResourceEntry.getValue();
       for (int i = 0; i < values.size(); i++) {
         Object value = values.get(i);
-        if (value instanceof Resource) {
-          Iterator<Entry<String, Object>> it = ((Resource) value).entrySet().iterator();
+        if (value instanceof HashMap<?, ?>) {
+          Iterator<Entry<String, Object>> it =
+            ((HashMap<String, Object>) value).entrySet().iterator();
           while (it.hasNext()) {
             flattenResourceElement(it.next(),
               aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);
@@ -97,9 +99,9 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
   private void flattenKeys(Entry<String, Object> aResourceEntry, String aKeyPath) {
     if (aResourceEntry.getValue() instanceof String) {
       mKeys.add(aKeyPath + aResourceEntry.getKey());
-    } else if (aResourceEntry.getValue() instanceof Resource) {
-      Iterator<Entry<String, Object>> it = ((Resource) aResourceEntry.getValue()).entrySet()
-        .iterator();
+    } else if (aResourceEntry.getValue() instanceof HashMap<?, ?>) {
+      Iterator<Entry<String, Object>> it = (Resource.fromMap((HashMap<String, Object>)
+        aResourceEntry.getValue())).entrySet().iterator();
       while (it.hasNext()) {
         flattenKeys(it.next(), aKeyPath + aResourceEntry.getKey() + mPathSeparator);
       }
@@ -107,8 +109,9 @@ public class CsvDetailedExporter implements AbstractCsvExporter {
       ArrayList<?> values = (ArrayList<?>) aResourceEntry.getValue();
       for (int i = 0; i < values.size(); i++) {
         Object value = values.get(i);
-        if (value instanceof Resource) {
-          Iterator<Entry<String, Object>> it = ((Resource) value).entrySet().iterator();
+        if (value instanceof HashMap<?, ?>) {
+          Iterator<Entry<String, Object>> it =
+            (Resource.fromMap((HashMap<String, Object>) value)).entrySet().iterator();
           while (it.hasNext()) {
             flattenKeys(it.next(),
               aKeyPath + aResourceEntry.getKey() + mPathSeparator + i + mPathSeparator);

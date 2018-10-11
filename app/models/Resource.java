@@ -169,12 +169,12 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (result instanceof Resource) {
-      list.add((Resource) result);
+    if (result instanceof HashMap<?, ?>) {
+      list.add(getAsResource(aKey));
     } else if (result instanceof List<?>) {
       for (Object value : (List<?>) result) {
-        if (value instanceof Resource) {
-          list.add((Resource) value);
+        if (value instanceof HashMap<?, ?>) {
+          list.add(Resource.fromMap((HashMap<String, Object>) value));
         }
       }
     }
@@ -317,8 +317,9 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
           if (!"".equals(value)) {
             result.append(value).append(fieldSeparator).append(" ");
           }
-        } else if (value instanceof Resource) {
-          result.append(((Resource) value).getValuesAsFlatString(fieldSeparator, aDropFields));
+        } else if (value instanceof HashMap<?, ?>) {
+          result.append((Resource.fromMap((HashMap<String, Object>) value))
+            .getValuesAsFlatString(fieldSeparator, aDropFields));
         } else if (value instanceof List<?>) {
           result.append("[");
           for (Object innerValue : (List<?>) value) {
@@ -326,9 +327,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
               if (!"".equals(innerValue)) {
                 result.append(innerValue).append(fieldSeparator).append(" ");
               }
-            } else if (innerValue instanceof Resource) {
+            } else if (innerValue instanceof HashMap<?, ?>) {
               result.append(
-                ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
+                (Resource.fromMap((HashMap<String, Object>) innerValue))
+                  .getValuesAsFlatString(fieldSeparator, aDropFields));
             }
           }
           if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
@@ -364,8 +366,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (next != null) {
         return next;
       }
-    } else if (o instanceof Resource) {
-      Resource resource = (Resource) o;
+    } else if (o instanceof HashMap<?, ?>) {
+      Resource resource = Resource.fromMap((HashMap<String, Object>) o);
       if (resource.size() == 0) {
         return null;
       }
@@ -383,8 +385,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     String fallback3 = null;
     for (Iterator it = aList.iterator(); it.hasNext(); ) {
       next = it.next();
-      if (next instanceof Resource) {
-        Resource resource = (Resource) next;
+      if (next instanceof HashMap<?, ?>) {
+        Resource resource = Resource.fromMap((HashMap<String, Object>) next);
         Object language = resource.get("@language");
         if (language.equals(aPreferredLocale.getLanguage())) {
           return resource.getNestedFieldValue(aKey, aPreferredLocale);
@@ -436,13 +438,14 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       }
     }
     for (Entry<String, Object> entry : entrySet()) {
-      if (entry.getValue() instanceof Resource) {
-        Resource innerResource = ((Resource) entry.getValue());
+      if (entry.getValue() instanceof HashMap<?, ?>) {
+        Resource innerResource = ((Resource.fromMap((HashMap<String, Object>) entry.getValue())));
         count += innerResource.getNumberOfSubFields(remainingElements);
       } else if (entry.getValue() instanceof List<?>) {
         for (Object innerObject : (List<?>) entry.getValue()) {
-          if (innerObject instanceof Resource) {
-            count += ((Resource) innerObject).getNumberOfSubFields(remainingElements);
+          if (innerObject instanceof HashMap<?, ?>) {
+            count += (Resource.fromMap((HashMap<String, Object>) innerObject))
+              .getNumberOfSubFields(remainingElements);
           }
         }
       }
