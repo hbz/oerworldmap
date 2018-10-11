@@ -20,9 +20,10 @@ import java.io.IOException;
 public class JsonSchemaValidator {
 
   private JsonNode mSchemaNode;
+  private static final ObjectMapper mObjectMapper = new ObjectMapper();
 
   public JsonSchemaValidator(File aSchemaFile) throws IOException {
-    mSchemaNode = new ObjectMapper().readTree(aSchemaFile);
+    mSchemaNode = mObjectMapper.readTree(aSchemaFile);
   }
 
   public ProcessingReport validate(Resource aResource) {

@@ -35,6 +35,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
    */
   private static final long serialVersionUID = -6177433021348713601L;
 
+  private static final ObjectMapper mObjectMapper = new ObjectMapper();
+
   // identified ("primary") data types that get an ID
   public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
     "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme",
@@ -123,7 +125,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   public static Resource fromJson(JsonNode aJson) {
-    Map<String, Object> resourceMap = new ObjectMapper().convertValue(aJson,
+    Map<String, Object> resourceMap = mObjectMapper.convertValue(aJson,
       new TypeReference<HashMap<String, Object>>() {
       });
     return fromMap(resourceMap);
@@ -131,7 +133,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   public static Resource fromJson(String aJsonString) {
     try {
-      return fromJson(new ObjectMapper().readTree(aJsonString));
+      return fromJson(mObjectMapper.readTree(aJsonString));
     } catch (IOException e) {
       Logger.error("Could not read resource from JSON", e);
       return null;
@@ -144,7 +146,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
    * @return JSON JsonNode
    */
   public JsonNode toJson() {
-    return new ObjectMapper().convertValue(this, JsonNode.class);
+    return mObjectMapper.convertValue(this, JsonNode.class);
   }
 
   /**
@@ -167,10 +169,9 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
    */
   @Override
   public String toString() {
-    ObjectMapper mapper = new ObjectMapper();
     String output;
     try {
-      output = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
+      output = mObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(toJson());
     } catch (JsonProcessingException e) {
       output = toJson().toString();
       e.printStackTrace();
