@@ -33,6 +33,7 @@ public class ResourceIndexer {
   Model mDb;
   Writable mTargetRepo;
   GraphHistory mGraphHistory;
+  AccountService mAccountService;
 
   private final static String GLOBAL_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s WHERE {" +
@@ -49,11 +50,11 @@ public class ResourceIndexer {
       "    FILTER ( !BOUND(?y) ) " +
       "}";
 
-  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory) {
-
+  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory, AccountService aAccountService) {
     this.mDb = aDb;
     this.mTargetRepo = aTargetRepo;
     this.mGraphHistory = aGraphHistory;
+    this.mAccountService = aAccountService;
   }
 
   /**
@@ -219,10 +220,11 @@ public class ResourceIndexer {
     if (aResource.hasId()) {
       try {
         Map<String, String> metadata = new HashMap<>();
-        if (mGraphHistory != null) {
+        if (mGraphHistory != null && mAccountService != null) {
           List<Commit> history = mGraphHistory.log(aResource.getId());
-          metadata.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
-          metadata.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+          metadata.put(Record.CONTRIBUTOR, mAccountService.getProfileId(history.get(0).getHeader().getAuthor()));
+          metadata.put(Record.AUTHOR,
+            mAccountService.getProfileId(history.get(history.size() - 1).getHeader().getAuthor()));
           metadata.put(Record.DATE_MODIFIED, history.get(0).getHeader().getTimestamp()
             .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
           metadata

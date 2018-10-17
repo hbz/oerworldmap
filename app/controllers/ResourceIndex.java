@@ -333,9 +333,9 @@ public class ResourceIndex extends OERWorldMap {
   private Record getRecord(Resource aResource) {
     Record record = new Record(aResource);
     List<Commit> history = mBaseRepository.log(aResource.getId());
-    record.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    record.put(Record.CONTRIBUTOR, mAccountService.getProfileId(history.get(0).getHeader().getAuthor()));
     try {
-      record.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+      record.put(Record.AUTHOR, mAccountService.getProfileId(history.get(history.size() - 1).getHeader().getAuthor()));
     } catch (NullPointerException e) {
       Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
     }

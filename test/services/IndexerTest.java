@@ -33,7 +33,7 @@ public class IndexerTest implements JsonTest {
 
     // Index diff to mock repo
     MockResourceRepository mockResourceRepository = new MockResourceRepository();
-    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository, null);
+    ResourceIndexer indexer = new ResourceIndexer(db, mockResourceRepository, null, null);
     ResourceFramer.setContext("https://oerworldmap.org/assets/json/context.json");
     indexer.index(commit.getDiff());
 

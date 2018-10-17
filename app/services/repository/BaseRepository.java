@@ -14,9 +14,9 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.tdb.TDBFactory;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Logger;
+import services.AccountService;
 import services.IndexQueue;
 import services.QueryContext;
 import services.ResourceFramer;
@@ -38,7 +38,8 @@ public class BaseRepository extends Repository
   private boolean mAsyncIndexing;
 
   public BaseRepository(final Config aConfiguration,
-    final ElasticsearchRepository aElasticsearchRepo) throws IOException {
+                        final ElasticsearchRepository aElasticsearchRepo,
+                        final AccountService aAccountService) throws IOException {
 
     super(aConfiguration);
 
@@ -74,7 +75,7 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory);
+    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory, aAccountService);
     ResourceFramer.setContext(mConfiguration.getString("jsonld.context"));
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
