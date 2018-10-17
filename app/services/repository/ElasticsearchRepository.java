@@ -163,7 +163,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (null == aggregations) {
       return null;
     }
-    return (Resource) aggregations.get("aggregations");
+    return aggregations.getAsResource("aggregations");
   }
 
   public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders,
@@ -178,7 +178,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (null == aggregations) {
       return null;
     }
-    return (Resource) aggregations.get("aggregations");
+    return aggregations.getAsResource("aggregations");
   }
 
   /**
@@ -412,7 +412,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
           .scroll(new TimeValue(60000)));
       maxScore =
         response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
-      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
         searchHits.addAll(nextHits);
@@ -427,7 +427,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       sourceBuilder.size(aSize);
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
         response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;

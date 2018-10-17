@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
+import javax.validation.constraints.NotNull;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -94,34 +95,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       return null;
     }
 
-    String type = (String) aProperties.get(JsonLdConstants.TYPE);
-    String id = (String) aProperties.get(JsonLdConstants.ID);
-    Resource resource = new Resource(type, id);
-
-    for (Map.Entry<String, Object> entry : aProperties.entrySet()) {
-      String key = entry.getKey();
-      Object value = entry.getValue();
-      if (key.equals(JsonLdConstants.ID) && !mIdentifiedTypes.contains(type)) {
-        continue;
-      }
-      if (value instanceof Map<?, ?>) {
-        resource.put(key, Resource.fromMap((Map<String, Object>) value));
-      } else if (value instanceof List<?>) {
-        List<Object> vals = new ArrayList<>();
-        for (Object v : (List<?>) value) {
-          if (v instanceof Map<?, ?>) {
-            vals.add(Resource.fromMap((Map<String, Object>) v));
-          } else {
-            vals.add(v);
-          }
-        }
-        resource.put(key, vals);
-      } else {
-        resource.put(key, value);
-      }
-    }
-
+    Resource resource = new Resource();
+    resource.putAll(aProperties);
     return resource;
+
   }
 
   public static Resource fromJson(JsonNode aJson) {
@@ -192,12 +169,12 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   public List<Resource> getAsList(final Object aKey) {
     List<Resource> list = new ArrayList<>();
     Object result = get(aKey);
-    if (result instanceof Resource) {
-      list.add((Resource) result);
+    if (result instanceof HashMap<?, ?>) {
+      list.add(getAsResource(aKey));
     } else if (result instanceof List<?>) {
       for (Object value : (List<?>) result) {
-        if (value instanceof Resource) {
-          list.add((Resource) value);
+        if (value instanceof HashMap<?, ?>) {
+          list.add(Resource.fromMap((HashMap<String, Object>) value));
         }
       }
     }
@@ -206,14 +183,16 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
 
   public Resource getAsResource(final Object aKey) {
     Object result = get(aKey);
-    return (null == result || !(result instanceof Resource)) ? null : (Resource) result;
+    return result instanceof Map<?, ?> ? Resource.fromMap((Map<String, Object>) result) : null;
   }
 
   public Map<?, ?> getAsMap(final String aKey) {
     Object result = get(aKey);
-    return (null == result || !(result instanceof Map<?, ?>)) ? null : (Resource) result;
+    if (result instanceof Map<?, ?>) {
+      return (Map<String, Object>) result;
+    }
+    return null;
   }
-
 
   @SuppressWarnings("unchecked")
   @Override
@@ -306,7 +285,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   @Override
-  public int compareTo(Resource aOther) {
+  public int compareTo(@NotNull  Resource aOther) {
     if (hasId() && aOther.hasId()) {
       return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
     }
@@ -338,8 +317,9 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
           if (!"".equals(value)) {
             result.append(value).append(fieldSeparator).append(" ");
           }
-        } else if (value instanceof Resource) {
-          result.append(((Resource) value).getValuesAsFlatString(fieldSeparator, aDropFields));
+        } else if (value instanceof HashMap<?, ?>) {
+          result.append((Resource.fromMap((HashMap<String, Object>) value))
+            .getValuesAsFlatString(fieldSeparator, aDropFields));
         } else if (value instanceof List<?>) {
           result.append("[");
           for (Object innerValue : (List<?>) value) {
@@ -347,9 +327,10 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
               if (!"".equals(innerValue)) {
                 result.append(innerValue).append(fieldSeparator).append(" ");
               }
-            } else if (innerValue instanceof Resource) {
+            } else if (innerValue instanceof HashMap<?, ?>) {
               result.append(
-                ((Resource) innerValue).getValuesAsFlatString(fieldSeparator, aDropFields));
+                (Resource.fromMap((HashMap<String, Object>) innerValue))
+                  .getValuesAsFlatString(fieldSeparator, aDropFields));
             }
           }
           if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
@@ -385,8 +366,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       if (next != null) {
         return next;
       }
-    } else if (o instanceof Resource) {
-      Resource resource = (Resource) o;
+    } else if (o instanceof HashMap<?, ?>) {
+      Resource resource = Resource.fromMap((HashMap<String, Object>) o);
       if (resource.size() == 0) {
         return null;
       }
@@ -404,8 +385,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     String fallback3 = null;
     for (Iterator it = aList.iterator(); it.hasNext(); ) {
       next = it.next();
-      if (next instanceof Resource) {
-        Resource resource = (Resource) next;
+      if (next instanceof HashMap<?, ?>) {
+        Resource resource = Resource.fromMap((HashMap<String, Object>) next);
         Object language = resource.get("@language");
         if (language.equals(aPreferredLocale.getLanguage())) {
           return resource.getNestedFieldValue(aKey, aPreferredLocale);
@@ -457,13 +438,14 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       }
     }
     for (Entry<String, Object> entry : entrySet()) {
-      if (entry.getValue() instanceof Resource) {
-        Resource innerResource = ((Resource) entry.getValue());
+      if (entry.getValue() instanceof HashMap<?, ?>) {
+        Resource innerResource = ((Resource.fromMap((HashMap<String, Object>) entry.getValue())));
         count += innerResource.getNumberOfSubFields(remainingElements);
       } else if (entry.getValue() instanceof List<?>) {
         for (Object innerObject : (List<?>) entry.getValue()) {
-          if (innerObject instanceof Resource) {
-            count += ((Resource) innerObject).getNumberOfSubFields(remainingElements);
+          if (innerObject instanceof HashMap<?, ?>) {
+            count += (Resource.fromMap((HashMap<String, Object>) innerObject))
+              .getNumberOfSubFields(remainingElements);
           }
         }
       }
