@@ -248,6 +248,14 @@
             ]
           }
         },
+        "citation": {
+          "title": "WebPage.citation",
+          "description": "descriptions.WebPage.citation",
+          "type": "string",
+          "_display": {
+            "rows": 3
+          }
+        },
         "publisher": {
           "title": "WebPage.publisher",
           "description": "descriptions.WebPage.publisher",
@@ -391,14 +399,6 @@
                 }
               } } }
             ]
-          }
-        },
-        "citation": {
-          "title": "WebPage.citation",
-          "description": "descriptions.WebPage.citation",
-          "type": "string",
-          "_display": {
-            "rows": 3
           }
         },
         "objectIn": {
