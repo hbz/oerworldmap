@@ -41,8 +41,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   // identified ("primary") data types that get an ID
   public static final List<String> mIdentifiedTypes = new ArrayList<>(Arrays.asList(
     "Organization", "Event", "Person", "Action", "WebPage", "Article", "Service", "ConceptScheme",
-    "Concept",
-    "Comment", "Product", "LikeAction", "LighthouseAction"));
+    "Concept", "Comment", "Product", "LikeAction", "LighthouseAction"));
 
   /**
    * Constructor for typeless resources
@@ -95,7 +94,8 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       return null;
     }
 
-    Resource resource = new Resource();
+    Resource resource = new Resource((String) aProperties.get(JsonLdConstants.TYPE),
+      (String) aProperties.get(JsonLdConstants.ID));
     resource.putAll(aProperties);
     return resource;
 
