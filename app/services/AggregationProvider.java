@@ -170,4 +170,11 @@ public class AggregationProvider {
       .field("about.activityField.@id");
   }
 
+  public static AggregationBuilder getCountryChampionAggregation(int aSize) {
+    return AggregationBuilders.global("champions").subAggregation(
+      AggregationBuilders.terms("about.countryChampionFor.keyword").size(getSize(aSize))
+        .field("about.countryChampionFor.keyword")
+    );
+  }
+
 }
