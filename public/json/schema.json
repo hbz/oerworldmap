@@ -738,7 +738,7 @@
           "required": [
             "name", "description", "articleBody", "location"
           ],
-          "oneOf": [
+          "anyOf": [
             {
               "required": [ "license", "creator", "dateCreated" ]
             },
