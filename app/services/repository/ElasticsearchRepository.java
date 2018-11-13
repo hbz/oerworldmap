@@ -535,12 +535,19 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         globalAndFilter.must(contextFilter);
       }
       AggregationBuilder facetAggregation = AggregationBuilders.global("facets");
+      BoolQueryBuilder globalFacetAndFilter = QueryBuilders.boolQuery();
+      for (QueryBuilder filter : aQueryContext.getFilters()) {
+        globalFacetAndFilter.must(filter);
+      }
+      AggregationBuilder filteredFacetAggregation = AggregationBuilders
+        .filter("filtered", globalFacetAndFilter);
+      facetAggregation.subAggregation(filteredFacetAggregation);
       for (AggregationBuilder contextAggregation : aQueryContext.getAggregations()) {
         sourceBuilder.aggregation(contextAggregation);
         // See https://madewithlove.be/faceted-search-using-elasticsearch/
         final String aggregationField = contextAggregation.getName();
         if (contextAggregation.getType().equals("filter")) {
-          facetAggregation.subAggregation(contextAggregation);
+          filteredFacetAggregation.subAggregation(contextAggregation);
         } else if (!contextAggregation.getType().equals("global")) {
           if (null != aFilters) {
             BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
@@ -554,10 +561,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
                 aggregationAndFilter.must(orFilterBuilder);
               }
             }
-            facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, aggregationAndFilter)
+            filteredFacetAggregation.subAggregation(AggregationBuilders
+              .filter(aggregationField, aggregationAndFilter)
               .subAggregation(contextAggregation));
           } else {
-            facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, QueryBuilders.matchAllQuery())
+            filteredFacetAggregation.subAggregation(AggregationBuilders
+              .filter(aggregationField, QueryBuilders.matchAllQuery())
               .subAggregation(contextAggregation));
           }
         }
