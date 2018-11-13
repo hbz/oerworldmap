@@ -416,7 +416,7 @@
           }
         }
       },
-      "required": [ "name", "description", "url" ],
+      "required": [ "name", "url" ],
       "additionalProperties": false
     },
     "ConceptScheme": {
@@ -1172,7 +1172,7 @@
       "allOf": [
         {
           "required": [
-            "name", "description", "url"
+            "name"
           ],
           "anyOf": [
             {
@@ -1989,7 +1989,7 @@
         }
       },
       "required": [
-        "name", "location", "description", "url"
+        "name", "location"
       ],
       "additionalProperties": false
     },
@@ -2373,7 +2373,7 @@
           }
         }
       },
-      "required": [ "name", "location", "description", "url" ],
+      "required": [ "name", "location" ],
       "additionalProperties": false
     },
     "Event": {
@@ -2672,7 +2672,7 @@
         }
       },
       "required": [
-        "name", "description", "startDate", "endDate", "location", "url"
+        "name", "description", "startDate", "endDate", "location"
       ],
       "additionalProperties": false
     },
@@ -2857,7 +2857,7 @@
           }
         }
       },
-      "required": [ "name", "description", "url" ],
+      "required": [ "name" ],
       "additionalProperties": false
     },
     "Grant": {
