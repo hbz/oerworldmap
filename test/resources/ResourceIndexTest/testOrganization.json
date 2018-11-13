@@ -33,5 +33,6 @@
       "addressLocality": "St. Test"
     },
     "@type": "Place"
-  }
+  },
+  "url": "http://example.org"
 }

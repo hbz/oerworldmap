@@ -14,6 +14,7 @@
       "@language": "en"
     }
   ],
+  "url": "http://example.org",
   "startDate": "2015-11-11",
   "endDate": "2015-02-10",
   "location": {
