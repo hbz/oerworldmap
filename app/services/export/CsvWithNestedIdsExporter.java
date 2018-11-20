@@ -1,6 +1,7 @@
 package services.export;
 
 import helpers.JsonLdConstants;
+import java.util.HashMap;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -83,17 +84,16 @@ public class CsvWithNestedIdsExporter implements AbstractCsvExporter {
 
   private String toExportString(Object value) {
     StringBuilder result = new StringBuilder();
-    if (value instanceof Resource) {
-      Resource resource = (Resource) value;
+    if (value instanceof HashMap<?, ?>) {
+      Resource resource = Resource.fromMap((HashMap<String, Object>) value);
       if (resource.get(JsonLdConstants.ID) != null) {
-        String id = resource.get(JsonLdConstants.ID).toString();
         // only export IDs of nested Resources
-        result.append(id.toString());
+        result.append(resource.get(JsonLdConstants.ID).toString());
       } else {
         // Resource without ID (e. g. "location"): export all sub fields flatly
         // The order of exported subfields is not predicted as sub Resources do
         // not necessarily contain the same fields.
-        result.append(((Resource) value).getValuesAsFlatString(",", mDropFields));
+        result.append(resource.getValuesAsFlatString(",", mDropFields));
       }
     } else {
       result.append(value.toString());

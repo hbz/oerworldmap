@@ -163,7 +163,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (null == aggregations) {
       return null;
     }
-    return (Resource) aggregations.get("aggregations");
+    return aggregations.getAsResource("aggregations");
   }
 
   public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders,
@@ -178,7 +178,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     if (null == aggregations) {
       return null;
     }
-    return (Resource) aggregations.get("aggregations");
+    return aggregations.getAsResource("aggregations");
   }
 
   /**
@@ -205,6 +205,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
     Map<String, List<String>> aFilters, QueryContext aQueryContext,
     final Locale aPreferredLocale) throws IOException {
+    // remove "words" consisting only of characters that have to be escaped
+    aQuery = aQuery.replaceAll("(?<=[ \t\n\r])[\\\\+\\-&|!(){}\\[\\]^/\"~*?:]+(?=[ \t\n\r])", "");
     aQuery = QueryParser.escape(aQuery);
     aQuery = aQuery.replaceAll("([^ ]+)", "$1~");
     aQueryContext.setFetchSource(new String[]{"about.@id", "about.@type", "about.name"});
@@ -410,7 +412,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
           .scroll(new TimeValue(60000)));
       maxScore =
         response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
-      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
         searchHits.addAll(nextHits);
@@ -425,7 +427,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       sourceBuilder.size(aSize);
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-      aAggregations = (Resource) Resource.fromJson(response.toString()).get("aggregations");
+      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
         response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
@@ -539,23 +541,25 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         final String aggregationField = contextAggregation.getName();
         if (contextAggregation.getType().equals("filter")) {
           facetAggregation.subAggregation(contextAggregation);
-        } else if (null != aFilters) {
-          BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
-          for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
-            String filterName = entry.getKey();
-            if (!filterName.equals(aggregationField)) {
-              BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
-              for (String filterValue : entry.getValue()) {
-                orFilterBuilder.should(buildFilterQuery(filterName, filterValue));
+        } else if (!contextAggregation.getType().equals("global")) {
+          if (null != aFilters) {
+            BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
+            for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
+              String filterName = entry.getKey();
+              if (!filterName.equals(aggregationField)) {
+                BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
+                for (String filterValue : entry.getValue()) {
+                  orFilterBuilder.should(buildFilterQuery(filterName, filterValue));
+                }
+                aggregationAndFilter.must(orFilterBuilder);
               }
-              aggregationAndFilter.must(orFilterBuilder);
             }
+            facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, aggregationAndFilter)
+              .subAggregation(contextAggregation));
+          } else {
+            facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, QueryBuilders.matchAllQuery())
+              .subAggregation(contextAggregation));
           }
-          facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, aggregationAndFilter)
-            .subAggregation(contextAggregation));
-        } else {
-          facetAggregation.subAggregation(AggregationBuilders.filter(aggregationField, QueryBuilders.matchAllQuery())
-            .subAggregation(contextAggregation));
         }
       }
       sourceBuilder.aggregation(facetAggregation);

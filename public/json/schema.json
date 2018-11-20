@@ -248,6 +248,14 @@
             ]
           }
         },
+        "citation": {
+          "title": "WebPage.citation",
+          "description": "descriptions.WebPage.citation",
+          "type": "string",
+          "_display": {
+            "rows": 3
+          }
+        },
         "publisher": {
           "title": "WebPage.publisher",
           "description": "descriptions.WebPage.publisher",
@@ -302,7 +310,7 @@
             "National",
             "State",
             "Institution - Primary",
-            "Institution- Secondary",
+            "Institution - Secondary",
             "Institution - Tertiary",
             "System"
           ]
@@ -393,14 +401,6 @@
             ]
           }
         },
-        "citation": {
-          "title": "WebPage.citation",
-          "description": "descriptions.WebPage.citation",
-          "type": "string",
-          "_display": {
-            "rows": 3
-          }
-        },
         "objectIn": {
           "title": "WebPage.objectIn",
           "description": "descriptions.WebPage.objectIn",
@@ -416,7 +416,7 @@
           }
         }
       },
-      "required": [ "name", "url" ],
+      "required": [ "name", "description", "url" ],
       "additionalProperties": false
     },
     "ConceptScheme": {
@@ -738,7 +738,7 @@
           "required": [
             "name", "description", "articleBody", "location"
           ],
-          "oneOf": [
+          "anyOf": [
             {
               "required": [ "license", "creator", "dateCreated" ]
             },
@@ -1172,7 +1172,7 @@
       "allOf": [
         {
           "required": [
-            "name"
+            "name", "description", "url"
           ],
           "anyOf": [
             {
@@ -1930,6 +1930,26 @@
             ]
           }
         },
+        "activityField": {
+          "title": "Person.activityField",
+          "description": "descriptions.Person.activityField",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/activities.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
         "publication": {
           "title": "Person.publication",
           "description": "descriptions.Person.publication",
@@ -1969,7 +1989,7 @@
         }
       },
       "required": [
-        "name", "location"
+        "name", "location", "description", "url"
       ],
       "additionalProperties": false
     },
@@ -2353,7 +2373,7 @@
           }
         }
       },
-      "required": [ "name", "location" ],
+      "required": [ "name", "location", "description", "url" ],
       "additionalProperties": false
     },
     "Event": {
@@ -2652,7 +2672,7 @@
         }
       },
       "required": [
-        "name", "description", "startDate", "endDate", "location"
+        "name", "description", "startDate", "endDate", "location", "url"
       ],
       "additionalProperties": false
     },
@@ -2837,7 +2857,7 @@
           }
         }
       },
-      "required": [ "name" ],
+      "required": [ "name", "description", "url" ],
       "additionalProperties": false
     },
     "Grant": {
@@ -3294,7 +3314,8 @@
       "title": "ISO 8601 Date",
       "description": "A date in ISO 8601 format.",
       "type": "string",
-      "pattern": "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$",
+      "pattern": "^(\\d{4})$|^(\\d{4})-(0[1-9]|1[0-2])$|(^(18|19|20)[0-9]{2}-(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01])|^(18|19|20)[0-9]{2}-(0[469]|11)-(0[1-9]|[12][0-9]|30)|^(18|19|20)[0-9]{2}-(02)-(0[1-9]|1[0-9]|2[0-8])|^(((18|19|20)(04|08|[2468][048]|[13579][26]))|2000)-(02)-29)(T([01]\\d|2[0-3]):[0-5]\\d(:[0-5]\\d(Z|((\\+[01][0-4])|\\-[01][0-2])(:?[0-5]\\d))?)?)?$",
+      "_widget": "DateTime",
       "_display": {
         "placeholder": "YYYY-MM-DD"
       }

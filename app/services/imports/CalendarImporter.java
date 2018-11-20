@@ -21,6 +21,8 @@ import java.util.List;
 
 public class CalendarImporter implements Importer {
 
+  final private static ObjectMapper mObjectMapper = new ObjectMapper();
+
   final private Config mConfig;
 
   final private static String PATH_TO_PYTHON_LIBRARY;
@@ -66,14 +68,11 @@ public class CalendarImporter implements Importer {
     interpreter.set("__file__", PATH_TO_PYTHON_IMPORTER);
     interpreter.setOut(new StringWriter());
     interpreter.execfile(PATH_AND_NAME_OF_PYTHON_IMPORTER);
-    ObjectMapper mapper = new ObjectMapper();
     String json = new String(Files.readAllBytes(Paths.get("./import/iCal/cache/temp.json")),
       StandardCharsets.UTF_8);
     while (json.startsWith("[[") && json.endsWith("]]")) {
       json = json.substring(1, json.length() - 1);
     }
-    List<Resource> result = mapper.readValue(json, new TypeReference<List<Resource>>() {
-    });
-    return result;
+    return mObjectMapper.readValue(json, new TypeReference<List<Resource>>(){});
   }
 }

@@ -59,7 +59,7 @@ public class ResourceIndex extends OERWorldMap {
 
   @With(Cached.class)
   public Result list(String q, int from, int size, String sort, boolean features, String extension,
-    String iso3166, String disposition) throws IOException {
+    String iso3166, String disposition){
 
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
@@ -149,17 +149,6 @@ public class ResourceIndex extends OERWorldMap {
           result.put("iso3166", iso3166.toUpperCase());
         }
       }
-      // FIXME: this is a huge bottleneck, if we really need to enrich the labels here,
-      // we should not do so by mBaseRepository.getResource
-      // Enrich with aggregation labels
-      //Resource aggregations = result.getAsResource("aggregations");
-      //for (String agg : aggregations.keySet()) {
-      //  if (agg.endsWith("@id")) {
-      //    for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
-      //      bucket.put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
-      //    }
-      //  }
-      //}
       return ok(result.toString()).as("application/json");
     } else if (format.equals("application/geo+json")) {
       return ok(mGeoJsonExporter.export(resourceList)).as("application/geo+json");
@@ -344,9 +333,9 @@ public class ResourceIndex extends OERWorldMap {
   private Record getRecord(Resource aResource) {
     Record record = new Record(aResource);
     List<Commit> history = mBaseRepository.log(aResource.getId());
-    record.put(Record.CONTRIBUTOR, history.get(0).getHeader().getAuthor());
+    record.put(Record.CONTRIBUTOR, mAccountService.getProfileId(history.get(0).getHeader().getAuthor()));
     try {
-      record.put(Record.AUTHOR, history.get(history.size() - 1).getHeader().getAuthor());
+      record.put(Record.AUTHOR, mAccountService.getProfileId(history.get(history.size() - 1).getHeader().getAuthor()));
     } catch (NullPointerException e) {
       Logger.trace("Could not read author from commit " + history.get(history.size() - 1), e);
     }

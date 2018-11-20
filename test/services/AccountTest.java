@@ -56,7 +56,6 @@ public class AccountTest {
 
   @Test
   public void testAddUser() {
-
     String token = mAccountService.addUser(mTestUsername, mTestPassword);
     assertNotNull(token);
     File tokenFile = new File(mTokenDir, token);
@@ -65,7 +64,6 @@ public class AccountTest {
 
   @Test
   public void testVerfifyUser() throws IOException {
-
     String entry = mTestUsername.concat(":").concat(mTestPassword);
     File tokenFile = new File(mTokenDir, mTestToken);
     FileUtils.writeStringToFile(tokenFile, entry);
@@ -76,15 +74,15 @@ public class AccountTest {
 
   @Test
   public void testUserExists() throws IOException {
-
     String entry = mTestUsername.concat(":").concat(mTestPassword);
     FileUtils.writeStringToFile(mUserFile, entry);
-    assertTrue(mAccountService.userExists(mTestUsername));
+    AccountService accountService = new AccountService(mTokenDir, mUserFile, mGroupFile, mProfileFile,
+      mPermissionsDir);
+    assertTrue(accountService.userExists(mTestUsername));
   }
 
   @Test
   public void testPendingVerification() throws IOException {
-
     File tokenFile = new File(mTokenDir, mTestToken);
     assertTrue(tokenFile.createNewFile());
     assertTrue(mAccountService.pendingVerification(mTestUsername));
@@ -92,23 +90,22 @@ public class AccountTest {
 
   @Test
   public void deleteUser() throws IOException {
-
     String entry = mTestUsername.concat(":").concat(mTestPassword);
     FileUtils.writeStringToFile(mUserFile, entry);
-    mAccountService.deleteUser(mTestUsername);
+    AccountService accountService = new AccountService(mTokenDir, mUserFile, mGroupFile, mProfileFile,
+      mPermissionsDir);
+    accountService.deleteUser(mTestUsername);
     assertFalse(FileUtils.readFileToString(mUserFile).contains(entry));
   }
 
   @Test
   public void testValidatePassword() throws IOException {
-
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     assertTrue(mAccountService.validatePassword(mTestUsername, mTestPassword));
   }
 
   @Test
   public void testUpdatePassword() throws IOException {
-
     String updated = "foo";
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     assertTrue(mAccountService.validatePassword(mTestUsername, mTestPassword));
@@ -118,7 +115,6 @@ public class AccountTest {
 
   @Test
   public void testSetProfileId() throws IOException {
-
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     mAccountService.setProfileId(mTestUsername, mTestUserId);
     assertEquals(mTestUsername.concat(" ").concat(mTestUserId).concat("\n"),
@@ -127,7 +123,6 @@ public class AccountTest {
 
   @Test
   public void testGetProfileId() throws IOException {
-
     mAccountService.verifyToken(mAccountService.addUser(mTestUsername, mTestPassword));
     mAccountService.setProfileId(mTestUsername, mTestUserId);
     assertEquals(mTestUserId, mAccountService.getProfileId(mTestUsername));

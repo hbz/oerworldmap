@@ -134,7 +134,7 @@ public class AggregationProvider {
             "about.location"}, null)
         .sort(new FieldSortBuilder("about.startDate").order(SortOrder.ASC).unmappedType("string"))
         .size(100)
-      ).order(BucketOrder.key(false)).minDocCount(1);
+      ).order(BucketOrder.key(true)).minDocCount(1);
   }
 
 
@@ -164,4 +164,17 @@ public class AggregationProvider {
     return AggregationBuilders.terms("about.award").size(getSize(aSize))
       .field("about.award");
   }
+
+  public static AggregationBuilder getFieldOfActivityAggregation(int aSize) {
+    return AggregationBuilders.terms("about.activityField.@id").size(getSize(aSize))
+      .field("about.activityField.@id");
+  }
+
+  public static AggregationBuilder getCountryChampionAggregation(int aSize) {
+    return AggregationBuilders.global("champions").subAggregation(
+      AggregationBuilders.terms("about.countryChampionFor.keyword").size(getSize(aSize))
+        .field("about.countryChampionFor.keyword")
+    );
+  }
+
 }

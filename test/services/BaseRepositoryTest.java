@@ -29,7 +29,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
   static {
     try {
-      mBaseRepo = new BaseRepository(mConfig, ElasticsearchTestGrid.getEsRepo());
+      mBaseRepo = new BaseRepository(mConfig, ElasticsearchTestGrid.getEsRepo(), null);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -256,7 +256,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       .query("Berger", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Did not get expected number of hits (1).", searchResults.size() == 1);
     Assert.assertTrue("Exact search hit was not found.",
-      ((Resource) searchResults.get(0).get("about")).getId().equals(db1.getId()));
+      ((HashMap<String, Object>) searchResults.get(0).get("about")).get("@id").equals(db1.getId()));
     mBaseRepo.deleteResource("urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2", mMetadata);
     mBaseRepo.deleteResource("urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6", mMetadata);
   }
@@ -782,8 +782,10 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
       List<?> nameList = (List<?>) r.get("name");
-      Resource name = (Resource) nameList.get(0);
-      result.add(name.getAsString("@value"));
+      if (nameList.get(0) instanceof HashMap<?, ?>) {
+        Resource name = Resource.fromMap((HashMap<String, Object>) nameList.get(0));
+        result.add(name.getAsString("@value"));
+      }
     }
     return result;
   }

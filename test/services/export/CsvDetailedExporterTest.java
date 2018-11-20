@@ -32,14 +32,14 @@ public class CsvDetailedExporterTest implements JsonTest {
   }
 
   @Test
-  public void testHeader() throws IOException {
+  public void testHeader() {
     assertEquals(
       "@id;@type;authorOf>0>@id;authorOf>0>@type;authorOf>0>articleBody;authorOf>0>author>0>@id;authorOf>0>author>0>@type;authorOf>0>author>0>name;authorOf>0>author>1>@id;authorOf>0>author>1>@type;authorOf>0>author>1>name;authorOf>0>name;authorOf>1>@id;authorOf>1>@type;authorOf>1>author>0>@id;authorOf>1>author>0>@type;authorOf>1>author>0>name;authorOf>1>name;email;name;",
       mCsvExporter.headerKeysToCsvString());
   }
 
   @Test
-  public void testPlainExport() throws IOException {
+  public void testPlainExport() {
     String csv1 = mCsvExporter.export(in1);
     String csv2 = mCsvExporter.export(in2);
     assertEquals(

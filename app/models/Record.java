@@ -34,6 +34,6 @@ public class Record extends Resource {
   }
 
   public Resource getResource() {
-    return (Resource) get(RESOURCE_KEY);
+    return getAsResource(RESOURCE_KEY);
   }
 }

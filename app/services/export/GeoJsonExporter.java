@@ -70,6 +70,15 @@ public class GeoJsonExporter implements Exporter {
       if (resource.has("name")) {
         properties.set("name", resource.get("name"));
       }
+      if (resource.has("image")) {
+        properties.set("image", resource.get("image"));
+      }
+      if (resource.has("additionalType")) {
+        properties.set("additionalType", resource.get("additionalType"));
+      }
+      if (resource.has("alternateName")) {
+        properties.set("alternateName", resource.get("alternateName"));
+      }
     }
 
     properties.set("location", locations.size() > 1 ? locations : locations.get(0));

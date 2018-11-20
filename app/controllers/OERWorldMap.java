@@ -44,14 +44,14 @@ public abstract class OERWorldMap extends Controller {
   static BaseRepository mBaseRepository;
   static AccountService mAccountService;
   static DatabaseReader mLocationLookup;
-  static ObjectMapper mObjectMapper = new ObjectMapper();
+  static final ObjectMapper mObjectMapper = new ObjectMapper();
   private static JsonSchemaValidator mSchemaValidator;
 
   private static synchronized void createBaseRepository(Configuration aConf) {
     if (mBaseRepository == null) {
       try {
         mBaseRepository = new BaseRepository(aConf.underlying(),
-          new ElasticsearchRepository(aConf.underlying()));
+          new ElasticsearchRepository(aConf.underlying()), mAccountService);
       } catch (final Exception ex) {
         throw new RuntimeException("Failed to create Repository", ex);
       }
@@ -94,10 +94,10 @@ public abstract class OERWorldMap extends Controller {
   public OERWorldMap(Configuration aConf, Environment aEnv) {
     mConf = aConf;
     mEnv = aEnv;
-    // Repository
-    createBaseRepository(mConf);
     // Account service
     createAccountService(mConf);
+    // Repository
+    createBaseRepository(mConf);
     // Location lookup
     if (mEnv != null) {
       // can be null in tests

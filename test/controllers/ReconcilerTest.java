@@ -19,7 +19,6 @@ import play.libs.Json;
 import play.test.Helpers;
 import services.QueryContext;
 import services.ReconcileConfig;
-import services.SearchConfig;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,7 +36,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
   protected Application application;
 
   @BeforeClass
-  public static void setUp() throws IOException {
+  public static void setUp() {
     mReconciler = new Reconciler(new Configuration(mConfig), null);
     mMetadata.put(TripleCommit.Header.AUTHOR_HEADER, "Anonymous");
     mMetadata.put(TripleCommit.Header.DATE_HEADER, "2016-04-08T17:34:37.038+02:00");
@@ -47,7 +46,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
   }
 
   @Before
-  public void startApp() throws Exception {
+  public void startApp() {
     ClassLoader classLoader = FakeApplication.class.getClassLoader();
     application = new GuiceApplicationBuilder().in(classLoader)
       .in(Mode.TEST).build();
@@ -147,7 +146,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCaseCase.DB.1.json");
     mReconciler.getBaseRepository().addResource(db1, mMetadata);
     QueryContext queryContext = new QueryContext(null);
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    queryContext.setElasticsearchFieldBoosts(new ReconcileConfig().getBoostsForElasticsearch());
     try {
       JsonNode hitsTrivial = mReconciler.getBaseRepository()
         .reconcile("BC campus", 0, 10, null, null, queryContext, Locale.ENGLISH);
@@ -160,6 +159,31 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     } finally {
       mReconciler.getBaseRepository()
         .deleteResource("urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927.json", mMetadata);
+    }
+  }
+
+  @Test
+  public void testSearchSpecialCharAnd() throws IOException {
+    Resource db1 = getResourceFromJsonFile("ReconcilerTest/testSearchSpecialCharAnd.DB.1.json");
+    mReconciler.getBaseRepository().addResource(db1, mMetadata);
+    QueryContext queryContext = new QueryContext(null);
+    queryContext.setElasticsearchFieldBoosts(new ReconcileConfig().getBoostsForElasticsearch());
+    try {
+      JsonNode hitsTrivial = mReconciler.getBaseRepository()
+        .reconcile("Kwame Nkrumah University of Science Technology", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for search without special char.", 1,
+        hitsTrivial.get("result").size());
+      JsonNode hitsSpecial = mReconciler.getBaseRepository()
+        .reconcile("Kwame Nkrumah University of Science& Technology", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for special char search.", 1,
+        hitsSpecial.get("result").size());
+      JsonNode hitsSpecialWord = mReconciler.getBaseRepository()
+        .reconcile("Kwame Nkrumah University of Science & Technology", 0, 10, null, null, queryContext, Locale.ENGLISH);
+      Assert.assertEquals("Did not get expected number of hits (1) for special char search.", 1,
+        hitsSpecialWord.get("result").size());
+    } finally {
+      mReconciler.getBaseRepository()
+        .deleteResource("urn:uuid:6eadceb1-ee44-4cbd-a524-7d492961ec8e", mMetadata);
     }
   }
 }

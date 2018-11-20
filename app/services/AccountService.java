@@ -18,9 +18,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author fo
@@ -43,18 +45,68 @@ public class AccountService {
   private final File mProfileFile;
   private final File mPermissionsDir;
 
+  private HashMap<String, String> mUsers = new HashMap<>();
+  private HashMap<String, List<String>> mGroups = new HashMap<>();
+  private HashMap<String, String> mProfiles = new HashMap<>();
+
   public AccountService(File aTokenDir, File aUserFile, File aGroupFile, File aProfileFile,
     File aPermissionsDir) {
-
     mTokenDir = aTokenDir;
     mUserFile = aUserFile;
     mGroupFile = aGroupFile;
     mProfileFile = aProfileFile;
     mPermissionsDir = aPermissionsDir;
+    syncUsers();
+    syncGroups();
+    syncProfiles();
+  }
+
+  private void syncUsers() {
+    HashMap<String, String> users = new HashMap<>();
+    try {
+      List<String> lines = Files.readAllLines(mUserFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        users.put(entry[0].trim(), entry[1].trim());
+      }
+      mUsers = users;
+    } catch (IOException e) {
+      Logger.error("Could not read user file", e);
+    }
+  }
+
+  private void syncGroups() {
+    HashMap<String, List<String>> groups = new HashMap<>();
+    try {
+      List<String> lines = Files.readAllLines(mGroupFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(":");
+        String group = entry[0].trim();
+        List<String> users =
+          entry.length > 1 ? Arrays.asList(entry[1].split(" +")) : new ArrayList<>();
+        groups.put(group, users);
+      }
+      mGroups = groups;
+    } catch (IOException e) {
+      Logger.error("Could not read group file", e);
+    }
+  }
+
+  private void syncProfiles() {
+    HashMap<String, String> profiles = new HashMap<>();
+    try {
+      List<String> lines = Files.readAllLines(mProfileFile.toPath());
+      for (String line : lines) {
+        String[] entry = line.split(" ");
+        profiles.put(entry[0].trim(), entry[1].trim());
+      }
+      mProfiles = profiles;
+    } catch (IOException e) {
+      Logger.error("Could not read profile file", e);
+    }
   }
 
   public void setPermissions(String aId, String aUser) {
-
     String entry = String.format(mLimitWriteDirective, aId, aUser);
     String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
     try {
@@ -63,12 +115,10 @@ public class AccountService {
     } catch (IOException e) {
       Logger.error("Could not create permission file", e);
     }
-
     refresh();
   }
 
   public boolean removePermissions(String aId) {
-
     String fileName = aId.substring(aId.lastIndexOf(":") + 1).trim();
     boolean status = FileUtils.deleteQuietly(new File(mPermissionsDir, fileName));
     refresh();
@@ -80,7 +130,6 @@ public class AccountService {
   }
 
   public void refresh() {
-
     try {
       Process apache2ctl = Runtime.getRuntime().exec(mApache2ctl);
       BufferedReader stdInput = new BufferedReader(
@@ -95,7 +144,6 @@ public class AccountService {
   }
 
   public String addUser(String username, String password) {
-
     if (!userExists(username) && !pendingVerification(username)) {
       try {
         String token = getEncryptedUsername(username);
@@ -107,16 +155,13 @@ public class AccountService {
         Logger.error("Could not write token file", e);
       }
     }
-
     return null;
   }
 
   public boolean deleteUser(String username) {
-
     if (!userExists(username)) {
       return false;
     }
-
     try {
       List<String> userDb = Files.readAllLines(mUserFile.toPath());
       for (final ListIterator<String> i = userDb.listIterator(); i.hasNext(); ) {
@@ -126,6 +171,7 @@ public class AccountService {
         }
       }
       FileUtils.writeLines(mUserFile, userDb);
+      syncUsers();
       return true;
     } catch (IOException e) {
       Logger.error("Could not write user file", e);
@@ -134,49 +180,37 @@ public class AccountService {
   }
 
   public String verifyToken(String token) {
-
     File tokenFile = new File(mTokenDir, token);
-
     if (tokenFile.exists()) {
       try {
         String entry = FileUtils.readFileToString(tokenFile, StandardCharsets.UTF_8);
         new BufferedWriter(new FileWriter(mUserFile, true)).append(entry.concat("\n")).close();
         FileUtils.forceDelete(tokenFile);
+        syncUsers();
         return entry.split(":")[0];
       } catch (IOException e) {
         Logger.error("Could not process token file", e);
       }
     }
-
     return null;
   }
 
   public boolean userExists(String username) {
-
-    try {
-      return FileUtils.readFileToString(mUserFile, StandardCharsets.UTF_8).contains(username);
-    } catch (IOException e) {
-      Logger.error("Could not read user file", e);
-    }
-
-    return false;
+    return mUsers.keySet().contains(username);
   }
 
-  public boolean pendingVerification(String username) {
+  boolean pendingVerification(String username) {
     return new File(mTokenDir, getEncryptedUsername(username)).exists();
   }
 
   public boolean updatePassword(String username, String current, String updated) {
-
     return validatePassword(username, current) && setPassword(username, updated);
   }
 
   public boolean setPassword(String username, String password) {
-
     if (!userExists(username)) {
       return false;
     }
-
     try {
       List<String> userDb = Files.readAllLines(mUserFile.toPath());
       for (final ListIterator<String> i = userDb.listIterator(); i.hasNext(); ) {
@@ -186,6 +220,7 @@ public class AccountService {
         }
       }
       FileUtils.writeLines(mUserFile, userDb);
+      syncUsers();
       return true;
     } catch (IOException e) {
       Logger.error("Could not read user file", e);
@@ -193,55 +228,18 @@ public class AccountService {
     }
   }
 
-  public boolean validatePassword(String username, String password) {
-
-    if (!userExists(username)) {
-      return false;
-    }
-
-    String entry = getEntry(username);
-    return entry != null && MD5Crypt.verifyPassword(password, entry.split(":")[1]);
+  boolean validatePassword(String username, String password) {
+    return userExists(username) && MD5Crypt.verifyPassword(password, mUsers.get(username));
   }
 
   // FIXME: unit tests
   public List<String> getGroups(String username) {
-
-    List<String> groups = new ArrayList<>();
-
-    try {
-      List<String> lines = Files.readAllLines(mGroupFile.toPath());
-      for (String line : lines) {
-        String[] entry = line.split(":");
-        String group = entry[0].trim();
-        List<String> users =
-          entry.length > 1 ? Arrays.asList(entry[1].split(" +")) : new ArrayList<>();
-        if (users.contains(username)) {
-          groups.add(group);
-        }
-      }
-    } catch (IOException e) {
-      Logger.error("Could not read group file", e);
-    }
-
-    return groups;
+    return mGroups.entrySet().stream().filter(map -> map.getValue().contains(username)).map(e -> e.getKey())
+      .collect(Collectors.toList());
   }
 
   public List<String> getGroups() {
-
-    List<String> groups = new ArrayList<>();
-
-    try {
-      List<String> lines = Files.readAllLines(mGroupFile.toPath());
-      for (String line : lines) {
-        String[] entry = line.split(":");
-        String group = entry[0].trim();
-        groups.add(group);
-      }
-    } catch (IOException e) {
-      Logger.error("Could not read group file", e);
-    }
-
-    return groups;
+    return new ArrayList<>(mGroups.keySet());
   }
 
   /**
@@ -251,15 +249,13 @@ public class AccountService {
    * @return True on success
    */
   public boolean setGroups(Map<String, List<String>> groups) {
-
     List<String> lines = new ArrayList<>();
-
     for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
       lines.add(entry.getKey().concat(": ").concat(String.join(" ", entry.getValue())));
     }
-
     try {
       FileUtils.writeLines(mGroupFile, lines);
+      syncGroups();
       return true;
     } catch (IOException e) {
       Logger.error("Could not write group file", e);
@@ -268,48 +264,13 @@ public class AccountService {
   }
 
   public List<String> getUsers() {
-
-    List<String> users = new ArrayList<>();
-
-    try {
-      List<String> lines = Files.readAllLines(mUserFile.toPath());
-      for (String line : lines) {
-        String[] entry = line.split(":");
-        String user = entry[0].trim();
-        users.add(user);
-      }
-    } catch (IOException e) {
-      Logger.error("Could not read user file", e);
-    }
-
-    return users;
+    return new ArrayList<>(mUsers.keySet());
   }
-
-  public List<String> getUsers(String aGroup) {
-
-    try {
-      List<String> lines = Files.readAllLines(mGroupFile.toPath());
-      for (String line : lines) {
-        String[] entry = line.split(":");
-        String group = entry[0].trim();
-        if (group.equals(aGroup)) {
-          return Arrays.asList(entry[1].split(" +"));
-        }
-      }
-    } catch (IOException e) {
-      Logger.error("Could not read user file", e);
-    }
-
-    return new ArrayList<>();
-  }
-
 
   public boolean setProfileId(String username, String profileId) {
-
     if (!userExists(username) && !StringUtils.isEmpty(profileId)) {
       return false;
     }
-
     try {
       List<String> profileDb = Files.readAllLines(mProfileFile.toPath());
       for (final ListIterator<String> i = profileDb.listIterator(); i.hasNext(); ) {
@@ -320,6 +281,7 @@ public class AccountService {
             i.set(username.concat(" ").concat(profileId));
           }
           FileUtils.writeLines(mProfileFile, profileDb);
+          syncProfiles();
           return true;
         }
       }
@@ -327,6 +289,7 @@ public class AccountService {
         FileUtils.writeLines(mProfileFile,
           Collections.singletonList(username.concat(" ").concat(profileId)), true);
       }
+      syncProfiles();
       return true;
     } catch (IOException e) {
       Logger.error("Could not write profile file", e);
@@ -335,53 +298,14 @@ public class AccountService {
   }
 
   public String getProfileId(String username) {
-
-    try {
-      List<String> lines = Files.readAllLines(mProfileFile.toPath());
-      for (String line : lines) {
-        String[] entry = line.split(" ");
-        String name = entry[0].trim();
-        if (name.equals(username)) {
-          return entry[1].trim();
-        }
-      }
-    } catch (IOException e) {
-      Logger.error("Could not read profile file", e);
-    }
-
-    return null;
+    return mProfiles.get(username);
   }
 
   public String getUsername(String profileId) {
-
-    try {
-      List<String> lines = Files.readAllLines(mProfileFile.toPath());
-      for (String line : lines) {
-        String[] entry = line.split(" ");
-        String id = entry[1].trim();
-        if (id.equals(profileId)) {
-          return entry[0].trim();
-        }
+    for (String user : mProfiles.keySet()) {
+      if (mProfiles.get(user).equals(profileId)) {
+        return user;
       }
-    } catch (IOException e) {
-      Logger.error("Could not read profile file", e);
-    }
-
-    return null;
-  }
-
-  private String getEntry(String username) {
-    try {
-      List<String> userDb = Files.readAllLines(mUserFile.toPath());
-      for (final ListIterator<String> i = userDb.listIterator(); i.hasNext(); ) {
-        String entry = i.next();
-        if (entry.startsWith(username)) {
-          return entry;
-        }
-      }
-    } catch (IOException e) {
-      Logger.error("Could not read user file", e);
-      return null;
     }
     return null;
   }

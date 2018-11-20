@@ -91,6 +91,8 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getPrimarySectorsAggregation(0));
     guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
     guestAggregations.add(AggregationProvider.getAwardAggregation(0));
+    guestAggregations.add(AggregationProvider.getFieldOfActivityAggregation(0));
+    guestAggregations.add(AggregationProvider.getCountryChampionAggregation(0));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);
