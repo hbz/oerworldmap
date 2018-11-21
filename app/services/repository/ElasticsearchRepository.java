@@ -439,6 +439,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     Logger.debug(sourceBuilder.toString());
 
+    long startTime = System.nanoTime();
     List<Resource> resources = new ArrayList<>();
     for (SearchHit hit : searchHits) {
       Resource resource = Resource.fromMap(hit.getSourceAsMap());
@@ -448,10 +449,15 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       }
       resources.add(resource);
     }
+    Logger.debug("Resource conversion time " + (System.nanoTime() - startTime) / 1000000);
 
-    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
+    long rstartTime = System.nanoTime();
+    ResourceList resourceList = new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
       aSize, aSortOrder,
       aFilters, aAggregations);
+    Logger.debug("ResourceList conversion time " + (System.nanoTime() - rstartTime) / 1000000);
+
+    return resourceList;
   }
 
 
