@@ -59,6 +59,28 @@ public class ResourceIndexTest extends ElasticsearchTestGrid implements JsonTest
     assertEquals(404, updateResult.status());
   }
 
+  @Test
+  public void likeResource() {
+    Result result;
+
+    Resource likeObject = getResourceFromJsonFileUnsafe("ResourceIndexTest/testLikeObject.json");
+    result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+      .bodyJson(likeObject.toJson()));
+    assertEquals(201, result.status());
+
+    // FIXME: this currently fails because Person items cannot be added using the ResourceIndex.
+    // But where is the FakeApplication that the fakeRequests use configured?
+    Resource likeAgent = getResourceFromJsonFileUnsafe("ResourceIndexTest/testLikeAgent.json");
+    result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+      .bodyJson(likeAgent.toJson()));
+    assertEquals(201, result.status());
+
+    Resource likeAction = getResourceFromJsonFileUnsafe("ResourceIndexTest/testLikeAction.json");
+    result = route(fakeRequest("POST", routes.ResourceIndex.addResource().url())
+      .bodyJson(likeAction.toJson()));
+    assertEquals(201, result.status());
+  }
+
   private String getAuthString() {
     return Base64.getEncoder().encodeToString("user:pass".getBytes());
   }
