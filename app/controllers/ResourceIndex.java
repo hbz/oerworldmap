@@ -99,9 +99,7 @@ public class ResourceIndex extends OERWorldMap {
       queryContext.setFetchSource(ctx().request().queryString().get("fields"));
     }
     queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
-    long startTime = System.nanoTime();
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
-    Logger.debug("Base repo query time: " + (System.nanoTime() - startTime) / 1000000);
 
     String baseUrl = mConf.getString("proxy.host");
     String filterString = "";
@@ -152,7 +150,7 @@ public class ResourceIndex extends OERWorldMap {
           result.put("iso3166", iso3166.toUpperCase());
         }
       }
-      String rString = result.toString();
+      JsonNode rString = result.toJson();
       Logger.debug("Base repo conversion time: " + (System.nanoTime() - cstartTime) / 1000000);
       return ok(rString).as("application/json");
     } else if (format.equals("application/geo+json")) {

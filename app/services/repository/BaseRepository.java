@@ -178,8 +178,10 @@ public class BaseRepository extends Repository
     Map<String, List<String>> aFilters, QueryContext aQueryContext) {
     ResourceList resourceList;
     try {
+      long startTime = System.nanoTime();
       resourceList = mElasticsearchRepo
         .query(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+      Logger.debug("Base repo query time: " + (System.nanoTime() - startTime) / 1000000);
     } catch (IOException e) {
       Logger.error("Could not query Elasticsearch repository", e);
       return null;

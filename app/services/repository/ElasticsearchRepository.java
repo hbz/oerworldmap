@@ -389,6 +389,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     final String aSortOrder, final Map<String, List<String>> aFilters,
     final QueryContext aQueryContext) throws IOException {
 
+    long esQueryStartTime = System.nanoTime();
+
     final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom);
     processSortOrder(aSortOrder, aQueryString, sourceBuilder);
     final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
@@ -401,9 +403,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     bqBuilder.must(fqBuilder);
     sourceBuilder.query(bqBuilder);
 
+    Logger.debug("QUERY Building TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
+
     List<SearchHit> searchHits = new ArrayList<>();
     SearchResponse response;
-    Resource aAggregations;
+    Resource aAggregations = null;
     Float maxScore = 0.0f;
     if (aSize == -1) {
       response = mConfig.getClient().search(
@@ -415,7 +419,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
-        long startTime = System.nanoTime();
         searchHits.addAll(nextHits);
         SearchScrollRequest searchScrollRequest = new SearchScrollRequest()
           .scrollId(response.getScrollId()).scroll(new TimeValue(60000));
@@ -423,23 +426,26 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         nextHits = Arrays.asList(response.getHits().getHits());
         maxScore =
           response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
-        Logger.debug("Scroll query time: " + (System.nanoTime() - startTime) / 1000000);
       }
     } else {
+      Logger.debug("QUERY Send TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
       sourceBuilder.size(aSize);
-      long startTime = System.nanoTime();
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-      Logger.debug("Non scroll query time: " + (System.nanoTime() - startTime) / 1000000);
-      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
+      Logger.debug("QUERY Response TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
+      //aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
         response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      Logger.debug("QUERY Postprocess TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
     }
+
+    Logger.debug(response.toString());
+
+    Logger.debug("QUERY Execution TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
 
     Logger.debug(sourceBuilder.toString());
 
-    long startTime = System.nanoTime();
     List<Resource> resources = new ArrayList<>();
     for (SearchHit hit : searchHits) {
       Resource resource = Resource.fromMap(hit.getSourceAsMap());
@@ -449,13 +455,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       }
       resources.add(resource);
     }
-    Logger.debug("Resource conversion time " + (System.nanoTime() - startTime) / 1000000);
 
-    long rstartTime = System.nanoTime();
+    Logger.debug("Result Building TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
+
     ResourceList resourceList = new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
       aSize, aSortOrder,
       aFilters, aAggregations);
-    Logger.debug("ResourceList conversion time " + (System.nanoTime() - rstartTime) / 1000000);
+
+    Logger.debug("ES QUERY TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
 
     return resourceList;
   }
