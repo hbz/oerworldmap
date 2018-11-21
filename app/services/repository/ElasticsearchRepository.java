@@ -415,6 +415,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
+        long startTime = System.nanoTime();
         searchHits.addAll(nextHits);
         SearchScrollRequest searchScrollRequest = new SearchScrollRequest()
           .scrollId(response.getScrollId()).scroll(new TimeValue(60000));
@@ -422,11 +423,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         nextHits = Arrays.asList(response.getHits().getHits());
         maxScore =
           response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+        Logger.debug("Scroll query time: " + (System.nanoTime() - startTime) / 1000000);
       }
     } else {
       sourceBuilder.size(aSize);
+      long startTime = System.nanoTime();
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
+      Logger.debug("Non scroll query time: " + (System.nanoTime() - startTime) / 1000000);
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
