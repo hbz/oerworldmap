@@ -141,15 +141,29 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       Resource result = resourceList.toResource();
       if (features) {
-        ResourceList geoFeatures = mBaseRepository.query(q, 0, -1, sort, filters, queryContext);
-        result.put("features", mGeoJsonExporter.exportJson(geoFeatures));
+        queryContext.setFetchSource(new String[]{"feature"});
+        JsonNode geoFeatures = mBaseRepository.queryRaw(q, 0, 9999, sort, filters, queryContext);
+        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+        ArrayNode featuresArray = new ArrayNode(JsonNodeFactory.instance);
+        node.put("type", "FeatureCollection");
+        for (JsonNode resource : geoFeatures.get("hits").get("hits")) {
+          if (resource.has("_source") && resource.get("_source").has("feature")) {
+            // Skip features without geometry
+            if (resource.get("_source").get("feature").has("geometry")) {
+              featuresArray.add(resource.get("_source").get("feature"));
+            }
+          }
+        }
+        node.set("features", featuresArray);
+        result.put("features", node);
       }
       if (!StringUtils.isEmpty(iso3166)) {
         if (!StringUtils.isEmpty(iso3166)) {
           result.put("iso3166", iso3166.toUpperCase());
         }
       }
-      return ok(result.toString()).as("application/json");
+      JsonNode rString = result.toJson();
+      return ok(rString).as("application/json");
     } else if (format.equals("application/geo+json")) {
       return ok(mGeoJsonExporter.export(resourceList)).as("application/geo+json");
     } else if (format.equals("application/schema+json")) {
