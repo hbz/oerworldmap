@@ -1,6 +1,7 @@
 package services.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -423,6 +424,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         SearchScrollRequest searchScrollRequest = new SearchScrollRequest()
           .scrollId(response.getScrollId()).scroll(new TimeValue(60000));
         response = mConfig.getClient().searchScroll(searchScrollRequest);
+        long parseStart = System.nanoTime();
+        JsonNode resultNode = new ObjectMapper().readTree(response.toString());
+        Logger.debug(resultNode.toString());
+        Logger.debug("QUERY Response PARSE TIME: " + (System.nanoTime() - parseStart) / 1000000);
         nextHits = Arrays.asList(response.getHits().getHits());
         maxScore =
           response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
@@ -432,15 +437,16 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       sourceBuilder.size(aSize);
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
+      long parseStart = System.nanoTime();
+      JsonNode resultNode = new ObjectMapper().readTree(response.toString());
+      Logger.debug("QUERY Response PARSE TIME: " + (System.nanoTime() - parseStart) / 1000000);
       Logger.debug("QUERY Response TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
-      //aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
+      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
         response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
       Logger.debug("QUERY Postprocess TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
     }
-
-    Logger.debug(response.toString());
 
     Logger.debug("QUERY Execution TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
 
@@ -465,6 +471,27 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     Logger.debug("ES QUERY TIME: " + (System.nanoTime() - esQueryStartTime) / 1000000);
 
     return resourceList;
+  }
+
+  public JsonNode esQueryRaw(@Nonnull final String aQueryString, final int aFrom, final int aSize,
+                               final String aSortOrder, final Map<String, List<String>> aFilters,
+                               final QueryContext aQueryContext) throws IOException {
+
+    final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom);
+    processSortOrder(aSortOrder, aQueryString, sourceBuilder);
+    final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
+    processFilters(aFilters, globalAndFilter);
+    final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter, aFilters);
+
+    QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
+    FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
+    final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
+    bqBuilder.must(fqBuilder);
+    sourceBuilder.query(bqBuilder);
+    sourceBuilder.size(aSize);
+    SearchResponse response = mConfig.getClient()
+      .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
+    return new ObjectMapper().readTree(response.toString());
   }
 
 
