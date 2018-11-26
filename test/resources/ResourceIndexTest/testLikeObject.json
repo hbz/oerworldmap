@@ -1,0 +1,17 @@
+{
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac7927",
+  "@type": "Organization",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Manufacturing Educational Resource Develeopment Enterprise"
+    }
+  ],
+  "location": {
+    "address": {
+      "addressCountry": "SH"
+    },
+    "@type": "Place"
+  }
+}

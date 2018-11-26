@@ -1,0 +1,17 @@
+{
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@id": "info:Person",
+  "@type": "Person",
+  "name": [
+    {
+      "@language": "en",
+      "@value": "Test Person"
+    }
+  ],
+  "location": {
+    "address": {
+      "addressCountry": "DE"
+    },
+    "@type": "Place"
+  }
+}

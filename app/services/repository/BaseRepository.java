@@ -187,6 +187,17 @@ public class BaseRepository extends Repository
     return resourceList;
   }
 
+  public JsonNode queryRaw(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
+                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
+    try {
+      return mElasticsearchRepo
+        .esQueryRaw(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    } catch (IOException e) {
+      Logger.error("Could not query Elasticsearch repository", e);
+      return null;
+    }
+  }
+
   public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
     Map<String, List<String>> aFilters, QueryContext aQueryContext,
     final Locale aPreferredLocale) throws IOException {
