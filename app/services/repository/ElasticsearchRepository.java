@@ -98,7 +98,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public Resource getResource(@Nonnull String aId) {
     try {
-      return Resource.fromMap(getDocument(Record.TYPE, aId));
+      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId).concat(".about")));
+      return record != null ? record.getAsResource(Record.RESOURCE_KEY) : null;
     } catch (IOException e) {
       Logger.error("Failed getting document.", e);
     }

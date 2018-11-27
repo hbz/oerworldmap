@@ -10,6 +10,7 @@ import models.GraphHistory;
 import models.Resource;
 import models.ResourceList;
 import models.TripleCommit;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
@@ -213,6 +214,12 @@ public class BaseRepository extends Repository
   @Override
   public Resource getResource(@Nonnull String aId, String aVersion) {
     return mTriplestoreRepository.getResource(aId, aVersion);
+  }
+
+  // Get a resource quickly, but with the possibility of it being stale
+  // because an indexing job is not done jet
+  public Resource getResourceUnsafe(@Nonnull String aId) {
+    return mElasticsearchRepo.getResource(aId);
   }
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
