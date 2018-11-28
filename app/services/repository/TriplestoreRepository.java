@@ -7,6 +7,7 @@ import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.graph.Node;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -16,12 +17,18 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.tdb.TDB;
+import org.apache.jena.vocabulary.RDF;
 import play.Logger;
 import services.BroaderConceptEnricher;
 import services.InverseEnricher;
@@ -58,6 +65,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
 
   public static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
+
+  public static final Property LABEL_PROPERTY = ResourceFactory.createProperty("http://schema.org/name");
+
+  public static final Property LOCATION_PROPERTY = ResourceFactory.createProperty("http://schema.org/location");
+
+  public static final Property IMAGE_PROPERTY = ResourceFactory.createProperty("http://schema.org/image");
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
@@ -202,34 +215,39 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
-    Model extendedDescription = ModelFactory.createDefaultModel();
+    Model extendedDescription = getConciseBoundedDescription(aId, aModel);
+    extendedDescription.add(getIdentifyingDescriptions(extendedDescription.listObjects(), aModel));
+    return extendedDescription;
+  }
+
+  private Model getIdentifyingDescriptions(NodeIterator subjects, Model aModel) {
+    Model identifyingDescriptions = ModelFactory.createDefaultModel();
+    while (subjects.hasNext()) {
+      RDFNode node = subjects.nextNode();
+      if (node.isURIResource()) {
+        Logger.debug(node.toString());
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, RDF.type, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, LABEL_PROPERTY, (RDFNode) null)
+        );
+      }
+    }
+    return identifyingDescriptions;
+  }
+
+  private Model getConciseBoundedDescription(String aId, Model aModel) {
+    Model conciseBoundedDescription = ModelFactory.createDefaultModel();
 
     // Validate URI
     try {
       new URI(aId);
     } catch (URISyntaxException e) {
-      return extendedDescription;
+      return conciseBoundedDescription;
     }
 
-    // Current data
-    String describeStatement = String.format(EXTENDED_DESCRIPTION, aId);
-    extendedDescription.enterCriticalSection(Lock.WRITE);
-    aModel.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(describeStatement), aModel)) {
-        queryExecution.execDescribe(extendedDescription);
-      }
-    } finally {
-      aModel.leaveCriticalSection();
-      extendedDescription.leaveCriticalSection();
-    }
-    return extendedDescription;
-  }
-
-  private Model getConciseBoundedDescription(String aId, Model aModel) {
     String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTION, aId);
-    Model conciseBoundedDescription = ModelFactory.createDefaultModel();
     aModel.enterCriticalSection(Lock.READ);
     try {
       try (QueryExecution queryExecution = QueryExecutionFactory
