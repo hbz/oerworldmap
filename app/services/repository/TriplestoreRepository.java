@@ -1,13 +1,13 @@
 package services.repository;
 
 import com.typesafe.config.Config;
+import helpers.SCHEMA;
 import models.Commit;
 import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
-import org.apache.jena.graph.Node;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -20,7 +20,6 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
@@ -65,12 +64,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
 
   public static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
-
-  public static final Property LABEL_PROPERTY = ResourceFactory.createProperty("http://schema.org/name");
-
-  public static final Property LOCATION_PROPERTY = ResourceFactory.createProperty("http://schema.org/location");
-
-  public static final Property IMAGE_PROPERTY = ResourceFactory.createProperty("http://schema.org/image");
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
@@ -230,7 +223,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, RDF.type, (RDFNode) null)
         );
         identifyingDescriptions.add(
-          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, LABEL_PROPERTY, (RDFNode) null)
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.name, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.image, (RDFNode) null)
         );
       }
     }

@@ -9,24 +9,22 @@ import org.apache.jena.rdf.model.ResourceFactory;
  */
 public class SCHEMA {
 
-  protected static final String uri = "http://schema.org/";
+  private static final String BASE = "http://schema.org/";
 
-  /**
-   * returns the URI for this schema
-   *
-   * @return the URI for this schema
-   */
-  public static String getURI() {
-    return uri;
+  private static Resource resource(String local) {
+    return ResourceFactory.createResource(BASE + local);
   }
 
-  protected static final Resource resource(String local) {
-    return ResourceFactory.createResource(uri + local);
-  }
-
-  protected static final Property property(String local) {
-    return ResourceFactory.createProperty(uri, local);
+  private static Property property(String local) {
+    return ResourceFactory.createProperty(BASE, local);
   }
 
   public static final Property comment = property("comment");
+
+  public static final Property name = property("name");
+
+  public static final Property location = property("location");
+
+  public static final Property image = property("image");
+
 }
