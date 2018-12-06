@@ -10,6 +10,9 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
 import helpers.SCHEMA;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -468,6 +471,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   public Result activity(String until) {
+    long startTime = System.nanoTime();
     List<Commit> activities = mBaseRepository.log(null);
     ArrayNode result = JsonNodeFactory.instance.arrayNode();
     for (Commit commit : activities) {
@@ -500,6 +504,9 @@ public class ResourceIndex extends OERWorldMap {
       }
       result.add(entry);
     }
+    long stopTime = System.nanoTime();
+    System.out.println(stopTime + " - " + startTime + " = " + (stopTime - startTime));
+    System.out.println("Took " + ((stopTime - startTime) / 1000000) + " milliseconds.");
     return ok(result);
   }
 }
