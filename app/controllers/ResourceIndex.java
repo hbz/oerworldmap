@@ -488,14 +488,14 @@ public class ResourceIndex extends OERWorldMap {
       action.put("time", commit.getHeader().getTimestamp().toString());
       action.put("type", (mBaseRepository.log(id).size() > 1 ? "edit" : "add"));
       ObjectNode entry = JsonNodeFactory.instance.objectNode();
-      entry.put("about", resource.toJson());
-      entry.put("action", action);
+      entry.replace("about", resource.toJson());
+      entry.replace("action", action);
       entry.put("id", commit.getId());
       String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
       if (profileId != null) {
         Resource user = mBaseRepository.getResourceUnsafe(profileId);
         if (user != null) {
-          entry.put("user", user.toJson());
+          entry.replace("user", user.toJson());
         }
       }
       result.add(entry);
