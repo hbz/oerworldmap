@@ -329,6 +329,10 @@
                 "addressCountry": {
                   "title": "PostalAddress.addressCountry",
                   "$ref": "#/definitions/Country"
+                },
+                "addressRegion": {
+                  "title": "PostalAddress.addressRegion",
+                  "type": "string"
                 }
               }
             }
