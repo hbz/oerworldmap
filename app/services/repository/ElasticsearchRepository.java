@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -60,6 +62,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private static ElasticsearchConfig mConfig;
   private Fuzziness mFuzziness;
   private static JsonNodeFactory mJsonNodeFactory = new JsonNodeFactory(false);
+  private static Pattern patternTrailingSpecialChar = Pattern.compile("^(.*)([:!]){1,}$");
 
   public ElasticsearchRepository(Config aConfiguration) {
     super(aConfiguration);
@@ -486,9 +489,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   private QueryBuilder getQueryBuilder(@Nonnull String aQueryString, String[] fieldBoosts) {
     QueryBuilder queryBuilder;
     if (!StringUtils.isEmpty(aQueryString)) {
-      if (aQueryString.endsWith("!")) {
-        aQueryString = aQueryString.substring(0, aQueryString.lastIndexOf('!')).concat("\\!");
-        Logger.trace("Modify query: insert escape '\\' in front of '!': ".concat(aQueryString));
+      Matcher matchesTSC = patternTrailingSpecialChar.matcher(aQueryString);
+      if (matchesTSC.find()) {
+        // aQueryString ends with ":" or "!" --> escape for Elasticsearch query
+        Logger.trace("Modify query: insert escape '\\' in front of trailing special char in ".concat(aQueryString));
+        aQueryString = matchesTSC.replaceFirst("$1\\\\$2");
       }
       queryBuilder = QueryBuilders.queryStringQuery(aQueryString).fuzziness(mFuzziness)
         .defaultOperator(Operator.AND);
