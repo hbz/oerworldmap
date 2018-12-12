@@ -219,7 +219,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     while (subjects.hasNext()) {
       RDFNode node = subjects.nextNode();
       if (node.isURIResource()) {
-        Logger.debug(node.toString());
         identifyingDescriptions.add(
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, RDF.type, (RDFNode) null)
         );
@@ -229,6 +228,16 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         identifyingDescriptions.add(
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.image, (RDFNode) null)
         );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.location, (RDFNode) null)
+        );
+        String describeLocations = String.format(
+          "DESCRIBE ?location WHERE { <%1$s> <http://schema.org/location> ?location }", node
+        );
+        try (QueryExecution queryExecution = QueryExecutionFactory
+          .create(QueryFactory.create(describeLocations), aModel)) {
+          queryExecution.execDescribe(identifyingDescriptions);
+        }
       }
     }
     return identifyingDescriptions;
