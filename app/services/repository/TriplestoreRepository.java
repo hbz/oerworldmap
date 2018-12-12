@@ -97,7 +97,6 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     Resource resource = null;
     if (!dbstate.isEmpty()) {
       try {
-        mInverseEnricher.enrich(dbstate);
         resource = ResourceFramer.resourceFromModel(dbstate, aId);
       } catch (IOException e) {
         Logger.error("Could not get resource", e);
