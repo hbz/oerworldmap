@@ -8,6 +8,7 @@ import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.atlas.lib.InternalErrorException;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -245,11 +246,11 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
 
     String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTION, aId);
     aModel.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(describeStatement), aModel)) {
-        queryExecution.execDescribe(conciseBoundedDescription);
-      }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(describeStatement), aModel)) {
+      queryExecution.execDescribe(conciseBoundedDescription);
+    } catch (InternalErrorException e){
+      Logger.error("Error loading CBD", e);
     } finally {
       aModel.leaveCriticalSection();
     }
@@ -337,11 +338,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // Current data, inbound links
     String constructStatement = String.format(CONSTRUCT_BACKLINKS, aId);
     mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(constructStatement), mDb)) {
-        queryExecution.execConstruct(dbstate);
-      }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(constructStatement), mDb)) {
+      queryExecution.execConstruct(dbstate);
     } finally {
       mDb.leaveCriticalSection();
     }
@@ -391,28 +390,26 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     StringWriter out;
 
     mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(q), mDb)) {
-        switch (queryExecution.getQuery().getQueryType()) {
-          case Query.QueryTypeSelect:
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ResultSetFormatter.outputAsJSON(byteArrayOutputStream, queryExecution.execSelect());
-            result = byteArrayOutputStream.toString();
-            break;
-          case Query.QueryTypeConstruct:
-            out = new StringWriter();
-            queryExecution.execConstruct().write(out, "TURTLE");
-            result = out.toString();
-            break;
-          case Query.QueryTypeDescribe:
-            out = new StringWriter();
-            queryExecution.execDescribe().write(out, "TURTLE");
-            result = out.toString();
-            break;
-          default:
-            result = "";
-        }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(q), mDb)) {
+      switch (queryExecution.getQuery().getQueryType()) {
+        case Query.QueryTypeSelect:
+          ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+          ResultSetFormatter.outputAsJSON(byteArrayOutputStream, queryExecution.execSelect());
+          result = byteArrayOutputStream.toString();
+          break;
+        case Query.QueryTypeConstruct:
+          out = new StringWriter();
+          queryExecution.execConstruct().write(out, "TURTLE");
+          result = out.toString();
+          break;
+        case Query.QueryTypeDescribe:
+          out = new StringWriter();
+          queryExecution.execDescribe().write(out, "TURTLE");
+          result = out.toString();
+          break;
+        default:
+          result = "";
       }
     } finally {
       mDb.leaveCriticalSection();
@@ -438,11 +435,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       String deleteQuery = String.format(constructQueryTemplate, delete, where);
       Model deleteModel;
       mDb.enterCriticalSection(Lock.READ);
-      try {
-        try (QueryExecution queryExecution = QueryExecutionFactory
-          .create(QueryFactory.create(deleteQuery), mDb)) {
-          deleteModel = queryExecution.execConstruct();
-        }
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(deleteQuery), mDb)) {
+        deleteModel = queryExecution.execConstruct();
       } finally {
         mDb.leaveCriticalSection();
       }
@@ -459,11 +454,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       String insertQuery = String.format(constructQueryTemplate, insert, where);
       Model insertModel;
       mDb.enterCriticalSection(Lock.READ);
-      try {
-        try (QueryExecution queryExecution = QueryExecutionFactory
-          .create(QueryFactory.create(insertQuery), mDb)) {
-          insertModel = queryExecution.execConstruct();
-        }
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(insertQuery), mDb)) {
+        insertModel = queryExecution.execConstruct();
       } finally {
         mDb.leaveCriticalSection();
       }
@@ -483,14 +476,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     String result = aId;
 
     mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(labelQuery), mDb)) {
-        ResultSet resultSet = queryExecution.execSelect();
-        while (resultSet.hasNext()) {
-          QuerySolution querySolution = resultSet.next();
-          result = querySolution.get("name").asLiteral().getString();
-        }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(labelQuery), mDb)) {
+      ResultSet resultSet = queryExecution.execSelect();
+      while (resultSet.hasNext()) {
+        QuerySolution querySolution = resultSet.next();
+        result = querySolution.get("name").asLiteral().getString();
       }
     } finally {
       mDb.leaveCriticalSection();
