@@ -19,9 +19,7 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
@@ -53,18 +51,13 @@ import java.util.Map;
  */
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
-  public static final String EXTENDED_DESCRIPTION =
-    "DESCRIBE <%1$s> ?o ?oo ?s WHERE { <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo } OPTIONAL { ?s <http://schema.org/comment> <%1$s> } }";
+  private static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
-  public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
+  private static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
 
-  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> (<>|!<>)* ?o FILTER isIRI(?o) }";
+  private static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
 
-  public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
-
-  public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
-
-  public static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
+  private static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
@@ -80,7 +73,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       Files.createTempFile(null, null).toFile()));
   }
 
-  public TriplestoreRepository(Config aConfiguration, Model aModel, GraphHistory aGraphHistory) {
+  TriplestoreRepository(Config aConfiguration, Model aModel, GraphHistory aGraphHistory) {
     super(aConfiguration);
     this.mDb = aModel;
     this.mGraphHistory = aGraphHistory;
@@ -175,45 +168,25 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
   }
 
+  // Get and update current state from database
   @Override
   public Resource stage(Resource aResource) throws IOException {
-
-    // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
     Model staged = getConciseBoundedDescription(aResource.getId(), mDb);
-    diff.apply(staged);
 
-    // Select resources staged model is referencing and add them to staged
-    try (QueryExecution queryExecution = QueryExecutionFactory.create(
-      QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), staged)) {
-      ResultSet resultSet = queryExecution.execSelect();
-      while (resultSet.hasNext()) {
-        QuerySolution querySolution = resultSet.next();
-        String linked = querySolution.get("o").toString();
-        Model referenced = getConciseBoundedDescription(linked, mDb);
-        StmtIterator it = referenced.listStatements();
-        while (it.hasNext()) {
-          Statement statement = it.next();
-          // Only add statements that don't have the original resource as their subject.
-          // staged.add(getExtendedDescription(linked, mDb)) would be simpler, but mistakenly
-          // duplicates bnodes under certain circumstances.
-          // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
-          if (!statement.getSubject().toString().equals(aResource.getId())) {
-            staged.add(statement);
-          }
-        }
-      }
-    }
-    return ResourceFramer.resourceFromModel(staged, aResource.getId());
+    diff.apply(staged);
+    staged.add(getIdentifyingDescriptions(staged.listObjects(), mDb));
+
+    return ResourceFramer.resourceFromModel(staged, aResource.getId(), mConfiguration.getString("jsonld.context"));
   }
 
-  private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
+  public static Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
     Model extendedDescription = getConciseBoundedDescription(aId, aModel);
     extendedDescription.add(getIdentifyingDescriptions(extendedDescription.listObjects(), aModel));
     return extendedDescription;
   }
 
-  private Model getIdentifyingDescriptions(NodeIterator subjects, Model aModel) {
+  private static Model getIdentifyingDescriptions(NodeIterator subjects, Model aModel) {
     Model identifyingDescriptions = ModelFactory.createDefaultModel();
     while (subjects.hasNext()) {
       RDFNode node = subjects.nextNode();
@@ -226,6 +199,18 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
         );
         identifyingDescriptions.add(
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.image, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.agent, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.description, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.text, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.startTime, (RDFNode) null)
         );
         identifyingDescriptions.add(
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.location, (RDFNode) null)
@@ -242,7 +227,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     return identifyingDescriptions;
   }
 
-  private Model getConciseBoundedDescription(String aId, Model aModel) {
+  public static Model getConciseBoundedDescription(String aId, Model aModel) {
     Model conciseBoundedDescription = ModelFactory.createDefaultModel();
 
     // Validate URI
@@ -314,7 +299,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     return diff;
   }
 
-  public Commit.Diff getDiffs(@Nonnull Resource aResource) {
+  private Commit.Diff getDiffs(@Nonnull Resource aResource) {
     List<Resource> resources = new ArrayList<>();
     try {
       resources = ResourceFramer.flatten(aResource, mConfiguration.getString("jsonld.context"));
@@ -328,7 +313,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     return diff;
   }
 
-  public Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
+  Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
     Commit.Diff diff = new TripleCommit.Diff();
     for (Resource resource : aResources) {
       diff.append(getDiffs(resource));

@@ -10,7 +10,6 @@ import models.GraphHistory;
 import models.Resource;
 import models.ResourceList;
 import models.TripleCommit;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
@@ -20,7 +19,6 @@ import play.Logger;
 import services.AccountService;
 import services.IndexQueue;
 import services.QueryContext;
-import services.ResourceFramer;
 import services.ResourceIndexer;
 
 import javax.annotation.Nonnull;
