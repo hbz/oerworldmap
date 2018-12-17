@@ -20,6 +20,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
@@ -43,6 +44,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -175,21 +177,25 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     Model staged = getConciseBoundedDescription(aResource.getId(), mDb);
 
     diff.apply(staged);
-    staged.add(getIdentifyingDescriptions(staged.listObjects(), mDb));
+    staged.add(getIdentifyingDescriptions(staged.listObjects(), mDb,
+      Collections.singletonList(ResourceFactory.createResource(aResource.getId()))));
 
     return ResourceFramer.resourceFromModel(staged, aResource.getId(), mConfiguration.getString("jsonld.context"));
   }
 
   public static Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
     Model extendedDescription = getConciseBoundedDescription(aId, aModel);
-    extendedDescription.add(getIdentifyingDescriptions(extendedDescription.listObjects(), aModel));
+    extendedDescription.add(getIdentifyingDescriptions(extendedDescription.listObjects(), aModel, new ArrayList<>()));
     return extendedDescription;
   }
 
-  private static Model getIdentifyingDescriptions(NodeIterator subjects, Model aModel) {
+  private static Model getIdentifyingDescriptions(NodeIterator subjects, Model aModel, List<RDFNode> skip) {
     Model identifyingDescriptions = ModelFactory.createDefaultModel();
     while (subjects.hasNext()) {
       RDFNode node = subjects.nextNode();
+      if (skip.contains(node)) {
+        continue;
+      }
       if (node.isURIResource()) {
         identifyingDescriptions.add(
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, RDF.type, (RDFNode) null)
