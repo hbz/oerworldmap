@@ -97,7 +97,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     Resource resource = null;
     if (!dbstate.isEmpty()) {
       try {
-        resource = ResourceFramer.resourceFromModel(dbstate, aId);
+        resource = ResourceFramer.resourceFromModel(dbstate, aId, mConfiguration.getString("jsonld.context"));
       } catch (IOException e) {
         Logger.error("Could not get resource", e);
       }
@@ -317,7 +317,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   public Commit.Diff getDiffs(@Nonnull Resource aResource) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = ResourceFramer.flatten(aResource);
+      resources = ResourceFramer.flatten(aResource, mConfiguration.getString("jsonld.context"));
     } catch (IOException e) {
       Logger.error("Failed to flatten resource", e);
     }
@@ -380,7 +380,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 
-    return ResourceFramer.resourceFromModel(dbstate, aId);
+    return ResourceFramer.resourceFromModel(dbstate, aId, mConfiguration.getString("jsonld.context"));
   }
 
   @Override

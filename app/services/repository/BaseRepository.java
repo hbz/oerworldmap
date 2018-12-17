@@ -76,8 +76,8 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory, aAccountService);
-    ResourceFramer.setContext(mConfiguration.getString("jsonld.context"));
+    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory, aAccountService,
+      mConfiguration.getString("jsonld.context"));
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
