@@ -24,6 +24,8 @@ public class SCHEMA {
 
   public static final Property agent = property("agent");
 
+  public static final Property object = property("object");
+
   public static final Property description = property("description");
 
   public static final Property text = property("text");
@@ -31,5 +33,7 @@ public class SCHEMA {
   public static final Property startTime = property("startTime");
 
   public static final Property dateCreated = property("dateCreated");
+
+  public static final Property author = property("author");
 
 }
