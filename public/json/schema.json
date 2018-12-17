@@ -805,6 +805,12 @@
           "_display": {
             "className": "hidden"
           }
+        },
+        "commentOn": {
+          "$ref": "#/definitions/Link",
+          "_display": {
+            "className": "hidden"
+          }
         }
       },
       "required": [ "text" ],

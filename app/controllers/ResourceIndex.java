@@ -429,16 +429,19 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result commentResource(String aId) throws IOException {
 
+    Resource resource = mBaseRepository.getResource(aId);
+
+    if (resource == null) {
+      return notFound();
+    }
+
     Resource comment = Resource.fromJson(getJsonFromRequest());
     comment.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    comment.put("commentOn", resource);
 
     TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
-    diff.addStatement(ResourceFactory.createStatement(
-      ResourceFactory.createResource(aId), SCHEMA.comment,
-      ResourceFactory.createResource(comment.getId())
-    ));
 
     Map<String, String> metadata = getMetadata();
     TripleCommit.Header header = new TripleCommit.Header(
