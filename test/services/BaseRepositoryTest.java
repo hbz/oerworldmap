@@ -505,17 +505,37 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testSearchSpecialChars() throws IOException, InterruptedException {
     Logger.warn("Starting testSearchSpecialChars()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.2.json");
     mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addResource(db2, mMetadata);
 
     // query without special chars
     List<Resource> withoutChars = mBaseRepo
       .query("OERforever", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"OERforever\".", withoutChars.size() == 1);
 
+    withoutChars = mBaseRepo
+      .query("OER ultra", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Could not find \"OER ultra\".", withoutChars.size() == 1);
+
+    withoutChars = mBaseRepo
+      .query("ultra", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Could not find \"ultra\".", withoutChars.size() == 1);
+
+    withoutChars = mBaseRepo
+      .query("OER", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Could not find \"OER\".", withoutChars.size() == 2);
+
     // query with special chars
     List<Resource> withChars = mBaseRepo
       .query("OERforever!", 0, 10, null, null, mDefaultQueryContext).getItems();
     Assert.assertTrue("Could not find \"OERforever!\".", withChars.size() == 1);
+
+    withChars = mBaseRepo
+      .query("OER:", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Could not find \"OER:\".", withChars.size() == 2);
+    // Because ":" is not a chat critical for search results, "OERforever!" is also returned when
+    // searching for "OER:"
 
     mBaseRepo.deleteResource("", mMetadata);
   }

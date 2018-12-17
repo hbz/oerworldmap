@@ -8,9 +8,18 @@ ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/use
   Require all granted
 </Location>
 
+RewriteEngine On
+RewriteMap unescape int:unescape
+RewriteCond %{REQUEST_URI}  ^/.loggedIn$
+RewriteCond %{QUERY_STRING} ^continue=(.*)$
+RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
+
+RewriteCond %{REQUEST_URI}  ^/.loggedIn$
+RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
+
 <Location /.login>
   Require valid-user
-  Redirect "/.login" "/resource/"
+  Redirect "/.login" "/.loggedIn"
 </Location>
 
 <Location /.logout>
