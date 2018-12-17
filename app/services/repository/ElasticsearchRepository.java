@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
+import io.apigee.trireme.kernel.Charsets;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -98,7 +99,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public Resource getResource(@Nonnull String aId) {
     try {
-      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId).concat(".about")));
+      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId, Charsets.DEFAULT_ENCODING)
+        .concat(".").concat(Record.RESOURCE_KEY)));
       return record != null ? record.getAsResource(Record.RESOURCE_KEY) : null;
     } catch (IOException e) {
       Logger.error("Failed getting document.", e);
@@ -130,13 +132,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
-    Resource resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
+    Resource resource = getResource(aId);
     if (null == resource) {
       return null;
     }
     boolean found = false;
     try {
-      found = deleteDocument(Record.TYPE, resource.getId());
+      found = deleteDocument(Record.TYPE, resource.getId().concat(".").concat(Record.RESOURCE_KEY));
     } catch (IOException e) {
       Logger.error("Failed deleting document.", e);
     }
