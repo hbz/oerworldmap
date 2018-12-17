@@ -479,7 +479,7 @@ public class ResourceIndex extends OERWorldMap {
       if (id == null) {
         continue;
       }
-      Resource resource = mBaseRepository.getResourceUnsafe(id);
+      Resource resource = mBaseRepository.getResource(id);
       // Skip deleted resources
       if (resource == null) {
         continue;
@@ -493,7 +493,7 @@ public class ResourceIndex extends OERWorldMap {
       entry.put("id", commit.getId());
       String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
       if (profileId != null) {
-        Resource user = mBaseRepository.getResourceUnsafe(profileId);
+        Resource user = mBaseRepository.getResource(profileId);
         if (user != null) {
           entry.put("user", user.toJson());
         }

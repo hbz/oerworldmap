@@ -216,9 +216,9 @@ public class BaseRepository extends Repository
 
   // Get a resource quickly, but with the possibility of it being stale
   // because an indexing job is not done jet
-  public Resource getResourceUnsafe(@Nonnull String aId) {
-    return mElasticsearchRepo.getResource(aId);
-  }
+  // public Resource getResourceUnsafe(@Nonnull String aId) {
+  //  return mElasticsearchRepo.getResource(aId);
+  //}
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     return mElasticsearchRepo.getResources(aField, aValue);
