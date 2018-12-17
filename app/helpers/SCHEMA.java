@@ -1,7 +1,6 @@
 package helpers;
 
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
 /**
@@ -10,10 +9,6 @@ import org.apache.jena.rdf.model.ResourceFactory;
 public class SCHEMA {
 
   private static final String BASE = "http://schema.org/";
-
-  private static Resource resource(String local) {
-    return ResourceFactory.createResource(BASE + local);
-  }
 
   private static Property property(String local) {
     return ResourceFactory.createProperty(BASE, local);
@@ -26,5 +21,15 @@ public class SCHEMA {
   public static final Property location = property("location");
 
   public static final Property image = property("image");
+
+  public static final Property agent = property("agent");
+
+  public static final Property description = property("description");
+
+  public static final Property text = property("text");
+
+  public static final Property startTime = property("startTime");
+
+  public static final Property dateCreated = property("dateCreated");
 
 }
