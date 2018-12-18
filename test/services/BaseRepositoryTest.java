@@ -76,7 +76,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testDeleteResourceWithMentionedResources() throws IOException, InterruptedException {
+  public void testDeleteResourceWithMentionedResources() throws IOException {
     Logger.warn("Starting testDeleteResourceWithMentionedResources()");
     // setup: 1 Person ("in1") who has 2 affiliations
     Resource in1 = getResourceFromJsonFile(
@@ -106,7 +106,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testDeleteLastResourceInList() throws IOException, InterruptedException {
+  public void testDeleteLastResourceInList() throws IOException {
     Logger.warn("Starting testDeleteLastResourceInList()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteLastResourceInList.DB.1.json");
@@ -124,7 +124,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testDeleteResourceFromList() throws IOException, InterruptedException {
+  public void testDeleteResourceFromList() throws IOException {
     Logger.warn("Starting testDeleteResourceFromList()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testDeleteResourceFromList.DB.1.json");
@@ -178,7 +178,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
 
 
   @Test
-  public void testGetResourcesWithWildcard() throws IOException, InterruptedException {
+  public void testGetResourcesWithWildcard() throws IOException {
     Logger.warn("Starting testGetResourcesWithWildcard()");
     Resource in1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testGetResourcesWithWildcard.DB.1.json");
@@ -192,7 +192,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchRankingNameHitsFirst() throws IOException, InterruptedException {
+  public void testSearchRankingNameHitsFirst() throws IOException {
 
     Logger.warn("Starting testSearchRankingNameHitsFirst()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchRanking.DB.1.json");
@@ -246,7 +246,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testExactPersonHits() throws IOException, InterruptedException {
+  public void testExactPersonHits() throws IOException {
     Logger.warn("Starting testExactPersonHits()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testExactPersonHits.DB.2.json");
@@ -262,7 +262,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testZoomedQueryResults() throws IOException, InterruptedException {
+  public void testZoomedQueryResults() throws IOException {
     Logger.warn("Starting testZoomedQueryResults()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testZoomedQueryResults.DB.2.json");
@@ -302,7 +302,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testPolygonFilteredSearch() throws IOException, InterruptedException {
+  public void testPolygonFilteredSearch() throws IOException {
     Logger.warn("Starting testPolygonFilteredSearch()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testPolygonFilteredSearch.DB.1.json");
@@ -351,7 +351,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testZoomedPolygonQueryResults() throws IOException, InterruptedException {
+  public void testZoomedPolygonQueryResults() throws IOException {
     Logger.warn("Starting testZoomedPolygonQueryResults()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testZoomedPolygonQueryResults.DB.1.json");
@@ -406,7 +406,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchFuzzyWordSplit() throws IOException, InterruptedException {
+  public void testSearchFuzzyWordSplit() throws IOException {
     Logger.warn("Starting testSearchFuzzyWordSplit()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyWordSplit.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -426,7 +426,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchFuzzyExtension() throws IOException, InterruptedException {
+  public void testSearchFuzzyExtension() throws IOException {
     Logger.warn("Starting testSearchFuzzyExtension()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchFuzzyExtension.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -446,7 +446,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchFuzzyDiacritica() throws IOException, InterruptedException {
+  public void testSearchFuzzyDiacritica() throws IOException {
     Logger.warn("Starting testSearchFuzzyDiacritica()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testSearchFuzzyDiacritica.DB.1.json");
@@ -467,7 +467,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testAbbreviatedSearch() throws IOException, InterruptedException {
+  public void testAbbreviatedSearch() throws IOException {
     Logger.warn("Starting testAbbreviatedSearch()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testAbbreviatedSearch.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -502,7 +502,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchSpecialChars() throws IOException, InterruptedException {
+  public void testSearchSpecialChars() throws IOException {
     Logger.warn("Starting testSearchSpecialChars()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.1.json");
     Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchSpecialChars.DB.2.json");
@@ -541,7 +541,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchHyphenWords() throws IOException, InterruptedException {
+  public void testSearchHyphenWords() throws IOException {
     Logger.warn("Starting testSearchHyphenWords()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -565,7 +565,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchMissing() throws IOException, InterruptedException {
+  public void testSearchMissing() throws IOException {
     Logger.warn("Starting testSearchMissing()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchMissing.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -591,7 +591,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchKeyword() throws IOException, InterruptedException {
+  public void testSearchKeyword() throws IOException {
     Logger.warn("Starting testSearchKeyword()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -611,7 +611,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testRankKeyword() throws IOException, InterruptedException {
+  public void testRankKeyword() throws IOException {
     Logger.warn("Starting testRankKeyword()");
     for (int i = 1; i <= 8; i++) {
       Resource db1 = getResourceFromJsonFile(
@@ -627,7 +627,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchBySubjectClassification() throws IOException, InterruptedException {
+  public void testSearchBySubjectClassification() throws IOException {
     Logger.warn("Starting testSearchBySubjectClassification()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testSearchBySubjectClassification.DB.1.json");
@@ -639,7 +639,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testSearchByEducationClassification() throws IOException, InterruptedException {
+  public void testSearchByEducationClassification() throws IOException {
     Logger.warn("Starting testSearchByEducationClassification()");
     Resource db1 = getResourceFromJsonFile(
       "BaseRepositoryTest/testSearchByEducationClassification.DB.1.json");
@@ -651,7 +651,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   }
 
   @Test
-  public void testNoGroundlessHits() throws IOException, InterruptedException {
+  public void testNoGroundlessHits() throws IOException {
     Logger.warn("Starting testNoGroundlessHits()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testNoGroundlessHits.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
@@ -677,7 +677,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   // (which is an expression for "united arab emirates") fails due to more than 1024 boolean clauses necessary.
   // However, a working setting could not be found as high max_clause_count values lead to test timeouts during the
   // query initialization phase.
-  public void testCountrySynonyms() throws IOException, InterruptedException {
+  public void testCountrySynonyms() throws IOException {
     Logger.warn("Starting testCountrySynonyms()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testCountrySynonyms.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
