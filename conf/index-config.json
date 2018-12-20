@@ -2357,8 +2357,25 @@
               }
             },
             "keywords": {
-              "normalizer": "keywords_normalizer",
-              "type": "keyword"
+              "type": "text",
+              "fielddata": "true",
+              "fields": {
+                "strong_concatenation": {
+                  "type": "text",
+                  "analyzer" : "strong_concatenation_analyzer",
+                  "search_analyzer" : "strong_concatenation_analyzer"
+                },
+                "simple_tokenized": {
+                  "type": "text",
+                  "analyzer": "simple",
+                  "search_analyzer": "standard"
+                },
+                "splits": {
+                  "type": "text",
+                  "analyzer": "split_analyzer",
+                  "search_analyzer": "standard"
+                }
+              }
             },
             "additionalType": {
               "properties": {
@@ -15723,18 +15740,21 @@
             "the"
           ],
           "type": "stop"
+        },
+        "hyphen_filter" : {
+          "type": "pattern_replace",
+          "pattern": "-|_|/|'|\\\\",
+          "replacement": ""
+        },
+        "space_filter": {
+          "type": "pattern_replace",
+          "pattern": " ",
+          "replacement": ""
         }
       },
       "normalizer": {
         "keywords_normalizer": {
           "filter": "lowercase"
-        }
-      },
-      "tokenizer": {
-        "split_tokenizer_1": {
-          "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
-          "type": "pattern",
-          "group": "1"
         }
       },
       "analyzer": {
@@ -15781,6 +15801,15 @@
             "stem_english",
             "lowercase"
           ],
+          "tokenizer": "standard"
+        },
+        "strong_concatenation_analyzer": {
+          "filter": [
+            "space_filter",
+            "hyphen_filter",
+            "lowercase"
+          ],
+          "type": "custom",
           "tokenizer": "standard"
         }
       }

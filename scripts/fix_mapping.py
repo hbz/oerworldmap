@@ -80,8 +80,25 @@ def set_not_analyzed():
 
 def set_keywords_normalizer():
     return {
-        'type': 'keyword',
-        'normalizer': 'keywords_normalizer'
+        "type": "text",
+        "fielddata": "true",
+        "fields": {
+            "strong_concatenation": {
+                "type": "text",
+                "analyzer" : "strong_concatenation_analyzer",
+                "search_analyzer" : "strong_concatenation_analyzer"
+            },
+            "simple_tokenized": {
+                "type": "text",
+                "analyzer": "simple",
+                "search_analyzer": "standard"
+            },
+            "splits": {
+                "type": "text",
+                "analyzer": "split_analyzer",
+                "search_analyzer": "standard"
+            }
+        }
     }
 
 def set_date_time():
@@ -218,6 +235,16 @@ def settings():
                         "([A-Z]{2,})([A-Z][a-z]{2,})",
                         "([A-Z]{2,})([a-z]{2,})"
                     ]
+                },
+                "hyphen_filter" : {
+                    "type": "pattern_replace",
+                    "pattern": "-|_|/|'|\\\\",
+                    "replacement": ""
+                },
+                "space_filter" : {
+                    "type": "pattern_replace",
+                    "pattern": " ",
+                    "replacement": ""
                 }
             },
             "analyzer": {
@@ -260,13 +287,15 @@ def settings():
                 "split_analyzer": {
                     "tokenizer": "pattern",
                     "filter": ["split_filter", "lowercase"]
-                }
-            },
-            "tokenizer": {
-                "split_tokenizer_1": {
-                    "type": "pattern",
-                    "pattern": "[A-Z]{2,}(.*)[A-Z][\\w]*",
-                    "group": "1"
+                },
+                "strong_concatenation_analyzer": {
+                    "filter": [
+                        "space_filter",
+                        "hyphen_filter",
+                        "lowercase"
+                    ],
+                    "type": "custom",
+                    "tokenizer": "standard"
                 }
             },
             "normalizer": {

@@ -202,8 +202,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   public ResourceList query(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
     Map<String, List<String>> aFilters, QueryContext aQueryContext) throws IOException {
-
-    return esQuery(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
+    // remove spaces in front of special characters because Elasticsearch won't find you desired
+    // result otherwise
+    return esQuery(
+      aQueryString.replaceAll(" (?=(\\W))", ""), aFrom, aSize, aSortOrder, aFilters, aQueryContext);
   }
 
   public JsonNode reconcile(@Nonnull String aQuery, int aFrom, int aSize, String aSortOrder,
