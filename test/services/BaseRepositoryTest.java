@@ -602,19 +602,43 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Logger.warn("Starting testSearchKeyword()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchKeyword.DB.1.json");
     mBaseRepo.addResource(db1, mMetadata);
-    List<Resource> queryByKeyword = mBaseRepo.query("TVET", 0, 10, null, null, mDefaultQueryContext)
-      .getItems();
-    Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
-    List<Resource> queryByLowercaseKeyword = mBaseRepo
-      .query("tvet", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Did not find resource by lowercased keyword.",
-      queryByLowercaseKeyword.size() == 1);
-    List<Resource> queryByUppercaseKeyword = mBaseRepo
-      .query("Vocational Education And Training", 0, 10, null, null, mDefaultQueryContext)
-      .getItems();
-    Assert.assertTrue("Did not find resource by uppercased keyword.",
-      queryByUppercaseKeyword.size() == 1);
-    mBaseRepo.deleteResource("", mMetadata);
+
+    try {
+      List<Resource> queryByKeyword = mBaseRepo
+        .query("TVET", 0, 10, null, null, mDefaultQueryContext)
+        .getItems();
+      Assert.assertTrue("Did not find resource by keyword.", queryByKeyword.size() == 1);
+
+      List<Resource> queryByLowercaseKeyword = mBaseRepo
+        .query("tvet", 0, 10, null, null, mDefaultQueryContext).getItems();
+      Assert.assertTrue("Did not find resource by lowercased keyword.",
+        queryByLowercaseKeyword.size() == 1);
+
+      List<Resource> queryByUppercaseKeyword = mBaseRepo
+        .query("Vocational Education And Training", 0, 10, null, null, mDefaultQueryContext)
+        .getItems();
+      Assert.assertTrue("Did not find resource by uppercased keyword.",
+        queryByUppercaseKeyword.size() == 1);
+
+      List<Resource> queryByHyphenKeywordPart = mBaseRepo
+        .query("mfhk", 0, 10, null, null, mDefaultQueryContext).getItems();
+      Assert.assertTrue("Did not find resource by hyphen keyword part.",
+        queryByHyphenKeywordPart.size() == 1);
+
+      List<Resource> queryByUnHyphenKeyword = mBaseRepo
+        .query("mfhk my foo hyphen keyword", 0, 10, null, null, mDefaultQueryContext).getItems();
+      Assert.assertTrue("Did not find resource by un-hyphened keyword.",
+        queryByUnHyphenKeyword.size() == 1);
+
+      List<Resource> queryByHyphenKeyword = mBaseRepo
+        .query("mfhk - my foo hyphen keyword", 0, 10, null, null, mDefaultQueryContext)
+        .getItems();
+      Assert.assertTrue("Did not find resource by hyphen keyword.",
+        queryByHyphenKeyword.size() == 1);
+    }
+    finally {
+      mBaseRepo.deleteResource("", mMetadata);
+    }
   }
 
   @Test

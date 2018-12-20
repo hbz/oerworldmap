@@ -1,6 +1,6 @@
 {
   "image" : "https://www.bibb.de/system/layout/logo.png",
-  "keywords" : [ "berufliche Bildung", "vocational education and training", "TVET" ],
+  "keywords" : [ "berufliche Bildung", "vocational education and training", "TVET", "mfhk - my foo hyphen keyword" ],
   "@type" : "Organization",
   "name" : [ {
     "@value" : "Bundesinstitut fÃ¼r Berufsbildung",
