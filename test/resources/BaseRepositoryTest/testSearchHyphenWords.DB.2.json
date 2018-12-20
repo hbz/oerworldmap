@@ -1,0 +1,15 @@
+{
+  "@type" : "Service",
+  "name" : [ {
+    "@value" : "e - paideia test variation",
+    "@language" : "en"
+  } ],
+  "description" : [ {
+    "@value" : "The educational portal e-paideia is aimed at teachers of preschool primary and secondary education, students, researchers and parents, with a view to their valid information and enhance their access to sources of information on education. With emphasis on schooling, but through the perspective of lifelong learning, the e-paideia seeks to support, improve and enrich the learning process (formal, non-formal and informal) celebrated at school, at home and in general children's activity environment and new.",
+    "@language" : "en"
+  } ],
+  "location" : { },
+  "@id" : "urn:uuid:6d16ca4f-b99c-4b46-9a54-fe42e6e2027e",
+  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "email" : "info@e-paideia.org"
+}

@@ -544,12 +544,19 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   public void testSearchHyphenWords() throws IOException {
     Logger.warn("Starting testSearchHyphenWords()");
     Resource db1 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.1.json");
+    Resource db2 = getResourceFromJsonFile("BaseRepositoryTest/testSearchHyphenWords.DB.2.json");
     mBaseRepo.addResource(db1, mMetadata);
+    mBaseRepo.addResource(db2, mMetadata);
 
-    // query complete word
+    // query complete word with "-"
     List<Resource> completeWord = mBaseRepo
       .query("e-paideia", 0, 10, null, null, mDefaultQueryContext).getItems();
-    Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 1);
+    Assert.assertTrue("Could not find \"e-paideia\".", completeWord.size() == 2);
+
+    // query complete word with " - "
+    List<Resource> completeWordPlus = mBaseRepo
+      .query("e - paideia", 0, 10, null, null, mDefaultQueryContext).getItems();
+    Assert.assertTrue("Could not find \"e - paideia\".", completeWordPlus.size() == 2);
 
     // query abbreviated word
     List<Resource> abbreviatedWord = mBaseRepo
