@@ -425,8 +425,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         SearchScrollRequest searchScrollRequest = new SearchScrollRequest()
           .scrollId(response.getScrollId()).scroll(new TimeValue(60000));
         response = mConfig.getClient().searchScroll(searchScrollRequest);
-        JsonNode resultNode = new ObjectMapper().readTree(response.toString());
-        Logger.debug(resultNode.toString());
         nextHits = Arrays.asList(response.getHits().getHits());
         maxScore =
           response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
@@ -435,7 +433,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       sourceBuilder.size(aSize);
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-      JsonNode resultNode = new ObjectMapper().readTree(response.toString());
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
