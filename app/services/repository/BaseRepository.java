@@ -28,6 +28,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -83,9 +84,9 @@ public class BaseRepository extends Repository
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
-      Collections.reverse(commits);
-      for (Commit commit : commits) {
-        commit.getDiff().apply(mDb);
+      ListIterator<Commit> listIterator = commits.listIterator(commits.size());
+      while (listIterator.hasPrevious()) {
+        listIterator.previous().getDiff().apply(mDb);
       }
       Logger.info("Loaded commit history to triple store");
       mResourceIndexer.index("*");
