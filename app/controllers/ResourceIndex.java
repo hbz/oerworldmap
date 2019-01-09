@@ -482,7 +482,7 @@ public class ResourceIndex extends OERWorldMap {
       if (id == null) {
         continue;
       }
-      Resource resource = mBaseRepository.getResource(id);
+      Resource resource = mBaseRepository.getResource(id, commit.getId());
       // Skip deleted resources
       if (resource == null) {
         continue;
