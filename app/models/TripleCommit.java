@@ -14,6 +14,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.vocabulary.RDF;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -28,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import org.apache.jena.vocabulary.RDF;
 
 /**
  * Created by fo on 10.12.15, modified by pvb
