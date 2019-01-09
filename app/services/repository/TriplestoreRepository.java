@@ -106,7 +106,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
   }
 
   @Override
-  public List<Resource> getAll(@Nonnull String aType) throws IOException {
+  public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<>();
     mDb.enterCriticalSection(Lock.READ);
     try {
