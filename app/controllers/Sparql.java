@@ -2,6 +2,7 @@ package controllers;
 
 import models.Commit;
 import models.TripleCommit;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Environment;
@@ -64,7 +65,7 @@ public class Sparql extends OERWorldMap {
   public Result query(String q) throws IOException {
     return ok(StringUtils.isEmpty(q)
       ? String.format(mQueryTemplate, "", "")
-      : String.format(mQueryTemplate, q, mBaseRepository.sparql(q))
+      : String.format(mQueryTemplate, q, StringEscapeUtils.escapeHtml4(mBaseRepository.sparql(q)))
     ).as("text/html");
   }
 
