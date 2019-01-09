@@ -26,6 +26,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.riot.JsonLDWriteContext;
 import org.apache.jena.riot.Lang;
@@ -34,6 +35,7 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.WriterDatasetRIOT;
 import org.apache.jena.riot.system.RiotLib;
 import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * Created by fo on 23.03.16.
@@ -41,6 +43,9 @@ import org.apache.jena.sparql.core.DatasetGraph;
 public class ResourceFramer {
 
   private static final ObjectMapper mObjectMapper = new ObjectMapper();
+
+  private static final org.apache.jena.rdf.model.Resource recordType = ResourceFactory
+    .createResource("urn:uuid:".concat(UUID.randomUUID().toString()));
 
   private static final org.apache.jena.rdf.model.Resource recordId = ResourceFactory
     .createResource("urn:uuid:".concat(UUID.randomUUID().toString()));
@@ -52,10 +57,17 @@ public class ResourceFramer {
 
   public static Resource resourceFromModel(Model aModel, String aId, String aContextUrl) throws IOException {
 
+    org.apache.jena.rdf.model.Resource resource = ResourceFactory.createResource(aId);
+
+    if (!aModel.containsResource(resource)) {
+      return null;
+    }
+
     // Create "record" that points at the id of the resource
     Model record = ModelFactory.createDefaultModel();
     record.add(aModel);
-    record.add(recordId, resourceLink, ResourceFactory.createResource(aId));
+    record.add(recordId, RDF.type, recordType);
+    record.add(recordId, resourceLink, resource);
 
     // JSON-LD context
     Map<String, String> jsonLdContext = new HashMap<>();
@@ -65,7 +77,7 @@ public class ResourceFramer {
     Map<String, String> frame = new HashMap<>();
     frame.put("@context", aContextUrl);
     frame.put("@embed", "@always");
-    frame.put(resourceLink.toString(), "{}");
+    frame.put("@type", recordType.toString());
 
     // Jena write context config
     JsonLdOptions jsonLdOptions = new JsonLdOptions();
@@ -81,8 +93,10 @@ public class ResourceFramer {
     DatasetGraph g = DatasetFactory.create(record).asDatasetGraph();
     mWriter.write(boas, g, RiotLib.prefixMap(g), null, jenaWriteContext);
     JsonNode jsonNode = mObjectMapper.readTree(boas.toByteArray());
+    ObjectNode result = (ObjectNode) jsonNode.get(resourceLink.toString());
+    result.put("@context", aContextUrl);
 
-    return Resource.fromJson(jsonNode.get(resourceLink.toString()));
+    return Resource.fromJson(prune(result));
   }
 
   private static ObjectNode prune(ObjectNode node) {
@@ -96,7 +110,7 @@ public class ResourceFramer {
         result.set(key, prune((ArrayNode) value));
       } else if (value.isObject()) {
         result.set(key, prune((ObjectNode) value));
-      } else if (!value.isTextual()|| (value.isTextual() && !value.asText().startsWith("_:"))) {
+      } else if (!value.isTextual() || !value.asText().startsWith("_:")) {
         result.set(key, value);
       }
     }
