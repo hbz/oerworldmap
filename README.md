@@ -1,7 +1,6 @@
 # Open Educational Resources (OER) World Map
 
 ![Travis CI](https://travis-ci.org/hbz/oerworldmap.svg)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=oerworldmap.org&metric=alert_status)
 
 For inital background information about this project please refer to the
 [Request for Proposals](http://www.hewlett.org/sites/default/files/OER%20mapping%20RFP_Phase%202%20Final%20June%2023%202014.pdf).
@@ -114,6 +113,10 @@ Download [sbt](http://www.scala-sbt.org/download.html), then
 
     $ sbt run
 
+### Install UI
+
+UI Components are available at https://github.com/hbz/oerworldmap-ui
+
 ### Work with IDEs
 
 Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sbt), integration to Eclipse and IDEA IntelliJ is provided by running `eclipse` or `idea` from within activator. To run the OER World Map JUnit tests inside IntelliJ, it is necessary to set the test's working directory to the root directory of this project (i. e. `oerworldmap`):
@@ -122,63 +125,6 @@ Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sb
     <absolute/path/to/oerworldmap>
 
 ## Contribute
-
-### Localizations
-
-You are very welcome to translate the UI of the OER World Map to other languages. To localize the entire site, translations for UI elements as well as for content (such as the [About](https://oerworldmap.org/about) page) are needed. You will create a number of files during the process; if you are not comfortable with using GitHub, you can simply send us those files by email!
-
-#### Localization of UI elements
-
-In order to localize UI elements such as button labels, several files have to be translated: [labels](conf/labels.properties), [descriptions](conf/descriptions.properties) for the input templates and [ui](conf/ui.properties) for the rest of the UI. The format is pretty straight forward, each line consists of a key that is assigned a value:
-
-```
-Article.name = Title
-Article.description = Teaser
-Article.articleBody = Body
-Article.dateCreated = Date created
-Article.image = Illustrating Image
-Article.creator = Creator
-```
-
-In order to translate a file, simple copy it and add the target language as a suffix. E.g. to translate the [labels](conf/labels.properties) to German, create a copy of the file named `labels_de.properties`. Then replace all the values by their German translations:
-
-```
-Article.name = Titel
-Article.description = Aufmacher
-Article.articleBody = Text
-Article.dateCreated = Erstellungsdatum
-Article.image = Illustrierendes Bild
-Article.creator = Ersteller
-```
-
-Other properties files such as those for country and language names need not be translated manually. We will automatically generate them when deploying your translation.
-
-#### Localization of content
-
-All static pages are located in [public/pages](public/pages). They are formatted using [markdown](https://daringfireball.net/projects/markdown/syntax) along with some structured data at the beginning, the so called front matter:
-
-    ---
-    title: FAQ
-    ---
-
-    ## What is OER?
-    'OER' stands for 'Open Educational Resources' and this
-    refers to freely accessible materials that can be used
-    for a [range of activities around teaching and learning]
-    https://www.opencontent.org/definition/). What makes
-    them open is typically an open license instead of a
-    traditional copyright license.
-
-In order to translate a static page, copy it and add the target language as a suffix. E.g. to translate the [FAQ](public/pages/FAQ.md) to German, create a copy of the file named `FAQ_de.md`. Then translate the content, including the front matter at the very beginning:
-
-    ---
-    title: FAQ
-    ---
-
-    ## Was ist OER
-    'OER' steht für 'Open Educational Resources' ...
-
- The title that is specified in the front matter will be automatically added at the top of the page and will also be used in the navigation in the site header.
 
 ### Coding conventions
 
