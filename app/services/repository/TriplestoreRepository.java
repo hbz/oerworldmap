@@ -217,6 +217,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.object, (RDFNode) null)
         );
         identifyingDescriptions.add(
+          getIdentifyingDescriptions(
+            aModel.listObjectsOfProperty((org.apache.jena.rdf.model.Resource) node, SCHEMA.object), aModel, skip));
+        identifyingDescriptions.add(
           aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.description, (RDFNode) null)
         );
         identifyingDescriptions.add(
