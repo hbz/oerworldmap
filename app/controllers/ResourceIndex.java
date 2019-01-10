@@ -477,35 +477,30 @@ public class ResourceIndex extends OERWorldMap {
         break;
       }
       String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
-      // Skip empty commits and commits on same subject
-      if (id == null || id.equals(previousId)) {
+      // Skip empty commits, commits on same subject and deleted resources
+      if (id == null
+        || id.equals(previousId)
+        || ((TripleCommit) commit).getHeader().isMigration()
+        || !mBaseRepository.hasResource(id))
+      {
         continue;
       }
       previousId = id;
-      // Skip deleted resources
-      if (!mBaseRepository.hasResource(id)) {
-        continue;
-      }
       Resource resource = mBaseRepository.getResource(id);
-      if (resource == null) { // Should not happen!
-        continue;
-      }
-      // Skip commits without associated profiles
+      ObjectNode entry = JsonNodeFactory.instance.objectNode();
       String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
-      if (profileId == null) {
-        continue;
+      if (profileId != null) {
+        Resource user = mBaseRepository.getResource(profileId);
+        if (user != null) {
+          entry.set("user", user.toJson());
+        }
       }
       ObjectNode action = JsonNodeFactory.instance.objectNode();
       action.put("time", commit.getHeader().getTimestamp().toString());
       action.put("type", (mBaseRepository.log(id).size() > 1 ? "edit" : "add"));
-      ObjectNode entry = JsonNodeFactory.instance.objectNode();
       entry.set("about", resource.toJson());
       entry.set("action", action);
       entry.put("id", commit.getId());
-      Resource user = mBaseRepository.getResource(profileId);
-      if (user != null) {
-        entry.set("user", user.toJson());
-      }
       result.add(entry);
     }
     return ok(result);

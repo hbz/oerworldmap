@@ -80,7 +80,8 @@ public class Sparql extends OERWorldMap {
     Commit.Diff diff = TripleCommit.Diff.fromString(diffString);
     TripleCommit.Header header = new TripleCommit.Header(
       getMetadata().get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(getMetadata().get(TripleCommit.Header.DATE_HEADER)));
+      ZonedDateTime.parse(getMetadata().get(TripleCommit.Header.DATE_HEADER)),
+      true);
 
     Commit commit = new TripleCommit(header, diff);
     mBaseRepository.commit(commit);
