@@ -471,18 +471,28 @@ public class ResourceIndex extends OERWorldMap {
   public Result activity(String until) {
     List<Commit> activities = mBaseRepository.log(null);
     ArrayNode result = JsonNodeFactory.instance.arrayNode();
+    String previousId = null;
     for (Commit commit : activities) {
       if (result.size() == 20 || (until != null && commit.getId().equals(until))) {
         break;
       }
       String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
-      // Skip empty commits
-      if (id == null) {
+      // Skip empty commits and commits on same subject
+      if (id == null || id.equals(previousId)) {
         continue;
       }
-      Resource resource = mBaseRepository.getResource(id, commit.getId());
+      previousId = id;
       // Skip deleted resources
-      if (resource == null) {
+      if (!mBaseRepository.hasResource(id)) {
+        continue;
+      }
+      Resource resource = mBaseRepository.getResource(id);
+      if (resource == null) { // Should not happen!
+        continue;
+      }
+      // Skip commits without associated profiles
+      String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
+      if (profileId == null) {
         continue;
       }
       ObjectNode action = JsonNodeFactory.instance.objectNode();
@@ -492,12 +502,9 @@ public class ResourceIndex extends OERWorldMap {
       entry.set("about", resource.toJson());
       entry.set("action", action);
       entry.put("id", commit.getId());
-      String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
-      if (profileId != null) {
-        Resource user = mBaseRepository.getResource(profileId);
-        if (user != null) {
-          entry.set("user", user.toJson());
-        }
+      Resource user = mBaseRepository.getResource(profileId);
+      if (user != null) {
+        entry.set("user", user.toJson());
       }
       result.add(entry);
     }

@@ -219,6 +219,10 @@ public class BaseRepository extends Repository
     return mTriplestoreRepository.getResource(aId, aVersion);
   }
 
+  public boolean hasResource(String aId) {
+    return mTriplestoreRepository.hasResource(aId);
+  }
+
   // Get a resource quickly, but with the possibility of it being stale
   // because an indexing job is not done jet
   // public Resource getResourceUnsafe(@Nonnull String aId) {
