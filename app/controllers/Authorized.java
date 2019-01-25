@@ -1,13 +1,11 @@
 package controllers;
 
-import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringUtils;
-import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.concurrent.CompletionStage;
 

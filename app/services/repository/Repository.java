@@ -7,7 +7,7 @@ import com.typesafe.config.Config;
  */
 public abstract class Repository {
 
-  protected Config mConfiguration;
+  Config mConfiguration;
 
   public Repository(Config aConfiguration) {
     this.mConfiguration = aConfiguration;

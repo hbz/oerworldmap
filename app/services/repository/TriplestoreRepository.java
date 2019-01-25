@@ -1,12 +1,14 @@
 package services.repository;
 
 import com.typesafe.config.Config;
+import helpers.SCHEMA;
 import models.Commit;
 import models.GraphHistory;
 import models.Resource;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.atlas.lib.InternalErrorException;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -16,12 +18,16 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.tdb.TDB;
+import org.apache.jena.vocabulary.RDF;
 import play.Logger;
 import services.BroaderConceptEnricher;
 import services.InverseEnricher;
@@ -38,6 +44,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -46,18 +53,13 @@ import java.util.Map;
  */
 public class TriplestoreRepository extends Repository implements Readable, Writable, Versionable {
 
-  public static final String EXTENDED_DESCRIPTION =
-    "DESCRIBE <%1$s> ?o ?oo WHERE { <%1$s> ?p ?o OPTIONAL { ?o ?pp ?oo } }";
+  private static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
 
-  public static final String CONCISE_BOUNDED_DESCRIPTION = "DESCRIBE <%s>";
+  private static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
 
-  public static final String SELECT_LINKS = "SELECT ?o WHERE { <%1$s> (<>|!<>)* ?o FILTER isIRI(?o) }";
+  private static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
 
-  public static final String CONSTRUCT_BACKLINKS = "CONSTRUCT { ?s ?p <%1$s> } WHERE { ?s ?p <%1$s> }";
-
-  public static final String SELECT_RESOURCES = "SELECT ?s WHERE { ?s a <%1$s> }";
-
-  public static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
+  private static final String LABEL_RESOURCE = "SELECT ?name WHERE { <%1$s> <http://schema.org/name> ?name  FILTER (lang(?name) = 'en') }";
 
   private final Model mDb;
   private final GraphHistory mGraphHistory;
@@ -73,7 +75,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       Files.createTempFile(null, null).toFile()));
   }
 
-  public TriplestoreRepository(Config aConfiguration, Model aModel, GraphHistory aGraphHistory) {
+  TriplestoreRepository(Config aConfiguration, Model aModel, GraphHistory aGraphHistory) {
     super(aConfiguration);
     this.mDb = aModel;
     this.mGraphHistory = aGraphHistory;
@@ -90,7 +92,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     Resource resource = null;
     if (!dbstate.isEmpty()) {
       try {
-        resource = ResourceFramer.resourceFromModel(dbstate, aId);
+        resource = ResourceFramer.resourceFromModel(dbstate, aId, mConfiguration.getString("jsonld.context"));
       } catch (IOException e) {
         Logger.error("Could not get resource", e);
       }
@@ -103,8 +105,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     return getResource(aId, null);
   }
 
+  public boolean hasResource(@Nonnull String aId) {
+    return mDb.containsResource(ResourceFactory.createResource(aId));
+  }
+
   @Override
-  public List<Resource> getAll(@Nonnull String aType) throws IOException {
+  public List<Resource> getAll(@Nonnull String aType) {
     List<Resource> resources = new ArrayList<>();
     mDb.enterCriticalSection(Lock.READ);
     try {
@@ -168,73 +174,98 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     }
   }
 
+  // Get and update current state from database
   @Override
   public Resource stage(Resource aResource) throws IOException {
-
-    // Get and update current state from database
     Commit.Diff diff = getDiff(aResource);
     Model staged = getConciseBoundedDescription(aResource.getId(), mDb);
-    diff.apply(staged);
 
-    // Select resources staged model is referencing and add them to staged
-    try (QueryExecution queryExecution = QueryExecutionFactory.create(
-      QueryFactory.create(String.format(SELECT_LINKS, aResource.getId())), staged)) {
-      ResultSet resultSet = queryExecution.execSelect();
-      while (resultSet.hasNext()) {
-        QuerySolution querySolution = resultSet.next();
-        String linked = querySolution.get("o").toString();
-        Model referenced = getConciseBoundedDescription(linked, mDb);
-        StmtIterator it = referenced.listStatements();
-        while (it.hasNext()) {
-          Statement statement = it.next();
-          // Only add statements that don't have the original resource as their subject.
-          // staged.add(getExtendedDescription(linked, mDb)) would be simpler, but mistakenly
-          // duplicates bnodes under certain circumstances.
-          // See {@link services.TriplestoreRepositoryTest#testStageWithBnodeInSelfReference}
-          if (!statement.getSubject().toString().equals(aResource.getId())) {
-            staged.add(statement);
-          }
+    diff.apply(staged);
+    staged.add(getIdentifyingDescriptions(staged.listObjects(), mDb,
+      Collections.singletonList(ResourceFactory.createResource(aResource.getId()))));
+
+    return ResourceFramer.resourceFromModel(staged, aResource.getId(), mConfiguration.getString("jsonld.context"));
+  }
+
+  public static Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
+    Model extendedDescription = getConciseBoundedDescription(aId, aModel);
+    extendedDescription.add(getIdentifyingDescriptions(extendedDescription.listObjects(), aModel, new ArrayList<>()));
+    return extendedDescription;
+  }
+
+  private static Model getIdentifyingDescriptions(NodeIterator subjects, Model aModel, List<RDFNode> skip) {
+    Model identifyingDescriptions = ModelFactory.createDefaultModel();
+    while (subjects.hasNext()) {
+      RDFNode node = subjects.nextNode();
+      if (skip.contains(node)) {
+        continue;
+      }
+      if (node.isURIResource()) {
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, RDF.type, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.name, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.image, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.agent, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.object, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          getIdentifyingDescriptions(
+            aModel.listObjectsOfProperty((org.apache.jena.rdf.model.Resource) node, SCHEMA.object), aModel, skip));
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.description, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.text, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.startTime, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.dateCreated, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.author, (RDFNode) null)
+        );
+        identifyingDescriptions.add(
+          aModel.listStatements((org.apache.jena.rdf.model.Resource) node, SCHEMA.location, (RDFNode) null)
+        );
+        String describeLocations = String.format(
+          "DESCRIBE ?location WHERE { <%1$s> <http://schema.org/location> ?location }", node
+        );
+        try (QueryExecution queryExecution = QueryExecutionFactory
+          .create(QueryFactory.create(describeLocations), aModel)) {
+          queryExecution.execDescribe(identifyingDescriptions);
         }
       }
     }
-    return ResourceFramer.resourceFromModel(staged, aResource.getId());
+    return identifyingDescriptions;
   }
 
-  private Model getExtendedDescription(@Nonnull String aId, @Nonnull Model aModel) {
-    Model extendedDescription = ModelFactory.createDefaultModel();
+  private static Model getConciseBoundedDescription(String aId, Model aModel) {
+    Model conciseBoundedDescription = ModelFactory.createDefaultModel();
 
     // Validate URI
     try {
       new URI(aId);
     } catch (URISyntaxException e) {
-      return extendedDescription;
+      return conciseBoundedDescription;
     }
 
-    // Current data
-    String describeStatement = String.format(EXTENDED_DESCRIPTION, aId);
-    extendedDescription.enterCriticalSection(Lock.WRITE);
-    aModel.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(describeStatement), aModel)) {
-        queryExecution.execDescribe(extendedDescription);
-      }
-    } finally {
-      aModel.leaveCriticalSection();
-      extendedDescription.leaveCriticalSection();
-    }
-    return extendedDescription;
-  }
-
-  private Model getConciseBoundedDescription(String aId, Model aModel) {
     String describeStatement = String.format(CONCISE_BOUNDED_DESCRIPTION, aId);
-    Model conciseBoundedDescription = ModelFactory.createDefaultModel();
     aModel.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(describeStatement), aModel)) {
-        queryExecution.execDescribe(conciseBoundedDescription);
-      }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(describeStatement), aModel)) {
+      queryExecution.execDescribe(conciseBoundedDescription);
+    } catch (InternalErrorException e){
+      Logger.error("Error loading CBD", e);
     } finally {
       aModel.leaveCriticalSection();
     }
@@ -290,10 +321,10 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     return diff;
   }
 
-  public Commit.Diff getDiffs(@Nonnull Resource aResource) {
+  private Commit.Diff getDiffs(@Nonnull Resource aResource) {
     List<Resource> resources = new ArrayList<>();
     try {
-      resources = ResourceFramer.flatten(aResource);
+      resources = ResourceFramer.flatten(aResource, mConfiguration.getString("jsonld.context"));
     } catch (IOException e) {
       Logger.error("Failed to flatten resource", e);
     }
@@ -304,7 +335,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     return diff;
   }
 
-  public Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
+  Commit.Diff getDiffs(@Nonnull List<Resource> aResources) {
     Commit.Diff diff = new TripleCommit.Diff();
     for (Resource resource : aResources) {
       diff.append(getDiffs(resource));
@@ -322,11 +353,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     // Current data, inbound links
     String constructStatement = String.format(CONSTRUCT_BACKLINKS, aId);
     mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(constructStatement), mDb)) {
-        queryExecution.execConstruct(dbstate);
-      }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(constructStatement), mDb)) {
+      queryExecution.execConstruct(dbstate);
     } finally {
       mDb.leaveCriticalSection();
     }
@@ -358,7 +387,7 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     TripleCommit commit = new TripleCommit(header, diff);
     mGraphHistory.add(commit);
 
-    return ResourceFramer.resourceFromModel(dbstate, aId);
+    return ResourceFramer.resourceFromModel(dbstate, aId, mConfiguration.getString("jsonld.context"));
   }
 
   @Override
@@ -376,28 +405,26 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     StringWriter out;
 
     mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(q), mDb)) {
-        switch (queryExecution.getQuery().getQueryType()) {
-          case Query.QueryTypeSelect:
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ResultSetFormatter.outputAsJSON(byteArrayOutputStream, queryExecution.execSelect());
-            result = byteArrayOutputStream.toString();
-            break;
-          case Query.QueryTypeConstruct:
-            out = new StringWriter();
-            queryExecution.execConstruct().write(out, "TURTLE");
-            result = out.toString();
-            break;
-          case Query.QueryTypeDescribe:
-            out = new StringWriter();
-            queryExecution.execDescribe().write(out, "TURTLE");
-            result = out.toString();
-            break;
-          default:
-            result = "";
-        }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(q), mDb)) {
+      switch (queryExecution.getQuery().getQueryType()) {
+        case Query.QueryTypeSelect:
+          ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+          ResultSetFormatter.outputAsJSON(byteArrayOutputStream, queryExecution.execSelect());
+          result = byteArrayOutputStream.toString();
+          break;
+        case Query.QueryTypeConstruct:
+          out = new StringWriter();
+          queryExecution.execConstruct().write(out, "TURTLE");
+          result = out.toString();
+          break;
+        case Query.QueryTypeDescribe:
+          out = new StringWriter();
+          queryExecution.execDescribe().write(out, "TURTLE");
+          result = out.toString();
+          break;
+        default:
+          result = "";
       }
     } finally {
       mDb.leaveCriticalSection();
@@ -423,11 +450,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       String deleteQuery = String.format(constructQueryTemplate, delete, where);
       Model deleteModel;
       mDb.enterCriticalSection(Lock.READ);
-      try {
-        try (QueryExecution queryExecution = QueryExecutionFactory
-          .create(QueryFactory.create(deleteQuery), mDb)) {
-          deleteModel = queryExecution.execConstruct();
-        }
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(deleteQuery), mDb)) {
+        deleteModel = queryExecution.execConstruct();
       } finally {
         mDb.leaveCriticalSection();
       }
@@ -444,11 +469,9 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
       String insertQuery = String.format(constructQueryTemplate, insert, where);
       Model insertModel;
       mDb.enterCriticalSection(Lock.READ);
-      try {
-        try (QueryExecution queryExecution = QueryExecutionFactory
-          .create(QueryFactory.create(insertQuery), mDb)) {
-          insertModel = queryExecution.execConstruct();
-        }
+      try (QueryExecution queryExecution = QueryExecutionFactory
+        .create(QueryFactory.create(insertQuery), mDb)) {
+        insertModel = queryExecution.execConstruct();
       } finally {
         mDb.leaveCriticalSection();
       }
@@ -468,14 +491,12 @@ public class TriplestoreRepository extends Repository implements Readable, Writa
     String result = aId;
 
     mDb.enterCriticalSection(Lock.READ);
-    try {
-      try (QueryExecution queryExecution = QueryExecutionFactory
-        .create(QueryFactory.create(labelQuery), mDb)) {
-        ResultSet resultSet = queryExecution.execSelect();
-        while (resultSet.hasNext()) {
-          QuerySolution querySolution = resultSet.next();
-          result = querySolution.get("name").asLiteral().getString();
-        }
+    try (QueryExecution queryExecution = QueryExecutionFactory
+      .create(QueryFactory.create(labelQuery), mDb)) {
+      ResultSet resultSet = queryExecution.execSelect();
+      while (resultSet.hasNext()) {
+        QuerySolution querySolution = resultSet.next();
+        result = querySolution.get("name").asLiteral().getString();
       }
     } finally {
       mDb.leaveCriticalSection();

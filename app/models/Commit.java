@@ -32,7 +32,6 @@ public interface Commit {
 
     ZonedDateTime getTimestamp();
 
-    Map<String, String> toMap();
   }
 
   Diff getDiff();

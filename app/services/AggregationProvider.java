@@ -1,7 +1,5 @@
 package services;
 
-import java.util.Arrays;
-import java.util.List;
 import models.Record;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -12,6 +10,9 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInter
 import org.elasticsearch.search.aggregations.bucket.terms.IncludeExclude;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author fo

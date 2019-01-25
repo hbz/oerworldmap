@@ -1,7 +1,6 @@
 package controllers;
 
 import play.Configuration;
-import play.Environment;
 import play.mvc.Controller;
 import play.mvc.Result;
 

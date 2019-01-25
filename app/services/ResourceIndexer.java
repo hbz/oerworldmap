@@ -15,6 +15,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.Lock;
 import play.Logger;
+import services.repository.TriplestoreRepository;
 import services.repository.Writable;
 
 import java.io.IOException;
@@ -30,10 +31,11 @@ import java.util.Set;
  */
 public class ResourceIndexer {
 
-  Model mDb;
-  Writable mTargetRepo;
-  GraphHistory mGraphHistory;
-  AccountService mAccountService;
+  private Model mDb;
+  private Writable mTargetRepo;
+  private GraphHistory mGraphHistory;
+  private AccountService mAccountService;
+  private String mContextUrl;
 
   private final static String GLOBAL_QUERY_TEMPLATE =
     "SELECT DISTINCT ?s WHERE {" +
@@ -50,11 +52,13 @@ public class ResourceIndexer {
       "    FILTER ( !BOUND(?y) ) " +
       "}";
 
-  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory, AccountService aAccountService) {
-    this.mDb = aDb;
-    this.mTargetRepo = aTargetRepo;
-    this.mGraphHistory = aGraphHistory;
-    this.mAccountService = aAccountService;
+  public ResourceIndexer(Model aDb, Writable aTargetRepo, GraphHistory aGraphHistory, AccountService aAccountService,
+                         String aContextUrl) {
+    mDb = aDb;
+    mTargetRepo = aTargetRepo;
+    mGraphHistory = aGraphHistory;
+    mAccountService = aAccountService;
+    mContextUrl = aContextUrl;
   }
 
   /**
@@ -63,7 +67,7 @@ public class ResourceIndexer {
    * @param aDiff The diff from which to extract resources
    * @return The list of resources touched by the diff
    */
-  public Set<String> getScope(Commit.Diff aDiff) {
+  private Set<String> getScope(Commit.Diff aDiff) {
 
     Set<String> commitScope = new HashSet<>();
     Set<String> indexScope = new HashSet<>();
@@ -97,7 +101,7 @@ public class ResourceIndexer {
    * @param aIds The list of resources for which to find related resources
    * @return The list of related resources
    */
-  public Set<String> getScope(Set<String> aIds) {
+  private Set<String> getScope(Set<String> aIds) {
 
     Set<String> indexScope = new HashSet<>();
     mDb.enterCriticalSection(Lock.READ);
@@ -118,7 +122,7 @@ public class ResourceIndexer {
    * @param aId A resource for which to find related resources
    * @return The list of related resources
    */
-  public Set<String> getScope(String aId) {
+  private Set<String> getScope(String aId) {
 
     Set<String> indexScope = new HashSet<>();
     String query = String.format(SCOPE_QUERY_TEMPLATE, aId);
@@ -171,7 +175,8 @@ public class ResourceIndexer {
   public Resource getResource(String aId) {
 
     try {
-      Resource resource = ResourceFramer.resourceFromModel(mDb, aId);
+      Resource resource = ResourceFramer.resourceFromModel(TriplestoreRepository.getExtendedDescription(aId, mDb),
+        aId, mContextUrl);
       if (resource != null) {
         return resource;
       }
@@ -182,7 +187,7 @@ public class ResourceIndexer {
     return null;
   }
 
-  public Set<Resource> getResources(String aId) {
+  private Set<Resource> getResources(String aId) {
 
     Set<Resource> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aId);
@@ -193,7 +198,7 @@ public class ResourceIndexer {
     return resourcesToIndex;
   }
 
-  public Set<Resource> getResources(Commit.Diff aDiff) {
+  private Set<Resource> getResources(Commit.Diff aDiff) {
 
     Set<Resource> resourcesToIndex = new HashSet<>();
     Set<String> idsToIndex = this.getScope(aDiff);

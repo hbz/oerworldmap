@@ -1,8 +1,10 @@
 package models;
 
+import models.TripleCommit.Diff.Line;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.atlas.RuntimeIOException;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -11,6 +13,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.vocabulary.RDF;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,11 +21,8 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -39,27 +39,47 @@ public class TripleCommit implements Commit {
 
     public static final String AUTHOR_HEADER = "Author";
     public static final String DATE_HEADER = "Date";
-    public static final String HEADER_SEPARATOR = ": ";
+    static final String PRIMARY_TOPIC_HEADER = "Primary topic";
+    static final String MIGRATION_FLAG_HEADER = "Is migration";
+    static final String MIGRATION_FLAG = "true";
+    static final String HEADER_SEPARATOR = ": ";
 
-    public final String author;
-    public final ZonedDateTime timestamp;
+    private final String author;
+    private final ZonedDateTime timestamp;
+    private final String primaryTopic;
+    private final boolean isMigration;
 
     public Header(final String aAuthor, final ZonedDateTime aTimestamp) {
+      this(aAuthor, aTimestamp, null, false);
+    }
+
+    public Header(final String aAuthor, final ZonedDateTime aTimestamp, final String aPrimaryTopic) {
+      this(aAuthor, aTimestamp, aPrimaryTopic, false);
+    }
+
+    public Header(final String aAuthor, final ZonedDateTime aTimestamp, final boolean aIsMigration) {
+      this(aAuthor, aTimestamp, null, aIsMigration);
+    }
+
+    public Header(final String aAuthor, final ZonedDateTime aTimestamp, final String aPrimaryTopic,
+                  final boolean aIsMigration) {
       this.author = aAuthor;
       this.timestamp = aTimestamp;
+      this.primaryTopic = aPrimaryTopic;
+      this.isMigration = aIsMigration;
     }
 
     public String toString() {
-      return AUTHOR_HEADER.concat(HEADER_SEPARATOR).concat(author).concat("\n").concat(DATE_HEADER)
-        .concat(HEADER_SEPARATOR).concat(timestamp.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
-        .concat("\n");
-    }
-
-    public Map<String, String> toMap() {
-      Map<String, String> map = new HashMap<>();
-      map.put(AUTHOR_HEADER, author);
-      map.put(DATE_HEADER, timestamp.toString());
-      return map;
+      String _timestamp =  timestamp.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+      String commit = AUTHOR_HEADER.concat(HEADER_SEPARATOR).concat(author).concat("\n")
+        .concat(DATE_HEADER).concat(HEADER_SEPARATOR).concat(_timestamp).concat("\n");
+      if (primaryTopic != null) {
+        commit += PRIMARY_TOPIC_HEADER.concat(HEADER_SEPARATOR).concat(primaryTopic).concat("\n");
+      }
+      if (isMigration) {
+        commit += MIGRATION_FLAG_HEADER.concat(HEADER_SEPARATOR).concat(MIGRATION_FLAG).concat("\n");
+      }
+      return commit;
     }
 
     public String getAuthor() {
@@ -70,37 +90,49 @@ public class TripleCommit implements Commit {
       return this.timestamp;
     }
 
-    public static Header fromString(String aHeaderString) {
+    public String getPrimaryTopic() {
+      return this.primaryTopic;
+    }
 
+    public boolean isMigration() {
+      return this.isMigration;
+    }
+
+    static Header fromString(String aHeaderString) {
       Scanner scanner = new Scanner(aHeaderString);
-      String authorHeader;
-      try {
-        authorHeader = scanner.nextLine();
-      } catch (NoSuchElementException e) {
-        throw new IllegalArgumentException("Header missing author line");
-      }
-      String author = authorHeader.substring(8);
-      if (!authorHeader.startsWith("Author: ") || StringUtils.isEmpty(author)) {
-        throw new IllegalArgumentException("Header missing author");
-      }
-
-      String timestampHeader;
-      try {
-        timestampHeader = scanner.nextLine();
-      } catch (NoSuchElementException e) {
-        throw new IllegalArgumentException("Header missing author line");
-      }
-
+      String author = null;
       ZonedDateTime timestamp = null;
-      try {
-        timestamp = ZonedDateTime.parse(timestampHeader.substring(6));
-        if (!timestampHeader.startsWith("Date: ")) {
-          throw new IllegalArgumentException("Header missing date line");
+      String primaryTopic = null;
+      boolean isMigration = false;
+
+      while(scanner.hasNextLine()) {
+        String headerLine = scanner.nextLine();
+        String[] header = headerLine.split(":", 2);
+        String headerName = header[0];
+        String headerValue = header[1].trim();
+        switch (headerName) {
+          case AUTHOR_HEADER:
+            author = headerValue;
+            break;
+          case DATE_HEADER:
+            timestamp = ZonedDateTime.parse(headerValue);
+            break;
+          case PRIMARY_TOPIC_HEADER:
+            primaryTopic = headerValue;
+            break;
+          case MIGRATION_FLAG_HEADER:
+            isMigration = headerValue.equals(MIGRATION_FLAG);
+            break;
+          default:
+            throw new IllegalArgumentException("Invalid header");
         }
-      } catch (DateTimeParseException e) {
-        throw new IllegalArgumentException("Header contains invalid date");
       }
-      return new Header(author, timestamp);
+
+      if (author == null || timestamp == null) {
+        throw new IllegalArgumentException("Invalid commit");
+      }
+
+      return new Header(author, timestamp, primaryTopic, isMigration);
     }
   }
 
@@ -113,7 +145,7 @@ public class TripleCommit implements Commit {
       //public final boolean add;
       public final Statement stmt;
 
-      public Line(Statement stmt, boolean add) {
+      Line(Statement stmt, boolean add) {
         this.add = add;
         this.stmt = stmt;
       }
@@ -164,7 +196,7 @@ public class TripleCommit implements Commit {
       unapply((Model) model);
     }
 
-    public void unapply(Model model) {
+    void unapply(Model model) {
       for (Commit.Diff.Line line : this.mLines) {
         if (line.add) {
           model.remove(((Line) line).stmt);
@@ -236,6 +268,16 @@ public class TripleCommit implements Commit {
     }
   }
 
+  private static class Properties {
+    static String eccrev = "https://vocab.eccenca.com/revision/";
+    static Property previousCommit = ResourceFactory.createProperty(eccrev, "previousCommit");
+    static Property commitAuthor = ResourceFactory.createProperty(eccrev, "commitAuthor");
+    static Property atTime = ResourceFactory.createProperty(eccrev, "atTime");
+    static Property hasRevision = ResourceFactory.createProperty(eccrev, "hasRevision");
+    static Property deltaInsert = ResourceFactory.createProperty(eccrev, "deltaInsert");
+    static Property deltaDelete = ResourceFactory.createProperty(eccrev, "deltaDelete");
+  }
+
   public TripleCommit(Header aHeader, Commit.Diff aDiff) {
     mHeader = aHeader;
     mDiff = aDiff;
@@ -258,7 +300,6 @@ public class TripleCommit implements Commit {
   }
 
   public boolean equals(Object aOther) {
-
     return aOther instanceof TripleCommit && this.getId().equals(((TripleCommit) aOther).getId());
   }
 
@@ -269,4 +310,64 @@ public class TripleCommit implements Commit {
     }
     return new TripleCommit(Header.fromString(parts[0]), Diff.fromString(parts[1]));
   }
+
+  private Model getInsertions() {
+    Model deltaInsert = ModelFactory.createDefaultModel();
+    for (Commit.Diff.Line line : this.getDiff().getLines()) {
+      Line diffLine = ((Line) line);
+      if (diffLine.add) {
+        deltaInsert.add(diffLine.stmt);
+      }
+    }
+    return deltaInsert;
+  }
+
+  private Model getDeletions() {
+    Model deltaDelete = ModelFactory.createDefaultModel();
+    for (Commit.Diff.Line line : this.getDiff().getLines()) {
+      Line diffLine = ((Line) line);
+      if (!diffLine.add) {
+        deltaDelete.add(diffLine.stmt);
+      }
+    }
+    return deltaDelete;
+  }
+
+  public Resource getPrimaryTopic() {
+    if (this.getHeader().getPrimaryTopic() != null) {
+      return ResourceFactory.createResource(this.getHeader().getPrimaryTopic());
+    }
+    try {
+      return getInsertions().listResourcesWithProperty(RDF.type).nextResource();
+    } catch (NoSuchElementException e) {
+      for (Commit.Diff.Line line : this.getDiff().getLines()) {
+        Resource subject = ((Line) line).stmt.getSubject();
+        if (subject.isURIResource()) {
+          return subject;
+        }
+      }
+      return ((Line) this.getDiff().getLines().get(0)).stmt.getSubject();
+    }
+  }
+
+  public Dataset toRDF() {
+    Model commit = ModelFactory.createDefaultModel();
+    Resource deltaInsertGraph = commit.createResource(this.getId() + "#insert");
+    Resource deltaDeleteGraph = commit.createResource(this.getId() + "#delete");
+    Dataset changes = DatasetFactory.create(commit);
+    final Model deltaInsert = changes.getNamedModel(deltaInsertGraph.getURI());
+    final Model deltaDelete = changes.getNamedModel(deltaDeleteGraph.getURI());
+    deltaInsert.add(this.getInsertions());
+    deltaDelete.add(this.getDeletions());
+    final Resource revision = commit.createResource()
+      .addProperty(Properties.deltaInsert, deltaInsertGraph)
+      .addProperty(Properties.deltaDelete, deltaDeleteGraph);
+    final Commit.Header header = this.getHeader();
+    commit.createResource(this.getId())
+      .addProperty(Properties.commitAuthor, commit.createResource(header.getAuthor()))
+      .addProperty(Properties.atTime, header.getTimestamp().toString())
+      .addProperty(Properties.hasRevision, revision);
+    return changes;
+  }
+
 }

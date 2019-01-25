@@ -19,14 +19,18 @@ import play.Logger;
 import services.AccountService;
 import services.IndexQueue;
 import services.QueryContext;
-import services.ResourceFramer;
 import services.ResourceIndexer;
 
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
+import java.util.Map;
 
 public class BaseRepository extends Repository
   implements Readable, Writable, Queryable, Aggregatable, Versionable {
@@ -75,14 +79,14 @@ public class BaseRepository extends Repository
     GraphHistory graphHistory = new GraphHistory(commitDir, historyFile);
 
     Model mDb = dataset.getDefaultModel();
-    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory, aAccountService);
-    ResourceFramer.setContext(mConfiguration.getString("jsonld.context"));
+    mResourceIndexer = new ResourceIndexer(mDb, mElasticsearchRepo, graphHistory, aAccountService,
+      mConfiguration.getString("jsonld.context"));
 
     if (mDb.isEmpty() && mConfiguration.getBoolean("graph.history.autoload")) {
       List<Commit> commits = graphHistory.log();
-      Collections.reverse(commits);
-      for (Commit commit : commits) {
-        commit.getDiff().apply(mDb);
+      ListIterator<Commit> listIterator = commits.listIterator(commits.size());
+      while (listIterator.hasPrevious()) {
+        listIterator.previous().getDiff().apply(mDb);
       }
       Logger.info("Loaded commit history to triple store");
       mResourceIndexer.index("*");
@@ -116,7 +120,8 @@ public class BaseRepository extends Repository
 
     TripleCommit.Header header = new TripleCommit.Header(
       aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)),
+      aResource.getId());
 
     Commit.Diff diff = mTriplestoreRepository.getDiff(aResource);
     Commit commit = new TripleCommit(header, diff);
@@ -135,13 +140,13 @@ public class BaseRepository extends Repository
   public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata)
     throws IOException {
 
-    TripleCommit.Header header = new TripleCommit.Header(
-      aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
-
     List<Commit> commits = new ArrayList<>();
     Commit.Diff indexDiff = new TripleCommit.Diff();
     for (Resource resource : aResources) {
+      TripleCommit.Header header = new TripleCommit.Header(
+        aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
+        ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)),
+        resource.getId());
       Commit.Diff diff = mTriplestoreRepository.getDiff(resource);
       indexDiff.append(diff);
       commits.add(new TripleCommit(header, diff));
@@ -214,6 +219,16 @@ public class BaseRepository extends Repository
   public Resource getResource(@Nonnull String aId, String aVersion) {
     return mTriplestoreRepository.getResource(aId, aVersion);
   }
+
+  public boolean hasResource(String aId) {
+    return mTriplestoreRepository.hasResource(aId);
+  }
+
+  // Get a resource quickly, but with the possibility of it being stale
+  // because an indexing job is not done jet
+  // public Resource getResourceUnsafe(@Nonnull String aId) {
+  //  return mElasticsearchRepo.getResource(aId);
+  //}
 
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     return mElasticsearchRepo.getResources(aField, aValue);
