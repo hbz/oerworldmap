@@ -264,8 +264,16 @@ public class UserIndex extends OERWorldMap {
     if (StringUtils.isEmpty(username)) {
       return notFound();
     }
-    JsonNode result = profile(username);
-    return result != null ? ok(result) : notFound();
+    Resource profile = mBaseRepository.getResource(username);
+    if (profile == null) {
+      Logger.warn("No profile for " + username);
+      return notFound();
+    }
+    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    result.put("username", username);
+    result.put("id", profile.getId());
+    result.set("name", profile.toJson().get("name"));
+    return ok(result);
   }
 
   private JsonNode profile(String aUsername) {

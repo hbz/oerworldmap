@@ -1,14 +1,9 @@
 package controllers;
 
-import java.nio.charset.StandardCharsets;
-import org.apache.commons.lang3.StringUtils;
-import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -16,34 +11,17 @@ import java.util.concurrent.CompletionStage;
  */
 class Authorized extends Action.Simple {
 
-  private static final String AUTHORIZATION = "authorization";
+  private static final String OIDC_CLAIM_SUB = "oidc_claim_sub";
+  private static final String OIDC_CLAIM_LEGACYID = "oidc_claim_legacyid";
 
   @Override
   public CompletionStage<Result> call(Http.Context ctx) {
-    String username = getHttpBasicAuthUser(ctx);
-    if (!StringUtils.isEmpty(username)) {
-      // FIXME: using this is the new way, but drops any headers subsequently set in controllers
-      //return delegate.call(new Http.Context(ctx.request().withUsername(username)));
-      ctx.request().setUsername(username);
+    if (ctx.request().hasHeader(OIDC_CLAIM_LEGACYID)) {
+      ctx.request().setUsername("urn:uuid:" + ctx.request().getHeader(OIDC_CLAIM_LEGACYID));
+    } else if (ctx.request().hasHeader(OIDC_CLAIM_SUB)) {
+      ctx.request().setUsername("urn:uuid:" + ctx.request().getHeader(OIDC_CLAIM_SUB));
     }
     return delegate.call(ctx);
   }
 
-  private String getHttpBasicAuthUser(Http.Context ctx) {
-    String authHeader = ctx.request().getHeader(AUTHORIZATION);
-    if (null == authHeader) {
-      return null;
-    }
-
-    String auth = authHeader.substring(6);
-    byte[] decoded = Base64.getDecoder().decode(auth);
-    String[] credentials;
-
-    credentials = new String(decoded, StandardCharsets.UTF_8).split(":");
-    if (credentials.length != 2) {
-      return null;
-    }
-
-    return credentials[0];
-  }
 }
