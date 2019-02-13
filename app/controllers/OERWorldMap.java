@@ -59,12 +59,14 @@ public abstract class OERWorldMap extends Controller {
   }
 
   private static synchronized void createAccountService(Configuration aConf) {
+    Configuration keycloakConfig = aConf.getConfig("keycloak");
     if (mAccountService == null) {
       mAccountService = new AccountService(
-        new File(aConf.getString("user.token.dir")),
-        new File(aConf.getString("ht.passwd")),
-        new File(aConf.getString("ht.groups")),
-        new File(aConf.getString("ht.profiles")),
+        keycloakConfig.getString("serverUrl"),
+        keycloakConfig.getString("realm"),
+        keycloakConfig.getString("username"),
+        keycloakConfig.getString("password"),
+        keycloakConfig.getString("client"),
         new File(aConf.getString("ht.permissions")));
       mAccountService.setApache2Ctl(aConf.getString("ht.apache2ctl.restart"));
     }
@@ -113,17 +115,6 @@ public abstract class OERWorldMap extends Controller {
       : null;
   }
 
-  public Locale getLocale() {
-    Locale locale = new Locale("en", "US");
-    if (mConf.getBoolean("i18n.enabled")) {
-      List<Lang> acceptLanguages = request().acceptLanguages();
-      if (acceptLanguages.size() > 0) {
-        locale = acceptLanguages.get(0).toLocale();
-      }
-    }
-    return locale;
-  }
-
   Resource getUser() {
     Resource user = null;
     Logger.trace("Username " + request().username());
@@ -141,10 +132,6 @@ public abstract class OERWorldMap extends Controller {
       roles.add("authenticated");
     }
     return new QueryContext(roles);
-  }
-
-  ResourceBundle getEmails() {
-    return ResourceBundle.getBundle("emails", getLocale());
   }
 
   String getLocation() {

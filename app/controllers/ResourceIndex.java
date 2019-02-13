@@ -375,9 +375,6 @@ public class ResourceIndex extends OERWorldMap {
         if (!mAccountService.removePermissions(aId)) {
           Logger.error("Could not remove permissions for " + aId);
         }
-        if (!mAccountService.setProfileId(username, null)) {
-          Logger.error("Could not unset profile ID for " + username);
-        }
         if (!mAccountService.deleteUser(username)) {
           Logger.error("Could not delete user " + username);
         }

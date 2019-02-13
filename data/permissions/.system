@@ -1,11 +1,21 @@
 ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/user/register>here</a>.</p>"
 
+OIDCProviderMetadataURL ${PUBLIC_SCHEME}://${PUBLIC_HOST}/auth/realms/oerworldmap/.well-known/openid-configuration
+OIDCRedirectURI ${PUBLIC_SCHEME}://${PUBLIC_HOST}/oauth2callback
+OIDCCryptoPassphrase ${OIDC_CRYPTO_PASSPHRASE}
+OIDCClientID ${OIDC_CLIENT_ID}
+OIDCClientSecret ${OIDC_CLIENT_SECRET}
+OIDCProviderTokenEndpointAuth client_secret_basic
+OIDCRemoteUserClaim email
+OIDCScope "openid email"
+
 <Location />
-  AuthType Basic
-  AuthName "Restricted Files"
-  AuthUserFile ${AUTH_DIR}/auth/htpasswd
-  AuthGroupFile ${AUTH_DIR}/auth/htgroups
+  AuthType openid-connect
   Require all granted
+</Location>
+
+<Location /oauth2callback>
+  Require valid-user
 </Location>
 
 RewriteEngine On
@@ -19,7 +29,7 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 
 <Location /.login>
   Require valid-user
-  Redirect "/.login" "/.loggedIn"
+  Redirect "/.login" "/resource/"
 </Location>
 
 <Location /.logout>
