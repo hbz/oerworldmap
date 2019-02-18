@@ -9,14 +9,12 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
-import helpers.SCHEMA;
 import models.Commit;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
 import models.TripleCommit;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jena.rdf.model.ResourceFactory;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
@@ -426,16 +424,19 @@ public class ResourceIndex extends OERWorldMap {
 
   public Result commentResource(String aId) throws IOException {
 
+    Resource resource = mBaseRepository.getResource(aId);
+
+    if (resource == null) {
+      return notFound();
+    }
+
     Resource comment = Resource.fromJson(getJsonFromRequest());
     comment.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     comment.put("author", getUser());
     comment.put("dateCreated", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    comment.put("commentOn", resource);
 
     TripleCommit.Diff diff = (TripleCommit.Diff) mBaseRepository.getDiff(comment);
-    diff.addStatement(ResourceFactory.createStatement(
-      ResourceFactory.createResource(aId), SCHEMA.comment,
-      ResourceFactory.createResource(comment.getId())
-    ));
 
     Map<String, String> metadata = getMetadata();
     TripleCommit.Header header = new TripleCommit.Header(
@@ -462,5 +463,43 @@ public class ResourceIndex extends OERWorldMap {
       "SELECT DISTINCT * WHERE {?uri <http://schema.org/name> ?label}")
       : mBaseRepository.label(URLDecoder.decode(aId, "UTF-8"))
     );
+  }
+
+  public Result activity(String until) {
+    List<Commit> activities = mBaseRepository.log(null);
+    ArrayNode result = JsonNodeFactory.instance.arrayNode();
+    String previousId = null;
+    for (Commit commit : activities) {
+      if (result.size() == 20 || (until != null && commit.getId().equals(until))) {
+        break;
+      }
+      String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
+      // Skip empty commits, commits on same subject and deleted resources
+      if (id == null
+        || id.equals(previousId)
+        || ((TripleCommit) commit).getHeader().isMigration()
+        || !mBaseRepository.hasResource(id))
+      {
+        continue;
+      }
+      previousId = id;
+      Resource resource = mBaseRepository.getResource(id);
+      ObjectNode entry = JsonNodeFactory.instance.objectNode();
+      String profileId = mAccountService.getProfileId(commit.getHeader().getAuthor());
+      if (profileId != null) {
+        Resource user = mBaseRepository.getResource(profileId);
+        if (user != null) {
+          entry.set("user", user.toJson());
+        }
+      }
+      ObjectNode action = JsonNodeFactory.instance.objectNode();
+      action.put("time", commit.getHeader().getTimestamp().toString());
+      action.put("type", (mBaseRepository.log(id).size() > 1 ? "edit" : "add"));
+      entry.set("about", resource.toJson());
+      entry.set("action", action);
+      entry.put("id", commit.getId());
+      result.add(entry);
+    }
+    return ok(result);
   }
 }

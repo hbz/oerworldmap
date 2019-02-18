@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
   "org.elasticsearch" % "elasticsearch" % "6.2.1",
   "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "6.2.1",
   "org.apache.jena" % "apache-jena-libs" % "3.1.1",
+  "com.github.jsonld-java" % "jsonld-java" % "0.12.3",
   "com.maxmind.geoip2" % "geoip2" % "2.8.0",
   "org.python" % "jython-standalone" % "2.7.1b2",
   "org.apache.httpcomponents" % "httpclient" % "4.5.5"

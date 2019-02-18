@@ -82,6 +82,41 @@ public class TripleCommitTest {
     assertNotNull(commit);
   }
 
+  @Test
+  public void testValidCommitWithImplicitTopic() {
+    TripleCommit commit = TripleCommit.fromString(
+      "Author: Foo Bar <foo@bar.de>\n" +
+        "Date: 2007-12-03T10:15:30+01:00\n" +
+        "\n" +
+        "+ <urn:uuid:foo> <urn:uuid:bar> <urn:uuid:baz> .");
+    assertNotNull(commit);
+    assertEquals(commit.getPrimaryTopic().getURI(), "urn:uuid:foo");
+  }
+
+  @Test
+  public void testValidCommitWithExplicitTopic() {
+    TripleCommit commit = TripleCommit.fromString(
+      "Author: Foo Bar <foo@bar.de>\n" +
+        "Date: 2007-12-03T10:15:30+01:00\n" +
+        "Primary topic: urn:uuid:baz\n" +
+        "\n" +
+        "+ <urn:uuid:foo> <urn:uuid:bar> <urn:uuid:baz> .");
+    assertNotNull(commit);
+    assertEquals(commit.getPrimaryTopic().getURI(), "urn:uuid:baz");
+  }
+
+  @Test
+  public void testValidCommitWithMigrationFlag() {
+    TripleCommit commit = TripleCommit.fromString(
+      "Author: Foo Bar <foo@bar.de>\n" +
+        "Date: 2007-12-03T10:15:30+01:00\n" +
+        "Is migration: true\n" +
+        "\n" +
+        "+ <urn:uuid:foo> <urn:uuid:bar> <urn:uuid:baz> .");
+    assertNotNull(commit);
+    assertTrue(commit.getHeader().isMigration());
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidCommit() {
     TripleCommit commit = TripleCommit.fromString(

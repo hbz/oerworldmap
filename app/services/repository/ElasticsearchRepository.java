@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -31,7 +29,13 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
+import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
+import org.elasticsearch.index.query.Operator;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
@@ -52,7 +56,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
@@ -101,7 +113,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public Resource getResource(@Nonnull String aId) {
     try {
-      return Resource.fromMap(getDocument(Record.TYPE, aId));
+      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId, Charset.defaultCharset().name())
+        .concat(".").concat(Record.RESOURCE_KEY)));
+      return record != null ? record.getAsResource(Record.RESOURCE_KEY) : null;
     } catch (IOException e) {
       Logger.error("Failed getting document.", e);
     }
@@ -132,13 +146,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   @Override
   public Resource deleteResource(@Nonnull String aId, Map<String, String> aMetadata) {
-    Resource resource = getResource(aId.concat(".").concat(Record.RESOURCE_KEY));
+    Resource resource = getResource(aId);
     if (null == resource) {
       return null;
     }
     boolean found = false;
     try {
-      found = deleteDocument(Record.TYPE, resource.getId());
+      found = deleteDocument(Record.TYPE, resource.getId().concat(".").concat(Record.RESOURCE_KEY));
     } catch (IOException e) {
       Logger.error("Failed deleting document.", e);
     }

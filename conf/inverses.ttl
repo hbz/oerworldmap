@@ -45,3 +45,5 @@ dcterms:hasPart owl:inverseOf dcterms:isPartOf .
 :objectIn owl:inverseOf :object .
 :result owl:inverseOf :resultOf .
 :resultOf owl:inverseOf :result .
+:comment owl:inverseOf :commentOn .
+:commentOn owl:inverseOf :comment .

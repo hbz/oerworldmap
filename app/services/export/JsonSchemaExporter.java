@@ -3,10 +3,11 @@ package services.export;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.util.Arrays;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
+
+import java.util.Arrays;
 
 /**
  * Created by fo on 27.07.17.
