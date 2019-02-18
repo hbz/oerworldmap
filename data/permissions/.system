@@ -29,13 +29,15 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 
 <Location /.login>
   Require valid-user
-  Redirect "/.login" "/resource/"
+  Redirect "/.login" "/.loggedIn"
 </Location>
 
-<Location /.logout>
-  AuthUserFile /dev/null
-  Require valid-user
-</Location>
+RewriteCond %{REQUEST_URI}  ^/.logout
+RewriteCond %{QUERY_STRING} ^continue=(.*)$
+RewriteRule ^/?.logout /oauth2callback?logout=%1 [R=302,L,QSD,NE]
+
+RewriteCond %{REQUEST_URI}  ^/.logout
+RewriteRule ^/?.logout /oauth2callback?logout=${PUBLIC_SCHEME}://${PUBLIC_HOST}/resource/ [R=302,L,QSD,NE]
 
 <Location /resource/>
   <LimitExcept GET DELETE>
