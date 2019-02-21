@@ -36,7 +36,6 @@ public class AccountService {
     File aPermissionsDir) {
     mPermissionsDir = aPermissionsDir;
     mRealm = Keycloak.getInstance(aServerUrl, "master", aUsername, aPassword, aClientId).realm(aRealm);
-    mRealm.users().list().forEach(user -> System.out.println(user.getAttributes()));
   }
 
   public void setPermissions(String aId, String aUser) {
@@ -86,7 +85,10 @@ public class AccountService {
 
   public String getProfileId(String username) {
     UserRepresentation user = getUser(username);
-    return user != null ? user.getId() : null;
+    if (user != null && user.getAttributes().containsKey("profile_id")) {
+      return user.getAttributes().get("profile_id").get(0);
+    }
+    return null;
   }
 
   public String getUsername(String profileId) {
