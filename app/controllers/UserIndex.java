@@ -31,9 +31,14 @@ public class UserIndex extends OERWorldMap {
       Logger.warn("No profile for " + request().username());
       return notFound();
     }
-    ObjectNode result = JsonNodeFactory.instance.objectNode();
+    ObjectNode result = mObjectMapper.createObjectNode();
     result.put("username", request().username());
-    //FIXME: add groups
+    String groups = (String) ctx().args.get("groups");
+    if (StringUtils.isEmpty(groups)) {
+      result.set("groups", mObjectMapper.createArrayNode());
+    } else {
+      result.set("groups", mObjectMapper.valueToTree(groups.split(",")));
+    }
     result.put("id", profile.getId());
     result.set("name", profile.toJson().get("name"));
     return ok(result);
