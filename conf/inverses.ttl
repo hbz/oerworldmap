@@ -47,3 +47,5 @@ dcterms:hasPart owl:inverseOf dcterms:isPartOf .
 :resultOf owl:inverseOf :result .
 :comment owl:inverseOf :commentOn .
 :commentOn owl:inverseOf :comment .
+:isBasedOn owl:inverseOf :isBasisFor .
+:isBasisFor owl:inverseOf :isBasedOn .
