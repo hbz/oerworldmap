@@ -54,6 +54,10 @@ in `conf/application.conf` before restarting.
     $ curl -X DELETE http://localhost:9200/oerworldmap/
     $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 
+#### Set up Keycloak
+
+bin/standalone.sh -Dkeycloak.profile.feature.scripts=enabled
+
 #### Set up Apache
 
     $ sudo apt-get install apache2

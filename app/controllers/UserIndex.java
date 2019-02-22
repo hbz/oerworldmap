@@ -1,6 +1,5 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
 import models.Resource;
@@ -66,6 +65,7 @@ public class UserIndex extends OERWorldMap {
         .put("addressCountry", country)
       )
     );
+
     try {
       mBaseRepository.addResource(Resource.fromJson(profile), getMetadata());
       mAccountService.setPermissions(id, username);
