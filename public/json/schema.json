@@ -306,13 +306,16 @@
           "title": "WebPage.spatialCoverage",
           "type": "string",
           "enum": [
-            "Global",
+            "Multi-national",
             "National",
+            "Multi-state",
             "State",
-            "Institution - Primary",
-            "Institution - Secondary",
-            "Institution - Tertiary",
-            "System"
+            "Multi-regional",
+            "Regional/Local",
+            "Multi-Institutional",
+            "Institutional",
+            "Multi-departmental",
+            "Departmental"
           ]
         },
         "status": {
