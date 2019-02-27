@@ -421,6 +421,28 @@
           "_display": {
             "className": "hidden"
           }
+        },
+        "isBasedOn": {
+          "title": "WebPage.isBasedOn",
+          "description": "descriptions.WebPage.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "isBasisFor": {
+          "title": "WebPage.isBasisFor",
+          "description": "descriptions.WebPage.isBasisFor",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service" ] } } }
+            ]
+          }
         }
       },
       "required": [ "name", "url" ],
@@ -1180,6 +1202,17 @@
           "_display": {
             "className": "hidden"
           }
+        },
+        "isBasedOn": {
+          "title": "Action.isBasedOn",
+          "description": "descriptions.Action.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -1621,6 +1654,17 @@
           },
           "_display": {
             "className": "hidden"
+          }
+        },
+        "isBasedOn": {
+          "title": "Service.isBasedOn",
+          "description": "descriptions.Service.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
           }
         }
       },
