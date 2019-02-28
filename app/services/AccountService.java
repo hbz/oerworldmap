@@ -22,7 +22,7 @@ public class AccountService {
   private static final String mLimitWriteDirective =
     "<Location /resource/%s>\n" +
       "  <LimitExcept GET>\n" +
-      "    Require group admin\n" +
+      "    Require claim groups:admin\n" +
       "    Require user %s\n" +
       "  </LimitExcept>\n" +
       "</Location>";

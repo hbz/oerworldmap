@@ -42,10 +42,10 @@ RewriteRule ^/?.logout /oauth2callback?logout=${PUBLIC_SCHEME}://${PUBLIC_HOST}/
 <Location /resource/>
   <LimitExcept GET DELETE>
     Require valid-user
-    Require group admin
+    Require claim groups:admin
   </LimitExcept>
   <Limit DELETE>
-    Require group admin
+    Require claim groups:admin
   </Limit>
 </Location>
 
@@ -58,28 +58,28 @@ RewriteRule ^/?.logout /oauth2callback?logout=${PUBLIC_SCHEME}://${PUBLIC_HOST}/
 </Location>
 
 <Location /log/>
-  Require group editor
-  Require group admin
+  Require claim groups:editor
+  Require claim groups:admin
 </Location>
 
 <Location /record/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /import/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /index/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /user/groups>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /sparql/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /user/password>
