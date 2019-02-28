@@ -69,7 +69,7 @@ public class UserIndex extends OERWorldMap {
     try {
       mBaseRepository.addResource(Resource.fromJson(profile), getMetadata());
       mAccountService.setPermissions(id, username);
-      return ok(profile);
+      return created(profile);
     } catch (IOException e) {
       return internalServerError();
     }
