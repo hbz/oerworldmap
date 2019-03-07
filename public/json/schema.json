@@ -202,13 +202,16 @@
           "title": "WebPage.spatialCoverage",
           "type": "string",
           "enum": [
-            "Global",
+            "Multi-national",
             "National",
+            "Multi-state",
             "State",
-            "Institution - Primary",
-            "Institution - Secondary",
-            "Institution - Tertiary",
-            "System"
+            "Multi-regional",
+            "Regional/Local",
+            "Multi-Institutional",
+            "Institutional",
+            "Multi-departmental",
+            "Departmental"
           ]
         },
         "status": {
@@ -313,6 +316,28 @@
           },
           "_display": {
             "className": "hidden"
+          }
+        },
+        "isBasedOn": {
+          "title": "WebPage.isBasedOn",
+          "description": "descriptions.WebPage.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
+        },
+        "isBasisFor": {
+          "title": "WebPage.isBasisFor",
+          "description": "descriptions.WebPage.isBasisFor",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service" ] } } }
+            ]
           }
         }
       },
@@ -1073,6 +1098,17 @@
           "_display": {
             "className": "hidden"
           }
+        },
+        "isBasedOn": {
+          "title": "Action.isBasedOn",
+          "description": "descriptions.Action.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
+          }
         }
       },
       "allOf": [
@@ -1514,6 +1550,17 @@
           },
           "_display": {
             "className": "hidden"
+          }
+        },
+        "isBasedOn": {
+          "title": "Service.isBasedOn",
+          "description": "descriptions.Service.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+            ]
           }
         }
       },

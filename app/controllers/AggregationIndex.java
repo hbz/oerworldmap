@@ -43,14 +43,6 @@ public class AggregationIndex extends OERWorldMap {
     // Enrich with aggregation labels
     Resource aggregations = mBaseRepository
       .aggregate(statisticsAggregations, new QueryContext(null));
-    for (String agg : aggregations.keySet()) {
-      if (agg.endsWith("@id")) {
-        for (Resource bucket : aggregations.getAsResource(agg).getAsList("buckets")) {
-          bucket
-            .put("label", mBaseRepository.getResource(bucket.getAsString("key")).getAsList("name"));
-        }
-      }
-    }
 
     return ok(aggregations.toJson());
   }
