@@ -302,27 +302,6 @@
             ]
           }
         },
-        "spatialCoverage": {
-          "title": "WebPage.spatialCoverage",
-          "type": "string",
-          "enum": [
-            "Multi-national",
-            "National",
-            "Multi-state",
-            "State",
-            "Multi-regional",
-            "Regional/Local",
-            "Multi-Institutional",
-            "Institutional",
-            "Multi-departmental",
-            "Departmental"
-          ]
-        },
-        "status": {
-          "title": "WebPage.status",
-          "type": "string",
-          "enum": [ "Proposed", "Current", "Deactivated" ]
-        },
         "location": {
           "type": "object",
           "properties": {
