@@ -22,7 +22,6 @@
       "@value": "My OER Policy"
     }
   ],
-  "status": "Deactivated",
   "inLanguage": ["en"],
   "description": [
       {
@@ -50,6 +49,5 @@
       "@id": "urn:uuid:164a5d61-8d20-401f-a157-7132b60f22ff",
       "@type": "Organization"
     }
-  ],
-  "spatialCoverage": "Institutional"
+  ]
 }
