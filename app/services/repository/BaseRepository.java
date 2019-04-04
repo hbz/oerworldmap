@@ -168,7 +168,8 @@ public class BaseRepository extends Repository
 
     TripleCommit.Header header = new TripleCommit.Header(
       aMetadata.get(TripleCommit.Header.AUTHOR_HEADER),
-      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)));
+      ZonedDateTime.parse(aMetadata.get(TripleCommit.Header.DATE_HEADER)),
+      true);
     mTriplestoreRepository.commit(new TripleCommit(header, diff));
     index(diff);
   }
