@@ -33,6 +33,9 @@
       "$ref": "#/definitions/WebPage"
     },
     {
+      "$ref": "#/definitions/Policy"
+    },
+    {
       "$ref": "#/definitions/LikeAction"
     },
     {
@@ -198,27 +201,6 @@
             ]
           }
         },
-        "spatialCoverage": {
-          "title": "WebPage.spatialCoverage",
-          "type": "string",
-          "enum": [
-            "Multi-national",
-            "National",
-            "Multi-state",
-            "State",
-            "Multi-regional",
-            "Regional/Local",
-            "Multi-Institutional",
-            "Institutional",
-            "Multi-departmental",
-            "Departmental"
-          ]
-        },
-        "status": {
-          "title": "WebPage.status",
-          "type": "string",
-          "enum": [ "Proposed", "Current", "Deactivated" ]
-        },
         "location": {
           "type": "object",
           "properties": {
@@ -336,8 +318,342 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service" ] } } }
+              { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service", "Policy" ] } } }
             ]
+          }
+        },
+        "mentions": {
+          "title": "WebPage.mentions",
+          "description": "descriptions.WebPage.mentions",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event", "Policy" ] } } }
+            ]
+          }
+        }
+      },
+      "required": [ "name", "url" ],
+      "additionalProperties": false
+    },
+    "Policy": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Policy",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Policy"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "name": {
+          "title": "Policy.name",
+          "description": "descriptions.Policy.name",
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "url": {
+          "title": "Policy.url",
+          "description": "descriptions.Policy.url",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "placeholder": "http://example.org/"
+          }
+        },
+        "additionalType": {
+          "title": "Policy.additionalType",
+          "description": "descriptions.Policy.additionalType",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/policyTypes.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "scope": {
+          "title": "Policy.scope",
+          "description": "descriptions.Policy.scope",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/policies.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "description": {
+          "title": "Policy.description",
+          "description": "descriptions.Policy.description",
+          "$ref": "#/definitions/LocalizedText"
+        },
+        "keywords": {
+          "title": "Policy.keywords",
+          "description": "descriptions.Policy.keywords",
+          "_widget": "KeywordSelect",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "creator": {
+          "title": "Policy.creator",
+          "description": "descriptions.Policy.creator",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
+            ]
+          }
+        },
+        "citation": {
+          "title": "Policy.citation",
+          "description": "descriptions.Policy.citation",
+          "type": "string",
+          "_display": {
+            "rows": 3
+          }
+        },
+        "publisher": {
+          "title": "Policy.publisher",
+          "description": "descriptions.Policy.publisher",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
+            ]
+          }
+        },
+        "datePublished": {
+          "title": "Policy.datePublished",
+          "description": "descriptions.Policy.datePublished",
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "inLanguage": {
+          "title": "Policy.inLanguage",
+          "description": "descriptions.Policy.inLanguage",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        },
+        "license": {
+          "title": "Policy.license",
+          "description": "descriptions.Policy.license",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "spatialCoverage": {
+          "title": "Policy.spatialCoverage",
+          "description": "descriptions.Policy.spatialCoverage",
+          "type": "string",
+          "enum": [
+            "Multi-national",
+            "National",
+            "Multi-state",
+            "State",
+            "Multi-regional",
+            "Regional/Local",
+            "Multi-Institutional",
+            "Institutional",
+            "Multi-departmental",
+            "Departmental"
+          ]
+        },
+        "status": {
+          "title": "Policy.status",
+          "description": "descriptions.Policy.status",
+          "type": "string",
+          "enum": [ "Proposed", "Current", "Deactivated" ]
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "object",
+              "properties": {
+                "addressCountry": {
+                  "title": "PostalAddress.addressCountry",
+                  "$ref": "#/definitions/Country"
+                },
+                "addressRegion": {
+                  "title": "PostalAddress.addressRegion",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "comment": {
+          "title": "Policy.comment",
+          "description": "descriptions.Policy.comment",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "award": {
+          "title": "Policy.award",
+          "description": "descriptions.Policy.award",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
+        "primarySector": {
+          "title": "Policy.primarySector",
+          "description": "descriptions.Policy.primarySector",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "secondarySector": {
+          "title": "Policy.secondarySector",
+          "description": "descriptions.Policy.secondarySector",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/sectors.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "objectIn": {
+          "title": "Policy.objectIn",
+          "description": "descriptions.Policy.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "isBasedOn": {
+          "title": "Policy.isBasedOn",
+          "description": "descriptions.Policy.isBasedOn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage", "Policy" ] } } }
+            ]
+          }
+        },
+        "isBasisFor": {
+          "title": "Policy.isBasisFor",
+          "description": "descriptions.Policy.isBasisFor",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service", "Policy" ] } } }
+            ]
+          }
+        },
+        "mentionedIn": {
+          "title": "Policy.mentionedIn",
+          "description": "descriptions.Policy.mentionedIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
           }
         }
       },
@@ -538,7 +854,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event" ] } } }
+              { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event", "Policy" ] } } }
             ]
           }
         },
@@ -937,7 +1253,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1354,7 +1670,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1703,7 +2019,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2088,7 +2404,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2419,7 +2735,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2915,7 +3231,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
