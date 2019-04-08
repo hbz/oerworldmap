@@ -604,6 +604,7 @@
         },
         "spatialCoverage": {
           "title": "Policy.spatialCoverage",
+          "description": "descriptions.Policy.spatialCoverage",
           "type": "string",
           "enum": [
             "Multi-national",
@@ -619,9 +620,10 @@
           ]
         },
         "status": {
-            "title": "Policy.status",
-            "type": "string",
-            "enum": [ "Proposed", "Current", "Deactivated" ]
+          "title": "Policy.status",
+          "description": "descriptions.Policy.status",
+          "type": "string",
+          "enum": [ "Proposed", "Current", "Deactivated" ]
         },
         "location": {
           "type": "object",
