@@ -425,6 +425,17 @@
               { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service", "Policy" ] } } }
             ]
           }
+        },
+        "mentions": {
+          "title": "WebPage.mentions",
+          "description": "descriptions.WebPage.mentions",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event", "Policy" ] } } }
+            ]
+          }
         }
       },
       "required": [ "name", "url" ],
@@ -740,7 +751,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1344,7 +1355,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1761,7 +1772,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2110,7 +2121,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2495,7 +2506,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2826,7 +2837,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -3322,7 +3333,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
