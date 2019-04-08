@@ -633,6 +633,7 @@
               "properties": {
                 "addressCountry": {
                   "title": "PostalAddress.addressCountry",
+                  "description": "descriptions.Policy.location",
                   "$ref": "#/definitions/Country"
                 },
                 "addressRegion": {
