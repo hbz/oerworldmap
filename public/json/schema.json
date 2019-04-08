@@ -484,6 +484,26 @@
                 "properties": {
                   "@id": {
                     "enum": [
+                      "https://oerworldmap.org/assets/json/policyTypes.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "scope": {
+          "title": "Policy.scope",
+          "description": "descriptions.Policy.scope",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
                       "https://oerworldmap.org/assets/json/policies.json"
                     ]
                   }
