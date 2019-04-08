@@ -425,6 +425,17 @@
               { "properties": { "@type": { "enum": [ "WebPage", "Action", "Service", "Policy" ] } } }
             ]
           }
+        },
+        "mentions": {
+          "title": "WebPage.mentions",
+          "description": "descriptions.WebPage.mentions",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event", "Policy" ] } } }
+            ]
+          }
         }
       },
       "required": [ "name", "url" ],
@@ -475,6 +486,26 @@
         "additionalType": {
           "title": "Policy.additionalType",
           "description": "descriptions.Policy.additionalType",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/policyTypes.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "scope": {
+          "title": "Policy.scope",
+          "description": "descriptions.Policy.scope",
           "type": "array",
           "items": {
             "allOf": [
@@ -573,6 +604,7 @@
         },
         "spatialCoverage": {
           "title": "Policy.spatialCoverage",
+          "description": "descriptions.Policy.spatialCoverage",
           "type": "string",
           "enum": [
             "Multi-national",
@@ -588,9 +620,10 @@
           ]
         },
         "status": {
-            "title": "Policy.status",
-            "type": "string",
-            "enum": [ "Proposed", "Current", "Deactivated" ]
+          "title": "Policy.status",
+          "description": "descriptions.Policy.status",
+          "type": "string",
+          "enum": [ "Proposed", "Current", "Deactivated" ]
         },
         "location": {
           "type": "object",
@@ -720,7 +753,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1324,7 +1357,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -1741,7 +1774,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2090,7 +2123,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2475,7 +2508,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -2806,7 +2839,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
@@ -3302,7 +3335,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
           },
           "_display": {
