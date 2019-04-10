@@ -3541,7 +3541,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event", "Article", "WebPage" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event", "Article", "WebPage", "Policy" ] } } }
           ],
           "_display": {
             "className": "hidden"
@@ -3607,7 +3607,7 @@
           "type": "object",
           "allOf": [
             { "$ref": "#/definitions/Link" },
-            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event", "Article", "WebPage" ] } } }
+            { "properties": { "@type": { "enum": [ "Organization", "Action", "Service", "Product", "Event", "Article", "WebPage", "Policy" ] } } }
           ],
           "_display": {
             "className": "hidden"
