@@ -293,8 +293,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result read(String id, String version, String extension, String disposition)
-    throws IOException {
+  public Result read(String id, String version, String extension, String disposition) {
 
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {

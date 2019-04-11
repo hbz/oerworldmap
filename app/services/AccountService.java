@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.Collections;
 
 /**
  * @author fo
@@ -89,6 +89,14 @@ public class AccountService {
       return user.getAttributes().get("profile_id").get(0);
     }
     return null;
+  }
+
+  public void setProfileId(String username, String profileId) {
+    UserRepresentation user = getUser(username);
+    if (user != null) {
+      user.getAttributes().put("profile_id", Collections.singletonList(profileId));
+      mRealm.users().get(user.getId()).update(user);
+    }
   }
 
   public String getUsername(String profileId) {
