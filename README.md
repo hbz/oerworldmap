@@ -76,6 +76,7 @@ Start the server:
   - /auth/realms/oerworldmap/account/*
   - /oauth2callback
   - /.login
+  - /resource/*
 - Configure Base URL in "account" client to `/.login?continue=http://oerworldmap.localhost/resource/`
 - For ReCaptcha support, configure Realm Security Defenses:
   - `SAMEORIGIN; ALLOW-FROM https://www.google.com`

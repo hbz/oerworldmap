@@ -18,26 +18,9 @@ OIDCScope "openid email"
   Require valid-user
 </Location>
 
-RewriteEngine On
-RewriteMap unescape int:unescape
-RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteCond %{QUERY_STRING} ^continue=(.*)$
-RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
-
-RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
-
 <Location /.login>
   Require valid-user
-  Redirect "/.login" "/.loggedIn"
 </Location>
-
-RewriteCond %{REQUEST_URI}  ^/.logout
-RewriteCond %{QUERY_STRING} ^continue=(.*)$
-RewriteRule ^/?.logout /oauth2callback?logout=%1 [R=302,L,QSD,NE]
-
-RewriteCond %{REQUEST_URI}  ^/.logout
-RewriteRule ^/?.logout /oauth2callback?logout=${PUBLIC_SCHEME}://${PUBLIC_HOST}/resource/ [R=302,L,QSD,NE]
 
 <Location /resource/>
   <LimitExcept GET DELETE>
