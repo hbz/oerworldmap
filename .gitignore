@@ -22,3 +22,4 @@ import/**/*.pyc
 /public/css/main.css
 !data/permissions/.system
 conf/application.conf
+third-party/
