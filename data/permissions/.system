@@ -1,4 +1,5 @@
 ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/user/register>here</a>.</p>"
+Header always set Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
 
 OIDCProviderMetadataURL ${PUBLIC_SCHEME}://${PUBLIC_HOST}/auth/realms/oerworldmap/.well-known/openid-configuration
 OIDCRedirectURI ${PUBLIC_SCHEME}://${PUBLIC_HOST}/oauth2callback
@@ -23,7 +24,7 @@ OIDCScope "openid email"
 </Location>
 
 <Location /resource/>
-  <LimitExcept GET DELETE>
+  <LimitExcept GET DELETE OPTIONS>
     Require valid-user
     Require claim groups:admin
   </LimitExcept>
@@ -74,5 +75,7 @@ OIDCScope "openid email"
 </Location>
 
 <Location /user/profile>
-  Require valid-user
+  <LimitExcept OPTIONS>
+    Require valid-user
+  </LimitExcept>
 </Location>
