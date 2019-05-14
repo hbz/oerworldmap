@@ -1,6 +1,5 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.JsonLdConstants;
 import models.Record;
@@ -29,6 +28,7 @@ public class UserIndex extends OERWorldMap {
   public Result getProfile() {
     String profileId = request().getHeader(OIDC_CLAIM_PROFILE_ID);
     Resource profile;
+    boolean persistent = false;
     if (StringUtils.isEmpty(profileId)) {
       profile = newProfile();
     } else {
@@ -36,9 +36,12 @@ public class UserIndex extends OERWorldMap {
       if (profile == null) {
         Logger.warn("No profile for " + profileId);
         profile = newProfile();
+      } else {
+        persistent = true;
       }
     }
     ObjectNode result = mObjectMapper.createObjectNode();
+    result.put("persistent", persistent);
     result.put("username", request().username());
     String groups = request().getHeader(OIDC_CLAIM_GROUPS);
     if (StringUtils.isEmpty(groups)) {
