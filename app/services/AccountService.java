@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fo
@@ -85,7 +88,7 @@ public class AccountService {
 
   public String getProfileId(String username) {
     UserRepresentation user = getUser(username);
-    if (user != null && user.getAttributes().containsKey("profile_id")) {
+    if (user != null && user.getAttributes() != null && user.getAttributes().containsKey("profile_id")) {
       return user.getAttributes().get("profile_id").get(0);
     }
     return null;
@@ -94,14 +97,20 @@ public class AccountService {
   public void setProfileId(String username, String profileId) {
     UserRepresentation user = getUser(username);
     if (user != null) {
-      user.getAttributes().put("profile_id", Collections.singletonList(profileId));
+      if (user.getAttributes() != null) {
+        user.getAttributes().put("profile_id", Collections.singletonList(profileId));
+      } else {
+        Map<String, List<String>> attributes = new HashMap<>();
+        attributes.put("profile_id", Collections.singletonList(profileId));
+        user.setAttributes(attributes);
+      }
       mRealm.users().get(user.getId()).update(user);
     }
   }
 
   public String getUsername(String profileId) {
     UserRepresentation user = mRealm.users().list().stream()
-      .filter(u -> u.getAttributes().containsKey("profile_id") && u.getAttributes().get("profile_id").contains(profileId))
+      .filter(u -> u.getAttributes() != null && u.getAttributes().containsKey("profile_id") && u.getAttributes().get("profile_id").contains(profileId))
       .findFirst().orElse(null);
     return user != null ? user.getUsername() : null;
   }
