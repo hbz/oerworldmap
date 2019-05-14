@@ -24,6 +24,9 @@ OIDCScope "openid email"
 </Location>
 
 <Location /resource/>
+  <If "%{QUERY_STRING} =~ /add=/">
+    Require valid-user
+  </If>
   <LimitExcept GET DELETE OPTIONS>
     Require valid-user
     Require claim groups:admin
