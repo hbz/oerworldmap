@@ -62,17 +62,20 @@ public class Sparql extends OERWorldMap {
     super(aConf, aEnv);
   }
 
-  public Result query(String q) throws IOException {
+  public Result query(String q) {
     return ok(StringUtils.isEmpty(q)
       ? String.format(mQueryTemplate, "", "")
       : String.format(mQueryTemplate, q, StringEscapeUtils.escapeHtml4(mBaseRepository.sparql(q)))
     ).as("text/html");
   }
 
-  public Result update(String delete, String insert, String where) throws IOException {
-    return ok(String.format(mUpdateTemplate, delete, insert, where,
-      mBaseRepository.update(delete, insert, where)))
-      .as("text/html");
+  public Result update(String delete, String insert, String where) {
+    String diff = mBaseRepository.update(delete, insert, where);
+    if (request().accepts("text/html")) {
+      return ok(String.format(mUpdateTemplate, delete, insert, where, diff)).as("text/html");
+    } else {
+      return ok(diff).as("text/plain");
+    }
   }
 
   public Result patch() throws IOException {
