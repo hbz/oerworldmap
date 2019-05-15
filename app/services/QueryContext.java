@@ -200,4 +200,10 @@ public class QueryContext {
       .must(QueryBuilders.termQuery("feature.properties.location.address.addressCountry", aISOCode));
     filters.put("iso3166", iso3166);
   }
+
+  public void setRegionScope(String aRegionCode) {
+    QueryBuilder region = QueryBuilders.boolQuery()
+      .must(QueryBuilders.termQuery("feature.properties.location.address.addressRegion", aRegionCode));
+    filters.put("region", region);
+  }
 }

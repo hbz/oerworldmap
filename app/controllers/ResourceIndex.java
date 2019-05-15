@@ -57,7 +57,7 @@ public class ResourceIndex extends OERWorldMap {
 
   @With(Cached.class)
   public Result list(String q, int from, int size, String sort, boolean features, String extension,
-    String iso3166, String disposition){
+    String iso3166, String region, String disposition) {
 
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
@@ -68,6 +68,11 @@ public class ResourceIndex extends OERWorldMap {
         return notFound("Not found");
       }
       queryContext.setIso3166Scope(iso3166.toUpperCase());
+    }
+
+    // Handle region param
+    if (!StringUtils.isEmpty(iso3166) && !StringUtils.isEmpty(region)) {
+      queryContext.setRegionScope(iso3166.toUpperCase().concat(".").concat(region.toUpperCase()));
     }
 
     // Extract filters directly from query params
@@ -115,7 +120,7 @@ public class ResourceIndex extends OERWorldMap {
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
       String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate,
-        iso3166, disposition).url().concat(filterString));
+        iso3166, region, disposition).url().concat(filterString));
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl,
         MimeTypes.fromExtension(alternate)));
     }
