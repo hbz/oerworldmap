@@ -114,7 +114,7 @@ Finally, configure client secret in vhost.conf
 #### Set up Apache
 
     $ sudo apt-get install apache2 libapache2-mod-auth-openidc
-    $ sudo a2enmod proxy proxy_html proxy_http rewrite auth_openidc ssl
+    $ sudo a2enmod proxy proxy_html proxy_http rewrite auth_openidc ssl headers
 
     $ mkdir data/auth
     $ cd data/auth
