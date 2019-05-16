@@ -40,6 +40,22 @@ public class UserIndex extends OERWorldMap {
         persistent = true;
       }
     }
+    return ok(wrapProfile(profile, persistent));
+  }
+
+  public Result createProfile() throws IOException {
+    Resource profile = Resource.fromJson(getJsonFromRequest());
+    String username = request().username();
+    boolean isNew = !mBaseRepository.hasResource(profile.getId());
+    mBaseRepository.addResource(profile, getMetadata());
+    if (isNew) {
+      mAccountService.setProfileId(username, profile.getId());
+      mAccountService.setPermissions(profile.getId(), username);
+    }
+    return isNew ? created(wrapProfile(profile, true)) : ok(wrapProfile(profile, true));
+  }
+
+  private ObjectNode wrapProfile(Resource profile, boolean persistent) {
     ObjectNode result = mObjectMapper.createObjectNode();
     result.put("persistent", persistent);
     result.put("username", request().username());
@@ -51,20 +67,7 @@ public class UserIndex extends OERWorldMap {
     }
     result.set("profile", new Record(profile).toJson());
     result.put("id", profile.getId());
-    return ok(result);
-  }
-
-  public Result createProfile() {
-    Resource profile = Resource.fromJson(getJsonFromRequest());
-    String username = request().username();
-    try {
-      mBaseRepository.addResource(profile, getMetadata());
-      mAccountService.setProfileId(username, profile.getId());
-      mAccountService.setPermissions(profile.getId(), username);
-      return created(new Record(profile).toJson());
-    } catch (IOException e) {
-      return internalServerError();
-    }
+    return result;
   }
 
   private Resource newProfile() {
