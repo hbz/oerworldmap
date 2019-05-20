@@ -53,7 +53,7 @@ public class GeoJsonExporter implements Exporter {
     JsonNode resource = aResource.getAsResource(Record.RESOURCE_KEY).toJson();
 
     ArrayNode locations;
-    if (resource.get("@type").asText().equals("Policy")) {
+    if (resource.has("@type") && resource.get("@type").asText().equals("Policy")) {
       JsonNode publisher = resource.get("publisher");
       locations = publisher == null ? mObjectMapper.createArrayNode() : getLocations(publisher);
     } else {
