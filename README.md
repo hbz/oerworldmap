@@ -72,16 +72,19 @@ Start the server:
     $ bin/standalone.sh -Dkeycloak.profile.feature.scripts=enabled
 
 - Create realm oerworldmap
+- Enable user registration, email as username, edit username, forgot password
+- Configure "account" client:
 - Configure Valid Redirect URIs
   - /auth/realms/oerworldmap/account/*
   - /oauth2callback
   - /.login
   - /resource/*
-- Configure Base URL in "account" client to `/.login?continue=http://oerworldmap.localhost/resource/`
+- Configure Base URL in "account" client to `/.login`
 - For ReCaptcha support, configure Realm Security Defenses:
   - `SAMEORIGIN; ALLOW-FROM https://www.google.com`
   - `frame-src 'self' https://www.google.com; frame-ancestors 'self'; object-src 'none';`
 - Install & configure theme from https://github.com/hbz/oerworldmap-keycloak-theme
+- Configure default actions
 - Configure admin credentials in application.conf
 - Copy create profile script to registration flow
 - Copy create profile script to first-broker-login flow
