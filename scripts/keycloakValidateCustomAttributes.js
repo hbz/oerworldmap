@@ -5,12 +5,6 @@ function requiresUser() {
 }
 
 function authenticate(context) {
-  // country is selected
-  if (!user.getAttribute("country")) {
-    LOG.error("No country provided for " + user.username);
-    return context.failure(AuthenticationFlowError.INVALID_USER);
-  }
-
   // private policy accepted
   if (!user.getAttribute("privacyAccepted").contains("true")) {
     LOG.error("Privacy policy not accepted for " + user.username);
