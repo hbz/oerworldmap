@@ -35,6 +35,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -77,6 +78,18 @@ public class ResourceIndex extends OERWorldMap {
       if (filterMatcher.find()) {
         filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
+    }
+
+    // Handle special filter case for event calendar
+    if (filters.containsKey("about.@type")
+      && filters.get("about.@type").contains("Event")
+      && !filters.containsKey("about.startDate.GTE")
+    ) {
+      filters.put("about.startDate.GTE", Collections.singletonList("now/d"));
+    } else if (filters.containsKey("about.@type")
+      && !filters.get("about.@type").contains("Event")
+    ) {
+      filters.remove("about.startDate.GTE");
     }
 
     // Check for bounding box
