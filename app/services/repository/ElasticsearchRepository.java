@@ -82,14 +82,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     mConfig = new ElasticsearchConfig(aConfiguration);
 
     final Settings.Builder builder = Settings.builder();
-    mConfig.getClusterSettings().forEach((k, v) -> builder.put(k, v));
+    mConfig.getClusterSettings().forEach(builder::put);
 
     mFuzziness = mConfig.getFuzziness();
   }
 
   @Override
-  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata)
-    throws IOException {
+  public void addResource(@Nonnull final Resource aResource, Map<String, String> aMetadata) {
     Record record = new Record(aResource);
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
@@ -98,8 +97,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata)
-    throws IOException {
+  public void addResources(@Nonnull List<Resource> aResources, Map<String, String> aMetadata) {
     Map<String, String> records = new HashMap<>();
     for (Resource resource : aResources) {
       Record record = new Record(resource);
@@ -166,7 +164,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   }
 
   @Override
-  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) throws IOException {
+  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) {
     return aggregate(aAggregationBuilder, null);
   }
 
@@ -258,7 +256,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   /**
    * Add a document consisting of a JSON String specified by a given UUID and a given type.
    */
-  public void addJson(final String aJsonString, final String aUuid, final String aType) {
+  private void addJson(final String aJsonString, final String aUuid, final String aType) {
     String uuid = getUrlUuidEncoded(aUuid);
     IndexRequest request = new IndexRequest(mConfig.getIndex(), aType,
       (uuid == null ? aUuid : uuid));
@@ -296,21 +294,20 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   /**
    * Add documents consisting of JSON Strings specified by a given UUID and a given type.
    */
-  public void addJsonBulk(final Map<String, String> aJsonStringIdMap, final String aType) {
+  private void addJsonBulk(final Map<String, String> aJsonStringIdMap, final String aType) {
     BulkRequest request = new BulkRequest();
     for (Map.Entry<String, String> entry : aJsonStringIdMap.entrySet()) {
       request.add(new IndexRequest(mConfig.getIndex(), aType, entry.getKey())
         .source(entry.getValue(), XContentType.JSON));
     }
     request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
-    BulkResponse bulkResponse = null;
     try {
-      bulkResponse = mConfig.getClient().bulk(request);
+      BulkResponse bulkResponse = mConfig.getClient().bulk(request);
+      if (bulkResponse.hasFailures()) {
+        Logger.error(bulkResponse.buildFailureMessage());
+      }
     } catch (IOException e) {
       Logger.error("Failed indexing bulk data to Elasticsearch.", e);
-    }
-    if (bulkResponse.hasFailures()) {
-      Logger.error(bulkResponse.buildFailureMessage());
     }
   }
 
@@ -422,8 +419,8 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     List<SearchHit> searchHits = new ArrayList<>();
     SearchResponse response;
-    Resource aAggregations = null;
-    Float maxScore = 0.0f;
+    Resource aAggregations;
+    float maxScore = 0.0f;
     if (aSize == -1) {
       response = mConfig.getClient().search(
         new SearchRequest(mConfig.getIndex()).source(sourceBuilder)
@@ -448,7 +445,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       sourceBuilder.size(aSize);
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-      JsonNode resultNode = new ObjectMapper().readTree(response.toString());
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore =
@@ -467,14 +463,12 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       resources.add(resource);
     }
 
-    ResourceList resourceList = new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
+    return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
       aSize, aSortOrder,
       aFilters, aAggregations);
-
-    return resourceList;
   }
 
-  public JsonNode esQueryRaw(@Nonnull final String aQueryString, final int aFrom, final int aSize,
+  JsonNode esQueryRaw(@Nonnull final String aQueryString, final int aFrom, final int aSize,
                                final String aSortOrder, final Map<String, List<String>> aFilters,
                                final QueryContext aQueryContext) throws IOException {
 
@@ -595,6 +589,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         final String aggregationField = contextAggregation.getName();
         if (contextAggregation.getType().equals("filter")) {
           filteredFacetAggregation.subAggregation(contextAggregation);
+          facetAggregation.subAggregation(contextAggregation);
         } else if (!contextAggregation.getType().equals("global")) {
           if (null != aFilters) {
             BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
@@ -611,8 +606,14 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
             filteredFacetAggregation.subAggregation(AggregationBuilders
               .filter(aggregationField, aggregationAndFilter)
               .subAggregation(contextAggregation));
+            facetAggregation.subAggregation(AggregationBuilders
+              .filter(aggregationField, aggregationAndFilter)
+              .subAggregation(contextAggregation));
           } else {
             filteredFacetAggregation.subAggregation(AggregationBuilders
+              .filter(aggregationField, QueryBuilders.matchAllQuery())
+              .subAggregation(contextAggregation));
+            facetAggregation.subAggregation(AggregationBuilders
               .filter(aggregationField, QueryBuilders.matchAllQuery())
               .subAggregation(contextAggregation));
           }
