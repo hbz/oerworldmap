@@ -10319,6 +10319,15 @@
               },
               "type": "text"
             },
+            "regionalChampionFor": {
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              },
+              "type": "text"
+            },
             "awards": {
               "properties": {
                 "sameAs": {

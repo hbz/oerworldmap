@@ -2091,6 +2091,17 @@
             "className": "admin only"
           }
         },
+        "regionalChampionFor": {
+          "title": "Person.regionalChampionFor",
+          "description": "descriptions.Person.regionalChampionFor",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
         "image": {
           "title": "Person.image",
           "description": "descriptions.Person.image",
