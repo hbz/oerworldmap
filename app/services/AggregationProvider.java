@@ -138,7 +138,9 @@ public class AggregationProvider {
       .field("feature.properties.location.address.addressRegion")
       .includeExclude(new IncludeExclude(aIso3166Scope + "\\...+", null))
       .size(getSize(aSize))
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"));
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
+        .includeExclude(
+          new IncludeExclude(null,"Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")));
   }
 
   public static AggregationBuilder getLikeAggregation(int aSize) {
