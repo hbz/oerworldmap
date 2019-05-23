@@ -1532,21 +1532,7 @@
           }
         }
       },
-      "allOf": [
-        {
-          "required": [
-            "name"
-          ],
-          "anyOf": [
-            {
-              "required": [ "location" ]
-            },
-            {
-              "required": [ "agent" ]
-            }
-          ]
-        }
-      ],
+      "required": ["name"],
       "additionalProperties": false
     },
     "Service": {

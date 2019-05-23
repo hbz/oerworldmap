@@ -1,6 +1,7 @@
 package services.export;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,6 +16,8 @@ import java.util.List;
  */
 public class GeoJsonExporter implements Exporter {
 
+  static final ObjectMapper mObjectMapper = new ObjectMapper();
+
   @Override
   public String export(Resource aResource) {
     JsonNode node = toGeoJson(aResource, true);
@@ -28,10 +31,6 @@ public class GeoJsonExporter implements Exporter {
 
   public JsonNode exportJson(Resource aResource) {
     return toGeoJson(aResource, false);
-  }
-
-  public JsonNode exportJson(ResourceList aResourceList) {
-    return exportJson(aResourceList.getItems());
   }
 
   private JsonNode exportJson(List<Resource> aResources) {
@@ -52,7 +51,14 @@ public class GeoJsonExporter implements Exporter {
   private JsonNode toGeoJson(Resource aResource, boolean expand) {
 
     JsonNode resource = aResource.getAsResource(Record.RESOURCE_KEY).toJson();
-    ArrayNode locations = getLocations(resource);
+
+    ArrayNode locations;
+    if (resource.has("@type") && resource.get("@type").asText().equals("Policy")) {
+      JsonNode publisher = resource.get("publisher");
+      locations = publisher == null ? mObjectMapper.createArrayNode() : getLocations(publisher);
+    } else {
+      locations = getLocations(resource);
+    }
 
     if (locations.size() == 0) {
       return null;
@@ -117,7 +123,9 @@ public class GeoJsonExporter implements Exporter {
   private ArrayNode getLocations(JsonNode node) {
 
     ArrayNode locations = new ArrayNode(JsonNodeFactory.instance);
-    String[] traverse = new String[]{"mentions", "member", "agent", "participant", "provider"};
+    String[] traverse = new String[]{
+      "mentions", "member", "agent", "participant", "provider", "publisher", "creator", "isRelatedTo"
+    };
 
     if (node.isArray()) {
       for (JsonNode entry : node) {
