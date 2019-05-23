@@ -81,10 +81,7 @@ public class AggregationProvider {
     return AggregationBuilders
       .terms("feature.properties.location.address.addressCountry")
       .field("feature.properties.location.address.addressCountry").size(getSize(aSize))
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"))
-      .subAggregation(AggregationBuilders
-        .filter("champions",
-          QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor")));
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"));
   }
 
 
@@ -94,10 +91,6 @@ public class AggregationProvider {
       .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
         .includeExclude(
           new IncludeExclude(null,"Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
-      .subAggregation(AggregationBuilders
-        .filter("champions",
-          QueryBuilders.existsQuery(Record.RESOURCE_KEY + ".countryChampionFor"))
-        .subAggregation(AggregationBuilders.topHits("country_champions")))
       .subAggregation(AggregationBuilders
         .filter("reports", QueryBuilders
           .matchQuery(Record.RESOURCE_KEY + ".keywords", "countryreport:".concat(aId)))
@@ -140,10 +133,14 @@ public class AggregationProvider {
 
 
   public static AggregationBuilder getRegionAggregation(int aSize, String aIso3166Scope) {
-    return AggregationBuilders.terms("feature.properties.location.address.addressRegion")
+    return AggregationBuilders
+      .terms("feature.properties.location.address.addressRegion")
       .field("feature.properties.location.address.addressRegion")
       .includeExclude(new IncludeExclude(aIso3166Scope + "\\...+", null))
-      .size(getSize(aSize));
+      .size(getSize(aSize))
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
+        .includeExclude(
+          new IncludeExclude(null,"Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")));
   }
 
   public static AggregationBuilder getLikeAggregation(int aSize) {
@@ -171,11 +168,14 @@ public class AggregationProvider {
       .field("about.activityField.@id");
   }
 
-  public static AggregationBuilder getCountryChampionAggregation(int aSize) {
-    return AggregationBuilders.global("champions").subAggregation(
-      AggregationBuilders.terms("about.countryChampionFor.keyword").size(getSize(aSize))
+  public static AggregationBuilder getChampionsAggregation(int aSize) {
+    return AggregationBuilders.global("champions")
+      .subAggregation(AggregationBuilders.terms("about.countryChampionFor.keyword").size(getSize(aSize))
         .field("about.countryChampionFor.keyword")
-    );
+        .subAggregation(AggregationBuilders.topHits("country_champions")))
+      .subAggregation(AggregationBuilders.terms("about.regionalChampionFor.keyword").size(getSize(aSize))
+        .field("about.regionalChampionFor.keyword")
+        .subAggregation(AggregationBuilders.topHits("regional_champions")));
   }
 
 }

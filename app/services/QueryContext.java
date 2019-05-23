@@ -95,7 +95,7 @@ public class QueryContext {
     guestAggregations.add(AggregationProvider.getSecondarySectorsAggregation(0));
     guestAggregations.add(AggregationProvider.getAwardAggregation(0));
     guestAggregations.add(AggregationProvider.getFieldOfActivityAggregation(0));
-    guestAggregations.add(AggregationProvider.getCountryChampionAggregation(0));
+    guestAggregations.add(AggregationProvider.getChampionsAggregation(0));
 
     aggregations.put("guest", guestAggregations);
     aggregations.put("authenticated", guestAggregations);
@@ -199,5 +199,11 @@ public class QueryContext {
     QueryBuilder iso3166 = QueryBuilders.boolQuery()
       .must(QueryBuilders.termQuery("feature.properties.location.address.addressCountry", aISOCode));
     filters.put("iso3166", iso3166);
+  }
+
+  public void setRegionScope(String aRegionCode) {
+    QueryBuilder region = QueryBuilders.boolQuery()
+      .must(QueryBuilders.termQuery("feature.properties.location.address.addressRegion", aRegionCode));
+    filters.put("region", region);
   }
 }

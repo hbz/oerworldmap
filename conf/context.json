@@ -72,6 +72,9 @@
     "countryChampionFor": {
       "@container": "@set"
     },
+    "regionalChampionFor": {
+      "@container": "@set"
+    },
     "created": {
       "@container": "@set"
     },
