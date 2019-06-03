@@ -87,12 +87,14 @@ public class ResourceIndex extends OERWorldMap {
 
     // Handle special filter case for event calendar
     if (filters.containsKey("about.@type")
+      && filters.get("about.@type").size() == 1
       && filters.get("about.@type").contains("Event")
       && !filters.containsKey("about.startDate.GTE")
     ) {
       filters.put("about.startDate.GTE", Collections.singletonList("now/d"));
     } else if (filters.containsKey("about.@type")
-      && !filters.get("about.@type").contains("Event")
+      && (!filters.get("about.@type").contains("Event")
+        || filters.get("about.@type").size() != 1)
     ) {
       filters.remove("about.startDate.GTE");
     }
