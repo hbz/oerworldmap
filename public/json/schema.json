@@ -989,6 +989,16 @@
         "location": {
           "$ref": "#/definitions/Place"
         },
+        "spatial": {
+          "title": "Article.spatial",
+          "description": "descriptions.Article.spatial",
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "#/definitions/LocalizedString"
+            }
+          }
+        },
         "primarySector": {
           "title": "Article.primarySector",
           "description": "descriptions.Article.primarySector",
