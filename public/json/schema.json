@@ -3630,52 +3630,28 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Localized string",
       "description": "A language-tagged string",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "_widget": "LocalizedString",
-        "properties": {
-          "@value": {
-            "type": "string"
-          },
-          "@language": {
-            "title": "LocalizedString.@language",
-            "$ref": "#/definitions/Language"
-          }
-        },
-        "required": [
-          "@language",
-          "@value"
-        ],
-        "additionalProperties": false
-      }
+      "type": "object",
+      "properties": {
+        "en": { "type":  "string" },
+        "de": { "type":  "string" }
+      },
+      "_widget": "LocalizedString",
+      "additionalProperties": false,
+      "required": [ "en" ]
     },
     "LocalizedText": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Localized text",
       "description": "A language-tagged text",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "_widget": "LocalizedString",
-        "properties": {
-          "@value": {
-            "type": "string",
-            "_display": {
-              "rows": 5
-            }
-          },
-          "@language": {
-            "title": "LocalizedText.@language",
-            "$ref": "#/definitions/Language"
-          }
-        },
-        "required": [
-          "@language",
-          "@value"
-        ],
-        "additionalProperties": false
-      }
+      "type": "object",
+      "properties": {
+        "en": { "type":  "string" },
+        "de": { "type":  "string" }
+      },
+      "_widget": "LocalizedString",
+      "_display": { "rows":  5 },
+      "additionalProperties": false,
+      "required": [ "en" ]
     },
     "iso-8601-date": {
       "$schema": "http://json-schema.org/draft-04/schema#",
