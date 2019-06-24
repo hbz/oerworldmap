@@ -154,6 +154,9 @@
     "license": {
       "@container": "@set"
     },
+    "location": {
+      "@container": "@set"
+    },
     "manufacturer": {
       "@container": "@set"
     },

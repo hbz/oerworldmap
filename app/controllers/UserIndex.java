@@ -63,7 +63,7 @@ public class UserIndex extends OERWorldMap {
       new File(mConf.getString("consents.history.file")));
   }
 
-  public Result register() throws IOException {
+  public Result register() {
     Resource registration = Resource.fromJson(ctx().request().body().asJson());
     ProcessingReport processingReport = validate(registration);
     if (!processingReport.isSuccess()) {
@@ -87,7 +87,7 @@ public class UserIndex extends OERWorldMap {
     Resource address = new Resource();
     address.put("addressCountry", registration.getAsString("location"));
     location.put("address", address);
-    user.put("location", location);
+    user.put("location", Collections.singletonList(location));
 
     processingReport = validate(user);
     if (!processingReport.isSuccess()) {
@@ -160,7 +160,7 @@ public class UserIndex extends OERWorldMap {
     return result;
   }
 
-  public Result resetPassword() throws IOException {
+  public Result resetPassword() {
     Resource passwordReset = Resource.fromJson(ctx().request().body().asJson());
     ProcessingReport processingReport = validate(passwordReset);
     if (!processingReport.isSuccess()) {
@@ -189,7 +189,7 @@ public class UserIndex extends OERWorldMap {
     }
   }
 
-  public Result changePassword() throws IOException {
+  public Result changePassword() {
     Resource passwordChange = Resource.fromJson(ctx().request().body().asJson());
     ProcessingReport processingReport = validate(passwordChange);
     if (!processingReport.isSuccess()) {
@@ -240,7 +240,7 @@ public class UserIndex extends OERWorldMap {
       : internalServerError("Newsletter currently not available.");
   }
 
-  public Result editGroups() throws IOException {
+  public Result editGroups() {
     List<String> usernames = mAccountService.getUsers();
     ArrayNode users = JsonNodeFactory.instance.arrayNode();
     for (String username : usernames) {
