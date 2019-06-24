@@ -14,7 +14,7 @@
 			"@value": "M.E.R.D.E."
 		}
 	],
-	"location": {
+	"location": [{
 		"geo": {
 			"lon": 1.1,
 			"lat": -2.2
@@ -28,7 +28,7 @@
 			"addressLocality": "St. Test"
 		},
 		"@type": "Place"
-	},
+	}],
 	"url": "url:http://example.com/merde",
 	"sameAs": [
 		"url://twitter.com/merde117",

@@ -76,20 +76,20 @@
   "sameAs": [ "http://twitter.com/exempelst", "http://facebook.com/exempelst" ],
   "startTime": "2016-01",
   "endTime": "2018-01",
-  "location": {
-      "geo" : {
-        "lon" : 18.5,
-        "lat" : -34.1
-      },
-      "address" : {
-        "addressCountry" : "ZA",
-        "streetAddress" : "Ex Road",
-        "@type" : "PostalAddress",
-        "postalCode" : "4711",
-        "addressLocality" : "Cape Town"
-      },
-      "@type" : "Place"
+  "location": [{
+    "geo" : {
+      "lon" : 18.5,
+      "lat" : -34.1
     },
+    "address" : {
+      "addressCountry" : "ZA",
+      "streetAddress" : "Ex Road",
+      "@type" : "PostalAddress",
+      "postalCode" : "4711",
+      "addressLocality" : "Cape Town"
+    },
+    "@type" : "Place"
+  }],
   "instrument": [
 
     {
