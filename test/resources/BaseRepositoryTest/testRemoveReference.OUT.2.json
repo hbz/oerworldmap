@@ -8,7 +8,7 @@
     "@value" : "OER World Map",
     "@language" : "en"
   } ],
-  "location" : { },
+  "location" : [{ }],
   "@id" : "urn:uuid:8df0e95f-3381-40dc-8e93-dc7fac083fee",
   "@context" : "https://oerworldmap.org/assets/json/context.json"
 }

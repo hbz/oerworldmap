@@ -133,7 +133,7 @@ public class GeoJsonExporter implements Exporter {
       }
     } else if (node.isObject()) {
       if (node.has("location")) {
-        locations.add(node.get("location"));
+        locations.addAll((ArrayNode) node.get("location"));
       } else {
         for (String property : traverse) {
           if (node.has(property)) {

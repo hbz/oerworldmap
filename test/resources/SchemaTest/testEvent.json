@@ -70,7 +70,7 @@
   ],
   "startDate": "2015-11-11",
   "endDate": "2015-02-10",
-  "location": {
+  "location": [{
     "geo": {
       "lon": 1.1,
       "lat": -2.2
@@ -84,7 +84,7 @@
       "addressLocality": "St. Test"
     },
     "@type": "Place"
-  },
+  }],
   "mentionedIn": [
     {
       "@id": "urn:uuid:632bd214-ef41-11e4-878e-bfb252324d1d",

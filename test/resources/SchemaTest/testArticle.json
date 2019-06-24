@@ -57,7 +57,7 @@
     }
   ],
   "dateCreated": "2011-11-11",
-  "location": {
+  "location": [{
     "geo": {
       "lon": 1.1,
       "lat": -2.2
@@ -71,7 +71,7 @@
       "addressLocality": "St. Test"
     },
     "@type": "Place"
-  },
+  }],
   "exampleOfWork": "http://example.org",
   "citation": "John Doe 2017, CC-BY",
   "primarySector" : [ {
