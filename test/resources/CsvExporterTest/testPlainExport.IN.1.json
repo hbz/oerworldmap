@@ -1,17 +1,18 @@
 {
   "@type": "Person",
   "@id": "456",
-  "name": "Hans Wurst",
+  "name": "Hans Dampf",
   "authorOf": [
     {
       "@type": "Article",
       "@id": "123",
       "name": "Ganz spannend!",
+      "articleBody": "Super \"toll\"",
       "author": [
         {
           "@type": "Person",
           "@id": "456",
-          "name": "Hans Wurst"
+          "name": "Hans Dampf"
         }
       ]
     },
@@ -23,9 +24,15 @@
         {
           "@type": "Person",
           "@id": "456",
-          "name": "Hans Wurst"
+          "name": "Hans Dampf"
         }
       ]
     }
-  ]
+  ],
+  "address" : {
+    "streetAddress" : "Streetstreet 1",
+    "postalCode" : "123456",
+    "addressCountry" : "Countrycountry",
+    "@type": "Place"
+  }
 }

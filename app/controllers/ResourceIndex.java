@@ -23,7 +23,7 @@ import play.mvc.With;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
-import services.export.CsvWithNestedIdsExporter;
+import services.export.CsvExporter;
 import services.export.GeoJsonExporter;
 import services.export.JsonSchemaExporter;
 
@@ -153,7 +153,7 @@ public class ResourceIndex extends OERWorldMap {
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+      return ok(new CsvExporter().export(resourceList)).as("text/csv");
     } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
@@ -313,8 +313,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result read(String id, String version, String extension, String disposition)
-    throws IOException {
+  public Result read(String id, String version, String extension, String disposition) {
 
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
@@ -347,7 +346,7 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
+      return ok(new CsvExporter().export(resource)).as("text/csv; charset=UTF-8");
     } else if (format.equals("application/geo+json")) {
       String geoJson = mGeoJsonExporter.export(resource);
       return geoJson != null ? ok(geoJson) : status(406);
@@ -411,7 +410,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public Result log(String aId, String compare, String to) throws IOException {
+  public Result log(String aId, String compare, String to) {
     ArrayNode log = JsonNodeFactory.instance.arrayNode();
     List<Commit> commits = mBaseRepository.log(aId);
     for (Commit commit : commits) {
