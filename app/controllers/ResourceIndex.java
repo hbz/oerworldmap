@@ -497,10 +497,12 @@ public class ResourceIndex extends OERWorldMap {
         break;
       }
       String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
+      TripleCommit.Header header = ((TripleCommit) commit).getHeader();
       // Skip empty commits, commits on same subject and deleted resources
       if (id == null
         || id.equals(previousId)
-        || ((TripleCommit) commit).getHeader().isMigration()
+        || header.isMigration()
+        || header.getAuthor().equals("System")
         || !mBaseRepository.hasResource(id))
       {
         continue;
