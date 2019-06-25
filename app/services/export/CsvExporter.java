@@ -1,6 +1,7 @@
 package services.export;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Record;
 import models.Resource;
 import models.ResourceList;
 
@@ -28,7 +29,8 @@ public class CsvExporter implements Exporter {
     List<Map<String, String>> pointerDicts = new ArrayList<>();
     Set<String> headers = new TreeSet<>();
     for (Resource resource: resources) {
-      Map<String, String> pointerDict = jsonNodeToPointerDict(resource.toJson(), "");
+      Map<String, String> pointerDict = jsonNodeToPointerDict(
+        resource.getAsResource(Record.RESOURCE_KEY).toJson(), "");
       pointerDicts.add(pointerDict);
       headers.addAll(pointerDict.keySet());
     }

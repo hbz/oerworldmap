@@ -1,38 +1,40 @@
 {
-  "@type": "Person",
-  "@id": "456",
-  "name": "Hans Dampf",
-  "authorOf": [
-    {
-      "@type": "Article",
-      "@id": "123",
-      "name": "Ganz spannend!",
-      "articleBody": "Super \"toll\"",
-      "author": [
-        {
-          "@type": "Person",
-          "@id": "456",
-          "name": "Hans Dampf"
-        }
-      ]
-    },
-    {
-      "@type": "Article",
-      "@id": "987",
-      "name": "Noch spannenderen!",
-      "author": [
-        {
-          "@type": "Person",
-          "@id": "456",
-          "name": "Hans Dampf"
-        }
-      ]
+  "about": {
+    "@type": "Person",
+    "@id": "456",
+    "name": "Hans Dampf",
+    "authorOf": [
+      {
+        "@type": "Article",
+        "@id": "123",
+        "name": "Ganz spannend!",
+        "articleBody": "Super \"toll\"",
+        "author": [
+          {
+            "@type": "Person",
+            "@id": "456",
+            "name": "Hans Dampf"
+          }
+        ]
+      },
+      {
+        "@type": "Article",
+        "@id": "987",
+        "name": "Noch spannenderen!",
+        "author": [
+          {
+            "@type": "Person",
+            "@id": "456",
+            "name": "Hans Dampf"
+          }
+        ]
+      }
+    ],
+    "address" : {
+      "streetAddress" : "Streetstreet 1",
+      "postalCode" : "123456",
+      "addressCountry" : "Countrycountry",
+      "@type": "Place"
     }
-  ],
-  "address" : {
-    "streetAddress" : "Streetstreet 1",
-    "postalCode" : "123456",
-    "addressCountry" : "Countrycountry",
-    "@type": "Place"
   }
 }
