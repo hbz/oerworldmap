@@ -9,6 +9,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
+import io.apigee.trireme.kernel.Charsets;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -31,6 +32,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -124,7 +126,12 @@ public class ResourceIndex extends OERWorldMap {
     for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
       String filterKey = "filter.".concat(filter.getKey());
       for (String filterValue : filter.getValue()) {
-        filterString = filterString.concat("&".concat(filterKey).concat("=").concat(filterValue));
+        try {
+          filterString = filterString.concat("&".concat(filterKey).concat("=").concat(URLEncoder.encode(filterValue,
+            Charsets.UTF8.name())));
+        } catch (UnsupportedEncodingException e) {
+          Logger.error("Unhandeled encoding", e);
+        }
       }
     }
 
