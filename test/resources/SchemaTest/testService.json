@@ -62,7 +62,7 @@
   "startDate": "2011-11-11",
   "endDate": "2012-12-12",
   "email": "oermachine@example.com",
-  "location": {
+  "location": [{
     "geo": {
       "lon": 1.1,
       "lat": -2.2
@@ -76,7 +76,7 @@
       "addressLocality": "St. Test"
     },
     "@type": "Place"
-  },
+  }],
   "about": [
     {
       "@id": "https://w3id.org/class/esc/n052",

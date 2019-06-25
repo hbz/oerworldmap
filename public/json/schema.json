@@ -306,18 +306,21 @@
           }
         },
         "location": {
-          "type": "object",
-          "properties": {
-            "address": {
-              "type": "object",
-              "properties": {
-                "addressCountry": {
-                  "title": "PostalAddress.addressCountry",
-                  "$ref": "#/definitions/Country"
-                },
-                "addressRegion": {
-                  "title": "PostalAddress.addressRegion",
-                  "type": "string"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "object",
+                "properties": {
+                  "addressCountry": {
+                    "title": "PostalAddress.addressCountry",
+                    "$ref": "#/definitions/Country"
+                  },
+                  "addressRegion": {
+                    "title": "PostalAddress.addressRegion",
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -435,6 +438,16 @@
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Organization", "Person", "Service", "Action", "Event", "Policy" ] } } }
             ]
+          }
+        },
+        "spatial": {
+          "title": "WebPage.spatial",
+          "description": "descriptions.WebPage.spatial",
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "#/definitions/LocalizedString"
+            }
           }
         }
       },
@@ -626,19 +639,22 @@
           "enum": [ "Proposed", "Current", "Deactivated" ]
         },
         "location": {
-          "type": "object",
-          "properties": {
-            "address": {
-              "type": "object",
-              "properties": {
-                "addressCountry": {
-                  "title": "PostalAddress.addressCountry",
-                  "description": "descriptions.Policy.location",
-                  "$ref": "#/definitions/Country"
-                },
-                "addressRegion": {
-                  "title": "PostalAddress.addressRegion",
-                  "type": "string"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "object",
+                "properties": {
+                  "addressCountry": {
+                    "title": "PostalAddress.addressCountry",
+                    "description": "descriptions.Policy.location",
+                    "$ref": "#/definitions/Country"
+                  },
+                  "addressRegion": {
+                    "title": "PostalAddress.addressRegion",
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -987,7 +1003,11 @@
           }
         },
         "location": {
-          "$ref": "#/definitions/Place"
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
         },
         "primarySector": {
           "title": "Article.primarySector",
@@ -1271,9 +1291,13 @@
         "location": {
           "title": "Action.location",
           "description": "ResourceIndex.Action.edit.addressMessage",
-          "$ref": "#/definitions/Place",
-          "_display": {
-            "collapsed": true
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Place",
+            "_display": {
+              "collapsed": true
+            }
           }
         },
         "instrument": {
@@ -1661,9 +1685,13 @@
         "location": {
           "title": "Service.location",
           "description": "ResourceIndex.Service.edit.info",
-          "$ref": "#/definitions/Place",
-          "_display": {
-            "collapsed": true
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Place",
+            "_display": {
+              "collapsed": true
+            }
           }
         },
         "about": {
@@ -2098,7 +2126,11 @@
           }
         },
         "location": {
-          "$ref": "#/definitions/Place"
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
         },
         "created": {
           "title": "Person.created",
@@ -2472,7 +2504,11 @@
           }
         },
         "location": {
-          "$ref": "#/definitions/Place"
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
         },
         "contactPoint": {
           "title": "Organization.contactPoint",
@@ -2828,7 +2864,11 @@
           "$ref": "#/definitions/iso-8601-date"
         },
         "location": {
-          "$ref": "#/definitions/Place"
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
         },
         "mentionedIn": {
           "title": "Event.mentionedIn",

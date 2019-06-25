@@ -54,7 +54,7 @@
   ],
   "image": "https://pixabay.com/static/uploads/photo/2015/06/14/21/17/person-809598_960_720.jpg",
   "email": "foo@bar.de",
-  "location": {
+  "location": [{
     "geo": {
       "lon": 1.1,
       "lat": -2.2
@@ -68,7 +68,7 @@
       "addressLocality": "St. Test"
     },
     "@type": "Place"
-  },
+  }],
   "url": "http://example.com/hansdampf",
   "sameAs": [ "https://twitter.com/hansdampf117", "https://facebook.com/hansdampf1117" ],
   "provides": [

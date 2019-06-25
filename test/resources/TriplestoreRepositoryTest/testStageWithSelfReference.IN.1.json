@@ -7,7 +7,7 @@
     "@value" : "Making - Kreatives digitales Gestalten mit Kindern",
     "@language" : "en"
   } ],
-  "location" : {},
+  "location" : [{}],
   "@id" : "urn:uuid:a70e90a3-1032-4e89-98f3-1a00ee4b67a6",
   "@context" : "https://oerworldmap.org/assets/json/context.json"
 }
