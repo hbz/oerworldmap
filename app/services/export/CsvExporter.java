@@ -32,16 +32,17 @@ public class CsvExporter implements Exporter {
       pointerDicts.add(pointerDict);
       headers.addAll(pointerDict.keySet());
     }
-    String output = String.join(",", headers).concat("\n");
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(String.join(",", headers)).append("\n");
     for (Map<String, String> pointerDict : pointerDicts) {
       List<String> values = new ArrayList<>();
       for (String header : headers) {
         String value = pointerDict.getOrDefault(header, "");
         values.add("\"".concat(value.replace("\"", "\"\"")).concat("\""));
       }
-      output = output.concat(String.join(",", values)).concat("\n");
+      stringBuilder.append(String.join(",", values)).append("\n");
     }
-    return output;
+    return stringBuilder.toString();
   }
 
   private Map<String, String> jsonNodeToPointerDict(JsonNode node, String path) {
