@@ -2,24 +2,34 @@
   "about": {
     "@type": "Person",
     "@id": "345",
-    "name": "Hans Wurst",
+    "name": {
+      "en": "Hans Wurst"
+    },
     "email": "foo@bar.com",
     "authorOf": [
       {
         "@type": "Article",
         "@id": "123",
-        "name": "Ganz spannend!",
-        "articleBody": "Super toll",
+        "name": {
+          "en": "Ganz spannend!"
+        },
+        "articleBody": {
+          "en": "Super toll"
+        },
         "author": [
           {
             "@type": "Person",
             "@id": "456",
-            "name": "Hans Dampf"
+            "name": {
+              "en": "Hans Dampf"
+            }
           },
           {
             "@type": "Person",
             "@id": "345",
-            "name": "Hans Wurst"
+            "name": {
+              "en":"Hans Dampf"
+            }
           }
         ]
       }

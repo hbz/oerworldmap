@@ -37,7 +37,8 @@ libraryDependencies ++= Seq(
   "io.apigee.trireme" % "trireme-node10src" % "0.8.9",
   "com.maxmind.geoip2" % "geoip2" % "2.8.0",
   "org.python" % "jython-standalone" % "2.7.1b2",
-  "org.apache.httpcomponents" % "httpclient" % "4.5.5"
+  "org.apache.httpcomponents" % "httpclient" % "4.5.5",
+  "org.mnode.ical4j" % "ical4j" % "3.0.7"
 )
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"

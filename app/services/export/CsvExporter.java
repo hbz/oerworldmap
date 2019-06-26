@@ -1,20 +1,38 @@
 package services.export;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 public class CsvExporter implements Exporter {
+
+  private List<Pattern> exposedHeaders = Arrays.asList(
+    Pattern.compile("/@id"),
+    Pattern.compile("/@type"),
+    Pattern.compile("/name/en"),
+    Pattern.compile("/description/en"),
+    Pattern.compile("/provider/\\d+/name/en"),
+    Pattern.compile("/url"),
+    Pattern.compile("/additionalType/\\d+/name/en"),
+    Pattern.compile("/primarySector/\\d+/name/en"),
+    Pattern.compile("/startDate"),
+    Pattern.compile("/endDate"),
+    Pattern.compile("/startTime"),
+    Pattern.compile("/endTime"),
+    Pattern.compile("/agent/\\d+/name/en"),
+    Pattern.compile("/location/\\d+/address/.*")
+  );
+
   @Override
   public String export(Resource aResource) {
     return export(Collections.singletonList(aResource));
@@ -29,10 +47,21 @@ public class CsvExporter implements Exporter {
     List<Map<String, String>> pointerDicts = new ArrayList<>();
     Set<String> headers = new TreeSet<>();
     for (Resource resource: resources) {
-      Map<String, String> pointerDict = jsonNodeToPointerDict(
-        resource.getAsResource(Record.RESOURCE_KEY).toJson(), "");
+      Map<String, String> pointerDict = resource.getAsResource(Record.RESOURCE_KEY).toPointerDict();
       pointerDicts.add(pointerDict);
       headers.addAll(pointerDict.keySet());
+    }
+    Iterator<String> it = headers.iterator();
+    while(it.hasNext()) {
+      String header = it.next();
+      boolean discard = true;
+      for (Pattern exposedHeader: exposedHeaders) {
+        if (exposedHeader.matcher(header).matches()) {
+          discard = false;
+          break;
+        }
+      }
+      if (discard) it.remove();
     }
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(String.join(",", headers)).append("\n");
@@ -45,24 +74,6 @@ public class CsvExporter implements Exporter {
       stringBuilder.append(String.join(",", values)).append("\n");
     }
     return stringBuilder.toString();
-  }
-
-  private Map<String, String> jsonNodeToPointerDict(JsonNode node, String path) {
-    Map<String, String> pointerDict = new HashMap<>();
-    if (node.isArray()) {
-      for (int i = 0; i < node.size(); i++) {
-        pointerDict.putAll(jsonNodeToPointerDict(node.get(i), path.concat("/").concat(Integer.toString(i))));
-      }
-    } else if (node.isObject()) {
-      Iterator<Map.Entry<String, JsonNode>> it = node.fields();
-      while (it.hasNext()) {
-        Map.Entry<String, JsonNode> entry = it.next();
-        pointerDict.putAll(jsonNodeToPointerDict(entry.getValue(), path.concat("/").concat(entry.getKey())));
-      }
-    } else if (node.isValueNode()) {
-      pointerDict.put(path, node.asText());
-    }
-    return pointerDict;
   }
 
 }

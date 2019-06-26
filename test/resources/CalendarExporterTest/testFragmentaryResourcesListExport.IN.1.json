@@ -35,15 +35,10 @@
       {
         "endDate" : "2016-02-03",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "Test Event",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "Alternate Name",
-          "@language" : "en"
-        } ],
-        "location" : {
+        "name" : {
+          "en" : "Test Event"
+        },
+        "location" : [{
           "geo" : {
             "lon" : 9.14626,
             "lat" : 44.39561
@@ -54,7 +49,7 @@
             "addressLocality" : "Testana",
             "addressRegion" : "IT.GE"
           }
-        },
+        }],
         "@id" : "urn:uuid:4434992e-c2c0-4c42-a75d-5f6a8de5db06",
         "startDate" : "2016-01-02"
       },
@@ -71,11 +66,10 @@
         "image" : "http://langoer.eun.org/image/image_gallery?uuid=9a1e72a4-388e-40f9-a0f7-249dfe5772ae&groupId=395028&t=1393931857462",
         "endDate" : "2016-09-27",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "Open Education: Promoting Diversity for European Languages",
-          "@language" : "en"
-        } ],
-        "location" : {
+        "name" : {
+          "en" : "Open Education: Promoting Diversity for European Languages"
+        },
+        "location" : [{
           "geo" : {
             "lon" : 4.35171,
             "lat" : 50.85034
@@ -84,7 +78,7 @@
             "addressCountry" : "BE",
             "addressLocality" : "Brussels"
           }
-        },
+        }],
         "@id" : "urn:uuid:3016da20-2864-48ad-8d49-bcfee1240ccc",
         "startDate" : "2016-09-26"
       },
@@ -101,21 +95,16 @@
         "image" : "http://openedconference.org/2016/wp-content/uploads/2016/03/opened-logo.png",
         "endDate" : "2016-11-04",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "13th Annual Open Education Conference",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "OpenEd16",
-          "@language" : "en"
-        } ],
-        "location" : {
+        "name" : {
+          "en" : "13th Annual Open Education Conference"
+        },
+        "location" : [{
           "address" : {
             "addressCountry" : "US",
             "addressLocality" : "Richmond",
             "addressRegion" : "VA"
           }
-        },
+        }],
         "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4",
         "startDate" : "2016-11-02"
       },
@@ -132,21 +121,10 @@
         "image" : "https://sooc13.files.wordpress.com/2013/03/slide1.png?w=869&h=181",
         "endDate" : "2014-01-24",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "Saxon Open Online Course 2013/14: teaching and learning with social media",
-          "@language" : "en"
-        }, {
-          "@value" : "Saxon Open Online Course 2013/14: Lehren und Lernen mit Social Media",
-          "@language" : "de"
-        } ],
-        "alternateName" : [ {
-          "@value" : "SOOC13/14",
-          "@language" : "en"
-        }, {
-          "@value" : "SOOC13/14",
-          "@language" : "de"
-        } ],
-        "location" : { },
+        "name" : {
+          "en" : "Saxon Open Online Course 2013/14: teaching and learning with social media"
+        },
+        "location" : [{ }],
         "@id" : "urn:uuid:1b1f22fd-f592-4662-ad46-28051d74e7e9",
         "startDate" : "2013-11-11"
       },
@@ -163,11 +141,10 @@
         "image" : "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
         "endDate" : "2016-07-24",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "Hackathon 2016 Weimar",
-          "@language" : "de"
-        } ],
-        "location" : {
+        "name" : {
+          "en" : "Hackathon 2016 Weimar"
+        },
+        "location" : [{
           "geo" : {
             "lon" : 11.329643,
             "lat" : 50.973463
@@ -178,7 +155,7 @@
             "postalCode" : 99423,
             "addressLocality" : "Weimar"
           }
-        },
+        }],
         "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d",
         "startDate" : "2016-07-23"
       },
@@ -195,13 +172,9 @@
         "image" : "http://www.oncampus.de/uploads/pics/mooin_final2_04.png",
         "endDate" : "2015-06-04",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "MOOC Grundlagen des Projektmanagements",
-          "@language" : "de"
-        }, {
-          "@value" : "MOOC Grundlagen des Projektmanagements",
-          "@language" : "en"
-        } ],
+        "name" : {
+          "en" : "MOOC Grundlagen des Projektmanagements"
+        },
         "alternateName" : [ {
           "@value" : "pmMOOC",
           "@language" : "en"
@@ -209,7 +182,7 @@
           "@value" : "pmMOOC",
           "@language" : "de"
         } ],
-        "location" : { },
+        "location" : [{ }],
         "@id" : "urn:uuid:e2334834-398a-4616-a1d7-8b6d53e9fc50",
         "startDate" : "2015-04-27"
       },
@@ -225,18 +198,17 @@
       {
         "endDate" : "2012-06-22",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "World Open Educational Resources Congress",
-          "@language" : "en"
-        } ],
-        "location" : {
+        "name" : {
+          "en" : "World Open Educational Resources Congress"
+        },
+        "location" : [{
           "address" : {
             "addressCountry" : "FR",
             "streetAddress" : "7 Place de Fontenoy",
             "postalCode" : 75007,
             "addressLocality" : "Paris"
           }
-        },
+        }],
         "@id" : "urn:uuid:c27c383c-ecab-44e7-be67-24a741586afe",
         "startDate" : "2012-06-20"
       },
@@ -253,11 +225,10 @@
         "image" : "http://www.openeducationweek.org/assets/images/logo.svg",
         "endDate" : "2016-03-16",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "Open Education Week 2016",
-          "@language" : "en"
-        } ],
-        "location" : { },
+        "name" : {
+          "en" : "Open Education Week 2016"
+        },
+        "location" : [{ }],
         "@id" : "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77",
         "startDate" : "2016-03-07"
       },
@@ -274,14 +245,10 @@
         "image" : "http://wikis.zum.de/zum/images/4/4c/DigiLern_2015.png",
         "endDate" : "2015-03-14",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "DigiLern",
-          "@language" : "en"
-        }, {
-          "@value" : "DigiLern",
-          "@language" : "de"
-        } ],
-        "location" : { },
+        "name" : {
+          "en" : "DigiLern"
+        },
+        "location" : [{ }],
         "@id" : "urn:uuid:c2147e57-a796-4670-b209-5df3d880a2df",
         "startDate" : "2015-03-14"
       },
@@ -298,13 +265,9 @@
         "image" : "http://www.oncampus.de/uploads/pics/mooin_final2_04.png",
         "endDate" : "2015-06-26",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "My digital self - iMOOC",
-          "@language" : "en"
-        }, {
-          "@value" : "Mein digitales ich - ichMOOC",
-          "@language" : "de"
-        } ],
+        "name" : {
+          "en" : "My digital self - iMOOC"
+        },
         "alternateName" : [ {
           "@value" : "ichMOOC",
           "@language" : "de"
@@ -312,7 +275,7 @@
           "@value" : "iMOOC",
           "@language" : "en"
         } ],
-        "location" : { },
+        "location" : [{ }],
         "@id" : "urn:uuid:a526fdb4-d0e6-47d2-bf58-746c5891a97b",
         "startDate" : "2015-05-28"
       },
@@ -329,14 +292,10 @@
         "image" : "http://iunig.at/images/logo.jpg",
         "endDate" : "2011-05-26",
         "@type" : "Event",
-        "name" : [ {
-          "@value" : "Österreichische Fachtagung zu Open Educational Resources - OER",
-          "@language" : "de"
-        }, {
-          "@value" : "Österreichische Fachtagung zu Open Educational Resources - OER",
-          "@language" : "en"
-        } ],
-        "location" : {
+        "name" : {
+          "en" : "Österreichische Fachtagung zu Open Educational Resources - OER"
+        },
+        "location" : [{
           "geo" : {
             "lon" : 15.449612,
             "lat" : 47.078776
@@ -348,461 +307,12 @@
             "addressLocality" : "Graz",
             "addressRegion" : "Steiermark"
           }
-        },
+        }],
         "@id" : "urn:uuid:5ceedadb-2c96-41e5-ba98-dce901c6c3be",
         "startDate" : "2011-05-26"
       },
       "dateModified" : "2017-03-13T15:31:50.134+01:00",
       "@id" : "urn:uuid:5ceedadb-2c96-41e5-ba98-dce901c6c3be.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://oer16.oerconf.org/wp-content/uploads/sites/23/2015/04/OER16-logo.jpg",
-        "endDate" : "2016-04-20",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "OER16: Open Culture",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "OER16",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -3.171522,
-            "lat" : 55.938686
-          },
-          "address" : {
-            "addressCountry" : "GB",
-            "streetAddress" : "Pollock Halls, 18 Holyrood Park Rd",
-            "postalCode" : "EH16 5AY",
-            "addressLocality" : "Edinburgh"
-          }
-        },
-        "@id" : "urn:uuid:2d2fa244-acce-42ac-8ce7-ea4af5947b1f",
-        "startDate" : "2016-04-19"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:2d2fa244-acce-42ac-8ce7-ea4af5947b1f.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://imoox.at/wbtmaster/startseite/images/logo-mooc.png",
-        "endDate" : "2016-06-01",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Gratis Online Lernen - Edition LISUM",
-          "@language" : "de"
-        }, {
-          "@value" : "Gratis Online Lernen - Edition LISUM",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:ac8611ca-a3d3-445b-9f52-aca5c54d06c6",
-        "startDate" : "2016-04-04"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:ac8611ca-a3d3-445b-9f52-aca5c54d06c6.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.kooperative-berlin.de/wp-content/uploads/2015/11/12079230_850798305035701_6455598019982994743_n.jpg",
-        "endDate" : "2015-12-12",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "MOOC 25 Jahre Deutsche Einheit",
-          "@language" : "de"
-        }, {
-          "@value" : "MOOC 25 years of German Unity",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "MOOC25",
-          "@language" : "de"
-        }, {
-          "@value" : "MOOC25",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:6291340b-766a-4f39-a264-1b3ee65e5775",
-        "startDate" : "2015-10-03"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:6291340b-766a-4f39-a264-1b3ee65e5775.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://imoox.at/wbtmaster/startseite/images/logo-mooc.png",
-        "endDate" : "2015-12-07",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Making - Kreatives digitales Gestalten mit Kindern",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "Making",
-          "@language" : "de"
-        }, {
-          "@value" : "Making",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:a70e90a3-1032-4e89-98f3-1a00ee4b67a6",
-        "startDate" : "2015-10-19"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:a70e90a3-1032-4e89-98f3-1a00ee4b67a6.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://imoox.at/wbtmaster/startseite/images/logo-mooc.png",
-        "endDate" : "2015-06-21",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Online Course Open Educational Resources",
-          "@language" : "en"
-        }, {
-          "@value" : "Online-Kurs zu Open Educational Resources",
-          "@language" : "de"
-        } ],
-        "alternateName" : [ {
-          "@value" : "COER15",
-          "@language" : "de"
-        }, {
-          "@value" : "COER15",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:b7d493e4-33f1-4b0e-8306-2d60986ac4b0",
-        "startDate" : "2015-05-11"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:b7d493e4-33f1-4b0e-8306-2d60986ac4b0.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://pbs.twimg.com/profile_images/697376447128805378/cf7940lw_400x400.png",
-        "endDate" : "2015-11-10",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "edu-sharing workshop",
-          "@language" : "en"
-        }, {
-          "@value" : "edu-sharing Workshop",
-          "@language" : "de"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 11.329643,
-            "lat" : 50.973463
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "Bauhausstraße 7c",
-            "postalCode" : 99423,
-            "addressLocality" : "Weimar",
-            "addressRegion" : "Thüringen"
-          }
-        },
-        "@id" : "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b",
-        "startDate" : "2015-11-09"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://w3-mediapool.hm.edu/mediapool/media/dachmarke/dm_lokal/presse/news_1/bilder_48/2013_3/04_8/coer13_logo.png",
-        "endDate" : "2013-06-08",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Der Online Course zu OER",
-          "@language" : "de"
-        }, {
-          "@value" : "Der Online Course zu OER",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "COER13",
-          "@language" : "de"
-        }, {
-          "@value" : "COER13",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:8fdbbc94-0ddf-4834-bef3-bb29f091d733",
-        "startDate" : "2013-04-08"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:8fdbbc94-0ddf-4834-bef3-bb29f091d733.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://conference.oeconsortium.org/2016/wp-content/themes/conf2016/img/logo.png",
-        "endDate" : "2016-04-14",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Open Education Global Conference 2016",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "OE Global 16",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 19.916496,
-            "lat" : 50.065839
-          },
-          "address" : {
-            "addressCountry" : "PL",
-            "streetAddress" : "Krowodrza 30-962",
-            "addressLocality" : "Kraków"
-          }
-        },
-        "@id" : "urn:uuid:e6db620c-7b16-48f2-a1ee-fccc5ddff4b2",
-        "startDate" : "2016-04-12"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:e6db620c-7b16-48f2-a1ee-fccc5ddff4b2.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://sooc13.files.wordpress.com/2013/03/slide1.png",
-        "endDate" : "2013-07-14",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Saxon Open Online Course 2013: Lernen 2.0 - Persönliches Lern- und Wissensmanagement mit Social Media",
-          "@language" : "de"
-        }, {
-          "@value" : "Saxon Open Online Course 2013: Learning 2.0 - personal learning and knowledge management with social media",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "SOOC 13",
-          "@language" : "en"
-        }, {
-          "@value" : "SOOC 13",
-          "@language" : "de"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:f7b66e60-9aba-486c-8727-8bebd554dc4d",
-        "startDate" : "2013-05-13"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:f7b66e60-9aba-486c-8727-8bebd554dc4d.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://olcos.org/templates/olcos/images/logo.gif",
-        "endDate" : "2007-04-17",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "3. EduMedia Conference 2007",
-          "@language" : "de"
-        }, {
-          "@value" : "3. EduMedia Conference 2007",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "OLCOS Tagung",
-          "@language" : "en"
-        }, {
-          "@value" : "OLCOS conference",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "address" : {
-            "addressCountry" : "AT",
-            "addressLocality" : "Salzburg",
-            "addressRegion" : "Salzburg"
-          }
-        },
-        "@id" : "urn:uuid:2aafbeba-e669-47ed-9ce7-3a921b567a7c",
-        "startDate" : "2007-04-16"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:2aafbeba-e669-47ed-9ce7-3a921b567a7c.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://medialiteracylab.de/wp-content/uploads/2016/02/media_literacy_lab_mlab_logo_quicksand.png",
-        "endDate" : "2014-09-28",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Media Literacy Lab",
-          "@language" : "de"
-        }, {
-          "@value" : "Media Literacy Lab",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "mlab",
-          "@language" : "en"
-        }, {
-          "@value" : "mlab",
-          "@language" : "de"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:5b24b552-6d8a-40ee-b61a-fc44afe9ffe2",
-        "startDate" : "2014-09-28"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:5b24b552-6d8a-40ee-b61a-fc44afe9ffe2.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://wikis.zum.de/zum/images/thumb/a/af/DigiLern_2012_Banner.jpg/400px-DigiLern_2012_Banner.jpg",
-        "endDate" : "2012-03-10",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "DigiLern 2012",
-          "@language" : "en"
-        }, {
-          "@value" : "DigiLern 2012",
-          "@language" : "de"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb",
-        "startDate" : "2012-03-08"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "endDate" : "2013",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Test Event",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:1f5bf9c0-e18b-43a9-b56e-98affcafb6b3",
-        "startDate" : "2012-12-07"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:1f5bf9c0-e18b-43a9-b56e-98affcafb6b3.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://i0.wp.com/wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/09/oerde16_logo.png?w=608",
-        "endDate" : "2016-03-01",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "OER-Festival 2016",
-          "@language" : "de"
-        } ],
-        "alternateName" : [ {
-          "@value" : "OERde16",
-          "@language" : "de"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 13.37828,
-            "lat" : 52.5125
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "In den Ministergärten 8",
-            "postalCode" : 10117,
-            "addressLocality" : "Berlin"
-          }
-        },
-        "@id" : "urn:uuid:abc8c7e9-4738-433c-8550-7af52996085e",
-        "startDate" : "2016-02-28"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:abc8c7e9-4738-433c-8550-7af52996085e.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "endDate" : "2012-06-01",
-        "@type" : "Event",
-        "name" : [ {
-          "@value" : "Date validation Test",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:8d1c365e-6e71-4ac6-b308-ada9ec43fe46",
-        "startDate" : "2001-01"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:8d1c365e-6e71-4ac6-b308-ada9ec43fe46.about"
     },
     {
       "contributor" : "CalendarExporterTest",
