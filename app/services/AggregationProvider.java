@@ -81,7 +81,9 @@ public class AggregationProvider {
     return AggregationBuilders
       .terms("feature.properties.location.address.addressCountry")
       .field("feature.properties.location.address.addressCountry").size(getSize(aSize))
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0));
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0)
+        .includeExclude(
+          new IncludeExclude(null, "Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")));
   }
 
 
