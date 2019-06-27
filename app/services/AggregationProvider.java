@@ -81,14 +81,14 @@ public class AggregationProvider {
     return AggregationBuilders
       .terms("feature.properties.location.address.addressCountry")
       .field("feature.properties.location.address.addressCountry").size(getSize(aSize))
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type"));
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0));
   }
 
 
   public static AggregationBuilder getForCountryAggregation(String aId, int aSize) {
     return AggregationBuilders.filter("country",
       QueryBuilders.termQuery("feature.properties.location.address.addressCountry", aId))
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0)
         .includeExclude(
           new IncludeExclude(null,"Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")))
       .subAggregation(AggregationBuilders
@@ -138,7 +138,7 @@ public class AggregationProvider {
       .field("feature.properties.location.address.addressRegion")
       .includeExclude(new IncludeExclude(aIso3166Scope + "\\...+", null))
       .size(getSize(aSize))
-      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type")
+      .subAggregation(AggregationBuilders.terms("by_type").field("about.@type").minDocCount(0)
         .includeExclude(
           new IncludeExclude(null,"Concept|ConceptScheme|Comment|LikeAction|LighthouseAction")));
   }
