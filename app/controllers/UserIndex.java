@@ -80,9 +80,8 @@ public class UserIndex extends OERWorldMap {
     user.put(JsonLdConstants.CONTEXT, mConf.getString("jsonld.context"));
     Resource name = new Resource();
     user.put("email", registration.getAsString("email"));
-    name.put("@value", registration.getAsString("name"));
-    name.put("@language", "en");
-    user.put("name", Collections.singletonList(name));
+    name.put("en", registration.getAsString("name"));
+    user.put("name", name);
     Resource location = new Resource();
     Resource address = new Resource();
     address.put("addressCountry", registration.getAsString("location"));
