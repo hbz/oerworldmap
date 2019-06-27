@@ -1,11 +1,8 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "info:alice",
   "@type": "Person",
-  "name": [
-    {
-      "@value": "Alice in Wonderland",
-      "@language": "en"
-    }
-  ]
+  "name": {
+    "en": "Alice in Wonderland"
+  }
 }

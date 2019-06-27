@@ -1,14 +1,12 @@
 {
-  "@type" : "Organization",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "name" : [ {
-    "@value" : "A Good Provider 3",
-    "@language" : "en"
-  } ],
-  "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00003",
-  "url" : "https://thiscouldbealinkingsitetotheworldmap.org",
-  "alternateName" : [{
-  	"@language" : "en",
-  	"@value" : "Since this organization contains the magic word oerworldmap in the following field: alternateName, it should be ranked third."
-  }]
+  "@type": "Organization",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "name": {
+    "en": "A Good Provider 3"
+  },
+  "@id": "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00003",
+  "url": "https://thiscouldbealinkingsitetotheworldmap.org",
+  "alternateName": {
+    "en": "Since this organization contains the magic word oerworldmap in the following field: alternateName, it should be ranked third."
+  }
 }

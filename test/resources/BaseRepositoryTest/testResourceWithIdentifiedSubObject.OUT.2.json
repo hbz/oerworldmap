@@ -1,6 +1,5 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "@type" : "Event",
-  "@id" : "info:OER15"
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@type": "Event",
+  "@id": "info:OER15"
 }
-

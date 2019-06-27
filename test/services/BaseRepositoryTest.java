@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -209,17 +210,17 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
       QueryContext queryContext = new QueryContext(null);
       queryContext.setElasticsearchFieldBoosts( //
         new String[]{ //
-          "about.name.@value^9.0", //
-          "about.name.@value.variations^9.0", //
-          "about.name.@value.simple_tokenized^9.0", //
-          "about.alternateName.@value^6.0",
-          "about.alternateName.@value.variations^6.0", //
-          "about.alternateName.@value.simple_tokenized^6.0"});
+          "about.name.*^9.0", //
+          "about.name.*.variations^9.0", //
+          "about.name.*.simple_tokenized^9.0", //
+          "about.alternateName.*^6.0",
+          "about.alternateName.*.variations^6.0", //
+          "about.alternateName.*.simple_tokenized^6.0"});
       List<Resource> actualList = ResourceHelpers
         .unwrapRecords(mBaseRepo.query("oerworldmap", 0, 10, null, null, queryContext).getItems());
       List<String> actualNameList = getNameList(actualList);
-      // must provide 3 hits because search is reduced on "about.name.@value" and
-      // "about.alternateName.@value"
+      // must provide 3 hits because search is reduced on "about.name.*" and
+      // "about.alternateName.*"
       Assert
         .assertTrue("Result size list is: " + actualNameList.size(), actualNameList.size() == 3);
 
@@ -732,8 +733,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     List<Resource> hits = mBaseRepo.query("OER", 0, 10, null, null, queryContext).getItems();
     Assert.assertEquals("Did not get expected number of hits (2).", 2, hits.size());
     List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
-    Assert.assertEquals("Did not get linked hit first.",
-      db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
+    Assert.assertEquals("Did not get linked hit first.", db2.toPointerDict().get("/name/en"), names.get(0));
     mBaseRepo.deleteResource("", mMetadata);
   }
 
@@ -750,8 +750,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     Assert.assertEquals("Did not get expected number of hits (3).", 3, hits.size());
     List<String> names = getNameList(ResourceHelpers.unwrapRecords(hits));
     // The nested link of db3 does not count, so db2 must be first
-    Assert.assertEquals("Did not get linked hit first.",
-      db2.getNestedFieldValue("name.@value", Locale.ENGLISH), names.get(0));
+    Assert.assertEquals("Did not get linked hit first.", db2.toPointerDict().get("/name/en"), names.get(0));
     mBaseRepo.deleteResource("", mMetadata);
   }
 
@@ -781,7 +780,7 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
     resources.forEach(res -> {
       try {
         mBaseRepo.addResource(res, mMetadata);
-        String name = res.getNestedFieldValue("name.@value", Locale.ENGLISH).substring(0, 7);
+        String name = res.toPointerDict().get("/name/en").substring(0, 7);
         List<Resource> hitsExact = mBaseRepo.query(name, 0, 10, null, null, queryContext)
           .getItems();
         Assert.assertEquals(String.format("Did not find resource by exact search (%s).", name), 1,
@@ -801,11 +800,12 @@ public class BaseRepositoryTest extends ElasticsearchTestGrid implements JsonTes
   private List<String> getNameList(List<Resource> aResourceList) {
     List<String> result = new ArrayList<>();
     for (Resource r : aResourceList) {
-      List<?> nameList = (List<?>) r.get("name");
-      if (nameList.get(0) instanceof HashMap<?, ?>) {
-        Resource name = Resource.fromMap((HashMap<String, Object>) nameList.get(0));
-        result.add(name.getAsString("@value"));
-      }
+      Set<String> names = r.toPointerDict().entrySet()
+        .stream()
+        .filter(entry -> entry.getKey().startsWith("/name"))
+        .map(Map.Entry::getValue)
+        .collect(Collectors.toSet());
+      result.addAll(names);
     }
     return result;
   }

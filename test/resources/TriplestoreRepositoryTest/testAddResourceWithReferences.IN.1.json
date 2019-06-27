@@ -1,13 +1,10 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "info:carol",
   "@type": "Person",
-  "name": [
-    {
-      "@value": "Carol",
-      "@language": "en"
-    }
-  ],
+  "name": {
+    "en": "Carol"
+  },
   "knows": [
     {
       "@id": "info:alice"

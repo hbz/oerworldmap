@@ -1,1346 +1,1316 @@
 {
-  "totalItems" : 68,
-  "previousPage" : null,
-  "lastPage" : null,
-  "searchTerms" : "",
-  "@type" : "PagedCollection",
-  "nextPage" : null,
-  "filters" : { },
-  "firstPage" : null,
-  "itemsPerPage" : 9999,
+  "totalItems": 68,
+  "previousPage": null,
+  "lastPage": null,
+  "searchTerms": "",
+  "@type": "PagedCollection",
+  "nextPage": null,
+  "filters": {},
+  "firstPage": null,
+  "itemsPerPage": 9999,
   "size": 68,
-  "member" : [
+  "member": [
     {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" : {
-        "@type" : "Action",
-        "name" : [ {
-          "@value" : "OER Infostelle",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:60dfaed6-2677-4074-9c51-789df2757470"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:60dfaed6-2677-4074-9c51-789df2757470.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "endDate" : "2016-02-03",
-        "@type" : "Event",
-        "name" : {
-          "en" : "Test Event"
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Action",
+        "name": {
+          "en": "OER Infostelle"
         },
-        "location" : [{
-          "geo" : {
-            "lon" : 9.14626,
-            "lat" : 44.39561
-          },
-          "address" : {
-            "addressCountry" : "IT",
-            "streetAddress" : "Testana",
-            "addressLocality" : "Testana",
-            "addressRegion" : "IT.GE"
-          }
-        }],
-        "@id" : "urn:uuid:4434992e-c2c0-4c42-a75d-5f6a8de5db06",
-        "startDate" : "2016-01-02"
+        "@id": "urn:uuid:60dfaed6-2677-4074-9c51-789df2757470"
       },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:4434992e-c2c0-4c42-a75d-5f6a8de5db06.about"
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:60dfaed6-2677-4074-9c51-789df2757470.about"
     },
     {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://langoer.eun.org/image/image_gallery?uuid=9a1e72a4-388e-40f9-a0f7-249dfe5772ae&groupId=395028&t=1393931857462",
-        "endDate" : "2016-09-27",
-        "@type" : "Event",
-        "name" : {
-          "en" : "Open Education: Promoting Diversity for European Languages"
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "endDate": "2016-02-03",
+        "@type": "Event",
+        "name": {
+          "en": "Test Event"
         },
-        "location" : [{
-          "geo" : {
-            "lon" : 4.35171,
-            "lat" : 50.85034
-          },
-          "address" : {
-            "addressCountry" : "BE",
-            "addressLocality" : "Brussels"
-          }
-        }],
-        "@id" : "urn:uuid:3016da20-2864-48ad-8d49-bcfee1240ccc",
-        "startDate" : "2016-09-26"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:3016da20-2864-48ad-8d49-bcfee1240ccc.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://openedconference.org/2016/wp-content/uploads/2016/03/opened-logo.png",
-        "endDate" : "2016-11-04",
-        "@type" : "Event",
-        "name" : {
-          "en" : "13th Annual Open Education Conference"
-        },
-        "location" : [{
-          "address" : {
-            "addressCountry" : "US",
-            "addressLocality" : "Richmond",
-            "addressRegion" : "VA"
-          }
-        }],
-        "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4",
-        "startDate" : "2016-11-02"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://sooc13.files.wordpress.com/2013/03/slide1.png?w=869&h=181",
-        "endDate" : "2014-01-24",
-        "@type" : "Event",
-        "name" : {
-          "en" : "Saxon Open Online Course 2013/14: teaching and learning with social media"
-        },
-        "location" : [{ }],
-        "@id" : "urn:uuid:1b1f22fd-f592-4662-ad46-28051d74e7e9",
-        "startDate" : "2013-11-11"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:1b1f22fd-f592-4662-ad46-28051d74e7e9.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
-        "endDate" : "2016-07-24",
-        "@type" : "Event",
-        "name" : {
-          "en" : "Hackathon 2016 Weimar"
-        },
-        "location" : [{
-          "geo" : {
-            "lon" : 11.329643,
-            "lat" : 50.973463
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "Bauhausstraße 7c",
-            "postalCode" : 99423,
-            "addressLocality" : "Weimar"
-          }
-        }],
-        "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d",
-        "startDate" : "2016-07-23"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.oncampus.de/uploads/pics/mooin_final2_04.png",
-        "endDate" : "2015-06-04",
-        "@type" : "Event",
-        "name" : {
-          "en" : "MOOC Grundlagen des Projektmanagements"
-        },
-        "alternateName" : [ {
-          "@value" : "pmMOOC",
-          "@language" : "en"
-        }, {
-          "@value" : "pmMOOC",
-          "@language" : "de"
-        } ],
-        "location" : [{ }],
-        "@id" : "urn:uuid:e2334834-398a-4616-a1d7-8b6d53e9fc50",
-        "startDate" : "2015-04-27"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:e2334834-398a-4616-a1d7-8b6d53e9fc50.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "endDate" : "2012-06-22",
-        "@type" : "Event",
-        "name" : {
-          "en" : "World Open Educational Resources Congress"
-        },
-        "location" : [{
-          "address" : {
-            "addressCountry" : "FR",
-            "streetAddress" : "7 Place de Fontenoy",
-            "postalCode" : 75007,
-            "addressLocality" : "Paris"
-          }
-        }],
-        "@id" : "urn:uuid:c27c383c-ecab-44e7-be67-24a741586afe",
-        "startDate" : "2012-06-20"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:c27c383c-ecab-44e7-be67-24a741586afe.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.openeducationweek.org/assets/images/logo.svg",
-        "endDate" : "2016-03-16",
-        "@type" : "Event",
-        "name" : {
-          "en" : "Open Education Week 2016"
-        },
-        "location" : [{ }],
-        "@id" : "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77",
-        "startDate" : "2016-03-07"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://wikis.zum.de/zum/images/4/4c/DigiLern_2015.png",
-        "endDate" : "2015-03-14",
-        "@type" : "Event",
-        "name" : {
-          "en" : "DigiLern"
-        },
-        "location" : [{ }],
-        "@id" : "urn:uuid:c2147e57-a796-4670-b209-5df3d880a2df",
-        "startDate" : "2015-03-14"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:c2147e57-a796-4670-b209-5df3d880a2df.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.oncampus.de/uploads/pics/mooin_final2_04.png",
-        "endDate" : "2015-06-26",
-        "@type" : "Event",
-        "name" : {
-          "en" : "My digital self - iMOOC"
-        },
-        "alternateName" : [ {
-          "@value" : "ichMOOC",
-          "@language" : "de"
-        }, {
-          "@value" : "iMOOC",
-          "@language" : "en"
-        } ],
-        "location" : [{ }],
-        "@id" : "urn:uuid:a526fdb4-d0e6-47d2-bf58-746c5891a97b",
-        "startDate" : "2015-05-28"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:a526fdb4-d0e6-47d2-bf58-746c5891a97b.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://iunig.at/images/logo.jpg",
-        "endDate" : "2011-05-26",
-        "@type" : "Event",
-        "name" : {
-          "en" : "Österreichische Fachtagung zu Open Educational Resources - OER"
-        },
-        "location" : [{
-          "geo" : {
-            "lon" : 15.449612,
-            "lat" : 47.078776
-          },
-          "address" : {
-            "addressCountry" : "AT",
-            "streetAddress" : "Universitätsplatz 3",
-            "postalCode" : 8010,
-            "addressLocality" : "Graz",
-            "addressRegion" : "Steiermark"
-          }
-        }],
-        "@id" : "urn:uuid:5ceedadb-2c96-41e5-ba98-dce901c6c3be",
-        "startDate" : "2011-05-26"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:5ceedadb-2c96-41e5-ba98-dce901c6c3be.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Action",
-        "name" : [ {
-          "@value" : "Förderprogramm OER-Info",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:b929a757-7848-4122-a56e-c45a6855aa7a"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:b929a757-7848-4122-a56e-c45a6855aa7a.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Service",
-        "name" : [ {
-          "@value" : "Test-Service-Subjects",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:23b331b9-9a6d-47ca-9dc9-5f96cce8e18b"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:23b331b9-9a6d-47ca-9dc9-5f96cce8e18b.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Test2 Stor3",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:e73a4e7e-fa0a-4dfd-9da8-45d30c6a4a2c"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:e73a4e7e-fa0a-4dfd-9da8-45d30c6a4a2c.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Test-Orga5",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "test",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -56.15736,
-            "lat" : -34.822559
-          },
-          "address" : {
-            "addressCountry" : "UY",
-            "addressLocality" : "Montevideo",
-            "addressRegion" : "UY.MO"
-          }
-        },
-        "@id" : "urn:uuid:27c6bc9e-4127-4ed0-9a00-48b8494baf9f"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:27c6bc9e-4127-4ed0-9a00-48b8494baf9f.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Enabling the Promise of Personalized Learning in North Carolina",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:cc31152d-48a0-4c1d-a8c7-eb0bdd4ae069"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:cc31152d-48a0-4c1d-a8c7-eb0bdd4ae069.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Embedding Rigor Into Curriculum with OER",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:d5b1ad3b-8ce9-48a3-9f40-143fb85565ce"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:d5b1ad3b-8ce9-48a3-9f40-143fb85565ce.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "OER in Washington State: Identify, Review, Connect",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:b1ac42a8-464f-46e3-b90e-4e16c1e15f92"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:b1ac42a8-464f-46e3-b90e-4e16c1e15f92.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "SIATech: Connecting Students through Innovative Curriculum",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:3a7315cd-e3e6-46fb-a664-f46e8fbf3705"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:3a7315cd-e3e6-46fb-a664-f46e8fbf3705.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "OER and Professional Learning Communities in Massachusetts",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:4ba132b2-e914-4458-840d-5660e13b355e"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:4ba132b2-e914-4458-840d-5660e13b355e.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Innovation and Leadership Bring Quality Elements Together",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:ccd093e9-1e74-4248-b893-50967cb93c15"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:ccd093e9-1e74-4248-b893-50967cb93c15.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "A Big Vision in a Small District",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:c8c898c4-9799-4933-b275-21e0bb4617e7"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:c8c898c4-9799-4933-b275-21e0bb4617e7.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Leading with Enthusiasm and Engagement: Homegrown OER in California",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:471fbd7a-8a93-4e45-b964-59b6d4c3eba8"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:471fbd7a-8a93-4e45-b964-59b6d4c3eba8.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Growth Mindset and OER: Student-Led Solutions",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:65a11785-6401-4898-97a9-30e2c414915a"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:65a11785-6401-4898-97a9-30e2c414915a.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Experience and Insight Help to Meet the Needs of Today's Learners",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:e8653d67-1ad9-40ea-b228-704ebb7339d0"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:e8653d67-1ad9-40ea-b228-704ebb7339d0.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "provider" : [ {
-          "@type" : "Organization",
-          "name" : [ {
-            "@value" : "Behörde für Schule und Berufsausbildung Freie und Hansestadt Hamburg",
-            "@language" : "de"
-          }, {
-            "@value" : "Behörde für Schule und Berufsausbildung Freie und Hansestadt Hamburg",
-            "@language" : "en"
-          } ],
-          "location" : {
-            "geo" : {
-              "lon" : 10.030702,
-              "lat" : 53.572699
+        "location": [
+          {
+            "geo": {
+              "lon": 9.14626,
+              "lat": 44.39561
             },
-            "address" : {
-              "addressCountry" : "DE",
-              "streetAddress" : "Hamburger Straße 31",
-              "postalCode" : 22083,
-              "addressLocality" : "Hamburg",
-              "addressRegion" : "Hamburg"
+            "address": {
+              "addressCountry": "IT",
+              "streetAddress": "Testana",
+              "addressLocality": "Testana",
+              "addressRegion": "IT.GE"
             }
-          },
-          "@id" : "urn:uuid:8a099b65-15b3-4660-82a9-fceba458bd59"
-        } ],
-        "@type" : "Service",
-        "name" : [ {
-          "@value" : "Test-Service",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "(TS)",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -99.78472,
-            "lat" : 16.88889
-          },
-          "address" : {
-            "addressCountry" : "ME",
-            "streetAddress" : "La Testaruda",
-            "addressLocality" : "La Testaruda",
-            "addressRegion" : "MX.GR"
           }
+        ],
+        "@id": "urn:uuid:4434992e-c2c0-4c42-a75d-5f6a8de5db06",
+        "startDate": "2016-01-02"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:4434992e-c2c0-4c42-a75d-5f6a8de5db06.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://langoer.eun.org/image/image_gallery?uuid=9a1e72a4-388e-40f9-a0f7-249dfe5772ae&groupId=395028&t=1393931857462",
+        "endDate": "2016-09-27",
+        "@type": "Event",
+        "name": {
+          "en": "Open Education: Promoting Diversity for European Languages"
         },
-        "@id" : "urn:uuid:d65513c8-c745-4480-89d8-3fe00f7d7f46",
-        "startDate" : "2008-08-08"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:d65513c8-c745-4480-89d8-3fe00f7d7f46.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.peoi.org/Resources/Image99tr.gif",
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Test-Orga1",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:a85298e2-3f35-4847-a9cd-e3c26bf230a9"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:a85298e2-3f35-4847-a9cd-e3c26bf230a9.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Hbz-Logo.svg/2000px-Hbz-Logo.svg.png",
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Diff Test",
-          "@language" : "en"
-        } ],
-        "alternateName" : [ {
-          "@value" : "(DT)",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -73.98597,
-            "lat" : 40.75705
-          },
-          "address" : {
-            "addressCountry" : "US",
-            "streetAddress" : "Times Square",
-            "addressLocality" : "New York",
-            "addressRegion" : "US.NY"
-          }
-        },
-        "@id" : "urn:uuid:6d96ae75-341b-415b-9ee2-8a340ae1bb6c"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:6d96ae75-341b-415b-9ee2-8a340ae1bb6c.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.educapes.capes.gov.br/image/capes/logoEducapesHome.png",
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Test Logo Size",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:b56b4fe7-87b2-4be2-87cd-fa0cadffed4c"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:b56b4fe7-87b2-4be2-87cd-fa0cadffed4c.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Ed-Corner",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:16370fa2-920a-464b-838e-0454ab9388fb"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:16370fa2-920a-464b-838e-0454ab9388fb.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "name" : [ {
-          "@value" : "Open Education Sweden",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:1a4cec12-2af9-449b-ae95-c3839627d733"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:1a4cec12-2af9-449b-ae95-c3839627d733.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Khan Academy",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -122.088182,
-            "lat" : 37.419391
-          },
-          "address" : {
-            "addressCountry" : "US",
-            "streetAddress" : "1937 Landings Drive",
-            "addressLocality" : "Mountain View",
-            "addressRegion" : "US.CA"
-          }
-        },
-        "@id" : "urn:uuid:ff60a058-6d53-4d75-807e-0444290389d0"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:ff60a058-6d53-4d75-807e-0444290389d0.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Test-Orga4-peoi",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -74.38170783294481,
-            "lat" : 42.41237188292223
-          },
-          "address" : {
-            "addressCountry" : "US",
-            "streetAddress" : "Gilboa",
-            "addressRegion" : "US.NY"
-          }
-        },
-        "@id" : "urn:uuid:2e007364-16b4-4643-95f7-b84ced51d4ea"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:2e007364-16b4-4643-95f7-b84ced51d4ea.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "Test-Orga3",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : -56.15736,
-            "lat" : -34.822559
-          },
-          "address" : {
-            "addressCountry" : "UY",
-            "streetAddress" : "Montevideo",
-            "addressRegion" : "UY.MO"
-          }
-        },
-        "@id" : "urn:uuid:53ffda91-eebb-4e08-8ab3-eb55b04b8899"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:53ffda91-eebb-4e08-8ab3-eb55b04b8899.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Felix Link",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 13.378153,
-            "lat" : 52.500778
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "Berlin",
-            "addressLocality" : "Berlin",
-            "addressRegion" : "DE.BE"
-          }
-        },
-        "@id" : "urn:uuid:6f2ec319-8d09-4c1a-b2d3-7578274a4826"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:6f2ec319-8d09-4c1a-b2d3-7578274a4826.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Article",
-        "mentions" : [ {
-          "@type" : "Person",
-          "name" : [ {
-            "@value" : "Max Mustermann",
-            "@language" : "en"
-          } ],
-          "location" : { },
-          "@id" : "urn:uuid:d7c441e2-60ad-4f4b-812f-591a74c97f34"
-        }, {
-          "@type" : "Person",
-          "name" : [ {
-            "@value" : "Felix",
-            "@language" : "en"
-          } ],
-          "@id" : "urn:uuid:8b863f3f-f8ed-4601-90f6-32871ad6b2a8"
-        } ],
-        "name" : [ {
-          "@value" : "Test Story",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 2.306503,
-            "lat" : 1
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "Somewhere Street 8",
-            "postalCode" : 12345,
-            "addressLocality" : "Foocity"
-          }
-        },
-        "@id" : "urn:uuid:af322309-3542-4150-9bec-a2e1cbcf8601"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:af322309-3542-4150-9bec-a2e1cbcf8601.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Ã€drian Pohl",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:d40f7c4e-681a-4048-ac51-c14c1e334d53"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:d40f7c4e-681a-4048-ac51-c14c1e334d53.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Karin Driesen",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 6.95427,
-            "lat" : 50.93835
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "Köln",
-            "addressLocality" : "Köln",
-            "addressRegion" : "DE.NW"
-          }
-        },
-        "@id" : "urn:uuid:82f4e0e0-cf95-446d-95a2-4e14e8a655ba"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:82f4e0e0-cf95-446d-95a2-4e14e8a655ba.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Max Mustermann",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:d7c441e2-60ad-4f4b-812f-591a74c97f34"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:d7c441e2-60ad-4f4b-812f-591a74c97f34.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "graphthinking GmbH",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 13.568442,
-            "lat" : 52.44256
-          },
-          "address" : {
-            "addressCountry" : "DE",
-            "streetAddress" : "Grünauer Straße 24D",
-            "postalCode" : 12557,
-            "addressLocality" : "Berlin",
-            "addressRegion" : "DE.BE"
-          }
-        },
-        "@id" : "urn:uuid:0da0428a-24ef-436e-bb8c-5acd1708d00c"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:0da0428a-24ef-436e-bb8c-5acd1708d00c.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Felix",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:8b863f3f-f8ed-4601-90f6-32871ad6b2a8"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:8b863f3f-f8ed-4601-90f6-32871ad6b2a8.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Adrian Stagg",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:e07be540-07ed-401b-bf5b-295589821971"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:e07be540-07ed-401b-bf5b-295589821971.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/09/logo-oer-world-map.png",
-        "agent" : [ {
-          "@type" : "Organization",
-          "name" : [ {
-            "@value" : "North Rhine-Westphalian Library Center",
-            "@language" : "en"
-          } ],
-          "location" : {
-            "geo" : {
-              "lon" : 6.935475505524662,
-              "lat" : 50.934150851826246
+        "location": [
+          {
+            "geo": {
+              "lon": 4.35171,
+              "lat": 50.85034
             },
-            "address" : {
-              "addressCountry" : "DE",
-              "streetAddress" : "Jülicher Straße 6",
-              "postalCode" : 50674,
-              "addressLocality" : "Köln",
-              "addressRegion" : "DE.NW"
+            "address": {
+              "addressCountry": "BE",
+              "addressLocality": "Brussels"
             }
-          },
-          "@id" : "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
-        } ],
-        "@type" : "Action",
-        "name" : [ {
-          "@value" : "OER World Map",
-          "@language" : "en"
-        } ],
-        "@id" : "urn:uuid:43526b28-66f8-49bb-bf1c-c3cb8d4bbbcd",
-        "participant" : [ {
-          "@type" : "Person",
-          "name" : [ {
-            "@value" : "Jan Neumann",
-            "@language" : "en"
-          } ],
-          "location" : {
-            "geo" : {
-              "lon" : 6.9355108,
-              "lat" : 50.9340509
-            },
-            "address" : {
-              "addressCountry" : "DE",
-              "streetAddress" : "Jülicher Straße 6",
-              "postalCode" : 50674,
-              "addressLocality" : "Köln"
-            }
-          },
-          "@id" : "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
-        } ]
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:43526b28-66f8-49bb-bf1c-c3cb8d4bbbcd.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.uoh.fr/front/res/images/logo_uoh.png",
-        "@type" : "Service",
-        "name" : [ {
-          "@value" : "Humanities Open University",
-          "@language" : "en"
-        }, {
-          "@value" : "UniversitÃ© Ouverte des HumanitÃ©s",
-          "@language" : "fr"
-        } ],
-        "alternateName" : [ {
-          "@value" : "UOH",
-          "@language" : "fr"
-        } ],
-        "@id" : "urn:uuid:63ee2a1f-2447-4b3a-9895-4d023f353dd4",
-        "startDate" : "2003"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:63ee2a1f-2447-4b3a-9895-4d023f353dd4.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://upload.wikimedia.org/wikipedia/de/thumb/8/8e/Cern_Logo_black.svg/400px-Cern_Logo_black.svg.png",
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "CERN",
-          "@language" : "en"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 6.134031,
-            "lat" : 46.198221
-          },
-          "address" : {
-            "addressCountry" : "CH",
-            "postalCode" : 1211,
-            "addressLocality" : "Geneva"
           }
+        ],
+        "@id": "urn:uuid:3016da20-2864-48ad-8d49-bcfee1240ccc",
+        "startDate": "2016-09-26"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:3016da20-2864-48ad-8d49-bcfee1240ccc.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://openedconference.org/2016/wp-content/uploads/2016/03/opened-logo.png",
+        "endDate": "2016-11-04",
+        "@type": "Event",
+        "name": {
+          "en": "13th Annual Open Education Conference"
         },
-        "@id" : "urn:uuid:f93a7a03-c693-4225-a2f9-aa198d40044d"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:f93a7a03-c693-4225-a2f9-aa198d40044d.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "https://zenodo.org/img/logos/zenodo-gradient-2500.jpg",
-        "provider" : [ {
-          "@type" : "Organization",
-          "name" : [ {
-            "@value" : "CERN",
-            "@language" : "en"
-          } ],
-          "location" : {
-            "geo" : {
-              "lon" : 6.134031,
-              "lat" : 46.198221
-            },
-            "address" : {
-              "addressCountry" : "CH",
-              "postalCode" : 1211,
-              "addressLocality" : "Geneva"
+        "location": [
+          {
+            "address": {
+              "addressCountry": "US",
+              "addressLocality": "Richmond",
+              "addressRegion": "VA"
             }
-          },
-          "@id" : "urn:uuid:f93a7a03-c693-4225-a2f9-aa198d40044d"
-        } ],
-        "@type" : "Service",
-        "name" : [ {
-          "@value" : "Zenodo",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:33a6e1fd-7f16-4061-b167-a62b3cac5bb1"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:33a6e1fd-7f16-4061-b167-a62b3cac5bb1.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "@type" : "Person",
-        "name" : [ {
-          "@value" : "Shironica P. Karunanayaka",
-          "@language" : "en"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:af375403-f34a-4066-9e7b-fd52060ab2da"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:af375403-f34a-4066-9e7b-fd52060ab2da.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.unit.eu/sites/all/themes/basic/logo.png",
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "UniversitÃ© NumÃ©rique IngÃ©nierie et Technologie",
-          "@language" : "fr"
-        } ],
-        "alternateName" : [ {
-          "@value" : "UNIT",
-          "@language" : "fr"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 2.213749,
-            "lat" : 46.227638
-          },
-          "address" : {
-            "addressCountry" : "FR"
           }
+        ],
+        "@id": "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4",
+        "startDate": "2016-11-02"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "https://sooc13.files.wordpress.com/2013/03/slide1.png?w=869&h=181",
+        "endDate": "2014-01-24",
+        "@type": "Event",
+        "name": {
+          "en": "Saxon Open Online Course 2013/14: teaching and learning with social media"
         },
-        "@id" : "urn:uuid:5cf074fa-833b-4cbd-bc01-a088dce0bfc6"
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:1b1f22fd-f592-4662-ad46-28051d74e7e9",
+        "startDate": "2013-11-11"
       },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:5cf074fa-833b-4cbd-bc01-a088dce0bfc6.about"
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:1b1f22fd-f592-4662-ad46-28051d74e7e9.about"
     },
     {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2014/08/cropped-oer_header1.jpg",
-        "provider" : [ {
-          "@type" : "Organization",
-          "name" : [ {
-            "@value" : "J&K - Jöran und Konsorten",
-            "@language" : "en"
-          }, {
-            "@value" : "J&K - Jöran und Konsorten",
-            "@language" : "de"
-          } ],
-          "location" : {
-            "geo" : {
-              "lon" : 9.981946,
-              "lat" : 53.551316
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
+        "endDate": "2016-07-24",
+        "@type": "Event",
+        "name": {
+          "en": "Hackathon 2016 Weimar"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 11.329643,
+              "lat": 50.973463
             },
-            "address" : {
-              "addressCountry" : "DE",
-              "streetAddress" : "Brüderstr. 1",
-              "postalCode" : 20355,
-              "addressLocality" : "Hamburg",
-              "addressRegion" : "Hamburg"
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Bauhausstraße 7c",
+              "postalCode": 99423,
+              "addressLocality": "Weimar"
             }
-          },
-          "@id" : "urn:uuid:8cf07e97-c7fb-4dfc-a748-3a2f99e65a0a"
-        } ],
-        "@type" : "Service",
-        "name" : [ {
-          "@value" : "Transferstelle für OER",
-          "@language" : "de"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:08b0cfbb-823d-49f6-99a3-285438828883"
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:08b0cfbb-823d-49f6-99a3-285438828883.about"
-    },
-    {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.univ-droit.fr/images/logos_unjf/logo-unjf-2015.png",
-        "@type" : "Organization",
-        "name" : [ {
-          "@value" : "UniversitÃ© NumÃ©rique Juridique Francophone",
-          "@language" : "fr"
-        } ],
-        "alternateName" : [ {
-          "@value" : "UNJF",
-          "@language" : "fr"
-        } ],
-        "location" : {
-          "geo" : {
-            "lon" : 2.33535,
-            "lat" : 48.852823
-          },
-          "address" : {
-            "addressCountry" : "FR",
-            "streetAddress" : "13 rue du Four  ",
-            "postalCode" : 75006,
-            "addressLocality" : "Paris"
           }
-        },
-        "@id" : "urn:uuid:5d65e9e3-0105-4207-99ef-06ac05ab71d2"
+        ],
+        "@id": "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d",
+        "startDate": "2016-07-23"
       },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:5d65e9e3-0105-4207-99ef-06ac05ab71d2.about"
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d.about"
     },
     {
-      "contributor" : "CalendarExporterTest",
-      "dateCreated" : "2017-03-14T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarExporterTest",
-      "about" :
-      {
-        "image" : "http://www.univ-droit.fr/images/logos_unjf/logo-unjf-2015.png",
-        "provider" : [ {
-          "@type" : "Organization",
-          "name" : [ {
-            "@value" : "UniversitÃ© NumÃ©rique Juridique Francophone",
-            "@language" : "fr"
-          } ],
-          "location" : {
-            "geo" : {
-              "lon" : 2.33535,
-              "lat" : 48.852823
-            },
-            "address" : {
-              "addressCountry" : "FR",
-              "streetAddress" : "13 rue du Four  ",
-              "postalCode" : 75006,
-              "addressLocality" : "Paris"
-            }
-          },
-          "@id" : "urn:uuid:5d65e9e3-0105-4207-99ef-06ac05ab71d2"
-        } ],
-        "@type" : "Service",
-        "name" : [ {
-          "@value" : "UniversitÃ© NumÃ©rique Juridique Francophone",
-          "@language" : "fr"
-        } ],
-        "alternateName" : [ {
-          "@value" : "UNJF",
-          "@language" : "fr"
-        } ],
-        "location" : { },
-        "@id" : "urn:uuid:5554f318-0d9e-4e30-b6d7-12fdb6e1aa16",
-        "startDate" : "2003"
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.oncampus.de/uploads/pics/mooin_final2_04.png",
+        "endDate": "2015-06-04",
+        "@type": "Event",
+        "name": {
+          "en": "MOOC Grundlagen des Projektmanagements"
+        },
+        "alternateName": {
+          "en": "pmMOOC",
+          "de": "pmMOOC"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:e2334834-398a-4616-a1d7-8b6d53e9fc50",
+        "startDate": "2015-04-27"
       },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:5554f318-0d9e-4e30-b6d7-12fdb6e1aa16.about"
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:e2334834-398a-4616-a1d7-8b6d53e9fc50.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "endDate": "2012-06-22",
+        "@type": "Event",
+        "name": {
+          "en": "World Open Educational Resources Congress"
+        },
+        "location": [
+          {
+            "address": {
+              "addressCountry": "FR",
+              "streetAddress": "7 Place de Fontenoy",
+              "postalCode": 75007,
+              "addressLocality": "Paris"
+            }
+          }
+        ],
+        "@id": "urn:uuid:c27c383c-ecab-44e7-be67-24a741586afe",
+        "startDate": "2012-06-20"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:c27c383c-ecab-44e7-be67-24a741586afe.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.openeducationweek.org/assets/images/logo.svg",
+        "endDate": "2016-03-16",
+        "@type": "Event",
+        "name": {
+          "en": "Open Education Week 2016"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77",
+        "startDate": "2016-03-07"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://wikis.zum.de/zum/images/4/4c/DigiLern_2015.png",
+        "endDate": "2015-03-14",
+        "@type": "Event",
+        "name": {
+          "en": "DigiLern"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:c2147e57-a796-4670-b209-5df3d880a2df",
+        "startDate": "2015-03-14"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:c2147e57-a796-4670-b209-5df3d880a2df.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.oncampus.de/uploads/pics/mooin_final2_04.png",
+        "endDate": "2015-06-26",
+        "@type": "Event",
+        "name": {
+          "en": "My digital self - iMOOC"
+        },
+        "alternateName": {
+          "de": "ichMOOC",
+          "en": "iMOOC"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:a526fdb4-d0e6-47d2-bf58-746c5891a97b",
+        "startDate": "2015-05-28"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:a526fdb4-d0e6-47d2-bf58-746c5891a97b.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://iunig.at/images/logo.jpg",
+        "endDate": "2011-05-26",
+        "@type": "Event",
+        "name": {
+          "en": "Österreichische Fachtagung zu Open Educational Resources - OER"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 15.449612,
+              "lat": 47.078776
+            },
+            "address": {
+              "addressCountry": "AT",
+              "streetAddress": "Universitätsplatz 3",
+              "postalCode": 8010,
+              "addressLocality": "Graz",
+              "addressRegion": "Steiermark"
+            }
+          }
+        ],
+        "@id": "urn:uuid:5ceedadb-2c96-41e5-ba98-dce901c6c3be",
+        "startDate": "2011-05-26"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:5ceedadb-2c96-41e5-ba98-dce901c6c3be.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Action",
+        "name": {
+          "en": "Förderprogramm OER-Info"
+        },
+        "@id": "urn:uuid:b929a757-7848-4122-a56e-c45a6855aa7a"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:b929a757-7848-4122-a56e-c45a6855aa7a.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Service",
+        "name": {
+          "en": "Test-Service-Subjects"
+        },
+        "@id": "urn:uuid:23b331b9-9a6d-47ca-9dc9-5f96cce8e18b"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:23b331b9-9a6d-47ca-9dc9-5f96cce8e18b.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Test2 Stor3"
+        },
+        "@id": "urn:uuid:e73a4e7e-fa0a-4dfd-9da8-45d30c6a4a2c"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:e73a4e7e-fa0a-4dfd-9da8-45d30c6a4a2c.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Organization",
+        "name": {
+          "en": "Test-Orga5"
+        },
+        "alternateName": {
+          "en": "test"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": -56.15736,
+              "lat": -34.822559
+            },
+            "address": {
+              "addressCountry": "UY",
+              "addressLocality": "Montevideo",
+              "addressRegion": "UY.MO"
+            }
+          }
+        ],
+        "@id": "urn:uuid:27c6bc9e-4127-4ed0-9a00-48b8494baf9f"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:27c6bc9e-4127-4ed0-9a00-48b8494baf9f.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Enabling the Promise of Personalized Learning in North Carolina"
+        },
+        "@id": "urn:uuid:cc31152d-48a0-4c1d-a8c7-eb0bdd4ae069"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:cc31152d-48a0-4c1d-a8c7-eb0bdd4ae069.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Embedding Rigor Into Curriculum with OER"
+        },
+        "@id": "urn:uuid:d5b1ad3b-8ce9-48a3-9f40-143fb85565ce"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:d5b1ad3b-8ce9-48a3-9f40-143fb85565ce.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "OER in Washington State: Identify, Review, Connect"
+        },
+        "@id": "urn:uuid:b1ac42a8-464f-46e3-b90e-4e16c1e15f92"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:b1ac42a8-464f-46e3-b90e-4e16c1e15f92.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "SIATech: Connecting Students through Innovative Curriculum"
+        },
+        "@id": "urn:uuid:3a7315cd-e3e6-46fb-a664-f46e8fbf3705"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:3a7315cd-e3e6-46fb-a664-f46e8fbf3705.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "OER and Professional Learning Communities in Massachusetts"
+        },
+        "@id": "urn:uuid:4ba132b2-e914-4458-840d-5660e13b355e"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:4ba132b2-e914-4458-840d-5660e13b355e.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Innovation and Leadership Bring Quality Elements Together"
+        },
+        "@id": "urn:uuid:ccd093e9-1e74-4248-b893-50967cb93c15"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:ccd093e9-1e74-4248-b893-50967cb93c15.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "A Big Vision in a Small District"
+        },
+        "@id": "urn:uuid:c8c898c4-9799-4933-b275-21e0bb4617e7"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:c8c898c4-9799-4933-b275-21e0bb4617e7.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Leading with Enthusiasm and Engagement: Homegrown OER in California"
+        },
+        "@id": "urn:uuid:471fbd7a-8a93-4e45-b964-59b6d4c3eba8"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:471fbd7a-8a93-4e45-b964-59b6d4c3eba8.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Growth Mindset and OER: Student-Led Solutions"
+        },
+        "@id": "urn:uuid:65a11785-6401-4898-97a9-30e2c414915a"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:65a11785-6401-4898-97a9-30e2c414915a.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Experience and Insight Help to Meet the Needs of Today's Learners"
+        },
+        "@id": "urn:uuid:e8653d67-1ad9-40ea-b228-704ebb7339d0"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:e8653d67-1ad9-40ea-b228-704ebb7339d0.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "provider": [
+          {
+            "@type": "Organization",
+            "name": {
+              "de": "Behörde für Schule und Berufsausbildung Freie und Hansestadt Hamburg",
+              "en": "Behörde für Schule und Berufsausbildung Freie und Hansestadt Hamburg"
+            },
+            "location": [
+              {
+                "geo": {
+                  "lon": 10.030702,
+                  "lat": 53.572699
+                },
+                "address": {
+                  "addressCountry": "DE",
+                  "streetAddress": "Hamburger Straße 31",
+                  "postalCode": 22083,
+                  "addressLocality": "Hamburg",
+                  "addressRegion": "Hamburg"
+                }
+              }
+            ],
+            "@id": "urn:uuid:8a099b65-15b3-4660-82a9-fceba458bd59"
+          }
+        ],
+        "@type": "Service",
+        "name": {
+          "en": "Test-Service"
+        },
+        "alternateName": {
+          "en": "(TS)"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": -99.78472,
+              "lat": 16.88889
+            },
+            "address": {
+              "addressCountry": "ME",
+              "streetAddress": "La Testaruda",
+              "addressLocality": "La Testaruda",
+              "addressRegion": "MX.GR"
+            }
+          }
+        ],
+        "@id": "urn:uuid:d65513c8-c745-4480-89d8-3fe00f7d7f46",
+        "startDate": "2008-08-08"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:d65513c8-c745-4480-89d8-3fe00f7d7f46.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.peoi.org/Resources/Image99tr.gif",
+        "@type": "Organization",
+        "name": {
+          "en": "Test-Orga1"
+        },
+        "@id": "urn:uuid:a85298e2-3f35-4847-a9cd-e3c26bf230a9"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:a85298e2-3f35-4847-a9cd-e3c26bf230a9.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Hbz-Logo.svg/2000px-Hbz-Logo.svg.png",
+        "@type": "Organization",
+        "name": {
+          "en": "Diff Test"
+        },
+        "alternateName": {
+          "en": "(DT)"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": -73.98597,
+              "lat": 40.75705
+            },
+            "address": {
+              "addressCountry": "US",
+              "streetAddress": "Times Square",
+              "addressLocality": "New York",
+              "addressRegion": "US.NY"
+            }
+          }
+        ],
+        "@id": "urn:uuid:6d96ae75-341b-415b-9ee2-8a340ae1bb6c"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:6d96ae75-341b-415b-9ee2-8a340ae1bb6c.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.educapes.capes.gov.br/image/capes/logoEducapesHome.png",
+        "@type": "Organization",
+        "name": {
+          "en": "Test Logo Size"
+        },
+        "@id": "urn:uuid:b56b4fe7-87b2-4be2-87cd-fa0cadffed4c"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:b56b4fe7-87b2-4be2-87cd-fa0cadffed4c.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Ed-Corner"
+        },
+        "@id": "urn:uuid:16370fa2-920a-464b-838e-0454ab9388fb"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:16370fa2-920a-464b-838e-0454ab9388fb.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "name": {
+          "en": "Open Education Sweden"
+        },
+        "@id": "urn:uuid:1a4cec12-2af9-449b-ae95-c3839627d733"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:1a4cec12-2af9-449b-ae95-c3839627d733.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Organization",
+        "name": {
+          "en": "Khan Academy"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": -122.088182,
+              "lat": 37.419391
+            },
+            "address": {
+              "addressCountry": "US",
+              "streetAddress": "1937 Landings Drive",
+              "addressLocality": "Mountain View",
+              "addressRegion": "US.CA"
+            }
+          }
+        ],
+        "@id": "urn:uuid:ff60a058-6d53-4d75-807e-0444290389d0"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:ff60a058-6d53-4d75-807e-0444290389d0.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Organization",
+        "name": {
+          "en": "Test-Orga4-peoi"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": -74.38170783294481,
+              "lat": 42.41237188292223
+            },
+            "address": {
+              "addressCountry": "US",
+              "streetAddress": "Gilboa",
+              "addressRegion": "US.NY"
+            }
+          }
+        ],
+        "@id": "urn:uuid:2e007364-16b4-4643-95f7-b84ced51d4ea"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:2e007364-16b4-4643-95f7-b84ced51d4ea.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Organization",
+        "name": {
+          "en": "Test-Orga3"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": -56.15736,
+              "lat": -34.822559
+            },
+            "address": {
+              "addressCountry": "UY",
+              "streetAddress": "Montevideo",
+              "addressRegion": "UY.MO"
+            }
+          }
+        ],
+        "@id": "urn:uuid:53ffda91-eebb-4e08-8ab3-eb55b04b8899"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:53ffda91-eebb-4e08-8ab3-eb55b04b8899.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Felix Link"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 13.378153,
+              "lat": 52.500778
+            },
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Berlin",
+              "addressLocality": "Berlin",
+              "addressRegion": "DE.BE"
+            }
+          }
+        ],
+        "@id": "urn:uuid:6f2ec319-8d09-4c1a-b2d3-7578274a4826"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:6f2ec319-8d09-4c1a-b2d3-7578274a4826.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Article",
+        "mentions": [
+          {
+            "@type": "Person",
+            "name": {
+              "en": "Max Mustermann"
+            },
+            "location": [
+              {}
+            ],
+            "@id": "urn:uuid:d7c441e2-60ad-4f4b-812f-591a74c97f34"
+          },
+          {
+            "@type": "Person",
+            "name": {
+              "en": "Felix"
+            },
+            "@id": "urn:uuid:8b863f3f-f8ed-4601-90f6-32871ad6b2a8"
+          }
+        ],
+        "name": {
+          "en": "Test Story"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 2.306503,
+              "lat": 1
+            },
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Somewhere Street 8",
+              "postalCode": 12345,
+              "addressLocality": "Foocity"
+            }
+          }
+        ],
+        "@id": "urn:uuid:af322309-3542-4150-9bec-a2e1cbcf8601"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:af322309-3542-4150-9bec-a2e1cbcf8601.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Ã€drian Pohl"
+        },
+        "@id": "urn:uuid:d40f7c4e-681a-4048-ac51-c14c1e334d53"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:d40f7c4e-681a-4048-ac51-c14c1e334d53.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Karin Driesen"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 6.95427,
+              "lat": 50.93835
+            },
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Köln",
+              "addressLocality": "Köln",
+              "addressRegion": "DE.NW"
+            }
+          }
+        ],
+        "@id": "urn:uuid:82f4e0e0-cf95-446d-95a2-4e14e8a655ba"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:82f4e0e0-cf95-446d-95a2-4e14e8a655ba.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Max Mustermann"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:d7c441e2-60ad-4f4b-812f-591a74c97f34"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:d7c441e2-60ad-4f4b-812f-591a74c97f34.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Organization",
+        "name": {
+          "en": "graphthinking GmbH"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 13.568442,
+              "lat": 52.44256
+            },
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Grünauer Straße 24D",
+              "postalCode": 12557,
+              "addressLocality": "Berlin",
+              "addressRegion": "DE.BE"
+            }
+          }
+        ],
+        "@id": "urn:uuid:0da0428a-24ef-436e-bb8c-5acd1708d00c"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:0da0428a-24ef-436e-bb8c-5acd1708d00c.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Felix"
+        },
+        "@id": "urn:uuid:8b863f3f-f8ed-4601-90f6-32871ad6b2a8"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:8b863f3f-f8ed-4601-90f6-32871ad6b2a8.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Adrian Stagg"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:e07be540-07ed-401b-bf5b-295589821971"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:e07be540-07ed-401b-bf5b-295589821971.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/09/logo-oer-world-map.png",
+        "agent": [
+          {
+            "@type": "Organization",
+            "name": {
+              "en": "North Rhine-Westphalian Library Center"
+            },
+            "location": [
+              {
+                "geo": {
+                  "lon": 6.935475505524662,
+                  "lat": 50.934150851826246
+                },
+                "address": {
+                  "addressCountry": "DE",
+                  "streetAddress": "Jülicher Straße 6",
+                  "postalCode": 50674,
+                  "addressLocality": "Köln",
+                  "addressRegion": "DE.NW"
+                }
+              }
+            ],
+            "@id": "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
+          }
+        ],
+        "@type": "Action",
+        "name": {
+          "en": "OER World Map"
+        },
+        "@id": "urn:uuid:43526b28-66f8-49bb-bf1c-c3cb8d4bbbcd",
+        "participant": [
+          {
+            "@type": "Person",
+            "name": {
+              "en": "Jan Neumann"
+            },
+            "location": [
+              {
+                "geo": {
+                  "lon": 6.9355108,
+                  "lat": 50.9340509
+                },
+                "address": {
+                  "addressCountry": "DE",
+                  "streetAddress": "Jülicher Straße 6",
+                  "postalCode": 50674,
+                  "addressLocality": "Köln"
+                }
+              }
+            ],
+            "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+          }
+        ]
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:43526b28-66f8-49bb-bf1c-c3cb8d4bbbcd.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.uoh.fr/front/res/images/logo_uoh.png",
+        "@type": "Service",
+        "name": {
+          "en": "Humanities Open University",
+          "fr": "UniversitÃ© Ouverte des HumanitÃ©s"
+        },
+        "alternateName": {
+          "fr": "UOH"
+        },
+        "@id": "urn:uuid:63ee2a1f-2447-4b3a-9895-4d023f353dd4",
+        "startDate": "2003"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:63ee2a1f-2447-4b3a-9895-4d023f353dd4.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "https://upload.wikimedia.org/wikipedia/de/thumb/8/8e/Cern_Logo_black.svg/400px-Cern_Logo_black.svg.png",
+        "@type": "Organization",
+        "name": {
+          "en": "CERN"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 6.134031,
+              "lat": 46.198221
+            },
+            "address": {
+              "addressCountry": "CH",
+              "postalCode": 1211,
+              "addressLocality": "Geneva"
+            }
+          }
+        ],
+        "@id": "urn:uuid:f93a7a03-c693-4225-a2f9-aa198d40044d"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:f93a7a03-c693-4225-a2f9-aa198d40044d.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "https://zenodo.org/img/logos/zenodo-gradient-2500.jpg",
+        "provider": [
+          {
+            "@type": "Organization",
+            "name": {
+              "en": "CERN"
+            },
+            "location": [
+              {
+                "geo": {
+                  "lon": 6.134031,
+                  "lat": 46.198221
+                },
+                "address": {
+                  "addressCountry": "CH",
+                  "postalCode": 1211,
+                  "addressLocality": "Geneva"
+                }
+              }
+            ],
+            "@id": "urn:uuid:f93a7a03-c693-4225-a2f9-aa198d40044d"
+          }
+        ],
+        "@type": "Service",
+        "name": {
+          "en": "Zenodo"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:33a6e1fd-7f16-4061-b167-a62b3cac5bb1"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:33a6e1fd-7f16-4061-b167-a62b3cac5bb1.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "@type": "Person",
+        "name": {
+          "en": "Shironica P. Karunanayaka"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:af375403-f34a-4066-9e7b-fd52060ab2da"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:af375403-f34a-4066-9e7b-fd52060ab2da.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.unit.eu/sites/all/themes/basic/logo.png",
+        "@type": "Organization",
+        "name": {
+          "fr": "UniversitÃ© NumÃ©rique IngÃ©nierie et Technologie"
+        },
+        "alternateName": {
+          "fr": "UNIT"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 2.213749,
+              "lat": 46.227638
+            },
+            "address": {
+              "addressCountry": "FR"
+            }
+          }
+        ],
+        "@id": "urn:uuid:5cf074fa-833b-4cbd-bc01-a088dce0bfc6"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:5cf074fa-833b-4cbd-bc01-a088dce0bfc6.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2014/08/cropped-oer_header1.jpg",
+        "provider": [
+          {
+            "@type": "Organization",
+            "name": {
+              "en": "J&K - Jöran und Konsorten",
+              "de": "J&K - Jöran und Konsorten"
+            },
+            "location": [
+              {
+                "geo": {
+                  "lon": 9.981946,
+                  "lat": 53.551316
+                },
+                "address": {
+                  "addressCountry": "DE",
+                  "streetAddress": "Brüderstr. 1",
+                  "postalCode": 20355,
+                  "addressLocality": "Hamburg",
+                  "addressRegion": "Hamburg"
+                }
+              }
+            ],
+            "@id": "urn:uuid:8cf07e97-c7fb-4dfc-a748-3a2f99e65a0a"
+          }
+        ],
+        "@type": "Service",
+        "name": {
+          "de": "Transferstelle für OER"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:08b0cfbb-823d-49f6-99a3-285438828883"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:08b0cfbb-823d-49f6-99a3-285438828883.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.univ-droit.fr/images/logos_unjf/logo-unjf-2015.png",
+        "@type": "Organization",
+        "name": {
+          "fr": "UniversitÃ© NumÃ©rique Juridique Francophone"
+        },
+        "alternateName": {
+          "fr": "UNJF"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 2.33535,
+              "lat": 48.852823
+            },
+            "address": {
+              "addressCountry": "FR",
+              "streetAddress": "13 rue du Four  ",
+              "postalCode": 75006,
+              "addressLocality": "Paris"
+            }
+          }
+        ],
+        "@id": "urn:uuid:5d65e9e3-0105-4207-99ef-06ac05ab71d2"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:5d65e9e3-0105-4207-99ef-06ac05ab71d2.about"
+    },
+    {
+      "contributor": "CalendarExporterTest",
+      "dateCreated": "2017-03-14T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarExporterTest",
+      "about": {
+        "image": "http://www.univ-droit.fr/images/logos_unjf/logo-unjf-2015.png",
+        "provider": [
+          {
+            "@type": "Organization",
+            "name": {
+              "fr": "UniversitÃ© NumÃ©rique Juridique Francophone"
+            },
+            "location": [
+              {
+                "geo": {
+                  "lon": 2.33535,
+                  "lat": 48.852823
+                },
+                "address": {
+                  "addressCountry": "FR",
+                  "streetAddress": "13 rue du Four  ",
+                  "postalCode": 75006,
+                  "addressLocality": "Paris"
+                }
+              }
+            ],
+            "@id": "urn:uuid:5d65e9e3-0105-4207-99ef-06ac05ab71d2"
+          }
+        ],
+        "@type": "Service",
+        "name": {
+          "fr": "UniversitÃ© NumÃ©rique Juridique Francophone"
+        },
+        "alternateName": {
+          "fr": "UNJF"
+        },
+        "location": [
+          {}
+        ],
+        "@id": "urn:uuid:5554f318-0d9e-4e30-b6d7-12fdb6e1aa16",
+        "startDate": "2003"
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:5554f318-0d9e-4e30-b6d7-12fdb6e1aa16.about"
     }
   ],
-  "from" : "1",
-  "until" : "68",
-  "currentPage" : "/resource/?from=0&size=9999&sort=dateCreated:DESC"
+  "from": "1",
+  "until": "68",
+  "currentPage": "/resource/?from=0&size=9999&sort=dateCreated:DESC"
 }

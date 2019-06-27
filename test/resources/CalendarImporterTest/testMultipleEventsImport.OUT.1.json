@@ -1,198 +1,171 @@
 {
-  "totalItems" : 5,
-  "previousPage" : null,
-  "lastPage" : null,
-  "searchTerms" : "",
-  "@type" : "PagedCollection",
-  "nextPage" : null,
-  "filters" : { },
-  "firstPage" : null,
-  "itemsPerPage" : 10,
-  "member" : [
+  "totalItems": 5,
+  "previousPage": null,
+  "lastPage": null,
+  "searchTerms": "",
+  "@type": "PagedCollection",
+  "nextPage": null,
+  "filters": {},
+  "firstPage": null,
+  "itemsPerPage": 10,
+  "member": [
     {
-      "contributor" : "CalendarImporterTest",
-      "dateCreated" : "2017-04-11T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarImporterTest",
-      "about" : {
-		"startDate": "2017-03-27T00:00:00Z:",
-		"endDate": "2017-04-01T00:00:00Z:",
-		"description": [
-		  {
-			"@value": "http://www.openeducationweek.org",
-			"@language": "de"
-		  }
-		],
-		"email": "jsmith@example.com",
-		"location": {
-		  "address": {
-			"addressCountry": "ZA",
-			"streetAddress": "Everywhere"
-		  }
-		},
-		"@context": "https://oerworldmap.org/assets/json/context.json",
-		"organizer": {
-		  "name": [
-			{
-			  "@value": "John Smith",
-			  "@language": "de"
-			}
-		  ]
-		},
-		"dateCreated": "2016-12-15T14:36:28Z",
-		"@id": "urn:uuid:3b1a2408-bf6a-4df1-8aef-edc4efc0365f",
-		"@type": "Event",
-		"name": [
-		  {
-			"@value": "Open Education Week",
-			"@language": "de"
-		  }
-		]
-      },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:3b1a2408-bf6a-4df1-8aef-edc4efc0365f.about"
-    },
-    {
-      "contributor" : "CalendarImporterTest",
-      "dateCreated" : "2017-04-11T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarImporterTest",
-      "about" : {
-		"startDate": "2017-03-21T00:00:00Z:",
-		"endDate": "2017-03-23T00:00:00Z:",
-		"description": [
-		  {
-			"@value": "https://oa2020.org/b13-conference/about/",
-			"@language": "de"
-		  }
-		],
-		"@type": "Event",
-		"location": {
-		  "address": {
-			"addressCountry": "DE",
-			"addressLocality": "Berlin",
-			"streetAddress": "Berlin"
-		  }
-		},
-		"@context": "https://oerworldmap.org/assets/json/context.json",
-		"dateCreated": "2017-01-17T02:16:54Z",
-		"@id": "urn:uuid:1bb4a9e4-96d4-48c9-8507-919b2a643f77",
-		"email": "jsmith@example.com",
-		"name": [
-		  {
-			"@value": "Berlin Open Access",
-			"@language": "de"
-		  }
-		]
-	  },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:1bb4a9e4-96d4-48c9-8507-919b2a643f77.about"
-    },
-    {
-      "contributor" : "CalendarImporterTest",
-      "dateCreated" : "2017-04-11T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarImporterTest",
-      "about" : {
-		"startDate": "2017-12-01T00:00:00Z:",
-		"endDate": "2017-12-02T00:00:00Z:",
-		"description": [
-		  {
-			"@value": "",
-			"@language": "de"
-		  }
-		],
-		"dateCreated": "2017-03-09T15:04:37Z",
-		"@context": "https://oerworldmap.org/assets/json/context.json",
-		"@id": "urn:uuid:22fc8ba5-acba-4918-8568-7492e0964c78",
-		"@type": "Event",
-		"name": [
-		  {
-			"@value": "December Open Perspective Topic: What is Open Licensing?",
-			"@language": "de"
-		  }
-		]
-	  },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:22fc8ba5-acba-4918-8568-7492e0964c78.about"
-    },
-    {
-      "contributor" : "CalendarImporterTest",
-      "dateCreated" : "2017-04-11T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarImporterTest",
-      "about" : {
-		"startDate": "2017-08-01T00:00:00Z:",
-		"endDate": "2017-08-02T00:00:00Z:",
-		"description": [
-		  {
-			"@value": "",
-			"@language": "de"
-		  }
-		],
-		"email": "jsmith@example.com",
-		"@context": "https://oerworldmap.org/assets/json/context.json",
-		"organizer": {
-		  "name": [
-			{
-			  "@value": "John Smith",
-			  "@language": "de"
-			}
-		  ]
-		},
-		"dateCreated": "2017-03-09T15:00:44Z",
-		"@id": "urn:uuid:07dc090a-210b-4b2d-afc7-ede8bae9e3bf",
-		"@type": "Event",
-		"name": [
-		  {
-			"@value": "August Open Perspective Topic: What are Open Degrees?",
-			"@language": "de"
-		  }
-		]
-	  },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:07dc090a-210b-4b2d-afc7-ede8bae9e3bf.about"
-    },
-    {
-      "contributor" : "CalendarImporterTest",
-      "dateCreated" : "2017-04-11T00:00:00.000+01:00",
-      "@type" : "WebPage",
-      "author" : "CalendarImporterTest",
-      "about" : {
-        "dateCreated" : "2016-12-15T14:35:39Z",
-        "endDate" : "2017-03-25T00:00:00Z:",
-        "@type" : "Event",
-        "organizer" : {
-          "name" : [ {
-            "@value" : "JohnSmith",
-            "@language" : "de"
-          } ]
+      "contributor": "CalendarImporterTest",
+      "dateCreated": "2017-04-11T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarImporterTest",
+      "about": {
+        "startDate": "2017-03-27T00:00:00Z:",
+        "endDate": "2017-04-01T00:00:00Z:",
+        "description": {
+          "de": "http://www.openeducationweek.org"
         },
-        "name" : [ {
-          "@value" : "ACRL Conference",
-          "@language" : "de"
-        } ],
-        "description" : [ {
-          "@value" : "http://conference.acrl.org/",
-          "@language" : "de"
-        } ],
-        "location" : {
-          "address" : {
-            "addressCountry" : "US",
-            "streetAddress" : "Baltimore",
-            "addressLocality" : "Baltimore"
+        "email": "jsmith@example.com",
+        "location": [
+          {
+            "address": {
+              "addressCountry": "ZA",
+              "streetAddress": "Everywhere"
+            }
+          }
+        ],
+        "@context": "https://oerworldmap.org/assets/json/context.json",
+        "organizer": {
+          "name": {
+            "de": "John Smith"
           }
         },
-        "@context" : "https://oerworldmap.org/assets/json/context.json",
-        "startDate" : "2017-03-22T00:00:00Z:",
-        "email" : "jsmith@example.com",
+        "dateCreated": "2016-12-15T14:36:28Z",
+        "@id": "urn:uuid:3b1a2408-bf6a-4df1-8aef-edc4efc0365f",
+        "@type": "Event",
+        "name": {
+          "de": "Open Education Week"
+        }
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:3b1a2408-bf6a-4df1-8aef-edc4efc0365f.about"
+    },
+    {
+      "contributor": "CalendarImporterTest",
+      "dateCreated": "2017-04-11T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarImporterTest",
+      "about": {
+        "startDate": "2017-03-21T00:00:00Z:",
+        "endDate": "2017-03-23T00:00:00Z:",
+        "description": {
+          "de": "https://oa2020.org/b13-conference/about/"
+        },
+        "@type": "Event",
+        "location": [
+          {
+            "address": {
+              "addressCountry": "DE",
+              "addressLocality": "Berlin",
+              "streetAddress": "Berlin"
+            }
+          }
+        ],
+        "@context": "https://oerworldmap.org/assets/json/context.json",
+        "dateCreated": "2017-01-17T02:16:54Z",
+        "@id": "urn:uuid:1bb4a9e4-96d4-48c9-8507-919b2a643f77",
+        "email": "jsmith@example.com",
+        "name": {
+          "de": "Berlin Open Access"
+        }
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:1bb4a9e4-96d4-48c9-8507-919b2a643f77.about"
+    },
+    {
+      "contributor": "CalendarImporterTest",
+      "dateCreated": "2017-04-11T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarImporterTest",
+      "about": {
+        "startDate": "2017-12-01T00:00:00Z:",
+        "endDate": "2017-12-02T00:00:00Z:",
+        "description": {
+          "de": ""
+        },
+        "dateCreated": "2017-03-09T15:04:37Z",
+        "@context": "https://oerworldmap.org/assets/json/context.json",
+        "@id": "urn:uuid:22fc8ba5-acba-4918-8568-7492e0964c78",
+        "@type": "Event",
+        "name": {
+          "de": "December Open Perspective Topic: What is Open Licensing?"
+        }
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:22fc8ba5-acba-4918-8568-7492e0964c78.about"
+    },
+    {
+      "contributor": "CalendarImporterTest",
+      "dateCreated": "2017-04-11T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarImporterTest",
+      "about": {
+        "startDate": "2017-08-01T00:00:00Z:",
+        "endDate": "2017-08-02T00:00:00Z:",
+        "description": {
+          "de": ""
+        },
+        "email": "jsmith@example.com",
+        "@context": "https://oerworldmap.org/assets/json/context.json",
+        "organizer": {
+          "name": {
+            "de": "John Smith"
+          }
+        },
+        "dateCreated": "2017-03-09T15:00:44Z",
+        "@id": "urn:uuid:07dc090a-210b-4b2d-afc7-ede8bae9e3bf",
+        "@type": "Event",
+        "name": {
+          "de": "August Open Perspective Topic: What are Open Degrees?"
+        }
+      },
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:07dc090a-210b-4b2d-afc7-ede8bae9e3bf.about"
+    },
+    {
+      "contributor": "CalendarImporterTest",
+      "dateCreated": "2017-04-11T00:00:00.000+01:00",
+      "@type": "WebPage",
+      "author": "CalendarImporterTest",
+      "about": {
+        "dateCreated": "2016-12-15T14:35:39Z",
+        "endDate": "2017-03-25T00:00:00Z:",
+        "@type": "Event",
+        "organizer": {
+          "name": {
+            "de": "JohnSmith"
+          }
+        },
+        "name": {
+          "de": "ACRL Conference"
+        },
+        "description": {
+          "de": "http://conference.acrl.org/"
+        },
+        "location": [
+          {
+            "address": {
+              "addressCountry": "US",
+              "streetAddress": "Baltimore",
+              "addressLocality": "Baltimore"
+            }
+          }
+        ],
+        "@context": "https://oerworldmap.org/assets/json/context.json",
+        "startDate": "2017-03-22T00:00:00Z:",
+        "email": "jsmith@example.com",
         "@id": "urn:uuid:2e200911-b513-40fe-be4c-6d2b25c988d3"
       },
-      "dateModified" : "2017-03-13T15:31:50.134+01:00",
-      "@id" : "urn:uuid:2e200911-b513-40fe-be4c-6d2b25c988d3.about"
+      "dateModified": "2017-03-13T15:31:50.134+01:00",
+      "@id": "urn:uuid:2e200911-b513-40fe-be4c-6d2b25c988d3.about"
     }
   ],
-  "from" : "1",
-  "until" : "5",
-  "currentPage" : "/resource/?from=0&size=10&sort=dateCreated:DESC"
+  "from": "1",
+  "until": "5",
+  "currentPage": "/resource/?from=0&size=10&sort=dateCreated:DESC"
 }

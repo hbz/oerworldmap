@@ -1,10 +1,9 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "attended" : {
-    "@type" : "Event",
-    "@id" : "info:OER15"
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "attended": {
+    "@type": "Event",
+    "@id": "info:OER15"
   },
-  "@type" : "Person",
-  "@id" : "info:id001"
+  "@type": "Person",
+  "@id": "info:id001"
 }
-

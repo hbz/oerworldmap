@@ -1,188 +1,167 @@
 {
-  "license" : [ {
-    "image" : "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png",
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Creative Commons Attribution Non-Commercial No-Derivatives",
-      "@language" : "en"
-    }, {
-      "@value" : "Creative Commons Namensnennung, nicht kommerziell, keine Bearbeitung",
-      "@language" : "de"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/licenses.json#by-nc-nd"
-  }, {
-    "image" : "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc.png",
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Creative Commons Attribution Non-Commercial",
-      "@language" : "en"
-    }, {
-      "@value" : "Creative Commons Namensnennung, nicht kommerziell",
-      "@language" : "de"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/licenses.json#by-nc"
-  }, {
-    "image" : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Copyright.svg/197px-Copyright.svg.png",
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Copyright",
-      "@language" : "en"
-    }, {
-      "@value" : "Copyright",
-      "@language" : "de"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/licenses.json#copyright"
-  } ],
-  "audience" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "First stage of tertiary education",
-      "@language" : "en"
-    }, {
-      "@value" : "Tertiärer Bereich bis Bachelor",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/isced/1997/level5"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Second stage of tertiary education",
-      "@language" : "en"
-    }, {
-      "@value" : "Tertiärer Bereich bis Master",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/isced/1997/level6"
-  } ],
-  "keywords" : [ "textbooks", "servicetype:textbook" ],
-  "provider" : [ {
-    "@type" : "Organization",
-    "name" : [ {
-      "@value" : "Portland State University",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -122.679471507961,
-        "lat" : 45.51201025
+  "license": [
+    {
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png",
+      "@type": "Concept",
+      "name": {
+        "en": "Creative Commons Attribution Non-Commercial No-Derivatives",
+        "de": "Creative Commons Namensnennung, nicht kommerziell, keine Bearbeitung"
       },
-      "address" : {
-        "addressCountry" : "US",
-        "streetAddress" : "Southwest 4th Avenue 1600",
-        "postalCode" : 97201,
-        "addressLocality" : "Portland",
-        "addressRegion" : "US.OR"
-      }
+      "@id": "https://oerworldmap.org/assets/json/licenses.json#by-nc-nd"
     },
-    "@id" : "urn:uuid:c18c6194-d7b5-4c6f-af05-7d4308e1802e"
-  } ],
-  "@type" : "Service",
-  "about" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Languages",
-      "@language" : "en"
-    }, {
-      "@value" : "Sprachen",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n023"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Mathematik und Statistik",
-      "@language" : "de"
-    }, {
-      "@value" : "Mathematics and statistics",
-      "@language" : "en"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n054"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Chemistry",
-      "@language" : "en"
-    }, {
-      "@value" : "Chemie",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n0531"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Geisteswissenschaften",
-      "@language" : "de"
-    }, {
-      "@value" : "Arts and humanities",
-      "@language" : "en"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n02"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Physical sciences",
-      "@language" : "en"
-    }, {
-      "@value" : "Physikalische Wissenschaften",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n053"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Naturwissenschaften, Mathematik und Statistik",
-      "@language" : "de"
-    }, {
-      "@value" : "Natural sciences, mathematics and statistics",
-      "@language" : "en"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n05"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Language acquisition",
-      "@language" : "en"
-    }, {
-      "@value" : "Spracherwerb",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n0231"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Literatur- und Sprachwissenschaft",
-      "@language" : "de"
-    }, {
-      "@value" : "Literature and linguistics",
-      "@language" : "en"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n0232"
-  }, {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Mathematics",
-      "@language" : "en"
-    }, {
-      "@value" : "Mathematik",
-      "@language" : "de"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n0541"
-  } ],
-  "name" : [ {
-    "@value" : "PdxOpen : Access Textbooks",
-    "@language" : "en"
-  } ],
-  "@id" : "urn:uuid:fc11eb2e-ffdf-450c-9d21-b87db02f4c23",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "primarySector" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Hochschule",
-      "@language" : "de"
-    }, {
-      "@value" : "Higher Education",
-      "@language" : "en"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/sectors.json#higherEd"
-  } ]
+    {
+      "image": "http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc.png",
+      "@type": "Concept",
+      "name": {
+        "en": "Creative Commons Attribution Non-Commercial",
+        "de": "Creative Commons Namensnennung, nicht kommerziell"
+      },
+      "@id": "https://oerworldmap.org/assets/json/licenses.json#by-nc"
+    },
+    {
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Copyright.svg/197px-Copyright.svg.png",
+      "@type": "Concept",
+      "name": {
+        "en": "Copyright",
+        "de": "Copyright"
+      },
+      "@id": "https://oerworldmap.org/assets/json/licenses.json#copyright"
+    }
+  ],
+  "audience": [
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "First stage of tertiary education",
+        "de": "Tertiärer Bereich bis Bachelor"
+      },
+      "@id": "https://w3id.org/isced/1997/level5"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "Second stage of tertiary education",
+        "de": "Tertiärer Bereich bis Master"
+      },
+      "@id": "https://w3id.org/isced/1997/level6"
+    }
+  ],
+  "keywords": [
+    "textbooks",
+    "servicetype:textbook"
+  ],
+  "provider": [
+    {
+      "@type": "Organization",
+      "name": {
+        "en": "Portland State University"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": -122.679471507961,
+            "lat": 45.51201025
+          },
+          "address": {
+            "addressCountry": "US",
+            "streetAddress": "Southwest 4th Avenue 1600",
+            "postalCode": 97201,
+            "addressLocality": "Portland",
+            "addressRegion": "US.OR"
+          }
+        }
+      ],
+      "@id": "urn:uuid:c18c6194-d7b5-4c6f-af05-7d4308e1802e"
+    }
+  ],
+  "@type": "Service",
+  "about": [
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "Languages",
+        "de": "Sprachen"
+      },
+      "@id": "https://w3id.org/class/esc/n023"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Mathematik und Statistik",
+        "en": "Mathematics and statistics"
+      },
+      "@id": "https://w3id.org/class/esc/n054"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "Chemistry",
+        "de": "Chemie"
+      },
+      "@id": "https://w3id.org/class/esc/n0531"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Geisteswissenschaften",
+        "en": "Arts and humanities"
+      },
+      "@id": "https://w3id.org/class/esc/n02"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "Physical sciences",
+        "de": "Physikalische Wissenschaften"
+      },
+      "@id": "https://w3id.org/class/esc/n053"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Naturwissenschaften, Mathematik und Statistik",
+        "en": "Natural sciences, mathematics and statistics"
+      },
+      "@id": "https://w3id.org/class/esc/n05"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "Language acquisition",
+        "de": "Spracherwerb"
+      },
+      "@id": "https://w3id.org/class/esc/n0231"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Literatur- und Sprachwissenschaft",
+        "en": "Literature and linguistics"
+      },
+      "@id": "https://w3id.org/class/esc/n0232"
+    },
+    {
+      "@type": "Concept",
+      "name": {
+        "en": "Mathematics",
+        "de": "Mathematik"
+      },
+      "@id": "https://w3id.org/class/esc/n0541"
+    }
+  ],
+  "name": {
+    "en": "PdxOpen : Access Textbooks"
+  },
+  "@id": "urn:uuid:fc11eb2e-ffdf-450c-9d21-b87db02f4c23",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "primarySector": [
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Hochschule",
+        "en": "Higher Education"
+      },
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#higherEd"
+    }
+  ]
 }

@@ -1,48 +1,57 @@
 {
-  "contributor" : "susann.krieglsteiner@uni-weimar.de",
-  "dateCreated" : "2016-06-21T08:54:07.773+02:00",
-  "@type" : "WebPage",
-  "author" : "karin.driesen@hbz-nrw.de",
-  "about" : {
-    "image" : "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
-    "endDate" : "2016-07-24T18:00",
-    "@type" : "Event",
-    "description" : {
-      "en" : "Erschließung frei verfügbarer Lerninhalte für Bildung: Hier kommen erfahrene Entwickler(innen), Domainexpert(inn)en und kreative Querdenker(innen) zusammen, um nachhaltige Anwendungen und Konzepte für den Bildungsbereich zu entwerfen und zu entwickeln. Ziel ist die “Förderung der Verfügbarkeit und Qualität von Lern- & Wissensinhalten sowie Softwaretools für Bildung”. Damit sollen Bildungseinrichtungen bei der Erschließung, Benutzung und Verbreitung von frei verfügbaren Lerninhalten (z.B. OER) unterstützt werden."
+  "contributor": "susann.krieglsteiner@uni-weimar.de",
+  "dateCreated": "2016-06-21T08:54:07.773+02:00",
+  "@type": "WebPage",
+  "author": "karin.driesen@hbz-nrw.de",
+  "about": {
+    "image": "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
+    "endDate": "2016-07-24T18:00",
+    "@type": "Event",
+    "description": {
+      "en": "Erschließung frei verfügbarer Lerninhalte für Bildung: Hier kommen erfahrene Entwickler(innen), Domainexpert(inn)en und kreative Querdenker(innen) zusammen, um nachhaltige Anwendungen und Konzepte für den Bildungsbereich zu entwerfen und zu entwickeln. Ziel ist die “Förderung der Verfügbarkeit und Qualität von Lern- & Wissensinhalten sowie Softwaretools für Bildung”. Damit sollen Bildungseinrichtungen bei der Erschließung, Benutzung und Verbreitung von frei verfügbaren Lerninhalten (z.B. OER) unterstützt werden."
     },
-    "inLanguage" : [ "de" ],
-    "@context" : "http://schema.org/",
-    "url" : "http://hackathon2016.edu-sharing-network.org/",
-    "organizer" : [ {
-      "image" : "http://edu-sharing.net/portal/documents/800494/800770/logo_es_final4.png?t=1447407949673",
-      "@type" : "Organization",
-      "name" : {
-        "en" : "edu-sharing NETWORK e.V."
-      },
-      "@id" : "urn:uuid:19cf20b0-91d0-4fe4-bcc4-2cd25286cc61",
-      "email" : "info@edu-sharing.net",
-      "url" : "http://edu-sharing.net/portal/web/edu-sharing.net",
-      "sameAs" : [ "https://plus.google.com/+Edu-sharingNet", "https://twitter.com/edusharing" ]
-    } ],
-    "name" : {
-      "en" : "Hackathon 2016 Weimar"
-    },
-    "location" : [{
-      "geo" : {
-        "lon" : 11.329643,
-        "lat" : 50.973463
-      },
-      "address" : {
-        "addressCountry" : "DE",
-        "streetAddress" : "Bauhausstraße 7c",
-        "postalCode" : 99423,
-        "addressLocality" : "Weimar"
+    "inLanguage": [
+      "de"
+    ],
+    "@context": "http://schema.org/",
+    "url": "http://hackathon2016.edu-sharing-network.org/",
+    "organizer": [
+      {
+        "image": "http://edu-sharing.net/portal/documents/800494/800770/logo_es_final4.png?t=1447407949673",
+        "@type": "Organization",
+        "name": {
+          "en": "edu-sharing NETWORK e.V."
+        },
+        "@id": "urn:uuid:19cf20b0-91d0-4fe4-bcc4-2cd25286cc61",
+        "email": "info@edu-sharing.net",
+        "url": "http://edu-sharing.net/portal/web/edu-sharing.net",
+        "sameAs": [
+          "https://plus.google.com/+Edu-sharingNet",
+          "https://twitter.com/edusharing"
+        ]
       }
-    }],
-    "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d",
-    "startDate" : "2016-07-23",
-    "hashtag" : "#hack4oer"
+    ],
+    "name": {
+      "en": "Hackathon 2016 Weimar"
+    },
+    "location": [
+      {
+        "geo": {
+          "lon": 11.329643,
+          "lat": 50.973463
+        },
+        "address": {
+          "addressCountry": "DE",
+          "streetAddress": "Bauhausstraße 7c",
+          "postalCode": 99423,
+          "addressLocality": "Weimar"
+        }
+      }
+    ],
+    "@id": "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d",
+    "startDate": "2016-07-23",
+    "hashtag": "#hack4oer"
   },
-  "dateModified" : "2017-01-24T14:54:20.187+01:00",
-  "@id" : "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d.about"
+  "dateModified": "2017-01-24T14:54:20.187+01:00",
+  "@id": "urn:uuid:b210e9ff-fcf0-4d4b-ac44-7b4428c75c9d.about"
 }

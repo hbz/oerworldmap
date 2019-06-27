@@ -1,9 +1,9 @@
 {
-  "contributor" : "zobel@edu-sharing.net",
-  "dateCreated" : "2016-03-01T09:07:13Z",
-  "@type" : "WebPage",
-  "author" : "oerworldmap-9004",
-  "about" : {
+  "contributor": "zobel@edu-sharing.net",
+  "dateCreated": "2016-03-01T09:07:13Z",
+  "@type": "WebPage",
+  "author": "oerworldmap-9004",
+  "about": {
     "image": "https://pbs.twimg.com/profile_images/697376447128805378/cf7940lw_400x400.png",
     "endDate": "2015-11-10T19:00:00",
     "@type": "Event",
@@ -18,19 +18,21 @@
     "name": {
       "en": "edu-sharing workshop"
     },
-    "location": [{
-      "geo": {
-        "lon": 11.329643,
-        "lat": 50.973463
-      },
-      "address": {
-        "addressCountry": "DE",
-        "streetAddress": "Bauhausstraße 7c",
-        "postalCode": 99423,
-        "addressLocality": "Weimar",
-        "addressRegion": "Thüringen"
+    "location": [
+      {
+        "geo": {
+          "lon": 11.329643,
+          "lat": 50.973463
+        },
+        "address": {
+          "addressCountry": "DE",
+          "streetAddress": "Bauhausstraße 7c",
+          "postalCode": 99423,
+          "addressLocality": "Weimar",
+          "addressRegion": "Thüringen"
+        }
       }
-    }],
+    ],
     "@id": "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b",
     "email": "workshop@edu-sharing.net",
     "startDate": "2015-11-09T09:00:00",
@@ -38,6 +40,6 @@
       "https://twitter.com/edusharing"
     ]
   },
-  "dateModified" : "2017-01-23T18:29:42.799+01:00",
-  "@id" : "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b.about"
+  "dateModified": "2017-01-23T18:29:42.799+01:00",
+  "@id": "urn:uuid:e8eec470-e754-48af-adee-b78459badc3b.about"
 }

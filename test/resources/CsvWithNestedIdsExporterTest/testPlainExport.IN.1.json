@@ -13,11 +13,6 @@
           "@type": "Person",
           "@id": "456",
           "name": "Hans Dampf"
-        },
-        {
-          "@type": "Person",
-          "@id": "345",
-          "name": "Hans Wurst"
         }
       ]
     },
@@ -33,5 +28,11 @@
         }
       ]
     }
-  ]
+  ],
+  "address": {
+    "streetAddress": "Streetstreet 1",
+    "postalCode": "123456",
+    "addressCountry": "Countrycountry",
+    "@type": "Place"
+  }
 }

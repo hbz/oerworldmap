@@ -1,70 +1,57 @@
 {
-  "contributor" : "kleinefeld@elan-ev.de",
-  "dateCreated" : "2016-06-15T11:54:35.208+02:00",
-  "@type" : "WebPage",
-  "author" : "neumann@hbz-nrw.de",
-  "about" : {
+  "contributor": "kleinefeld@elan-ev.de",
+  "dateCreated": "2016-06-15T11:54:35.208+02:00",
+  "@type": "WebPage",
+  "author": "neumann@hbz-nrw.de",
+  "about": {
     "recordedIn": [
       "http://open-educational-resources.de/16/dokumentation/"
     ],
     "image": "http://i0.wp.com/wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/09/oerde16_logo.png?w=608",
     "endDate": "2016-03-01",
     "@type": "Event",
-    "description": [
-      {
-        "@value": "\"Im deutschsprachigen Raum sind wir in Sachen Open Educational Resources im internationalen Vergleich eher noch rückständig.\" Diesen oder ähnliche Sätze äußern Experten in Interviews oder auf Podien gerne, und zwar seit Jahren. Der Satz stimmt heute nicht mehr. Es gibt inzwischen zahlreiche Ideen, Initiativen, Akteure, Projekte und Institutionen zu OER in allen Bildungsbereichen.\r\n\r\nDas OER-Festival 2016 #OERde16 macht die Breite und Vielfalt von Open Educational Resources sichtbar. Wir wollen gleichzeitig die bisherigen Aktivitäten feiern und die nächste Phase der OER-Entwicklung einleiten. Das \"de\" in #OERde16 steht dabei nicht für \"Deutschland\", sondern für \"deutschsprachig\". Wenn Lehr-Lern-Inhalte offen zur Übernahme und Anpassung sind, dann verlieren Ländergrenzen an Bedeutung.\r\n\r\nOER-Festival KomponentenDas OER-Festival setzt sich aus mehreren Aktivitäten zusammen, die gemeinsam geplant und vorbereitet, aber unabhängig voneinander genutzt und wahrgenommen werden können.",
-        "@language": "de"
-      }
-    ],
+    "description": {
+      "de": "\"Im deutschsprachigen Raum sind wir in Sachen Open Educational Resources im internationalen Vergleich eher noch rückständig.\" Diesen oder ähnliche Sätze äußern Experten in Interviews oder auf Podien gerne, und zwar seit Jahren. Der Satz stimmt heute nicht mehr. Es gibt inzwischen zahlreiche Ideen, Initiativen, Akteure, Projekte und Institutionen zu OER in allen Bildungsbereichen.\r\n\r\nDas OER-Festival 2016 #OERde16 macht die Breite und Vielfalt von Open Educational Resources sichtbar. Wir wollen gleichzeitig die bisherigen Aktivitäten feiern und die nächste Phase der OER-Entwicklung einleiten. Das \"de\" in #OERde16 steht dabei nicht für \"Deutschland\", sondern für \"deutschsprachig\". Wenn Lehr-Lern-Inhalte offen zur Übernahme und Anpassung sind, dann verlieren Ländergrenzen an Bedeutung.\r\n\r\nOER-Festival KomponentenDas OER-Festival setzt sich aus mehreren Aktivitäten zusammen, die gemeinsam geplant und vorbereitet, aber unabhängig voneinander genutzt und wahrgenommen werden können."
+    },
     "inLanguage": [
       "de"
     ],
-    "alternateName": [
-      {
-        "@value": "OERde16",
-        "@language": "de"
-      }
-    ],
+    "alternateName": {
+      "de": "OERde16"
+    },
     "@context": "https://oerworldmap.org/assets/json/context.json",
     "url": "http://open-educational-resources.de/16/",
     "organizer": [
       {
         "@type": "Organization",
-        "name": [
-          {
-            "@value": "J&K - Jöran und Konsorten",
-            "@language": "de"
-          },
-          {
-            "@value": "J&K - Jöran und Konsorten",
-            "@language": "en"
-          }
-        ],
+        "name": {
+          "de": "J&K - Jöran und Konsorten",
+          "en": "J&K - Jöran und Konsorten"
+        },
         "@id": "urn:uuid:8cf07e97-c7fb-4dfc-a748-3a2f99e65a0a"
       }
     ],
-    "name": [
+    "name": {
+      "de": "OER-Festival 2016"
+    },
+    "location": [
       {
-        "@value": "OER-Festival 2016",
-        "@language": "de"
+        "geo": {
+          "lon": 13.37828,
+          "lat": 52.5125
+        },
+        "address": {
+          "addressCountry": "DE",
+          "streetAddress": "In den Ministergärten 8",
+          "postalCode": 10117,
+          "addressLocality": "Berlin"
+        }
       }
     ],
-    "location": {
-      "geo": {
-        "lon": 13.37828,
-        "lat": 52.5125
-      },
-      "address": {
-        "addressCountry": "DE",
-        "streetAddress": "In den Ministergärten 8",
-        "postalCode": 10117,
-        "addressLocality": "Berlin"
-      }
-    },
     "@id": "urn:uuid:abc8c7e9-4738-433c-8550-7af52996085e",
     "startDate": "2016-02-28",
     "hashtag": "#OERde16"
   },
-  "dateModified" : "2017-02-16T12:20:05.375+01:00",
-  "@id" : "urn:uuid:abc8c7e9-4738-433c-8550-7af52996085e.about"
+  "dateModified": "2017-02-16T12:20:05.375+01:00",
+  "@id": "urn:uuid:abc8c7e9-4738-433c-8550-7af52996085e.about"
 }

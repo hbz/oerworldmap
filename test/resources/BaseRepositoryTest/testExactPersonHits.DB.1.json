@@ -1,30 +1,32 @@
 {
-  "affiliation" : [ {
-    "@type" : "Action",
-    "name" : [ {
-      "@value" : "OERinForm - ein Verbundprojekt der Medieneinrichtungen an Hochschulen",
-      "@language" : "de"
-    } ],
-    "@id" : "urn:uuid:77cb5ce9-c23e-4449-9644-e4f152e1bc4a"
-  } ],
-  "@type" : "Person",
-  "name" : [ {
-    "@value" : "Stefanie Berger",
-    "@language" : "de"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : 13.391019701957703,
-      "lat" : 52.520566496661104
-    },
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Humboldt-Universität zu Berlin, Computer- und Medienservice",
-      "addressLocality" : "Berlin",
-      "addressRegion" : "DE.BE"
+  "affiliation": [
+    {
+      "@type": "Action",
+      "name": {
+        "de": "OERinForm - ein Verbundprojekt der Medieneinrichtungen an Hochschulen"
+      },
+      "@id": "urn:uuid:77cb5ce9-c23e-4449-9644-e4f152e1bc4a"
     }
+  ],
+  "@type": "Person",
+  "name": {
+    "de": "Stefanie Berger"
   },
-  "@id" : "urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "email" : "stefanie.berger@hu-berlin.de"
+  "location": [
+    {
+      "geo": {
+        "lon": 13.391019701957703,
+        "lat": 52.520566496661104
+      },
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Humboldt-Universität zu Berlin, Computer- und Medienservice",
+        "addressLocality": "Berlin",
+        "addressRegion": "DE.BE"
+      }
+    }
+  ],
+  "@id": "urn:uuid:e00a2017-0b78-41f9-9171-8aec2f4b9ca2",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "email": "stefanie.berger@hu-berlin.de"
 }

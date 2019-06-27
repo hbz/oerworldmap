@@ -1,17 +1,17 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "@type" : "Person",
-  "name" : [ {
-    "@value" : "Alice",
-    "@language" : "en"
-  } ],
-  "@id" : "info:alice",
-  "knows" : [ {
-    "@type" : "Person",
-    "name" : [ {
-      "@value" : "Carol Foo",
-      "@language" : "en"
-    } ],
-    "@id" : "info:carol"
-  } ]
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@type": "Person",
+  "name": {
+    "en": "Alice"
+  },
+  "@id": "info:alice",
+  "knows": [
+    {
+      "@type": "Person",
+      "name": {
+        "en": "Carol Foo"
+      },
+      "@id": "info:carol"
+    }
+  ]
 }

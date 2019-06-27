@@ -1,36 +1,42 @@
 {
-    "keywords" : [ "Oersax" ],
-    "affiliation" : [ {
-      "@type" : "Action",
-      "name" : [ {
-        "@value" : "OERsax: Etablierung von Open Educational Resources an sächsischen Hochschulen",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:7b119875-bdeb-46bc-abc5-b637fcf2e83a"
-    } ],
-    "@type" : "Person",
-  "authorOf" : [ {
-    "@type" : "Comment",
-    "@id" : "urn:uuid:f5b6e23b-99b1-43af-903e-72883091e84d"
-  } ],
-  "name" : [ {
-    "@value" : "Aline Beggert",
-    "@language" : "de"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : 13.340935,
-      "lat" : 50.912747
-    },
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Freiberg",
-      "postalCode" : 9599,
-      "addressLocality" : "Freiberg",
-      "addressRegion" : "DE.SN"
+  "keywords": [
+    "Oersax"
+  ],
+  "affiliation": [
+    {
+      "@type": "Action",
+      "name": {
+        "de": "OERsax: Etablierung von Open Educational Resources an sächsischen Hochschulen"
+      },
+      "@id": "urn:uuid:7b119875-bdeb-46bc-abc5-b637fcf2e83a"
     }
+  ],
+  "@type": "Person",
+  "authorOf": [
+    {
+      "@type": "Comment",
+      "@id": "urn:uuid:f5b6e23b-99b1-43af-903e-72883091e84d"
+    }
+  ],
+  "name": {
+    "de": "Aline Beggert"
   },
-  "@id" : "urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "email" : "elearning@tu-freiberg.de"
+  "location": [
+    {
+      "geo": {
+        "lon": 13.340935,
+        "lat": 50.912747
+      },
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Freiberg",
+        "postalCode": 9599,
+        "addressLocality": "Freiberg",
+        "addressRegion": "DE.SN"
+      }
+    }
+  ],
+  "@id": "urn:uuid:026ef084-8151-4749-8317-e2c5f46e06c6",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "email": "elearning@tu-freiberg.de"
 }

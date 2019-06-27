@@ -1,7 +1,7 @@
 {
   "@type": "Person",
-  "@id": "345",
-  "name": "Hans Wurst",
+  "@id": "456",
+  "name": "Hans Dampf",
   "authorOf": [
     {
       "@type": "Article",
@@ -12,12 +12,19 @@
         {
           "@type": "Person",
           "@id": "456",
-          "name": "Hans Dampf-Walze"
-        },
+          "name": "Hans Dampf"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "@id": "987",
+      "name": "Noch spannenderen!",
+      "author": [
         {
           "@type": "Person",
-          "@id": "345",
-          "name": "Hans Wurst"
+          "@id": "456",
+          "name": "Hans Dampf"
         }
       ]
     }

@@ -1,9 +1,9 @@
 {
-  "contributor" : "oerworldmap-9004",
-  "dateCreated" : "2016-03-02T07:58:51Z",
-  "@type" : "WebPage",
-  "author" : "oerworldmap-9004",
-  "about" : {
+  "contributor": "oerworldmap-9004",
+  "dateCreated": "2016-03-02T07:58:51Z",
+  "@type": "WebPage",
+  "author": "oerworldmap-9004",
+  "about": {
     "endDate": "2012-03-10T18:00",
     "@type": "Event",
     "description": {
@@ -29,23 +29,25 @@
     "name": {
       "en": "DigiLern 2012"
     },
-    "location": [{
-      "geo": {
-        "lon": 11.68065,
-        "lat": 48.06375
-      },
-      "address": {
-        "addressCountry": "DE",
-        "streetAddress": "Karl-Stieler-Str. 1",
-        "postalCode": 85521,
-        "addressLocality": "Ottobrunn",
-        "addressRegion": "Bayern"
+    "location": [
+      {
+        "geo": {
+          "lon": 11.68065,
+          "lat": 48.06375
+        },
+        "address": {
+          "addressCountry": "DE",
+          "streetAddress": "Karl-Stieler-Str. 1",
+          "postalCode": 85521,
+          "addressLocality": "Ottobrunn",
+          "addressRegion": "Bayern"
+        }
       }
-    }],
+    ],
     "@id": "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb",
     "email": "info@zum.de",
     "startDate": "2012-03-08T08:00"
   },
-  "dateModified" : "2016-03-02T08:00:35Z",
-  "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb.about"
+  "dateModified": "2016-03-02T08:00:35Z",
+  "@id": "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb.about"
 }

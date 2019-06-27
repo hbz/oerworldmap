@@ -1,88 +1,80 @@
 {
-  "image" : "http://www.grimme-institut.de/html/fileadmin/templates/grimme/design/AGI-Logo.gif",
-  "@type" : "Organization",
-  "participantIn" : [ {
-    "image" : "http://olcos.org/templates/olcos/images/logo.gif",
-    "agent" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Salzburg Research Forschungsgesellschaft mbH",
-        "@language" : "en"
-      }, {
-        "@value" : "Salzburg Research Forschungsgesellschaft mbH",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:96f21350-18ad-4139-a7ee-644385254069"
-    } ],
-    "@type" : "Action",
-    "name" : [ {
-      "@value" : "Open eLearning Content Observatory Services",
-      "@language" : "en"
-    }, {
-      "@value" : "Open eLearning Content Observatory Services",
-      "@language" : "de"
-    } ],
-    "description" : [ {
-      "@value" : "<p>The research project \"open e-learning content observatory services\" (2006/07), short OLCOS, is the first project that was co-funded by the European Commission that pottered at open educational resources.</p> \r\n<p>Thereby an inventory of OER activities, multilingual tutorials and a 'roadmap' concerning the future of OER were developed.</p> \r\n<p>In the context of the project the first OER conference in German-speaking areas was held in Salzburg, Austria (EduMedia conference 16/17th April 2007).</p>  ",
-      "@language" : "en"
-    }, {
-      "@value" : "<p>Das Forschungsprojekt \"Open eLearning Content Observatory Services\" (2006/2007), kurz OLCOS, ist das erste Projekt mit Ko-Finanzierung durch die EuropÃ¤ischen Kommission, das sich dezidiert mit offenen Bildungsressourcen beschÃ¤ftigt hat.</p> <p>Dabei entstanden Bestandsaufnahmen, mehrsprachige (deutsch, englisch, spanisch) Tutorials sowie eine \"Roadmap\" zur Zukunft von OER.</p> \r\n<p>Im Rahmen des Projekts wurde auch die erste Fachtagung zu offenen Bildungsressourcen im deutschsprachigen Europa in Salzburg durchgefÃ¼hrt (EduMedia Fachtagung, 16/17 April 2007).</p> ",
-      "@language" : "de"
-    } ],
-    "alternateName" : [ {
-      "@value" : "OLCOS ",
-      "@language" : "en"
-    }, {
-      "@value" : "OLCOS",
-      "@language" : "de"
-    } ],
-    "location" : { },
-    "startTime" : "2006-01-01",
-    "@id" : "urn:uuid:f9ab68ea-9bb5-45d2-a270-2d613ece50a0",
-    "endTime" : "2007-12-31",
-    "participant" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Grimme Intsitute",
-        "@language" : "en"
-      }, {
-        "@value" : "Grimme-Institut",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:b0f8ca77-9986-4e8e-bcc0-103c04e61c76"
-    } ],
-    "url" : "http://olcos.org"
-  } ],
-  "name" : [ {
-    "@value" : "Grimme Intsitute",
-    "@language" : "en"
-  }, {
-    "@value" : "Grimme-Institut",
-    "@language" : "de"
-  } ],
-  "description" : [ {
-    "@value" : "Das Grimme-Institut zÃ¤hlt zum kleinen Kreis renommierter Forschungs- und Dienstleistungseinrichtungen in Europa, die sich mit Fragen der Medienkultur befassen. Das Grimme-Institut versteht sich als Forum fÃ¼r die kommunikationspolitische Debatte in Deutschland und leistet medientheoretische und medienpraktische Bildungsarbeit.\r\nDie Aufgaben des Grimme-Instituts liegen in der Beobachtung, Analyse und Bewertung von Medienangeboten und -entwicklungen â€“ vom Fernsehen Ã¼ber den HÃ¶rfunk bis zu Multimedia â€“ sowie im Kompetenz- und Wissenstransfer zwischen den gesellschaftlichen Gruppen.",
-    "@language" : "de"
-  }, {
-    "@value" : "The Grimme Institute is part of an inner circle of prestigious research and service institutions in Europe that adresses mediaculture in depth. The Grimme Institute considers itself as a forum for communicational political debates in Germany and contributes to media theory and practice. \r\nThe Grimme Institutes functions are obersavtion, analysis and assessment of media offerings and media development (from TV and radio up to multi media). Furthermore the Institute encourages competence and knowledge transfer between social parties. ",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : 7.09581,
-      "lat" : 51.65804
-    },
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Eduard-Weitsch-Weg 25",
-      "postalCode" : 45768,
-      "addressLocality" : "Marl",
-      "addressRegion" : "Nordrhein-Westfalen"
+  "image": "http://www.grimme-institut.de/html/fileadmin/templates/grimme/design/AGI-Logo.gif",
+  "@type": "Organization",
+  "participantIn": [
+    {
+      "image": "http://olcos.org/templates/olcos/images/logo.gif",
+      "agent": [
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Salzburg Research Forschungsgesellschaft mbH",
+            "de": "Salzburg Research Forschungsgesellschaft mbH"
+          },
+          "@id": "urn:uuid:96f21350-18ad-4139-a7ee-644385254069"
+        }
+      ],
+      "@type": "Action",
+      "name": {
+        "en": "Open eLearning Content Observatory Services",
+        "de": "Open eLearning Content Observatory Services"
+      },
+      "description": {
+        "en": "<p>The research project \"open e-learning content observatory services\" (2006/07), short OLCOS, is the first project that was co-funded by the European Commission that pottered at open educational resources.</p> \r\n<p>Thereby an inventory of OER activities, multilingual tutorials and a 'roadmap' concerning the future of OER were developed.</p> \r\n<p>In the context of the project the first OER conference in German-speaking areas was held in Salzburg, Austria (EduMedia conference 16/17th April 2007).</p>  ",
+        "de": "<p>Das Forschungsprojekt \"Open eLearning Content Observatory Services\" (2006/2007), kurz OLCOS, ist das erste Projekt mit Ko-Finanzierung durch die EuropÃ¤ischen Kommission, das sich dezidiert mit offenen Bildungsressourcen beschÃ¤ftigt hat.</p> <p>Dabei entstanden Bestandsaufnahmen, mehrsprachige (deutsch, englisch, spanisch) Tutorials sowie eine \"Roadmap\" zur Zukunft von OER.</p> \r\n<p>Im Rahmen des Projekts wurde auch die erste Fachtagung zu offenen Bildungsressourcen im deutschsprachigen Europa in Salzburg durchgefÃ¼hrt (EduMedia Fachtagung, 16/17 April 2007).</p> "
+      },
+      "alternateName": {
+        "en": "OLCOS ",
+        "de": "OLCOS"
+      },
+      "location": [
+        {}
+      ],
+      "startTime": "2006-01-01",
+      "@id": "urn:uuid:f9ab68ea-9bb5-45d2-a270-2d613ece50a0",
+      "endTime": "2007-12-31",
+      "participant": [
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Grimme Intsitute",
+            "de": "Grimme-Institut"
+          },
+          "@id": "urn:uuid:b0f8ca77-9986-4e8e-bcc0-103c04e61c76"
+        }
+      ],
+      "url": "http://olcos.org"
     }
+  ],
+  "name": {
+    "en": "Grimme Intsitute",
+    "de": "Grimme-Institut"
   },
-  "@id" : "urn:uuid:b0f8ca77-9986-4e8e-bcc0-103c04e61c76",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "email" : "info@grimme-institut.de",
-  "url" : "http://www.grimme-institut.de",
-  "sameAs" : [ "https://www.youtube.com/channel/UCGoiR2SBODw3jv7KGxwGZeg", "https://www.facebook.com/Grimme-Institut-206849176018908" ]
+  "description": {
+    "de": "Das Grimme-Institut zÃ¤hlt zum kleinen Kreis renommierter Forschungs- und Dienstleistungseinrichtungen in Europa, die sich mit Fragen der Medienkultur befassen. Das Grimme-Institut versteht sich als Forum fÃ¼r die kommunikationspolitische Debatte in Deutschland und leistet medientheoretische und medienpraktische Bildungsarbeit.\r\nDie Aufgaben des Grimme-Instituts liegen in der Beobachtung, Analyse und Bewertung von Medienangeboten und -entwicklungen â€“ vom Fernsehen Ã¼ber den HÃ¶rfunk bis zu Multimedia â€“ sowie im Kompetenz- und Wissenstransfer zwischen den gesellschaftlichen Gruppen.",
+    "en": "The Grimme Institute is part of an inner circle of prestigious research and service institutions in Europe that adresses mediaculture in depth. The Grimme Institute considers itself as a forum for communicational political debates in Germany and contributes to media theory and practice. \r\nThe Grimme Institutes functions are obersavtion, analysis and assessment of media offerings and media development (from TV and radio up to multi media). Furthermore the Institute encourages competence and knowledge transfer between social parties. "
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 7.09581,
+        "lat": 51.65804
+      },
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Eduard-Weitsch-Weg 25",
+        "postalCode": 45768,
+        "addressLocality": "Marl",
+        "addressRegion": "Nordrhein-Westfalen"
+      }
+    }
+  ],
+  "@id": "urn:uuid:b0f8ca77-9986-4e8e-bcc0-103c04e61c76",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "email": "info@grimme-institut.de",
+  "url": "http://www.grimme-institut.de",
+  "sameAs": [
+    "https://www.youtube.com/channel/UCGoiR2SBODw3jv7KGxwGZeg",
+    "https://www.facebook.com/Grimme-Institut-206849176018908"
+  ]
 }

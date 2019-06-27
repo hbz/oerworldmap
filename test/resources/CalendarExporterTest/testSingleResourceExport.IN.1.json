@@ -1,81 +1,96 @@
 {
-  "contributor" : "oerworldmap-9004",
-  "dateCreated" : "2016-03-02T07:58:51Z",
-  "@type" : "WebPage",
-  "author" : "oerworldmap-9004",
-  "about" : {
-    "recordedIn" : [ "http://wikis.zum.de/digilern2012/Dokumentation" ],
-    "image" : "http://wikis.zum.de/zum/images/thumb/a/af/DigiLern_2012_Banner.jpg/400px-DigiLern_2012_Banner.jpg",
-    "endDate" : "2012-03-10",
-    "@type" : "Event",
-    "description" : {
-      "en" : "During the digital learning day 2012, the Grammar School Ottorunn (near Munich) hosted a nation wide congress \"learning with digital media\" under the sloagan: \"shaping the future of tomorrow today\".",
-      "de" : "Anlässlich des Tages des digitalen Lernens 2012 fand im Gymnasium Ottonrunn, in Ottobrunn bei München, vom 8. bis 10. März 2012 unter dem Motto \"Heute die Zukunft von morgen gestalten!\"ein deutschlandweiter Kongress \"Lernen mit digitalen Medien\" statt."
+  "contributor": "oerworldmap-9004",
+  "dateCreated": "2016-03-02T07:58:51Z",
+  "@type": "WebPage",
+  "author": "oerworldmap-9004",
+  "about": {
+    "recordedIn": [
+      "http://wikis.zum.de/digilern2012/Dokumentation"
+    ],
+    "image": "http://wikis.zum.de/zum/images/thumb/a/af/DigiLern_2012_Banner.jpg/400px-DigiLern_2012_Banner.jpg",
+    "endDate": "2012-03-10",
+    "@type": "Event",
+    "description": {
+      "en": "During the digital learning day 2012, the Grammar School Ottorunn (near Munich) hosted a nation wide congress \"learning with digital media\" under the sloagan: \"shaping the future of tomorrow today\".",
+      "de": "Anlässlich des Tages des digitalen Lernens 2012 fand im Gymnasium Ottonrunn, in Ottobrunn bei München, vom 8. bis 10. März 2012 unter dem Motto \"Heute die Zukunft von morgen gestalten!\"ein deutschlandweiter Kongress \"Lernen mit digitalen Medien\" statt."
     },
-    "inLanguage" : [ "de" ],
-    "@context" : "http://schema.org/",
-    "url" : "http://wikis.zum.de/digilern2012/Hauptseite",
-    "organizer" : [ {
-      "image" : "http://goneu.tcs.ifi.lmu.de/logo.jpg",
-      "organizerFor" : [ {
-        "@type" : "Event",
-        "name" : {
-          "en" : "DigiLern 2012",
-          "de" : "DigiLern 2012"
+    "inLanguage": [
+      "de"
+    ],
+    "@context": "http://schema.org/",
+    "url": "http://wikis.zum.de/digilern2012/Hauptseite",
+    "organizer": [
+      {
+        "image": "http://goneu.tcs.ifi.lmu.de/logo.jpg",
+        "organizerFor": [
+          {
+            "@type": "Event",
+            "name": {
+              "en": "DigiLern 2012",
+              "de": "DigiLern 2012"
+            },
+            "@id": "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb"
+          }
+        ],
+        "@type": "Organization",
+        "name": {
+          "de": "Gymnasium Ottobrunn",
+          "en": "Ottobrunn Grammar School"
         },
-        "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb"
-      } ],
-      "@type" : "Organization",
-      "name" : {
-        "de" : "Gymnasium Ottobrunn",
-        "en" : "Ottobrunn Grammar School"
-      },
-      "description" : {
-        "de" : "Das Gymnasium Ottobrunn versteht die neuen Medien als ein Werkzeug zum Lernen. Die Schule ist in allen Klassen mit Rechnern, Beamern, elektronischen Tafeln, Dokumentenkameras und iPads ausgestattet. Ein geschütztes Wlan öffnet die Klassenzimmer zur Welt. Ab der 8. Klasse arbeiten die Schüler intensiv mit Notebooks oder Classmates auf unserer Lernplattform GO Moodle. Doch auch in den unteren Jahrgangsstufen sind Arbeitsformen mit digitalen Medien, z.B. mit iPads, häufig. Es ist uns ein großes Anliegen, Eltern in die Medienerziehung einzubinden (z.B. durch Infoveranstaltungen, Online-Kurse in der Vorbereitung).",
-        "en" : "The Ottobrunn Grammar School considers new media as a tool for learning. The school itself is equipped with computers, electronic boards, document cameras and iPads. A safe and crypted wlan opens the world wide web for teachers and pupils. The schools personal moodle platform is used from grade 8 on, but nevertheless the younger pipils do work with digital media on a regular basis as well. \r\nTherefore involving the pupils parents is a main ephasis in the process of media education at the Ottobrunn Grammar School."
-      },
-      "alternateName" : {
-        "en" : "GO Ottobrunn"
-      },
-      "location" : {
-        "geo" : {
-          "lon" : 11.68065,
-          "lat" : 48.06375
+        "description": {
+          "de": "Das Gymnasium Ottobrunn versteht die neuen Medien als ein Werkzeug zum Lernen. Die Schule ist in allen Klassen mit Rechnern, Beamern, elektronischen Tafeln, Dokumentenkameras und iPads ausgestattet. Ein geschütztes Wlan öffnet die Klassenzimmer zur Welt. Ab der 8. Klasse arbeiten die Schüler intensiv mit Notebooks oder Classmates auf unserer Lernplattform GO Moodle. Doch auch in den unteren Jahrgangsstufen sind Arbeitsformen mit digitalen Medien, z.B. mit iPads, häufig. Es ist uns ein großes Anliegen, Eltern in die Medienerziehung einzubinden (z.B. durch Infoveranstaltungen, Online-Kurse in der Vorbereitung).",
+          "en": "The Ottobrunn Grammar School considers new media as a tool for learning. The school itself is equipped with computers, electronic boards, document cameras and iPads. A safe and crypted wlan opens the world wide web for teachers and pupils. The schools personal moodle platform is used from grade 8 on, but nevertheless the younger pipils do work with digital media on a regular basis as well. \r\nTherefore involving the pupils parents is a main ephasis in the process of media education at the Ottobrunn Grammar School."
         },
-        "address" : {
-          "addressCountry" : "DE",
-          "streetAddress" : "Karl-Stieler-Str. 1",
-          "postalCode" : 85521,
-          "addressLocality" : "Ottobrunn",
-          "addressRegion" : "Bayern"
-        }
-      },
-      "@id" : "urn:uuid:fbe7701d-bc48-45ac-8fd3-60521352d563",
-      "email" : "sekr@gymnasium-ottobrunn.de",
-      "url" : "http://www.gymnasium-ottobrunn.de/die-schule/sendto_form",
-      "sameAs" : [ "https://de-de.facebook.com/Gymnasium-Ottobrunn-233374693372606/", "https://twitter.com/gymnasiumottobr" ]
-    } ],
-    "name" : {
-      "en" : "DigiLern 2012",
-      "de" : "DigiLern 2012"
-    },
-    "location" : [{
-      "geo" : {
-        "lon" : 11.68065,
-        "lat" : 48.06375
-      },
-      "address" : {
-        "addressCountry" : "DE",
-        "streetAddress" : "Karl-Stieler-Str. 1",
-        "postalCode" : 85521,
-        "addressLocality" : "Ottobrunn",
-        "addressRegion" : "Bayern"
+        "alternateName": {
+          "en": "GO Ottobrunn"
+        },
+        "location": [
+          {
+            "geo": {
+              "lon": 11.68065,
+              "lat": 48.06375
+            },
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Karl-Stieler-Str. 1",
+              "postalCode": 85521,
+              "addressLocality": "Ottobrunn",
+              "addressRegion": "Bayern"
+            }
+          }
+        ],
+        "@id": "urn:uuid:fbe7701d-bc48-45ac-8fd3-60521352d563",
+        "email": "sekr@gymnasium-ottobrunn.de",
+        "url": "http://www.gymnasium-ottobrunn.de/die-schule/sendto_form",
+        "sameAs": [
+          "https://de-de.facebook.com/Gymnasium-Ottobrunn-233374693372606/",
+          "https://twitter.com/gymnasiumottobr"
+        ]
       }
-    }],
-    "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb",
-    "email" : "info@zum.de",
-    "startDate" : "2012-03-08"
+    ],
+    "name": {
+      "en": "DigiLern 2012",
+      "de": "DigiLern 2012"
+    },
+    "location": [
+      {
+        "geo": {
+          "lon": 11.68065,
+          "lat": 48.06375
+        },
+        "address": {
+          "addressCountry": "DE",
+          "streetAddress": "Karl-Stieler-Str. 1",
+          "postalCode": 85521,
+          "addressLocality": "Ottobrunn",
+          "addressRegion": "Bayern"
+        }
+      }
+    ],
+    "@id": "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb",
+    "email": "info@zum.de",
+    "startDate": "2012-03-08"
   },
-  "dateModified" : "2016-03-02T08:00:35Z",
-  "@id" : "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb.about"
+  "dateModified": "2016-03-02T08:00:35Z",
+  "@id": "urn:uuid:58824185-f22d-4ef8-aa27-ed21015674cb.about"
 }

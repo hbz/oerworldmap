@@ -38,10 +38,10 @@
         ]
       }
     ],
-    "address" : {
-      "streetAddress" : "Streetstreet 1",
-      "postalCode" : "123456",
-      "addressCountry" : "Countrycountry",
+    "address": {
+      "streetAddress": "Streetstreet 1",
+      "postalCode": "123456",
+      "addressCountry": "Countrycountry",
       "@type": "Place"
     }
   }
