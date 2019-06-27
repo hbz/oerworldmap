@@ -292,63 +292,6 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return toString().compareTo(aOther.toString());
   }
 
-  public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale) {
-    final String[] split = aNestedKey.split("\\.", 2);
-    if (split.length == 0) {
-      return null;
-    }
-    if (split.length == 1) {
-      Object o = get(split[0]);
-      if (o != null) {
-        return o.toString();
-      }
-      return null;
-    }
-    // split.length == 2
-    final Object o = get(split[0]);
-    if (o instanceof ArrayList<?>) {
-      String next = getNestedValueOfList(split[1], (ArrayList<?>) o, aPreferredLocale);
-      if (next != null) {
-        return next;
-      }
-    } else if (o instanceof HashMap<?, ?>) {
-      Resource resource = Resource.fromMap((HashMap<String, Object>) o);
-      if (resource.size() == 0) {
-        return null;
-      }
-      return resource.getNestedFieldValue(split[1], aPreferredLocale);
-    }
-    return null;
-  }
-
-  private String getNestedValueOfList(final String aKey, final ArrayList<?> aList,
-    final Locale aPreferredLocale) {
-    Object next;
-    final Locale fallbackLocale = Locale.ENGLISH;
-    String fallback1 = null;
-    String fallback2 = null;
-    String fallback3 = null;
-    for (Iterator it = aList.iterator(); it.hasNext(); ) {
-      next = it.next();
-      if (next instanceof HashMap<?, ?>) {
-        Resource resource = Resource.fromMap((HashMap<String, Object>) next);
-        Object language = resource.get("@language");
-        if (language.equals(aPreferredLocale.getLanguage())) {
-          return resource.getNestedFieldValue(aKey, aPreferredLocale);
-        }
-        if (language == null) {
-          fallback1 = resource.getNestedFieldValue(aKey, aPreferredLocale);
-        } else if (language.equals(fallbackLocale.getLanguage())) {
-          fallback2 = resource.getNestedFieldValue(aKey, fallbackLocale);
-        } else {
-          fallback3 = resource
-            .getNestedFieldValue(aKey, Locale.forLanguageTag(language.toString()));
-        }
-      }
-    }
-    return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
-  }
-
   /**
    * Counts the number of subfields matching the argument string. A simple wildcard ("*") defines 1
    * level of arbitrary path specifiers. A double wildcard ("**") defines 0-n levels of arbitrary
