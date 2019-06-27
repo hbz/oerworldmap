@@ -234,16 +234,16 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     while (searchHits.hasNext()) {
       final Resource hit = searchHits.next();
-      Resource match = hit.getAsResource(Record.RESOURCE_KEY);
-      String name = match.getNestedFieldValue("name.@value", aPreferredLocale);
+      Map<String, String> match = hit.getAsResource(Record.RESOURCE_KEY).toPointerDict();
+      String name = match.get("/name/".concat(aPreferredLocale.getLanguage()));
       ObjectNode item = new ObjectNode(mJsonNodeFactory);
-      item.put("id", match.getId());
+      item.put("id", match.get("/@id"));
       item.put("match", !StringUtils.isEmpty(hit.getAsString("_score"))
         && Double.parseDouble(hit.getAsString("_score")) == 1.0);
       item.put("name", name);
       item.put("score", hit.getAsString("_score"));
       ArrayNode typeArray = new ArrayNode(mJsonNodeFactory);
-      typeArray.add(match.getType());
+      typeArray.add(match.get("/@type"));
       item.set("type", typeArray);
       resultItems.add(item);
     }

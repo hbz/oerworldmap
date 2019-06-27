@@ -1,21 +1,22 @@
 {
-  "@id" : "urn:uuid:6eadceb1-ee44-4cbd-a524-7d492961ec8e",
-  "@type" : "Organization",
-  "name" : [ {
-    "@value" : "Kwame Nkrumah University of Science & Technology",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : -1.5750318970642199,
-      "lat" : 6.683205994376195
-    },
-    "address" : {
-      "addressCountry" : "GH",
-      "streetAddress" : "Accra Road",
-      "addressLocality" : "Kumasi",
-      "addressRegion" : "GH.AH"
-    }
+  "@id": "urn:uuid:6eadceb1-ee44-4cbd-a524-7d492961ec8e",
+  "@type": "Organization",
+  "name": {
+    "en": "Kwame Nkrumah University of Science & Technology"
   },
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "location": [
+    {
+      "geo": {
+        "lon": -1.5750318970642199,
+        "lat": 6.683205994376195
+      },
+      "address": {
+        "addressCountry": "GH",
+        "streetAddress": "Accra Road",
+        "addressLocality": "Kumasi",
+        "addressRegion": "GH.AH"
+      }
+    }
+  ],
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }
