@@ -44,3 +44,4 @@ libraryDependencies ++= Seq(
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Xmx3G"
 javaOptions in Test += "-Dlogback.configurationFile=conf/logback-test.xml"
+javaOptions in Test += "-Duser.timezone=UTC"

@@ -9,6 +9,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+
 import models.Resource;
 import models.ResourceList;
 import org.junit.Test;
@@ -33,6 +35,7 @@ public class CalendarExporterTest implements JsonTest {
 
   @Test
   public void testMultipleEventsExport() throws IOException {
+    System.out.println("TIMEZONE: " + TimeZone.getDefault());
     Resource multipleEvents1 = getResourceFromJsonFile(
       "CalendarExporterTest/testMultipleResourcesExport.IN.1.json");
     Resource multipleEvents2 = getResourceFromJsonFile(

@@ -5,6 +5,7 @@ import models.Resource;
 import models.ResourceList;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
+import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -33,6 +34,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by fo and pvb
@@ -44,11 +46,6 @@ public class CalendarExporter implements Exporter {
 
   private DateTimeFormatter formatter = new DateTimeFormatterBuilder()
     .appendPattern("yyyy[-MM[-dd['T'HH:mm[:ss]]]]")
-    .parseDefaulting(ChronoField.MONTH_OF_YEAR, 1)
-    .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
-    .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-    .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-    .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
     .toFormatter();
 
   public CalendarExporter(Locale preferredLocale) {
@@ -123,9 +120,10 @@ public class CalendarExporter implements Exporter {
 
     VEvent event;
     if (endDate != null) {
-      event = new VEvent(new Date(parseDate(startDate)), new Date(parseDate(endDate)), name);
+      System.out.println(startDate + " " + parseDate(startDate));
+      event = new VEvent(parseDate(startDate), parseDate(endDate), name);
     } else {
-      event = new VEvent(new Date(parseDate(startDate)), name);
+      event = new VEvent(parseDate(startDate), name);
     }
 
     PropertyList<Property> propertyList = event.getProperties();
@@ -169,16 +167,31 @@ public class CalendarExporter implements Exporter {
     return event;
   }
 
-  private java.util.Date parseDate(String date) {
+  private Date parseDate(String date) {
     TemporalAccessor temporalAccessor = formatter.parse(date);
     java.util.Calendar calendar = java.util.Calendar.getInstance();
-    calendar.set(java.util.Calendar.YEAR, temporalAccessor.get(ChronoField.YEAR));
-    calendar.set(java.util.Calendar.MONTH, temporalAccessor.get(ChronoField.MONTH_OF_YEAR) - 1);
-    calendar.set(java.util.Calendar.DAY_OF_MONTH, temporalAccessor.get(ChronoField.DAY_OF_MONTH));
-    calendar.set(java.util.Calendar.HOUR_OF_DAY, temporalAccessor.get(ChronoField.HOUR_OF_DAY));
-    calendar.set(java.util.Calendar.MINUTE, temporalAccessor.get(ChronoField.MINUTE_OF_HOUR));
-    calendar.set(java.util.Calendar.SECOND, temporalAccessor.get(ChronoField.SECOND_OF_MINUTE));
-    return calendar.getTime();
+    if (temporalAccessor.isSupported(ChronoField.YEAR)) {
+      calendar.set(java.util.Calendar.YEAR, temporalAccessor.get(ChronoField.YEAR));
+    }
+    if (temporalAccessor.isSupported(ChronoField.MONTH_OF_YEAR)) {
+      calendar.set(java.util.Calendar.MONTH, temporalAccessor.get(ChronoField.MONTH_OF_YEAR) - 1);
+    }
+    if (temporalAccessor.isSupported(ChronoField.DAY_OF_MONTH)) {
+      calendar.set(java.util.Calendar.DAY_OF_MONTH, temporalAccessor.get(ChronoField.DAY_OF_MONTH));
+    }
+    if (temporalAccessor.isSupported(ChronoField.HOUR_OF_DAY)) {
+      calendar.set(java.util.Calendar.HOUR_OF_DAY, temporalAccessor.get(ChronoField.HOUR_OF_DAY));
+    }
+    if (temporalAccessor.isSupported(ChronoField.MINUTE_OF_HOUR)) {
+      calendar.set(java.util.Calendar.MINUTE, temporalAccessor.get(ChronoField.MINUTE_OF_HOUR));
+    }
+    if (temporalAccessor.isSupported(ChronoField.SECOND_OF_MINUTE)) {
+      calendar.set(java.util.Calendar.SECOND, temporalAccessor.get(ChronoField.SECOND_OF_MINUTE));
+    }
+    if (temporalAccessor.isSupported(ChronoField.YEAR) && temporalAccessor.isSupported(ChronoField.HOUR_OF_DAY)) {
+      return new DateTime(calendar.getTime());
+    }
+    return new Date(calendar.getTime());
   }
 
 }

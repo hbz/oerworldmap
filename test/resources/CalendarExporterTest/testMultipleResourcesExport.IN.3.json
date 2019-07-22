@@ -5,7 +5,7 @@
   "author": "karin.driesen@hbz-nrw.de",
   "about": {
     "image": "http://hackathon2016.edu-sharing-network.org/wp-content/uploads/sites/10/2016/06/edu-sharing-hackathon-logo.png",
-    "endDate": "2016-07-24T18:00",
+    "endDate": "2016-07-24T18:00:00",
     "@type": "Event",
     "description": {
       "en": "Erschließung frei verfügbarer Lerninhalte für Bildung: Hier kommen erfahrene Entwickler(innen), Domainexpert(inn)en und kreative Querdenker(innen) zusammen, um nachhaltige Anwendungen und Konzepte für den Bildungsbereich zu entwerfen und zu entwickeln. Ziel ist die “Förderung der Verfügbarkeit und Qualität von Lern- & Wissensinhalten sowie Softwaretools für Bildung”. Damit sollen Bildungseinrichtungen bei der Erschließung, Benutzung und Verbreitung von frei verfügbaren Lerninhalten (z.B. OER) unterstützt werden."
